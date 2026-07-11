@@ -3,7 +3,17 @@ const HISTORY_KEY = "rutgers_game_history";
 const WEEKLY_KEY = "rutgers_weekly_package";
 const RECENT_CALLS_KEY = "rutgers_recent_calls";
 const REQUIRED_SITUATIONS = ["short", "medium", "long", "red_zone", "goal_line", "two_minute", "normal", "must_score"];
-const state = { ranked: [] };
+const DEFAULT_CAPS = {
+  personnelFit: [-10, 10],
+  opponentMatchup: [-12, 12],
+  seasonProduction: [-8, 8],
+  recentGameForm: [-6, 6],
+  situationFit: [-20, 20],
+  setupBonus: [-10, 10],
+  recentCallDiversity: [-18, 0],
+  riskPenalty: [-15, 0]
+};
+const state = { ranked: [], excluded: [] };
 
 function loadLocalWeeklyPackage() {
   const saved = localStorage.getItem(WEEKLY_KEY);
@@ -45,8 +55,15 @@ function saveRecentCalls(rows) {
   localStorage.setItem(RECENT_CALLS_KEY, JSON.stringify(rows.slice(-8)));
 }
 
+function distanceYardsFromSelect(value) {
+  if (value === "short") return 2;
+  if (value === "medium") return 5;
+  if (value === "long") return 8;
+  return Number(value) || 5;
+}
+
 function situationContext() {
-  const down = $("down").value;
+  const down = Number($("down").value);
   const dist = $("distance").value;
   const zone = $("zone").value;
   const gameState = $("state").value;
@@ -56,7 +73,7 @@ function situationContext() {
   if (zone === "backed_up") key = "normal";
   if (gameState === "two_minute" || gameState === "must_score") key = gameState;
   if (gameState === "protect_lead") key = "short";
-  return { down, dist, zone, gameState, key };
+  return { down, dist, distanceYards: distanceYardsFromSelect(dist), zone, gameState, key };
 }
 
 function situationKey() {
@@ -65,6 +82,37 @@ function situationKey() {
 
 function playMap() {
   return new Map(RUTGERS_PLAYBOOK.map(play => [play.id, play]));
+}
+
+function weeklyPlayers() {
+  return (WEEKLY_PLAN && WEEKLY_PLAN.players) || (RUTGERS_TEAM && RUTGERS_TEAM.players) || {};
+}
+
+function caps() {
+  return { ...DEFAULT_CAPS, ...(WEEKLY_PLAN.modifierCaps || {}) };
+}
+
+function cap(value, key) {
+  const [min, max] = caps()[key] || [-99, 99];
+  return Math.max(min, Math.min(max, value));
+}
+
+function clampScore(value) {
+  return Math.max(0, Math.min(100, Math.round(value * 10) / 10));
+}
+
+function displayValue(value) {
+  if (value === null || value === undefined || value === "") return "Not available";
+  if (Array.isArray(value)) return value.length ? value.join(", ") : "Not available";
+  if (typeof value === "object") {
+    const entries = Object.entries(value).filter(([, v]) => v !== null && v !== undefined && v !== "");
+    return entries.length ? entries.map(([k, v]) => `${labelize(k)}: ${v}`).join("; ") : "Not available";
+  }
+  return String(value);
+}
+
+function labelize(text) {
+  return String(text).replace(/([A-Z])/g, " $1").replace(/_/g, " ").replace(/^./, c => c.toUpperCase());
 }
 
 function validateWeeklyPlan(plan) {
@@ -78,7 +126,7 @@ function validateWeeklyPlan(plan) {
     if (seen.has(id)) throw new Error(`Opening script duplicate ID: ${id}`);
     seen.add(id);
   }
-  for (const key of ["familyModifiers", "riskRules", "traits", "usage", "warnings"]) {
+  for (const key of ["familyModifiers", "riskRules", "traits", "warnings", "players", "opponent"]) {
     if (!(key in plan)) throw new Error(`Missing weekly field: ${key}`);
   }
   return true;
@@ -90,6 +138,9 @@ function validatePlaybook() {
   for (const play of RUTGERS_PLAYBOOK) {
     if (!play.id || ids.has(play.id)) throw new Error(`Duplicate or missing play ID: ${play.id}`);
     ids.add(play.id);
+    for (const field of ["eligibleDowns", "minDistance", "maxDistance", "eligibleFieldZones", "eligibleGameStates", "lineToGainCapability", "primaryPositions", "secondaryPositions", "requiredAttributes", "riskLevel"]) {
+      if (!(field in play)) throw new Error(`Missing play metadata ${field}: ${play.id}`);
+    }
     for (const sit of play.situations || []) covered.add(sit);
   }
   const missing = REQUIRED_SITUATIONS.filter(sit => !covered.has(sit));
@@ -97,6 +148,7 @@ function validatePlaybook() {
 }
 
 function conceptFamily(play) {
+  if (play.conceptFamily) return play.conceptFamily;
   const family = play.family;
   if (family === "run_inside") return "inside run";
   if (family === "run_outside" || family === "outside_run") return "outside run";
@@ -107,28 +159,103 @@ function conceptFamily(play) {
   if (family === "deep") return "deep pass";
   if (family === "screen") return "screen";
   if (family === "play_action") return "play action";
-  return family.replaceAll("_", " ");
+  return family ? family.replaceAll("_", " ") : "unknown";
 }
 
-function isLowRisk(play, risk) {
-  return risk === "low" || ["inside run", "outside run", "quick pass", "screen", "RPO"].includes(conceptFamily(play));
+function canReachLineToGain(play, distanceYards) {
+  if (play.lineToGainCapability === "long") return true;
+  if (play.lineToGainCapability === "medium") return distanceYards <= 6;
+  if (play.lineToGainCapability === "short") return distanceYards <= 2;
+  return distanceYards <= play.maxDistance;
 }
 
-function historyModifier(id, history = window.GAME_HISTORY || []) {
-  const rows = history.filter(row => row.playId === id).slice(-8);
-  let modifier = 0;
-  for (const row of rows) {
-    if (row.result === "success") modifier += 1.5;
-    if (row.result === "failure") modifier -= 1.5;
-    if (Number(row.yards) >= 6) modifier += 0.5;
-    if (Number(row.yards) <= -1) modifier -= 0.5;
-    if (row.sack) modifier -= 1;
-    if (row.turnover) modifier -= 2;
-    if (row.explosive) modifier += 1.5;
-    if (row.thirdDownConversion) modifier += 1;
-    if (row.redZoneTouchdown) modifier += 1.5;
+function eligibility(play, context) {
+  const reasons = [];
+  const family = conceptFamily(play);
+  const name = play.name.toLowerCase();
+  if (!play.eligibleDowns.includes(context.down)) reasons.push("Excluded: not valid on this down");
+  if (context.distanceYards < play.minDistance || context.distanceYards > play.maxDistance) reasons.push("Excluded: exceeds maximum recommended distance");
+  if (!play.eligibleFieldZones.includes(context.zone)) reasons.push("Excluded: field-zone mismatch");
+  if (!play.eligibleGameStates.includes(context.gameState)) reasons.push("Excluded: game-state mismatch");
+  if (!canReachLineToGain(play, context.distanceYards)) reasons.push("Excluded: cannot reach line to gain");
+
+  if (context.down === 4 && context.distanceYards <= 2) {
+    if (!["inside run", "RPO", "option", "quick pass", "play action"].includes(family)) reasons.push("Excluded: not valid on this down");
   }
-  return Math.max(-6, Math.min(6, modifier));
+  if (context.down === 4 && context.distanceYards >= 3 && context.distanceYards <= 6) {
+    const allowed = family === "quick pass" || family === "RPO" || family === "intermediate pass" || family === "play action" || name.includes("mesh") || name.includes("stick") || name.includes("spacing") || name.includes("sprint");
+    if (!allowed) reasons.push("Excluded: not valid on this down");
+  }
+  if (context.down === 4 && context.distanceYards >= 7) {
+    if (!["intermediate pass", "deep pass"].includes(family)) reasons.push("Excluded: not valid on this down");
+    if (!canReachLineToGain(play, context.distanceYards)) reasons.push("Excluded: cannot reach line to gain");
+  }
+  if (context.down === 4 && context.distanceYards > 7 && family === "screen") reasons.push("Excluded: exceeds maximum recommended distance");
+  return { eligible: reasons.length === 0, reasons: [...new Set(reasons)] };
+}
+
+function ratingModifier(value) {
+  if (value === null || value === undefined || Number.isNaN(Number(value))) return null;
+  return ((Number(value) - 80) / 10) * 5;
+}
+
+function availableAverage(values) {
+  const usable = values.filter(v => v !== null && v !== undefined && !Number.isNaN(Number(v)));
+  if (!usable.length) return null;
+  return usable.reduce((sum, value) => sum + Number(value), 0) / usable.length;
+}
+
+function playerAttributeScore(player, attrs) {
+  const values = attrs.map(attr => player.attributes ? player.attributes[attr] : null);
+  const avg = availableAverage(values);
+  return avg === null ? 0 : ratingModifier(avg);
+}
+
+function productionModifier(player, sourceKey, capKey) {
+  const stats = player[sourceKey] || {};
+  const ypc = stats.yardsPerCarry;
+  const ypt = stats.yardsPerTarget;
+  const catchRate = stats.catchRate;
+  const values = [];
+  if (ypc !== null && ypc !== undefined) values.push((Number(ypc) - 4) * 2);
+  if (ypt !== null && ypt !== undefined) values.push((Number(ypt) - 7) * 1.2);
+  if (catchRate !== null && catchRate !== undefined) values.push((Number(catchRate) - 0.6) * 10);
+  const avg = availableAverage(values);
+  return cap(avg === null ? 0 : avg, capKey);
+}
+
+function playerFit(play) {
+  const players = weeklyPlayers();
+  const candidates = [...(play.primaryPositions || []), ...(play.secondaryPositions || [])]
+    .map(id => players[id])
+    .filter(Boolean);
+  let best = null;
+  for (const player of candidates) {
+    const attr = playerAttributeScore(player, play.requiredAttributes || []);
+    const season = productionModifier(player, "seasonStats", "seasonProduction");
+    const recent = productionModifier(player, "lastGameStats", "recentGameForm");
+    const conceptBoost = (player.bestConcepts || []).includes(conceptFamily(play)) ? 2 : 0;
+    const score = attr + season + recent + conceptBoost;
+    if (!best || score > best.score) best = { player, score, attr, season, recent, conceptBoost };
+  }
+  if (!best) {
+    const fallback = { id: "TEAM", name: "Not available", position: "Team", weeklyRole: "Best available personnel", priorityLabel: "Situational" };
+    best = { player: fallback, score: 0, attr: 0, season: 0, recent: 0, conceptBoost: 0 };
+  }
+  const secondaryId = (play.secondaryPositions || []).find(id => players[id] && players[id].id !== best.player.id);
+  const secondary = secondaryId ? players[secondaryId] : null;
+  return {
+    primaryPlayer: best.player,
+    secondaryPlayer: secondary,
+    modifier: cap(best.score, "personnelFit"),
+    seasonModifier: cap(best.season, "seasonProduction"),
+    recentModifier: cap(best.recent, "recentGameForm"),
+    rationale: best.player.name === "Not available" ? "No verified primary player data available." : `${best.player.name} fits ${conceptFamily(play)} through weekly role and available attributes.`
+  };
+}
+
+function opponentMatchupModifier(play) {
+  return cap(WEEKLY_PLAN.familyModifiers[play.family] || 0, "opponentMatchup");
 }
 
 function recentCallPenalty(play, recentCalls = loadRecentCalls()) {
@@ -146,7 +273,6 @@ function recentCallPenalty(play, recentCalls = loadRecentCalls()) {
     penalty -= 5;
     reasons.push("same play within last 6 -5");
   }
-
   const family = conceptFamily(play);
   if (last[0] && last[0].family === family) {
     penalty -= 8;
@@ -156,179 +282,152 @@ function recentCallPenalty(play, recentCalls = loadRecentCalls()) {
     penalty -= 6;
     reasons.push("same family 3 of last 5 -6");
   }
-  return { value: penalty, reasons };
+  return { value: cap(penalty, "recentCallDiversity"), reasons };
 }
 
 function setupBonus(play, history = window.GAME_HISTORY || []) {
-  const playById = playMap();
+  const byId = playMap();
   const lastFive = history.slice(-5);
   const family = conceptFamily(play);
   let bonus = 0;
   const reasons = [];
-  const successfulInsideRuns = lastFive.filter(row => row.result === "success" && conceptFamily(playById.get(row.playId) || {}) === "inside run").length;
-  if (successfulInsideRuns >= 2 && family === "play action") {
-    bonus += 8;
-    reasons.push("two successful inside runs -> play action +8");
+  const successfulInsideRuns = lastFive.filter(row => row.result === "success" && conceptFamily(byId.get(row.playId) || {}) === "inside run").length;
+  if (successfulInsideRuns >= 2 && family === "play action") { bonus += 8; reasons.push("two successful inside runs -> play action +8"); }
+  if (successfulInsideRuns >= 2 && family === "RPO") { bonus += 6; reasons.push("two successful inside runs -> RPO +6"); }
+  if (lastFive.some(row => row.result === "success" && conceptFamily(byId.get(row.playId) || {}) === "screen")) {
+    if (family === "inside run") { bonus += 3; reasons.push("successful screen -> inside run +3"); }
+    if (family === "intermediate pass") { bonus += 3; reasons.push("successful screen -> intermediate pass +3"); }
   }
-  if (successfulInsideRuns >= 2 && family === "RPO") {
-    bonus += 6;
-    reasons.push("two successful inside runs -> RPO +6");
+  if (lastFive.some(row => row.result === "success" && conceptFamily(byId.get(row.playId) || {}) === "quick pass") && family === "deep pass") {
+    bonus += 4; reasons.push("successful quick pass -> deep shot +4");
   }
-  if (lastFive.some(row => row.result === "success" && conceptFamily(playById.get(row.playId) || {}) === "screen")) {
-    if (family === "inside run") {
-      bonus += 3;
-      reasons.push("successful screen -> inside run +3");
-    }
-    if (family === "intermediate pass") {
-      bonus += 3;
-      reasons.push("successful screen -> intermediate pass +3");
-    }
+  if (lastFive.some(row => row.sack || (row.result === "failure" && conceptFamily(byId.get(row.playId) || {}) === "deep pass"))) {
+    if (family === "deep pass") { bonus -= 8; reasons.push("failed deep pass or sack -> deep pass -8"); }
+    if (family === "quick pass") { bonus += 5; reasons.push("failed deep pass or sack -> quick pass +5"); }
+    if (family === "screen") { bonus += 5; reasons.push("failed deep pass or sack -> screen +5"); }
   }
-  if (lastFive.some(row => row.result === "success" && conceptFamily(playById.get(row.playId) || {}) === "quick pass") && family === "deep pass") {
-    bonus += 4;
-    reasons.push("successful quick pass -> deep shot +4");
-  }
-  if (lastFive.some(row => row.sack || (row.result === "failure" && conceptFamily(playById.get(row.playId) || {}) === "deep pass"))) {
-    if (family === "deep pass") {
-      bonus -= 8;
-      reasons.push("failed deep pass or sack -> deep pass -8");
-    }
-    if (family === "quick pass") {
-      bonus += 5;
-      reasons.push("failed deep pass or sack -> quick pass +5");
-    }
-    if (family === "screen") {
-      bonus += 5;
-      reasons.push("failed deep pass or sack -> screen +5");
-    }
-  }
-  return { value: bonus, reasons };
+  return { value: cap(bonus, "setupBonus"), reasons };
 }
 
-function situationModifier(play, context) {
+function situationModifier(play, context, history = window.GAME_HISTORY || []) {
   const family = conceptFamily(play);
   const name = `${play.name} ${play.formation}`.toLowerCase();
   let modifier = 0;
   const reasons = [];
-  if (play.situations.includes(context.key)) {
-    modifier += 5;
-    reasons.push(`${context.key} fit +5`);
+  if (play.situations.includes(context.key)) { modifier += 5; reasons.push(`${context.key} fit +5`); }
+  if ((context.zone === "red_zone" || context.zone === "fringe") && play.situations.includes("red_zone")) {
+    const redZoneBonus = Math.min(8, context.distanceYards <= 3 ? 6 : (["intermediate pass", "deep pass", "RPO", "play action"].includes(family) ? 4 : 0));
+    modifier += redZoneBonus;
+    if (redZoneBonus) reasons.push(`red zone capped bonus +${redZoneBonus}`);
   }
-  if (context.key === "red_zone" && play.situations.includes("red_zone")) {
-    modifier += 4;
-    reasons.push("red zone fit +4");
-  }
-  if (context.key === "goal_line" && play.situations.includes("goal_line")) {
-    modifier += 6;
-    reasons.push("goal line fit +6");
-  }
-  if (context.down === "1") {
-    if (["inside run", "quick pass", "RPO", "play action", "screen"].includes(family)) {
-      modifier += 3;
-      reasons.push("1st down balanced call +3");
-    }
-    if (family === "deep pass") {
-      modifier -= 4;
-      reasons.push("1st down avoids raw-score deep lean -4");
-    }
-  }
-  if (context.down === "2" && context.dist === "short" && ["deep pass", "play action", "intermediate pass"].includes(family)) {
-    modifier += 5;
-    reasons.push("2nd and short controlled shot +5");
-  }
-  if (context.down === "3" && context.dist === "medium" && ["quick pass", "intermediate pass", "RPO"].includes(family)) {
-    modifier += 7;
-    reasons.push("3rd and medium quick/intermediate/RPO +7");
-  }
-  if (context.down === "3" && context.key === "long" && family === "inside run") {
-    modifier -= 5;
-    reasons.push("3rd and long inside run -5");
-  }
-  if (context.zone === "red_zone" || context.zone === "fringe") {
-    if (["RPO", "play action", "inside run"].includes(family)) {
-      modifier += 4;
-      reasons.push("red zone RPO/boot/power lean +4");
-    }
-    if (name.includes("boot") || name.includes("mtn") || name.includes("power")) {
-      modifier += 3;
-      reasons.push("red zone boot/motion/power tag +3");
-    }
+  if (context.zone === "goal_line" && context.distanceYards <= 3 && play.situations.includes("goal_line")) { modifier += 8; reasons.push("goal line short-yardage +8"); }
+  if (context.down === 1 && ["inside run", "quick pass", "RPO", "play action", "screen"].includes(family)) { modifier += 3; reasons.push("1st down balanced call +3"); }
+  if (context.down === 2 && context.distanceYards <= 2 && ["deep pass", "play action", "intermediate pass"].includes(family)) { modifier += 5; reasons.push("2nd and short controlled shot +5"); }
+  if (context.down === 3 && context.distanceYards >= 3 && context.distanceYards <= 6 && ["quick pass", "intermediate pass", "RPO"].includes(family)) { modifier += 7; reasons.push("3rd and medium quick/intermediate/RPO +7"); }
+  if ((context.zone === "red_zone" || context.zone === "fringe") && (name.includes("boot") || name.includes("mtn") || name.includes("power") || family === "RPO")) {
+    const amount = context.distanceYards <= 3 || family !== "inside run" ? 3 : 0;
+    modifier += amount;
+    if (amount) reasons.push("red zone condensed/motion/RPO/boot/power +3");
   }
   if (context.gameState === "protect_lead") {
-    if (["inside run", "outside run", "quick pass", "screen", "RPO"].includes(family)) {
-      modifier += 5;
-      reasons.push("protect lead low-risk run/quick +5");
-    }
-    if (family === "deep pass") {
-      modifier -= 8;
-      reasons.push("protect lead deep pass -8");
-    }
+    if (["inside run", "outside run", "quick pass", "screen", "RPO"].includes(family)) { modifier += 5; reasons.push("protect lead low-risk run/quick +5"); }
+    if (family === "deep pass") { modifier -= 8; reasons.push("protect lead deep pass -8"); }
   }
   if (context.gameState === "must_score") {
-    if (["deep pass", "intermediate pass", "play action"].includes(family)) {
-      modifier += 4;
-      reasons.push("must score expands attack +4");
-    }
-    if (family === "inside run") {
-      modifier -= 2;
-      reasons.push("must score reduces conservative run -2");
-    }
+    if (["deep pass", "intermediate pass", "play action"].includes(family)) { modifier += 4; reasons.push("must score expands attack +4"); }
+    if (family === "inside run") { modifier -= 2; reasons.push("must score reduces conservative run -2"); }
   }
-  return { value: modifier, reasons };
+  const sacks = history.filter(row => row.sack).length;
+  if (sacks >= 2 && ["quick pass", "screen", "play action"].includes(family)) { modifier += 5; reasons.push("two sacks -> quick/screen/movement +5"); }
+  return { value: cap(modifier, "situationFit"), reasons };
 }
 
-function riskPenalty(play, risk, context) {
+function riskPenalty(play, context, history = window.GAME_HISTORY || []) {
   let penalty = 0;
-  const reasons = [];
-  if (risk === "high") {
-    penalty -= context.gameState === "must_score" ? 1 : 3;
-    reasons.push(context.gameState === "must_score" ? "high risk, must score -1" : "high risk -3");
-  }
-  if (context.gameState === "protect_lead" && !isLowRisk(play, risk)) {
-    penalty -= 4;
-    reasons.push("protect lead non-low-risk -4");
-  }
-  return { value: penalty, reasons };
+  const family = conceptFamily(play);
+  const risk = play.riskLevel || WEEKLY_PLAN.riskRules[play.family] || "medium";
+  const sacks = history.filter(row => row.sack).length;
+  const turnovers = history.filter(row => row.turnover).length;
+  if (risk === "high") penalty -= context.gameState === "must_score" ? 4 : 8;
+  if (context.gameState === "protect_lead" && !["inside run", "outside run", "quick pass", "screen", "RPO"].includes(family)) penalty -= 4;
+  if (sacks >= 2 && family === "deep pass") penalty -= 7;
+  if (turnovers > 0 && risk === "high") penalty -= 4;
+  return { value: cap(penalty, "riskPenalty"), reasons: penalty ? [`risk adjustment ${penalty}`] : [] };
 }
 
 function scorePlay(play, context = situationContext(), history = window.GAME_HISTORY || [], recentCalls = loadRecentCalls()) {
-  const risk = WEEKLY_PLAN.riskRules[play.family] || "medium";
-  const baseScore = play.baseScore;
-  const matchupModifier = WEEKLY_PLAN.familyModifiers[play.family] || 0;
-  const historyAdjustment = historyModifier(play.id, history);
-  const situation = situationModifier(play, context);
-  const recent = recentCallPenalty(play, recentCalls);
+  const check = eligibility(play, context);
+  if (!check.eligible) return { ...play, eligible: false, exclusionReasons: check.reasons };
+  const personnel = playerFit(play);
+  const matchup = opponentMatchupModifier(play);
   const setup = setupBonus(play, history);
-  const riskResult = riskPenalty(play, risk, context);
-  const finalScore = Math.round((baseScore + matchupModifier + historyAdjustment + situation.value + recent.value + setup.value + riskResult.value) * 10) / 10;
+  const recent = recentCallPenalty(play, recentCalls);
+  const situation = situationModifier(play, context, history);
+  const risk = riskPenalty(play, context, history);
+  const finalScore = clampScore(play.baseScore + personnel.modifier + matchup + personnel.seasonModifier + personnel.recentModifier + situation.value + setup.value + recent.value + risk.value);
+  const secondaryName = personnel.secondaryPlayer ? personnel.secondaryPlayer.name : "Not available";
   return {
     ...play,
+    eligible: true,
     conceptFamily: conceptFamily(play),
-    risk,
-    baseScore,
-    matchupModifier,
-    historyAdjustment,
+    primaryPlayer: personnel.primaryPlayer,
+    secondaryPlayer: personnel.secondaryPlayer,
+    primaryPlayerName: personnel.primaryPlayer.name,
+    secondaryPlayerName: secondaryName,
+    targetAssignment: targetAssignment(play, personnel.primaryPlayer),
+    workloadRole: personnel.primaryPlayer.weeklyRole || "Not available",
+    matchupRationale: matchupRationale(play, personnel),
+    baseScore: play.baseScore,
+    personnelFit: personnel.modifier,
+    matchupModifier: matchup,
+    seasonModifier: personnel.seasonModifier,
+    recentFormModifier: personnel.recentModifier,
     situationModifier: situation.value,
     situationReasons: situation.reasons,
-    recentCallPenalty: recent.value,
-    recentCallReasons: recent.reasons,
     setupBonus: setup.value,
     setupReasons: setup.reasons,
-    riskPenalty: riskResult.value,
-    riskReasons: riskResult.reasons,
-    score: finalScore
+    recentCallPenalty: recent.value,
+    recentCallReasons: recent.reasons,
+    riskPenalty: risk.value,
+    riskReasons: risk.reasons,
+    score: finalScore,
+    risk: play.riskLevel || WEEKLY_PLAN.riskRules[play.family] || "medium",
+    objective: play.objective || objectiveFor(play)
   };
 }
 
+function targetAssignment(play, player) {
+  const family = conceptFamily(play);
+  if (["inside run", "outside run", "screen", "option", "RPO"].includes(family)) return `Feature ${player.name} as ball-carrier or primary read.`;
+  return `Feature ${player.name} as primary target or quarterback operator.`;
+}
+
+function matchupRationale(play, personnel) {
+  const family = conceptFamily(play);
+  if (family === "inside run") return `${personnel.primaryPlayer.name} fits the interior plan and Purdue defensive tackles are reported mostly low-to-mid 70s.`;
+  if (family === "quick pass" || family === "screen") return `${personnel.primaryPlayer.name} gives a faster answer against Q. Gillians edge pressure.`;
+  if (family === "intermediate pass" || family === "RPO") return `${personnel.primaryPlayer.name} helps attack Purdue linebackers, reported mostly low 70s.`;
+  if (family === "deep pass") return `${personnel.primaryPlayer.name} is the best available deep-shot assignment from verified weekly data.`;
+  return personnel.rationale;
+}
+
+function objectiveFor(play) {
+  if (play.situations.includes("goal_line") || play.situations.includes("red_zone")) return "red-zone score";
+  if (conceptFamily(play) === "deep pass") return "explosive opportunity";
+  if (["inside run", "quick pass", "RPO"].includes(conceptFamily(play))) return "move chains";
+  return "pressure answer";
+}
+
 function buildRankings(context = situationContext(), history = window.GAME_HISTORY || [], recentCalls = loadRecentCalls()) {
-  return RUTGERS_PLAYBOOK.map(play => scorePlay(play, context, history, recentCalls))
-    .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+  const scored = RUTGERS_PLAYBOOK.map(play => scorePlay(play, context, history, recentCalls));
+  state.excluded = scored.filter(play => !play.eligible);
+  return scored.filter(play => play.eligible).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
 }
 
 function diverseTop(ranked, count = 3) {
   if (count === 1) return ranked.slice(0, 1);
-  const availableFamilies = new Set(ranked.map(play => play.conceptFamily));
-  if (availableFamilies.size < 3) return ranked.slice(0, count);
+  const familyCount = new Set(ranked.map(play => play.conceptFamily)).size;
+  if (familyCount < 3) return ranked.slice(0, count);
   const picks = [];
   for (const play of ranked) {
     if (picks.length < 2 && picks.some(pick => pick.conceptFamily === play.conceptFamily)) continue;
@@ -353,34 +452,39 @@ function rank() {
 
 function renderRanks() {
   const q = $("search").value.toLowerCase();
-  const list = state.ranked.filter(play => !q || play.name.toLowerCase().includes(q) || play.formation.toLowerCase().includes(q));
+  const list = state.ranked.filter(play => !q || play.name.toLowerCase().includes(q) || play.formation.toLowerCase().includes(q) || play.primaryPlayerName.toLowerCase().includes(q));
   $("rankList").innerHTML = list.map((play, i) => callCard(play, i + 1)).join("");
 }
 
 function scoreBreakdown(play) {
   return `<div class="breakdown">
     <span>Base ${play.baseScore}</span>
+    <span>Personnel ${signed(play.personnelFit)}</span>
     <span>Matchup ${signed(play.matchupModifier)}</span>
+    <span>Season ${signed(play.seasonModifier)}</span>
+    <span>Recent form ${signed(play.recentFormModifier)}</span>
     <span>Situation ${signed(play.situationModifier)}</span>
-    <span>Recent ${signed(play.recentCallPenalty)}</span>
     <span>Setup ${signed(play.setupBonus)}</span>
+    <span>Recent call ${signed(play.recentCallPenalty)}</span>
     <span>Risk ${signed(play.riskPenalty)}</span>
     <strong>Final ${play.score}</strong>
   </div>`;
 }
 
 function explanationText(play) {
-  const parts = [
+  const bits = [
+    `${play.name} ranks here because it is eligible for the selected down, distance, field zone and game state.`,
+    play.matchupRationale,
     ...play.situationReasons,
-    ...play.recentCallReasons,
     ...play.setupReasons,
+    ...play.recentCallReasons,
     ...play.riskReasons
-  ];
-  return parts.length ? parts.join("; ") : "No extra adjustment beyond base, matchup and history.";
+  ].filter(Boolean);
+  return bits.join(" ");
 }
 
 function signed(value) {
-  return value > 0 ? `+${value}` : `${value}`;
+  return value > 0 ? `+${Math.round(value * 10) / 10}` : `${Math.round(value * 10) / 10}`;
 }
 
 function callCard(play, rankNumber) {
@@ -389,7 +493,8 @@ function callCard(play, rankNumber) {
     <div>
       <h3>${play.name}</h3>
       <div class="small">${play.formation} - ${play.conceptFamily}</div>
-      <div class="small">Weekly fit: ${play.score}</div>
+      <div class="small">Primary: ${play.primaryPlayerName} | Secondary: ${play.secondaryPlayerName}</div>
+      <div class="small">Objective: ${play.objective} | ${play.targetAssignment}</div>
       ${scoreBreakdown(play)}
       <div class="small">${explanationText(play)}</div>
       <div class="log-grid">
@@ -413,9 +518,7 @@ function callCard(play, rankNumber) {
 function markCalled(plays) {
   const rows = loadRecentCalls();
   const now = new Date().toISOString();
-  for (const play of plays) {
-    rows.push({ timestamp: now, opponent: WEEKLY_PLAN.opponent.name, playId: play.id, family: play.conceptFamily });
-  }
+  for (const play of plays) rows.push({ timestamp: now, opponent: WEEKLY_PLAN.opponent.name, playId: play.id, family: play.conceptFamily });
   saveRecentCalls(rows);
 }
 
@@ -426,6 +529,8 @@ function showBest(count = 1) {
     <div class="meta">${i === 0 ? "BEST CALL" : `ALTERNATIVE ${i + 1}`}</div>
     <h2>${play.name}</h2>
     <div class="meta">${play.formation} - ${play.conceptFamily}</div>
+    <div class="small">Primary: ${play.primaryPlayerName} | Secondary: ${play.secondaryPlayerName}</div>
+    <div class="small">Objective: ${play.objective}</div>
     <div class="score">${play.score}</div>
     <span class="risk ${play.risk}">${play.risk} risk</span>
     ${scoreBreakdown(play)}
@@ -447,18 +552,9 @@ function readLogControls(playId) {
 }
 
 function record(playId, result) {
-  if (!playMap().has(playId)) {
-    setStatus(`Rejected unknown play ID: ${playId}`);
-    return;
-  }
+  if (!playMap().has(playId)) { setStatus(`Rejected unknown play ID: ${playId}`); return; }
   const rows = loadHistory();
-  rows.push({
-    timestamp: new Date().toISOString(),
-    opponent: WEEKLY_PLAN.opponent.name,
-    playId,
-    result,
-    ...readLogControls(playId)
-  });
+  rows.push({ timestamp: new Date().toISOString(), opponent: WEEKLY_PLAN.opponent.name, playId, result, ...readLogControls(playId) });
   saveHistory(rows);
   setStatus(`Saved ${result} for ${playMap().get(playId).name}`);
   rank();
@@ -471,7 +567,42 @@ function renderStatic() {
     return `<div class="call"><div class="rank">${i + 1}</div><div><h3>${play ? play.name : id}</h3><div class="small">${play ? play.formation : "INVALID PLAY ID"}</div></div></div>`;
   }).join("");
   $("traitList").innerHTML = WEEKLY_PLAN.traits.map(t => `<div class="trait"><h3>${t.title}</h3><div class="small">${t.evidence}</div><p>${t.response}</p></div>`).join("") + `<h3>Warnings</h3>` + WEEKLY_PLAN.warnings.map(x => `<p>- ${x}</p>`).join("");
-  $("usageList").innerHTML = WEEKLY_PLAN.usage.map(u => `<div class="usage"><h3>${u.player}</h3><p>${u.plan}</p></div>`).join("");
+  renderUsage();
+}
+
+function renderUsage() {
+  const groups = {
+    "Quarterbacks": ["QB1", "QB2"],
+    "Running Backs": ["HB1", "HB2", "FB"],
+    "Wide Receivers": ["WR1", "WR2", "WR3", "WR4"],
+    "Tight Ends": ["TE1", "TE2"],
+    "Specialty / Gadget": ["GADGET"]
+  };
+  const players = weeklyPlayers();
+  $("usageList").innerHTML = Object.entries(groups).map(([title, ids]) => `<details class="usageGroup" open>
+    <summary>${title}</summary>
+    ${ids.map(id => playerCard(players[id])).join("")}
+  </details>`).join("");
+}
+
+function playerCard(player) {
+  if (!player) return "";
+  return `<div class="usage">
+    <h3>${player.name}</h3>
+    <div class="small">${player.position} - ${player.depthRole} - ${player.priorityLabel}</div>
+    <p><strong>Overall:</strong> ${displayValue(player.overall)}</p>
+    <p><strong>Key attributes:</strong> ${displayValue(player.attributes)}</p>
+    <p><strong>Season stats:</strong> ${displayValue(player.seasonStats)}</p>
+    <p><strong>Last-game stats:</strong> ${displayValue(player.lastGameStats)}</p>
+    <p><strong>Rolling efficiency:</strong> ${displayValue(player.rollingStats)}</p>
+    <p><strong>Weekly role:</strong> ${displayValue(player.weeklyRole)}</p>
+    <p><strong>Workload target:</strong> ${displayValue(player.workloadTarget)}</p>
+    <p><strong>Best concepts:</strong> ${displayValue(player.bestConcepts)}</p>
+    <p><strong>Best formations:</strong> ${displayValue(player.bestFormations)}</p>
+    <p><strong>Matchup advantage:</strong> ${displayValue(player.matchupAdvantages)}</p>
+    <p><strong>Risk / limitation:</strong> ${displayValue(player.risks)}</p>
+    <p><strong>In-game trigger:</strong> ${displayValue(player.usageTriggers)}</p>
+  </div>`;
 }
 
 function exportWeeklyJson() {
@@ -534,13 +665,17 @@ if (typeof document !== "undefined") boot();
 if (typeof module !== "undefined") {
   module.exports = {
     conceptFamily,
-    historyModifier,
+    eligibility,
+    playerFit,
+    opponentMatchupModifier,
     recentCallPenalty,
     setupBonus,
     situationModifier,
     riskPenalty,
     scorePlay,
     buildRankings,
-    diverseTop
+    diverseTop,
+    displayValue,
+    cap
   };
 }

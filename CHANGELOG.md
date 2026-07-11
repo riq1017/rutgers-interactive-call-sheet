@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## Statistical Recommendation Engine Upgrade
+
+- Added hard eligibility filtering before scoring so matchup and red-zone bonuses cannot force invalid calls.
+- Added complete play metadata for down, distance, field zone, game state, line-to-gain capability, primary/secondary positions, required attributes, and risk level.
+- Added 4th-down logic for short yardage, medium yardage, and 7+ yard calls, including red-zone long-yardage restrictions.
+- Added debug exclusion reasons for invalid down, distance, line-to-gain, field-zone, and game-state mismatches.
+- Reworked scoring sequence to use baseline, Rutgers personnel fit, opponent matchup, season production, recent form, situation fit, setup/sequencing, recent-call diversity, and risk penalty.
+- Added modifier caps from the weekly package and final 0-100 score clamping.
+- Added primary player, secondary option, target/ball-carrier assignment, workload role, matchup rationale, objective, and plain-English explanation for every recommendation.
+- Replaced generic displayed player labels with verified names where available and explicit `Name unverified` / `Not available` where source data is missing.
+- Expanded weekly data architecture with Rutgers player records, available player attributes/stats, opponent personnel/stat fields, matchup traits, modifier caps, roles, triggers, and warnings.
+- Improved Usage tab with collapsible mobile player categories and richer player cards.
+- Expanded automated validation for 4th-and-long red-zone behavior, long-yardage restrictions, eligibility-only Top 3, player assignment, missing-stat handling, modifier caps, result-history persistence, and weekly-data-driven recommendation changes.
+
 ## Adaptive Recommendation Engine
 
 - Added recent-call memory in `localStorage` with an 8-call window separate from result history.

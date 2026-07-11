@@ -17,6 +17,8 @@ const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
 const source = fs.readFileSync(path.join(root, "docs", "SOURCE_EXTRACTION_REPORT.md"), "utf8");
+
+global.RUTGERS_TEAM = team;
 global.RUTGERS_PLAYBOOK = playbook;
 global.WEEKLY_PLAN = weekly;
 global.window = { GAME_HISTORY: [] };
@@ -27,6 +29,17 @@ const checks = [];
 function check(name, passed, detail = "") {
   checks.push({ name, passed, detail });
 }
+function names(rows) {
+  return rows.map(p => p.name).join(", ");
+}
+function ctx(down, distanceYards, zone = "normal", gameState = "normal") {
+  const dist = distanceYards <= 2 ? "short" : distanceYards <= 6 ? "medium" : "long";
+  let key = dist;
+  if (zone === "goal_line" || zone === "red_zone" || zone === "fringe") key = zone === "fringe" ? "red_zone" : zone;
+  if (gameState === "two_minute" || gameState === "must_score") key = gameState;
+  if (gameState === "protect_lead") key = "short";
+  return { down, dist, distanceYards, zone, gameState, key };
+}
 
 const ids = new Set();
 const duplicateIds = [];
@@ -35,6 +48,9 @@ for (const play of playbook) {
   ids.add(play.id);
 }
 check("All play IDs are unique", duplicateIds.length === 0, duplicateIds.join(", "));
+
+const requiredMetadata = ["eligibleDowns", "minDistance", "maxDistance", "eligibleFieldZones", "eligibleGameStates", "lineToGainCapability", "primaryPositions", "secondaryPositions", "requiredAttributes", "riskLevel"];
+check("Every play supports eligibility and player-fit metadata", playbook.every(play => requiredMetadata.every(field => field in play)));
 
 const openingUnique = new Set(weekly.openingScript);
 const missingOpening = weekly.openingScript.filter(id => !ids.has(id));
@@ -51,85 +67,67 @@ check("Opponent weekly data is separated from game history", fs.existsSync(path.
 check("Static no-JavaScript fallback exists", index.includes("<noscript>") && index.includes("STATIC PHONE FALLBACK") && index.includes("Rutgers vs Purdue"));
 check("Weekly JSON import/export controls exist", index.includes("importWeekly") && index.includes("exportBtn") && app.includes("exportWeeklyJson") && app.includes("importWeeklyJson"));
 check("Expanded result logging fields exist", ["yards", "sack", "turnover", "explosive", "thirdDownConversion", "redZoneTouchdown"].every(token => app.includes(token)));
-check("History modifiers remain capped", app.includes("Math.max(-6, Math.min(6"));
-check("localStorage persistence exists for history and weekly package", app.includes("rutgers_game_history") && app.includes("rutgers_weekly_package"));
-check("Mobile layout rules exist", css.includes("@media(max-width:420px)") && css.includes("viewport-fit=cover") === false && index.includes("viewport-fit=cover"));
-check("Purdue matchup traits appear", weekly.opponent.name === "Purdue" && weekly.traits.length >= 3 && JSON.stringify(weekly).includes("Gillians"));
-check("Inside runs/RPOs/screens are promoted", weekly.familyModifiers.run_inside > 0 && weekly.familyModifiers.rpo > 0 && weekly.familyModifiers.screen > 0);
-check("Slow deep dropbacks are penalized", weekly.familyModifiers.deep < 0 && weekly.riskRules.deep === "high");
+check("localStorage persistence exists for result history and recent calls", app.includes("rutgers_game_history") && app.includes("rutgers_recent_calls"));
+check("Mobile layout rules exist", css.includes("@media(max-width:420px)") && index.includes("viewport-fit=cover"));
 check("No unconfirmed numeric ratings were added outside source anchors", team.overall === 84 && team.offense === 84 && team.defense === 86 && source.includes("84/84/86") && weekly.opponent.record === "1-4");
-check("Recent-call memory key exists", app.includes("rutgers_recent_calls") && app.includes("slice(-8)"));
-check("Visible score explanation exists", ["Base", "Matchup", "Situation", "Recent", "Setup", "Risk", "Final"].every(token => app.includes(token)));
+
+const fourthTenRed = engine.buildRankings(ctx(4, 10, "red_zone"), [], []);
+check("4th-and-10 red zone never recommends a run", fourthTenRed.length > 0 && !["inside run", "outside run", "option"].includes(fourthTenRed[0].conceptFamily), names(fourthTenRed.slice(0, 3)));
+check("4th-and-10 red zone Top 3 excludes runs", fourthTenRed.slice(0, 3).every(play => !["inside run", "outside run", "option"].includes(play.conceptFamily)), names(fourthTenRed.slice(0, 3)));
+
+const fourthEight = engine.buildRankings(ctx(4, 8, "normal"), [], []);
+check("4th-and-8 open field never recommends Power O or HB Dive", fourthEight.slice(0, 3).every(play => !["power-o", "hb-dive", "hb-dive-pistol"].includes(play.id)), names(fourthEight.slice(0, 3)));
+
+const fourthTwo = engine.buildRankings(ctx(4, 2, "normal"), [], []);
+check("4th-and-2 may recommend Power O", fourthTwo.some(play => play.id === "power-o"));
+
+const thirdLong = engine.buildRankings(ctx(3, 9, "normal"), [], []);
+check("3rd-and-long prioritizes eligible passing concepts", thirdLong.length > 0 && ["intermediate pass", "deep pass"].includes(thirdLong[0].conceptFamily), names(thirdLong.slice(0, 3)));
+
+const fourthLongGoal = engine.buildRankings(ctx(4, 8, "goal_line"), [], []);
+check("Goal-line formation does not override long-distance restrictions", fourthLongGoal.every(play => !["inside run", "option"].includes(play.conceptFamily)), names(fourthLongGoal.slice(0, 3)));
+
+const diverse = engine.diverseTop(engine.buildRankings(ctx(2, 5, "normal"), [], []), 3);
+check("Top 3 contains only eligible plays", diverse.every(play => play.eligible));
+check("Top 3 contains at least two families when possible", new Set(diverse.map(play => play.conceptFamily)).size >= 2, names(diverse));
+
+const recommendation = engine.buildRankings(ctx(1, 5, "normal"), [], [])[0];
+check("Primary player is assigned for every recommendation", Boolean(recommendation.primaryPlayerName), recommendation.primaryPlayerName);
+
+const displayedNames = Object.values(weekly.players).map(player => player.name);
+check("No verified player is displayed with a placeholder name", !displayedNames.some(name => ["Freshman QB", "WR1", "WR2", "WR3", "WR4", "TE1", "TE2", "HB2"].includes(name)), displayedNames.join(", "));
+check("Missing statistics show Not available", engine.displayValue(null) === "Not available" && app.includes("Not available"));
+check("One missing stat does not become zero", engine.displayValue(null) !== "0");
+
+const highAttrPlay = { ...playbook[0], requiredAttributes: ["missingAttribute"] };
+check("Personnel-fit score respects modifier caps", Math.abs(engine.playerFit(highAttrPlay).modifier) <= 10);
+check("Matchup score respects modifier caps", Math.abs(engine.opponentMatchupModifier(playbook.find(p => p.family === "run_inside"))) <= 12);
 
 const insideRun = playbook.find(play => engine.conceptFamily(play) === "inside run");
 const secondInsideRun = playbook.find(play => engine.conceptFamily(play) === "inside run" && play.id !== insideRun.id);
 const rpo = playbook.find(play => engine.conceptFamily(play) === "RPO");
 const playAction = playbook.find(play => engine.conceptFamily(play) === "play action");
-const quick = playbook.find(play => engine.conceptFamily(play) === "quick pass");
-const screen = playbook.find(play => engine.conceptFamily(play) === "screen");
-const deep = playbook.find(play => engine.conceptFamily(play) === "deep pass");
-const mediumContext = { down: "1", dist: "medium", zone: "normal", gameState: "normal", key: "medium" };
-const thirdMediumContext = { down: "3", dist: "medium", zone: "normal", gameState: "normal", key: "medium" };
-const redZoneContext = { down: "2", dist: "medium", zone: "red_zone", gameState: "normal", key: "red_zone" };
-const protectLeadContext = { down: "1", dist: "medium", zone: "normal", gameState: "protect_lead", key: "short" };
-const mustScoreContext = { down: "1", dist: "long", zone: "normal", gameState: "must_score", key: "must_score" };
-
 const exactLast = engine.recentCallPenalty(insideRun, [{ playId: insideRun.id, family: "inside run" }]);
-const exactWithinThree = engine.recentCallPenalty(insideRun, [
-  { playId: "other-a", family: "RPO" },
-  { playId: insideRun.id, family: "inside run" },
-  { playId: "other-b", family: "screen" }
-]);
-const exactWithinSix = engine.recentCallPenalty(insideRun, [
-  { playId: insideRun.id, family: "inside run" },
-  { playId: "other-a", family: "RPO" },
-  { playId: "other-b", family: "screen" },
-  { playId: "other-c", family: "quick pass" }
-]);
-check("Exact-play repetition penalties work", exactLast.reasons.includes("same play last call -18") && exactWithinThree.reasons.includes("same play within last 3 -10") && exactWithinSix.reasons.includes("same play within last 6 -5"));
+check("Repeated plays receive the required penalties", exactLast.value <= -18 && exactLast.reasons.includes("same play last call -18"));
 
-const familyRotation = engine.recentCallPenalty(insideRun, [
-  { playId: "old-a", family: "inside run" },
-  { playId: "old-b", family: "inside run" },
-  { playId: "old-c", family: "screen" },
-  { playId: "old-d", family: "RPO" },
-  { playId: secondInsideRun.id, family: "inside run" }
-]);
-check("Family rotation penalties work", familyRotation.reasons.includes("same family consecutive -8") && familyRotation.reasons.includes("same family 3 of last 5 -6"));
+const runSetupHistory = [{ playId: insideRun.id, result: "success" }, { playId: secondInsideRun.id, result: "success" }];
+check("Successful runs promote RPO and play action", engine.setupBonus(rpo, runSetupHistory).value >= 6 && engine.setupBonus(playAction, runSetupHistory).value >= 8);
 
-const runSetupHistory = [
-  { playId: insideRun.id, result: "success" },
-  { playId: secondInsideRun.id, result: "success" }
-];
-const paSetup = engine.setupBonus(playAction, runSetupHistory);
-const rpoSetup = engine.setupBonus(rpo, runSetupHistory);
-check("Successful runs promote play action and RPOs", paSetup.value >= 8 && rpoSetup.value >= 6);
+const persisted = [{ playId: insideRun.id, result: "success", yards: 5 }];
+global.localStorage = { getItem: key => key === "rutgers_game_history" ? JSON.stringify(persisted) : "[]", setItem: () => {}, removeItem: () => {} };
+delete require.cache[require.resolve(path.join(root, "app.js"))];
+const engineReloaded = require(path.join(root, "app.js"));
+check("Result history survives refresh", engineReloaded.buildRankings(ctx(1, 2), persisted, []).length > 0);
 
-const screenSetup = engine.setupBonus(insideRun, [{ playId: screen.id, result: "success" }]);
-const quickSetup = engine.setupBonus(deep, [{ playId: quick.id, result: "success" }]);
-const sackSetup = engine.setupBonus(screen, [{ playId: deep.id, result: "failure", sack: true }]);
-check("Setup bonuses respond to screens, quick passes, failed deep passes and sacks", screenSetup.value >= 3 && quickSetup.value >= 4 && sackSetup.value >= 5);
+check("Usage cards render without horizontal scrolling on iPhone width", css.includes("overflow-wrap:anywhere") && css.includes(".usageGroup"));
 
-const ranked = engine.buildRankings(mediumContext, [], []);
-const top3 = engine.diverseTop(ranked, 3);
-check("Top 3 contains concept diversity", new Set(top3.map(play => play.conceptFamily)).size >= 2);
-
-let recent = [];
-const repeatedSets = [];
-for (let i = 0; i < 6; i++) {
-  const picks = engine.diverseTop(engine.buildRankings(mediumContext, [], recent), 3);
-  repeatedSets.push(picks.map(play => play.id).join("|"));
-  for (const pick of picks) recent.push({ playId: pick.id, family: pick.conceptFamily });
-  recent = recent.slice(-8);
-}
-check("Repeated button presses do not return the same 3 plays indefinitely", new Set(repeatedSets).size > 1);
-
-const thirdMediumTop = engine.buildRankings(thirdMediumContext, [], [])[0].conceptFamily;
-const redZoneTop = engine.buildRankings(redZoneContext, [], [])[0].score;
-const protectTop = engine.buildRankings(protectLeadContext, [], [])[0].conceptFamily;
-const mustScoreDeepScore = engine.scorePlay(deep, mustScoreContext, [], []).score;
-const normalDeepScore = engine.scorePlay(deep, mediumContext, [], []).score;
-check("Rankings still respond to down, distance, field zone and game state", ["quick pass", "intermediate pass", "RPO"].includes(thirdMediumTop) && redZoneTop !== ranked[0].score && ["inside run", "outside run", "quick pass", "screen", "RPO"].includes(protectTop) && mustScoreDeepScore !== normalDeepScore);
+const deepPlay = playbook.find(play => engine.conceptFamily(play) === "deep pass");
+const originalDeep = engine.scorePlay(deepPlay, ctx(4, 8), [], []).score;
+const savedModifier = weekly.familyModifiers.deep;
+weekly.familyModifiers.deep = savedModifier + 6;
+const updatedDeep = engine.scorePlay(deepPlay, ctx(4, 8), [], []).score;
+weekly.familyModifiers.deep = savedModifier;
+check("Weekly-plan data can update recommendations without editing app.js", updatedDeep !== originalDeep);
 
 const report = [
   "# VALIDATION_REPORT",

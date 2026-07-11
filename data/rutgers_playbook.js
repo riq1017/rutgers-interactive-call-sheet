@@ -9,7 +9,43 @@ window.RUTGERS_PLAYBOOK = [
       "short",
       "goal_line",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "inside run",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 3,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "short",
+    "primaryPositions": [
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "vision",
+      "carrying",
+      "breakTackle"
+    ],
+    "riskLevel": "low",
+    "objective": "red-zone score"
   },
   {
     "id": "pa-power-o",
@@ -20,7 +56,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "goal_line",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "hb-sting",
@@ -31,7 +106,43 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "short",
       "goal_line"
-    ]
+    ],
+    "conceptFamily": "inside run",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 3,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "short",
+    "primaryPositions": [
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "vision",
+      "carrying",
+      "breakTackle"
+    ],
+    "riskLevel": "low",
+    "objective": "red-zone score"
   },
   {
     "id": "hb-dive",
@@ -43,7 +154,43 @@ window.RUTGERS_PLAYBOOK = [
       "short",
       "goal_line",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "inside run",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 3,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "short",
+    "primaryPositions": [
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "vision",
+      "carrying",
+      "breakTackle"
+    ],
+    "riskLevel": "low",
+    "objective": "red-zone score"
   },
   {
     "id": "y-stick",
@@ -55,7 +202,45 @@ window.RUTGERS_PLAYBOOK = [
       "medium",
       "red_zone",
       "two_minute"
-    ]
+    ],
+    "conceptFamily": "quick pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "WR2",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "catching",
+      "routeRunning",
+      "awareness"
+    ],
+    "riskLevel": "low",
+    "objective": "red-zone score"
   },
   {
     "id": "read-option-wk",
@@ -66,7 +251,44 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "short",
       "medium"
-    ]
+    ],
+    "conceptFamily": "option",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "HB2"
+    ],
+    "requiredAttributes": [
+      "speed",
+      "awareness",
+      "carrying"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "posts",
@@ -77,7 +299,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "long",
       "must_score"
-    ]
+    ],
+    "conceptFamily": "deep pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 7,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "speed",
+      "acceleration",
+      "release",
+      "deepRouteRunning",
+      "catching"
+    ],
+    "riskLevel": "high",
+    "objective": "explosive opportunity"
   },
   {
     "id": "pa-deep-out",
@@ -88,7 +349,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "inside-zone-split",
@@ -100,7 +400,43 @@ window.RUTGERS_PLAYBOOK = [
       "short",
       "medium",
       "normal"
-    ]
+    ],
+    "conceptFamily": "inside run",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 5,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "vision",
+      "carrying",
+      "breakTackle"
+    ],
+    "riskLevel": "low",
+    "objective": "clock control"
   },
   {
     "id": "four-verticals",
@@ -111,7 +447,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "long",
       "must_score"
-    ]
+    ],
+    "conceptFamily": "deep pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 7,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "speed",
+      "acceleration",
+      "release",
+      "deepRouteRunning",
+      "catching"
+    ],
+    "riskLevel": "high",
+    "objective": "explosive opportunity"
   },
   {
     "id": "pa-boot-slide",
@@ -122,7 +497,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "inside-zone-wk",
@@ -134,7 +548,43 @@ window.RUTGERS_PLAYBOOK = [
       "short",
       "medium",
       "normal"
-    ]
+    ],
+    "conceptFamily": "inside run",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 5,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "vision",
+      "carrying",
+      "breakTackle"
+    ],
+    "riskLevel": "low",
+    "objective": "clock control"
   },
   {
     "id": "read-option",
@@ -145,7 +595,44 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "short",
       "medium"
-    ]
+    ],
+    "conceptFamily": "option",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "HB2"
+    ],
+    "requiredAttributes": [
+      "speed",
+      "awareness",
+      "carrying"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "counter",
@@ -156,7 +643,43 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "short",
       "medium"
-    ]
+    ],
+    "conceptFamily": "inside run",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 5,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "vision",
+      "carrying",
+      "breakTackle"
+    ],
+    "riskLevel": "low",
+    "objective": "clock control"
   },
   {
     "id": "pa-te-waggle",
@@ -167,7 +690,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "pa-te-corner",
@@ -178,7 +740,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "red_zone",
       "goal_line"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "pa-crossers",
@@ -189,7 +790,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "stick",
@@ -200,7 +840,45 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "two_minute"
-    ]
+    ],
+    "conceptFamily": "quick pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "WR2",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "catching",
+      "routeRunning",
+      "awareness"
+    ],
+    "riskLevel": "low",
+    "objective": "move chains"
   },
   {
     "id": "mesh",
@@ -212,7 +890,45 @@ window.RUTGERS_PLAYBOOK = [
       "medium",
       "long",
       "two_minute"
-    ]
+    ],
+    "conceptFamily": "quick pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "WR2",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "catching",
+      "routeRunning",
+      "awareness"
+    ],
+    "riskLevel": "low",
+    "objective": "move chains"
   },
   {
     "id": "pa-stretch-shot",
@@ -223,7 +939,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "long",
       "must_score"
-    ]
+    ],
+    "conceptFamily": "deep pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 7,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "speed",
+      "acceleration",
+      "release",
+      "deepRouteRunning",
+      "catching"
+    ],
+    "riskLevel": "high",
+    "objective": "explosive opportunity"
   },
   {
     "id": "jet-slam-alert-smoke",
@@ -235,7 +990,45 @@ window.RUTGERS_PLAYBOOK = [
       "short",
       "medium",
       "normal"
-    ]
+    ],
+    "conceptFamily": "RPO",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "WR1",
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "awareness",
+      "shortAccuracy",
+      "throwOnRun"
+    ],
+    "riskLevel": "low",
+    "objective": "pressure answer"
   },
   {
     "id": "pa-x-burst",
@@ -246,7 +1039,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "hb-zone-wk",
@@ -258,7 +1090,43 @@ window.RUTGERS_PLAYBOOK = [
       "short",
       "medium",
       "normal"
-    ]
+    ],
+    "conceptFamily": "inside run",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 5,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "vision",
+      "carrying",
+      "breakTackle"
+    ],
+    "riskLevel": "low",
+    "objective": "clock control"
   },
   {
     "id": "hb-dive-pistol",
@@ -269,7 +1137,43 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "short",
       "goal_line"
-    ]
+    ],
+    "conceptFamily": "inside run",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 3,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "short",
+    "primaryPositions": [
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "vision",
+      "carrying",
+      "breakTackle"
+    ],
+    "riskLevel": "low",
+    "objective": "red-zone score"
   },
   {
     "id": "four-verticals-2",
@@ -280,7 +1184,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "long",
       "must_score"
-    ]
+    ],
+    "conceptFamily": "deep pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 7,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "speed",
+      "acceleration",
+      "release",
+      "deepRouteRunning",
+      "catching"
+    ],
+    "riskLevel": "high",
+    "objective": "explosive opportunity"
   },
   {
     "id": "pa-boot-slide-2",
@@ -291,7 +1234,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "pa-fl-counter-y-screen",
@@ -302,7 +1284,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "screen",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 7,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "HB1",
+      "HB2",
+      "TE1"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "acceleration",
+      "agility",
+      "vision",
+      "catching"
+    ],
+    "riskLevel": "low",
+    "objective": "pressure answer"
   },
   {
     "id": "pa-zone-wk",
@@ -312,7 +1333,46 @@ window.RUTGERS_PLAYBOOK = [
     "baseScore": 78,
     "situations": [
       "medium"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "te-attack",
@@ -323,7 +1383,45 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "intermediate pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 3,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "TE1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "routeRunning",
+      "catching",
+      "awareness"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "pa-boot-lt",
@@ -334,7 +1432,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "pa-rb-flat",
@@ -346,7 +1483,45 @@ window.RUTGERS_PLAYBOOK = [
       "short",
       "medium",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "quick pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "WR2",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "catching",
+      "routeRunning",
+      "awareness"
+    ],
+    "riskLevel": "low",
+    "objective": "red-zone score"
   },
   {
     "id": "pa-power-sprint-rt",
@@ -357,7 +1532,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "short",
       "red_zone"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "goal-line-fade",
@@ -367,7 +1581,45 @@ window.RUTGERS_PLAYBOOK = [
     "baseScore": 75,
     "situations": [
       "goal_line"
-    ]
+    ],
+    "conceptFamily": "intermediate pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 3,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "TE1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "routeRunning",
+      "catching",
+      "awareness"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "pa-y-seam",
@@ -378,7 +1630,45 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "red_zone",
       "medium"
-    ]
+    ],
+    "conceptFamily": "intermediate pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 3,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "TE1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "routeRunning",
+      "catching",
+      "awareness"
+    ],
+    "riskLevel": "medium",
+    "objective": "red-zone score"
   },
   {
     "id": "rpo-read-fl-slide",
@@ -389,7 +1679,45 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "short",
       "medium"
-    ]
+    ],
+    "conceptFamily": "RPO",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "WR1",
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "awareness",
+      "shortAccuracy",
+      "throwOnRun"
+    ],
+    "riskLevel": "low",
+    "objective": "pressure answer"
   },
   {
     "id": "pa-blaze",
@@ -400,7 +1728,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "fake-screen-go",
@@ -411,7 +1778,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "long",
       "must_score"
-    ]
+    ],
+    "conceptFamily": "deep pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 7,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "speed",
+      "acceleration",
+      "release",
+      "deepRouteRunning",
+      "catching"
+    ],
+    "riskLevel": "high",
+    "objective": "explosive opportunity"
   },
   {
     "id": "mtn-slot-screen",
@@ -422,7 +1828,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "two_minute"
-    ]
+    ],
+    "conceptFamily": "screen",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 7,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "HB1",
+      "HB2",
+      "TE1"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "acceleration",
+      "agility",
+      "vision",
+      "catching"
+    ],
+    "riskLevel": "low",
+    "objective": "pressure answer"
   },
   {
     "id": "deep-stick",
@@ -433,7 +1878,45 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "intermediate pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 3,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "TE1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "routeRunning",
+      "catching",
+      "awareness"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "mtn-smash-curls",
@@ -444,7 +1927,45 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "intermediate pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 3,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "TE1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "routeRunning",
+      "catching",
+      "awareness"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "mtn-te-middle-screen",
@@ -455,7 +1976,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "screen",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 7,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "HB1",
+      "HB2",
+      "TE1"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "acceleration",
+      "agility",
+      "vision",
+      "catching"
+    ],
+    "riskLevel": "low",
+    "objective": "pressure answer"
   },
   {
     "id": "mesh-spot",
@@ -467,7 +2027,45 @@ window.RUTGERS_PLAYBOOK = [
       "medium",
       "long",
       "two_minute"
-    ]
+    ],
+    "conceptFamily": "quick pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "WR2",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "catching",
+      "routeRunning",
+      "awareness"
+    ],
+    "riskLevel": "low",
+    "objective": "move chains"
   },
   {
     "id": "rpo-read-zone-bubbles",
@@ -479,7 +2077,45 @@ window.RUTGERS_PLAYBOOK = [
       "short",
       "medium",
       "normal"
-    ]
+    ],
+    "conceptFamily": "RPO",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "WR1",
+      "TE1"
+    ],
+    "requiredAttributes": [
+      "awareness",
+      "shortAccuracy",
+      "throwOnRun"
+    ],
+    "riskLevel": "low",
+    "objective": "pressure answer"
   },
   {
     "id": "y-sail",
@@ -490,7 +2126,45 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "intermediate pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 3,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "TE1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "routeRunning",
+      "catching",
+      "awareness"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "exit-pa-smash",
@@ -501,7 +2175,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "long"
-    ]
+    ],
+    "conceptFamily": "play action",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "HB1"
+    ],
+    "requiredAttributes": [
+      "playAction",
+      "throwOnRun",
+      "awareness",
+      "throwUnderPressure"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "slot-fade",
@@ -512,7 +2225,46 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "red_zone",
       "long"
-    ]
+    ],
+    "conceptFamily": "deep pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 7,
+    "maxDistance": 99,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "long",
+    "primaryPositions": [
+      "WR1",
+      "WR2"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "speed",
+      "acceleration",
+      "release",
+      "deepRouteRunning",
+      "catching"
+    ],
+    "riskLevel": "high",
+    "objective": "red-zone score"
   },
   {
     "id": "y-read-read-option",
@@ -523,7 +2275,44 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "short",
       "medium"
-    ]
+    ],
+    "conceptFamily": "option",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "QB1",
+      "HB1"
+    ],
+    "secondaryPositions": [
+      "HB2"
+    ],
+    "requiredAttributes": [
+      "speed",
+      "awareness",
+      "carrying"
+    ],
+    "riskLevel": "medium",
+    "objective": "move chains"
   },
   {
     "id": "curl-flat",
@@ -534,6 +2323,44 @@ window.RUTGERS_PLAYBOOK = [
     "situations": [
       "medium",
       "two_minute"
-    ]
+    ],
+    "conceptFamily": "quick pass",
+    "eligibleDowns": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "minDistance": 1,
+    "maxDistance": 6,
+    "eligibleFieldZones": [
+      "normal",
+      "backed_up",
+      "fringe",
+      "red_zone",
+      "goal_line"
+    ],
+    "eligibleGameStates": [
+      "normal",
+      "two_minute",
+      "protect_lead",
+      "must_score"
+    ],
+    "lineToGainCapability": "medium",
+    "primaryPositions": [
+      "WR2",
+      "TE1",
+      "WR1"
+    ],
+    "secondaryPositions": [
+      "QB1"
+    ],
+    "requiredAttributes": [
+      "catching",
+      "routeRunning",
+      "awareness"
+    ],
+    "riskLevel": "low",
+    "objective": "move chains"
   }
 ];

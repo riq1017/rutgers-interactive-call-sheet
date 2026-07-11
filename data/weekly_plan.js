@@ -4,18 +4,64 @@ window.WEEKLY_PLAN = {
     "name": "Purdue",
     "record": "1-4",
     "week": "First active weekly package",
-    "location": "unknown"
+    "location": "unknown",
+    "seasonStats": {
+      "pointsAllowed": null,
+      "rushingYardsAllowed": null,
+      "rushingYardsPerCarryAllowed": null,
+      "passingYardsAllowed": null,
+      "yardsPerAttemptAllowed": null,
+      "sacks": null,
+      "pressureIndicators": "Elite visible edge threat",
+      "interceptions": null,
+      "thirdDownDefense": null,
+      "redZoneDefense": null
+    },
+    "defensivePersonnel": {
+      "edge": {
+        "name": "Q. Gillians",
+        "position": "REDG",
+        "overall": 84,
+        "evidence": "Visible in source report"
+      },
+      "defensiveTackles": {
+        "summary": "Mostly low-to-mid 70s",
+        "overall": null
+      },
+      "linebackers": {
+        "summary": "Mostly low 70s",
+        "overall": null
+      },
+      "cornerbacks": {
+        "summary": "Not available",
+        "overall": null
+      },
+      "safeties": {
+        "summary": "Not available",
+        "overall": null
+      }
+    }
+  },
+  "modifierCaps": {
+    "personnelFit": [-10, 10],
+    "opponentMatchup": [-12, 12],
+    "seasonProduction": [-8, 8],
+    "recentGameForm": [-6, 6],
+    "situationFit": [-20, 20],
+    "setupBonus": [-10, 10],
+    "recentCallDiversity": [-18, 0],
+    "riskPenalty": [-15, 0]
   },
   "traits": [
     {
       "title": "Elite visible edge threat",
-      "evidence": "REDG Q. Gillians \u2014 84 OVR",
+      "evidence": "REDG Q. Gillians - 84 OVR",
       "response": "Use quick game, screens, movement passes, chips and avoid consecutive slow-developing dropbacks."
     },
     {
       "title": "Attackable defensive interior",
       "evidence": "DT group mostly low-to-mid 70s",
-      "response": "Feature Inside Zone Split, HB Dive, Power O and Counter."
+      "response": "Feature Inside Zone Split, HB Dive, Power O and Counter when down and distance allow it."
     },
     {
       "title": "Average linebacker group",
@@ -45,6 +91,246 @@ window.WEEKLY_PLAN = {
     "option": "medium",
     "red_zone_pass": "medium"
   },
+  "rutgersStats": {
+    "quarterback": {
+      "completionPercentage": null,
+      "yardsPerAttempt": null,
+      "touchdownRate": null,
+      "interceptionRate": null,
+      "sackRate": null,
+      "pressurePerformance": "Not available",
+      "shortEfficiency": "Not available",
+      "mediumEfficiency": "Not available",
+      "deepEfficiency": "Not available",
+      "playActionEfficiency": "Not available",
+      "movementPassEfficiency": "Not available"
+    },
+    "teamAverages": {
+      "yardsPerCarry": null,
+      "yardsPerAttempt": null
+    }
+  },
+  "players": {
+    "QB1": {
+      "id": "QB1",
+      "name": "Name unverified",
+      "position": "QB",
+      "depthRole": "QB1",
+      "overall": 69,
+      "attributes": {
+        "speed": 81,
+        "awareness": 66,
+        "throwPower": 90,
+        "shortAccuracy": null,
+        "mediumAccuracy": 85,
+        "deepAccuracy": 79,
+        "throwOnRun": 83,
+        "playAction": 66,
+        "throwUnderPressure": 63
+      },
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "High-percentage throws early, RPO decisions, movement passes and limited obvious long-drop exposure.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["RPO", "quick pass", "play action"],
+      "bestFormations": ["Pistol", "Shotgun"],
+      "matchupAdvantages": ["Quick answers and movement against Purdue edge pressure"],
+      "risks": ["Throw under pressure 63; play action 66"],
+      "usageTriggers": ["Increase quick game after sacks", "Use movement passes after successful runs"],
+      "priorityLabel": "High Usage"
+    },
+    "QB2": {
+      "id": "QB2",
+      "name": "Name unverified",
+      "position": "QB",
+      "depthRole": "QB2",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Emergency depth only unless new evidence updates the weekly package.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["quick pass"],
+      "bestFormations": ["Not available"],
+      "matchupAdvantages": ["Not available"],
+      "risks": ["Name and ratings unverified"],
+      "usageTriggers": ["Emergency only"],
+      "priorityLabel": "Emergency Only"
+    },
+    "HB1": {
+      "id": "HB1",
+      "name": "Antwan Simonsen",
+      "position": "HB",
+      "depthRole": "HB1",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Featured interior-run engine through inside runs, screens and checkdowns.",
+      "workloadTarget": "18-24 carries and 3-5 targets",
+      "bestConcepts": ["inside run", "screen", "RPO"],
+      "bestFormations": ["Pistol", "Goal Line Offense", "Shotgun"],
+      "matchupAdvantages": ["Purdue DT group mostly low-to-mid 70s"],
+      "risks": ["Fumble and fatigue data not available"],
+      "usageTriggers": ["Maintain Featured role if live YPC is 4.5+", "Increase HB2 rotation if below 3.0 YPC after at least 8 carries"],
+      "priorityLabel": "Featured"
+    },
+    "HB2": {
+      "id": "HB2",
+      "name": "Name unverified",
+      "position": "HB",
+      "depthRole": "HB2",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Rotational constraint option if HB1 efficiency drops or fatigue risk rises.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["screen", "outside run"],
+      "bestFormations": ["Pistol", "Shotgun"],
+      "matchupAdvantages": ["Not available"],
+      "risks": ["Name and ratings unverified"],
+      "usageTriggers": ["Use after HB1 low efficiency or to change pace"],
+      "priorityLabel": "Rotational"
+    },
+    "WR1": {
+      "id": "WR1",
+      "name": "Name unverified",
+      "position": "WR",
+      "depthRole": "WR1",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Primary route-fit target when available data supports passing concepts.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["intermediate pass", "deep pass"],
+      "bestFormations": ["Pistol", "Shotgun"],
+      "matchupAdvantages": ["Not available"],
+      "risks": ["Name and ratings unverified"],
+      "usageTriggers": ["Prioritize if catch efficiency or route-family efficiency is verified"],
+      "priorityLabel": "High Usage"
+    },
+    "WR2": {
+      "id": "WR2",
+      "name": "Name unverified",
+      "position": "WR",
+      "depthRole": "WR2",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Chain-moving and quick-game candidate.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["quick pass", "intermediate pass"],
+      "bestFormations": ["Pistol", "Shotgun"],
+      "matchupAdvantages": ["Average Purdue linebacker group on crossers/mesh"],
+      "risks": ["Name and ratings unverified"],
+      "usageTriggers": ["Increase after sacks or pressure"],
+      "priorityLabel": "Rotational"
+    },
+    "WR3": {
+      "id": "WR3",
+      "name": "Name unverified",
+      "position": "WR",
+      "depthRole": "WR3",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Rotational receiver.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["quick pass"],
+      "bestFormations": ["Not available"],
+      "matchupAdvantages": ["Not available"],
+      "risks": ["Name and ratings unverified"],
+      "usageTriggers": ["Not available"],
+      "priorityLabel": "Rotational"
+    },
+    "WR4": {
+      "id": "WR4",
+      "name": "Name unverified",
+      "position": "WR",
+      "depthRole": "WR4",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Situational receiver.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["Not available"],
+      "bestFormations": ["Not available"],
+      "matchupAdvantages": ["Not available"],
+      "risks": ["Name and ratings unverified"],
+      "usageTriggers": ["Not available"],
+      "priorityLabel": "Situational"
+    },
+    "TE1": {
+      "id": "TE1",
+      "name": "Name unverified",
+      "position": "TE",
+      "depthRole": "TE1",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Boots, seams, stick, flats, mesh and red-zone concepts.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["quick pass", "intermediate pass", "play action"],
+      "bestFormations": ["Pistol", "Goal Line Offense"],
+      "matchupAdvantages": ["Purdue linebackers mostly low 70s"],
+      "risks": ["Name and ratings unverified"],
+      "usageTriggers": ["Increase against linebackers and elite edge pressure as chip/release answer"],
+      "priorityLabel": "High Usage"
+    },
+    "TE2": {
+      "id": "TE2",
+      "name": "Name unverified",
+      "position": "TE",
+      "depthRole": "TE2",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Situational heavy personnel.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["play action", "inside run"],
+      "bestFormations": ["Goal Line Offense"],
+      "matchupAdvantages": ["Not available"],
+      "risks": ["Name and ratings unverified"],
+      "usageTriggers": ["Short yardage or protection support"],
+      "priorityLabel": "Situational"
+    },
+    "GADGET": {
+      "id": "GADGET",
+      "name": "Name unverified",
+      "position": "ATH",
+      "depthRole": "Returner / slot / gadget",
+      "overall": null,
+      "attributes": {},
+      "seasonStats": {},
+      "lastGameStats": {},
+      "rollingStats": {},
+      "weeklyRole": "Specialty constraint role only if verified later.",
+      "workloadTarget": "Not available",
+      "bestConcepts": ["screen"],
+      "bestFormations": ["Not available"],
+      "matchupAdvantages": ["Not available"],
+      "risks": ["Name and ratings unverified"],
+      "usageTriggers": ["Not available"],
+      "priorityLabel": "Situational"
+    }
+  },
   "openingScript": [
     "inside-zone-split",
     "hb-dive-pistol",
@@ -58,24 +344,6 @@ window.WEEKLY_PLAN = {
     "hb-sting",
     "mesh-spot",
     "pa-y-seam"
-  ],
-  "usage": [
-    {
-      "player": "Antwan Simonsen",
-      "plan": "18\u201324 carries and 3\u20135 targets. Primary engine through interior runs, screens and checkdowns."
-    },
-    {
-      "player": "Freshman QB",
-      "plan": "High-percentage throws early, RPO decisions, movement passes and limited obvious long-drop exposure."
-    },
-    {
-      "player": "WR1",
-      "plan": "Glance, dig, over, corner and one calculated deep opportunity."
-    },
-    {
-      "player": "WR2 / TE1",
-      "plan": "Mesh, stick, flats, boots, seams and chain-moving concepts."
-    }
   ],
   "warnings": [
     "Do not call consecutive slow-developing dropbacks.",

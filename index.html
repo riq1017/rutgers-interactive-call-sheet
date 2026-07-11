@@ -115,6 +115,20 @@
       </div>
       <div id="scriptList"></div>
     </section>
+    <section class="panel">
+      <div class="section-heading">
+        <p>Scouting Report</p>
+        <strong>Opponent traits</strong>
+      </div>
+      <div id="gameplanScoutList"></div>
+    </section>
+    <section class="panel">
+      <div class="section-heading">
+        <p>History</p>
+        <strong>Logged calls</strong>
+      </div>
+      <div id="historyList" class="small"></div>
+    </section>
   </section>
 
   <section id="topplays" class="tab panel" aria-label="Top plays tab">
@@ -129,24 +143,33 @@
   <section id="personnel" class="tab panel" aria-label="Personnel tab">
     <div class="section-heading">
       <p>Personnel</p>
-      <strong>Verified Rutgers usage</strong>
+      <strong>Roster and usage</strong>
     </div>
+    <div id="rosterList"></div>
     <div id="usageList"></div>
   </section>
 
-  <section id="scouting" class="tab panel" aria-label="Scouting tab">
+  <section id="recruiting" class="tab panel" aria-label="Recruiting tab">
     <div class="section-heading">
-      <p>Scouting</p>
-      <strong>Opponent traits</strong>
+      <p>Recruiting</p>
+      <strong>Board workspace</strong>
     </div>
-    <div id="traitList"></div>
+    <div id="recruitingOverview"></div>
+    <div id="teamNeedsList"></div>
+    <div id="priorityList"></div>
+    <div id="recruitingFilters" class="filter-grid"></div>
+    <div id="recruitList"></div>
+    <div id="recruitDetail"></div>
+    <div id="actionPlanList"></div>
   </section>
 
   <section id="more" class="tab panel" aria-label="More tab">
     <div class="section-heading">
       <p>More</p>
-      <strong>Package notes</strong>
+      <strong>Reports and utilities</strong>
     </div>
+    <div id="traitList"></div>
+    <div id="recruitingTools"></div>
     <div id="moreList"></div>
   </section>
 </main>
@@ -155,7 +178,7 @@
   <button data-tab="gameplan" class="active">Gameplan</button>
   <button data-tab="topplays">Top Plays</button>
   <button data-tab="personnel">Personnel</button>
-  <button data-tab="scouting">Scouting</button>
+  <button data-tab="recruiting">Recruiting</button>
   <button data-tab="more">More</button>
 </nav>
 
@@ -195,6 +218,7 @@
 <script src="data/rutgers_playbook.js"></script>
 <script src="data/weekly_plan.js"></script>
 <script src="data/game_history.js"></script>
+<script src="data/recruiting_data.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

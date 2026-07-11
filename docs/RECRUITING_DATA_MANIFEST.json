@@ -1,0 +1,18 @@
+{
+  "package_name": "Rutgers Codex Data Package",
+  "contents": [
+    "data/team_needs.json",
+    "data/recruits.json",
+    "data/roster.json",
+    "data/recruiting_settings.json",
+    "reference_frames/recruiting/*.jpg",
+    "reference_frames/roster/*.jpg",
+    "README_CODEX.md"
+  ],
+  "source_media": [
+    "IMG_2984.mp4 - recruiting board",
+    "IMG_2965(3).mp4 - current roster",
+    "IMG_2971(4).mov - short team-stat footage; not used as primary roster/recruit source",
+    "26F488CE-21AC-4995-928D-9F54CACDDDE4.jpeg - exact Team Needs screenshot"
+  ]
+}

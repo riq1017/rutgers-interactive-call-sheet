@@ -1,0 +1,7 @@
+{
+  "name": "Purdue",
+  "week": 6,
+  "rutgers_record": "5-0",
+  "source": "data/roster.json season_context and current weekly package",
+  "verification_status": "verified_from_structured_package"
+}

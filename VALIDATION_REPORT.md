@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-11T21:57:48.249Z
+Validated: 2026-07-11T22:53:37.726Z
 
 - PASS - All play IDs are unique
 - PASS - Every play supports eligibility and player-fit metadata
@@ -15,6 +15,9 @@ Validated: 2026-07-11T21:57:48.249Z
 - PASS - Mobile layout rules exist
 - PASS - Gameday header fields exist
 - PASS - Gameday header fields load from weekly data
+- PASS - Header says Gameday Gameplan
+- PASS - Rutgers record shows 5-0
+- PASS - Week 6 vs Purdue displays
 - PASS - Situation panel includes required controls
 - PASS - Weekly package status exists
 - PASS - Bottom navigation contains required tabs
@@ -22,6 +25,9 @@ Validated: 2026-07-11T21:57:48.249Z
 - PASS - Visible score explanation includes all required components
 - PASS - Play diagram fallback cannot break missing diagrams
 - PASS - Tab switching supports all bottom-nav views
+- PASS - Recruiting opens without page reload
+- PASS - Data architecture files exist
+- PASS - Recruiting import/export controls exist
 - PASS - No unconfirmed numeric ratings were added outside source anchors
 - PASS - Corrected Rutgers video data report is present
 - PASS - Corrected QB data replaced stale 69 OVR profile
@@ -47,8 +53,169 @@ Validated: 2026-07-11T21:57:48.249Z
 - PASS - Result history survives refresh
 - PASS - Usage cards render without horizontal scrolling on iPhone width
 - PASS - Weekly-plan data can update recommendations without editing app.js
-- PASS - Browser smoke test loads through local static server with no console errors
+- PASS - All 48 play-specific SVG assets remain present (48 play SVGs)
+- PASS - Formation fallback diagram exists
+- PASS - Play art exists for power-o (assets/play-diagrams/power-o.svg)
+- PASS - Play art path is relative for power-o (assets/play-diagrams/power-o.svg)
+- PASS - Play art verification is valid for power-o (partial)
+- PASS - Play art exists for pa-power-o (assets/play-diagrams/pa-power-o.svg)
+- PASS - Play art path is relative for pa-power-o (assets/play-diagrams/pa-power-o.svg)
+- PASS - Play art verification is valid for pa-power-o (partial)
+- PASS - Play art exists for hb-sting (assets/play-diagrams/hb-sting.svg)
+- PASS - Play art path is relative for hb-sting (assets/play-diagrams/hb-sting.svg)
+- PASS - Play art verification is valid for hb-sting (partial)
+- PASS - Play art exists for hb-dive (assets/play-diagrams/hb-dive.svg)
+- PASS - Play art path is relative for hb-dive (assets/play-diagrams/hb-dive.svg)
+- PASS - Play art verification is valid for hb-dive (partial)
+- PASS - Play art exists for y-stick (assets/play-diagrams/y-stick.svg)
+- PASS - Play art path is relative for y-stick (assets/play-diagrams/y-stick.svg)
+- PASS - Play art verification is valid for y-stick (partial)
+- PASS - Play art exists for read-option-wk (assets/play-diagrams/read-option-wk.svg)
+- PASS - Play art path is relative for read-option-wk (assets/play-diagrams/read-option-wk.svg)
+- PASS - Play art verification is valid for read-option-wk (partial)
+- PASS - Play art exists for posts (assets/play-diagrams/posts.svg)
+- PASS - Play art path is relative for posts (assets/play-diagrams/posts.svg)
+- PASS - Play art verification is valid for posts (partial)
+- PASS - Play art exists for pa-deep-out (assets/play-diagrams/pa-deep-out.svg)
+- PASS - Play art path is relative for pa-deep-out (assets/play-diagrams/pa-deep-out.svg)
+- PASS - Play art verification is valid for pa-deep-out (partial)
+- PASS - Play art exists for inside-zone-split (assets/play-diagrams/inside-zone-split.svg)
+- PASS - Play art path is relative for inside-zone-split (assets/play-diagrams/inside-zone-split.svg)
+- PASS - Play art verification is valid for inside-zone-split (partial)
+- PASS - Play art exists for four-verticals (assets/play-diagrams/four-verticals.svg)
+- PASS - Play art path is relative for four-verticals (assets/play-diagrams/four-verticals.svg)
+- PASS - Play art verification is valid for four-verticals (partial)
+- PASS - Play art exists for pa-boot-slide (assets/play-diagrams/pa-boot-slide.svg)
+- PASS - Play art path is relative for pa-boot-slide (assets/play-diagrams/pa-boot-slide.svg)
+- PASS - Play art verification is valid for pa-boot-slide (partial)
+- PASS - Play art exists for inside-zone-wk (assets/play-diagrams/inside-zone-wk.svg)
+- PASS - Play art path is relative for inside-zone-wk (assets/play-diagrams/inside-zone-wk.svg)
+- PASS - Play art verification is valid for inside-zone-wk (partial)
+- PASS - Play art exists for read-option (assets/play-diagrams/read-option.svg)
+- PASS - Play art path is relative for read-option (assets/play-diagrams/read-option.svg)
+- PASS - Play art verification is valid for read-option (partial)
+- PASS - Play art exists for counter (assets/play-diagrams/counter.svg)
+- PASS - Play art path is relative for counter (assets/play-diagrams/counter.svg)
+- PASS - Play art verification is valid for counter (partial)
+- PASS - Play art exists for pa-te-waggle (assets/play-diagrams/pa-te-waggle.svg)
+- PASS - Play art path is relative for pa-te-waggle (assets/play-diagrams/pa-te-waggle.svg)
+- PASS - Play art verification is valid for pa-te-waggle (partial)
+- PASS - Play art exists for pa-te-corner (assets/play-diagrams/pa-te-corner.svg)
+- PASS - Play art path is relative for pa-te-corner (assets/play-diagrams/pa-te-corner.svg)
+- PASS - Play art verification is valid for pa-te-corner (partial)
+- PASS - Play art exists for pa-crossers (assets/play-diagrams/pa-crossers.svg)
+- PASS - Play art path is relative for pa-crossers (assets/play-diagrams/pa-crossers.svg)
+- PASS - Play art verification is valid for pa-crossers (partial)
+- PASS - Play art exists for stick (assets/play-diagrams/stick.svg)
+- PASS - Play art path is relative for stick (assets/play-diagrams/stick.svg)
+- PASS - Play art verification is valid for stick (partial)
+- PASS - Play art exists for mesh (assets/play-diagrams/mesh.svg)
+- PASS - Play art path is relative for mesh (assets/play-diagrams/mesh.svg)
+- PASS - Play art verification is valid for mesh (partial)
+- PASS - Play art exists for pa-stretch-shot (assets/play-diagrams/pa-stretch-shot.svg)
+- PASS - Play art path is relative for pa-stretch-shot (assets/play-diagrams/pa-stretch-shot.svg)
+- PASS - Play art verification is valid for pa-stretch-shot (partial)
+- PASS - Play art exists for jet-slam-alert-smoke (assets/play-diagrams/jet-slam-alert-smoke.svg)
+- PASS - Play art path is relative for jet-slam-alert-smoke (assets/play-diagrams/jet-slam-alert-smoke.svg)
+- PASS - Play art verification is valid for jet-slam-alert-smoke (partial)
+- PASS - Play art exists for pa-x-burst (assets/play-diagrams/pa-x-burst.svg)
+- PASS - Play art path is relative for pa-x-burst (assets/play-diagrams/pa-x-burst.svg)
+- PASS - Play art verification is valid for pa-x-burst (partial)
+- PASS - Play art exists for hb-zone-wk (assets/play-diagrams/hb-zone-wk.svg)
+- PASS - Play art path is relative for hb-zone-wk (assets/play-diagrams/hb-zone-wk.svg)
+- PASS - Play art verification is valid for hb-zone-wk (partial)
+- PASS - Play art exists for hb-dive-pistol (assets/play-diagrams/hb-dive-pistol.svg)
+- PASS - Play art path is relative for hb-dive-pistol (assets/play-diagrams/hb-dive-pistol.svg)
+- PASS - Play art verification is valid for hb-dive-pistol (partial)
+- PASS - Play art exists for four-verticals-2 (assets/play-diagrams/four-verticals-2.svg)
+- PASS - Play art path is relative for four-verticals-2 (assets/play-diagrams/four-verticals-2.svg)
+- PASS - Play art verification is valid for four-verticals-2 (partial)
+- PASS - Play art exists for pa-boot-slide-2 (assets/play-diagrams/pa-boot-slide-2.svg)
+- PASS - Play art path is relative for pa-boot-slide-2 (assets/play-diagrams/pa-boot-slide-2.svg)
+- PASS - Play art verification is valid for pa-boot-slide-2 (partial)
+- PASS - Play art exists for pa-fl-counter-y-screen (assets/play-diagrams/pa-fl-counter-y-screen.svg)
+- PASS - Play art path is relative for pa-fl-counter-y-screen (assets/play-diagrams/pa-fl-counter-y-screen.svg)
+- PASS - Play art verification is valid for pa-fl-counter-y-screen (partial)
+- PASS - Play art exists for pa-zone-wk (assets/play-diagrams/pa-zone-wk.svg)
+- PASS - Play art path is relative for pa-zone-wk (assets/play-diagrams/pa-zone-wk.svg)
+- PASS - Play art verification is valid for pa-zone-wk (partial)
+- PASS - Play art exists for te-attack (assets/play-diagrams/te-attack.svg)
+- PASS - Play art path is relative for te-attack (assets/play-diagrams/te-attack.svg)
+- PASS - Play art verification is valid for te-attack (partial)
+- PASS - Play art exists for pa-boot-lt (assets/play-diagrams/pa-boot-lt.svg)
+- PASS - Play art path is relative for pa-boot-lt (assets/play-diagrams/pa-boot-lt.svg)
+- PASS - Play art verification is valid for pa-boot-lt (partial)
+- PASS - Play art exists for pa-rb-flat (assets/play-diagrams/pa-rb-flat.svg)
+- PASS - Play art path is relative for pa-rb-flat (assets/play-diagrams/pa-rb-flat.svg)
+- PASS - Play art verification is valid for pa-rb-flat (partial)
+- PASS - Play art exists for pa-power-sprint-rt (assets/play-diagrams/pa-power-sprint-rt.svg)
+- PASS - Play art path is relative for pa-power-sprint-rt (assets/play-diagrams/pa-power-sprint-rt.svg)
+- PASS - Play art verification is valid for pa-power-sprint-rt (partial)
+- PASS - Play art exists for goal-line-fade (assets/play-diagrams/goal-line-fade.svg)
+- PASS - Play art path is relative for goal-line-fade (assets/play-diagrams/goal-line-fade.svg)
+- PASS - Play art verification is valid for goal-line-fade (partial)
+- PASS - Play art exists for pa-y-seam (assets/play-diagrams/pa-y-seam.svg)
+- PASS - Play art path is relative for pa-y-seam (assets/play-diagrams/pa-y-seam.svg)
+- PASS - Play art verification is valid for pa-y-seam (partial)
+- PASS - Play art exists for rpo-read-fl-slide (assets/play-diagrams/rpo-read-fl-slide.svg)
+- PASS - Play art path is relative for rpo-read-fl-slide (assets/play-diagrams/rpo-read-fl-slide.svg)
+- PASS - Play art verification is valid for rpo-read-fl-slide (partial)
+- PASS - Play art exists for pa-blaze (assets/play-diagrams/pa-blaze.svg)
+- PASS - Play art path is relative for pa-blaze (assets/play-diagrams/pa-blaze.svg)
+- PASS - Play art verification is valid for pa-blaze (partial)
+- PASS - Play art exists for fake-screen-go (assets/play-diagrams/fake-screen-go.svg)
+- PASS - Play art path is relative for fake-screen-go (assets/play-diagrams/fake-screen-go.svg)
+- PASS - Play art verification is valid for fake-screen-go (partial)
+- PASS - Play art exists for mtn-slot-screen (assets/play-diagrams/mtn-slot-screen.svg)
+- PASS - Play art path is relative for mtn-slot-screen (assets/play-diagrams/mtn-slot-screen.svg)
+- PASS - Play art verification is valid for mtn-slot-screen (partial)
+- PASS - Play art exists for deep-stick (assets/play-diagrams/deep-stick.svg)
+- PASS - Play art path is relative for deep-stick (assets/play-diagrams/deep-stick.svg)
+- PASS - Play art verification is valid for deep-stick (partial)
+- PASS - Play art exists for mtn-smash-curls (assets/play-diagrams/mtn-smash-curls.svg)
+- PASS - Play art path is relative for mtn-smash-curls (assets/play-diagrams/mtn-smash-curls.svg)
+- PASS - Play art verification is valid for mtn-smash-curls (partial)
+- PASS - Play art exists for mtn-te-middle-screen (assets/play-diagrams/mtn-te-middle-screen.svg)
+- PASS - Play art path is relative for mtn-te-middle-screen (assets/play-diagrams/mtn-te-middle-screen.svg)
+- PASS - Play art verification is valid for mtn-te-middle-screen (partial)
+- PASS - Play art exists for mesh-spot (assets/play-diagrams/mesh-spot.svg)
+- PASS - Play art path is relative for mesh-spot (assets/play-diagrams/mesh-spot.svg)
+- PASS - Play art verification is valid for mesh-spot (partial)
+- PASS - Play art exists for rpo-read-zone-bubbles (assets/play-diagrams/rpo-read-zone-bubbles.svg)
+- PASS - Play art path is relative for rpo-read-zone-bubbles (assets/play-diagrams/rpo-read-zone-bubbles.svg)
+- PASS - Play art verification is valid for rpo-read-zone-bubbles (partial)
+- PASS - Play art exists for y-sail (assets/play-diagrams/y-sail.svg)
+- PASS - Play art path is relative for y-sail (assets/play-diagrams/y-sail.svg)
+- PASS - Play art verification is valid for y-sail (partial)
+- PASS - Play art exists for exit-pa-smash (assets/play-diagrams/exit-pa-smash.svg)
+- PASS - Play art path is relative for exit-pa-smash (assets/play-diagrams/exit-pa-smash.svg)
+- PASS - Play art verification is valid for exit-pa-smash (partial)
+- PASS - Play art exists for slot-fade (assets/play-diagrams/slot-fade.svg)
+- PASS - Play art path is relative for slot-fade (assets/play-diagrams/slot-fade.svg)
+- PASS - Play art verification is valid for slot-fade (partial)
+- PASS - Play art exists for y-read-read-option (assets/play-diagrams/y-read-read-option.svg)
+- PASS - Play art path is relative for y-read-read-option (assets/play-diagrams/y-read-read-option.svg)
+- PASS - Play art verification is valid for y-read-read-option (partial)
+- PASS - Play art exists for curl-flat (assets/play-diagrams/curl-flat.svg)
+- PASS - Play art path is relative for curl-flat (assets/play-diagrams/curl-flat.svg)
+- PASS - Play art verification is valid for curl-flat (partial)
+- PASS - Best Call displays assigned play art
+- PASS - Team Needs values match structured file
+- PASS - Position priority scoring runs (G:61, OLB:61, WR:61, SS:61, HB:61)
+- PASS - Initial priority positions remain high after scoring
+- PASS - Over-coverage penalties apply
+- PASS - Missing performance metrics remain neutral
+- PASS - Recruiting filters are implemented
+- PASS - Recruit detail is implemented
+- PASS - Personnel roster loads
+- PASS - Roster data feeds recruiting priority
+- PASS - Recruiting board data is loaded
+- PASS - Unknown recruit data remains null
+- PASS - Unknown data renders safely
+- PASS - No fake zeros replace unknown recruit fields
+- PASS - Reference frames are packaged
+- PASS - Browser smoke test loads from local static server with no console errors
+- PASS - Browser smoke test confirms Week 6 vs Purdue, Rutgers record 5-0, Top 3, Recruiting tab, and assigned play art
 - PASS - iPhone-width browser viewport has no horizontal overflow (375px client width, 375px scroll width)
-- PASS - Browser smoke test confirms Best Call, Top 3, bottom navigation, verified player names, and missing-diagram fallback
 
 Overall: PASS

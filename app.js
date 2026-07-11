@@ -2,6 +2,9 @@ const $ = id => document.getElementById(id);
 const HISTORY_KEY = "rutgers_game_history";
 const WEEKLY_KEY = "rutgers_weekly_package";
 const RECENT_CALLS_KEY = "rutgers_recent_calls";
+const RECRUITING_BOARD_KEY = "rutgers_recruiting_board";
+const ROSTER_KEY = "rutgers_roster_data";
+const TEAM_NEEDS_KEY = "rutgers_team_needs";
 const REQUIRED_SITUATIONS = ["short", "medium", "long", "red_zone", "goal_line", "two_minute", "normal", "must_score"];
 const DEFAULT_CAPS = {
   personnelFit: [-10, 10],
@@ -108,6 +111,12 @@ function displayValue(value) {
     const entries = Object.entries(value).filter(([, v]) => v !== null && v !== undefined && v !== "");
     return entries.length ? entries.map(([k, v]) => `${labelize(k)}: ${v}`).join("; ") : "Not available";
   }
+  return String(value);
+}
+
+function unknownValue(value) {
+  if (value === null || value === undefined || value === "") return "Unknown";
+  if (Array.isArray(value)) return value.length ? value.join(", ") : "Unknown";
   return String(value);
 }
 
@@ -562,7 +571,10 @@ function bestCallCard(play, rankNumber, label) {
       </div>
       <div class="score">${play.score}<span>Overall</span></div>
     </div>
-    <div class="play-diagram">Play diagram: Not available</div>
+    <figure class="play-diagram">
+      <img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="${play.name} ${play.diagramLabel || 'play'}" loading="lazy" onerror="this.src='assets/play-diagrams/formation-fallback.svg'">
+      <figcaption>${play.diagramLabel || 'Formation schematic'} - ${play.diagramVerification === 'verified' ? 'Verified' : play.diagramVerification === 'partial' ? 'Concept matched' : 'Formation only'}</figcaption>
+    </figure>
     <div class="fit-grid">
       <div class="metric"><span>Situation fit</span><strong>${signed(play.situationModifier)}</strong></div>
       <div class="metric"><span>Personnel fit</span><strong>${signed(play.personnelFit)}</strong></div>
@@ -584,7 +596,7 @@ function bestCallCard(play, rankNumber, label) {
     </details>
     <div class="card-actions">
       <button type="button" onclick="switchTab('gameplan')">Opening Script</button>
-      <button type="button" onclick="switchTab('scouting')">Scouting Report</button>
+      <button type="button" onclick="switchTab('more')">Scouting Report</button>
     </div>
   </article>`;
 }
@@ -638,22 +650,28 @@ function renderStatic() {
     const play = playMap().get(id);
     return `<div class="call"><div class="rank">${i + 1}</div><div><h3>${play ? play.name : id}</h3><div class="small">${play ? play.formation : "INVALID PLAY ID"}</div></div></div>`;
   }).join("");
-  if ($("traitList")) $("traitList").innerHTML = WEEKLY_PLAN.traits.map(t => `<div class="trait"><h3>${t.title}</h3><div class="small">${t.evidence}</div><p>${t.response}</p></div>`).join("") + `<h3>Warnings</h3>` + WEEKLY_PLAN.warnings.map(x => `<p>- ${x}</p>`).join("");
+  const scoutingHtml = WEEKLY_PLAN.traits.map(t => `<div class="trait"><h3>${t.title}</h3><div class="small">${t.evidence}</div><p>${t.response}</p></div>`).join("") + `<h3>Warnings</h3>` + WEEKLY_PLAN.warnings.map(x => `<p>- ${x}</p>`).join("");
+  if ($("traitList")) $("traitList").innerHTML = scoutingHtml;
+  if ($("gameplanScoutList")) $("gameplanScoutList").innerHTML = scoutingHtml;
   if ($("moreList")) $("moreList").innerHTML = `<div class="trait"><h3>Package</h3><p><strong>Build:</strong> ${displayValue(WEEKLY_PLAN.buildId)}</p><p><strong>Opponent:</strong> ${displayValue(WEEKLY_PLAN.opponent.name)}</p><p><strong>Record:</strong> ${displayValue(WEEKLY_PLAN.opponent.record)}</p></div>`;
   renderUsage();
+  renderRecruiting();
 }
 
 function renderGamedayHeader() {
   const gameday = WEEKLY_PLAN.gameday || {};
   const opponent = WEEKLY_PLAN.opponent || {};
+  const profile = typeof TEAM_PROFILE !== "undefined" ? TEAM_PROFILE : {};
   setText("programLabel", "Rutgers Football");
-  setText("appTitle", gameday.title || "Gameday Gameplan");
-  setText("weekOpponent", `${displayValue(gameday.currentWeek || opponent.week)} - ${displayValue(RUTGERS_TEAM.team)} vs ${displayValue(opponent.name)}`);
-  setText("seasonRecord", gameday.seasonRecord || "Not available");
-  setText("rutgersRank", gameday.rutgersRank || "Not available");
-  setText("offenseRank", gameday.offenseRank || "Not available");
-  setText("defenseRank", gameday.defenseRank || "Not available");
-  setText("momentumStatus", gameday.momentumStatus || "Not available");
+  setText("appTitle", gameday.title || profile.app_name || "Gameday Gameplan");
+  const week = gameday.currentWeek || (profile.week ? `Week ${profile.week}` : opponent.week);
+  const opponentName = profile.opponent || opponent.name;
+  setText("weekOpponent", `${displayValue(week)} vs ${displayValue(opponentName)}`);
+  setText("seasonRecord", gameday.seasonRecord || profile.record || "Not available");
+  setText("rutgersRank", gameday.rutgersRank || profile.rutgers_rank || "Not available");
+  setText("offenseRank", gameday.offenseRank || profile.offense_rank || "Not available");
+  setText("defenseRank", gameday.defenseRank || profile.defense_rank || "Not available");
+  setText("momentumStatus", gameday.momentumStatus || profile.momentum_status || "Not available");
   setText("packageName", `${displayValue(opponent.name)} package`);
   setText("packageUpdated", gameday.lastUpdated || "Not available");
   setText("packageOptions", gameday.packageOptions || "Not available");
@@ -693,6 +711,381 @@ function playerCard(player) {
     <p><strong>Risk / limitation:</strong> ${displayValue(player.risks)}</p>
     <p><strong>In-game trigger:</strong> ${displayValue(player.usageTriggers)}</p>
   </div>`;
+}
+
+function readStoredJson(key, fallback) {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : fallback;
+  } catch {
+    localStorage.removeItem(key);
+    return fallback;
+  }
+}
+
+function teamNeedsData() {
+  return readStoredJson(TEAM_NEEDS_KEY, typeof TEAM_NEEDS_DATA !== "undefined" ? TEAM_NEEDS_DATA : { positions: [] });
+}
+
+function recruitsData() {
+  return typeof RECRUITS_DATA !== "undefined" ? RECRUITS_DATA : { prospects: [] };
+}
+
+function rosterData() {
+  return readStoredJson(ROSTER_KEY, typeof ROSTER_DATA !== "undefined" ? ROSTER_DATA : { players: [] });
+}
+
+function recruitingBoardData() {
+  return readStoredJson(RECRUITING_BOARD_KEY, typeof RECRUITING_BOARD !== "undefined" ? RECRUITING_BOARD : { entries: [] });
+}
+
+function recruitingSettings() {
+  return typeof RECRUITING_SETTINGS !== "undefined" ? RECRUITING_SETTINGS : { priority_weights: {}, missing_metric_behavior: "neutral" };
+}
+
+function recruitingPerformance() {
+  return typeof RECRUITING_PERFORMANCE !== "undefined" ? RECRUITING_PERFORMANCE : { metrics: {}, missing_metric_behavior: "neutral" };
+}
+
+function normalizePosition(position) {
+  if (!position) return "Unknown";
+  if (position === "LT" || position === "RT") return "T";
+  return position;
+}
+
+function clampUnit(value) {
+  if (value === null || value === undefined || Number.isNaN(Number(value))) return 0.5;
+  return Math.max(0, Math.min(1, Number(value)));
+}
+
+function rosterSignals(position, roster = rosterData()) {
+  const players = (roster.players || []).filter(player => normalizePosition(player.position) === position);
+  const seniors = players.filter(player => String(player.year || "").includes("SR")).length;
+  const verified = players.filter(player => player.verification_status).length;
+  const avgOverallValues = players.map(player => player.overall_displayed).filter(value => value !== null && value !== undefined);
+  const avgOverall = avgOverallValues.length ? avgOverallValues.reduce((sum, value) => sum + Number(value), 0) / avgOverallValues.length : null;
+  return {
+    knownPlayers: players.length,
+    verifiedPlayers: verified,
+    futureDepthRisk: players.length ? Math.min(1, seniors / Math.max(players.length, 1)) : 0.5,
+    talentUpgradePotential: avgOverall === null ? 0.5 : Math.max(0, Math.min(1, (82 - avgOverall) / 20)),
+    diagnostics: players.length ? `${players.length} verified roster entr${players.length === 1 ? "y" : "ies"} available.` : "No verified roster entries for this position; neutral roster-feed components used."
+  };
+}
+
+function prospectSignals(position, recruits = recruitsData()) {
+  const prospects = (recruits.prospects || []).filter(prospect => normalizePosition(prospect.position) === position);
+  const knownInterest = prospects.map(prospect => prospect.interest_level).filter(value => value !== null && value !== undefined);
+  const knownPipeline = prospects.map(prospect => prospect.pipeline).filter(value => value !== null && value !== undefined);
+  const knownStars = prospects.map(prospect => prospect.stars).filter(value => value !== null && value !== undefined);
+  return {
+    boardCount: prospects.length,
+    signingProbability: knownInterest.length ? 0.65 : 0.5,
+    pipelineStrength: knownPipeline.length ? 0.65 : 0.5,
+    interestLevel: knownInterest.length ? 0.65 : 0.5,
+    talentUpgradePotential: knownStars.length ? Math.max(...knownStars) / 5 : 0.5
+  };
+}
+
+function performanceNeed(position, performance = recruitingPerformance()) {
+  const metrics = performance.metrics || {};
+  const related = {
+    QB: ["explosive_passing"],
+    HB: ["rushing_efficiency", "red_zone_efficiency"],
+    WR: ["explosive_passing", "red_zone_efficiency"],
+    TE: ["red_zone_efficiency"],
+    T: ["pass_protection", "rushing_efficiency"],
+    G: ["pass_protection", "rushing_efficiency"],
+    C: ["pass_protection", "rushing_efficiency"],
+    EDGE: ["pressure_rate"],
+    DT: ["pressure_rate"],
+    OLB: ["pressure_rate", "missed_tackles"],
+    MIKE: ["missed_tackles"],
+    CB: ["coverage_breakdowns"],
+    FS: ["coverage_breakdowns", "missed_tackles"],
+    SS: ["coverage_breakdowns", "missed_tackles"],
+    K: [],
+    P: []
+  }[position] || [];
+  const values = related.map(key => metrics[key]).filter(value => value !== null && value !== undefined);
+  if (!values.length) return { value: 0.5, available: false, note: "Performance metrics unavailable; neutral weighting applied." };
+  const avg = values.reduce((sum, value) => sum + Number(value), 0) / values.length;
+  return { value: clampUnit(avg), available: true, note: "Performance metrics available." };
+}
+
+function priorityScore(positionNeed, data = {}) {
+  const weights = recruitingSettings().priority_weights || {};
+  const position = positionNeed.position;
+  const recommended = Number(positionNeed.recommended_targets || 0);
+  const current = Number(positionNeed.current_targets || 0);
+  const deficit = Math.max(0, recommended - current);
+  const roster = rosterSignals(position, data.roster);
+  const prospects = prospectSignals(position, data.recruits);
+  const performance = performanceNeed(position, data.performance);
+  const overcovered = (teamNeedsData().overcovered_positions || []).includes(position);
+  const boardCoverage = recommended > 0 ? Math.min(1, current / recommended) : current > 0 ? 1 : 0;
+  const components = {
+    rosterNeed: recommended > 0 ? deficit / recommended : 0,
+    currentPerformanceNeed: performance.value,
+    futureDepthRisk: roster.futureDepthRisk,
+    schemeFit: 0.5,
+    talentUpgradePotential: Math.max(roster.talentUpgradePotential, prospects.talentUpgradePotential),
+    signingProbability: prospects.signingProbability,
+    pipelineStrength: prospects.pipelineStrength,
+    interestLevel: prospects.interestLevel,
+    existingBoardCoverage: Math.max(boardCoverage, overcovered ? 1 : 0),
+    recruitingCost: 0,
+    competitionDifficulty: 0
+  };
+  const score =
+    components.rosterNeed * (weights.roster_need || 0) +
+    components.currentPerformanceNeed * (weights.current_performance_need || 0) +
+    components.futureDepthRisk * (weights.future_depth_risk || 0) +
+    components.schemeFit * (weights.scheme_fit || 0) +
+    components.talentUpgradePotential * (weights.talent_upgrade_potential || 0) +
+    components.signingProbability * (weights.signing_probability || 0) +
+    components.pipelineStrength * (weights.pipeline_strength || 0) +
+    components.interestLevel * (weights.interest_level || 0) +
+    components.existingBoardCoverage * (weights.existing_board_coverage_penalty || 0) +
+    components.recruitingCost * (weights.recruiting_cost_penalty || 0) +
+    components.competitionDifficulty * (weights.competition_difficulty_penalty || 0);
+  return {
+    position,
+    side: positionNeed.side,
+    currentTargets: current,
+    recommendedTargets: recommended,
+    targetDeficit: deficit,
+    coverageStatus: deficit > 0 ? "Under-covered" : current > recommended ? "Over-covered" : "Covered",
+    overcovered,
+    score: Math.round(score * 10) / 10,
+    components,
+    performanceNote: performance.note,
+    rosterNote: roster.diagnostics
+  };
+}
+
+function priorityBoard() {
+  const initialOrder = teamNeedsData().initial_priority_order || [];
+  return (teamNeedsData().positions || [])
+    .map(need => priorityScore(need))
+    .sort((a, b) => {
+      const scoreDiff = b.score - a.score;
+      if (scoreDiff) return scoreDiff;
+      const aIndex = initialOrder.includes(a.position) ? initialOrder.indexOf(a.position) : 999;
+      const bIndex = initialOrder.includes(b.position) ? initialOrder.indexOf(b.position) : 999;
+      return aIndex - bIndex || a.position.localeCompare(b.position);
+    });
+}
+
+function recommendedActionForRecruit(prospect) {
+  const position = normalizePosition(prospect.position);
+  const priority = priorityBoard().find(row => row.position === position);
+  if (!prospect.position) return "Review position before assigning hours";
+  if (priority && priority.targetDeficit > 0 && prospect.scouting_percent === null) return "Scout";
+  if (priority && priority.targetDeficit > 0 && prospect.scholarship_offered === null) return "Evaluate offer when verified";
+  if (priority && priority.overcovered) return "Maintain only if upgrade is verified";
+  return priority && priority.targetDeficit > 0 ? "Maintain priority target" : "Maintain / review";
+}
+
+function renderRoster() {
+  if (!$("rosterList")) return;
+  const roster = rosterData();
+  $("rosterList").innerHTML = `<div class="subgrid">
+    ${(roster.players || []).map(player => `<div class="mini-card">
+      <h3>${unknownValue(player.display_name)}</h3>
+      <div class="small">${unknownValue(player.position)} - ${unknownValue(player.year)}</div>
+      <p><strong>OVR:</strong> ${unknownValue(player.overall_displayed)} ${player.overall_sidebar_boosted !== null && player.overall_sidebar_boosted !== undefined ? `(boosted ${player.overall_sidebar_boosted})` : ""}</p>
+      <p><strong>Size:</strong> ${unknownValue(player.height)} / ${unknownValue(player.weight_lbs)}</p>
+      <p><strong>Archetype:</strong> ${unknownValue(player.archetype)}</p>
+      <p><strong>Verification:</strong> ${unknownValue(player.verification_status)}</p>
+      <p><strong>Source:</strong> ${unknownValue(player.source_frame)}</p>
+    </div>`).join("") || `<p class="small">Unknown</p>`}
+  </div>`;
+}
+
+function renderHistory() {
+  if (!$("historyList")) return;
+  const rows = loadHistory().slice(-8).reverse();
+  $("historyList").innerHTML = rows.length ? rows.map(row => {
+    const play = playMap().get(row.playId);
+    return `<div class="history-row"><strong>${play ? play.name : row.playId}</strong><span>${row.result} / ${displayValue(row.yards)} yards</span></div>`;
+  }).join("") : "No logged calls yet.";
+}
+
+function renderRecruiting() {
+  renderRoster();
+  renderHistory();
+  if (!$("recruitingOverview")) return;
+  const needs = teamNeedsData();
+  const recruits = recruitsData();
+  const roster = rosterData();
+  const priorities = priorityBoard();
+  const critical = priorities.filter(row => row.targetDeficit > 0).slice(0, 5).map(row => row.position);
+  const over = priorities.filter(row => row.overcovered).map(row => row.position);
+  $("recruitingOverview").innerHTML = `<div class="overview-grid">
+    <div class="metric"><span>Class rank</span><strong>Unknown</strong></div>
+    <div class="metric"><span>Commits</span><strong>Unknown</strong></div>
+    <div class="metric"><span>Scholarships remaining</span><strong>Unknown</strong></div>
+    <div class="metric"><span>Board size</span><strong>${(recruits.prospects || []).length}</strong></div>
+    <div class="metric"><span>Weekly hours</span><strong>Unknown</strong></div>
+    <div class="metric"><span>Roster records</span><strong>${(roster.players || []).length}</strong></div>
+  </div>
+  <div class="notice good">Top alerts: prioritize ${critical.join(", ") || "Unknown"}.</div>
+  <div class="notice warn">Over-covered positions: ${over.join(", ") || "None"}.</div>`;
+  $("teamNeedsList").innerHTML = `<h3>Team Needs</h3>${priorities.map(row => `<div class="need-row">
+    <div><strong>${row.position}</strong><span>${labelize(row.side)} / ${row.coverageStatus}</span></div>
+    <div><span>Targets</span><strong>${row.currentTargets} / ${row.recommendedTargets}</strong></div>
+    <div><span>Deficit</span><strong>${row.targetDeficit}</strong></div>
+    <div><span>Priority</span><strong>${row.score}</strong></div>
+    <p>${row.performanceNote} ${row.rosterNote}</p>
+  </div>`).join("")}`;
+  $("priorityList").innerHTML = `<h3>Position Priority Engine</h3>${priorities.slice(0, 8).map((row, index) => `<div class="priority-row">
+    <span>${index + 1}</span><strong>${row.position}</strong><em>${row.score}</em>
+  </div>`).join("")}`;
+  renderRecruitingFilters();
+  renderRecruitList();
+  renderRecruitingTools();
+}
+
+function currentRecruitFilters() {
+  return {
+    position: $("filterPosition") ? $("filterPosition").value : "all",
+    verified: $("filterVerified") ? $("filterVerified").checked : false,
+    needsReview: $("filterNeedsReview") ? $("filterNeedsReview").checked : false,
+    priority: $("filterPriority") ? $("filterPriority").checked : false
+  };
+}
+
+function renderRecruitingFilters() {
+  if (!$("recruitingFilters")) return;
+  const positions = [...new Set((recruitsData().prospects || []).map(prospect => normalizePosition(prospect.position)))].sort();
+  $("recruitingFilters").innerHTML = `<label>Position
+    <select id="filterPosition"><option value="all">All</option>${positions.map(position => `<option value="${position}">${position}</option>`).join("")}</select>
+  </label>
+  <label><input id="filterVerified" type="checkbox"> Verified</label>
+  <label><input id="filterNeedsReview" type="checkbox"> Needs Review</label>
+  <label><input id="filterPriority" type="checkbox"> Priority Position</label>`;
+  ["filterPosition", "filterVerified", "filterNeedsReview", "filterPriority"].forEach(id => $(id).addEventListener("change", renderRecruitList));
+}
+
+function filteredRecruits() {
+  const filters = currentRecruitFilters();
+  const priorityPositions = new Set(priorityBoard().filter(row => row.targetDeficit > 0).slice(0, 8).map(row => row.position));
+  return (recruitsData().prospects || []).filter(prospect => {
+    const position = normalizePosition(prospect.position);
+    if (filters.position !== "all" && position !== filters.position) return false;
+    if (filters.verified && !(prospect.verification_status || "").includes("visible")) return false;
+    if (filters.needsReview && !(prospect.verification_status || "").includes("need")) return false;
+    if (filters.priority && !priorityPositions.has(position)) return false;
+    return true;
+  });
+}
+
+function renderRecruitList() {
+  if (!$("recruitList")) return;
+  const rows = filteredRecruits();
+  $("recruitList").innerHTML = `<h3>Recruiting Board</h3>${rows.map(prospect => `<button class="recruit-row" type="button" onclick="renderRecruitDetail('${prospect.id}')">
+    <strong>${unknownValue(prospect.display_name)}</strong>
+    <span>${unknownValue(prospect.position)} / ${unknownValue(prospect.stars)} stars / ${unknownValue(prospect.verification_status)}</span>
+    <em>${recommendedActionForRecruit(prospect)}</em>
+  </button>`).join("") || `<p class="small">No recruits match the current filters.</p>`}`;
+  if (rows[0]) renderRecruitDetail(rows[0].id);
+}
+
+function renderRecruitDetail(id) {
+  if (!$("recruitDetail")) return;
+  const prospect = (recruitsData().prospects || []).find(row => row.id === id);
+  if (!prospect) {
+    $("recruitDetail").innerHTML = "";
+    return;
+  }
+  const position = normalizePosition(prospect.position);
+  const priority = priorityBoard().find(row => row.position === position);
+  $("recruitDetail").innerHTML = `<div class="detail-card">
+    <div class="section-heading"><p>Recruit Detail</p><strong>${unknownValue(prospect.display_name)}</strong></div>
+    <div class="overview-grid">
+      <div class="metric"><span>Position</span><strong>${unknownValue(prospect.position)}</strong></div>
+      <div class="metric"><span>Stars</span><strong>${unknownValue(prospect.stars)}</strong></div>
+      <div class="metric"><span>National rank</span><strong>${unknownValue(prospect.national_rank)}</strong></div>
+      <div class="metric"><span>Position rank</span><strong>${unknownValue(prospect.position_rank)}</strong></div>
+      <div class="metric"><span>Height</span><strong>${unknownValue(prospect.height)}</strong></div>
+      <div class="metric"><span>Weight</span><strong>${unknownValue(prospect.weight)}</strong></div>
+      <div class="metric"><span>Pipeline</span><strong>${unknownValue(prospect.pipeline)}</strong></div>
+      <div class="metric"><span>Interest</span><strong>${unknownValue(prospect.interest_level)}</strong></div>
+    </div>
+    <p><strong>Scholarship:</strong> ${unknownValue(prospect.scholarship_offered)}</p>
+    <p><strong>Scouting:</strong> ${unknownValue(prospect.scouting_percent)}</p>
+    <p><strong>Gem / bust:</strong> ${unknownValue(prospect.gem_bust)}</p>
+    <p><strong>Visit:</strong> ${unknownValue(prospect.visit_status)}</p>
+    <p><strong>Top schools:</strong> ${unknownValue(prospect.top_schools)}</p>
+    <p><strong>Rutgers rank:</strong> ${unknownValue(prospect.rutgers_school_rank)}</p>
+    <p><strong>Dealbreaker:</strong> ${unknownValue(prospect.dealbreaker)}</p>
+    <p><strong>Scheme fit:</strong> ${priority ? "Neutral until verified attributes are available" : "Unknown"}</p>
+    <p><strong>Projected role:</strong> ${priority && priority.targetDeficit > 0 ? "Priority depth target" : "Review target"}</p>
+    <p><strong>Recommended weekly action:</strong> ${recommendedActionForRecruit(prospect)}</p>
+    <p><strong>Verification:</strong> ${unknownValue(prospect.verification_status)} / ${unknownValue(prospect.source_frame)}</p>
+  </div>`;
+  renderActionPlan();
+}
+
+function renderActionPlan() {
+  if (!$("actionPlanList")) return;
+  const actions = filteredRecruits().slice(0, 8).map(prospect => {
+    const position = normalizePosition(prospect.position);
+    const priority = priorityBoard().find(row => row.position === position);
+    const reason = priority ? `${position} priority score ${priority.score}; ${priority.coverageStatus}.` : "Position unreadable; review before assigning resources.";
+    return `<div class="action-row-card"><strong>${unknownValue(prospect.display_name)}</strong><span>${recommendedActionForRecruit(prospect)}</span><p>${reason}</p></div>`;
+  });
+  $("actionPlanList").innerHTML = `<h3>Weekly Action Plan</h3>${actions.join("") || `<p class="small">Unknown</p>`}`;
+}
+
+function validateDataset(kind, parsed) {
+  if (!parsed || typeof parsed !== "object") throw new Error("JSON root must be an object");
+  if (kind === "recruitingBoard" && !Array.isArray(parsed.entries)) throw new Error("Recruiting board must include entries[]");
+  if (kind === "roster" && !Array.isArray(parsed.players)) throw new Error("Roster must include players[]");
+  if (kind === "teamNeeds" && !Array.isArray(parsed.positions)) throw new Error("Team needs must include positions[]");
+  return true;
+}
+
+function exportJsonFile(filename, data) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function importJsonFile(file, kind, storageKey, afterImport) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      validateDataset(kind, parsed);
+      localStorage.setItem(storageKey, JSON.stringify(parsed));
+      if (afterImport) afterImport();
+      setStatus(`Imported ${kind}.`);
+    } catch (err) {
+      setStatus(`Import rejected: ${err.message}`);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function renderRecruitingTools() {
+  if (!$("recruitingTools")) return;
+  $("recruitingTools").innerHTML = `<div class="tool-grid">
+    <button type="button" onclick="exportJsonFile('recruiting_board.json', recruitingBoardData())">Export Recruiting Board JSON</button>
+    <label class="fileTool">Import Recruiting Board JSON<input id="importRecruitingBoard" type="file" accept="application/json,.json"></label>
+    <button type="button" onclick="exportJsonFile('roster.json', rosterData())">Export Roster JSON</button>
+    <label class="fileTool">Import Roster JSON<input id="importRosterData" type="file" accept="application/json,.json"></label>
+    <button type="button" onclick="exportJsonFile('team_needs.json', teamNeedsData())">Export Team Needs JSON</button>
+    <label class="fileTool">Import Team Needs JSON<input id="importTeamNeeds" type="file" accept="application/json,.json"></label>
+  </div>`;
+  $("importRecruitingBoard").addEventListener("change", event => importJsonFile(event.target.files[0], "recruitingBoard", RECRUITING_BOARD_KEY, renderRecruiting));
+  $("importRosterData").addEventListener("change", event => importJsonFile(event.target.files[0], "roster", ROSTER_KEY, renderRecruiting));
+  $("importTeamNeeds").addEventListener("change", event => importJsonFile(event.target.files[0], "teamNeeds", TEAM_NEEDS_KEY, renderRecruiting));
 }
 
 function exportWeeklyJson() {
@@ -769,6 +1162,10 @@ if (typeof module !== "undefined") {
     buildRankings,
     diverseTop,
     displayValue,
-    cap
+    cap,
+    normalizePosition,
+    priorityScore,
+    priorityBoard,
+    performanceNeed
   };
 }

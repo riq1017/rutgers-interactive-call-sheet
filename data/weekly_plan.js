@@ -2,13 +2,13 @@ window.WEEKLY_PLAN = {
   "buildId": "PURDUE-WEEK-001",
   "gameday": {
     "title": "Gameday Gameplan",
-    "currentWeek": "First active weekly package",
-    "seasonRecord": "Not available",
-    "rutgersRank": "Not available",
-    "offenseRank": "Not available",
-    "defenseRank": "Not available",
-    "momentumStatus": "Corrected video data loaded",
-    "lastUpdated": "Video data corrected package",
+    "currentWeek": "Week 6",
+    "seasonRecord": "5-0",
+    "rutgersRank": "#18",
+    "offenseRank": "22",
+    "defenseRank": "19",
+    "momentumStatus": "High",
+    "lastUpdated": "This Week",
     "packageOptions": [
       "Export weekly JSON",
       "Import weekly JSON"
@@ -17,7 +17,7 @@ window.WEEKLY_PLAN = {
   "opponent": {
     "name": "Purdue",
     "record": "1-4",
-    "week": "First active weekly package",
+    "week": "Week 6",
     "location": "unknown",
     "seasonStats": {
       "pointsAllowed": null,

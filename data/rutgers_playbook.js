@@ -45,7 +45,11 @@ window.RUTGERS_PLAYBOOK = [
       "breakTackle"
     ],
     "riskLevel": "low",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/power-o.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-power-o",
@@ -95,7 +99,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-power-o.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "hb-sting",
@@ -142,7 +150,11 @@ window.RUTGERS_PLAYBOOK = [
       "breakTackle"
     ],
     "riskLevel": "low",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/hb-sting.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "hb-dive",
@@ -190,7 +202,11 @@ window.RUTGERS_PLAYBOOK = [
       "breakTackle"
     ],
     "riskLevel": "low",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/hb-dive.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "y-stick",
@@ -240,7 +256,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "low",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/y-stick.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "read-option-wk",
@@ -288,7 +308,11 @@ window.RUTGERS_PLAYBOOK = [
       "carrying"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/read-option-wk.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "posts",
@@ -338,7 +362,11 @@ window.RUTGERS_PLAYBOOK = [
       "catching"
     ],
     "riskLevel": "high",
-    "objective": "explosive opportunity"
+    "objective": "explosive opportunity",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/posts.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-deep-out",
@@ -388,7 +416,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-deep-out.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "inside-zone-split",
@@ -436,7 +468,11 @@ window.RUTGERS_PLAYBOOK = [
       "breakTackle"
     ],
     "riskLevel": "low",
-    "objective": "clock control"
+    "objective": "clock control",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/inside-zone-split.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "four-verticals",
@@ -486,7 +522,11 @@ window.RUTGERS_PLAYBOOK = [
       "catching"
     ],
     "riskLevel": "high",
-    "objective": "explosive opportunity"
+    "objective": "explosive opportunity",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/four-verticals.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-boot-slide",
@@ -536,7 +576,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-boot-slide.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "inside-zone-wk",
@@ -584,7 +628,11 @@ window.RUTGERS_PLAYBOOK = [
       "breakTackle"
     ],
     "riskLevel": "low",
-    "objective": "clock control"
+    "objective": "clock control",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/inside-zone-wk.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "read-option",
@@ -632,7 +680,11 @@ window.RUTGERS_PLAYBOOK = [
       "carrying"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/read-option.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "counter",
@@ -679,7 +731,11 @@ window.RUTGERS_PLAYBOOK = [
       "breakTackle"
     ],
     "riskLevel": "low",
-    "objective": "clock control"
+    "objective": "clock control",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/counter.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-te-waggle",
@@ -729,7 +785,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-te-waggle.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-te-corner",
@@ -779,7 +839,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-te-corner.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-crossers",
@@ -829,7 +893,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-crossers.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "stick",
@@ -878,7 +946,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "low",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/stick.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "mesh",
@@ -928,7 +1000,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "low",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/mesh.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-stretch-shot",
@@ -978,7 +1054,11 @@ window.RUTGERS_PLAYBOOK = [
       "catching"
     ],
     "riskLevel": "high",
-    "objective": "explosive opportunity"
+    "objective": "explosive opportunity",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-stretch-shot.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "jet-slam-alert-smoke",
@@ -1028,7 +1108,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwOnRun"
     ],
     "riskLevel": "low",
-    "objective": "pressure answer"
+    "objective": "pressure answer",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/jet-slam-alert-smoke.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-x-burst",
@@ -1078,7 +1162,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-x-burst.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "hb-zone-wk",
@@ -1126,7 +1214,11 @@ window.RUTGERS_PLAYBOOK = [
       "breakTackle"
     ],
     "riskLevel": "low",
-    "objective": "clock control"
+    "objective": "clock control",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/hb-zone-wk.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "hb-dive-pistol",
@@ -1173,7 +1265,11 @@ window.RUTGERS_PLAYBOOK = [
       "breakTackle"
     ],
     "riskLevel": "low",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/hb-dive-pistol.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "four-verticals-2",
@@ -1223,7 +1319,11 @@ window.RUTGERS_PLAYBOOK = [
       "catching"
     ],
     "riskLevel": "high",
-    "objective": "explosive opportunity"
+    "objective": "explosive opportunity",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/four-verticals-2.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-boot-slide-2",
@@ -1273,7 +1373,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-boot-slide-2.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-fl-counter-y-screen",
@@ -1323,7 +1427,11 @@ window.RUTGERS_PLAYBOOK = [
       "catching"
     ],
     "riskLevel": "low",
-    "objective": "pressure answer"
+    "objective": "pressure answer",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-fl-counter-y-screen.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-zone-wk",
@@ -1372,7 +1480,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-zone-wk.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "te-attack",
@@ -1421,7 +1533,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/te-attack.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-boot-lt",
@@ -1471,7 +1587,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-boot-lt.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-rb-flat",
@@ -1521,7 +1641,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "low",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-rb-flat.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-power-sprint-rt",
@@ -1571,7 +1695,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-power-sprint-rt.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "goal-line-fade",
@@ -1619,7 +1747,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/goal-line-fade.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-y-seam",
@@ -1668,7 +1800,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "medium",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-y-seam.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "rpo-read-fl-slide",
@@ -1717,7 +1853,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwOnRun"
     ],
     "riskLevel": "low",
-    "objective": "pressure answer"
+    "objective": "pressure answer",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/rpo-read-fl-slide.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "pa-blaze",
@@ -1767,7 +1907,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/pa-blaze.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "fake-screen-go",
@@ -1817,7 +1961,11 @@ window.RUTGERS_PLAYBOOK = [
       "catching"
     ],
     "riskLevel": "high",
-    "objective": "explosive opportunity"
+    "objective": "explosive opportunity",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/fake-screen-go.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "mtn-slot-screen",
@@ -1867,7 +2015,11 @@ window.RUTGERS_PLAYBOOK = [
       "catching"
     ],
     "riskLevel": "low",
-    "objective": "pressure answer"
+    "objective": "pressure answer",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/mtn-slot-screen.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "deep-stick",
@@ -1916,7 +2068,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/deep-stick.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "mtn-smash-curls",
@@ -1965,7 +2121,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/mtn-smash-curls.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "mtn-te-middle-screen",
@@ -2015,7 +2175,11 @@ window.RUTGERS_PLAYBOOK = [
       "catching"
     ],
     "riskLevel": "low",
-    "objective": "pressure answer"
+    "objective": "pressure answer",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/mtn-te-middle-screen.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "mesh-spot",
@@ -2065,7 +2229,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "low",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/mesh-spot.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "rpo-read-zone-bubbles",
@@ -2115,7 +2283,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwOnRun"
     ],
     "riskLevel": "low",
-    "objective": "pressure answer"
+    "objective": "pressure answer",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/rpo-read-zone-bubbles.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "y-sail",
@@ -2164,7 +2336,11 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/y-sail.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "exit-pa-smash",
@@ -2214,7 +2390,11 @@ window.RUTGERS_PLAYBOOK = [
       "throwUnderPressure"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/exit-pa-smash.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "slot-fade",
@@ -2264,7 +2444,11 @@ window.RUTGERS_PLAYBOOK = [
       "catching"
     ],
     "riskLevel": "high",
-    "objective": "red-zone score"
+    "objective": "red-zone score",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/slot-fade.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "y-read-read-option",
@@ -2312,7 +2496,11 @@ window.RUTGERS_PLAYBOOK = [
       "carrying"
     ],
     "riskLevel": "medium",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/y-read-read-option.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   },
   {
     "id": "curl-flat",
@@ -2361,6 +2549,10 @@ window.RUTGERS_PLAYBOOK = [
       "awareness"
     ],
     "riskLevel": "low",
-    "objective": "move chains"
+    "objective": "move chains",
+    "diagramType": "image",
+    "diagramPath": "assets/play-diagrams/curl-flat.svg",
+    "diagramLabel": "Concept schematic",
+    "diagramVerification": "partial"
   }
 ];

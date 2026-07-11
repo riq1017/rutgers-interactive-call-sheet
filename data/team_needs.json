@@ -1,0 +1,131 @@
+{
+  "team": "Rutgers",
+  "source_type": "screenshot",
+  "source_file": "26F488CE-21AC-4995-928D-9F54CACDDDE4.jpeg",
+  "format": "current_targets/recommended_targets",
+  "positions": [
+    {
+      "position": "QB",
+      "side": "offense",
+      "current_targets": 0,
+      "recommended_targets": 3
+    },
+    {
+      "position": "HB",
+      "side": "offense",
+      "current_targets": 0,
+      "recommended_targets": 4
+    },
+    {
+      "position": "FB",
+      "side": "offense",
+      "current_targets": 0,
+      "recommended_targets": 0
+    },
+    {
+      "position": "WR",
+      "side": "offense",
+      "current_targets": 0,
+      "recommended_targets": 3
+    },
+    {
+      "position": "TE",
+      "side": "offense",
+      "current_targets": 0,
+      "recommended_targets": 1
+    },
+    {
+      "position": "T",
+      "side": "offense",
+      "current_targets": 11,
+      "recommended_targets": 5
+    },
+    {
+      "position": "G",
+      "side": "offense",
+      "current_targets": 0,
+      "recommended_targets": 6
+    },
+    {
+      "position": "C",
+      "side": "offense",
+      "current_targets": 0,
+      "recommended_targets": 1
+    },
+    {
+      "position": "EDGE",
+      "side": "defense",
+      "current_targets": 5,
+      "recommended_targets": 3
+    },
+    {
+      "position": "DT",
+      "side": "defense",
+      "current_targets": 5,
+      "recommended_targets": 1
+    },
+    {
+      "position": "OLB",
+      "side": "defense",
+      "current_targets": 0,
+      "recommended_targets": 7
+    },
+    {
+      "position": "MIKE",
+      "side": "defense",
+      "current_targets": 2,
+      "recommended_targets": 0
+    },
+    {
+      "position": "CB",
+      "side": "defense",
+      "current_targets": 7,
+      "recommended_targets": 4
+    },
+    {
+      "position": "FS",
+      "side": "defense",
+      "current_targets": 5,
+      "recommended_targets": 3
+    },
+    {
+      "position": "SS",
+      "side": "defense",
+      "current_targets": 0,
+      "recommended_targets": 2
+    },
+    {
+      "position": "K",
+      "side": "special_teams",
+      "current_targets": 0,
+      "recommended_targets": 0
+    },
+    {
+      "position": "P",
+      "side": "special_teams",
+      "current_targets": 0,
+      "recommended_targets": 0
+    }
+  ],
+  "initial_priority_order": [
+    "G",
+    "OLB",
+    "QB",
+    "WR",
+    "SS",
+    "HB",
+    "TE",
+    "C"
+  ],
+  "overcovered_positions": [
+    "T",
+    "EDGE",
+    "DT",
+    "CB",
+    "FS"
+  ],
+  "notes": [
+    "Game-recommended needs are a baseline, not the final priority model.",
+    "Final priority must also use current team performance, roster depth, future losses, scheme fit, and recruiting feasibility."
+  ]
+}

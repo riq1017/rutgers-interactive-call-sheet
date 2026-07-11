@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 380">
+<rect width="600" height="380" rx="24" fill="#141419"/>
+<path d="M40 90 H560 M40 155 H560 M40 220 H560 M40 285 H560" stroke="#303039" stroke-width="2"/>
+<text x="300" y="55" text-anchor="middle" fill="#fff" font-family="Arial" font-weight="800" font-size="22">FORMATION SCHEMATIC</text>
+<g fill="#0b0b0e" stroke="#fff" stroke-width="3">
+<circle cx="240" cy="220" r="12"/><circle cx="270" cy="220" r="12"/><circle cx="300" cy="220" r="12"/><circle cx="330" cy="220" r="12"/><circle cx="360" cy="220" r="12"/>
+<circle cx="300" cy="262" r="12"/><circle cx="300" cy="305" r="12"/>
+<circle cx="105" cy="220" r="12"/><circle cx="180" cy="220" r="12"/><circle cx="420" cy="220" r="12"/><circle cx="495" cy="220" r="12"/>
+</g>
+<text x="300" y="350" text-anchor="middle" fill="#aaa" font-family="Arial" font-size="13">Route details unavailable</text>
+</svg>

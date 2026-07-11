@@ -1,0 +1,20 @@
+{
+  "priority_weights": {
+    "roster_need": 22,
+    "current_performance_need": 22,
+    "future_depth_risk": 16,
+    "scheme_fit": 12,
+    "talent_upgrade_potential": 10,
+    "signing_probability": 8,
+    "pipeline_strength": 5,
+    "interest_level": 5,
+    "existing_board_coverage_penalty": -12,
+    "recruiting_cost_penalty": -4,
+    "competition_difficulty_penalty": -4
+  },
+  "missing_metric_behavior": "neutral",
+  "notes": [
+    "Weights are initial defaults and must remain editable.",
+    "Do not assign non-neutral performance values when source metrics are unavailable."
+  ]
+}

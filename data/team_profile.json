@@ -1,0 +1,21 @@
+{
+  "team": "Rutgers",
+  "app_name": "Gameday Gameplan",
+  "week": 6,
+  "record": "5-0",
+  "opponent": "Purdue",
+  "rutgers_rank": "#18",
+  "offense_rank": 22,
+  "defense_rank": 19,
+  "momentum_status": "High",
+  "scheme": null,
+  "prestige": null,
+  "team_summary_observed": {
+    "overall": 84,
+    "offense": 84,
+    "defense": 86
+  },
+  "verification_status": "source_package_context_and_approved_ui_reference",
+  "source_file": "IMG_2965(3).mp4",
+  "ui_reference": "ChatGPT Image Jul 11, 2026, 05_45_48 PM.png"
+}

@@ -1,0 +1,211 @@
+{
+  "team": "Rutgers",
+  "source_type": "video",
+  "source_file": "IMG_2965(3).mp4",
+  "season_context": {
+    "week": 6,
+    "record": "5-0",
+    "opponent": "Purdue"
+  },
+  "data_quality": {
+    "rule": "Only values clearly readable from supplied footage are populated.",
+    "null_meaning": "Not visible or not confidently readable.",
+    "verification_required": true
+  },
+  "team_summary_observed": {
+    "overall": 84,
+    "offense": 84,
+    "defense": 86
+  },
+  "players": [
+    {
+      "id": "roster-qb-m-york",
+      "display_name": "M. York",
+      "position": "QB",
+      "year": "FR",
+      "overall_displayed": 77,
+      "overall_sidebar_boosted": 78,
+      "height": "6'1\"",
+      "weight_lbs": 270,
+      "archetype": "Pocket Passer",
+      "verification_status": "high_confidence_from_frame",
+      "source_frame": "roster_01.jpg"
+    },
+    {
+      "id": "roster-qb-r-bieniemy",
+      "display_name": "R. Bieniemy",
+      "position": "QB",
+      "year": "SO",
+      "overall_displayed": 77,
+      "overall_sidebar_boosted": null,
+      "height": null,
+      "weight_lbs": null,
+      "archetype": null,
+      "verification_status": "medium_confidence_from_frame",
+      "source_frame": "roster_01.jpg"
+    },
+    {
+      "id": "roster-qb-s-warner",
+      "display_name": "S. Warner",
+      "position": "QB",
+      "year": "JR (RS)",
+      "overall_displayed": null,
+      "overall_sidebar_boosted": null,
+      "height": null,
+      "weight_lbs": null,
+      "archetype": null,
+      "verification_status": "medium_confidence_from_frame",
+      "source_frame": "roster_01.jpg"
+    },
+    {
+      "id": "roster-qb-j-portillo",
+      "display_name": "J. Portillo",
+      "position": "QB",
+      "year": "FR",
+      "overall_displayed": null,
+      "overall_sidebar_boosted": null,
+      "height": null,
+      "weight_lbs": null,
+      "archetype": null,
+      "verification_status": "medium_confidence_from_frame",
+      "source_frame": "roster_01.jpg"
+    }
+  ],
+  "position_frame_index": [
+    {
+      "frame": "roster_01.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_02.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_03.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_04.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_05.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_06.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_07.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_08.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_09.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_10.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_11.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_12.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_13.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_14.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_15.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_16.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_17.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_18.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_19.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_20.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_21.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_22.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_23.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_24.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_25.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_26.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    },
+    {
+      "frame": "roster_27.jpg",
+      "purpose": "Roster position-group snapshot",
+      "transcription_status": "manual_review_required"
+    }
+  ]
+}

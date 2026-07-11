@@ -1,0 +1,23 @@
+{
+  "team": "Rutgers",
+  "missing_metric_behavior": "neutral",
+  "metrics": {
+    "pass_protection": null,
+    "rushing_efficiency": null,
+    "explosive_passing": null,
+    "pressure_rate": null,
+    "missed_tackles": null,
+    "coverage_breakdowns": null,
+    "red_zone_efficiency": null,
+    "future_depth": null
+  },
+  "available_context": {
+    "team_yards_per_carry": 5.39,
+    "team_yards_per_attempt": 6.61,
+    "quarterback_sacks_last_game": 2
+  },
+  "diagnostics": [
+    "Most recruiting performance metrics are unavailable in the structured package and must remain neutral.",
+    "Available gameplan context is informational and does not create fabricated recruiting ratings."
+  ]
+}

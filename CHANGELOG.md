@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## Play-Art Recruiting Merge
+
+- Merged the protected play-art integrated build into the active repository.
+- Added all 48 play-specific SVG diagrams plus the formation fallback diagram.
+- Updated the playbook with relative `diagramPath`, `diagramLabel`, and `diagramVerification` metadata.
+- Updated Best Call rendering to load assigned SVG play art and fall back to `formation-fallback.svg` on broken paths.
+- Added the structured Codex recruiting, roster, team-needs, recruiting settings, recruiting board, recruiting performance, opponent, and team profile data files.
+- Added `data/recruiting_data.js` so the static app can load structured recruiting data from an extracted folder or GitHub Pages.
+- Added a permanent Recruiting tab with overview metrics, Team Needs, priority scoring, filters, recruit detail, and weekly action plan.
+- Added roster display to Personnel and roster-aware recruiting priority diagnostics.
+- Added recruiting, roster, and team-needs JSON import/export with schema checks before localStorage updates.
+- Updated app identity to Week 6 vs Purdue with Rutgers record 5-0 and approved UI-reference rank/momentum values.
+- Added merge, play-art, recruiting import, roster import, team-needs, unresolved values, limitations, launch, and file-tree deliverables.
+
 ## Rutgers Gameday Gameplan Interface
 
 - Redesigned the existing Rutgers Interactive Call Sheet shell into a Gameday Gameplan interface while preserving the current statistical recommendation engine.

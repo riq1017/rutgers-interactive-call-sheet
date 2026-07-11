@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Corrected Rutgers Video Data Integration
+
+- Replaced stale Rutgers player names, positions, depth roles, overalls, visible attributes, usage profiles, and player-fit inputs with the corrected video-derived package data.
+- Replaced the stale 69 OVR generic quarterback profile with M. York at 77 OVR and verified visible attributes from the correction report.
+- Added corrected Rutgers last-game production for quarterbacks, backs, receivers, tight ends, and specialty usage from the supplied player-stat video.
+- Removed restored display reliance on `Name unverified`, generic WR/TE labels, and stale placeholder player names where verified names exist.
+- Added `docs/DATA_CORRECTION_REPORT.md` to document the corrected video source.
+- Preserved the statistical recommendation engine, eligibility rules, player-play fit scoring, recent-call penalties, setup bonuses, Top 3 diversity, weekly import/export, localStorage history, and Rutgers UI.
+- Expanded validation to confirm corrected player data, verified usage names, play-to-player references, missing-value display, and stale-data rejection.
+
 ## Statistical Recommendation Engine Upgrade
 
 - Added hard eligibility filtering before scoring so matchup and red-zone bonuses cannot force invalid calls.

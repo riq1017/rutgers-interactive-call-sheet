@@ -17,6 +17,9 @@ const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
 const source = fs.readFileSync(path.join(root, "docs", "SOURCE_EXTRACTION_REPORT.md"), "utf8");
+const correction = fs.existsSync(path.join(root, "docs", "DATA_CORRECTION_REPORT.md"))
+  ? fs.readFileSync(path.join(root, "docs", "DATA_CORRECTION_REPORT.md"), "utf8")
+  : "";
 
 global.RUTGERS_TEAM = team;
 global.RUTGERS_PLAYBOOK = playbook;
@@ -70,6 +73,9 @@ check("Expanded result logging fields exist", ["yards", "sack", "turnover", "exp
 check("localStorage persistence exists for result history and recent calls", app.includes("rutgers_game_history") && app.includes("rutgers_recent_calls"));
 check("Mobile layout rules exist", css.includes("@media(max-width:420px)") && index.includes("viewport-fit=cover"));
 check("No unconfirmed numeric ratings were added outside source anchors", team.overall === 84 && team.offense === 84 && team.defense === 86 && source.includes("84/84/86") && weekly.opponent.record === "1-4");
+check("Corrected Rutgers video data report is present", correction.includes("Rutgers Video Data Correction Report") && correction.includes("M. York"));
+check("Corrected QB data replaced stale 69 OVR profile", team.players.QB1.name === "M. York" && team.players.QB1.overall === 77 && weekly.players.QB1.name === "M. York" && weekly.players.QB1.overall === 77);
+check("Corrected Rutgers production stats are loaded", weekly.players.HB2.lastGameStats.rushingYards === 147 && weekly.players.TE1.lastGameStats.receivingYards === 69);
 
 const fourthTenRed = engine.buildRankings(ctx(4, 10, "red_zone"), [], []);
 check("4th-and-10 red zone never recommends a run", fourthTenRed.length > 0 && !["inside run", "outside run", "option"].includes(fourthTenRed[0].conceptFamily), names(fourthTenRed.slice(0, 3)));
@@ -95,7 +101,10 @@ const recommendation = engine.buildRankings(ctx(1, 5, "normal"), [], [])[0];
 check("Primary player is assigned for every recommendation", Boolean(recommendation.primaryPlayerName), recommendation.primaryPlayerName);
 
 const displayedNames = Object.values(weekly.players).map(player => player.name);
-check("No verified player is displayed with a placeholder name", !displayedNames.some(name => ["Freshman QB", "WR1", "WR2", "WR3", "WR4", "TE1", "TE2", "HB2"].includes(name)), displayedNames.join(", "));
+check("Usage tab shows verified player names", ["M. York", "R. Bieniamy", "T. Simonson", "J. Haskins", "S. Degraffenreidt", "K. Evans", "J. Houston", "F. Toure", "S. Moore", "K. Stacy", "B. DeMarco"].every(name => displayedNames.includes(name)), displayedNames.join(", "));
+check("No verified player is displayed with a placeholder name", !displayedNames.some(name => ["Freshman QB", "WR1", "WR2", "WR3", "WR4", "TE1", "TE2", "HB2", "Name unverified"].includes(name)), displayedNames.join(", "));
+const playerIds = new Set(Object.keys(weekly.players));
+check("All player IDs referenced by plays exist", playbook.every(play => [...play.primaryPositions, ...play.secondaryPositions].every(id => playerIds.has(id))), "play references checked");
 check("Missing statistics show Not available", engine.displayValue(null) === "Not available" && app.includes("Not available"));
 check("One missing stat does not become zero", engine.displayValue(null) !== "0");
 

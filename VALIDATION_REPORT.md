@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-11T20:57:30.622Z
+Validated: 2026-07-11T21:31:23.418Z
 
 - PASS - All play IDs are unique
 - PASS - Every play supports eligibility and player-fit metadata
@@ -14,6 +14,9 @@ Validated: 2026-07-11T20:57:30.622Z
 - PASS - localStorage persistence exists for result history and recent calls
 - PASS - Mobile layout rules exist
 - PASS - No unconfirmed numeric ratings were added outside source anchors
+- PASS - Corrected Rutgers video data report is present
+- PASS - Corrected QB data replaced stale 69 OVR profile
+- PASS - Corrected Rutgers production stats are loaded
 - PASS - 4th-and-10 red zone never recommends a run (PA Y Seam, MTN Smash Curls, Y-Sail)
 - PASS - 4th-and-10 red zone Top 3 excludes runs (PA Y Seam, MTN Smash Curls, Y-Sail)
 - PASS - 4th-and-8 open field never recommends Power O or HB Dive (Y-Sail, TE Attack, Deep Stick)
@@ -21,9 +24,11 @@ Validated: 2026-07-11T20:57:30.622Z
 - PASS - 3rd-and-long prioritizes eligible passing concepts (Y-Sail, TE Attack, Deep Stick)
 - PASS - Goal-line formation does not override long-distance restrictions (Y-Sail, TE Attack, Deep Stick)
 - PASS - Top 3 contains only eligible plays
-- PASS - Top 3 contains at least two families when possible (Inside Zone Split, RPO Read Zone Bubbles, HB Zone WK)
-- PASS - Primary player is assigned for every recommendation (Antwan Simonsen)
-- PASS - No verified player is displayed with a placeholder name (Name unverified, Name unverified, Antwan Simonsen, Name unverified, Name unverified, Name unverified, Name unverified, Name unverified, Name unverified, Name unverified, Name unverified)
+- PASS - Top 3 contains at least two families when possible (Mesh Spot, MTN Slot Screen, MTN TE Middle Screen)
+- PASS - Primary player is assigned for every recommendation (T. Simonson)
+- PASS - Usage tab shows verified player names (M. York, R. Bieniamy, T. Simonson, J. Haskins, G. Oluwatimi, S. Degraffenreidt, K. Evans, J. Houston, F. Toure, S. Moore, K. Stacy, B. DeMarco)
+- PASS - No verified player is displayed with a placeholder name (M. York, R. Bieniamy, T. Simonson, J. Haskins, G. Oluwatimi, S. Degraffenreidt, K. Evans, J. Houston, F. Toure, S. Moore, K. Stacy, B. DeMarco)
+- PASS - All player IDs referenced by plays exist (play references checked)
 - PASS - Missing statistics show Not available
 - PASS - One missing stat does not become zero
 - PASS - Personnel-fit score respects modifier caps

@@ -1,40 +1,5 @@
 # CHANGELOG
 
-## Play-Art Recruiting Merge
-
-- Merged the protected play-art integrated build into the active repository.
-- Added all 48 play-specific SVG diagrams plus the formation fallback diagram.
-- Updated the playbook with relative `diagramPath`, `diagramLabel`, and `diagramVerification` metadata.
-- Updated Best Call rendering to load assigned SVG play art and fall back to `formation-fallback.svg` on broken paths.
-- Added the structured Codex recruiting, roster, team-needs, recruiting settings, recruiting board, recruiting performance, opponent, and team profile data files.
-- Added `data/recruiting_data.js` so the static app can load structured recruiting data from an extracted folder or GitHub Pages.
-- Added a permanent Recruiting tab with overview metrics, Team Needs, priority scoring, filters, recruit detail, and weekly action plan.
-- Added roster display to Personnel and roster-aware recruiting priority diagnostics.
-- Added recruiting, roster, and team-needs JSON import/export with schema checks before localStorage updates.
-- Updated app identity to Week 6 vs Purdue with Rutgers record 5-0 and approved UI-reference rank/momentum values.
-- Added merge, play-art, recruiting import, roster import, team-needs, unresolved values, limitations, launch, and file-tree deliverables.
-
-## Rutgers Gameday Gameplan Interface
-
-- Redesigned the existing Rutgers Interactive Call Sheet shell into a Gameday Gameplan interface while preserving the current statistical recommendation engine.
-- Added a data-driven header for week/opponent, season record, Rutgers rank, offense rank, defense rank, and momentum status.
-- Added a phone-first situation panel for down, distance, field zone, game state, quarter, time, score, tempo, Call Best Play, and Show Top 3 Plays.
-- Added weekly package status for active opponent package, last updated value, package options, and existing weekly JSON import/export.
-- Rebuilt the Best Call presentation to show rank, play, formation, concept family, risk, score, diagram fallback, fit metrics, history metrics, verified players, why-this-play text, and expandable score breakdown.
-- Added sticky bottom navigation for Gameplan, Top Plays, Personnel, Scouting, and More without changing the weekly package architecture.
-- Added weekly metadata in `data/weekly_plan.js` so visible header/package values are loaded from data files and missing values display as `Not available`.
-- Expanded validation for the Gameday UI contract, mobile overflow protection, bottom navigation, Best Call card fields, score explanations, diagram fallback, and browser smoke behavior.
-
-## Corrected Rutgers Video Data Integration
-
-- Replaced stale Rutgers player names, positions, depth roles, overalls, visible attributes, usage profiles, and player-fit inputs with the corrected video-derived package data.
-- Replaced the stale 69 OVR generic quarterback profile with M. York at 77 OVR and verified visible attributes from the correction report.
-- Added corrected Rutgers last-game production for quarterbacks, backs, receivers, tight ends, and specialty usage from the supplied player-stat video.
-- Removed restored display reliance on `Name unverified`, generic WR/TE labels, and stale placeholder player names where verified names exist.
-- Added `docs/DATA_CORRECTION_REPORT.md` to document the corrected video source.
-- Preserved the statistical recommendation engine, eligibility rules, player-play fit scoring, recent-call penalties, setup bonuses, Top 3 diversity, weekly import/export, localStorage history, and Rutgers UI.
-- Expanded validation to confirm corrected player data, verified usage names, play-to-player references, missing-value display, and stale-data rejection.
-
 ## Statistical Recommendation Engine Upgrade
 
 - Added hard eligibility filtering before scoring so matchup and red-zone bonuses cannot force invalid calls.

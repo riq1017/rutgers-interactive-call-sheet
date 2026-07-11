@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-11T21:31:23.418Z
+Validated: 2026-07-11T21:57:48.249Z
 
 - PASS - All play IDs are unique
 - PASS - Every play supports eligibility and player-fit metadata
@@ -13,6 +13,15 @@ Validated: 2026-07-11T21:31:23.418Z
 - PASS - Expanded result logging fields exist
 - PASS - localStorage persistence exists for result history and recent calls
 - PASS - Mobile layout rules exist
+- PASS - Gameday header fields exist
+- PASS - Gameday header fields load from weekly data
+- PASS - Situation panel includes required controls
+- PASS - Weekly package status exists
+- PASS - Bottom navigation contains required tabs
+- PASS - Best Call card exposes required fields
+- PASS - Visible score explanation includes all required components
+- PASS - Play diagram fallback cannot break missing diagrams
+- PASS - Tab switching supports all bottom-nav views
 - PASS - No unconfirmed numeric ratings were added outside source anchors
 - PASS - Corrected Rutgers video data report is present
 - PASS - Corrected QB data replaced stale 69 OVR profile
@@ -38,5 +47,8 @@ Validated: 2026-07-11T21:31:23.418Z
 - PASS - Result history survives refresh
 - PASS - Usage cards render without horizontal scrolling on iPhone width
 - PASS - Weekly-plan data can update recommendations without editing app.js
+- PASS - Browser smoke test loads through local static server with no console errors
+- PASS - iPhone-width browser viewport has no horizontal overflow (375px client width, 375px scroll width)
+- PASS - Browser smoke test confirms Best Call, Top 3, bottom navigation, verified player names, and missing-diagram fallback
 
 Overall: PASS

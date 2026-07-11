@@ -111,6 +111,11 @@ function displayValue(value) {
   return String(value);
 }
 
+function setText(id, value) {
+  const node = $(id);
+  if (node) node.textContent = displayValue(value);
+}
+
 function labelize(text) {
   return String(text).replace(/([A-Z])/g, " $1").replace(/_/g, " ").replace(/^./, c => c.toUpperCase());
 }
@@ -451,23 +456,24 @@ function rank() {
 }
 
 function renderRanks() {
-  const q = $("search").value.toLowerCase();
+  if (!$("rankList")) return;
+  const q = $("search") ? $("search").value.toLowerCase() : "";
   const list = state.ranked.filter(play => !q || play.name.toLowerCase().includes(q) || play.formation.toLowerCase().includes(q) || play.primaryPlayerName.toLowerCase().includes(q));
   $("rankList").innerHTML = list.map((play, i) => callCard(play, i + 1)).join("");
 }
 
 function scoreBreakdown(play) {
   return `<div class="breakdown">
-    <span>Base ${play.baseScore}</span>
-    <span>Personnel ${signed(play.personnelFit)}</span>
-    <span>Matchup ${signed(play.matchupModifier)}</span>
-    <span>Season ${signed(play.seasonModifier)}</span>
+    <span>Base score ${play.baseScore}</span>
+    <span>Matchup modifier ${signed(play.matchupModifier)}</span>
+    <span>Situation modifier ${signed(play.situationModifier)}</span>
+    <span>Personnel fit ${signed(play.personnelFit)}</span>
+    <span>Season production ${signed(play.seasonModifier)}</span>
     <span>Recent form ${signed(play.recentFormModifier)}</span>
-    <span>Situation ${signed(play.situationModifier)}</span>
-    <span>Setup ${signed(play.setupBonus)}</span>
-    <span>Recent call ${signed(play.recentCallPenalty)}</span>
-    <span>Risk ${signed(play.riskPenalty)}</span>
-    <strong>Final ${play.score}</strong>
+    <span>Recent-call penalty ${signed(play.recentCallPenalty)}</span>
+    <span>Setup bonus ${signed(play.setupBonus)}</span>
+    <span>Risk penalty ${signed(play.riskPenalty)}</span>
+    <strong>Final score ${play.score}</strong>
   </div>`;
 }
 
@@ -492,7 +498,7 @@ function callCard(play, rankNumber) {
     <div class="rank">${rankNumber}</div>
     <div>
       <h3>${play.name}</h3>
-      <div class="small">${play.formation} - ${play.conceptFamily}</div>
+      <div class="small">${play.formation} / ${play.conceptFamily}</div>
       <div class="small">Primary: ${play.primaryPlayerName} | Secondary: ${play.secondaryPlayerName}</div>
       <div class="small">Objective: ${play.objective} | ${play.targetAssignment}</div>
       ${scoreBreakdown(play)}
@@ -522,20 +528,86 @@ function markCalled(plays) {
   saveRecentCalls(rows);
 }
 
+function playHistoryMetrics(play) {
+  const rows = loadHistory().filter(row => row.playId === play.id);
+  if (!rows.length) {
+    return {
+      successRate: "Not available",
+      yardsPerPlay: "Not available",
+      explosiveRate: "Not available",
+      recentUse: loadRecentCalls().filter(row => row.playId === play.id).length ? "Used recently" : "Not available"
+    };
+  }
+  const successRate = `${Math.round((rows.filter(row => row.result === "success").length / rows.length) * 100)}%`;
+  const yardsRows = rows.filter(row => row.yards !== null && row.yards !== undefined && !Number.isNaN(Number(row.yards)));
+  const yardsPerPlay = yardsRows.length ? (yardsRows.reduce((sum, row) => sum + Number(row.yards), 0) / yardsRows.length).toFixed(1) : "Not available";
+  const explosiveRate = `${Math.round((rows.filter(row => row.explosive).length / rows.length) * 100)}%`;
+  const recentUses = loadRecentCalls().filter(row => row.playId === play.id).length;
+  return { successRate, yardsPerPlay, explosiveRate, recentUse: recentUses ? `${recentUses} in last 8 calls` : "No recent calls" };
+}
+
+function bestCallCard(play, rankNumber, label) {
+  const metrics = playHistoryMetrics(play);
+  return `<article class="${rankNumber > 1 ? "altPick" : ""}">
+    <div class="best-head">
+      <div class="rank-badge">${rankNumber}</div>
+      <div>
+        <div class="card-label">${label}</div>
+        <h2>${play.name}</h2>
+        <div class="play-meta">
+          <span class="chip">${play.formation}</span>
+          <span class="chip">${play.conceptFamily}</span>
+          <span class="risk ${play.risk}">${play.risk} risk</span>
+        </div>
+      </div>
+      <div class="score">${play.score}<span>Overall</span></div>
+    </div>
+    <div class="play-diagram">Play diagram: Not available</div>
+    <div class="fit-grid">
+      <div class="metric"><span>Situation fit</span><strong>${signed(play.situationModifier)}</strong></div>
+      <div class="metric"><span>Personnel fit</span><strong>${signed(play.personnelFit)}</strong></div>
+      <div class="metric"><span>Matchup fit</span><strong>${signed(play.matchupModifier)}</strong></div>
+      <div class="metric"><span>Risk penalty</span><strong>${signed(play.riskPenalty)}</strong></div>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric"><span>Success rate</span><strong>${metrics.successRate}</strong></div>
+      <div class="metric"><span>Yards per play</span><strong>${metrics.yardsPerPlay}</strong></div>
+      <div class="metric"><span>Explosive rate</span><strong>${metrics.explosiveRate}</strong></div>
+      <div class="metric"><span>Recent use</span><strong>${metrics.recentUse}</strong></div>
+      <div class="metric"><span>Verified primary player</span><strong>${play.primaryPlayerName}</strong></div>
+      <div class="metric"><span>Verified secondary player</span><strong>${play.secondaryPlayerName}</strong></div>
+    </div>
+    <p class="why"><strong>Why this play:</strong> ${explanationText(play)}</p>
+    <details class="breakout">
+      <summary>Full score breakdown</summary>
+      ${scoreBreakdown(play)}
+    </details>
+    <div class="card-actions">
+      <button type="button" onclick="switchTab('gameplan')">Opening Script</button>
+      <button type="button" onclick="switchTab('scouting')">Scouting Report</button>
+    </div>
+  </article>`;
+}
+
+function renderRecommendations(picks) {
+  if (!$("recommendation")) return;
+  if (!picks.length) {
+    $("recommendation").innerHTML = `<div class="card-label">Best Call</div><h2>Not available</h2><p class="small">No eligible play for the current situation.</p>`;
+    return;
+  }
+  $("recommendation").innerHTML = picks.map((play, i) => bestCallCard(play, i + 1, i === 0 ? "Best Call" : `Top ${i + 1}`)).join("");
+}
+
+function previewBest() {
+  state.ranked = buildRankings();
+  renderRecommendations(state.ranked.slice(0, 1));
+  renderRanks();
+}
+
 function showBest(count = 1) {
   rank();
   const picks = count === 1 ? state.ranked.slice(0, 1) : diverseTop(state.ranked, count);
-  $("recommendation").innerHTML = picks.map((play, i) => `<div class="${i ? "altPick" : ""}">
-    <div class="meta">${i === 0 ? "BEST CALL" : `ALTERNATIVE ${i + 1}`}</div>
-    <h2>${play.name}</h2>
-    <div class="meta">${play.formation} - ${play.conceptFamily}</div>
-    <div class="small">Primary: ${play.primaryPlayerName} | Secondary: ${play.secondaryPlayerName}</div>
-    <div class="small">Objective: ${play.objective}</div>
-    <div class="score">${play.score}</div>
-    <span class="risk ${play.risk}">${play.risk} risk</span>
-    ${scoreBreakdown(play)}
-    <div class="small">${explanationText(play)}</div>
-  </div>`).join("");
+  renderRecommendations(picks);
   markCalled(picks);
   rank();
 }
@@ -561,13 +633,30 @@ function record(playId, result) {
 }
 
 function renderStatic() {
-  $("matchupLine").textContent = `${RUTGERS_TEAM.team} vs ${WEEKLY_PLAN.opponent.name} - ${WEEKLY_PLAN.opponent.record}`;
-  $("scriptList").innerHTML = WEEKLY_PLAN.openingScript.map((id, i) => {
+  renderGamedayHeader();
+  if ($("scriptList")) $("scriptList").innerHTML = WEEKLY_PLAN.openingScript.map((id, i) => {
     const play = playMap().get(id);
     return `<div class="call"><div class="rank">${i + 1}</div><div><h3>${play ? play.name : id}</h3><div class="small">${play ? play.formation : "INVALID PLAY ID"}</div></div></div>`;
   }).join("");
-  $("traitList").innerHTML = WEEKLY_PLAN.traits.map(t => `<div class="trait"><h3>${t.title}</h3><div class="small">${t.evidence}</div><p>${t.response}</p></div>`).join("") + `<h3>Warnings</h3>` + WEEKLY_PLAN.warnings.map(x => `<p>- ${x}</p>`).join("");
+  if ($("traitList")) $("traitList").innerHTML = WEEKLY_PLAN.traits.map(t => `<div class="trait"><h3>${t.title}</h3><div class="small">${t.evidence}</div><p>${t.response}</p></div>`).join("") + `<h3>Warnings</h3>` + WEEKLY_PLAN.warnings.map(x => `<p>- ${x}</p>`).join("");
+  if ($("moreList")) $("moreList").innerHTML = `<div class="trait"><h3>Package</h3><p><strong>Build:</strong> ${displayValue(WEEKLY_PLAN.buildId)}</p><p><strong>Opponent:</strong> ${displayValue(WEEKLY_PLAN.opponent.name)}</p><p><strong>Record:</strong> ${displayValue(WEEKLY_PLAN.opponent.record)}</p></div>`;
   renderUsage();
+}
+
+function renderGamedayHeader() {
+  const gameday = WEEKLY_PLAN.gameday || {};
+  const opponent = WEEKLY_PLAN.opponent || {};
+  setText("programLabel", "Rutgers Football");
+  setText("appTitle", gameday.title || "Gameday Gameplan");
+  setText("weekOpponent", `${displayValue(gameday.currentWeek || opponent.week)} - ${displayValue(RUTGERS_TEAM.team)} vs ${displayValue(opponent.name)}`);
+  setText("seasonRecord", gameday.seasonRecord || "Not available");
+  setText("rutgersRank", gameday.rutgersRank || "Not available");
+  setText("offenseRank", gameday.offenseRank || "Not available");
+  setText("defenseRank", gameday.defenseRank || "Not available");
+  setText("momentumStatus", gameday.momentumStatus || "Not available");
+  setText("packageName", `${displayValue(opponent.name)} package`);
+  setText("packageUpdated", gameday.lastUpdated || "Not available");
+  setText("packageOptions", gameday.packageOptions || "Not available");
 }
 
 function renderUsage() {
@@ -579,6 +668,7 @@ function renderUsage() {
     "Specialty / Gadget": ["GADGET"]
   };
   const players = weeklyPlayers();
+  if (!$("usageList")) return;
   $("usageList").innerHTML = Object.entries(groups).map(([title, ids]) => `<details class="usageGroup" open>
     <summary>${title}</summary>
     ${ids.map(id => playerCard(players[id])).join("")}
@@ -625,7 +715,7 @@ function importWeeklyJson(file) {
       window.WEEKLY_PLAN = parsed;
       localStorage.setItem(WEEKLY_KEY, JSON.stringify(parsed));
       renderStatic();
-      showBest(1);
+      previewBest();
       setStatus(`Imported weekly package: ${parsed.opponent.name}`);
     } catch (err) {
       setStatus(`Import rejected: ${err.message}`);
@@ -639,24 +729,27 @@ function setStatus(message) {
   if (node) node.textContent = message;
 }
 
+function switchTab(tabName) {
+  document.querySelectorAll("[data-tab]").forEach(button => button.classList.toggle("active", button.dataset.tab === tabName));
+  document.querySelectorAll(".tab").forEach(panel => panel.classList.toggle("active", panel.id === tabName));
+  const panel = $(tabName);
+  if (panel) panel.scrollIntoView({ block: "start" });
+}
+
 function boot() {
   loadLocalWeeklyPackage();
   window.GAME_HISTORY = loadHistory();
   validatePlaybook();
   validateWeeklyPlan(WEEKLY_PLAN);
-  document.querySelectorAll("select").forEach(x => x.addEventListener("change", () => showBest(1)));
-  $("search").addEventListener("input", renderRanks);
+  document.querySelectorAll("select").forEach(x => x.addEventListener("change", previewBest));
+  if ($("search")) $("search").addEventListener("input", renderRanks);
   $("bestBtn").addEventListener("click", () => showBest(1));
   $("top3Btn").addEventListener("click", () => showBest(3));
   $("exportBtn").addEventListener("click", exportWeeklyJson);
   $("importWeekly").addEventListener("change", event => importWeeklyJson(event.target.files[0]));
-  document.querySelectorAll(".tabs button").forEach(button => button.addEventListener("click", () => {
-    document.querySelectorAll(".tabs button,.tab").forEach(x => x.classList.remove("active"));
-    button.classList.add("active");
-    $(button.dataset.tab).classList.add("active");
-  }));
+  document.querySelectorAll("[data-tab]").forEach(button => button.addEventListener("click", () => switchTab(button.dataset.tab)));
   renderStatic();
-  rank();
+  previewBest();
   setStatus(`Loaded weekly package: ${WEEKLY_PLAN.opponent.name}`);
 }
 

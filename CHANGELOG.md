@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## Rutgers Gameday Gameplan Interface
+
+- Redesigned the existing Rutgers Interactive Call Sheet shell into a Gameday Gameplan interface while preserving the current statistical recommendation engine.
+- Added a data-driven header for week/opponent, season record, Rutgers rank, offense rank, defense rank, and momentum status.
+- Added a phone-first situation panel for down, distance, field zone, game state, quarter, time, score, tempo, Call Best Play, and Show Top 3 Plays.
+- Added weekly package status for active opponent package, last updated value, package options, and existing weekly JSON import/export.
+- Rebuilt the Best Call presentation to show rank, play, formation, concept family, risk, score, diagram fallback, fit metrics, history metrics, verified players, why-this-play text, and expandable score breakdown.
+- Added sticky bottom navigation for Gameplan, Top Plays, Personnel, Scouting, and More without changing the weekly package architecture.
+- Added weekly metadata in `data/weekly_plan.js` so visible header/package values are loaded from data files and missing values display as `Not available`.
+- Expanded validation for the Gameday UI contract, mobile overflow protection, bottom navigation, Best Call card fields, score explanations, diagram fallback, and browser smoke behavior.
+
 ## Corrected Rutgers Video Data Integration
 
 - Replaced stale Rutgers player names, positions, depth roles, overalls, visible attributes, usage profiles, and player-fit inputs with the corrected video-derived package data.

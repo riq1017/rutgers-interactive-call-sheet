@@ -67,11 +67,20 @@ check("Situation coverage exists for required app buckets", missingSituations.le
 
 check("Rutgers weekly data is separated from playbook data", fs.existsSync(path.join(root, "data", "rutgers_team.js")) && fs.existsSync(path.join(root, "data", "rutgers_playbook.js")));
 check("Opponent weekly data is separated from game history", fs.existsSync(path.join(root, "data", "weekly_plan.js")) && fs.existsSync(path.join(root, "data", "game_history.js")));
-check("Static no-JavaScript fallback exists", index.includes("<noscript>") && index.includes("STATIC PHONE FALLBACK") && index.includes("Rutgers vs Purdue"));
+check("Static no-JavaScript fallback exists", index.includes("<noscript>") && index.includes("Static Phone Fallback") && index.includes("Rutgers vs Purdue"));
 check("Weekly JSON import/export controls exist", index.includes("importWeekly") && index.includes("exportBtn") && app.includes("exportWeeklyJson") && app.includes("importWeeklyJson"));
 check("Expanded result logging fields exist", ["yards", "sack", "turnover", "explosive", "thirdDownConversion", "redZoneTouchdown"].every(token => app.includes(token)));
 check("localStorage persistence exists for result history and recent calls", app.includes("rutgers_game_history") && app.includes("rutgers_recent_calls"));
-check("Mobile layout rules exist", css.includes("@media(max-width:420px)") && index.includes("viewport-fit=cover"));
+check("Mobile layout rules exist", css.includes("@media(max-width:420px)") && css.includes("overflow-x:hidden") && index.includes("viewport-fit=cover"));
+check("Gameday header fields exist", ["programLabel", "appTitle", "weekOpponent", "seasonRecord", "rutgersRank", "offenseRank", "defenseRank", "momentumStatus"].every(id => index.includes(`id="${id}"`)));
+check("Gameday header fields load from weekly data", Boolean(weekly.gameday) && ["seasonRecord", "rutgersRank", "offenseRank", "defenseRank", "momentumStatus"].every(key => key in weekly.gameday) && app.includes("renderGamedayHeader"));
+check("Situation panel includes required controls", ["down", "distance", "zone", "state", "quarter", "clock", "score", "tempo", "bestBtn", "top3Btn"].every(id => index.includes(`id="${id}"`)));
+check("Weekly package status exists", ["packageName", "packageUpdated", "packageOptions"].every(id => index.includes(`id="${id}"`)) && app.includes("packageOptions"));
+check("Bottom navigation contains required tabs", ["Gameplan", "Top Plays", "Personnel", "Scouting", "More"].every(label => index.includes(label)) && css.includes(".bottom-nav") && css.includes("position:fixed"));
+check("Best Call card exposes required fields", ["rank-badge", "play-diagram", "Situation fit", "Personnel fit", "Matchup fit", "Success rate", "Yards per play", "Explosive rate", "Recent use", "Verified primary player", "Verified secondary player", "Full score breakdown"].every(token => app.includes(token)));
+check("Visible score explanation includes all required components", ["Base score", "Matchup modifier", "Situation modifier", "Recent-call penalty", "Setup bonus", "Risk penalty", "Final score"].every(token => app.includes(token)));
+check("Play diagram fallback cannot break missing diagrams", app.includes("Play diagram: Not available") && css.includes(".play-diagram"));
+check("Tab switching supports all bottom-nav views", app.includes("function switchTab") && ["gameplan", "topplays", "personnel", "scouting", "more"].every(id => index.includes(`id="${id}"`)));
 check("No unconfirmed numeric ratings were added outside source anchors", team.overall === 84 && team.offense === 84 && team.defense === 86 && source.includes("84/84/86") && weekly.opponent.record === "1-4");
 check("Corrected Rutgers video data report is present", correction.includes("Rutgers Video Data Correction Report") && correction.includes("M. York"));
 check("Corrected QB data replaced stale 69 OVR profile", team.players.QB1.name === "M. York" && team.players.QB1.overall === 77 && weekly.players.QB1.name === "M. York" && weekly.players.QB1.overall === 77);

@@ -17,6 +17,11 @@ const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
 const source = fs.readFileSync(path.join(root, "docs", "SOURCE_EXTRACTION_REPORT.md"), "utf8");
+global.RUTGERS_PLAYBOOK = playbook;
+global.WEEKLY_PLAN = weekly;
+global.window = { GAME_HISTORY: [] };
+global.localStorage = { getItem: () => "[]", setItem: () => {}, removeItem: () => {} };
+const engine = require(path.join(root, "app.js"));
 
 const checks = [];
 function check(name, passed, detail = "") {
@@ -53,6 +58,78 @@ check("Purdue matchup traits appear", weekly.opponent.name === "Purdue" && weekl
 check("Inside runs/RPOs/screens are promoted", weekly.familyModifiers.run_inside > 0 && weekly.familyModifiers.rpo > 0 && weekly.familyModifiers.screen > 0);
 check("Slow deep dropbacks are penalized", weekly.familyModifiers.deep < 0 && weekly.riskRules.deep === "high");
 check("No unconfirmed numeric ratings were added outside source anchors", team.overall === 84 && team.offense === 84 && team.defense === 86 && source.includes("84/84/86") && weekly.opponent.record === "1-4");
+check("Recent-call memory key exists", app.includes("rutgers_recent_calls") && app.includes("slice(-8)"));
+check("Visible score explanation exists", ["Base", "Matchup", "Situation", "Recent", "Setup", "Risk", "Final"].every(token => app.includes(token)));
+
+const insideRun = playbook.find(play => engine.conceptFamily(play) === "inside run");
+const secondInsideRun = playbook.find(play => engine.conceptFamily(play) === "inside run" && play.id !== insideRun.id);
+const rpo = playbook.find(play => engine.conceptFamily(play) === "RPO");
+const playAction = playbook.find(play => engine.conceptFamily(play) === "play action");
+const quick = playbook.find(play => engine.conceptFamily(play) === "quick pass");
+const screen = playbook.find(play => engine.conceptFamily(play) === "screen");
+const deep = playbook.find(play => engine.conceptFamily(play) === "deep pass");
+const mediumContext = { down: "1", dist: "medium", zone: "normal", gameState: "normal", key: "medium" };
+const thirdMediumContext = { down: "3", dist: "medium", zone: "normal", gameState: "normal", key: "medium" };
+const redZoneContext = { down: "2", dist: "medium", zone: "red_zone", gameState: "normal", key: "red_zone" };
+const protectLeadContext = { down: "1", dist: "medium", zone: "normal", gameState: "protect_lead", key: "short" };
+const mustScoreContext = { down: "1", dist: "long", zone: "normal", gameState: "must_score", key: "must_score" };
+
+const exactLast = engine.recentCallPenalty(insideRun, [{ playId: insideRun.id, family: "inside run" }]);
+const exactWithinThree = engine.recentCallPenalty(insideRun, [
+  { playId: "other-a", family: "RPO" },
+  { playId: insideRun.id, family: "inside run" },
+  { playId: "other-b", family: "screen" }
+]);
+const exactWithinSix = engine.recentCallPenalty(insideRun, [
+  { playId: insideRun.id, family: "inside run" },
+  { playId: "other-a", family: "RPO" },
+  { playId: "other-b", family: "screen" },
+  { playId: "other-c", family: "quick pass" }
+]);
+check("Exact-play repetition penalties work", exactLast.reasons.includes("same play last call -18") && exactWithinThree.reasons.includes("same play within last 3 -10") && exactWithinSix.reasons.includes("same play within last 6 -5"));
+
+const familyRotation = engine.recentCallPenalty(insideRun, [
+  { playId: "old-a", family: "inside run" },
+  { playId: "old-b", family: "inside run" },
+  { playId: "old-c", family: "screen" },
+  { playId: "old-d", family: "RPO" },
+  { playId: secondInsideRun.id, family: "inside run" }
+]);
+check("Family rotation penalties work", familyRotation.reasons.includes("same family consecutive -8") && familyRotation.reasons.includes("same family 3 of last 5 -6"));
+
+const runSetupHistory = [
+  { playId: insideRun.id, result: "success" },
+  { playId: secondInsideRun.id, result: "success" }
+];
+const paSetup = engine.setupBonus(playAction, runSetupHistory);
+const rpoSetup = engine.setupBonus(rpo, runSetupHistory);
+check("Successful runs promote play action and RPOs", paSetup.value >= 8 && rpoSetup.value >= 6);
+
+const screenSetup = engine.setupBonus(insideRun, [{ playId: screen.id, result: "success" }]);
+const quickSetup = engine.setupBonus(deep, [{ playId: quick.id, result: "success" }]);
+const sackSetup = engine.setupBonus(screen, [{ playId: deep.id, result: "failure", sack: true }]);
+check("Setup bonuses respond to screens, quick passes, failed deep passes and sacks", screenSetup.value >= 3 && quickSetup.value >= 4 && sackSetup.value >= 5);
+
+const ranked = engine.buildRankings(mediumContext, [], []);
+const top3 = engine.diverseTop(ranked, 3);
+check("Top 3 contains concept diversity", new Set(top3.map(play => play.conceptFamily)).size >= 2);
+
+let recent = [];
+const repeatedSets = [];
+for (let i = 0; i < 6; i++) {
+  const picks = engine.diverseTop(engine.buildRankings(mediumContext, [], recent), 3);
+  repeatedSets.push(picks.map(play => play.id).join("|"));
+  for (const pick of picks) recent.push({ playId: pick.id, family: pick.conceptFamily });
+  recent = recent.slice(-8);
+}
+check("Repeated button presses do not return the same 3 plays indefinitely", new Set(repeatedSets).size > 1);
+
+const thirdMediumTop = engine.buildRankings(thirdMediumContext, [], [])[0].conceptFamily;
+const redZoneTop = engine.buildRankings(redZoneContext, [], [])[0].score;
+const protectTop = engine.buildRankings(protectLeadContext, [], [])[0].conceptFamily;
+const mustScoreDeepScore = engine.scorePlay(deep, mustScoreContext, [], []).score;
+const normalDeepScore = engine.scorePlay(deep, mediumContext, [], []).score;
+check("Rankings still respond to down, distance, field zone and game state", ["quick pass", "intermediate pass", "RPO"].includes(thirdMediumTop) && redZoneTop !== ranked[0].score && ["inside run", "outside run", "quick pass", "screen", "RPO"].includes(protectTop) && mustScoreDeepScore !== normalDeepScore);
 
 const report = [
   "# VALIDATION_REPORT",

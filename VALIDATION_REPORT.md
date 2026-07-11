@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-11T19:55:00.063Z
+Validated: 2026-07-11T20:31:49.912Z
 
 - PASS - All play IDs are unique
 - PASS - Opening script has 12 valid unique references
@@ -17,5 +17,14 @@ Validated: 2026-07-11T19:55:00.063Z
 - PASS - Inside runs/RPOs/screens are promoted
 - PASS - Slow deep dropbacks are penalized
 - PASS - No unconfirmed numeric ratings were added outside source anchors
+- PASS - Recent-call memory key exists
+- PASS - Visible score explanation exists
+- PASS - Exact-play repetition penalties work
+- PASS - Family rotation penalties work
+- PASS - Successful runs promote play action and RPOs
+- PASS - Setup bonuses respond to screens, quick passes, failed deep passes and sacks
+- PASS - Top 3 contains concept diversity
+- PASS - Repeated button presses do not return the same 3 plays indefinitely
+- PASS - Rankings still respond to down, distance, field zone and game state
 
 Overall: PASS

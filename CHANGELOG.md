@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## Adaptive Recommendation Engine
+
+- Added recent-call memory in `localStorage` with an 8-call window separate from result history.
+- Added exact-play repetition penalties for the last play, last 3 calls, and last 6 calls.
+- Added concept-family rotation across inside run, outside run, option, RPO, quick pass, intermediate pass, deep pass, screen, and play action.
+- Added setup bonuses from successful inside runs, screens, quick passes, failed deep passes, and sacks.
+- Added drive-context modifiers for 1st down, 2nd and short, 3rd and medium, red zone, protect lead, and must score.
+- Added Top 3 diversity logic so recommendations include multiple concept families when possible.
+- Added visible scoring breakdowns for base score, matchup modifier, situation modifier, recent-call penalty, setup bonus, risk penalty, and final score.
+- Preserved weekly package import/export, existing local result logging, Rutgers design, and separated data files.
+- Expanded `tools/validate.js` with behavioral tests for repetition, family rotation, setup bonuses, diverse Top 3, and context-sensitive rankings.
+- Regenerated `VALIDATION_REPORT.md`.
+
 ## Hardened Rutgers Interactive Call Sheet
 
 - Preserved the Rutgers scarlet/black/white phone-first UI and extended the existing call-card flow instead of rebuilding the interface.

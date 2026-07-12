@@ -38,7 +38,7 @@ check('Personnel includes run direction map', app.includes('function renderRunDi
 check('Run direction map avoids horizontal overflow at phone width', css.includes('grid-template-columns:repeat(auto-fit,minmax(92px,1fr))') && css.includes('overflow-x:hidden'));
 check('Personnel includes protection map', app.includes('function renderProtection') && app.includes('pressure-map') && app.includes('Right edge') && app.includes('highestRiskMatchup'));
 check('Protection map avoids horizontal overflow at phone width', css.includes('grid-template-columns:repeat(auto-fit,minmax(104px,1fr))'));
-check('Personnel includes current opponent cards', app.includes('function renderOpponent') && app.includes('${activeOpponentName()} Players') && PURDUE_OPPONENT_PLAYERS.players.length === 16);
+check('Personnel includes current opponent accordions', app.includes('function renderOpponent') && app.includes('${activeOpponentName()} Scouting') && app.includes('groupOpponentPlayers') && PURDUE_OPPONENT_PLAYERS.players.length === 16);
 check('Personnel includes matchup cards', app.includes('function renderMatchups') && PURDUE_MATCHUPS.matchups.length >= 3);
 check('Recruiting overview uses real resources', RECRUITING_WEEKLY.resources.scholarship_limit === 35 && RECRUITING_WEEKLY.resources.weekly_hours_total === 440 && app.includes('scholarships_used'));
 check('All recruiting positions are filterable from class data', new Set(RECRUITING_CLASS.prospects.map(p => p.position).filter(Boolean)).size >= 10 && app.includes('filterPosition'));
@@ -63,6 +63,12 @@ check('GitHub Pages relative paths are preserved', index.includes('data/engine_d
 check('Repeated Not available is avoided in enriched card renderers', (app.match(/Not available/g) || []).length <= 8 && app.includes('cleanValue'));
 check('Weekly action plan links board rows to prospect details when available', app.includes('classById') && app.includes('row.prospect_id') && app.includes('prospect.scouting_summary'));
 check('Last Game and Season Stats hide missing stat grids cleanly', app.includes('function renderStatSections') && app.includes('No verified ${title.toLowerCase()} stat grid was included'));
+check('Gameplan default is compact with drill-down details', app.includes('compact-best') && app.includes('View Full Breakdown') && app.includes('View Matchup Detail') && app.includes('alt-strip'));
+check('Top Plays uses compact rows and advanced filter drawer', app.includes('compact-play-row') && app.includes('Advanced Filters') && app.includes('sticky-filter'));
+check('Personnel uses one internal workspace section at a time', app.includes('function renderPersonnelPanel') && app.includes('active === "overview"') && app.includes('renderStatsWorkspace'));
+check('Roster and prospects default to tap-open detail rows', app.includes('compact-person') && app.includes('compact-prospect') && app.includes('compact-action'));
+check('Run and protection maps use compact tappable cells', app.includes('compact-lane-map') && app.includes('compact-pressure-map'));
+check('More tab uses compact accordions for secondary groups', app.includes('details class="utility-section compact-detail"'));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

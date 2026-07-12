@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T04:18:43.623Z
+Validated: 2026-07-12T05:00:51.889Z
 
 - PASS - Authoritative enriched JSON files are present
 - PASS - Shared roster source has 48 verified players
@@ -15,7 +15,7 @@ Validated: 2026-07-12T04:18:43.623Z
 - PASS - Run direction map avoids horizontal overflow at phone width
 - PASS - Personnel includes protection map
 - PASS - Protection map avoids horizontal overflow at phone width
-- PASS - Personnel includes current opponent cards
+- PASS - Personnel includes current opponent accordions
 - PASS - Personnel includes matchup cards
 - PASS - Recruiting overview uses real resources
 - PASS - All recruiting positions are filterable from class data
@@ -39,5 +39,11 @@ Validated: 2026-07-12T04:18:43.623Z
 - PASS - Repeated Not available is avoided in enriched card renderers
 - PASS - Weekly action plan links board rows to prospect details when available
 - PASS - Last Game and Season Stats hide missing stat grids cleanly
+- PASS - Gameplan default is compact with drill-down details
+- PASS - Top Plays uses compact rows and advanced filter drawer
+- PASS - Personnel uses one internal workspace section at a time
+- PASS - Roster and prospects default to tap-open detail rows
+- PASS - Run and protection maps use compact tappable cells
+- PASS - More tab uses compact accordions for secondary groups
 
 Overall: PASS

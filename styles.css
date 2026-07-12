@@ -434,6 +434,30 @@ details.breakout summary{cursor:pointer;font-weight:900}
   overflow:hidden;
 }
 .matchup-hero.compact{margin-bottom:10px}
+.compact-matchup-strip{gap:6px;padding:9px}
+.compact-matchup-strip .team-line{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:4px 8px;
+  align-items:center;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px;
+  background:#101014;
+}
+.compact-matchup-strip .team-line strong{font-size:14px}
+.compact-matchup-strip .team-line span{font-size:12px;color:var(--muted)}
+.compact-matchup-strip .team-line em{grid-column:1/-1;color:#dfe5ee;font-size:11px;font-style:normal}
+.compact-matchup-strip .versus{width:28px;height:28px;font-size:10px}
+.compact-matchup-strip .game-strip{margin-top:0}
+.situation-panel{padding:10px}
+.situation-panel .section-heading{margin-bottom:8px}
+.situation-panel .control-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.situation-panel label{font-size:11px}
+.situation-panel select,.situation-panel input{min-height:38px;margin-top:4px;padding:7px;font-size:14px}
+.situation-panel .action-row{grid-template-columns:1fr 1fr;margin-top:8px}
+.situation-panel .action-row button{min-height:42px}
+.situation-more .control-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .team-block{
   min-width:0;
   max-width:100%;
@@ -510,6 +534,13 @@ details.breakout summary{cursor:pointer;font-weight:900}
 }
 .why-box p{margin:6px 0;color:var(--muted);font-size:13px}
 .large-diagram{min-height:154px}
+.compact-best .large-diagram{min-height:96px;margin:8px 0}
+.compact-best .best-head{gap:8px}
+.compact-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.compact-metrics .data-row,.compact-grid .data-row{padding:7px}
+.compact-why{padding:8px;margin-top:8px}
+.compact-why p{font-size:12px;line-height:1.3}
+.compact-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
 .text-link{
   width:auto;
   min-height:0;
@@ -520,6 +551,22 @@ details.breakout summary{cursor:pointer;font-weight:900}
   font-size:11px;
 }
 .thirds{grid-template-columns:repeat(3,minmax(0,1fr))}
+.alt-strip,.horizontal-strip{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:2px 0 8px;
+  scroll-snap-type:x proximity;
+  flex-wrap:nowrap;
+}
+.alt-strip::-webkit-scrollbar,.horizontal-strip::-webkit-scrollbar{display:none}
+.compact-alt{
+  flex:0 0 76%;
+  scroll-snap-align:start;
+}
+.compact-alt summary{
+  grid-template-columns:22px 52px 1fr auto;
+}
 .alt-card summary,.play-card summary,.prospect-card summary{
   display:grid;
   grid-template-columns:auto 58px minmax(0,1fr) auto;
@@ -556,6 +603,11 @@ details.breakout summary{cursor:pointer;font-weight:900}
   padding:10px;
   margin-top:10px;
 }
+.compact-play-row{padding:7px 8px;margin-top:6px}
+.compact-play-row summary{grid-template-columns:24px 48px minmax(0,1fr) auto}
+.compact-play-row summary img{width:48px;height:34px}
+.compact-play-row summary b{font-size:18px;text-align:right}
+.compact-play-row summary b em{display:block;color:var(--muted);font-size:9px;font-style:normal;text-transform:uppercase}
 .play-card summary span strong,.prospect-card summary strong{display:block;font-size:14px}
 .play-card summary span em,.prospect-card summary em{display:block;color:var(--muted);font-size:11px;font-style:normal}
 .play-card summary b{color:var(--good);font-size:22px}
@@ -566,7 +618,15 @@ details.breakout summary{cursor:pointer;font-weight:900}
   padding-bottom:5px;
   scrollbar-width:none;
 }
+.sticky-filter,.sticky-internal{
+  position:sticky;
+  top:0;
+  z-index:12;
+  background:var(--surface);
+  padding-top:4px;
+}
 .pill-row,.segmented,.priority-chip-row{flex-wrap:wrap}
+.priority-chip-row.horizontal-strip{flex-wrap:nowrap}
 .pill-row::-webkit-scrollbar,.segmented::-webkit-scrollbar,.priority-chip-row::-webkit-scrollbar{display:none}
 .filter-pill,.segmented button,.priority-chip{
   flex:0 0 auto;
@@ -577,6 +637,7 @@ details.breakout summary{cursor:pointer;font-weight:900}
   font-size:12px;
 }
 .segmented button{flex:1 1 calc(25% - 7px)}
+.compact-tabs button{flex:1 1 calc(25% - 7px);font-size:11px;padding:7px 4px;min-height:36px}
 .segmented button.active,.filter-pill.active{background:var(--scarlet);border-color:#ff6f92}
 .dense-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
 .lane-map,.pressure-map{
@@ -586,7 +647,15 @@ details.breakout summary{cursor:pointer;font-weight:900}
   overflow-x:hidden;
   padding-bottom:4px;
 }
+.compact-lane-map,.compact-pressure-map{grid-template-columns:repeat(2,minmax(0,1fr))}
+.compact-lane-map .lane,.compact-pressure-map .pressure{min-height:72px;padding:8px}
+.lane summary,.pressure summary,.compact-person summary,.compact-match summary,.compact-action summary,.compact-accordion summary,.compact-detail summary{
+  cursor:pointer;
+  list-style:none;
+}
+.lane summary::-webkit-details-marker,.pressure summary::-webkit-details-marker,.compact-person summary::-webkit-details-marker,.compact-match summary::-webkit-details-marker,.compact-action summary::-webkit-details-marker,.compact-accordion summary::-webkit-details-marker,.compact-detail summary::-webkit-details-marker{display:none}
 .pressure-map{grid-template-columns:repeat(auto-fit,minmax(104px,1fr))}
+.lane-map.compact-lane-map,.pressure-map.compact-pressure-map{grid-template-columns:repeat(2,minmax(0,1fr))}
 .lane,.pressure{
   min-height:104px;
   border:1px solid var(--line);
@@ -597,6 +666,7 @@ details.breakout summary{cursor:pointer;font-weight:900}
 .lane strong,.pressure strong{display:block;font-size:12px}
 .lane span,.pressure span{display:inline-block;margin:6px 0;padding:3px 6px;border-radius:999px;font-size:10px;text-transform:uppercase;font-weight:900}
 .lane p,.pressure p{margin:0;color:var(--muted);font-size:11px}
+.lane:not([open]) p,.lane:not([open]) .data-row,.pressure:not([open]) p,.pressure:not([open]) .data-row{display:none}
 .feature,.standard{border-color:#55d98b88}
 .feature span,.standard span{background:#173d28;color:var(--good)}
 .situational,.caution{border-color:#ffd16688}
@@ -604,6 +674,40 @@ details.breakout summary{cursor:pointer;font-weight:900}
 .avoid,.danger{border-color:#ff6b6b88}
 .avoid span,.danger span{background:#48171c;color:var(--bad)}
 .compact-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+.compact-list{display:grid;gap:6px;margin-top:8px}
+.compact-person,.compact-match,.compact-action,.compact-prospect{padding:8px;margin-top:0}
+.compact-person summary,.compact-match summary,.compact-action summary,.compact-prospect summary,.compact-accordion summary{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:6px;
+  align-items:center;
+}
+.compact-person summary span,.compact-match summary span,.compact-action summary span,.compact-prospect summary span,.compact-accordion summary span{
+  color:var(--muted);
+  font-size:11px;
+}
+.compact-person summary em,.compact-match summary em,.compact-prospect summary b{
+  color:var(--good);
+  font-size:11px;
+  font-style:normal;
+  text-align:right;
+}
+.compact-match summary,.compact-prospect summary{grid-template-columns:minmax(0,1fr)}
+.compact-prospect summary{grid-template-columns:24px minmax(0,1fr) auto}
+.compact-action summary{grid-template-columns:1fr}
+.action-strip{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding-bottom:6px;
+  flex-wrap:nowrap;
+}
+.action-strip::-webkit-scrollbar{display:none}
+.action-strip .compact-action{flex:0 0 76%;min-height:74px}
+.compact-heading{margin-top:8px;margin-bottom:6px}
+.compact-detail{padding:8px;margin-top:8px}
+.compact-detail summary{font-weight:900}
+.recruiting-overview{grid-template-columns:repeat(2,minmax(0,1fr))}
 .person-card h3,.match-card h3,.scout-card h3{margin-bottom:6px}
 .tight-list{margin:7px 0 0;padding-left:18px;color:var(--muted);font-size:12px}
 .avatar{
@@ -620,7 +724,8 @@ details.breakout summary{cursor:pointer;font-weight:900}
 .prospect-card summary{grid-template-columns:auto 1fr auto}
 .priority-chip{
   display:grid;
-  min-width:80px;
+  min-width:82px;
+  flex:0 0 82px;
   justify-items:start;
   background:#101014;
 }
@@ -630,9 +735,9 @@ details.breakout summary{cursor:pointer;font-weight:900}
   display:flex;
   justify-content:space-between;
   align-items:center;
-  min-height:48px;
-  margin-top:8px;
-  padding:10px;
+  min-height:38px;
+  margin-top:5px;
+  padding:8px;
   text-align:left;
 }
 .utility-row em{color:var(--muted);font-style:normal;font-size:20px}
@@ -648,6 +753,8 @@ details.breakout summary{cursor:pointer;font-weight:900}
 
 @media(max-width:420px){
   .thirds{grid-template-columns:1fr}
+  .compact-actions{grid-template-columns:1fr}
+  .summary-grid,.usage-rings,.card-grid{gap:6px}
   .compact-cards{grid-template-columns:1fr}
   .summary-grid,.usage-rings,.card-grid{grid-template-columns:1fr}
   .game-strip{grid-template-columns:1fr}

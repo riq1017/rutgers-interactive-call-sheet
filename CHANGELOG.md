@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Mobile UI compaction pass
+- Compressed Gameplan defaults so Best Call appears in the first phone screen with full breakdowns behind tap-open details.
+- Moved secondary situation fields into a More Context drawer.
+- Reworked Top Plays into compact rows with an Advanced Filters drawer.
+- Converted Personnel into an internal workspace with one visible subsection at a time.
+- Converted roster, O-line, opponent, matchup, run direction, and protection detail into compact tap-open rows/cells.
+- Reworked Recruiting into a dashboard with compact overview, priority chips, top actions, board rows, and advanced filter drawer.
+- Converted More secondary groups into compact accordions.
+- Added `UI_COMPACTION_VALIDATION_REPORT.md`.
+
 ## Personnel and recruiting correction pass
 - Removed remaining hardcoded opponent language from visible gameplan, Personnel, matchup rationale, More, and no-JavaScript fallback surfaces.
 - Added dynamic opponent/week helpers so imported weekly packages drive the current opponent label.

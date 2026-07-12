@@ -1,0 +1,48 @@
+{
+  "schema_version": "2.1",
+  "matchups": [
+    {
+      "rutgers_unit": "RT / RB protection",
+      "opponent_player": "Q. Gillians",
+      "status": "Opponent advantage",
+      "risk": "High",
+      "recommendations": [
+        "chip with TE",
+        "RB scan help",
+        "boot away",
+        "quick game",
+        "screens",
+        "selective max-protection shots"
+      ],
+      "description": "RT / RB protection versus Q. Gillians is graded opponent advantage with high risk. Recommended response: chip with TE, RB scan help, boot away, quick game, screens, selective max-protection shots."
+    },
+    {
+      "rutgers_unit": "Interior offensive line",
+      "opponent_player": "D. Garner",
+      "status": "Slight opponent advantage",
+      "risk": "Medium-high",
+      "recommendations": [
+        "double teams",
+        "combo blocks",
+        "run away from alignment",
+        "trap/wham",
+        "play action after successful doubles"
+      ],
+      "description": "Interior offensive line versus D. Garner is graded slight opponent advantage with medium-high risk. Recommended response: double teams, combo blocks, run away from alignment, trap/wham, play action after successful doubles."
+    },
+    {
+      "rutgers_unit": "QB / TE / slot",
+      "opponent_player": "K. Witherspoon",
+      "status": "Rutgers opportunity",
+      "risk": "Medium",
+      "recommendations": [
+        "RPO",
+        "play action",
+        "motion",
+        "TE option routes",
+        "high-low concepts"
+      ],
+      "description": "QB / TE / slot versus K. Witherspoon is graded rutgers opportunity with medium risk. Recommended response: RPO, play action, motion, TE option routes, high-low concepts."
+    }
+  ]
+}

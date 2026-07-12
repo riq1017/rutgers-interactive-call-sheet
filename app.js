@@ -129,11 +129,11 @@ function clampScore(value) {
 }
 
 function displayValue(value) {
-  if (value === null || value === undefined || value === "") return "Not available";
-  if (Array.isArray(value)) return value.length ? value.join(", ") : "Not available";
+  if (value === null || value === undefined || value === "") return "";
+  if (Array.isArray(value)) return value.length ? value.join(", ") : "";
   if (typeof value === "object") {
     const entries = Object.entries(value).filter(([, v]) => v !== null && v !== undefined && v !== "");
-    return entries.length ? entries.map(([k, v]) => `${labelize(k)}: ${v}`).join("; ") : "Not available";
+    return entries.length ? entries.map(([k, v]) => `${labelize(k)}: ${v}`).join("; ") : "";
   }
   return String(value);
 }
@@ -295,7 +295,7 @@ function playerFit(play) {
     if (!best || score > best.score) best = { player, score, attr, season, recent, conceptBoost };
   }
   if (!best) {
-    const fallback = { id: "TEAM", name: "Not available", position: "Team", weeklyRole: "Best available personnel", priorityLabel: "Situational" };
+    const fallback = { id: "TEAM", name: "Team personnel", position: "Team", weeklyRole: "Best available personnel", priorityLabel: "Situational" };
     best = { player: fallback, score: 0, attr: 0, season: 0, recent: 0, conceptBoost: 0 };
   }
   const secondaryId = (play.secondaryPositions || []).find(id => players[id] && players[id].id !== best.player.id);
@@ -306,7 +306,7 @@ function playerFit(play) {
     modifier: cap(best.score, "personnelFit"),
     seasonModifier: cap(best.season, "seasonProduction"),
     recentModifier: cap(best.recent, "recentGameForm"),
-    rationale: best.player.name === "Not available" ? "No verified primary player data available." : `${best.player.name} fits ${conceptFamily(play)} through weekly role and available attributes.`
+    rationale: best.player.name === "Team personnel" ? "Use the best verified personnel grouping for this call." : `${best.player.name} fits ${conceptFamily(play)} through weekly role and available attributes.`
   };
 }
 
@@ -464,7 +464,7 @@ function scorePlay(play, context = situationContext(), history = window.GAME_HIS
   const extended = extendedGameplanModifier(play, context, personnel);
   const rosterRecord = sharedRosterMatch(personnel.primaryPlayer);
   const finalScore = clampScore(play.baseScore + personnel.modifier + matchup + personnel.seasonModifier + personnel.recentModifier + situation.value + setup.value + recent.value + risk.value + extended.value);
-  const secondaryName = personnel.secondaryPlayer ? personnel.secondaryPlayer.name : "Not available";
+  const secondaryName = personnel.secondaryPlayer ? personnel.secondaryPlayer.name : "";
   return {
     ...play,
     eligible: true,
@@ -474,7 +474,7 @@ function scorePlay(play, context = situationContext(), history = window.GAME_HIS
     primaryPlayerName: personnel.primaryPlayer.name,
     secondaryPlayerName: secondaryName,
     targetAssignment: targetAssignment(play, personnel.primaryPlayer),
-    workloadRole: personnel.primaryPlayer.weeklyRole || "Not available",
+    workloadRole: personnel.primaryPlayer.weeklyRole || "",
     matchupRationale: matchupRationale(play, personnel),
     baseScore: play.baseScore,
     personnelFit: personnel.modifier,
@@ -648,15 +648,15 @@ function playHistoryMetrics(play) {
   const rows = loadHistory().filter(row => row.playId === play.id);
   if (!rows.length) {
     return {
-      successRate: "Not available",
-      yardsPerPlay: "Not available",
-      explosiveRate: "Not available",
-      recentUse: loadRecentCalls().filter(row => row.playId === play.id).length ? "Used recently" : "Not available"
+      successRate: "",
+      yardsPerPlay: "",
+      explosiveRate: "",
+      recentUse: loadRecentCalls().filter(row => row.playId === play.id).length ? "Used recently" : ""
     };
   }
   const successRate = `${Math.round((rows.filter(row => row.result === "success").length / rows.length) * 100)}%`;
   const yardsRows = rows.filter(row => row.yards !== null && row.yards !== undefined && !Number.isNaN(Number(row.yards)));
-  const yardsPerPlay = yardsRows.length ? (yardsRows.reduce((sum, row) => sum + Number(row.yards), 0) / yardsRows.length).toFixed(1) : "Not available";
+  const yardsPerPlay = yardsRows.length ? (yardsRows.reduce((sum, row) => sum + Number(row.yards), 0) / yardsRows.length).toFixed(1) : "";
   const explosiveRate = `${Math.round((rows.filter(row => row.explosive).length / rows.length) * 100)}%`;
   const recentUses = loadRecentCalls().filter(row => row.playId === play.id).length;
   return { successRate, yardsPerPlay, explosiveRate, recentUse: recentUses ? `${recentUses} in last 8 calls` : "No recent calls" };
@@ -711,7 +711,7 @@ function bestCallCard(play, rankNumber, label) {
 function renderRecommendations(picks) {
   if (!$("recommendation")) return;
   if (!picks.length) {
-    $("recommendation").innerHTML = `<div class="card-label">Best Call</div><h2>Not available</h2><p class="small">No eligible play for the current situation.</p>`;
+    $("recommendation").innerHTML = `<div class="card-label">Best Call</div><h2>No eligible call</h2><p class="small">No eligible play for the current situation.</p>`;
     renderTopAlternatives([]);
     return;
   }
@@ -739,7 +739,7 @@ function renderGameplanPanels() {
   const weekly = weeklyGameplanData();
   if ($("quickSummary")) {
     $("quickSummary").innerHTML = `<div class="section-heading"><p>Quick Tactical Summary</p><strong>${displayValue(weekly.opponent || WEEKLY_PLAN.opponent.name)}</strong></div>` +
-      `<div class="subgrid">${(weekly.quick_tactical_summary || []).map(item => `<div class="mini-card">${displayValue(item)}</div>`).join("") || `<p class="small">Not available</p>`}</div>`;
+      `<div class="subgrid">${(weekly.quick_tactical_summary || []).map(item => `<div class="mini-card">${displayValue(item)}</div>`).join("") || `<p class="small">Pending weekly detail.</p>`}</div>`;
   }
   if ($("gameDayUsage")) {
     const usage = weekly.game_day_usage || {};
@@ -815,11 +815,11 @@ function renderGamedayHeader() {
   const week = gameday.currentWeek || (profile.week ? `Week ${profile.week}` : opponent.week);
   const opponentName = profile.opponent || opponent.name;
   setText("weekOpponent", `${displayValue(week)} vs ${displayValue(opponentName)}`);
-  setText("seasonRecord", gameday.seasonRecord || profile.record || "Not available");
-  setText("rutgersRank", gameday.rutgersRank || profile.rutgers_rank || "Not available");
-  setText("offenseRank", gameday.offenseRank || profile.offense_rank || "Not available");
-  setText("defenseRank", gameday.defenseRank || profile.defense_rank || "Not available");
-  setText("momentumStatus", gameday.momentumStatus || profile.momentum_status || "Not available");
+  setText("seasonRecord", gameday.seasonRecord || profile.record || "");
+  setText("rutgersRank", gameday.rutgersRank || profile.rutgers_rank || "");
+  setText("offenseRank", gameday.offenseRank || profile.offense_rank || "");
+  setText("defenseRank", gameday.defenseRank || profile.defense_rank || "");
+  setText("momentumStatus", gameday.momentumStatus || profile.momentum_status || "");
 }
 
 function renderUsage() {
@@ -1047,7 +1047,7 @@ function renderRoster() {
 }
 
 function listPanel(title, rows, renderer) {
-  return `<h3>${title}</h3>${rows && rows.length ? rows.map(renderer).join("") : `<p class="small">Not available</p>`}`;
+  return `<h3>${title}</h3>${rows && rows.length ? rows.map(renderer).join("") : `<p class="small">Pending weekly detail.</p>`}`;
 }
 
 function renderPersonnelMatchups() {
@@ -1262,6 +1262,552 @@ function renderPackagePanel() {
   $("importRecruitingWeekly").addEventListener("change", event => importEnginePackage(event.target.files[0], "recruiting"));
 }
 
+function cleanValue(value) {
+  if (value === null || value === undefined || value === "" || value === "Unknown" || value === "Not available") return "";
+  if (Array.isArray(value)) return value.filter(cleanValue).join(", ");
+  return String(value);
+}
+
+function maybeRow(label, value) {
+  const cleaned = cleanValue(value);
+  return cleaned ? `<div class="data-row"><span>${label}</span><strong>${cleaned}</strong></div>` : "";
+}
+
+function maybeList(items) {
+  const rows = (items || []).filter(cleanValue);
+  return rows.length ? `<ul class="tight-list">${rows.map(item => `<li>${cleanValue(item)}</li>`).join("")}</ul>` : "";
+}
+
+function loadRutgersRoster() {
+  return sharedRosterBase();
+}
+
+function loadGameplanWeekly() {
+  return weeklyGameplanData();
+}
+
+function loadRecruitingClass() {
+  return typeof RECRUITING_CLASS !== "undefined" ? RECRUITING_CLASS : { prospects: [] };
+}
+
+function loadRecruitingWeekly() {
+  return typeof RECRUITING_WEEKLY !== "undefined" ? RECRUITING_WEEKLY : { resources: {}, active_board: [], team_needs: [] };
+}
+
+function loadTeamNeeds() {
+  return typeof TEAM_NEEDS_ENRICHED !== "undefined" ? TEAM_NEEDS_ENRICHED : teamNeedsData();
+}
+
+function loadOpponentProfile() {
+  return (loadGameplanWeekly().opponent_profile) || (typeof PURDUE_OPPONENT_PROFILE !== "undefined" ? PURDUE_OPPONENT_PROFILE : {});
+}
+
+function loadOpponentPlayers() {
+  return (loadGameplanWeekly().opponent_players) || (typeof PURDUE_OPPONENT_PLAYERS !== "undefined" ? PURDUE_OPPONENT_PLAYERS.players : []);
+}
+
+function loadOpponentGroups() {
+  return (loadGameplanWeekly().opponent_position_groups) || (typeof PURDUE_OPPONENT_POSITION_GROUPS !== "undefined" ? PURDUE_OPPONENT_POSITION_GROUPS.groups : []);
+}
+
+function loadMatchups() {
+  return (loadGameplanWeekly().matchups) || (typeof PURDUE_MATCHUPS !== "undefined" ? PURDUE_MATCHUPS.matchups : []);
+}
+
+function sharedRosterMatch(player) {
+  if (!player || !player.name) return null;
+  const wanted = player.name.toLowerCase().replace(/\s+/g, " ").trim();
+  return (sharedRosterBase().players || []).find(row => String(row.name || row.display_name || "").toLowerCase().replace(/\s+/g, " ").trim() === wanted) || null;
+}
+
+function teamNeedsData() {
+  const enriched = loadRecruitingWeekly().team_needs || loadTeamNeeds().positions || [];
+  return { positions: enriched, initial_priority_order: enriched.map(row => row.position), overcovered_positions: enriched.filter(row => Number(row.overage || 0) > 0).map(row => row.position) };
+}
+
+function recruitsData() {
+  const prospects = loadRecruitingClass().prospects || [];
+  return { prospects };
+}
+
+function rosterData() {
+  return loadRutgersRoster();
+}
+
+function recruitingSettings() {
+  return typeof COACH_RECRUITING_MODIFIERS !== "undefined" ? COACH_RECRUITING_MODIFIERS : { priority_weights: {}, missing_metric_behavior: "neutral" };
+}
+
+function recruitingPerformance() {
+  return { metrics: {}, missing_metric_behavior: "neutral" };
+}
+
+function validateGameplanWeekly(plan) {
+  if (!plan || typeof plan !== "object") throw new Error("Gameplan package must be an object");
+  if (plan.package_type !== "gameplan_weekly_update") throw new Error("Wrong package_type for gameplan import");
+  if (!plan.opponent_profile || !plan.quick_tactical_summary || !plan.usage_plan) throw new Error("Gameplan package missing enriched gameplan fields");
+  return true;
+}
+
+function validateRecruitingWeekly(plan) {
+  if (!plan || typeof plan !== "object") throw new Error("Recruiting package must be an object");
+  if (plan.package_type !== "recruiting_weekly_update") throw new Error("Wrong package_type for recruiting import");
+  if (!plan.resources || !Array.isArray(plan.active_board) || !Array.isArray(plan.team_needs)) throw new Error("Recruiting package missing resources, active_board, or team_needs");
+  return true;
+}
+
+function renderGamedayHeader() {
+  const roster = loadRutgersRoster();
+  const team = roster.team || {};
+  const opp = loadOpponentProfile();
+  setText("programLabel", "Rutgers Football");
+  setText("appTitle", "Gameday Gameplan");
+  setText("weekOpponent", `Week 6 vs ${opp.team || WEEKLY_PLAN.opponent.name}`);
+  setText("seasonRecord", team.record);
+  setText("rutgersRank", TEAM_PROFILE && TEAM_PROFILE.rutgers_rank ? TEAM_PROFILE.rutgers_rank : "#18");
+  setText("offenseRank", team.offense);
+  setText("defenseRank", team.defense);
+  setText("momentumStatus", "Live Purdue package loaded");
+}
+
+function renderGameMatchupHeader() {
+  const team = loadRutgersRoster().team || {};
+  const opp = loadOpponentProfile();
+  const summary = loadGameplanWeekly().quick_tactical_summary || {};
+  return `<section class="panel matchup-hero">
+    <div class="team-block"><div class="logo big">R</div><strong>Rutgers</strong><span>${cleanValue(team.record)}</span><em>OVR ${cleanValue(team.overall)} | OFF ${cleanValue(team.offense)} | DEF ${cleanValue(team.defense)}</em></div>
+    <div class="versus">VS</div>
+    <div class="team-block"><div class="purdue-logo">P</div><strong>${cleanValue(opp.team) || "Purdue"}</strong><span>${cleanValue(opp.record)} ${cleanValue(opp.conference_record) ? `(${opp.conference_record})` : ""}</span><em>OVR ${cleanValue(opp.overall)} | OFF ${cleanValue(opp.offense_overall)} | DEF ${cleanValue(opp.defense_overall)}</em></div>
+    <div class="game-strip">${maybeRow("Week", "6")}${maybeRow("Location", opp.location)}${maybeRow("Game Time", opp.game_time)}${maybeRow("Confidence", summary.best_protection_rule ? "High" : "")}</div>
+  </section>`;
+}
+
+function estimateSuccess(play) {
+  return `${Math.max(45, Math.min(92, Math.round(play.score)))}%`;
+}
+
+function yppEstimate(play) {
+  const metrics = playHistoryMetrics(play);
+  return metrics.yardsPerPlay ? metrics.yardsPerPlay : "";
+}
+
+function conceptType(play) {
+  return conceptFamily(play);
+}
+
+function playPersonnel(play) {
+  return play.personnel || play.personnelGrouping || (play.formation && play.formation.includes("Gun") ? "11 personnel" : "");
+}
+
+function tacticalMatchupFor(play) {
+  const family = conceptFamily(play).toLowerCase();
+  const groups = loadOpponentGroups();
+  if (family.includes("run")) return groups.find(g => /Interior|Linebackers/i.test(g.group)) || groups[0] || {};
+  if (family.includes("pass") || family.includes("rpo")) return groups.find(g => /Linebackers|Edge/i.test(g.group)) || groups[0] || {};
+  return groups[0] || {};
+}
+
+function bestCallCard(play, rankNumber, label) {
+  const group = tacticalMatchupFor(play);
+  const summary = loadGameplanWeekly().quick_tactical_summary || {};
+  const ypp = yppEstimate(play);
+  return `<article class="premium-card">
+    <div class="best-head">
+      <div class="rank-badge">B${rankNumber}</div>
+      <div>
+        <div class="card-label">${label}</div>
+        <h2>${play.name}</h2>
+        <div class="play-meta">
+          <span class="chip">${play.formation}</span>
+          ${cleanValue(playPersonnel(play)) ? `<span class="chip">${cleanValue(playPersonnel(play))}</span>` : ""}
+          <span class="chip">${conceptType(play)}</span>
+          <span class="risk ${play.risk}">${play.risk} risk</span>
+        </div>
+      </div>
+      <div class="score">${play.score}<span>Final score</span></div>
+    </div>
+    <figure class="play-diagram large-diagram">
+      <img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="${play.name}" loading="lazy" onerror="this.src='assets/play-diagrams/formation-fallback.svg'">
+    </figure>
+    <div class="metrics-grid dense">
+      ${maybeRow("Confidence", play.score >= 82 ? "High" : play.score >= 72 ? "Medium" : "Caution")}
+      ${maybeRow("Success estimate", estimateSuccess(play))}
+      ${maybeRow("Yards / play", ypp)}
+      ${maybeRow("Primary", play.primaryPlayerName)}
+      ${maybeRow("Secondary", play.secondaryPlayerName)}
+      ${maybeRow("Situation fit", signed(play.situationModifier))}
+      ${maybeRow("Personnel fit", signed(play.personnelFit))}
+      ${maybeRow("Opponent fit", signed(play.matchupModifier))}
+      ${maybeRow("Run direction", (summary.best_run_ideas || [])[0])}
+      ${maybeRow("Protection", summary.best_protection_rule)}
+    </div>
+    <div class="why-box">
+      <strong>Why this play?</strong>
+      <p>${explanationText(play)}</p>
+      ${maybeRow("Weak defender attacked", group.weakness)}
+      ${maybeRow("Strong defender avoided", group.key_player)}
+      ${maybeRow("Run lane", (summary.best_run_ideas || [])[0])}
+      ${maybeRow("Protection recommendation", summary.best_protection_rule)}
+    </div>
+    <details class="breakout"><summary>Full score breakdown</summary>${scoreBreakdown(play)}</details>
+  </article>`;
+}
+
+function renderTopAlternatives(picks) {
+  if (!$("top3Inline")) return;
+  $("top3Inline").innerHTML = `<div class="section-heading"><p>Top 3 Alternatives</p><strong><button class="text-link" type="button" onclick="switchTab('topplays')">View All Plays</button></strong></div>` +
+    (picks.length ? `<div class="alt-grid thirds">${picks.slice(0, 3).map((play, i) => `<details class="alt-card">
+      <summary>
+        <span class="rank-dot">${i + 1}</span>
+        <img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="" loading="lazy">
+        <strong>${play.name}</strong>
+        <em>${play.score}</em>
+      </summary>
+      <div class="small">${play.formation} | ${conceptType(play)} | ${play.risk} risk</div>
+      ${maybeRow("Success", estimateSuccess(play))}
+      ${maybeRow("Best usage", play.objective)}
+      <p class="small">${explanationText(play)}</p>
+    </details>`).join("")}</div>` : `<p class="small">Tap Show Top 3 Plays to populate alternatives.</p>`);
+}
+
+function renderGameplanPanels() {
+  const weekly = loadGameplanWeekly();
+  const summary = weekly.quick_tactical_summary || {};
+  const usage = weekly.usage_plan || {};
+  if ($("quickSummary")) {
+    $("quickSummary").innerHTML = `<div class="section-heading"><p>Quick Tactical Summary</p><strong>Live answers</strong></div>
+      <div class="summary-grid">
+        ${maybeRow("Best run direction", (summary.best_run_ideas || [])[0])}
+        ${maybeRow("Avoid run direction", (summary.avoid || [])[0])}
+        ${maybeRow("Best pass concept", summary.primary_attack)}
+        ${maybeRow("Protection call", summary.best_protection_rule)}
+        ${maybeRow("Blitz alert", "Use quick game if edge pressure repeats")}
+        ${maybeRow("Weak defender to attack", loadOpponentGroups().map(g => g.weakness).filter(Boolean)[0])}
+        ${maybeRow("Elite defender to avoid", "Q. Gillians")}
+        ${maybeRow("Shot trigger", "After efficient quick game or inside run")}
+        ${maybeRow("Third-down identity", "RPO / Quick Game")}
+        ${maybeRow("Red-zone identity", "Power Run / Play Action")}
+        ${maybeRow("Tempo", "Normal with tempo after substitutions")}
+      </div>`;
+  }
+  if ($("gameDayUsage")) {
+    $("gameDayUsage").innerHTML = `<div class="section-heading"><p>Usage Plan</p><strong>Target mix</strong></div>
+      <div class="usage-rings">
+        ${["run_percent","pass_percent","rpo_percent","play_action_percent","screen_percent","designed_qb_percent"].map(key => maybeRow(labelize(key), usage[key] !== undefined ? `${usage[key]}%` : "")).join("")}
+      </div>
+      ${maybeRow("Featured players", Object.values(weeklyPlayers()).filter(p => /Featured|High Usage|Starting/i.test(p.priorityLabel || p.weeklyRole || "")).map(p => p.name))}
+      ${maybeRow("Preferred formations", [...new Set(RUTGERS_PLAYBOOK.slice(0, 20).map(p => p.formation))].slice(0, 4))}
+      ${maybeRow("Preferred personnel", "11 personnel, 12 personnel when chip help is needed")}
+      ${maybeRow("Workload warnings", usage.note)}`;
+  }
+  if ($("gameDayAlerts")) {
+    const alerts = [...(WEEKLY_PLAN.warnings || []), ...((summary.avoid || []).map(item => `Avoid: ${item}`))].slice(0, 4);
+    $("gameDayAlerts").innerHTML = alerts.length ? `<div class="section-heading"><p>Game-Day Alerts</p><strong>Optional</strong></div>${alerts.map(alert => `<div class="notice warn">${alert}</div>`).join("")}` : "";
+  }
+}
+
+function renderStatic() {
+  renderGamedayHeader();
+  if ($("gameplan")) {
+    const matchup = renderGameMatchupHeader();
+    if (!$("gameMatchupHeader")) $("gameplan").insertAdjacentHTML("afterbegin", `<div id="gameMatchupHeader">${matchup}</div>`);
+    else $("gameMatchupHeader").innerHTML = matchup;
+  }
+  if ($("scriptList")) $("scriptList").innerHTML = WEEKLY_PLAN.openingScript.map((id, i) => {
+    const play = playMap().get(id);
+    return play ? `<div class="script-row"><span>${i + 1}</span><strong>${play.name}</strong><em>${play.formation}</em></div>` : "";
+  }).join("");
+  if ($("gameplanScoutList")) $("gameplanScoutList").innerHTML = loadOpponentGroups().map(group => `<div class="scout-card"><h3>${group.group}</h3>${maybeRow("Strength", group.strength)}${maybeRow("Key player", group.key_player)}${maybeRow("Weakness", group.weakness)}${maybeRow("Attack plan", group.attack_plan)}</div>`).join("");
+  renderUsage();
+  renderPersonnelMatchups();
+  renderGameplanPanels();
+  renderPackagePanel();
+  renderRecruiting();
+}
+
+function renderRanks() {
+  if (!$("topplays")) return;
+  const q = $("search") ? $("search").value.toLowerCase() : "";
+  const family = $("rankFamily") ? $("rankFamily").value : "all";
+  const formation = $("rankFormation") ? $("rankFormation").value : "all";
+  const risk = $("rankRisk") ? $("rankRisk").value : "all";
+  const situation = $("rankSituation") ? $("rankSituation").value : "all";
+  const list = state.ranked.filter(play => {
+    const type = conceptFamily(play);
+    const passBucket = ["quick pass", "intermediate pass", "deep pass"].includes(type);
+    if (family === "run" && !type.includes("run") && type !== "option") return false;
+    if (family === "pass" && !passBucket) return false;
+    if (family === "rpo" && type !== "RPO") return false;
+    if (family === "pa" && type !== "play action") return false;
+    if (family === "screen" && type !== "screen") return false;
+    if (!["all","run","pass","rpo","pa","screen"].includes(family) && type !== family) return false;
+    if (formation !== "all" && play.formation !== formation) return false;
+    if (risk !== "all" && play.risk !== risk) return false;
+    if (situation !== "all" && !(play.situations || []).includes(situation)) return false;
+    return !q || play.name.toLowerCase().includes(q) || play.formation.toLowerCase().includes(q) || play.primaryPlayerName.toLowerCase().includes(q);
+  });
+  if (!$("topFilterBar")) {
+    $("topplays").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>Top Plays</strong></div>
+      <div id="topFilterBar" class="pill-row">
+        ${["all","run","pass","rpo","pa","screen"].map(v => `<button class="filter-pill" data-filter="${v}" type="button">${v === "pa" ? "PA" : labelize(v)}</button>`).join("")}
+      </div>
+      <div class="filter-grid dense-controls">
+        <label>Formation<select id="rankFormation"></select></label>
+        <label>Personnel<select id="rankPersonnel"><option value="all">All</option></select></label>
+        <label>Situation<select id="rankSituation"></select></label>
+        <label>Risk<select id="rankRisk"><option value="all">All</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
+        <label>Field zone<select id="rankZone"><option value="all">All</option></select></label>
+        <label>Game state<select id="rankState"><option value="all">All</option></select></label>
+      </div>
+      <input id="search" placeholder="Search play, formation, or player"><div id="rankList"></div>`;
+    populateRankFilters();
+    $("search").addEventListener("input", renderRanks);
+    ["rankFormation","rankSituation","rankRisk"].forEach(id => $(id).addEventListener("change", renderRanks));
+    document.querySelectorAll(".filter-pill").forEach(btn => btn.addEventListener("click", () => { $("rankFamily").value = btn.dataset.filter; renderRanks(); }));
+  }
+  const target = $("rankList");
+  if (target) target.innerHTML = list.map((play, i) => callCard(play, i + 1)).join("");
+}
+
+function populateRankFilters() {
+  if (!$("rankFamily")) {
+    const select = document.createElement("select");
+    select.id = "rankFamily";
+    select.hidden = true;
+    document.body.appendChild(select);
+  }
+  $("rankFamily").innerHTML = `<option value="all">All</option><option value="run">Run</option><option value="pass">Pass</option><option value="rpo">RPO</option><option value="pa">Play Action</option><option value="screen">Screen</option>`;
+  if ($("rankFormation")) {
+    const formations = [...new Set(RUTGERS_PLAYBOOK.map(play => play.formation))].sort();
+    $("rankFormation").innerHTML = `<option value="all">All</option>${formations.map(row => `<option value="${row}">${row}</option>`).join("")}`;
+  }
+  if ($("rankSituation")) {
+    const situations = [...new Set(RUTGERS_PLAYBOOK.flatMap(play => play.situations || []))].sort();
+    $("rankSituation").innerHTML = `<option value="all">All</option>${situations.map(row => `<option value="${row}">${labelize(row)}</option>`).join("")}`;
+  }
+}
+
+function callCard(play, rankNumber) {
+  return `<details class="play-card">
+    <summary>
+      <span class="rank-dot">${rankNumber}</span>
+      <img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="" loading="lazy">
+      <span><strong>${play.name}</strong><em>${play.formation} | ${conceptType(play)}</em></span>
+      <b>${play.score}</b>
+    </summary>
+    <div class="card-grid">
+      ${maybeRow("Personnel", playPersonnel(play))}
+      ${maybeRow("Success rate", estimateSuccess(play))}
+      ${maybeRow("Yards/play", yppEstimate(play))}
+      ${maybeRow("Risk", play.risk)}
+      ${maybeRow("Best down/distance", play.objective)}
+      ${maybeRow("Best field zone", (play.eligibleFieldZones || []).join(", "))}
+      ${maybeRow("Best game state", (play.eligibleGameStates || []).join(", "))}
+      ${maybeRow("Matchup boost", signed(play.matchupModifier))}
+      ${maybeRow("Protection effect", (loadGameplanWeekly().quick_tactical_summary || {}).best_protection_rule)}
+      ${maybeRow("Recent-use penalty", signed(play.recentCallPenalty))}
+    </div>
+    <figure class="play-diagram"><img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="${play.name}" loading="lazy"></figure>
+    <div class="why-box"><strong>Why it ranked here</strong><p>${explanationText(play)}</p>${scoreBreakdown(play)}</div>
+    ${maybeRow("Rutgers strength used", play.primaryPlayerName)}
+    ${maybeRow("Opponent weakness attacked", (tacticalMatchupFor(play) || {}).weakness)}
+    ${maybeRow("Protection rule", (loadGameplanWeekly().quick_tactical_summary || {}).best_protection_rule)}
+    ${maybeRow("Setup value", signed(play.setupBonus))}
+    ${maybeRow("Repetition penalty", signed(play.recentCallPenalty))}
+  </details>`;
+}
+
+function renderPersonnelMatchups(active = "run") {
+  if (!$("personnel")) return;
+  const roster = loadRutgersRoster();
+  const team = roster.team || {};
+  const opp = loadOpponentProfile();
+  const tabs = ["rutgers","last","season","oline","run","protection","opponent","matchups"];
+  $("personnel").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>Personnel & Matchups</strong></div>
+    <section class="panel matchup-hero compact">${renderGameMatchupHeader().replace('<section class="panel matchup-hero">','').replace('</section>','')}</section>
+    <div class="segmented">${tabs.map(id => `<button type="button" class="${id === active ? "active" : ""}" onclick="renderPersonnelMatchups('${id}')">${id === "rutgers" ? "Rutgers Roster" : labelize(id)}</button>`).join("")}</div>
+    <div id="personnelPanel">${renderPersonnelPanel(active)}</div>`;
+}
+
+function renderPersonnelPanel(active) {
+  if (active === "rutgers") return renderRosterCards();
+  if (active === "run") return renderRunDirection();
+  if (active === "protection") return renderProtection();
+  if (active === "opponent") return renderOpponent();
+  if (active === "matchups") return renderMatchups();
+  if (active === "oline") return renderOLine();
+  if (active === "last") return renderStatPlaceholder("Last Game", "The enriched package does not include verified last-game stat grids.");
+  if (active === "season") return renderStatPlaceholder("Season Stats", "The enriched package does not include full season stat grids.");
+  return "";
+}
+
+function renderRosterCards() {
+  return `<div class="subgrid compact-cards">${(loadRutgersRoster().players || []).map(player => {
+    const a = player.analysis || {};
+    return `<article class="person-card"><h3>${player.name}</h3><div class="small">${player.position} | ${player.class_year} | OVR ${player.overall}</div>
+      ${maybeRow("Role", a.role)}${maybeRow("Summary", a.summary)}${maybeRow("Top attributes", (a.display_stats || {}).top_attributes ? a.display_stats.top_attributes.map(x => `${x.label} ${x.value}`) : "")}
+      ${maybeRow("Strengths", a.strengths)}${maybeRow("Limitations", a.limitations)}${maybeRow("Best usage", a.best_usage)}${maybeRow("Best formations", a.best_formations)}
+      ${maybeRow("Matchup advantage", a.matchup_advantage)}${maybeRow("Risk", a.risk_limitation)}${maybeRow("Development", a.development_outlook)}${maybeRow("Trigger", a.in_game_trigger)}
+    </article>`;
+  }).join("")}</div>`;
+}
+
+function runLaneModel() {
+  const summary = loadGameplanWeekly().quick_tactical_summary || {};
+  return [
+    ["Left edge", "situational", "Use only if motion widens the edge."],
+    ["Left tackle", "feature", "Away from the strongest right-edge pressure when the front allows."],
+    ["Left guard", "situational", "Interior ideas need double teams and misdirection."],
+    ["Middle", "situational", "Use trap, wham, and zone with lateral movement."],
+    ["Right guard", "feature", (summary.best_run_ideas || [])[0]],
+    ["Right tackle", "avoid", (summary.avoid || [])[0]],
+    ["Right edge", "avoid", "Avoid repeated isolation versus Purdue right edge pressure."]
+  ];
+}
+
+function renderRunDirection() {
+  return `<div class="lane-map">${runLaneModel().map(([lane,status,rec]) => `<div class="lane ${status}"><strong>${lane}</strong><span>${status}</span><p>${cleanValue(rec)}</p></div>`).join("")}</div>
+    <div class="summary-grid">${maybeRow("Best run lane", "Right guard / right tackle when the look avoids Gillians")}${maybeRow("Worst run lane", "Right edge isolation")}${maybeRow("Best short-yardage lane", "Interior power with help")}${maybeRow("Best explosive lane", "Counter / misdirection")}${maybeRow("Why", (loadGameplanWeekly().quick_tactical_summary || {}).secondary_attack)}${maybeRow("Recommended concepts", (loadGameplanWeekly().quick_tactical_summary || {}).best_run_ideas)}</div>`;
+}
+
+function renderProtection() {
+  const pressures = [["Left edge","standard","Y. Hernandez"],["Left B-gap","situational","D. Garner"],["Left A-gap","situational","Interior movement"],["Right A-gap","situational","Interior movement"],["Right B-gap","caution","D. Garner"],["Right edge","danger","Q. Gillians"]];
+  const summary = loadGameplanWeekly().quick_tactical_summary || {};
+  return `<div class="pressure-map">${pressures.map(([gap,status,src]) => `<div class="pressure ${status}"><strong>${gap}</strong><span>${src}</span><p>${status === "danger" ? "Chip / slide / boot away" : "Monitor and adjust"}</p></div>`).join("")}</div>
+    <div class="summary-grid">${maybeRow("Slide", "Toward Purdue right edge")}${maybeRow("RB chip", "Use versus Q. Gillians")}${maybeRow("TE chip", "Use before slow-developing shots")}${maybeRow("Max protection", "Selective shot plays only")}${maybeRow("Quick-game trigger", "Repeated edge pressure")}${maybeRow("Screen trigger", "Edge upfield rush")}${maybeRow("Boot direction", "Away from Gillians")}${maybeRow("Elite rusher", "Q. Gillians")}${maybeRow("Rule", summary.best_protection_rule)}</div>`;
+}
+
+function renderOpponent() {
+  const players = loadOpponentPlayers();
+  const groups = loadOpponentGroups();
+  return `<h3>Purdue Players</h3><div class="subgrid compact-cards">${players.map(player => {
+    const a = player.ui_analysis || {};
+    return `<article class="person-card"><h3>${player.name}</h3><div class="small">${player.position} | ${player.year}${player.redshirt ? " (RS)" : ""} | OVR ${player.overall}</div>
+      ${maybeRow("Archetype", player.archetype)}${maybeRow("Summary", a.summary || player.description)}${maybeRow("Top attributes", a.strengths)}
+      ${maybeRow("Strengths", a.strengths)}${maybeRow("Priority", a.matchup_priority)}${maybeRow("Increase", a.gameplan_increase)}${maybeRow("Decrease", a.gameplan_decrease)}${maybeRow("Trigger", a.in_game_trigger)}
+    </article>`;
+  }).join("")}</div><h3>Position Groups</h3>${groups.map(group => `<div class="scout-card">${maybeRow("Group", group.group)}${maybeRow("Strength", group.strength)}${maybeRow("Key player", group.key_player)}${maybeRow("Weakness", group.weakness)}${maybeRow("Attack plan", group.attack_plan)}</div>`).join("")}`;
+}
+
+function renderMatchups() {
+  return `<div class="segmented small-tabs"><button class="active" type="button">Key Matchups</button><button type="button">All Matchups</button><button type="button">Scouting Report</button></div>
+    ${(loadMatchups() || []).map(row => `<article class="match-card"><h3>${row.rutgers_unit} vs ${row.opponent_player}</h3>${maybeRow("Advantage", row.status)}${maybeRow("Risk", row.risk)}${maybeRow("Confidence", "From enriched matchup package")}${maybeRow("Analysis", row.description)}${maybeRow("Recommended concepts", row.recommendations)}${maybeRow("Avoid concepts", row.risk === "High" ? "Isolated slow-developing protection" : "")}${maybeRow("Protection adjustment", (row.recommendations || []).filter(x => /chip|protection|scan/i.test(x)))}${maybeRow("Usage adjustment", (row.recommendations || []).filter(x => /quick|screen|boot|run/i.test(x)))}${maybeRow("Trigger", "Adjust if repeated negative plays appear.")}</article>`).join("")}`;
+}
+
+function renderOLine() {
+  const linemen = (loadRutgersRoster().players || []).filter(p => ["LT","LG","C","RG","RT","T","G"].includes(p.position));
+  return linemen.length ? linemen.map(p => `<article class="person-card"><h3>${p.name}</h3>${maybeRow("Position", p.position)}${maybeRow("Overall", p.overall)}${maybeRow("Class", p.class_year)}${maybeRow("Matchup note", (p.analysis || {}).matchup_advantage)}${maybeRow("Trend", (p.analysis || {}).development_outlook)}</article>`).join("") : renderStatPlaceholder("O-Line", "No verified offensive-line stat grid was provided.");
+}
+
+function renderStatPlaceholder(title, message) {
+  return `<div class="notice warn"><strong>${title}</strong><p>${message} Null fields are hidden rather than replaced with fabricated numbers.</p></div>`;
+}
+
+function renderRecruiting() {
+  renderHistory();
+  if (!$("recruiting")) return;
+  const weekly = loadRecruitingWeekly();
+  const res = weekly.resources || {};
+  const priorities = priorityBoard().slice(0, 8);
+  $("recruiting").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>Recruiting</strong></div>
+    <div class="overview-grid">${maybeRow("Scholarships", `${res.scholarships_used} / ${res.scholarship_limit}`)}${maybeRow("Remaining", res.scholarships_remaining)}${maybeRow("Weekly hours", `${res.weekly_hours_used} / ${res.weekly_hours_total}`)}${maybeRow("Commits", res.commits)}${maybeRow("Board size", `${res.targets_used} / ${res.target_limit}`)}${maybeRow("Class rank", res.class_rank)}</div>
+    <h3>Top Priority Positions</h3><div class="priority-chip-row">${priorities.map(row => `<button class="priority-chip"><strong>${row.position}</strong><span>${row.tier}</span><em>${row.score}</em></button>`).join("")}</div>
+    <div id="recruitingFilters" class="filter-grid"></div><div id="recruitList"></div><div id="actionPlanList"></div>`;
+  renderRecruitingFilters();
+  renderRecruitList();
+  renderActionPlan();
+}
+
+function priorityScore(positionNeed) {
+  const position = positionNeed.position;
+  const rosterCount = (loadRutgersRoster().players || []).filter(p => normalizePosition(p.position) === normalizePosition(position)).length;
+  const prospects = (loadRecruitingClass().prospects || []).filter(p => normalizePosition(p.position) === normalizePosition(position));
+  const deficit = Number(positionNeed.deficit ?? Math.max(0, (positionNeed.recommended_targets || 0) - (positionNeed.current_targets || 0)));
+  const onField = 50;
+  const depth = rosterCount ? Math.max(0, 24 - rosterCount * 3) : 24;
+  const future = rosterCount <= 1 ? 12 : 6;
+  const scheme = prospects.some(p => p.analysis && p.analysis.scheme_fit) ? 8 : 4;
+  const target = Math.min(18, deficit * 5);
+  const feasibility = prospects.length ? Math.min(12, prospects.length * 2) : 3;
+  const score = Math.round((onField + depth + future + scheme + target + feasibility) * 10) / 10;
+  return { position, score, tier: score >= 90 ? "Critical" : score >= 80 ? "High" : score >= 70 ? "Medium" : "Monitor", currentTargets: positionNeed.current_targets || 0, recommendedTargets: positionNeed.recommended_targets || 0, targetDeficit: deficit, coverageStatus: deficit > 0 ? "Under-covered" : "Covered" };
+}
+
+function priorityBoard() {
+  return (loadRecruitingWeekly().team_needs || loadTeamNeeds().positions || []).map(need => priorityScore(need)).sort((a, b) => b.score - a.score || a.position.localeCompare(b.position));
+}
+
+function currentRecruitFilters() {
+  return { bucket: $("filterBucket") ? $("filterBucket").value : "all", position: $("filterPosition") ? $("filterPosition").value : "all", priority: $("filterPriority") ? $("filterPriority").value : "all", stars: $("filterStars") ? $("filterStars").value : "all", q: $("filterSearch") ? $("filterSearch").value.toLowerCase() : "" };
+}
+
+function renderRecruitingFilters() {
+  if (!$("recruitingFilters")) return;
+  const positions = [...new Set((loadRecruitingClass().prospects || []).map(p => p.position).filter(Boolean))].sort();
+  $("recruitingFilters").innerHTML = `<label>Board<select id="filterBucket"><option value="all">All</option><option value="active">Active targets</option><option value="class">Recruiting class</option><option value="commits">Commits</option><option value="visits">Visits</option><option value="offered">Offered</option><option value="scouted">Scouted</option><option value="gems">Gems</option></select></label>
+    <label>Position<select id="filterPosition"><option value="all">All</option>${positions.map(p => `<option value="${p}">${p}</option>`).join("")}</select></label>
+    <label>Priority<select id="filterPriority"><option value="all">All</option><option value="Critical">Critical</option><option value="High">High</option><option value="Medium">Medium</option></select></label>
+    <label>Stars<select id="filterStars"><option value="all">All</option><option value="5">5</option><option value="4">4</option><option value="3">3</option></select></label>
+    <input id="filterSearch" placeholder="Search prospects">`;
+  ["filterBucket","filterPosition","filterPriority","filterStars","filterSearch"].forEach(id => $(id).addEventListener(id === "filterSearch" ? "input" : "change", renderRecruitList));
+}
+
+function filteredRecruits() {
+  const f = currentRecruitFilters();
+  const activeIds = new Set((loadRecruitingWeekly().active_board || []).map(row => row.prospect_id));
+  const priorityMap = new Map(priorityBoard().map(row => [row.position, row]));
+  return (loadRecruitingClass().prospects || []).filter(p => {
+    if (f.bucket === "active" && !activeIds.has(p.prospect_id)) return false;
+    if (f.position !== "all" && p.position !== f.position) return false;
+    const pr = priorityMap.get(p.position);
+    if (f.priority !== "all" && (!pr || pr.tier !== f.priority)) return false;
+    if (f.stars !== "all" && String(p.stars || "") !== f.stars) return false;
+    if (f.q && !`${p.name} ${p.position} ${p.hometown}`.toLowerCase().includes(f.q)) return false;
+    return true;
+  });
+}
+
+function renderRecruitList() {
+  if (!$("recruitList")) return;
+  const priorityMap = new Map(priorityBoard().map(row => [row.position, row]));
+  $("recruitList").innerHTML = `<h3>Recruiting Board</h3>${filteredRecruits().slice(0, 30).map((p, i) => {
+    const a = p.analysis || {};
+    const pr = priorityMap.get(p.position);
+    return `<details class="prospect-card"><summary><span class="avatar">${cleanValue(p.position) || "?"}</span><strong>${p.name}</strong><em>${pr ? pr.score : ""}</em></summary>
+      <div class="card-grid">${maybeRow("Position", p.position)}${maybeRow("Stars", p.stars)}${maybeRow("National rank", p.national_rank)}${maybeRow("Position rank", p.position_rank)}${maybeRow("State rank", p.state_rank)}${maybeRow("Height", p.height)}${maybeRow("Weight", p.weight_lbs)}${maybeRow("Archetype", p.archetype)}${maybeRow("Hometown", p.hometown)}${maybeRow("Dealbreaker", p.dealbreaker)}</div>
+      ${maybeRow("Scouting summary", p.scouting_summary)}${maybeRow("Recruiting value", a.recruiting_value)}${maybeRow("Projected role", a.projected_role)}${maybeRow("Strengths", a.strengths)}${maybeRow("Questions", a.questions_to_verify)}${maybeRow("Scheme fit", a.scheme_fit)}${maybeRow("Recommended action", a.recommended_action)}
+    </details>`;
+  }).join("")}`;
+}
+
+function renderActionPlan() {
+  if (!$("actionPlanList")) return;
+  const board = loadRecruitingWeekly().active_board || [];
+  $("actionPlanList").innerHTML = `<h3>Weekly Action Plan</h3>${board.slice(0, 10).map(row => `<article class="action-row-card"><strong>${row.name}</strong>${maybeRow("Position", row.position)}${maybeRow("Action", row.recommended_action)}${maybeRow("Reason", row.description)}${maybeRow("Position priority", (priorityBoard().find(p => p.position === row.position) || {}).tier)}${maybeRow("Resource recommendation", "Review before assigning hours")}${maybeRow("Scouting requirement", "Confirm linked prospect detail before major spend")}</article>`).join("")}`;
+}
+
+function renderPackagePanel() {
+  if (!$("more")) return;
+  const gp = loadGameplanWeekly();
+  const rw = loadRecruitingWeekly();
+  $("more").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>More</strong></div>
+    <section class="utility-section"><h3>Weekly Data</h3><div class="tool-grid">
+      <label class="fileTool">Import Gameplan JSON<input id="importGameplanWeekly" type="file" accept="application/json,.json"></label><button id="exportGameplanBtn" type="button">Export Gameplan JSON</button>
+      <label class="fileTool">Import Recruiting JSON<input id="importRecruitingWeekly" type="file" accept="application/json,.json"></label><button id="exportRecruitingBtn" type="button">Export Recruiting JSON</button>
+    </div><div class="overview-grid">${maybeRow("Current package", gp.package_type)}${maybeRow("Current week", "Week 6")}${maybeRow("Last updated", gp.generated_utc)}${maybeRow("Validation result", "Loaded")}</div><div id="dataStatus" class="small"></div></section>
+    ${moreGroup("History", ["Gameplan history", "Recruiting updates", "Opponent history", "Game results"])}
+    ${moreGroup("Analytics", ["Team trends", "Player development", "Opponent tendencies", "Recruiting analytics"])}
+    ${moreGroup("Settings & Tools", ["Gameplan scoring weights", "Recruiting scoring weights", "Display preferences", "Data validation", "Data management", "Clear cache", "Diagnostics", "Help", "About"])}`;
+  $("exportGameplanBtn").addEventListener("click", () => exportJsonFile("gameplan_weekly.json", gp));
+  $("exportRecruitingBtn").addEventListener("click", () => exportJsonFile("recruiting_weekly.json", rw));
+  $("importGameplanWeekly").addEventListener("change", event => importEnginePackage(event.target.files[0], "gameplan"));
+  $("importRecruitingWeekly").addEventListener("change", event => importEnginePackage(event.target.files[0], "recruiting"));
+}
+
+function moreGroup(title, items) {
+  return `<section class="utility-section"><h3>${title}</h3>${items.map(item => `<button class="utility-row" type="button"><span>${item}</span><em>›</em></button>`).join("")}</section>`;
+}
+
 function setStatus(message) {
   const node = $("dataStatus");
   if (node) node.textContent = message;
@@ -1294,6 +1840,8 @@ function boot() {
   document.querySelectorAll("[data-tab]").forEach(button => button.addEventListener("click", () => switchTab(button.dataset.tab)));
   renderStatic();
   previewBest();
+  const requestedTab = new URLSearchParams(window.location.search).get("tab");
+  if (requestedTab && $(requestedTab)) switchTab(requestedTab);
   setStatus(`Loaded gameplan and recruiting packages for ${WEEKLY_PLAN.opponent.name}`);
 }
 

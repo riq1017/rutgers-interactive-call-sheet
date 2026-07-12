@@ -1,131 +1,127 @@
 {
+  "schema_version": "3.0",
   "team": "Rutgers",
-  "source_type": "screenshot",
-  "source_file": "26F488CE-21AC-4995-928D-9F54CACDDDE4.jpeg",
-  "format": "current_targets/recommended_targets",
+  "source": "team_needs_screenshot",
   "positions": [
     {
       "position": "QB",
-      "side": "offense",
       "current_targets": 0,
-      "recommended_targets": 3
+      "recommended_targets": 3,
+      "deficit": 3,
+      "overage": 0
     },
     {
       "position": "HB",
-      "side": "offense",
       "current_targets": 0,
-      "recommended_targets": 4
+      "recommended_targets": 4,
+      "deficit": 4,
+      "overage": 0
     },
     {
       "position": "FB",
-      "side": "offense",
       "current_targets": 0,
-      "recommended_targets": 0
+      "recommended_targets": 0,
+      "deficit": 0,
+      "overage": 0
     },
     {
       "position": "WR",
-      "side": "offense",
       "current_targets": 0,
-      "recommended_targets": 3
+      "recommended_targets": 3,
+      "deficit": 3,
+      "overage": 0
     },
     {
       "position": "TE",
-      "side": "offense",
       "current_targets": 0,
-      "recommended_targets": 1
+      "recommended_targets": 1,
+      "deficit": 1,
+      "overage": 0
     },
     {
       "position": "T",
-      "side": "offense",
       "current_targets": 11,
-      "recommended_targets": 5
+      "recommended_targets": 5,
+      "deficit": 0,
+      "overage": 6
     },
     {
       "position": "G",
-      "side": "offense",
       "current_targets": 0,
-      "recommended_targets": 6
+      "recommended_targets": 6,
+      "deficit": 6,
+      "overage": 0
     },
     {
       "position": "C",
-      "side": "offense",
       "current_targets": 0,
-      "recommended_targets": 1
+      "recommended_targets": 1,
+      "deficit": 1,
+      "overage": 0
     },
     {
       "position": "EDGE",
-      "side": "defense",
       "current_targets": 5,
-      "recommended_targets": 3
+      "recommended_targets": 3,
+      "deficit": 0,
+      "overage": 2
     },
     {
       "position": "DT",
-      "side": "defense",
       "current_targets": 5,
-      "recommended_targets": 1
+      "recommended_targets": 1,
+      "deficit": 0,
+      "overage": 4
     },
     {
       "position": "OLB",
-      "side": "defense",
       "current_targets": 0,
-      "recommended_targets": 7
+      "recommended_targets": 7,
+      "deficit": 7,
+      "overage": 0
     },
     {
       "position": "MIKE",
-      "side": "defense",
       "current_targets": 2,
-      "recommended_targets": 0
+      "recommended_targets": 0,
+      "deficit": 0,
+      "overage": 2
     },
     {
       "position": "CB",
-      "side": "defense",
       "current_targets": 7,
-      "recommended_targets": 4
+      "recommended_targets": 4,
+      "deficit": 0,
+      "overage": 3
     },
     {
       "position": "FS",
-      "side": "defense",
       "current_targets": 5,
-      "recommended_targets": 3
+      "recommended_targets": 3,
+      "deficit": 0,
+      "overage": 2
     },
     {
       "position": "SS",
-      "side": "defense",
       "current_targets": 0,
-      "recommended_targets": 2
+      "recommended_targets": 2,
+      "deficit": 2,
+      "overage": 0
     },
     {
       "position": "K",
-      "side": "special_teams",
       "current_targets": 0,
-      "recommended_targets": 0
+      "recommended_targets": 0,
+      "deficit": 0,
+      "overage": 0
     },
     {
       "position": "P",
-      "side": "special_teams",
       "current_targets": 0,
-      "recommended_targets": 0
+      "recommended_targets": 0,
+      "deficit": 0,
+      "overage": 0
     }
   ],
-  "initial_priority_order": [
-    "G",
-    "OLB",
-    "QB",
-    "WR",
-    "SS",
-    "HB",
-    "TE",
-    "C"
-  ],
-  "overcovered_positions": [
-    "T",
-    "EDGE",
-    "DT",
-    "CB",
-    "FS"
-  ],
-  "notes": [
-    "Game-recommended needs are a baseline, not the final priority model.",
-    "Final priority must also use current team performance, roster depth, future losses, scheme fit, and recruiting feasibility."
-  ]
+  "logic_rule": "Performance progress first, roster depth second, future depth third; game target counts are supporting evidence only."
 }

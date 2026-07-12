@@ -1,216 +1,3317 @@
 {
-  "schema_version": "1.0",
-  "team": "Rutgers",
-  "source_priority": [
-    "Rutgers_Recruiting_Engine_5_Video_Seed.zip depth_chart_seed.json",
-    "existing corrected Rutgers video-derived roster.json",
-    "manual review notes remain unresolved where source fields are null"
-  ],
-  "data_quality": {
-    "rule": "Only values clearly readable from supplied footage are populated.",
-    "null_meaning": "Not visible or not confidently readable.",
-    "verification_required": true
+  "schema_version": "3.0",
+  "package_type": "rutgers_roster_base",
+  "generated_utc": "2026-07-12T02:15:33.894311+00:00",
+  "team": {
+    "name": "Rutgers",
+    "record": "5-0",
+    "overall": 84,
+    "offense": 84,
+    "defense": 86
   },
-  "source_video": "IMG_3011.mp4",
-  "source_reference": "reference/IMG_3011_roster_depth_chart_contact.jpg",
   "players": [
     {
-      "player_id": "roster-qb-m-york",
-      "display_name": "M. York",
+      "player_id": "m-york-qb",
+      "name": "M. York",
       "position": "QB",
-      "depth_chart_order": null,
-      "depth_role": null,
-      "overall_displayed": 77,
-      "overall_sidebar_boosted": 78,
       "class_year": "FR",
-      "redshirt_status": null,
-      "height": "6'1\"",
-      "weight_lbs": 270,
-      "archetype": "Pocket Passer",
-      "development_trait": null,
-      "injury_status": null,
-      "expected_departure": null,
-      "scheme_role": null,
-      "visible_attributes": {},
-      "season_stats": {},
-      "last_game_stats": {},
-      "source_video": "IMG_2965(3).mp4",
-      "source_reference": "reference_frames/roster/roster_01.jpg",
-      "verification_status": "high_confidence_from_frame"
+      "overall": 77,
+      "nil_value": 270,
+      "attributes": {
+        "speed": 82,
+        "acceleration": 86,
+        "agility": 82,
+        "change_of_direction": 82,
+        "strength": 52,
+        "awareness": 75
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "M. York is a rotation/developmental QB with an overall of 77. The visible profile is led by Acceleration 86, Speed 82, Agility 82. Best weekly usage: RPO decisions, quick game, movement passes. Use mobility and fast answers to reduce edge-pressure exposure. Main limitation: Awareness 75; avoid forcing long-developing concepts.",
+        "role": "Starting quarterback",
+        "strengths": [
+          "Acceleration 86",
+          "Speed 82",
+          "Agility 82",
+          "Change Of Direction 82"
+        ],
+        "limitations": [
+          "Strength 52",
+          "Awareness 75"
+        ],
+        "best_usage": [
+          "RPO decisions",
+          "quick game",
+          "movement passes"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use mobility and fast answers to reduce edge-pressure exposure.",
+        "risk_limitation": "Awareness 75; avoid forcing long-developing concepts.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 77,
+          "class_year": "FR",
+          "position": "QB",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 86
+            },
+            {
+              "label": "Speed",
+              "value": 82
+            },
+            {
+              "label": "Agility",
+              "value": 82
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 82
+            }
+          ]
+        }
+      }
     },
     {
-      "player_id": "roster-qb-r-bieniemy",
-      "display_name": "R. Bieniemy",
+      "player_id": "r-bieniemy-qb",
+      "name": "R. Bieniemy",
       "position": "QB",
-      "depth_chart_order": null,
-      "depth_role": null,
-      "overall_displayed": 77,
-      "overall_sidebar_boosted": null,
       "class_year": "SO",
-      "redshirt_status": null,
-      "height": null,
-      "weight_lbs": null,
-      "archetype": null,
-      "development_trait": null,
-      "injury_status": null,
-      "expected_departure": null,
-      "scheme_role": null,
-      "visible_attributes": {},
-      "season_stats": {},
-      "last_game_stats": {},
-      "source_video": "IMG_2965(3).mp4",
-      "source_reference": "reference_frames/roster/roster_01.jpg",
-      "verification_status": "medium_confidence_from_frame"
+      "overall": 75,
+      "nil_value": 180,
+      "attributes": {
+        "speed": 83,
+        "acceleration": 80,
+        "agility": 82,
+        "change_of_direction": 87,
+        "strength": 45,
+        "awareness": 78
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "R. Bieniemy is a rotation/developmental QB with an overall of 75. The visible profile is led by Change Of Direction 87, Speed 83, Agility 82. Best weekly usage: RPO decisions, quick game, movement passes. Use mobility and fast answers to reduce edge-pressure exposure. Main limitation: Awareness 78; avoid forcing long-developing concepts.",
+        "role": "Backup quarterback",
+        "strengths": [
+          "Change Of Direction 87",
+          "Speed 83",
+          "Agility 82",
+          "Acceleration 80"
+        ],
+        "limitations": [
+          "Strength 45",
+          "Awareness 78"
+        ],
+        "best_usage": [
+          "RPO decisions",
+          "quick game",
+          "movement passes"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use mobility and fast answers to reduce edge-pressure exposure.",
+        "risk_limitation": "Awareness 78; avoid forcing long-developing concepts.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 75,
+          "class_year": "SO",
+          "position": "QB",
+          "top_attributes": [
+            {
+              "label": "Change Of Direction",
+              "value": 87
+            },
+            {
+              "label": "Speed",
+              "value": 83
+            },
+            {
+              "label": "Agility",
+              "value": 82
+            },
+            {
+              "label": "Acceleration",
+              "value": 80
+            }
+          ]
+        }
+      }
     },
     {
-      "player_id": "roster-qb-s-warner",
-      "display_name": "S. Warner",
-      "position": "QB",
-      "depth_chart_order": null,
-      "depth_role": null,
-      "overall_displayed": null,
-      "overall_sidebar_boosted": null,
-      "class_year": "JR",
-      "redshirt_status": "RS",
-      "height": null,
-      "weight_lbs": null,
-      "archetype": null,
-      "development_trait": null,
-      "injury_status": null,
-      "expected_departure": null,
-      "scheme_role": null,
-      "visible_attributes": {},
-      "season_stats": {},
-      "last_game_stats": {},
-      "source_video": "IMG_2965(3).mp4",
-      "source_reference": "reference_frames/roster/roster_01.jpg",
-      "verification_status": "medium_confidence_from_frame"
+      "player_id": "s-warner-k",
+      "name": "S. Warner",
+      "position": "K",
+      "class_year": "JR (RS)",
+      "overall": 73,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 70,
+        "acceleration": 70,
+        "agility": 63,
+        "change_of_direction": 61,
+        "strength": 54,
+        "awareness": 64
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "S. Warner is a rotation/developmental K with an overall of 73. The visible profile is led by Speed 70, Acceleration 70, Awareness 64. Best weekly usage: special teams. Use based on field position and game state. Main limitation: Kick-power and accuracy details should be loaded from a specialist screen when available.",
+        "role": "Specialist",
+        "strengths": [
+          "Speed 70",
+          "Acceleration 70",
+          "Awareness 64",
+          "Agility 63"
+        ],
+        "limitations": [
+          "Strength 54",
+          "Change Of Direction 61"
+        ],
+        "best_usage": [
+          "special teams"
+        ],
+        "best_formations": [
+          "Special teams"
+        ],
+        "matchup_advantage": "Use based on field position and game state.",
+        "risk_limitation": "Kick-power and accuracy details should be loaded from a specialist screen when available.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 73,
+          "class_year": "JR (RS)",
+          "position": "K",
+          "top_attributes": [
+            {
+              "label": "Speed",
+              "value": 70
+            },
+            {
+              "label": "Acceleration",
+              "value": 70
+            },
+            {
+              "label": "Awareness",
+              "value": 64
+            },
+            {
+              "label": "Agility",
+              "value": 63
+            }
+          ]
+        }
+      }
     },
     {
-      "player_id": "roster-qb-j-portillo",
-      "display_name": "J. Portillo",
-      "position": "QB",
-      "depth_chart_order": null,
-      "depth_role": null,
-      "overall_displayed": null,
-      "overall_sidebar_boosted": null,
+      "player_id": "j-portillo-p",
+      "name": "J. Portillo",
+      "position": "P",
       "class_year": "FR",
-      "redshirt_status": null,
-      "height": null,
-      "weight_lbs": null,
-      "archetype": null,
-      "development_trait": null,
-      "injury_status": null,
-      "expected_departure": null,
-      "scheme_role": null,
-      "visible_attributes": {},
-      "season_stats": {},
-      "last_game_stats": {},
-      "source_video": "IMG_2965(3).mp4",
-      "source_reference": "reference_frames/roster/roster_01.jpg",
-      "verification_status": "medium_confidence_from_frame"
+      "overall": 83,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 69,
+        "acceleration": 69,
+        "agility": 73,
+        "change_of_direction": 51,
+        "strength": 32,
+        "awareness": 71
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "J. Portillo is a starter-level P with an overall of 83. The visible profile is led by Agility 73, Awareness 71, Speed 69. Best weekly usage: special teams. Use based on field position and game state. Main limitation: Kick-power and accuracy details should be loaded from a specialist screen when available.",
+        "role": "Specialist",
+        "strengths": [
+          "Agility 73",
+          "Awareness 71",
+          "Speed 69",
+          "Acceleration 69"
+        ],
+        "limitations": [
+          "Strength 32",
+          "Change Of Direction 51"
+        ],
+        "best_usage": [
+          "special teams"
+        ],
+        "best_formations": [
+          "Special teams"
+        ],
+        "matchup_advantage": "Use based on field position and game state.",
+        "risk_limitation": "Kick-power and accuracy details should be loaded from a specialist screen when available.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 83,
+          "class_year": "FR",
+          "position": "P",
+          "top_attributes": [
+            {
+              "label": "Agility",
+              "value": 73
+            },
+            {
+              "label": "Awareness",
+              "value": 71
+            },
+            {
+              "label": "Speed",
+              "value": 69
+            },
+            {
+              "label": "Acceleration",
+              "value": 69
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "t-simonson-hb",
+      "name": "T. Simonson",
+      "position": "HB",
+      "class_year": "SO",
+      "overall": 77,
+      "nil_value": 285,
+      "attributes": {
+        "speed": 88,
+        "acceleration": 90,
+        "agility": 84,
+        "change_of_direction": 79,
+        "strength": 85,
+        "awareness": 74
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "T. Simonson is a rotation/developmental HB with an overall of 77. The visible profile is led by Acceleration 90, Speed 88, Strength 85. Best weekly usage: outside zone, counter, screens. Stress linebackers in space and use cutback lanes. Main limitation: Pass-protection workload should be verified before heavy third-down usage.",
+        "role": "Featured back",
+        "strengths": [
+          "Acceleration 90",
+          "Speed 88",
+          "Strength 85",
+          "Agility 84"
+        ],
+        "limitations": [
+          "Awareness 74",
+          "Change Of Direction 79"
+        ],
+        "best_usage": [
+          "outside zone",
+          "counter",
+          "screens"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Shotgun",
+          "Singleback"
+        ],
+        "matchup_advantage": "Stress linebackers in space and use cutback lanes.",
+        "risk_limitation": "Pass-protection workload should be verified before heavy third-down usage.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 77,
+          "class_year": "SO",
+          "position": "HB",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 90
+            },
+            {
+              "label": "Speed",
+              "value": 88
+            },
+            {
+              "label": "Strength",
+              "value": 85
+            },
+            {
+              "label": "Agility",
+              "value": 84
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "j-haskins-hb",
+      "name": "J. Haskins",
+      "position": "HB",
+      "class_year": "FR",
+      "overall": 75,
+      "nil_value": 140,
+      "attributes": {
+        "speed": 88,
+        "acceleration": 85,
+        "agility": 88,
+        "change_of_direction": 92,
+        "strength": 68,
+        "awareness": 74
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "J. Haskins is a rotation/developmental HB with an overall of 75. The visible profile is led by Change Of Direction 92, Speed 88, Agility 88. Best weekly usage: outside zone, counter, screens. Stress linebackers in space and use cutback lanes. Main limitation: Pass-protection workload should be verified before heavy third-down usage.",
+        "role": "Featured back",
+        "strengths": [
+          "Change Of Direction 92",
+          "Speed 88",
+          "Agility 88",
+          "Acceleration 85"
+        ],
+        "limitations": [
+          "Strength 68",
+          "Awareness 74"
+        ],
+        "best_usage": [
+          "outside zone",
+          "counter",
+          "screens"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Shotgun",
+          "Singleback"
+        ],
+        "matchup_advantage": "Stress linebackers in space and use cutback lanes.",
+        "risk_limitation": "Pass-protection workload should be verified before heavy third-down usage.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 75,
+          "class_year": "FR",
+          "position": "HB",
+          "top_attributes": [
+            {
+              "label": "Change Of Direction",
+              "value": 92
+            },
+            {
+              "label": "Speed",
+              "value": 88
+            },
+            {
+              "label": "Agility",
+              "value": 88
+            },
+            {
+              "label": "Acceleration",
+              "value": 85
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "g-oluwatimi-fb",
+      "name": "G. Oluwatimi",
+      "position": "FB",
+      "class_year": "SO",
+      "overall": 68,
+      "nil_value": 5,
+      "attributes": {
+        "speed": 71,
+        "acceleration": 71,
+        "agility": 70,
+        "change_of_direction": 68,
+        "strength": 74,
+        "awareness": 67
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "G. Oluwatimi is a rotation/developmental FB with an overall of 68. The visible profile is led by Strength 74, Speed 71, Acceleration 71. Best weekly usage: inside zone, power, short yardage. Run behind double teams and use downhill concepts. Main limitation: Pass-protection workload should be verified before heavy third-down usage.",
+        "role": "Rotational back",
+        "strengths": [
+          "Strength 74",
+          "Speed 71",
+          "Acceleration 71",
+          "Agility 70"
+        ],
+        "limitations": [
+          "Awareness 67",
+          "Change Of Direction 68"
+        ],
+        "best_usage": [
+          "inside zone",
+          "power",
+          "short yardage"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Shotgun",
+          "Singleback"
+        ],
+        "matchup_advantage": "Run behind double teams and use downhill concepts.",
+        "risk_limitation": "Pass-protection workload should be verified before heavy third-down usage.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 68,
+          "class_year": "SO",
+          "position": "FB",
+          "top_attributes": [
+            {
+              "label": "Strength",
+              "value": 74
+            },
+            {
+              "label": "Speed",
+              "value": 71
+            },
+            {
+              "label": "Acceleration",
+              "value": 71
+            },
+            {
+              "label": "Agility",
+              "value": 70
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "s-moore-te",
+      "name": "S. Moore",
+      "position": "TE",
+      "class_year": "JR (RS)",
+      "overall": 74,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 75,
+        "acceleration": 82,
+        "agility": 81,
+        "change_of_direction": 76,
+        "strength": 76,
+        "awareness": 88
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "S. Moore is a rotation/developmental TE with an overall of 74. The visible profile is led by Awareness 88, Acceleration 82, Agility 81. Best weekly usage: seams, play action, chip-and-release. Use against linebackers and as edge-protection help. Main limitation: Blocking/receiving split requires weekly matchup confirmation.",
+        "role": "Starting tight end",
+        "strengths": [
+          "Awareness 88",
+          "Acceleration 82",
+          "Agility 81",
+          "Change Of Direction 76"
+        ],
+        "limitations": [
+          "Speed 75",
+          "Change Of Direction 76"
+        ],
+        "best_usage": [
+          "seams",
+          "play action",
+          "chip-and-release"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Singleback",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use against linebackers and as edge-protection help.",
+        "risk_limitation": "Blocking/receiving split requires weekly matchup confirmation.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 74,
+          "class_year": "JR (RS)",
+          "position": "TE",
+          "top_attributes": [
+            {
+              "label": "Awareness",
+              "value": 88
+            },
+            {
+              "label": "Acceleration",
+              "value": 82
+            },
+            {
+              "label": "Agility",
+              "value": 81
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 76
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "k-stacy-te",
+      "name": "K. Stacy",
+      "position": "TE",
+      "class_year": "SO",
+      "overall": 72,
+      "nil_value": 105,
+      "attributes": {
+        "speed": 78,
+        "acceleration": 84,
+        "agility": 84,
+        "change_of_direction": 71,
+        "strength": 63,
+        "awareness": 62
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "K. Stacy is a rotation/developmental TE with an overall of 72. The visible profile is led by Acceleration 84, Agility 84, Speed 78. Best weekly usage: seams, play action, chip-and-release. Use against linebackers and as edge-protection help. Main limitation: Blocking/receiving split requires weekly matchup confirmation.",
+        "role": "Rotational tight end",
+        "strengths": [
+          "Acceleration 84",
+          "Agility 84",
+          "Speed 78",
+          "Change Of Direction 71"
+        ],
+        "limitations": [
+          "Awareness 62",
+          "Strength 63"
+        ],
+        "best_usage": [
+          "seams",
+          "play action",
+          "chip-and-release"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Singleback",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use against linebackers and as edge-protection help.",
+        "risk_limitation": "Blocking/receiving split requires weekly matchup confirmation.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 72,
+          "class_year": "SO",
+          "position": "TE",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 84
+            },
+            {
+              "label": "Agility",
+              "value": 84
+            },
+            {
+              "label": "Speed",
+              "value": 78
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 71
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "s-degraffenreidt-wr",
+      "name": "S. Degraffenreidt",
+      "position": "WR",
+      "class_year": "JR (RS)",
+      "overall": 81,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 86,
+        "acceleration": 90,
+        "agility": 93,
+        "change_of_direction": 93,
+        "strength": 74,
+        "awareness": 69
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "S. Degraffenreidt is a starter-level WR with an overall of 81. The visible profile is led by Agility 93, Change Of Direction 93, Acceleration 90. Best weekly usage: possession routes, slants, intermediate concepts. Create space with motion and route combinations. Main limitation: Do not assume separation or hands ratings that were not shown.",
+        "role": "Primary receiver",
+        "strengths": [
+          "Agility 93",
+          "Change Of Direction 93",
+          "Acceleration 90",
+          "Speed 86"
+        ],
+        "limitations": [
+          "Awareness 69",
+          "Strength 74"
+        ],
+        "best_usage": [
+          "possession routes",
+          "slants",
+          "intermediate concepts"
+        ],
+        "best_formations": [
+          "Shotgun",
+          "Bunch",
+          "Trips"
+        ],
+        "matchup_advantage": "Create space with motion and route combinations.",
+        "risk_limitation": "Do not assume separation or hands ratings that were not shown.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 81,
+          "class_year": "JR (RS)",
+          "position": "WR",
+          "top_attributes": [
+            {
+              "label": "Agility",
+              "value": 93
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 93
+            },
+            {
+              "label": "Acceleration",
+              "value": 90
+            },
+            {
+              "label": "Speed",
+              "value": 86
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "j-houston-wr",
+      "name": "J. Houston",
+      "position": "WR",
+      "class_year": "JR (RS)",
+      "overall": 81,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 92,
+        "acceleration": 96,
+        "agility": 91,
+        "change_of_direction": 90,
+        "strength": 60,
+        "awareness": 64
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "J. Houston is a starter-level WR with an overall of 81. The visible profile is led by Acceleration 96, Speed 92, Agility 91. Best weekly usage: vertical routes, motion, crossers. Create space with motion and route combinations. Main limitation: Do not assume separation or hands ratings that were not shown.",
+        "role": "Primary receiver",
+        "strengths": [
+          "Acceleration 96",
+          "Speed 92",
+          "Agility 91",
+          "Change Of Direction 90"
+        ],
+        "limitations": [
+          "Strength 60",
+          "Awareness 64"
+        ],
+        "best_usage": [
+          "vertical routes",
+          "motion",
+          "crossers"
+        ],
+        "best_formations": [
+          "Shotgun",
+          "Bunch",
+          "Trips"
+        ],
+        "matchup_advantage": "Create space with motion and route combinations.",
+        "risk_limitation": "Do not assume separation or hands ratings that were not shown.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 81,
+          "class_year": "JR (RS)",
+          "position": "WR",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 96
+            },
+            {
+              "label": "Speed",
+              "value": 92
+            },
+            {
+              "label": "Agility",
+              "value": 91
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 90
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "b-demarco-wr",
+      "name": "B. DeMarco",
+      "position": "WR",
+      "class_year": "FR",
+      "overall": 80,
+      "nil_value": 210,
+      "attributes": {
+        "speed": 87,
+        "acceleration": 88,
+        "agility": 90,
+        "change_of_direction": 93,
+        "strength": 62,
+        "awareness": 73
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "B. DeMarco is a starter-level WR with an overall of 80. The visible profile is led by Change Of Direction 93, Agility 90, Acceleration 88. Best weekly usage: possession routes, slants, intermediate concepts. Create space with motion and route combinations. Main limitation: Do not assume separation or hands ratings that were not shown.",
+        "role": "Primary receiver",
+        "strengths": [
+          "Change Of Direction 93",
+          "Agility 90",
+          "Acceleration 88",
+          "Speed 87"
+        ],
+        "limitations": [
+          "Strength 62",
+          "Awareness 73"
+        ],
+        "best_usage": [
+          "possession routes",
+          "slants",
+          "intermediate concepts"
+        ],
+        "best_formations": [
+          "Shotgun",
+          "Bunch",
+          "Trips"
+        ],
+        "matchup_advantage": "Create space with motion and route combinations.",
+        "risk_limitation": "Do not assume separation or hands ratings that were not shown.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 80,
+          "class_year": "FR",
+          "position": "WR",
+          "top_attributes": [
+            {
+              "label": "Change Of Direction",
+              "value": 93
+            },
+            {
+              "label": "Agility",
+              "value": 90
+            },
+            {
+              "label": "Acceleration",
+              "value": 88
+            },
+            {
+              "label": "Speed",
+              "value": 87
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "f-toure-wr",
+      "name": "F. Toure",
+      "position": "WR",
+      "class_year": "SR (RS)",
+      "overall": 81,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 88,
+        "acceleration": 88,
+        "agility": 87,
+        "change_of_direction": 85,
+        "strength": 79,
+        "awareness": 78
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "F. Toure is a starter-level WR with an overall of 81. The visible profile is led by Speed 88, Acceleration 88, Agility 87. Best weekly usage: vertical routes, motion, crossers. Create space with motion and route combinations. Main limitation: Do not assume separation or hands ratings that were not shown.",
+        "role": "Primary receiver",
+        "strengths": [
+          "Speed 88",
+          "Acceleration 88",
+          "Agility 87",
+          "Change Of Direction 85"
+        ],
+        "limitations": [
+          "Awareness 78",
+          "Strength 79"
+        ],
+        "best_usage": [
+          "vertical routes",
+          "motion",
+          "crossers"
+        ],
+        "best_formations": [
+          "Shotgun",
+          "Bunch",
+          "Trips"
+        ],
+        "matchup_advantage": "Create space with motion and route combinations.",
+        "risk_limitation": "Do not assume separation or hands ratings that were not shown.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 81,
+          "class_year": "SR (RS)",
+          "position": "WR",
+          "top_attributes": [
+            {
+              "label": "Speed",
+              "value": 88
+            },
+            {
+              "label": "Acceleration",
+              "value": 88
+            },
+            {
+              "label": "Agility",
+              "value": 87
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 85
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "e-coke-wr",
+      "name": "E. Coke",
+      "position": "WR",
+      "class_year": "SO (RS)",
+      "overall": 78,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 80,
+        "acceleration": 95,
+        "agility": 83,
+        "change_of_direction": 81,
+        "strength": 65,
+        "awareness": 74
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "E. Coke is a starter-level WR with an overall of 78. The visible profile is led by Acceleration 95, Agility 83, Change Of Direction 81. Best weekly usage: possession routes, slants, intermediate concepts. Create space with motion and route combinations. Main limitation: Do not assume separation or hands ratings that were not shown.",
+        "role": "Rotation receiver",
+        "strengths": [
+          "Acceleration 95",
+          "Agility 83",
+          "Change Of Direction 81",
+          "Speed 80"
+        ],
+        "limitations": [
+          "Strength 65",
+          "Awareness 74"
+        ],
+        "best_usage": [
+          "possession routes",
+          "slants",
+          "intermediate concepts"
+        ],
+        "best_formations": [
+          "Shotgun",
+          "Bunch",
+          "Trips"
+        ],
+        "matchup_advantage": "Create space with motion and route combinations.",
+        "risk_limitation": "Do not assume separation or hands ratings that were not shown.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 78,
+          "class_year": "SO (RS)",
+          "position": "WR",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 95
+            },
+            {
+              "label": "Agility",
+              "value": 83
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 81
+            },
+            {
+              "label": "Speed",
+              "value": 80
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "e-bell-wr",
+      "name": "E. Bell",
+      "position": "WR",
+      "class_year": "FR",
+      "overall": 77,
+      "nil_value": 105,
+      "attributes": {
+        "speed": 89,
+        "acceleration": 92,
+        "agility": 85,
+        "change_of_direction": 83,
+        "strength": 62,
+        "awareness": 69
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "E. Bell is a rotation/developmental WR with an overall of 77. The visible profile is led by Acceleration 92, Speed 89, Agility 85. Best weekly usage: vertical routes, motion, crossers. Create space with motion and route combinations. Main limitation: Do not assume separation or hands ratings that were not shown.",
+        "role": "Rotation receiver",
+        "strengths": [
+          "Acceleration 92",
+          "Speed 89",
+          "Agility 85",
+          "Change Of Direction 83"
+        ],
+        "limitations": [
+          "Strength 62",
+          "Awareness 69"
+        ],
+        "best_usage": [
+          "vertical routes",
+          "motion",
+          "crossers"
+        ],
+        "best_formations": [
+          "Shotgun",
+          "Bunch",
+          "Trips"
+        ],
+        "matchup_advantage": "Create space with motion and route combinations.",
+        "risk_limitation": "Do not assume separation or hands ratings that were not shown.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 77,
+          "class_year": "FR",
+          "position": "WR",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 92
+            },
+            {
+              "label": "Speed",
+              "value": 89
+            },
+            {
+              "label": "Agility",
+              "value": 85
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 83
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "k-evans-wr",
+      "name": "K. Evans",
+      "position": "WR",
+      "class_year": "SR (RS)",
+      "overall": 80,
+      "nil_value": 165,
+      "attributes": {
+        "speed": 87,
+        "acceleration": 90,
+        "agility": 96,
+        "change_of_direction": 93,
+        "strength": 81,
+        "awareness": 82
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "K. Evans is a starter-level WR with an overall of 80. The visible profile is led by Agility 96, Change Of Direction 93, Acceleration 90. Best weekly usage: possession routes, slants, intermediate concepts. Create space with motion and route combinations. Main limitation: Do not assume separation or hands ratings that were not shown.",
+        "role": "Primary receiver",
+        "strengths": [
+          "Agility 96",
+          "Change Of Direction 93",
+          "Acceleration 90",
+          "Speed 87"
+        ],
+        "limitations": [
+          "Strength 81",
+          "Awareness 82"
+        ],
+        "best_usage": [
+          "possession routes",
+          "slants",
+          "intermediate concepts"
+        ],
+        "best_formations": [
+          "Shotgun",
+          "Bunch",
+          "Trips"
+        ],
+        "matchup_advantage": "Create space with motion and route combinations.",
+        "risk_limitation": "Do not assume separation or hands ratings that were not shown.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 80,
+          "class_year": "SR (RS)",
+          "position": "WR",
+          "top_attributes": [
+            {
+              "label": "Agility",
+              "value": 96
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 93
+            },
+            {
+              "label": "Acceleration",
+              "value": 90
+            },
+            {
+              "label": "Speed",
+              "value": 87
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "j-elijah-lt",
+      "name": "J. Elijah",
+      "position": "LT",
+      "class_year": "JR (RS)",
+      "overall": 80,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 73,
+        "acceleration": 82,
+        "agility": 75,
+        "change_of_direction": 64,
+        "strength": 80,
+        "awareness": 74
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "J. Elijah is a starter-level LT with an overall of 80. The visible profile is led by Acceleration 82, Strength 80, Agility 75. Best weekly usage: zone concepts, pull schemes. Use help against elite rushers and run behind the strongest interior combinations. Main limitation: Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "role": "Starting offensive lineman",
+        "strengths": [
+          "Acceleration 82",
+          "Strength 80",
+          "Agility 75",
+          "Awareness 74"
+        ],
+        "limitations": [
+          "Change Of Direction 64",
+          "Speed 73"
+        ],
+        "best_usage": [
+          "zone concepts",
+          "pull schemes"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Singleback",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use help against elite rushers and run behind the strongest interior combinations.",
+        "risk_limitation": "Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 80,
+          "class_year": "JR (RS)",
+          "position": "LT",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 82
+            },
+            {
+              "label": "Strength",
+              "value": 80
+            },
+            {
+              "label": "Agility",
+              "value": 75
+            },
+            {
+              "label": "Awareness",
+              "value": 74
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "b-newberry-rt",
+      "name": "B. Newberry",
+      "position": "RT",
+      "class_year": "SO (RS)",
+      "overall": 73,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 69,
+        "acceleration": 86,
+        "agility": 85,
+        "change_of_direction": 57,
+        "strength": 80,
+        "awareness": 72
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "B. Newberry is a rotation/developmental RT with an overall of 73. The visible profile is led by Acceleration 86, Agility 85, Strength 80. Best weekly usage: zone concepts, pull schemes. Use help against elite rushers and run behind the strongest interior combinations. Main limitation: Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "role": "Developmental/rotation lineman",
+        "strengths": [
+          "Acceleration 86",
+          "Agility 85",
+          "Strength 80",
+          "Awareness 72"
+        ],
+        "limitations": [
+          "Change Of Direction 57",
+          "Speed 69"
+        ],
+        "best_usage": [
+          "zone concepts",
+          "pull schemes"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Singleback",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use help against elite rushers and run behind the strongest interior combinations.",
+        "risk_limitation": "Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 73,
+          "class_year": "SO (RS)",
+          "position": "RT",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 86
+            },
+            {
+              "label": "Agility",
+              "value": 85
+            },
+            {
+              "label": "Strength",
+              "value": 80
+            },
+            {
+              "label": "Awareness",
+              "value": 72
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "j-felton-rg",
+      "name": "J. Felton",
+      "position": "RG",
+      "class_year": "FR",
+      "overall": 80,
+      "nil_value": 180,
+      "attributes": {
+        "speed": 77,
+        "acceleration": 79,
+        "agility": 76,
+        "change_of_direction": 62,
+        "strength": 89,
+        "awareness": 75
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "J. Felton is a starter-level RG with an overall of 80. The visible profile is led by Strength 89, Acceleration 79, Speed 77. Best weekly usage: zone concepts, pull schemes. Use help against elite rushers and run behind the strongest interior combinations. Main limitation: Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "role": "Starting offensive lineman",
+        "strengths": [
+          "Strength 89",
+          "Acceleration 79",
+          "Speed 77",
+          "Agility 76"
+        ],
+        "limitations": [
+          "Change Of Direction 62",
+          "Awareness 75"
+        ],
+        "best_usage": [
+          "zone concepts",
+          "pull schemes"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Singleback",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use help against elite rushers and run behind the strongest interior combinations.",
+        "risk_limitation": "Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 80,
+          "class_year": "FR",
+          "position": "RG",
+          "top_attributes": [
+            {
+              "label": "Strength",
+              "value": 89
+            },
+            {
+              "label": "Acceleration",
+              "value": 79
+            },
+            {
+              "label": "Speed",
+              "value": 77
+            },
+            {
+              "label": "Agility",
+              "value": 76
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "r-callow-lt",
+      "name": "R. Callow",
+      "position": "LT",
+      "class_year": "FR (RS)",
+      "overall": 79,
+      "nil_value": 250,
+      "attributes": {
+        "speed": 72,
+        "acceleration": 79,
+        "agility": 79,
+        "change_of_direction": 65,
+        "strength": 83,
+        "awareness": 74
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "R. Callow is a starter-level LT with an overall of 79. The visible profile is led by Strength 83, Acceleration 79, Agility 79. Best weekly usage: zone concepts, pull schemes. Use help against elite rushers and run behind the strongest interior combinations. Main limitation: Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "role": "Starting offensive lineman",
+        "strengths": [
+          "Strength 83",
+          "Acceleration 79",
+          "Agility 79",
+          "Awareness 74"
+        ],
+        "limitations": [
+          "Change Of Direction 65",
+          "Speed 72"
+        ],
+        "best_usage": [
+          "zone concepts",
+          "pull schemes"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Singleback",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use help against elite rushers and run behind the strongest interior combinations.",
+        "risk_limitation": "Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 79,
+          "class_year": "FR (RS)",
+          "position": "LT",
+          "top_attributes": [
+            {
+              "label": "Strength",
+              "value": 83
+            },
+            {
+              "label": "Acceleration",
+              "value": 79
+            },
+            {
+              "label": "Agility",
+              "value": 79
+            },
+            {
+              "label": "Awareness",
+              "value": 74
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "d-sturgis-c",
+      "name": "D. Sturgis",
+      "position": "C",
+      "class_year": "FR",
+      "overall": 79,
+      "nil_value": 90,
+      "attributes": {
+        "speed": 67,
+        "acceleration": 77,
+        "agility": 69,
+        "change_of_direction": 57,
+        "strength": 85,
+        "awareness": 77
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "D. Sturgis is a starter-level C with an overall of 79. The visible profile is led by Strength 85, Acceleration 77, Awareness 77. Best weekly usage: power, duo, inside zone. Use help against elite rushers and run behind the strongest interior combinations. Main limitation: Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "role": "Starting offensive lineman",
+        "strengths": [
+          "Strength 85",
+          "Acceleration 77",
+          "Awareness 77",
+          "Agility 69"
+        ],
+        "limitations": [
+          "Change Of Direction 57",
+          "Speed 67"
+        ],
+        "best_usage": [
+          "power",
+          "duo",
+          "inside zone"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Singleback",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use help against elite rushers and run behind the strongest interior combinations.",
+        "risk_limitation": "Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 79,
+          "class_year": "FR",
+          "position": "C",
+          "top_attributes": [
+            {
+              "label": "Strength",
+              "value": 85
+            },
+            {
+              "label": "Acceleration",
+              "value": 77
+            },
+            {
+              "label": "Awareness",
+              "value": 77
+            },
+            {
+              "label": "Agility",
+              "value": 69
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "r-haines-c",
+      "name": "R. Haines",
+      "position": "C",
+      "class_year": "SR",
+      "overall": 76,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 63,
+        "acceleration": 75,
+        "agility": 70,
+        "change_of_direction": 63,
+        "strength": 86,
+        "awareness": 60
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "R. Haines is a rotation/developmental C with an overall of 76. The visible profile is led by Strength 86, Acceleration 75, Agility 70. Best weekly usage: power, duo, inside zone. Use help against elite rushers and run behind the strongest interior combinations. Main limitation: Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "role": "Starting offensive lineman",
+        "strengths": [
+          "Strength 86",
+          "Acceleration 75",
+          "Agility 70",
+          "Speed 63"
+        ],
+        "limitations": [
+          "Awareness 60",
+          "Speed 63"
+        ],
+        "best_usage": [
+          "power",
+          "duo",
+          "inside zone"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Singleback",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use help against elite rushers and run behind the strongest interior combinations.",
+        "risk_limitation": "Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 76,
+          "class_year": "SR",
+          "position": "C",
+          "top_attributes": [
+            {
+              "label": "Strength",
+              "value": 86
+            },
+            {
+              "label": "Acceleration",
+              "value": 75
+            },
+            {
+              "label": "Agility",
+              "value": 70
+            },
+            {
+              "label": "Speed",
+              "value": 63
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "c-lantz-lg",
+      "name": "C. Lantz",
+      "position": "LG",
+      "class_year": "SO (RS)",
+      "overall": 71,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 57,
+        "acceleration": 61,
+        "agility": 79,
+        "change_of_direction": 62,
+        "strength": 90,
+        "awareness": 80
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "C. Lantz is a rotation/developmental LG with an overall of 71. The visible profile is led by Strength 90, Awareness 80, Agility 79. Best weekly usage: zone concepts, pull schemes. Use help against elite rushers and run behind the strongest interior combinations. Main limitation: Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "role": "Developmental/rotation lineman",
+        "strengths": [
+          "Strength 90",
+          "Awareness 80",
+          "Agility 79",
+          "Change Of Direction 62"
+        ],
+        "limitations": [
+          "Speed 57",
+          "Acceleration 61"
+        ],
+        "best_usage": [
+          "zone concepts",
+          "pull schemes"
+        ],
+        "best_formations": [
+          "Pistol",
+          "Singleback",
+          "Shotgun"
+        ],
+        "matchup_advantage": "Use help against elite rushers and run behind the strongest interior combinations.",
+        "risk_limitation": "Specific pass-block and run-block ratings were not shown; pressure attribution must come from weekly data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 71,
+          "class_year": "SO (RS)",
+          "position": "LG",
+          "top_attributes": [
+            {
+              "label": "Strength",
+              "value": 90
+            },
+            {
+              "label": "Awareness",
+              "value": 80
+            },
+            {
+              "label": "Agility",
+              "value": 79
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 62
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "w-nwaneri-redg",
+      "name": "W. Nwaneri",
+      "position": "REDG",
+      "class_year": "SR (RS)",
+      "overall": 85,
+      "nil_value": 155,
+      "attributes": {
+        "speed": 80,
+        "acceleration": 89,
+        "agility": 75,
+        "change_of_direction": 75,
+        "strength": 89,
+        "awareness": 77
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "W. Nwaneri is a high-end starter REDG with an overall of 85. The visible profile is led by Acceleration 89, Strength 89, Speed 80. Best weekly usage: rush the passer, set the edge, stunts. Attack weaker tackles and compress the pocket. Main limitation: Contain discipline and coverage value require weekly performance data.",
+        "role": "Starting edge defender",
+        "strengths": [
+          "Acceleration 89",
+          "Strength 89",
+          "Speed 80",
+          "Awareness 77"
+        ],
+        "limitations": [
+          "Agility 75",
+          "Change Of Direction 75"
+        ],
+        "best_usage": [
+          "rush the passer",
+          "set the edge",
+          "stunts"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Attack weaker tackles and compress the pocket.",
+        "risk_limitation": "Contain discipline and coverage value require weekly performance data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 85,
+          "class_year": "SR (RS)",
+          "position": "REDG",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 89
+            },
+            {
+              "label": "Strength",
+              "value": 89
+            },
+            {
+              "label": "Speed",
+              "value": 80
+            },
+            {
+              "label": "Awareness",
+              "value": 77
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "j-simon-redg",
+      "name": "J. Simon",
+      "position": "REDG",
+      "class_year": "JR (RS)",
+      "overall": 77,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 73,
+        "acceleration": 79,
+        "agility": 72,
+        "change_of_direction": 74,
+        "strength": 78,
+        "awareness": 77
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "J. Simon is a rotation/developmental REDG with an overall of 77. The visible profile is led by Acceleration 79, Strength 78, Awareness 77. Best weekly usage: rush the passer, set the edge, stunts. Attack weaker tackles and compress the pocket. Main limitation: Contain discipline and coverage value require weekly performance data.",
+        "role": "Rotation edge defender",
+        "strengths": [
+          "Acceleration 79",
+          "Strength 78",
+          "Awareness 77",
+          "Change Of Direction 74"
+        ],
+        "limitations": [
+          "Agility 72",
+          "Speed 73"
+        ],
+        "best_usage": [
+          "rush the passer",
+          "set the edge",
+          "stunts"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Attack weaker tackles and compress the pocket.",
+        "risk_limitation": "Contain discipline and coverage value require weekly performance data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 77,
+          "class_year": "JR (RS)",
+          "position": "REDG",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 79
+            },
+            {
+              "label": "Strength",
+              "value": 78
+            },
+            {
+              "label": "Awareness",
+              "value": 77
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 74
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "s-sousa-redg",
+      "name": "S. Sousa",
+      "position": "REDG",
+      "class_year": "FR",
+      "overall": 75,
+      "nil_value": 110,
+      "attributes": {
+        "speed": 80,
+        "acceleration": 86,
+        "agility": 76,
+        "change_of_direction": 68,
+        "strength": 83,
+        "awareness": 58
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "S. Sousa is a rotation/developmental REDG with an overall of 75. The visible profile is led by Acceleration 86, Strength 83, Speed 80. Best weekly usage: rush the passer, set the edge, stunts. Attack weaker tackles and compress the pocket. Main limitation: Contain discipline and coverage value require weekly performance data.",
+        "role": "Rotation edge defender",
+        "strengths": [
+          "Acceleration 86",
+          "Strength 83",
+          "Speed 80",
+          "Agility 76"
+        ],
+        "limitations": [
+          "Awareness 58",
+          "Change Of Direction 68"
+        ],
+        "best_usage": [
+          "rush the passer",
+          "set the edge",
+          "stunts"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Attack weaker tackles and compress the pocket.",
+        "risk_limitation": "Contain discipline and coverage value require weekly performance data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 75,
+          "class_year": "FR",
+          "position": "REDG",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 86
+            },
+            {
+              "label": "Strength",
+              "value": 83
+            },
+            {
+              "label": "Speed",
+              "value": 80
+            },
+            {
+              "label": "Agility",
+              "value": 76
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "z-mathis-redg",
+      "name": "Z. Mathis",
+      "position": "REDG",
+      "class_year": "JR (RS)",
+      "overall": 86,
+      "nil_value": 165,
+      "attributes": {
+        "speed": 84,
+        "acceleration": 93,
+        "agility": 90,
+        "change_of_direction": 73,
+        "strength": 68,
+        "awareness": 81
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "Z. Mathis is a high-end starter REDG with an overall of 86. The visible profile is led by Acceleration 93, Agility 90, Speed 84. Best weekly usage: rush the passer, set the edge, stunts. Attack weaker tackles and compress the pocket. Main limitation: Contain discipline and coverage value require weekly performance data.",
+        "role": "Starting edge defender",
+        "strengths": [
+          "Acceleration 93",
+          "Agility 90",
+          "Speed 84",
+          "Awareness 81"
+        ],
+        "limitations": [
+          "Strength 68",
+          "Change Of Direction 73"
+        ],
+        "best_usage": [
+          "rush the passer",
+          "set the edge",
+          "stunts"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Attack weaker tackles and compress the pocket.",
+        "risk_limitation": "Contain discipline and coverage value require weekly performance data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 86,
+          "class_year": "JR (RS)",
+          "position": "REDG",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 93
+            },
+            {
+              "label": "Agility",
+              "value": 90
+            },
+            {
+              "label": "Speed",
+              "value": 84
+            },
+            {
+              "label": "Awareness",
+              "value": 81
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "e-king-redg",
+      "name": "E. King",
+      "position": "REDG",
+      "class_year": "SR (RS)",
+      "overall": 75,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 78,
+        "acceleration": 83,
+        "agility": 78,
+        "change_of_direction": 72,
+        "strength": 72,
+        "awareness": 74
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "E. King is a rotation/developmental REDG with an overall of 75. The visible profile is led by Acceleration 83, Speed 78, Agility 78. Best weekly usage: rush the passer, set the edge, stunts. Attack weaker tackles and compress the pocket. Main limitation: Contain discipline and coverage value require weekly performance data.",
+        "role": "Rotation edge defender",
+        "strengths": [
+          "Acceleration 83",
+          "Speed 78",
+          "Agility 78",
+          "Awareness 74"
+        ],
+        "limitations": [
+          "Change Of Direction 72",
+          "Strength 72"
+        ],
+        "best_usage": [
+          "rush the passer",
+          "set the edge",
+          "stunts"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Attack weaker tackles and compress the pocket.",
+        "risk_limitation": "Contain discipline and coverage value require weekly performance data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 75,
+          "class_year": "SR (RS)",
+          "position": "REDG",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 83
+            },
+            {
+              "label": "Speed",
+              "value": 78
+            },
+            {
+              "label": "Agility",
+              "value": 78
+            },
+            {
+              "label": "Awareness",
+              "value": 74
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "a-anelli-dt",
+      "name": "A. Anelli",
+      "position": "DT",
+      "class_year": "FR",
+      "overall": 75,
+      "nil_value": 105,
+      "attributes": {
+        "speed": 71,
+        "acceleration": 79,
+        "agility": 73,
+        "change_of_direction": 67,
+        "strength": 91,
+        "awareness": 67
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "A. Anelli is a rotation/developmental DT with an overall of 75. The visible profile is led by Strength 91, Acceleration 79, Agility 73. Best weekly usage: interior rush, run fits, gap control. Use strength and acceleration to disrupt inside blocking. Main limitation: Avoid overcommitting upfield against trap and screen action.",
+        "role": "Interior rotation",
+        "strengths": [
+          "Strength 91",
+          "Acceleration 79",
+          "Agility 73",
+          "Speed 71"
+        ],
+        "limitations": [
+          "Change Of Direction 67",
+          "Awareness 67"
+        ],
+        "best_usage": [
+          "interior rush",
+          "run fits",
+          "gap control"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use strength and acceleration to disrupt inside blocking.",
+        "risk_limitation": "Avoid overcommitting upfield against trap and screen action.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 75,
+          "class_year": "FR",
+          "position": "DT",
+          "top_attributes": [
+            {
+              "label": "Strength",
+              "value": 91
+            },
+            {
+              "label": "Acceleration",
+              "value": 79
+            },
+            {
+              "label": "Agility",
+              "value": 73
+            },
+            {
+              "label": "Speed",
+              "value": 71
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "j-verrett-dt",
+      "name": "J. Verrett",
+      "position": "DT",
+      "class_year": "SO",
+      "overall": 73,
+      "nil_value": 85,
+      "attributes": {
+        "speed": 82,
+        "acceleration": 87,
+        "agility": 79,
+        "change_of_direction": 65,
+        "strength": 70,
+        "awareness": 75
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "J. Verrett is a rotation/developmental DT with an overall of 73. The visible profile is led by Acceleration 87, Speed 82, Agility 79. Best weekly usage: interior rush, run fits, gap control. Use strength and acceleration to disrupt inside blocking. Main limitation: Avoid overcommitting upfield against trap and screen action.",
+        "role": "Interior rotation",
+        "strengths": [
+          "Acceleration 87",
+          "Speed 82",
+          "Agility 79",
+          "Awareness 75"
+        ],
+        "limitations": [
+          "Change Of Direction 65",
+          "Strength 70"
+        ],
+        "best_usage": [
+          "interior rush",
+          "run fits",
+          "gap control"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use strength and acceleration to disrupt inside blocking.",
+        "risk_limitation": "Avoid overcommitting upfield against trap and screen action.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 73,
+          "class_year": "SO",
+          "position": "DT",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 87
+            },
+            {
+              "label": "Speed",
+              "value": 82
+            },
+            {
+              "label": "Agility",
+              "value": 79
+            },
+            {
+              "label": "Awareness",
+              "value": 75
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "p-cook-dt",
+      "name": "P. Cook",
+      "position": "DT",
+      "class_year": "SO",
+      "overall": 71,
+      "nil_value": 120,
+      "attributes": {
+        "speed": 80,
+        "acceleration": 82,
+        "agility": 74,
+        "change_of_direction": 63,
+        "strength": 71,
+        "awareness": 73
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "P. Cook is a rotation/developmental DT with an overall of 71. The visible profile is led by Acceleration 82, Speed 80, Agility 74. Best weekly usage: interior rush, run fits, gap control. Use strength and acceleration to disrupt inside blocking. Main limitation: Avoid overcommitting upfield against trap and screen action.",
+        "role": "Interior rotation",
+        "strengths": [
+          "Acceleration 82",
+          "Speed 80",
+          "Agility 74",
+          "Awareness 73"
+        ],
+        "limitations": [
+          "Change Of Direction 63",
+          "Strength 71"
+        ],
+        "best_usage": [
+          "interior rush",
+          "run fits",
+          "gap control"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use strength and acceleration to disrupt inside blocking.",
+        "risk_limitation": "Avoid overcommitting upfield against trap and screen action.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 71,
+          "class_year": "SO",
+          "position": "DT",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 82
+            },
+            {
+              "label": "Speed",
+              "value": 80
+            },
+            {
+              "label": "Agility",
+              "value": 74
+            },
+            {
+              "label": "Awareness",
+              "value": 73
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "j-strong-dt",
+      "name": "J. Strong",
+      "position": "DT",
+      "class_year": "SO",
+      "overall": 69,
+      "nil_value": 120,
+      "attributes": {
+        "speed": 81,
+        "acceleration": 84,
+        "agility": 77,
+        "change_of_direction": 68,
+        "strength": 81,
+        "awareness": 67
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "J. Strong is a rotation/developmental DT with an overall of 69. The visible profile is led by Acceleration 84, Speed 81, Strength 81. Best weekly usage: interior rush, run fits, gap control. Use strength and acceleration to disrupt inside blocking. Main limitation: Avoid overcommitting upfield against trap and screen action.",
+        "role": "Interior rotation",
+        "strengths": [
+          "Acceleration 84",
+          "Speed 81",
+          "Strength 81",
+          "Agility 77"
+        ],
+        "limitations": [
+          "Awareness 67",
+          "Change Of Direction 68"
+        ],
+        "best_usage": [
+          "interior rush",
+          "run fits",
+          "gap control"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use strength and acceleration to disrupt inside blocking.",
+        "risk_limitation": "Avoid overcommitting upfield against trap and screen action.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 69,
+          "class_year": "SO",
+          "position": "DT",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 84
+            },
+            {
+              "label": "Speed",
+              "value": 81
+            },
+            {
+              "label": "Strength",
+              "value": 81
+            },
+            {
+              "label": "Agility",
+              "value": 77
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "t-hitchens-ledg",
+      "name": "T. Hitchens",
+      "position": "LEDG",
+      "class_year": "SO (RS)",
+      "overall": 74,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 72,
+        "acceleration": 78,
+        "agility": 72,
+        "change_of_direction": 65,
+        "strength": 83,
+        "awareness": 81
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "T. Hitchens is a rotation/developmental LEDG with an overall of 74. The visible profile is led by Strength 83, Awareness 81, Acceleration 78. Best weekly usage: rush the passer, set the edge, stunts. Attack weaker tackles and compress the pocket. Main limitation: Contain discipline and coverage value require weekly performance data.",
+        "role": "Rotation edge defender",
+        "strengths": [
+          "Strength 83",
+          "Awareness 81",
+          "Acceleration 78",
+          "Speed 72"
+        ],
+        "limitations": [
+          "Change Of Direction 65",
+          "Speed 72"
+        ],
+        "best_usage": [
+          "rush the passer",
+          "set the edge",
+          "stunts"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Attack weaker tackles and compress the pocket.",
+        "risk_limitation": "Contain discipline and coverage value require weekly performance data.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 74,
+          "class_year": "SO (RS)",
+          "position": "LEDG",
+          "top_attributes": [
+            {
+              "label": "Strength",
+              "value": 83
+            },
+            {
+              "label": "Awareness",
+              "value": 81
+            },
+            {
+              "label": "Acceleration",
+              "value": 78
+            },
+            {
+              "label": "Speed",
+              "value": 72
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "i-deloatch-will",
+      "name": "I. Deloatch",
+      "position": "WILL",
+      "class_year": "SR",
+      "overall": 76,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 86,
+        "acceleration": 90,
+        "agility": 80,
+        "change_of_direction": 79,
+        "strength": 68,
+        "awareness": 80
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "I. Deloatch is a rotation/developmental WILL with an overall of 76. The visible profile is led by Acceleration 90, Speed 86, Agility 80. Best weekly usage: run fits, pressure packages, hook-zone responsibility. Use athleticism to close space and match backs/tight ends. Main limitation: Coverage and play-recognition details must be confirmed weekly.",
+        "role": "Starting linebacker",
+        "strengths": [
+          "Acceleration 90",
+          "Speed 86",
+          "Agility 80",
+          "Awareness 80"
+        ],
+        "limitations": [
+          "Strength 68",
+          "Change Of Direction 79"
+        ],
+        "best_usage": [
+          "run fits",
+          "pressure packages",
+          "hook-zone responsibility"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use athleticism to close space and match backs/tight ends.",
+        "risk_limitation": "Coverage and play-recognition details must be confirmed weekly.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 76,
+          "class_year": "SR",
+          "position": "WILL",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 90
+            },
+            {
+              "label": "Speed",
+              "value": 86
+            },
+            {
+              "label": "Agility",
+              "value": 80
+            },
+            {
+              "label": "Awareness",
+              "value": 80
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "k-archie-mike",
+      "name": "K. Archie",
+      "position": "MIKE",
+      "class_year": "SR",
+      "overall": 75,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 83,
+        "acceleration": 86,
+        "agility": 81,
+        "change_of_direction": 78,
+        "strength": 71,
+        "awareness": 80
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "K. Archie is a rotation/developmental MIKE with an overall of 75. The visible profile is led by Acceleration 86, Speed 83, Agility 81. Best weekly usage: run fits, pressure packages, hook-zone responsibility. Use athleticism to close space and match backs/tight ends. Main limitation: Coverage and play-recognition details must be confirmed weekly.",
+        "role": "Starting linebacker",
+        "strengths": [
+          "Acceleration 86",
+          "Speed 83",
+          "Agility 81",
+          "Awareness 80"
+        ],
+        "limitations": [
+          "Strength 71",
+          "Change Of Direction 78"
+        ],
+        "best_usage": [
+          "run fits",
+          "pressure packages",
+          "hook-zone responsibility"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use athleticism to close space and match backs/tight ends.",
+        "risk_limitation": "Coverage and play-recognition details must be confirmed weekly.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 75,
+          "class_year": "SR",
+          "position": "MIKE",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 86
+            },
+            {
+              "label": "Speed",
+              "value": 83
+            },
+            {
+              "label": "Agility",
+              "value": 81
+            },
+            {
+              "label": "Awareness",
+              "value": 80
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "i-smoker-mike",
+      "name": "I. Smoker",
+      "position": "MIKE",
+      "class_year": "FR",
+      "overall": 72,
+      "nil_value": 175,
+      "attributes": {
+        "speed": 87,
+        "acceleration": 86,
+        "agility": 87,
+        "change_of_direction": 77,
+        "strength": 77,
+        "awareness": 76
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "I. Smoker is a rotation/developmental MIKE with an overall of 72. The visible profile is led by Speed 87, Agility 87, Acceleration 86. Best weekly usage: run fits, pressure packages, hook-zone responsibility. Use athleticism to close space and match backs/tight ends. Main limitation: Coverage and play-recognition details must be confirmed weekly.",
+        "role": "Rotation linebacker",
+        "strengths": [
+          "Speed 87",
+          "Agility 87",
+          "Acceleration 86",
+          "Change Of Direction 77"
+        ],
+        "limitations": [
+          "Awareness 76",
+          "Change Of Direction 77"
+        ],
+        "best_usage": [
+          "run fits",
+          "pressure packages",
+          "hook-zone responsibility"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use athleticism to close space and match backs/tight ends.",
+        "risk_limitation": "Coverage and play-recognition details must be confirmed weekly.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 72,
+          "class_year": "FR",
+          "position": "MIKE",
+          "top_attributes": [
+            {
+              "label": "Speed",
+              "value": 87
+            },
+            {
+              "label": "Agility",
+              "value": 87
+            },
+            {
+              "label": "Acceleration",
+              "value": 86
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 77
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "g-nix-mike",
+      "name": "G. Nix",
+      "position": "MIKE",
+      "class_year": "JR (RS)",
+      "overall": 75,
+      "nil_value": 145,
+      "attributes": {
+        "speed": 82,
+        "acceleration": 86,
+        "agility": 82,
+        "change_of_direction": 80,
+        "strength": 73,
+        "awareness": 78
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "G. Nix is a rotation/developmental MIKE with an overall of 75. The visible profile is led by Acceleration 86, Speed 82, Agility 82. Best weekly usage: run fits, pressure packages, hook-zone responsibility. Use athleticism to close space and match backs/tight ends. Main limitation: Coverage and play-recognition details must be confirmed weekly.",
+        "role": "Starting linebacker",
+        "strengths": [
+          "Acceleration 86",
+          "Speed 82",
+          "Agility 82",
+          "Change Of Direction 80"
+        ],
+        "limitations": [
+          "Strength 73",
+          "Awareness 78"
+        ],
+        "best_usage": [
+          "run fits",
+          "pressure packages",
+          "hook-zone responsibility"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use athleticism to close space and match backs/tight ends.",
+        "risk_limitation": "Coverage and play-recognition details must be confirmed weekly.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 75,
+          "class_year": "JR (RS)",
+          "position": "MIKE",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 86
+            },
+            {
+              "label": "Speed",
+              "value": 82
+            },
+            {
+              "label": "Agility",
+              "value": 82
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 80
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "x-hakim-will",
+      "name": "X. Hakim",
+      "position": "WILL",
+      "class_year": "JR",
+      "overall": 71,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 82,
+        "acceleration": 86,
+        "agility": 75,
+        "change_of_direction": 70,
+        "strength": 71,
+        "awareness": 79
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "X. Hakim is a rotation/developmental WILL with an overall of 71. The visible profile is led by Acceleration 86, Speed 82, Awareness 79. Best weekly usage: run fits, pressure packages, hook-zone responsibility. Use athleticism to close space and match backs/tight ends. Main limitation: Coverage and play-recognition details must be confirmed weekly.",
+        "role": "Rotation linebacker",
+        "strengths": [
+          "Acceleration 86",
+          "Speed 82",
+          "Awareness 79",
+          "Agility 75"
+        ],
+        "limitations": [
+          "Change Of Direction 70",
+          "Strength 71"
+        ],
+        "best_usage": [
+          "run fits",
+          "pressure packages",
+          "hook-zone responsibility"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use athleticism to close space and match backs/tight ends.",
+        "risk_limitation": "Coverage and play-recognition details must be confirmed weekly.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 71,
+          "class_year": "JR",
+          "position": "WILL",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 86
+            },
+            {
+              "label": "Speed",
+              "value": 82
+            },
+            {
+              "label": "Awareness",
+              "value": 79
+            },
+            {
+              "label": "Agility",
+              "value": 75
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "e-nwaneri-mike",
+      "name": "E. Nwaneri",
+      "position": "MIKE",
+      "class_year": "SO",
+      "overall": 70,
+      "nil_value": 115,
+      "attributes": {
+        "speed": 79,
+        "acceleration": 87,
+        "agility": 75,
+        "change_of_direction": 72,
+        "strength": 79,
+        "awareness": 75
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "E. Nwaneri is a rotation/developmental MIKE with an overall of 70. The visible profile is led by Acceleration 87, Speed 79, Strength 79. Best weekly usage: run fits, pressure packages, hook-zone responsibility. Use athleticism to close space and match backs/tight ends. Main limitation: Coverage and play-recognition details must be confirmed weekly.",
+        "role": "Rotation linebacker",
+        "strengths": [
+          "Acceleration 87",
+          "Speed 79",
+          "Strength 79",
+          "Agility 75"
+        ],
+        "limitations": [
+          "Change Of Direction 72",
+          "Agility 75"
+        ],
+        "best_usage": [
+          "run fits",
+          "pressure packages",
+          "hook-zone responsibility"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use athleticism to close space and match backs/tight ends.",
+        "risk_limitation": "Coverage and play-recognition details must be confirmed weekly.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 70,
+          "class_year": "SO",
+          "position": "MIKE",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 87
+            },
+            {
+              "label": "Speed",
+              "value": 79
+            },
+            {
+              "label": "Strength",
+              "value": 79
+            },
+            {
+              "label": "Agility",
+              "value": 75
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "t-newson-mike",
+      "name": "T. Newson",
+      "position": "MIKE",
+      "class_year": "SO",
+      "overall": 67,
+      "nil_value": 55,
+      "attributes": {
+        "speed": 76,
+        "acceleration": 80,
+        "agility": 85,
+        "change_of_direction": 72,
+        "strength": 74,
+        "awareness": 69
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "T. Newson is a rotation/developmental MIKE with an overall of 67. The visible profile is led by Agility 85, Acceleration 80, Speed 76. Best weekly usage: run fits, pressure packages, hook-zone responsibility. Use athleticism to close space and match backs/tight ends. Main limitation: Coverage and play-recognition details must be confirmed weekly.",
+        "role": "Rotation linebacker",
+        "strengths": [
+          "Agility 85",
+          "Acceleration 80",
+          "Speed 76",
+          "Strength 74"
+        ],
+        "limitations": [
+          "Awareness 69",
+          "Change Of Direction 72"
+        ],
+        "best_usage": [
+          "run fits",
+          "pressure packages",
+          "hook-zone responsibility"
+        ],
+        "best_formations": [
+          "Base front",
+          "Nickel"
+        ],
+        "matchup_advantage": "Use athleticism to close space and match backs/tight ends.",
+        "risk_limitation": "Coverage and play-recognition details must be confirmed weekly.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 67,
+          "class_year": "SO",
+          "position": "MIKE",
+          "top_attributes": [
+            {
+              "label": "Agility",
+              "value": 85
+            },
+            {
+              "label": "Acceleration",
+              "value": 80
+            },
+            {
+              "label": "Speed",
+              "value": 76
+            },
+            {
+              "label": "Strength",
+              "value": 74
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "b-gordon-jr-cb",
+      "name": "B. Gordon Jr.",
+      "position": "CB",
+      "class_year": "SR",
+      "overall": 89,
+      "nil_value": 250,
+      "attributes": {
+        "speed": 89,
+        "acceleration": 93,
+        "agility": 92,
+        "change_of_direction": 92,
+        "strength": 63,
+        "awareness": 85
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "B. Gordon Jr. is a high-end starter CB with an overall of 89. The visible profile is led by Acceleration 93, Agility 92, Change Of Direction 92. Best weekly usage: man coverage, zone match, pressure disguise. Use speed and change of direction to contest explosive plays. Main limitation: Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "role": "Starting defensive back",
+        "strengths": [
+          "Acceleration 93",
+          "Agility 92",
+          "Change Of Direction 92",
+          "Speed 89"
+        ],
+        "limitations": [
+          "Strength 63",
+          "Awareness 85"
+        ],
+        "best_usage": [
+          "man coverage",
+          "zone match",
+          "pressure disguise"
+        ],
+        "best_formations": [
+          "Nickel",
+          "Dime",
+          "Base"
+        ],
+        "matchup_advantage": "Use speed and change of direction to contest explosive plays.",
+        "risk_limitation": "Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 89,
+          "class_year": "SR",
+          "position": "CB",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 93
+            },
+            {
+              "label": "Agility",
+              "value": 92
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 92
+            },
+            {
+              "label": "Speed",
+              "value": 89
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "s-murray-cb",
+      "name": "S. Murray",
+      "position": "CB",
+      "class_year": "JR (RS)",
+      "overall": 79,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 92,
+        "acceleration": 93,
+        "agility": 90,
+        "change_of_direction": 95,
+        "strength": 47,
+        "awareness": 70
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "S. Murray is a starter-level CB with an overall of 79. The visible profile is led by Change Of Direction 95, Acceleration 93, Speed 92. Best weekly usage: man coverage, zone match, pressure disguise. Use speed and change of direction to contest explosive plays. Main limitation: Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "role": "Starting defensive back",
+        "strengths": [
+          "Change Of Direction 95",
+          "Acceleration 93",
+          "Speed 92",
+          "Agility 90"
+        ],
+        "limitations": [
+          "Strength 47",
+          "Awareness 70"
+        ],
+        "best_usage": [
+          "man coverage",
+          "zone match",
+          "pressure disguise"
+        ],
+        "best_formations": [
+          "Nickel",
+          "Dime",
+          "Base"
+        ],
+        "matchup_advantage": "Use speed and change of direction to contest explosive plays.",
+        "risk_limitation": "Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 79,
+          "class_year": "JR (RS)",
+          "position": "CB",
+          "top_attributes": [
+            {
+              "label": "Change Of Direction",
+              "value": 95
+            },
+            {
+              "label": "Acceleration",
+              "value": 93
+            },
+            {
+              "label": "Speed",
+              "value": 92
+            },
+            {
+              "label": "Agility",
+              "value": 90
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "d-anderson-cb",
+      "name": "D. Anderson",
+      "position": "CB",
+      "class_year": "SO (RS)",
+      "overall": 79,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 90,
+        "acceleration": 93,
+        "agility": 88,
+        "change_of_direction": 91,
+        "strength": 65,
+        "awareness": 76
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "D. Anderson is a starter-level CB with an overall of 79. The visible profile is led by Acceleration 93, Change Of Direction 91, Speed 90. Best weekly usage: man coverage, zone match, pressure disguise. Use speed and change of direction to contest explosive plays. Main limitation: Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "role": "Starting defensive back",
+        "strengths": [
+          "Acceleration 93",
+          "Change Of Direction 91",
+          "Speed 90",
+          "Agility 88"
+        ],
+        "limitations": [
+          "Strength 65",
+          "Awareness 76"
+        ],
+        "best_usage": [
+          "man coverage",
+          "zone match",
+          "pressure disguise"
+        ],
+        "best_formations": [
+          "Nickel",
+          "Dime",
+          "Base"
+        ],
+        "matchup_advantage": "Use speed and change of direction to contest explosive plays.",
+        "risk_limitation": "Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 79,
+          "class_year": "SO (RS)",
+          "position": "CB",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 93
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 91
+            },
+            {
+              "label": "Speed",
+              "value": 90
+            },
+            {
+              "label": "Agility",
+              "value": 88
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "t-vega-cb",
+      "name": "T. Vega",
+      "position": "CB",
+      "class_year": "FR (RS)",
+      "overall": 69,
+      "nil_value": 5,
+      "attributes": {
+        "speed": 94,
+        "acceleration": 83,
+        "agility": 81,
+        "change_of_direction": 92,
+        "strength": 56,
+        "awareness": 68
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "T. Vega is a rotation/developmental CB with an overall of 69. The visible profile is led by Speed 94, Change Of Direction 92, Acceleration 83. Best weekly usage: man coverage, zone match, pressure disguise. Use speed and change of direction to contest explosive plays. Main limitation: Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "role": "Rotation defensive back",
+        "strengths": [
+          "Speed 94",
+          "Change Of Direction 92",
+          "Acceleration 83",
+          "Agility 81"
+        ],
+        "limitations": [
+          "Strength 56",
+          "Awareness 68"
+        ],
+        "best_usage": [
+          "man coverage",
+          "zone match",
+          "pressure disguise"
+        ],
+        "best_formations": [
+          "Nickel",
+          "Dime",
+          "Base"
+        ],
+        "matchup_advantage": "Use speed and change of direction to contest explosive plays.",
+        "risk_limitation": "Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 69,
+          "class_year": "FR (RS)",
+          "position": "CB",
+          "top_attributes": [
+            {
+              "label": "Speed",
+              "value": 94
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 92
+            },
+            {
+              "label": "Acceleration",
+              "value": 83
+            },
+            {
+              "label": "Agility",
+              "value": 81
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "a-krull-cb",
+      "name": "A. Krull",
+      "position": "CB",
+      "class_year": "FR",
+      "overall": 73,
+      "nil_value": 200,
+      "attributes": {
+        "speed": 89,
+        "acceleration": 92,
+        "agility": 89,
+        "change_of_direction": 93,
+        "strength": 58,
+        "awareness": 65
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "A. Krull is a rotation/developmental CB with an overall of 73. The visible profile is led by Change Of Direction 93, Acceleration 92, Speed 89. Best weekly usage: man coverage, zone match, pressure disguise. Use speed and change of direction to contest explosive plays. Main limitation: Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "role": "Rotation defensive back",
+        "strengths": [
+          "Change Of Direction 93",
+          "Acceleration 92",
+          "Speed 89",
+          "Agility 89"
+        ],
+        "limitations": [
+          "Strength 58",
+          "Awareness 65"
+        ],
+        "best_usage": [
+          "man coverage",
+          "zone match",
+          "pressure disguise"
+        ],
+        "best_formations": [
+          "Nickel",
+          "Dime",
+          "Base"
+        ],
+        "matchup_advantage": "Use speed and change of direction to contest explosive plays.",
+        "risk_limitation": "Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 73,
+          "class_year": "FR",
+          "position": "CB",
+          "top_attributes": [
+            {
+              "label": "Change Of Direction",
+              "value": 93
+            },
+            {
+              "label": "Acceleration",
+              "value": 92
+            },
+            {
+              "label": "Speed",
+              "value": 89
+            },
+            {
+              "label": "Agility",
+              "value": 89
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "l-thompson-ss",
+      "name": "L. Thompson",
+      "position": "SS",
+      "class_year": "FR",
+      "overall": 78,
+      "nil_value": 190,
+      "attributes": {
+        "speed": 92,
+        "acceleration": 89,
+        "agility": 84,
+        "change_of_direction": 92,
+        "strength": 61,
+        "awareness": 69
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "L. Thompson is a starter-level SS with an overall of 78. The visible profile is led by Speed 92, Change Of Direction 92, Acceleration 89. Best weekly usage: man coverage, zone match, pressure disguise. Use speed and change of direction to contest explosive plays. Main limitation: Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "role": "Starting defensive back",
+        "strengths": [
+          "Speed 92",
+          "Change Of Direction 92",
+          "Acceleration 89",
+          "Agility 84"
+        ],
+        "limitations": [
+          "Strength 61",
+          "Awareness 69"
+        ],
+        "best_usage": [
+          "man coverage",
+          "zone match",
+          "pressure disguise"
+        ],
+        "best_formations": [
+          "Nickel",
+          "Dime",
+          "Base"
+        ],
+        "matchup_advantage": "Use speed and change of direction to contest explosive plays.",
+        "risk_limitation": "Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 78,
+          "class_year": "FR",
+          "position": "SS",
+          "top_attributes": [
+            {
+              "label": "Speed",
+              "value": 92
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 92
+            },
+            {
+              "label": "Acceleration",
+              "value": 89
+            },
+            {
+              "label": "Agility",
+              "value": 84
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "t-nash-ss",
+      "name": "T. Nash",
+      "position": "SS",
+      "class_year": "SO (RS)",
+      "overall": 73,
+      "nil_value": 0,
+      "attributes": {
+        "speed": 91,
+        "acceleration": 94,
+        "agility": 82,
+        "change_of_direction": 92,
+        "strength": 63,
+        "awareness": 71
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "T. Nash is a rotation/developmental SS with an overall of 73. The visible profile is led by Acceleration 94, Change Of Direction 92, Speed 91. Best weekly usage: man coverage, zone match, pressure disguise. Use speed and change of direction to contest explosive plays. Main limitation: Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "role": "Rotation defensive back",
+        "strengths": [
+          "Acceleration 94",
+          "Change Of Direction 92",
+          "Speed 91",
+          "Agility 82"
+        ],
+        "limitations": [
+          "Strength 63",
+          "Awareness 71"
+        ],
+        "best_usage": [
+          "man coverage",
+          "zone match",
+          "pressure disguise"
+        ],
+        "best_formations": [
+          "Nickel",
+          "Dime",
+          "Base"
+        ],
+        "matchup_advantage": "Use speed and change of direction to contest explosive plays.",
+        "risk_limitation": "Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 73,
+          "class_year": "SO (RS)",
+          "position": "SS",
+          "top_attributes": [
+            {
+              "label": "Acceleration",
+              "value": 94
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 92
+            },
+            {
+              "label": "Speed",
+              "value": 91
+            },
+            {
+              "label": "Agility",
+              "value": 82
+            }
+          ]
+        }
+      }
+    },
+    {
+      "player_id": "m-segal-fs",
+      "name": "M. Segal",
+      "position": "FS",
+      "class_year": "SO",
+      "overall": 67,
+      "nil_value": 5,
+      "attributes": {
+        "speed": 84,
+        "acceleration": 75,
+        "agility": 78,
+        "change_of_direction": 79,
+        "strength": 69,
+        "awareness": 73
+      },
+      "source_video": "IMG_3011.mp4",
+      "verification_status": "transcribed_from_visible_depth_chart",
+      "analysis": {
+        "summary": "M. Segal is a rotation/developmental FS with an overall of 67. The visible profile is led by Speed 84, Change Of Direction 79, Agility 78. Best weekly usage: zone support, run support, situational coverage. Use speed and change of direction to contest explosive plays. Main limitation: Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "role": "Rotation defensive back",
+        "strengths": [
+          "Speed 84",
+          "Change Of Direction 79",
+          "Agility 78",
+          "Acceleration 75"
+        ],
+        "limitations": [
+          "Strength 69",
+          "Awareness 73"
+        ],
+        "best_usage": [
+          "zone support",
+          "run support",
+          "situational coverage"
+        ],
+        "best_formations": [
+          "Nickel",
+          "Dime",
+          "Base"
+        ],
+        "matchup_advantage": "Use speed and change of direction to contest explosive plays.",
+        "risk_limitation": "Coverage-technique ratings were not fully shown; do not overstate shutdown ability.",
+        "development_outlook": "Track weekly production, class year, and depth-chart movement before changing long-term role.",
+        "in_game_trigger": "Adjust usage when pressure, fatigue, turnovers, or matchup results materially change.",
+        "display_stats": {
+          "overall": 67,
+          "class_year": "SO",
+          "position": "FS",
+          "top_attributes": [
+            {
+              "label": "Speed",
+              "value": 84
+            },
+            {
+              "label": "Change Of Direction",
+              "value": 79
+            },
+            {
+              "label": "Agility",
+              "value": 78
+            },
+            {
+              "label": "Acceleration",
+              "value": 75
+            }
+          ]
+        }
+      }
     }
   ],
   "position_groups": [
-    {
-      "position": "QB",
-      "players": [
-        "roster-qb-m-york",
-        "roster-qb-r-bieniemy",
-        "roster-qb-s-warner",
-        "roster-qb-j-portillo"
-      ],
-      "unresolved": false
-    },
-    {
-      "position": "HB",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "WR",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "TE",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "LT",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "LG",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "C",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "RG",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "RT",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "EDGE",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "DT",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "OLB",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "MIKE",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "CB",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "FS",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "SS",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "K",
-      "players": [],
-      "unresolved": true
-    },
-    {
-      "position": "P",
-      "players": [],
-      "unresolved": true
-    }
+    "C",
+    "CB",
+    "DT",
+    "FB",
+    "FS",
+    "HB",
+    "K",
+    "LEDG",
+    "LG",
+    "LT",
+    "MIKE",
+    "P",
+    "QB",
+    "REDG",
+    "RG",
+    "RT",
+    "SS",
+    "TE",
+    "WILL",
+    "WR"
   ],
-  "unresolved": {
-    "full_depth_chart": "depth_chart_seed.json marks roster/depth chart as manual_transcription_required; no unreadable players were added.",
-    "depth_order": "Existing structured roster did not verify depth-chart order; depth_chart_order remains null.",
-    "non_qb_positions": "No additional non-QB shared roster rows were machine-readable in the supplied seed JSON."
-  }
+  "data_policy": "No placeholder players. Every included record was visible in the supplied roster video."
 }

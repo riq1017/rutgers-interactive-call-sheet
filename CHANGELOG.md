@@ -1,17 +1,16 @@
 # CHANGELOG
 
-## Two-engine roster foundation update
-- Added shared Rutgers roster base at `data/rutgers_roster_base.json`.
-- Added separate weekly packages: `data/gameplan_weekly.json` and `data/recruiting_weekly.json`.
-- Added schemas for roster base, Gameplan weekly, and Recruiting weekly JSON.
-- Moved situation controls onto Gameplan and package controls onto More.
-- Added Gameplan-only and Recruiting-only JSON import/export controls.
-- Added Top 3 alternatives directly below Best Call with play-art previews.
-- Added Quick Tactical Summary, Game-Day Usage, and optional alerts.
-- Expanded Personnel into Personnel & Matchups with run direction, protection, opponent defense, and matchup matrix sections.
-- Updated Recruiting to use the shared roster base and hide diagnostic metadata from user-facing cards.
-- Replaced validation with checks for the split-engine architecture.
+## Live enriched dashboard implementation
+- Integrated `Rutgers_ENRICHED_DESCRIPTIONS_JSON_Package.zip` as the authoritative data source.
+- Replaced sparse roster/recruiting/Purdue data with enriched JSON files.
+- Regenerated `data/engine_data.js` so GitHub Pages can load all enriched data without fetch calls.
+- Added adapter functions for Rutgers roster, Gameplan weekly, Recruiting class, Recruiting weekly, team needs, Purdue profile, Purdue players, Purdue groups, and matchups.
+- Rebuilt Gameplan, Top Plays, Personnel & Matchups, Recruiting, and More renderers around enriched data.
+- Preserved the existing recommendation engine, play art, play mappings, recent-call penalties, setup bonuses, Top 3 diversity, localStorage history, and two-import workflow.
+- Added iPhone-width screenshots for all five tabs under `screenshots/`.
+- Expanded validation to enforce enriched data binding, hidden nulls, no placeholder names, no mockup fake data, play-art continuity, and mobile/GitHub Pages compatibility.
 
-## Data Integrity
-- Preserved nulls from the video seed package.
-- Did not invent missing roster, depth-chart, recruiting, coach-ability, or performance values.
+## Data policy
+- Did not copy fake names, ratings, faces, or stats from the mockup.
+- Did not invent unavailable lane, pressure, O-line, last-game, or season metrics.
+- Null fields are hidden in normal UI.

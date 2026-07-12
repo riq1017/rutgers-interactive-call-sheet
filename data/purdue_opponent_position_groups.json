@@ -1,0 +1,33 @@
+{
+  "schema_version": "2.1",
+  "groups": [
+    {
+      "group": "Edge",
+      "strength": "Strong at the top",
+      "key_player": "Q. Gillians",
+      "weakness": "Depth falls off sharply behind the top two players",
+      "attack_plan": "Use chip help, quick game, screens, boots away, and tempo when backups rotate."
+    },
+    {
+      "group": "Defensive Interior",
+      "strength": "Average-to-solid",
+      "key_player": "D. Garner",
+      "weakness": "Several defenders are vulnerable to lateral movement, traps, and misdirection",
+      "attack_plan": "Use double teams on Garner, then mix zone, counter, trap, and screen concepts."
+    },
+    {
+      "group": "Linebackers",
+      "strength": "Athletic but inconsistent",
+      "key_player": "M. Gaston",
+      "weakness": "Multiple players have low awareness or play recognition",
+      "attack_plan": "Stress them with RPOs, play action, motion, mesh, angle routes, and TE option routes."
+    },
+    {
+      "group": "Secondary",
+      "strength": "Not fully verified from available frames",
+      "key_player": null,
+      "weakness": "Requires more frame-level review",
+      "attack_plan": "Do not fabricate a coverage weakness; update after full secondary transcription."
+    }
+  ]
+}

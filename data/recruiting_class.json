@@ -1,0 +1,2813 @@
+{
+  "schema_version": "3.0",
+  "package_type": "recruiting_class",
+  "generated_utc": "2026-07-12T02:15:33.894311+00:00",
+  "prospects": [
+    {
+      "prospect_id": "glenn-godwin-qb",
+      "name": "Glenn Godwin",
+      "position": "QB",
+      "national_rank": 88,
+      "state_rank": 29,
+      "position_rank": 6,
+      "archetype": "Dual Threat",
+      "height": "6'1\"",
+      "weight_lbs": 192,
+      "hometown": "North Brunswick, NJ",
+      "dealbreaker": "Proximity To Home",
+      "scouting_summary": "Elite National Prospect at QB with a Dual Threat profile. At 6'1\", 192 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Glenn Godwin is a blue-chip QB prospect ranked No. 88 nationally. The Dual Threat archetype and 6'1\", 192 lbs profile suggest a decision-maker and distributor. Before assigning major resources, verify accuracy, throw power, mobility, pressure response. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Dual Threat archetype",
+          "National rank 88"
+        ],
+        "questions_to_verify": [
+          "accuracy",
+          "throw power",
+          "mobility",
+          "pressure response"
+        ],
+        "scheme_fit": "Evaluate how the Dual Threat profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "QB",
+          "national_rank": 88,
+          "position_rank": 6,
+          "state_rank": 29,
+          "archetype": "Dual Threat",
+          "height": "6'1\"",
+          "weight_lbs": 192,
+          "dealbreaker": "Proximity To Home"
+        }
+      }
+    },
+    {
+      "prospect_id": "kellan-tolbert-rg",
+      "name": "Kellan Tolbert",
+      "position": "RG",
+      "national_rank": 33,
+      "state_rank": 8,
+      "position_rank": 2,
+      "archetype": "Raw Strength",
+      "height": "6'2\"",
+      "weight_lbs": 307,
+      "hometown": "El Paso, TX",
+      "dealbreaker": "Playing Style",
+      "scouting_summary": "Elite National Prospect at RG with a Raw Strength profile. At 6'2\", 307 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Kellan Tolbert is a blue-chip RG prospect ranked No. 33 nationally. The Raw Strength archetype and 6'2\", 307 lbs profile suggest a interior lineman. Before assigning major resources, verify strength, run blocking, pass protection, impact blocking. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Raw Strength archetype",
+          "National rank 33"
+        ],
+        "questions_to_verify": [
+          "strength",
+          "run blocking",
+          "pass protection",
+          "impact blocking"
+        ],
+        "scheme_fit": "Evaluate how the Raw Strength profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "RG",
+          "national_rank": 33,
+          "position_rank": 2,
+          "state_rank": 8,
+          "archetype": "Raw Strength",
+          "height": "6'2\"",
+          "weight_lbs": 307,
+          "dealbreaker": "Playing Style"
+        }
+      }
+    },
+    {
+      "prospect_id": "david-peppers-qb",
+      "name": "David Peppers",
+      "position": "QB",
+      "national_rank": 39,
+      "state_rank": 2,
+      "position_rank": 3,
+      "archetype": "Backfield Creator",
+      "height": "6'4\"",
+      "weight_lbs": 223,
+      "hometown": "Pascagoula, MS",
+      "dealbreaker": "Championship Contender",
+      "scouting_summary": "Elite National Prospect at QB with a Backfield Creator profile. At 6'4\", 223 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "David Peppers is a blue-chip QB prospect ranked No. 39 nationally. The Backfield Creator archetype and 6'4\", 223 lbs profile suggest a decision-maker and distributor. Before assigning major resources, verify accuracy, throw power, mobility, pressure response. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Backfield Creator archetype",
+          "National rank 39"
+        ],
+        "questions_to_verify": [
+          "accuracy",
+          "throw power",
+          "mobility",
+          "pressure response"
+        ],
+        "scheme_fit": "Evaluate how the Backfield Creator profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "QB",
+          "national_rank": 39,
+          "position_rank": 3,
+          "state_rank": 2,
+          "archetype": "Backfield Creator",
+          "height": "6'4\"",
+          "weight_lbs": 223,
+          "dealbreaker": "Championship Contender"
+        }
+      }
+    },
+    {
+      "prospect_id": "matthew-kordoma-qb",
+      "name": "Matthew Kordoma",
+      "position": "QB",
+      "national_rank": 71,
+      "state_rank": 7,
+      "position_rank": 8,
+      "archetype": "Dual Threat",
+      "height": "6'1\"",
+      "weight_lbs": 198,
+      "hometown": "Miami, FL",
+      "dealbreaker": null,
+      "scouting_summary": "Elite National Prospect at QB with a Dual Threat profile. At 6'1\", 198 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Matthew Kordoma is a blue-chip QB prospect ranked No. 71 nationally. The Dual Threat archetype and 6'1\", 198 lbs profile suggest a decision-maker and distributor. Before assigning major resources, verify accuracy, throw power, mobility, pressure response. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Dual Threat archetype",
+          "National rank 71"
+        ],
+        "questions_to_verify": [
+          "accuracy",
+          "throw power",
+          "mobility",
+          "pressure response"
+        ],
+        "scheme_fit": "Evaluate how the Dual Threat profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "QB",
+          "national_rank": 71,
+          "position_rank": 8,
+          "state_rank": 7,
+          "archetype": "Dual Threat",
+          "height": "6'1\"",
+          "weight_lbs": 198,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "robert-willingham-qb",
+      "name": "Robert Willingham",
+      "position": "QB",
+      "national_rank": 140,
+      "state_rank": 15,
+      "position_rank": 16,
+      "archetype": "Pocket Passer",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Alpharetta, GA",
+      "dealbreaker": null,
+      "scouting_summary": "High-Upside Prospect at QB with a Pocket Passer profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Robert Willingham is a high-priority QB prospect ranked No. 140 nationally. The Pocket Passer archetype and size not fully verified profile suggest a decision-maker and distributor. Before assigning major resources, verify accuracy, throw power, mobility, pressure response. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Pocket Passer archetype",
+          "National rank 140"
+        ],
+        "questions_to_verify": [
+          "accuracy",
+          "throw power",
+          "mobility",
+          "pressure response"
+        ],
+        "scheme_fit": "Evaluate how the Pocket Passer profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "QB",
+          "national_rank": 140,
+          "position_rank": 16,
+          "state_rank": 15,
+          "archetype": "Pocket Passer",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "malik-ebiketie-hb",
+      "name": "Malik Ebiketie",
+      "position": "HB",
+      "national_rank": 268,
+      "state_rank": 10,
+      "position_rank": 22,
+      "archetype": "Backfield Creator",
+      "height": "6'2\"",
+      "weight_lbs": 198,
+      "hometown": "Demopolis, AL",
+      "dealbreaker": null,
+      "scouting_summary": "Developmental Prospect at HB with a Backfield Creator profile. At 6'2\", 198 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Malik Ebiketie is a developmental HB prospect ranked No. 268 nationally. The Backfield Creator archetype and 6'2\", 198 lbs profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Backfield Creator archetype",
+          "National rank 268"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the Backfield Creator profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 268,
+          "position_rank": 22,
+          "state_rank": 10,
+          "archetype": "Backfield Creator",
+          "height": "6'2\"",
+          "weight_lbs": 198,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "ed-tate-hb",
+      "name": "Ed Tate",
+      "position": "HB",
+      "national_rank": 218,
+      "state_rank": 6,
+      "position_rank": 23,
+      "archetype": "Contact Seeker",
+      "height": "5'8\"",
+      "weight_lbs": 210,
+      "hometown": "Tuscaloosa, AL",
+      "dealbreaker": null,
+      "scouting_summary": "High-Upside Prospect at HB with a Contact Seeker profile. At 5'8\", 210 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Ed Tate is a high-priority HB prospect ranked No. 218 nationally. The Contact Seeker archetype and 5'8\", 210 lbs profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Contact Seeker archetype",
+          "National rank 218"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the Contact Seeker profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 218,
+          "position_rank": 23,
+          "state_rank": 6,
+          "archetype": "Contact Seeker",
+          "height": "5'8\"",
+          "weight_lbs": 210,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "kevin-ramirez-hb",
+      "name": "Kevin Ramirez",
+      "position": "HB",
+      "national_rank": 89,
+      "state_rank": 8,
+      "position_rank": 9,
+      "archetype": "North/South Back",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Savannah, GA",
+      "dealbreaker": "Playing Time",
+      "scouting_summary": "Elite National Prospect at HB with a North/South Back profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Kevin Ramirez is a blue-chip HB prospect ranked No. 89 nationally. The North/South Back archetype and size not fully verified profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "North/South Back archetype",
+          "National rank 89"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the North/South Back profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 89,
+          "position_rank": 9,
+          "state_rank": 8,
+          "archetype": "North/South Back",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Playing Time"
+        }
+      }
+    },
+    {
+      "prospect_id": "anthony-craft-hb",
+      "name": "Anthony Craft",
+      "position": "HB",
+      "national_rank": 74,
+      "state_rank": 4,
+      "position_rank": 8,
+      "archetype": "East/West Playmaker",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Raleigh, NC",
+      "dealbreaker": null,
+      "scouting_summary": "Elite National Prospect at HB with a East/West Playmaker profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Anthony Craft is a blue-chip HB prospect ranked No. 74 nationally. The East/West Playmaker archetype and size not fully verified profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "East/West Playmaker archetype",
+          "National rank 74"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the East/West Playmaker profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 74,
+          "position_rank": 8,
+          "state_rank": 4,
+          "archetype": "East/West Playmaker",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "tavares-grace-hb",
+      "name": "Tavares Grace",
+      "position": "HB",
+      "national_rank": 203,
+      "state_rank": 5,
+      "position_rank": 22,
+      "archetype": "East/West Playmaker",
+      "height": "5'9\"",
+      "weight_lbs": 184,
+      "hometown": "Camdenton, MO",
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "High-Upside Prospect at HB with a East/West Playmaker profile. At 5'9\", 184 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Tavares Grace is a high-priority HB prospect ranked No. 203 nationally. The East/West Playmaker archetype and 5'9\", 184 lbs profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "East/West Playmaker archetype",
+          "National rank 203"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the East/West Playmaker profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 203,
+          "position_rank": 22,
+          "state_rank": 5,
+          "archetype": "East/West Playmaker",
+          "height": "5'9\"",
+          "weight_lbs": 184,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "richard-goodspeed-hb",
+      "name": "Richard Goodspeed",
+      "position": "HB",
+      "national_rank": 266,
+      "state_rank": 7,
+      "position_rank": 28,
+      "archetype": "Backfield Threat",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Towson, MD",
+      "dealbreaker": "Playing Time",
+      "scouting_summary": "Developmental Prospect at HB with a Backfield Threat profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Richard Goodspeed is a developmental HB prospect ranked No. 266 nationally. The Backfield Threat archetype and size not fully verified profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Backfield Threat archetype",
+          "National rank 266"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the Backfield Threat profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 266,
+          "position_rank": 28,
+          "state_rank": 7,
+          "archetype": "Backfield Threat",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Playing Time"
+        }
+      }
+    },
+    {
+      "prospect_id": "oscar-wroten-hb",
+      "name": "Oscar Wroten",
+      "position": "HB",
+      "national_rank": 298,
+      "state_rank": 12,
+      "position_rank": 30,
+      "archetype": "North/South Receiver",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "La Place, LA",
+      "dealbreaker": null,
+      "scouting_summary": "Developmental Prospect at HB with a North/South Receiver profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Oscar Wroten is a developmental HB prospect ranked No. 298 nationally. The North/South Receiver archetype and size not fully verified profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "North/South Receiver archetype",
+          "National rank 298"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the North/South Receiver profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 298,
+          "position_rank": 30,
+          "state_rank": 12,
+          "archetype": "North/South Receiver",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "duke-mcnabb-hb",
+      "name": "Duke McNabb",
+      "position": "HB",
+      "national_rank": 308,
+      "state_rank": 27,
+      "position_rank": 24,
+      "archetype": "Receiving Back",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Playa Del Rey, CA",
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "Developmental Prospect at HB with a Receiving Back profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Duke McNabb is a developmental HB prospect ranked No. 308 nationally. The Receiving Back archetype and size not fully verified profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Receiving Back archetype",
+          "National rank 308"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the Receiving Back profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 308,
+          "position_rank": 24,
+          "state_rank": 27,
+          "archetype": "Receiving Back",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "lester-childers-hb",
+      "name": "Lester Childers",
+      "position": "HB",
+      "national_rank": 318,
+      "state_rank": 8,
+      "position_rank": 38,
+      "archetype": "Contact Seeker",
+      "height": "5'11\"",
+      "weight_lbs": 200,
+      "hometown": null,
+      "dealbreaker": "Championship Contender",
+      "scouting_summary": "Developmental Prospect at HB with a Contact Seeker profile. At 5'11\", 200 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Lester Childers is a developmental HB prospect ranked No. 318 nationally. The Contact Seeker archetype and 5'11\", 200 lbs profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Contact Seeker archetype",
+          "National rank 318"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the Contact Seeker profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 318,
+          "position_rank": 38,
+          "state_rank": 8,
+          "archetype": "Contact Seeker",
+          "height": "5'11\"",
+          "weight_lbs": 200,
+          "dealbreaker": "Championship Contender"
+        }
+      }
+    },
+    {
+      "prospect_id": "rashard-bazley-hb",
+      "name": "Rashard Bazley",
+      "position": "HB",
+      "national_rank": 384,
+      "state_rank": 15,
+      "position_rank": 42,
+      "archetype": "North/South Receiver",
+      "height": "5'8\"",
+      "weight_lbs": 203,
+      "hometown": "Paramus, NJ",
+      "dealbreaker": "Proximity To Home",
+      "scouting_summary": "Developmental Prospect at HB with a North/South Receiver profile. At 5'8\", 203 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Rashard Bazley is a developmental HB prospect ranked No. 384 nationally. The North/South Receiver archetype and 5'8\", 203 lbs profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "North/South Receiver archetype",
+          "National rank 384"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the North/South Receiver profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 384,
+          "position_rank": 42,
+          "state_rank": 15,
+          "archetype": "North/South Receiver",
+          "height": "5'8\"",
+          "weight_lbs": 203,
+          "dealbreaker": "Proximity To Home"
+        }
+      }
+    },
+    {
+      "prospect_id": "larry-missouri-hb",
+      "name": "Larry Missouri",
+      "position": "HB",
+      "national_rank": 379,
+      "state_rank": 48,
+      "position_rank": 48,
+      "archetype": "North/South Receiver",
+      "height": "6'1\"",
+      "weight_lbs": 205,
+      "hometown": "Marietta, GA",
+      "dealbreaker": null,
+      "scouting_summary": "Developmental Prospect at HB with a North/South Receiver profile. At 6'1\", 205 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Larry Missouri is a developmental HB prospect ranked No. 379 nationally. The North/South Receiver archetype and 6'1\", 205 lbs profile suggest a backfield playmaker. Before assigning major resources, verify burst, vision, contact balance, receiving. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "North/South Receiver archetype",
+          "National rank 379"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "vision",
+          "contact balance",
+          "receiving"
+        ],
+        "scheme_fit": "Evaluate how the North/South Receiver profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "HB",
+          "national_rank": 379,
+          "position_rank": 48,
+          "state_rank": 48,
+          "archetype": "North/South Receiver",
+          "height": "6'1\"",
+          "weight_lbs": 205,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "dillon-zingler-fb",
+      "name": "Dillon Zingler",
+      "position": "FB",
+      "national_rank": 419,
+      "state_rank": 8,
+      "position_rank": 62,
+      "archetype": "Contact Seeker",
+      "height": "5'9\"",
+      "weight_lbs": 232,
+      "hometown": "Anderson, SC",
+      "dealbreaker": "Playing Style",
+      "scouting_summary": "Developmental Prospect at FB with a Contact Seeker profile. At 5'9\", 232 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Dillon Zingler is a developmental FB prospect ranked No. 419 nationally. The Contact Seeker archetype and 5'9\", 232 lbs profile suggest a utility blocker/back. Before assigning major resources, verify strength, lead blocking, short-yardage value. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Contact Seeker archetype",
+          "National rank 419"
+        ],
+        "questions_to_verify": [
+          "strength",
+          "lead blocking",
+          "short-yardage value"
+        ],
+        "scheme_fit": "Evaluate how the Contact Seeker profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "FB",
+          "national_rank": 419,
+          "position_rank": 62,
+          "state_rank": 8,
+          "archetype": "Contact Seeker",
+          "height": "5'9\"",
+          "weight_lbs": 232,
+          "dealbreaker": "Playing Style"
+        }
+      }
+    },
+    {
+      "prospect_id": "terrence-greer-wr",
+      "name": "Terrence Greer",
+      "position": "WR",
+      "national_rank": 247,
+      "state_rank": 18,
+      "position_rank": 52,
+      "archetype": "Contested Specialist",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Shelby, NC",
+      "dealbreaker": "Conference Prestige",
+      "scouting_summary": "High-Upside Prospect at WR with a Contested Specialist profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Terrence Greer is a high-priority WR prospect ranked No. 247 nationally. The Contested Specialist archetype and size not fully verified profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Contested Specialist archetype",
+          "National rank 247"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Contested Specialist profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 247,
+          "position_rank": 52,
+          "state_rank": 18,
+          "archetype": "Contested Specialist",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Conference Prestige"
+        }
+      }
+    },
+    {
+      "prospect_id": "damarious-montgomery-wr",
+      "name": "Damarious Montgomery",
+      "position": "WR",
+      "national_rank": 248,
+      "state_rank": 37,
+      "position_rank": 51,
+      "archetype": "Elusive Route Runner",
+      "height": "5'10\"",
+      "weight_lbs": 188,
+      "hometown": "Amarillo, TX",
+      "dealbreaker": null,
+      "scouting_summary": "High-Upside Prospect at WR with a Elusive Route Runner profile. At 5'10\", 188 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Damarious Montgomery is a high-priority WR prospect ranked No. 248 nationally. The Elusive Route Runner archetype and 5'10\", 188 lbs profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Elusive Route Runner archetype",
+          "National rank 248"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Elusive Route Runner profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 248,
+          "position_rank": 51,
+          "state_rank": 37,
+          "archetype": "Elusive Route Runner",
+          "height": "5'10\"",
+          "weight_lbs": 188,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "skyler-sahara-wr",
+      "name": "Skyler Sahara",
+      "position": "WR",
+      "national_rank": 75,
+      "state_rank": 3,
+      "position_rank": 10,
+      "archetype": "Contested Specialist",
+      "height": "6'5\"",
+      "weight_lbs": 208,
+      "hometown": "Owings Mills, MD",
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "Elite National Prospect at WR with a Contested Specialist profile. At 6'5\", 208 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Skyler Sahara is a blue-chip WR prospect ranked No. 75 nationally. The Contested Specialist archetype and 6'5\", 208 lbs profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Contested Specialist archetype",
+          "National rank 75"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Contested Specialist profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 75,
+          "position_rank": 10,
+          "state_rank": 3,
+          "archetype": "Contested Specialist",
+          "height": "6'5\"",
+          "weight_lbs": 208,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "javier-emery-wr",
+      "name": "Javier Emery",
+      "position": "WR",
+      "national_rank": 119,
+      "state_rank": 11,
+      "position_rank": 18,
+      "archetype": "Physical Route Runner",
+      "height": "6'2\"",
+      "weight_lbs": 213,
+      "hometown": null,
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "High-Upside Prospect at WR with a Physical Route Runner profile. At 6'2\", 213 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Javier Emery is a high-priority WR prospect ranked No. 119 nationally. The Physical Route Runner archetype and 6'2\", 213 lbs profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Physical Route Runner archetype",
+          "National rank 119"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Physical Route Runner profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 119,
+          "position_rank": 18,
+          "state_rank": 11,
+          "archetype": "Physical Route Runner",
+          "height": "6'2\"",
+          "weight_lbs": 213,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "trevor-garrison-wr",
+      "name": "Trevor Garrison",
+      "position": "WR",
+      "national_rank": 148,
+      "state_rank": 4,
+      "position_rank": 25,
+      "archetype": "Physical Route Runner",
+      "height": "6'1\"",
+      "weight_lbs": 208,
+      "hometown": null,
+      "dealbreaker": "Proximity To Home",
+      "scouting_summary": "High-Upside Prospect at WR with a Physical Route Runner profile. At 6'1\", 208 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Trevor Garrison is a high-priority WR prospect ranked No. 148 nationally. The Physical Route Runner archetype and 6'1\", 208 lbs profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Physical Route Runner archetype",
+          "National rank 148"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Physical Route Runner profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 148,
+          "position_rank": 25,
+          "state_rank": 4,
+          "archetype": "Physical Route Runner",
+          "height": "6'1\"",
+          "weight_lbs": 208,
+          "dealbreaker": "Proximity To Home"
+        }
+      }
+    },
+    {
+      "prospect_id": "randall-ivy-wr",
+      "name": "Randall Ivy",
+      "position": "WR",
+      "national_rank": 162,
+      "state_rank": 1,
+      "position_rank": 27,
+      "archetype": "Gadget",
+      "height": "6'3\"",
+      "weight_lbs": 180,
+      "hometown": "Fort Collins, CO",
+      "dealbreaker": "Brand Exposure",
+      "scouting_summary": "High-Upside Prospect at WR with a Gadget profile. At 6'3\", 180 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Randall Ivy is a high-priority WR prospect ranked No. 162 nationally. The Gadget archetype and 6'3\", 180 lbs profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Gadget archetype",
+          "National rank 162"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Gadget profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 162,
+          "position_rank": 27,
+          "state_rank": 1,
+          "archetype": "Gadget",
+          "height": "6'3\"",
+          "weight_lbs": 180,
+          "dealbreaker": "Brand Exposure"
+        }
+      }
+    },
+    {
+      "prospect_id": "roy-tolbert-wr",
+      "name": "Roy Tolbert",
+      "position": "WR",
+      "national_rank": 183,
+      "state_rank": 5,
+      "position_rank": 35,
+      "archetype": "Contested Specialist",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Cottondale, AL",
+      "dealbreaker": "Brand Exposure",
+      "scouting_summary": "High-Upside Prospect at WR with a Contested Specialist profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Roy Tolbert is a high-priority WR prospect ranked No. 183 nationally. The Contested Specialist archetype and size not fully verified profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Contested Specialist archetype",
+          "National rank 183"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Contested Specialist profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 183,
+          "position_rank": 35,
+          "state_rank": 5,
+          "archetype": "Contested Specialist",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Brand Exposure"
+        }
+      }
+    },
+    {
+      "prospect_id": "vj-kazee-wr",
+      "name": "VJ Kazee",
+      "position": "WR",
+      "national_rank": 208,
+      "state_rank": 5,
+      "position_rank": 42,
+      "archetype": "Elusive Route Runner",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Abbeville, SC",
+      "dealbreaker": "Championship Contender",
+      "scouting_summary": "High-Upside Prospect at WR with a Elusive Route Runner profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "VJ Kazee is a high-priority WR prospect ranked No. 208 nationally. The Elusive Route Runner archetype and size not fully verified profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Elusive Route Runner archetype",
+          "National rank 208"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Elusive Route Runner profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 208,
+          "position_rank": 42,
+          "state_rank": 5,
+          "archetype": "Elusive Route Runner",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Championship Contender"
+        }
+      }
+    },
+    {
+      "prospect_id": "lee-gooch-wr",
+      "name": "Lee Gooch",
+      "position": "WR",
+      "national_rank": 220,
+      "state_rank": 30,
+      "position_rank": 46,
+      "archetype": "Gadget",
+      "height": "5'10\"",
+      "weight_lbs": 182,
+      "hometown": "Henderson, TX",
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "High-Upside Prospect at WR with a Gadget profile. At 5'10\", 182 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Lee Gooch is a high-priority WR prospect ranked No. 220 nationally. The Gadget archetype and 5'10\", 182 lbs profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Gadget archetype",
+          "National rank 220"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Gadget profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 220,
+          "position_rank": 46,
+          "state_rank": 30,
+          "archetype": "Gadget",
+          "height": "5'10\"",
+          "weight_lbs": 182,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "leon-garnes-wr",
+      "name": "Leon Garnes",
+      "position": "WR",
+      "national_rank": 248,
+      "state_rank": 8,
+      "position_rank": 53,
+      "archetype": "Contested Specialist",
+      "height": "6'2\"",
+      "weight_lbs": 203,
+      "hometown": "Phenix City, AL",
+      "dealbreaker": "Championship Contender",
+      "scouting_summary": "High-Upside Prospect at WR with a Contested Specialist profile. At 6'2\", 203 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Leon Garnes is a high-priority WR prospect ranked No. 248 nationally. The Contested Specialist archetype and 6'2\", 203 lbs profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Contested Specialist archetype",
+          "National rank 248"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Contested Specialist profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 248,
+          "position_rank": 53,
+          "state_rank": 8,
+          "archetype": "Contested Specialist",
+          "height": "6'2\"",
+          "weight_lbs": 203,
+          "dealbreaker": "Championship Contender"
+        }
+      }
+    },
+    {
+      "prospect_id": "james-jean-pierre-wr",
+      "name": "James Jean-Pierre",
+      "position": "WR",
+      "national_rank": 313,
+      "state_rank": 1,
+      "position_rank": 61,
+      "archetype": "Speedster",
+      "height": "6'2\"",
+      "weight_lbs": 183,
+      "hometown": "Springdale, AR",
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "Developmental Prospect at WR with a Speedster profile. At 6'2\", 183 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "James Jean-Pierre is a developmental WR prospect ranked No. 313 nationally. The Speedster archetype and 6'2\", 183 lbs profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Speedster archetype",
+          "National rank 313"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Speedster profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 313,
+          "position_rank": 61,
+          "state_rank": 1,
+          "archetype": "Speedster",
+          "height": "6'2\"",
+          "weight_lbs": 183,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "jeremy-waters-wr",
+      "name": "Jeremy Waters",
+      "position": "WR",
+      "national_rank": 337,
+      "state_rank": 9,
+      "position_rank": 66,
+      "archetype": "Physical Route Runner",
+      "height": "6'4\"",
+      "weight_lbs": 209,
+      "hometown": null,
+      "dealbreaker": null,
+      "scouting_summary": "Developmental Prospect at WR with a Physical Route Runner profile. At 6'4\", 209 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Jeremy Waters is a developmental WR prospect ranked No. 337 nationally. The Physical Route Runner archetype and 6'4\", 209 lbs profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Physical Route Runner archetype",
+          "National rank 337"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Physical Route Runner profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 337,
+          "position_rank": 66,
+          "state_rank": 9,
+          "archetype": "Physical Route Runner",
+          "height": "6'4\"",
+          "weight_lbs": 209,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "sean-gore-wr",
+      "name": "Sean Gore",
+      "position": "WR",
+      "national_rank": 376,
+      "state_rank": 11,
+      "position_rank": 72,
+      "archetype": "Elusive Route Runner",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Cincinnati, OH",
+      "dealbreaker": "Conference Prestige",
+      "scouting_summary": "Developmental Prospect at WR with a Elusive Route Runner profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Sean Gore is a developmental WR prospect ranked No. 376 nationally. The Elusive Route Runner archetype and size not fully verified profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Elusive Route Runner archetype",
+          "National rank 376"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Elusive Route Runner profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 376,
+          "position_rank": 72,
+          "state_rank": 11,
+          "archetype": "Elusive Route Runner",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Conference Prestige"
+        }
+      }
+    },
+    {
+      "prospect_id": "emmett-barnes-wr",
+      "name": "Emmett Barnes",
+      "position": "WR",
+      "national_rank": 409,
+      "state_rank": 13,
+      "position_rank": 78,
+      "archetype": "Contested Specialist",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Traverse City, MI",
+      "dealbreaker": "Playing Time",
+      "scouting_summary": "Developmental Prospect at WR with a Contested Specialist profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Emmett Barnes is a developmental WR prospect ranked No. 409 nationally. The Contested Specialist archetype and size not fully verified profile suggest a receiving target. Before assigning major resources, verify speed, separation, catching, release. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Contested Specialist archetype",
+          "National rank 409"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "separation",
+          "catching",
+          "release"
+        ],
+        "scheme_fit": "Evaluate how the Contested Specialist profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "WR",
+          "national_rank": 409,
+          "position_rank": 78,
+          "state_rank": 13,
+          "archetype": "Contested Specialist",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Playing Time"
+        }
+      }
+    },
+    {
+      "prospect_id": "deon-knowles-te",
+      "name": "Deon Knowles",
+      "position": "TE",
+      "national_rank": 240,
+      "state_rank": 37,
+      "position_rank": 14,
+      "archetype": "Gritty Possession",
+      "height": "6'3\"",
+      "weight_lbs": 250,
+      "hometown": null,
+      "dealbreaker": "Conference Prestige",
+      "scouting_summary": "High-Upside Prospect at TE with a Gritty Possession profile. At 6'3\", 250 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Deon Knowles is a high-priority TE prospect ranked No. 240 nationally. The Gritty Possession archetype and 6'3\", 250 lbs profile suggest a multipurpose tight end. Before assigning major resources, verify blocking, route running, catching, speed. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Gritty Possession archetype",
+          "National rank 240"
+        ],
+        "questions_to_verify": [
+          "blocking",
+          "route running",
+          "catching",
+          "speed"
+        ],
+        "scheme_fit": "Evaluate how the Gritty Possession profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "TE",
+          "national_rank": 240,
+          "position_rank": 14,
+          "state_rank": 37,
+          "archetype": "Gritty Possession",
+          "height": "6'3\"",
+          "weight_lbs": 250,
+          "dealbreaker": "Conference Prestige"
+        }
+      }
+    },
+    {
+      "prospect_id": "joey-kumar-te",
+      "name": "Joey Kumar",
+      "position": "TE",
+      "national_rank": 260,
+      "state_rank": 29,
+      "position_rank": 7,
+      "archetype": "Vertical Threat",
+      "height": "6'2\"",
+      "weight_lbs": 198,
+      "hometown": "Cumming, GA",
+      "dealbreaker": "Conference Prestige",
+      "scouting_summary": "Developmental Prospect at TE with a Vertical Threat profile. At 6'2\", 198 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Joey Kumar is a developmental TE prospect ranked No. 260 nationally. The Vertical Threat archetype and 6'2\", 198 lbs profile suggest a multipurpose tight end. Before assigning major resources, verify blocking, route running, catching, speed. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Vertical Threat archetype",
+          "National rank 260"
+        ],
+        "questions_to_verify": [
+          "blocking",
+          "route running",
+          "catching",
+          "speed"
+        ],
+        "scheme_fit": "Evaluate how the Vertical Threat profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "TE",
+          "national_rank": 260,
+          "position_rank": 7,
+          "state_rank": 29,
+          "archetype": "Vertical Threat",
+          "height": "6'2\"",
+          "weight_lbs": 198,
+          "dealbreaker": "Conference Prestige"
+        }
+      }
+    },
+    {
+      "prospect_id": "shakir-dow-c",
+      "name": "Shakir Dow",
+      "position": "C",
+      "national_rank": 401,
+      "state_rank": 8,
+      "position_rank": 23,
+      "archetype": "Agile",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": "Greeleyville, SC",
+      "dealbreaker": "Playing Time",
+      "scouting_summary": "Developmental Prospect at C with a Agile profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Shakir Dow is a developmental C prospect ranked No. 401 nationally. The Agile archetype and size not fully verified profile suggest a interior line organizer. Before assigning major resources, verify awareness, strength, pass protection, run blocking. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Agile archetype",
+          "National rank 401"
+        ],
+        "questions_to_verify": [
+          "awareness",
+          "strength",
+          "pass protection",
+          "run blocking"
+        ],
+        "scheme_fit": "Evaluate how the Agile profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "C",
+          "national_rank": 401,
+          "position_rank": 23,
+          "state_rank": 8,
+          "archetype": "Agile",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Playing Time"
+        }
+      }
+    },
+    {
+      "prospect_id": "kona-mawae-lg",
+      "name": "Kona Mawae",
+      "position": "LG",
+      "national_rank": 250,
+      "state_rank": 6,
+      "position_rank": 13,
+      "archetype": "Raw Strength",
+      "height": "6'3\"",
+      "weight_lbs": 318,
+      "hometown": "Winchester, VA",
+      "dealbreaker": "Coach Prestige",
+      "scouting_summary": "High-Upside Prospect at LG with a Raw Strength profile. At 6'3\", 318 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Kona Mawae is a high-priority LG prospect ranked No. 250 nationally. The Raw Strength archetype and 6'3\", 318 lbs profile suggest a interior lineman. Before assigning major resources, verify strength, run blocking, pass protection, awareness. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Raw Strength archetype",
+          "National rank 250"
+        ],
+        "questions_to_verify": [
+          "strength",
+          "run blocking",
+          "pass protection",
+          "awareness"
+        ],
+        "scheme_fit": "Evaluate how the Raw Strength profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "LG",
+          "national_rank": 250,
+          "position_rank": 13,
+          "state_rank": 6,
+          "archetype": "Raw Strength",
+          "height": "6'3\"",
+          "weight_lbs": 318,
+          "dealbreaker": "Coach Prestige"
+        }
+      }
+    },
+    {
+      "prospect_id": "fetu-tuikolovatu-rg",
+      "name": "Fetu Tuikolovatu",
+      "position": "RG",
+      "national_rank": 321,
+      "state_rank": 3,
+      "position_rank": 8,
+      "archetype": "Raw Strength",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": null,
+      "dealbreaker": "Playing Style",
+      "scouting_summary": "Developmental Prospect at RG with a Raw Strength profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Fetu Tuikolovatu is a developmental RG prospect ranked No. 321 nationally. The Raw Strength archetype and size not fully verified profile suggest a interior lineman. Before assigning major resources, verify strength, run blocking, pass protection, impact blocking. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Raw Strength archetype",
+          "National rank 321"
+        ],
+        "questions_to_verify": [
+          "strength",
+          "run blocking",
+          "pass protection",
+          "impact blocking"
+        ],
+        "scheme_fit": "Evaluate how the Raw Strength profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "RG",
+          "national_rank": 321,
+          "position_rank": 8,
+          "state_rank": 3,
+          "archetype": "Raw Strength",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Playing Style"
+        }
+      }
+    },
+    {
+      "prospect_id": "lamar-landman-c",
+      "name": "Lamar Landman",
+      "position": "C",
+      "national_rank": 168,
+      "state_rank": 13,
+      "position_rank": 4,
+      "archetype": "Agile",
+      "height": "6'1\"",
+      "weight_lbs": 306,
+      "hometown": "Fresno, CA",
+      "dealbreaker": "Coach Prestige",
+      "scouting_summary": "High-Upside Prospect at C with a Agile profile. At 6'1\", 306 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Lamar Landman is a high-priority C prospect ranked No. 168 nationally. The Agile archetype and 6'1\", 306 lbs profile suggest a interior line organizer. Before assigning major resources, verify awareness, strength, pass protection, run blocking. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Agile archetype",
+          "National rank 168"
+        ],
+        "questions_to_verify": [
+          "awareness",
+          "strength",
+          "pass protection",
+          "run blocking"
+        ],
+        "scheme_fit": "Evaluate how the Agile profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "C",
+          "national_rank": 168,
+          "position_rank": 4,
+          "state_rank": 13,
+          "archetype": "Agile",
+          "height": "6'1\"",
+          "weight_lbs": 306,
+          "dealbreaker": "Coach Prestige"
+        }
+      }
+    },
+    {
+      "prospect_id": "josh-gholston-c",
+      "name": "Josh Gholston",
+      "position": "C",
+      "national_rank": 348,
+      "state_rank": 59,
+      "position_rank": 10,
+      "archetype": "Raw Strength",
+      "height": "6'5\"",
+      "weight_lbs": 313,
+      "hometown": "Fort Worth, TX",
+      "dealbreaker": "Coach Prestige",
+      "scouting_summary": "Developmental Prospect at C with a Raw Strength profile. At 6'5\", 313 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Josh Gholston is a developmental C prospect ranked No. 348 nationally. The Raw Strength archetype and 6'5\", 313 lbs profile suggest a interior line organizer. Before assigning major resources, verify awareness, strength, pass protection, run blocking. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Raw Strength archetype",
+          "National rank 348"
+        ],
+        "questions_to_verify": [
+          "awareness",
+          "strength",
+          "pass protection",
+          "run blocking"
+        ],
+        "scheme_fit": "Evaluate how the Raw Strength profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "C",
+          "national_rank": 348,
+          "position_rank": 10,
+          "state_rank": 59,
+          "archetype": "Raw Strength",
+          "height": "6'5\"",
+          "weight_lbs": 313,
+          "dealbreaker": "Coach Prestige"
+        }
+      }
+    },
+    {
+      "prospect_id": "rico-sexton-ath",
+      "name": "Rico Sexton",
+      "position": "ATH",
+      "national_rank": 132,
+      "state_rank": 2,
+      "position_rank": 14,
+      "archetype": "Speed Rusher",
+      "height": "6'5\"",
+      "weight_lbs": 283,
+      "hometown": "Cortlandt Manor, NY",
+      "dealbreaker": null,
+      "scouting_summary": "High-Upside Prospect at ATH with a Speed Rusher profile. At 6'5\", 283 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Rico Sexton is a high-priority ATH prospect ranked No. 132 nationally. The Speed Rusher archetype and 6'5\", 283 lbs profile suggest a versatile athlete. Before assigning major resources, verify best positional fit, speed, strength, skill translation. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Speed Rusher archetype",
+          "National rank 132"
+        ],
+        "questions_to_verify": [
+          "best positional fit",
+          "speed",
+          "strength",
+          "skill translation"
+        ],
+        "scheme_fit": "Evaluate how the Speed Rusher profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "ATH",
+          "national_rank": 132,
+          "position_rank": 14,
+          "state_rank": 2,
+          "archetype": "Speed Rusher",
+          "height": "6'5\"",
+          "weight_lbs": 283,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "lane-pressley-redg",
+      "name": "Lane Pressley",
+      "position": "REDG",
+      "national_rank": 88,
+      "state_rank": 20,
+      "position_rank": 11,
+      "archetype": "Power Rusher",
+      "height": "6'5\"",
+      "weight_lbs": 244,
+      "hometown": "Portage, MI",
+      "dealbreaker": "Proximity To Home",
+      "scouting_summary": "Elite National Prospect at REDG with a Power Rusher profile. At 6'5\", 244 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Lane Pressley is a blue-chip REDG prospect ranked No. 88 nationally. The Power Rusher archetype and 6'5\", 244 lbs profile suggest a edge defender. Before assigning major resources, verify burst, power moves, finesse moves, contain. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Power Rusher archetype",
+          "National rank 88"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "power moves",
+          "finesse moves",
+          "contain"
+        ],
+        "scheme_fit": "Evaluate how the Power Rusher profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "REDG",
+          "national_rank": 88,
+          "position_rank": 11,
+          "state_rank": 20,
+          "archetype": "Power Rusher",
+          "height": "6'5\"",
+          "weight_lbs": 244,
+          "dealbreaker": "Proximity To Home"
+        }
+      }
+    },
+    {
+      "prospect_id": "takoby-miles-redg",
+      "name": "Takoby Miles",
+      "position": "REDG",
+      "national_rank": 347,
+      "state_rank": 3,
+      "position_rank": 34,
+      "archetype": "Power Rusher",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": null,
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "Developmental Prospect at REDG with a Power Rusher profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Takoby Miles is a developmental REDG prospect ranked No. 347 nationally. The Power Rusher archetype and size not fully verified profile suggest a edge defender. Before assigning major resources, verify burst, power moves, finesse moves, contain. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Power Rusher archetype",
+          "National rank 347"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "power moves",
+          "finesse moves",
+          "contain"
+        ],
+        "scheme_fit": "Evaluate how the Power Rusher profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "REDG",
+          "national_rank": 347,
+          "position_rank": 34,
+          "state_rank": 3,
+          "archetype": "Power Rusher",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "mixon-redg",
+      "name": "Mixon",
+      "position": "REDG",
+      "national_rank": 328,
+      "state_rank": 14,
+      "position_rank": 32,
+      "archetype": "Power Rusher",
+      "height": "6'5\"",
+      "weight_lbs": 223,
+      "hometown": "Metuchen, NJ",
+      "dealbreaker": "Brand Exposure",
+      "scouting_summary": "Developmental Prospect at REDG with a Power Rusher profile. At 6'5\", 223 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Mixon is a developmental REDG prospect ranked No. 328 nationally. The Power Rusher archetype and 6'5\", 223 lbs profile suggest a edge defender. Before assigning major resources, verify burst, power moves, finesse moves, contain. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Power Rusher archetype",
+          "National rank 328"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "power moves",
+          "finesse moves",
+          "contain"
+        ],
+        "scheme_fit": "Evaluate how the Power Rusher profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "REDG",
+          "national_rank": 328,
+          "position_rank": 32,
+          "state_rank": 14,
+          "archetype": "Power Rusher",
+          "height": "6'5\"",
+          "weight_lbs": 223,
+          "dealbreaker": "Brand Exposure"
+        }
+      }
+    },
+    {
+      "prospect_id": "mauro-ledg",
+      "name": "Mauro",
+      "position": "LEDG",
+      "national_rank": 278,
+      "state_rank": 42,
+      "position_rank": 27,
+      "archetype": "Edge Setter",
+      "height": "6'5\"",
+      "weight_lbs": 267,
+      "hometown": "Waco, TX",
+      "dealbreaker": "Championship Contender",
+      "scouting_summary": "Developmental Prospect at LEDG with a Edge Setter profile. At 6'5\", 267 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Mauro is a developmental LEDG prospect ranked No. 278 nationally. The Edge Setter archetype and 6'5\", 267 lbs profile suggest a edge defender. Before assigning major resources, verify burst, power moves, finesse moves, contain. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Edge Setter archetype",
+          "National rank 278"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "power moves",
+          "finesse moves",
+          "contain"
+        ],
+        "scheme_fit": "Evaluate how the Edge Setter profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "LEDG",
+          "national_rank": 278,
+          "position_rank": 27,
+          "state_rank": 42,
+          "archetype": "Edge Setter",
+          "height": "6'5\"",
+          "weight_lbs": 267,
+          "dealbreaker": "Championship Contender"
+        }
+      }
+    },
+    {
+      "prospect_id": "r-j-pounds-redg",
+      "name": "R.J. Pounds",
+      "position": "REDG",
+      "national_rank": 239,
+      "state_rank": 2,
+      "position_rank": 21,
+      "archetype": "Power Rusher",
+      "height": "6'8\"",
+      "weight_lbs": 242,
+      "hometown": "Pocatello, ID",
+      "dealbreaker": "Playing Style",
+      "scouting_summary": "High-Upside Prospect at REDG with a Power Rusher profile. At 6'8\", 242 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "R.J. Pounds is a high-priority REDG prospect ranked No. 239 nationally. The Power Rusher archetype and 6'8\", 242 lbs profile suggest a edge defender. Before assigning major resources, verify burst, power moves, finesse moves, contain. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Power Rusher archetype",
+          "National rank 239"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "power moves",
+          "finesse moves",
+          "contain"
+        ],
+        "scheme_fit": "Evaluate how the Power Rusher profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "REDG",
+          "national_rank": 239,
+          "position_rank": 21,
+          "state_rank": 2,
+          "archetype": "Power Rusher",
+          "height": "6'8\"",
+          "weight_lbs": 242,
+          "dealbreaker": "Playing Style"
+        }
+      }
+    },
+    {
+      "prospect_id": "evan-barker-redg",
+      "name": "Evan Barker",
+      "position": "REDG",
+      "national_rank": 134,
+      "state_rank": 13,
+      "position_rank": 15,
+      "archetype": "Pure Power",
+      "height": "6'4\"",
+      "weight_lbs": 230,
+      "hometown": "Savannah, GA",
+      "dealbreaker": "Brand Exposure",
+      "scouting_summary": "High-Upside Prospect at REDG with a Pure Power profile. At 6'4\", 230 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Evan Barker is a high-priority REDG prospect ranked No. 134 nationally. The Pure Power archetype and 6'4\", 230 lbs profile suggest a edge defender. Before assigning major resources, verify burst, power moves, finesse moves, contain. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Pure Power archetype",
+          "National rank 134"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "power moves",
+          "finesse moves",
+          "contain"
+        ],
+        "scheme_fit": "Evaluate how the Pure Power profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "REDG",
+          "national_rank": 134,
+          "position_rank": 15,
+          "state_rank": 13,
+          "archetype": "Pure Power",
+          "height": "6'4\"",
+          "weight_lbs": 230,
+          "dealbreaker": "Brand Exposure"
+        }
+      }
+    },
+    {
+      "prospect_id": "thad-heinrich-redg",
+      "name": "Thad Heinrich",
+      "position": "REDG",
+      "national_rank": 68,
+      "state_rank": 4,
+      "position_rank": 7,
+      "archetype": "Pure Power",
+      "height": "6'4\"",
+      "weight_lbs": 238,
+      "hometown": "Bossier City, LA",
+      "dealbreaker": "Championship Contender",
+      "scouting_summary": "Elite National Prospect at REDG with a Pure Power profile. At 6'4\", 238 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Thad Heinrich is a blue-chip REDG prospect ranked No. 68 nationally. The Pure Power archetype and 6'4\", 238 lbs profile suggest a edge defender. Before assigning major resources, verify burst, power moves, finesse moves, contain. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Pure Power archetype",
+          "National rank 68"
+        ],
+        "questions_to_verify": [
+          "burst",
+          "power moves",
+          "finesse moves",
+          "contain"
+        ],
+        "scheme_fit": "Evaluate how the Pure Power profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "REDG",
+          "national_rank": 68,
+          "position_rank": 7,
+          "state_rank": 4,
+          "archetype": "Pure Power",
+          "height": "6'4\"",
+          "weight_lbs": 238,
+          "dealbreaker": "Championship Contender"
+        }
+      }
+    },
+    {
+      "prospect_id": "john-ajala-dt",
+      "name": "John Ajala",
+      "position": "DT",
+      "national_rank": 95,
+      "state_rank": 8,
+      "position_rank": 3,
+      "archetype": "Pure Power",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": null,
+      "dealbreaker": "Playing Style",
+      "scouting_summary": "Elite National Prospect at DT with a Pure Power profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "John Ajala is a blue-chip DT prospect ranked No. 95 nationally. The Pure Power archetype and size not fully verified profile suggest a interior defender. Before assigning major resources, verify strength, block shedding, power moves, run defense. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Pure Power archetype",
+          "National rank 95"
+        ],
+        "questions_to_verify": [
+          "strength",
+          "block shedding",
+          "power moves",
+          "run defense"
+        ],
+        "scheme_fit": "Evaluate how the Pure Power profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "DT",
+          "national_rank": 95,
+          "position_rank": 3,
+          "state_rank": 8,
+          "archetype": "Pure Power",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": "Playing Style"
+        }
+      }
+    },
+    {
+      "prospect_id": "donte-burton-dt",
+      "name": "Donte Burton",
+      "position": "DT",
+      "national_rank": 404,
+      "state_rank": 65,
+      "position_rank": 21,
+      "archetype": "Pure Power",
+      "height": "6'4\"",
+      "weight_lbs": 308,
+      "hometown": "Anna, TX",
+      "dealbreaker": null,
+      "scouting_summary": "Developmental Prospect at DT with a Pure Power profile. At 6'4\", 308 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Donte Burton is a developmental DT prospect ranked No. 404 nationally. The Pure Power archetype and 6'4\", 308 lbs profile suggest a interior defender. Before assigning major resources, verify strength, block shedding, power moves, run defense. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Pure Power archetype",
+          "National rank 404"
+        ],
+        "questions_to_verify": [
+          "strength",
+          "block shedding",
+          "power moves",
+          "run defense"
+        ],
+        "scheme_fit": "Evaluate how the Pure Power profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "DT",
+          "national_rank": 404,
+          "position_rank": 21,
+          "state_rank": 65,
+          "archetype": "Pure Power",
+          "height": "6'4\"",
+          "weight_lbs": 308,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "bueno-will",
+      "name": "Bueno",
+      "position": "WILL",
+      "national_rank": 273,
+      "state_rank": 44,
+      "position_rank": 22,
+      "archetype": "Lurker",
+      "height": "6'2\"",
+      "weight_lbs": 220,
+      "hometown": "Holland, TX",
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "Developmental Prospect at WILL with a Lurker profile. At 6'2\", 220 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Bueno is a developmental WILL prospect ranked No. 273 nationally. The Lurker archetype and 6'2\", 220 lbs profile suggest a space linebacker. Before assigning major resources, verify speed, coverage, pursuit, tackling. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Lurker archetype",
+          "National rank 273"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "coverage",
+          "pursuit",
+          "tackling"
+        ],
+        "scheme_fit": "Evaluate how the Lurker profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "WILL",
+          "national_rank": 273,
+          "position_rank": 22,
+          "state_rank": 44,
+          "archetype": "Lurker",
+          "height": "6'2\"",
+          "weight_lbs": 220,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "tyree-wyatt-will",
+      "name": "Tyree Wyatt",
+      "position": "WILL",
+      "national_rank": 51,
+      "state_rank": 4,
+      "position_rank": 5,
+      "archetype": "Lurker",
+      "height": "6'2\"",
+      "weight_lbs": 239,
+      "hometown": "Roswell, GA",
+      "dealbreaker": "Proximity To Home",
+      "scouting_summary": "Elite National Prospect at WILL with a Lurker profile. At 6'2\", 239 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Tyree Wyatt is a blue-chip WILL prospect ranked No. 51 nationally. The Lurker archetype and 6'2\", 239 lbs profile suggest a space linebacker. Before assigning major resources, verify speed, coverage, pursuit, tackling. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Lurker archetype",
+          "National rank 51"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "coverage",
+          "pursuit",
+          "tackling"
+        ],
+        "scheme_fit": "Evaluate how the Lurker profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "WILL",
+          "national_rank": 51,
+          "position_rank": 5,
+          "state_rank": 4,
+          "archetype": "Lurker",
+          "height": "6'2\"",
+          "weight_lbs": 239,
+          "dealbreaker": "Proximity To Home"
+        }
+      }
+    },
+    {
+      "prospect_id": "conrad-mauro-sam",
+      "name": "Conrad Mauro",
+      "position": "SAM",
+      "national_rank": 112,
+      "state_rank": 10,
+      "position_rank": 10,
+      "archetype": "Thumper",
+      "height": "6'2\"",
+      "weight_lbs": 232,
+      "hometown": "Raleigh, NC",
+      "dealbreaker": "Proximity To Home",
+      "scouting_summary": "High-Upside Prospect at SAM with a Thumper profile. At 6'2\", 232 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Conrad Mauro is a high-priority SAM prospect ranked No. 112 nationally. The Thumper archetype and 6'2\", 232 lbs profile suggest a strong-side linebacker. Before assigning major resources, verify strength, run fits, coverage, tackling. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Thumper archetype",
+          "National rank 112"
+        ],
+        "questions_to_verify": [
+          "strength",
+          "run fits",
+          "coverage",
+          "tackling"
+        ],
+        "scheme_fit": "Evaluate how the Thumper profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "SAM",
+          "national_rank": 112,
+          "position_rank": 10,
+          "state_rank": 10,
+          "archetype": "Thumper",
+          "height": "6'2\"",
+          "weight_lbs": 232,
+          "dealbreaker": "Proximity To Home"
+        }
+      }
+    },
+    {
+      "prospect_id": "titus-hancey-sam",
+      "name": "Titus Hancey",
+      "position": "SAM",
+      "national_rank": 181,
+      "state_rank": 14,
+      "position_rank": 16,
+      "archetype": "Thumper",
+      "height": null,
+      "weight_lbs": 234,
+      "hometown": "Durham, NC",
+      "dealbreaker": "Proximity To Home",
+      "scouting_summary": "High-Upside Prospect at SAM with a Thumper profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Titus Hancey is a high-priority SAM prospect ranked No. 181 nationally. The Thumper archetype and size not fully verified profile suggest a strong-side linebacker. Before assigning major resources, verify strength, run fits, coverage, tackling. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Thumper archetype",
+          "National rank 181"
+        ],
+        "questions_to_verify": [
+          "strength",
+          "run fits",
+          "coverage",
+          "tackling"
+        ],
+        "scheme_fit": "Evaluate how the Thumper profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "SAM",
+          "national_rank": 181,
+          "position_rank": 16,
+          "state_rank": 14,
+          "archetype": "Thumper",
+          "height": null,
+          "weight_lbs": 234,
+          "dealbreaker": "Proximity To Home"
+        }
+      }
+    },
+    {
+      "prospect_id": "jakori-allen-will",
+      "name": "Jakori Allen",
+      "position": "WILL",
+      "national_rank": 349,
+      "state_rank": 38,
+      "position_rank": 28,
+      "archetype": "Lurker",
+      "height": "6'2\"",
+      "weight_lbs": 233,
+      "hometown": "Macon, GA",
+      "dealbreaker": "Proximity To Home",
+      "scouting_summary": "Developmental Prospect at WILL with a Lurker profile. At 6'2\", 233 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Jakori Allen is a developmental WILL prospect ranked No. 349 nationally. The Lurker archetype and 6'2\", 233 lbs profile suggest a space linebacker. Before assigning major resources, verify speed, coverage, pursuit, tackling. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Lurker archetype",
+          "National rank 349"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "coverage",
+          "pursuit",
+          "tackling"
+        ],
+        "scheme_fit": "Evaluate how the Lurker profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "WILL",
+          "national_rank": 349,
+          "position_rank": 28,
+          "state_rank": 38,
+          "archetype": "Lurker",
+          "height": "6'2\"",
+          "weight_lbs": 233,
+          "dealbreaker": "Proximity To Home"
+        }
+      }
+    },
+    {
+      "prospect_id": "elton-zimmons-mike",
+      "name": "Elton Zimmons",
+      "position": "MIKE",
+      "national_rank": 420,
+      "state_rank": 71,
+      "position_rank": 26,
+      "archetype": "Thumper",
+      "height": "5'11\"",
+      "weight_lbs": 222,
+      "hometown": "Southlake, TX",
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "Developmental Prospect at MIKE with a Thumper profile. At 5'11\", 222 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Elton Zimmons is a developmental MIKE prospect ranked No. 420 nationally. The Thumper archetype and 5'11\", 222 lbs profile suggest a inside linebacker. Before assigning major resources, verify tackling, awareness, coverage, pursuit. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Thumper archetype",
+          "National rank 420"
+        ],
+        "questions_to_verify": [
+          "tackling",
+          "awareness",
+          "coverage",
+          "pursuit"
+        ],
+        "scheme_fit": "Evaluate how the Thumper profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "MIKE",
+          "national_rank": 420,
+          "position_rank": 26,
+          "state_rank": 71,
+          "archetype": "Thumper",
+          "height": "5'11\"",
+          "weight_lbs": 222,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "cole-houchard-mike",
+      "name": "Cole Houchard",
+      "position": "MIKE",
+      "national_rank": 282,
+      "state_rank": 10,
+      "position_rank": 19,
+      "archetype": "Signal Caller",
+      "height": "6'0\"",
+      "weight_lbs": 226,
+      "hometown": "Traverse City, MI",
+      "dealbreaker": "Championship Contender",
+      "scouting_summary": "Developmental Prospect at MIKE with a Signal Caller profile. At 6'0\", 226 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Cole Houchard is a developmental MIKE prospect ranked No. 282 nationally. The Signal Caller archetype and 6'0\", 226 lbs profile suggest a inside linebacker. Before assigning major resources, verify tackling, awareness, coverage, pursuit. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Signal Caller archetype",
+          "National rank 282"
+        ],
+        "questions_to_verify": [
+          "tackling",
+          "awareness",
+          "coverage",
+          "pursuit"
+        ],
+        "scheme_fit": "Evaluate how the Signal Caller profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "MIKE",
+          "national_rank": 282,
+          "position_rank": 19,
+          "state_rank": 10,
+          "archetype": "Signal Caller",
+          "height": "6'0\"",
+          "weight_lbs": 226,
+          "dealbreaker": "Championship Contender"
+        }
+      }
+    },
+    {
+      "prospect_id": "boutte-mike",
+      "name": "Boutte",
+      "position": "MIKE",
+      "national_rank": 152,
+      "state_rank": 5,
+      "position_rank": 10,
+      "archetype": "Lurker",
+      "height": null,
+      "weight_lbs": null,
+      "hometown": null,
+      "dealbreaker": null,
+      "scouting_summary": "High-Upside Prospect at MIKE with a Lurker profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Boutte is a high-priority MIKE prospect ranked No. 152 nationally. The Lurker archetype and size not fully verified profile suggest a inside linebacker. Before assigning major resources, verify tackling, awareness, coverage, pursuit. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Lurker archetype",
+          "National rank 152"
+        ],
+        "questions_to_verify": [
+          "tackling",
+          "awareness",
+          "coverage",
+          "pursuit"
+        ],
+        "scheme_fit": "Evaluate how the Lurker profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "MIKE",
+          "national_rank": 152,
+          "position_rank": 10,
+          "state_rank": 5,
+          "archetype": "Lurker",
+          "height": null,
+          "weight_lbs": null,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "wayne-salazar-cb",
+      "name": "Wayne Salazar",
+      "position": "CB",
+      "national_rank": 104,
+      "state_rank": 10,
+      "position_rank": 7,
+      "archetype": "Zone",
+      "height": "6'2\"",
+      "weight_lbs": 202,
+      "hometown": "Selma, AL",
+      "dealbreaker": null,
+      "scouting_summary": "High-Upside Prospect at CB with a Zone profile. At 6'2\", 202 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Wayne Salazar is a high-priority CB prospect ranked No. 104 nationally. The Zone archetype and 6'2\", 202 lbs profile suggest a coverage defender. Before assigning major resources, verify speed, man coverage, zone coverage, press. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Zone archetype",
+          "National rank 104"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "man coverage",
+          "zone coverage",
+          "press"
+        ],
+        "scheme_fit": "Evaluate how the Zone profile fits Rutgers' current scheme.",
+        "recruiting_value": "High-priority",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "CB",
+          "national_rank": 104,
+          "position_rank": 7,
+          "state_rank": 10,
+          "archetype": "Zone",
+          "height": "6'2\"",
+          "weight_lbs": 202,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "lester-lock-cb",
+      "name": "Lester Lock",
+      "position": "CB",
+      "national_rank": 375,
+      "state_rank": 10,
+      "position_rank": 28,
+      "archetype": "Field",
+      "height": "6'1\"",
+      "weight_lbs": 182,
+      "hometown": "Youngstown, OH",
+      "dealbreaker": "Championship Contender",
+      "scouting_summary": "Developmental Prospect at CB with a Field profile. At 6'1\", 182 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Lester Lock is a developmental CB prospect ranked No. 375 nationally. The Field archetype and 6'1\", 182 lbs profile suggest a coverage defender. Before assigning major resources, verify speed, man coverage, zone coverage, press. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Field archetype",
+          "National rank 375"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "man coverage",
+          "zone coverage",
+          "press"
+        ],
+        "scheme_fit": "Evaluate how the Field profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "CB",
+          "national_rank": 375,
+          "position_rank": 28,
+          "state_rank": 10,
+          "archetype": "Field",
+          "height": "6'1\"",
+          "weight_lbs": 182,
+          "dealbreaker": "Championship Contender"
+        }
+      }
+    },
+    {
+      "prospect_id": "tre-sloan-fs",
+      "name": "Tre Sloan",
+      "position": "FS",
+      "national_rank": 415,
+      "state_rank": 34,
+      "position_rank": 14,
+      "archetype": "Coverage Specialist",
+      "height": "5'10\"",
+      "weight_lbs": 208,
+      "hometown": "West Palm Beach, FL",
+      "dealbreaker": null,
+      "scouting_summary": "Developmental Prospect at FS with a Coverage Specialist profile. At 5'10\", 208 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Tre Sloan is a developmental FS prospect ranked No. 415 nationally. The Coverage Specialist archetype and 5'10\", 208 lbs profile suggest a deep safety. Before assigning major resources, verify speed, zone coverage, play recognition, range. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Coverage Specialist archetype",
+          "National rank 415"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "zone coverage",
+          "play recognition",
+          "range"
+        ],
+        "scheme_fit": "Evaluate how the Coverage Specialist profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "FS",
+          "national_rank": 415,
+          "position_rank": 14,
+          "state_rank": 34,
+          "archetype": "Coverage Specialist",
+          "height": "5'10\"",
+          "weight_lbs": 208,
+          "dealbreaker": null
+        }
+      }
+    },
+    {
+      "prospect_id": "hakeem-aregu-fs",
+      "name": "Hakeem Aregu",
+      "position": "FS",
+      "national_rank": 60,
+      "state_rank": 21,
+      "position_rank": 4,
+      "archetype": "Box Specialist",
+      "height": "6'0\"",
+      "weight_lbs": null,
+      "hometown": "Jefferson City, MO",
+      "dealbreaker": "Pro Potential",
+      "scouting_summary": "Elite National Prospect at FS with a Box Specialist profile. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Hakeem Aregu is a blue-chip FS prospect ranked No. 60 nationally. The Box Specialist archetype and size not fully verified profile suggest a deep safety. Before assigning major resources, verify speed, zone coverage, play recognition, range. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Potential early contributor",
+        "strengths": [
+          "Box Specialist archetype",
+          "National rank 60"
+        ],
+        "questions_to_verify": [
+          "speed",
+          "zone coverage",
+          "play recognition",
+          "range"
+        ],
+        "scheme_fit": "Evaluate how the Box Specialist profile fits Rutgers' current scheme.",
+        "recruiting_value": "Blue-chip",
+        "recommended_action": "Prioritize if position need and verified attributes support an upgrade.",
+        "display_stats": {
+          "position": "FS",
+          "national_rank": 60,
+          "position_rank": 4,
+          "state_rank": 21,
+          "archetype": "Box Specialist",
+          "height": "6'0\"",
+          "weight_lbs": null,
+          "dealbreaker": "Pro Potential"
+        }
+      }
+    },
+    {
+      "prospect_id": "deontae-edmonds-ss",
+      "name": "Deontae Edmonds",
+      "position": "SS",
+      "national_rank": 310,
+      "state_rank": 13,
+      "position_rank": 6,
+      "archetype": "Hybrid",
+      "height": "6'0\"",
+      "weight_lbs": 188,
+      "hometown": "Andalusia, AL",
+      "dealbreaker": "Championship Contender",
+      "scouting_summary": "Developmental Prospect at SS with a Hybrid profile. At 6'0\", 188 lbs, the frame fits the position. Best evaluated for scheme fit, current roster need, and whether the verified attributes justify immediate resources.",
+      "source_videos": [
+        "IMG_30121.mp4",
+        "IMG_3013.mp4"
+      ],
+      "verification_status": "transcribed_from_visible_prospect_detail",
+      "analysis": {
+        "summary": "Deontae Edmonds is a developmental SS prospect ranked No. 310 nationally. The Hybrid archetype and 6'0\", 188 lbs profile suggest a hybrid safety. Before assigning major resources, verify tackling, coverage, pursuit, hit power. Recruiting value should be weighed against Rutgers' current depth, on-field progress, and future departures.",
+        "projected_role": "Developmental depth with starter upside",
+        "strengths": [
+          "Hybrid archetype",
+          "National rank 310"
+        ],
+        "questions_to_verify": [
+          "tackling",
+          "coverage",
+          "pursuit",
+          "hit power"
+        ],
+        "scheme_fit": "Evaluate how the Hybrid profile fits Rutgers' current scheme.",
+        "recruiting_value": "Developmental",
+        "recommended_action": "Scout fully before heavy investment.",
+        "display_stats": {
+          "position": "SS",
+          "national_rank": 310,
+          "position_rank": 6,
+          "state_rank": 13,
+          "archetype": "Hybrid",
+          "height": "6'0\"",
+          "weight_lbs": 188,
+          "dealbreaker": "Championship Contender"
+        }
+      }
+    }
+  ],
+  "description_rule": "Every record includes a football description based on visible position, rank, archetype and physical profile."
+}

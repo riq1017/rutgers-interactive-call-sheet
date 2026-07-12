@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Map generated descriptions into every visible app slot.",
+  "requirements": [
+    "Remove all hardcoded 'Name unverified' and old placeholder personnel records.",
+    "Render Rutgers player cards from rutgers_roster_base.json players[].analysis.",
+    "Render recruiting-class cards from recruiting_class.json prospects[].analysis.",
+    "Render active-board cards from recruiting_weekly.json active_board and linked prospect analysis.",
+    "Render Purdue cards from purdue_opponent_players.json players[].ui_analysis.",
+    "Render matchup cards from purdue_matchups.json matchups[].description.",
+    "Hide fields that are null instead of printing repeated 'Not available'.",
+    "Do not show the four legacy quarterback summary boxes.",
+    "Use the two import workflow: gameplan_weekly.json and recruiting_weekly.json.",
+    "Future weekly video updates must regenerate both raw values and analysis descriptions."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.1",
+  "package_type": "opponent_profile",
+  "generated_utc": "2026-07-12T02:03:24.467369+00:00",
+  "source_videos": [
+    "IMG_2971(5).mov",
+    "IMG_2972(3).mp4"
+  ],
+  "team": "Purdue",
+  "nickname": "Boilermakers",
+  "record": "1-4",
+  "conference_record": "0-4",
+  "conference": "Big Ten",
+  "conference_rank": 18,
+  "overall": 64,
+  "offense_overall": 64,
+  "defense_overall": 64,
+  "data_quality_rule": "Only clearly readable values are populated. Unreadable values remain null."
+}

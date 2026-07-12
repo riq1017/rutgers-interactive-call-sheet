@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T18:09:21.499Z
+Validated: 2026-07-12T18:46:07.991Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -29,6 +29,24 @@ Validated: 2026-07-12T18:09:21.499Z
 - PASS - Top Matchups Preview preserves approved order
 - PASS - Dashboard fixture contains no raw nullish/object text
 - PASS - Pack B cards use shared card primitives
+- PASS - Pack C registry entries exist
+- PASS - Coaching decision JSON exists and parses
+- PASS - Run-lane analysis JSON exists and parses
+- PASS - All coaching-decision player IDs resolve
+- PASS - Run-lane references resolve and remain limited without fabricated scores
+- PASS - All 48 Rutgers locked Player Cards resolve
+- PASS - All 16 opponent locked Player Cards resolve
+- PASS - Season Stats appear before Last Game in Player Card
+- PASS - Top 6 attributes only in default Player Card section
+- PASS - Missing stats do not hide players
+- PASS - LT/LG/C/RG/RT all resolve in locked O-line card
+- PASS - All 192 verified visible Play Cards resolve
+- PASS - Run plays resolve a run style
+- PASS - Outside concepts resolve to Haskins by current weekly decision data
+- PASS - Inside/power concepts resolve to Simonson by current weekly decision data
+- PASS - Recommended Ball Carrier block is JSON-driven and renderer has no hardcoded back names
+- PASS - Best-side recommendation stays hidden when lane scoring is limited
+- PASS - No internal score mislabeled as lane advantage
 - PASS - Shared roster source has 48 verified players
 - PASS - No duplicate hardcoded roster is used by the visible Recruiting engine
 - PASS - Gameplan engine reads enriched opponent/profile/player/group/matchup data

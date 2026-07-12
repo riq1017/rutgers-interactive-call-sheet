@@ -335,6 +335,134 @@ window.CARD_REGISTRY = {
       "expandable": true,
       "visible": false,
       "source_refs": {}
+    },
+    {
+      "card_id": "rutgers_player_card",
+      "card_type": "player_card",
+      "tab": "personnel",
+      "section": "rutgers_cards",
+      "order": 1,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "player_card",
+      "source_refs": {
+        "source": "data/rutgers_roster_base.json"
+      }
+    },
+    {
+      "card_id": "opponent_player_card",
+      "card_type": "player_card",
+      "tab": "personnel",
+      "section": "opponent_cards",
+      "order": 2,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "player_card",
+      "source_refs": {
+        "source": "data/gameplan_weekly.json#opponent_players"
+      }
+    },
+    {
+      "card_id": "oline_player_card",
+      "card_type": "oline_card",
+      "tab": "personnel",
+      "section": "oline",
+      "order": 3,
+      "priority": "critical",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "oline_card",
+      "source_refs": {
+        "slots": [
+          "LT",
+          "LG",
+          "C",
+          "RG",
+          "RT"
+        ],
+        "roster": "data/rutgers_roster_base.json",
+        "matchups": "data/player_matchups.json"
+      }
+    },
+    {
+      "card_id": "top_play_card",
+      "card_type": "play_card",
+      "tab": "topplays",
+      "section": "rankings",
+      "order": 1,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "play_card",
+      "source_refs": {
+        "playbook": "data/OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json"
+      }
+    },
+    {
+      "card_id": "best_call_card",
+      "card_type": "play_card",
+      "tab": "gameplan",
+      "section": "best_call",
+      "order": 1,
+      "priority": "critical",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "play_card",
+      "source_refs": {
+        "playbook": "data/OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json"
+      }
+    },
+    {
+      "card_id": "alternative_play_card",
+      "card_type": "play_card",
+      "tab": "gameplan",
+      "section": "alternatives",
+      "order": 2,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "play_card",
+      "source_refs": {
+        "playbook": "data/OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json"
+      }
+    },
+    {
+      "card_id": "recommended_ball_carrier_block",
+      "card_type": "run_personnel_block",
+      "tab": "topplays",
+      "section": "play_card_blocks",
+      "order": 1,
+      "priority": "important",
+      "size": "small",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "run_personnel_block",
+      "source_refs": {
+        "coaching_decisions": "data/weekly/coaching_decisions.json"
+      }
+    },
+    {
+      "card_id": "run_lane_recommendation_block",
+      "card_type": "run_lane_block",
+      "tab": "topplays",
+      "section": "play_card_blocks",
+      "order": 2,
+      "priority": "monitor",
+      "size": "small",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "run_lane_block",
+      "source_refs": {
+        "run_lane_analysis": "data/weekly/run_lane_analysis.json"
+      }
     }
   ]
 };

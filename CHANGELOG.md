@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Sprint 2 Pack C locked player/play/run logic
+- Added weekly coaching-decision JSON and static bundle for JSON-driven run personnel.
+- Added weekly run-lane analysis JSON and static bundle with explicit limited-data lane status.
+- Locked Player Card rendering for Rutgers and opponent players, including Season Stats before Last Game and top-six default attributes.
+- Locked Play Card rendering for Best Call, Top Plays, and Alternative Plays with play art, Why It Works, run lane/read, protection, situational fit, ball carrier/target, counter, and More Detail sections.
+- Added JSON-driven recommended ball carrier resolution for run plays without hardcoding player names in the renderer.
+- Added five-slot O-line card for LT, LG, C, RG, RT with matchup enrichment where available.
+- Expanded validation for player cards, play cards, run personnel, run-lane limited-data behavior, 192-play regression, and Pack A/B/Phase 1.2 regression.
+
 ## Sprint 2 Pack B executive dashboard
 - Converted the Gameplan/Home default experience into a registry-driven executive dashboard using the shared Pack A card primitives.
 - Added dashboard registry entries for Game Header, Featured Player, Biggest Risk, tactical summary cards, Top Matchups Preview, Alerts, and Team Cards.

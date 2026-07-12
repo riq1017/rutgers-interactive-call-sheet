@@ -397,6 +397,71 @@ p{line-height:1.45}
 .alert-list{display:grid;gap:7px;margin-top:10px}
 .notice.information{border-color:#7fb7ff80;color:#cfe5ff}
 .notice.positive{border-color:#55d98b80;color:#ccf5dc}
+.locked-player-summary{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;
+  gap:9px;
+  width:100%;
+  min-width:0;
+}
+.locked-player-card .card-section{margin-top:9px}
+.player-attribute-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.player-mini-lock{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+.player-mini-lock span{display:grid;gap:2px;min-width:0}
+.player-mini-lock em{color:var(--muted);font-style:normal;font-size:11px}
+.locked-play-card summary{
+  display:grid;
+  grid-template-columns:auto 48px minmax(0,1fr) auto auto;
+  align-items:center;
+  gap:8px;
+}
+.locked-play-card summary img{
+  width:48px;
+  height:34px;
+  object-fit:contain;
+  border-radius:6px;
+  background:#050506;
+}
+.full-play-art img{width:100%;max-height:210px;object-fit:contain}
+.ball-carrier-block,.run-lane-block{border-left:3px solid var(--scarlet);padding-left:8px}
+.locked-oline-card{padding:10px;margin-top:10px}
+.locked-oline-slots{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:5px;
+}
+.oline-slot-card{
+  min-width:0;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:7px;
+  background:rgba(0,0,0,.22);
+  overflow:hidden;
+}
+.oline-slot-card summary{
+  display:grid;
+  gap:2px;
+  min-height:74px;
+  padding:7px 4px;
+  text-align:center;
+  cursor:pointer;
+}
+.oline-slot-card summary span{font-size:10px;color:var(--muted);font-weight:950}
+.oline-slot-card summary strong{font-size:11px;line-height:1.1;overflow-wrap:anywhere}
+.oline-slot-card summary em,.oline-slot-card summary i{font-size:10px;color:var(--muted);font-style:normal}
+.oline-slot-card summary b{font-size:12px;color:var(--good)}
+@media(max-width:420px){
+  .locked-play-card summary{grid-template-columns:auto 42px minmax(0,1fr) auto}
+  .locked-play-card summary .icon-favorite{grid-column:1/-1;min-height:34px}
+  .locked-oline-slots{gap:4px}
+  .oline-slot-card summary{padding:6px 3px}
+}
 @media(min-width:390px){
   .dashboard-card-stack .tactical-dashboard-card{
     align-self:start;

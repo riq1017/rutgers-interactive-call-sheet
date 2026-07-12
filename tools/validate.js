@@ -4,7 +4,7 @@ const vm = require('vm');
 const root = path.resolve(__dirname, '..');
 const context = { window: {}, localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } };
 vm.createContext(context);
-for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js','data/phase1_verified_data.js','data/player_media.js','data/card_registry.js']) {
+for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js','data/phase1_verified_data.js','data/player_media.js','data/card_registry.js','data/weekly/coaching_decisions.js','data/weekly/run_lane_analysis.js']) {
   vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context, { filename: file });
 }
 Object.assign(global, context.window);
@@ -24,10 +24,12 @@ function ctx(down, yards, zone = 'normal', gameState = 'normal') {
   if (gameState === 'protect_lead') key = 'short';
   return { down, dist, distanceYards: yards, zone, gameState, key };
 }
-const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','weekly/opponent_player_media.json','player_media.js','card_registry.json','card_registry.js'];
+const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','weekly/opponent_player_media.json','weekly/coaching_decisions.json','weekly/run_lane_analysis.json','player_media.js','card_registry.json','card_registry.js'];
 const phase1Transcript = JSON.parse(fs.readFileSync(path.join(root,'data','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json'), 'utf8'));
 const phase1Matchups = JSON.parse(fs.readFileSync(path.join(root,'data','player_matchups.json'), 'utf8'));
 const cardRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','card_registry.json'), 'utf8'));
+const coachingDecisions = JSON.parse(fs.readFileSync(path.join(root,'data','weekly','coaching_decisions.json'), 'utf8'));
+const runLaneAnalysis = JSON.parse(fs.readFileSync(path.join(root,'data','weekly','run_lane_analysis.json'), 'utf8'));
 const rutgersLast = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_last_game_stats.json'), 'utf8'));
 const rutgersSeason = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_season_stats.json'), 'utf8'));
 const rutgersMedia = JSON.parse(fs.readFileSync(path.join(root,'data','base','rutgers_player_media.json'), 'utf8'));
@@ -68,6 +70,31 @@ const previewHtml = engine.renderDashboardCard(cardById.get('dashboard_top_match
 check('Top Matchups Preview preserves approved order', engine.orderedMatchupRows().slice(0,3).map(item => item.row.matchup_id).join('|') === 'rt_vs_redg|c_vs_dt|hb2_vs_sam' && previewHtml.indexOf('B. Newberry') < previewHtml.indexOf('D. Sturgis') && previewHtml.indexOf('D. Sturgis') < previewHtml.indexOf('J. Haskins'));
 check('Dashboard fixture contains no raw nullish/object text', !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(dashboardHtml));
 check('Pack B cards use shared card primitives', ['gameHeaderCard','featuredPlayerCard','biggestRiskCard','tacticalSummaryCard','topMatchupsPreviewCard','alertsCard'].every(fn => app.includes(`function ${fn}`)) && (dashboardHtml.match(/base-card/g) || []).length >= dashboardCards.length);
+const packCIds = ['rutgers_player_card','opponent_player_card','oline_player_card','top_play_card','best_call_card','alternative_play_card','recommended_ball_carrier_block','run_lane_recommendation_block'];
+check('Pack C registry entries exist', packCIds.every(id => cardById.has(id)));
+check('Coaching decision JSON exists and parses', coachingDecisions.package_type === 'weekly_coaching_decisions' && coachingDecisions.schema_version === '1.0');
+check('Run-lane analysis JSON exists and parses', runLaneAnalysis.package_type === 'weekly_run_lane_analysis' && Array.isArray(runLaneAnalysis.lanes));
+const rosterIds = new Set(RUTGERS_ROSTER_BASE.players.map(p => p.player_id));
+const playIds = new Set(RUTGERS_PLAYBOOK.map(p => p.id));
+const matchupIds = new Set(phase1Matchups.matchups.map(m => m.matchup_id));
+check('All coaching-decision player IDs resolve', Object.values(coachingDecisions.run_personnel).every(row => rosterIds.has(row.primary_player_id) && (!row.secondary_player_id || rosterIds.has(row.secondary_player_id))));
+check('Run-lane references resolve and remain limited without fabricated scores', runLaneAnalysis.lanes.every(lane => lane.score === null && lane.status === 'limited_data' && (lane.recommended_play_ids || []).every(id => playIds.has(id)) && (lane.source_matchup_ids || []).every(id => matchupIds.has(id))));
+check('All 48 Rutgers locked Player Cards resolve', RUTGERS_ROSTER_BASE.players.length === 48 && RUTGERS_ROSTER_BASE.players.every(player => engine.premiumPlayerCard(player, 'rutgers').includes(`data-player-id="${player.player_id}"`)));
+check('All 16 opponent locked Player Cards resolve', PURDUE_OPPONENT_PLAYERS.players.length === 16 && PURDUE_OPPONENT_PLAYERS.players.every(player => engine.premiumPlayerCard(player, 'opponent').includes(`data-player-id="${player.player_id}"`)));
+const samplePlayerHtml = engine.premiumPlayerCard(RUTGERS_ROSTER_BASE.players[0], 'rutgers');
+check('Season Stats appear before Last Game in Player Card', samplePlayerHtml.indexOf('Season Stats') > -1 && samplePlayerHtml.indexOf('Season Stats') < samplePlayerHtml.indexOf('Last Game'));
+check('Top 6 attributes only in default Player Card section', (samplePlayerHtml.match(/Top 6 Position-Relevant Attributes/g) || []).length === 1 && app.includes('lockedAttributeRows(player, 6)'));
+check('Missing stats do not hide players', samplePlayerHtml.includes('Limited data') && samplePlayerHtml.includes(RUTGERS_ROSTER_BASE.players[0].name));
+check('LT/LG/C/RG/RT all resolve in locked O-line card', ['LT','LG','C','RG','RT'].every(slot => engine.renderOLine ? true : app.includes('LT — LG — C — RG — RT')) && app.includes('locked-oline-slots'));
+check('All 192 verified visible Play Cards resolve', RUTGERS_PLAYBOOK.length === 192 && RUTGERS_PLAYBOOK.every((play, i) => engine.lockedPlayCard({...engine.scorePlay(play, ctx(1,5)), ...play}, i + 1).includes(`data-play-id="${play.id}"`)));
+const outsidePlay = RUTGERS_PLAYBOOK.find(play => /outside|stretch|sweep|toss|speed option|perimeter|pin|pull/i.test(play.name) || /outside/i.test(engine.conceptFamily(play))) || RUTGERS_PLAYBOOK.find(play => /counter/i.test(play.name));
+const insidePlay = RUTGERS_PLAYBOOK.find(play => /inside|duo|power|trap|dive|iso/i.test(play.name) || /inside/i.test(engine.conceptFamily(play)));
+check('Run plays resolve a run style', RUTGERS_PLAYBOOK.filter(play => engine.runStyleForPlay(play)).length > 0);
+check('Outside concepts resolve to Haskins by current weekly decision data', outsidePlay && engine.runStyleForPlay(outsidePlay) === 'outside' && engine.runPersonnelDecision(outsidePlay).primary.player_id === 'j-haskins-hb');
+check('Inside/power concepts resolve to Simonson by current weekly decision data', insidePlay && ['inside','short_yardage','goal_line'].includes(engine.runStyleForPlay(insidePlay)) && engine.runPersonnelDecision(insidePlay).primary.player_id === 't-simonson-hb');
+check('Recommended Ball Carrier block is JSON-driven and renderer has no hardcoded back names', engine.ballCarrierBlock(outsidePlay).includes('J. Haskins') && engine.ballCarrierBlock(insidePlay).includes('T. Simonson') && !/function lockedPlayCard[\s\S]*J\. Haskins|function lockedPlayCard[\s\S]*T\. Simonson/.test(app));
+check('Best-side recommendation stays hidden when lane scoring is limited', !engine.bestVerifiedRunLane(insidePlay) && engine.runLaneBlock(insidePlay).includes('Limited data') && !engine.runLaneBlock(insidePlay).includes('Recommended Side</h4><div class="metric-row"><span>Lane</span>'));
+check('No internal score mislabeled as lane advantage', !JSON.stringify(runLaneAnalysis).includes('internal_score') && !engine.runLaneBlock(insidePlay).includes('ADVANTAGE'));
 check('Shared roster source has 48 verified players', RUTGERS_ROSTER_BASE.players.length === 48 && RUTGERS_ROSTER_BASE.package_type === 'rutgers_roster_base');
 check('No duplicate hardcoded roster is used by the visible Recruiting engine', app.includes('function loadRutgersRoster') && app.includes('return sharedRosterBase()'));
 check('Gameplan engine reads enriched opponent/profile/player/group/matchup data', app.includes('loadOpponentProfile') && app.includes('loadOpponentPlayers') && app.includes('loadOpponentGroups') && app.includes('loadMatchups'));
@@ -124,7 +151,7 @@ check('Opponent portrait registry covers every current opponent player', opponen
 check('Every portrait asset exists', [...rutgersMedia.players, ...opponentMedia.players].every(row => fs.existsSync(path.join(root, row.portrait_path))));
 check('Player card registry binds without duplicated ratings', registry.counts.total_cards === registry.rutgers_cards.length + registry.opponent_cards.length && JSON.stringify(registry).indexOf('"overall"') === -1);
 check('Player registry count matches generated card inventory', registry.counts.rutgers_players === 48 && registry.counts.opponent_players === 16 && registry.counts.total_cards === 64);
-check('Premium player card engine is present', app.includes('function premiumPlayerCard') && app.includes('Season Stats') && app.includes('Recommended Usage') && app.includes('Expandable Detail'));
+check('Premium player card engine is present', app.includes('function premiumPlayerCard') && app.includes('Season Stats') && app.includes('Weekly Role') && app.includes('More Detail'));
 check('Portrait media binding is used in player and matchup cards', app.includes('function portraitImg') && app.includes('broadcast-player') && app.includes('mediaForPlayer'));
 check('Matchup cards expose grade, confidence, evidence, recommendation, and portraits', app.includes('displayGrade(row.grade, row.internal_score)') && app.includes('Confidence') && app.includes('Evidence') && app.includes('Tactical Recommendation') && app.includes('portraitImg(rutgers'));
 check('Executive sticky header compacts on scroll', css.includes('.gameday-header.compact-header') && app.includes('window.scrollY > 48'));

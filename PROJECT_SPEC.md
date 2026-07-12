@@ -65,6 +65,14 @@ The coach career is permanent. The current program is dynamic. Rutgers is the ac
 
 The app currently imports 192 verified visible Oregon formation/play combinations. Hidden off-screen plays are not claimed complete. Missing play art uses placeholders without dropping verified plays. Play IDs must remain stable. The app must not make unsupported completeness claims.
 
+## I.1 Locked Card And Run Logic Standards
+
+Player Cards are locked to `player_id`. Season Stats must render before Last Game. The default expanded Player Card shows the top six position-relevant attributes, with remaining attributes under More Detail.
+
+Play Cards must preserve all 192 verified visible play combinations and render play art through the existing placeholder fallback when art is missing. Run Play Cards resolve run style through one resolver layer, then resolve recommended ball carrier by stable `player_id` from weekly coaching-decision JSON. Player names must not be hardcoded in the renderer.
+
+Run-lane recommendations may display a best side only when weekly run-lane analysis contains verified lane scoring. Limited-data lanes must remain limited and must not be promoted into fabricated left/right recommendations.
+
 ## J. Validation Standards
 
 Required checks include roster count, media coverage, registry coverage, portrait existence, required position coverage, matchup ID resolution, play count, play ID uniqueness, no raw object coercion, mobile overflow safeguards, and GitHub Pages static compatibility.

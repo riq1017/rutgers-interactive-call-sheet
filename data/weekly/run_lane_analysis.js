@@ -1,0 +1,15 @@
+window.WEEKLY_RUN_LANE_ANALYSIS = {
+  "schema_version": "1.0",
+  "package_type": "weekly_run_lane_analysis",
+  "week": 6,
+  "team": "Rutgers",
+  "opponent": "Purdue",
+  "lanes": [
+    {"lane_id":"outside_left","label":"Outside Left","score":null,"confidence":"limited","recommended_back_role":"outside","recommended_play_ids":[],"evidence":[],"source_matchup_ids":[],"status":"limited_data"},
+    {"lane_id":"inside_left","label":"Inside Left","score":null,"confidence":"limited","recommended_back_role":"inside","recommended_play_ids":[],"evidence":[],"source_matchup_ids":[],"status":"limited_data"},
+    {"lane_id":"a_gap_left","label":"A Gap Left","score":null,"confidence":"limited","recommended_back_role":"inside","recommended_play_ids":[],"evidence":[],"source_matchup_ids":[],"status":"limited_data"},
+    {"lane_id":"a_gap_right","label":"A Gap Right","score":null,"confidence":"limited","recommended_back_role":"inside","recommended_play_ids":[],"evidence":[],"source_matchup_ids":[],"status":"limited_data"},
+    {"lane_id":"inside_right","label":"Inside Right","score":null,"confidence":"limited","recommended_back_role":"inside","recommended_play_ids":[],"evidence":[],"source_matchup_ids":[],"status":"limited_data"},
+    {"lane_id":"outside_right","label":"Outside Right","score":null,"confidence":"limited","recommended_back_role":"outside","recommended_play_ids":[],"evidence":[],"source_matchup_ids":[],"status":"limited_data"}
+  ]
+};

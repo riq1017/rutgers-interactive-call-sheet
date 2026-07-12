@@ -1608,6 +1608,14 @@ function loadOpponentPlayerMedia() {
   return typeof OPPONENT_PLAYER_MEDIA !== "undefined" ? OPPONENT_PLAYER_MEDIA : { players: [] };
 }
 
+function loadWeeklyCoachingDecisions() {
+  return typeof WEEKLY_COACHING_DECISIONS !== "undefined" ? WEEKLY_COACHING_DECISIONS : { run_personnel: {} };
+}
+
+function loadWeeklyRunLaneAnalysis() {
+  return typeof WEEKLY_RUN_LANE_ANALYSIS !== "undefined" ? WEEKLY_RUN_LANE_ANALYSIS : { lanes: [] };
+}
+
 function loadPlayerCardRegistry() {
   return typeof PLAYER_CARD_REGISTRY !== "undefined" ? PLAYER_CARD_REGISTRY : { rutgers_cards: [], opponent_cards: [], counts: {} };
 }
@@ -2069,6 +2077,87 @@ function evidenceRowsHtml(evidence = []) {
   return rows.length ? `<div class="evidence-row-list">${rows.map(row => `<div class="evidence-row"><span>${labelize(row.metric)}</span><strong>${row.rutgers ? `Rutgers ${row.rutgers}` : ""}</strong><em>${row.opponent ? `${activeOpponentName()} ${row.opponent}` : ""}</em><b>${row.result || "Limited data"}</b></div>`).join("")}</div>` : `<div class="evidence-row limited"><span>Evidence</span><b>Limited data</b></div>`;
 }
 
+function playerById(id, side = "rutgers") {
+  const rows = side === "opponent" ? loadOpponentPlayers() : (loadRutgersRoster().players || []);
+  return rows.find(player => playerId(player) === id) || null;
+}
+
+function lockedAttributeRows(player, limit = 6) {
+  const attrs = player && player.attributes && typeof player.attributes === "object" ? Object.entries(player.attributes) : [];
+  const direct = ["overall","speed","acceleration","agility","change_of_direction","strength","awareness","throw_power","power_moves","finesse_moves","play_recognition","pass_block","run_block"];
+  const merged = [...attrs, ...direct.map(key => [key, player && player[key]])]
+    .filter(([key, value]) => key !== "overall" && cleanValue(value));
+  const seen = new Set();
+  return merged.filter(([key]) => {
+    const normalized = String(key).toLowerCase();
+    if (seen.has(normalized)) return false;
+    seen.add(normalized);
+    return true;
+  }).slice(0, limit).map(([key, value]) => MetricRow(labelize(key), value)).join("");
+}
+
+function remainingAttributeRowsForPlayer(player, offset = 6) {
+  const attrs = player && player.attributes && typeof player.attributes === "object" ? Object.entries(player.attributes) : [];
+  return attrs.filter(([key, value]) => key !== "overall" && cleanValue(value)).slice(offset).map(([key, value]) => MetricRow(labelize(key), value)).join("");
+}
+
+function relatedPlaysForPlayer(player, limit = 6) {
+  const pos = normalizePosition(player && player.position);
+  if (!pos) return [];
+  return RUTGERS_PLAYBOOK.filter(play => (play.primaryPositions || []).includes(pos) || (play.secondaryPositions || []).includes(pos)).slice(0, limit);
+}
+
+function isRunPlay(play) {
+  const family = conceptFamily(play).toLowerCase();
+  const name = cleanValue(play && play.name).toLowerCase();
+  return family.includes("run") || family === "option" || /\b(zone|duo|power|trap|dive|iso|counter|sweep|toss|stretch)\b/.test(name);
+}
+
+function runStyleForPlay(play, context = {}) {
+  const name = cleanValue(play && play.name).toLowerCase();
+  const family = conceptFamily(play).toLowerCase();
+  if ((context.zone === "goal_line") || /goal|goal line/.test(name)) return "goal_line";
+  if ((context.down >= 3 && Number(context.distanceYards || 99) <= 2) || /short|iso/.test(name)) return "short_yardage";
+  if (/outside|stretch|sweep|toss|speed option|perimeter|pin|pull/.test(name) || family.includes("outside")) return "outside";
+  if (/inside|duo|power|trap|dive|zone|counter|wham/.test(name) || family.includes("inside")) return "inside";
+  return isRunPlay(play) ? "inside" : "";
+}
+
+function runPersonnelDecision(play, context = {}) {
+  const style = runStyleForPlay(play, context);
+  if (!style) return null;
+  const decision = (loadWeeklyCoachingDecisions().run_personnel || {})[style] || {};
+  const primary = playerById(decision.primary_player_id, "rutgers");
+  const secondary = playerById(decision.secondary_player_id, "rutgers");
+  return { style, decision, primary, secondary, reason: cleanValue(decision.reason) };
+}
+
+function bestVerifiedRunLane(play) {
+  if (!isRunPlay(play)) return null;
+  const lanes = (loadWeeklyRunLaneAnalysis().lanes || []).filter(lane => lane && lane.status !== "limited_data" && lane.score !== null && lane.score !== undefined && Number.isFinite(Number(lane.score)));
+  if (!lanes.length) return null;
+  return lanes.sort((a, b) => Number(b.score) - Number(a.score))[0];
+}
+
+function ballCarrierBlock(play, context = {}) {
+  const resolved = runPersonnelDecision(play, context);
+  if (!resolved || !resolved.primary) return "";
+  return CardSection("Primary Ball Carrier / Primary Target", `<div class="player-mini-lock">
+    ${PortraitBlock(resolved.primary, "rutgers", "player-portrait thumb")}
+    <span><strong>${cleanValue(resolved.primary.name)}</strong><em>${cleanValue(resolved.primary.position)} | OVR ${cardValue(resolved.primary.overall)}</em></span>
+  </div>
+  ${resolved.secondary ? maybeRow("Secondary Ball Carrier", `${resolved.secondary.name} (${resolved.secondary.position})`) : ""}
+  ${maybeRow("Run Style", labelize(resolved.style))}
+  ${maybeRow("Reason", resolved.reason, "Limited data")}`, "ball-carrier-block");
+}
+
+function runLaneBlock(play) {
+  const lane = bestVerifiedRunLane(play);
+  if (!isRunPlay(play)) return "";
+  if (!lane) return CardSection("Recommended Side", `<div class="card-limited"><strong>Limited data</strong><span>No verified lane score is available.</span></div>`, "run-lane-block");
+  return CardSection("Recommended Side", `${MetricRow("Lane", lane.label)}${MetricRow("Confidence", lane.confidence)}${MetricRow("Score", lane.score)}${chipList(lane.evidence)}${maybeRow("Related Matchups", lane.source_matchup_ids)}`, "run-lane-block");
+}
+
 function premiumPlayerCard(player, side = "rutgers") {
   const analysis = (player.analysis || player.ui_analysis || {});
   const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
@@ -2076,25 +2165,21 @@ function premiumPlayerCard(player, side = "rutgers") {
   const classText = cleanValue(player.class_year || player.year || player.class);
   const jersey = cleanValue(player.jersey_number || player.jersey);
   const matchup = matchupSummaryForPlayer(player, side);
-  const limited = (!seasonRows.length || !lastRows.length) ? `<p class="limited-note">Limited data where verified production was not provided.</p>` : "";
-  return `<details class="person-card premium-player-card compact-person player-detail">
-    <summary>
-      ${portraitImg(player, side)}
-      <span><strong>${cleanValue(player.name)}</strong><em>${cleanValue(player.position)}${classText ? ` | ${classText}` : ""}${jersey ? ` | #${jersey}` : ""}</em></span>
-      <b>${cleanValue(player.overall) ? `${player.overall} OVR` : "No OVR"}</b>
-    </summary>
-    <div class="player-card-grid">
-      <div class="portrait-panel">${portraitImg(player, side, "player-portrait large")}</div>
-      <div class="card-grid">
-        ${maybeRow("Overall", player.overall)}${maybeRow("Position", player.position)}${maybeRow("Class", classText)}${maybeRow("Jersey", jersey)}${maybeRow("Height", player.height)}${maybeRow("Weight", player.weight)}${maybeRow("Development", analysis.development_outlook || analysis.development)}
-        ${maybeRow("Attributes", topAttributes(player, 6), "Limited data")}
-      </div>
-    </div>
-    <div class="production-grid">${statBlock("Last Game", lastRows)}${statBlock("Season", seasonRows)}</div>${limited}
-    ${maybeRow("Role", analysis.role || analysis.matchup_priority)}${maybeRow("Strengths", analysis.strengths, "Limited data")}${maybeRow("Weaknesses", analysis.limitations || analysis.weaknesses, "Limited data")}${maybeRow("Matchup Summary", matchup, "Limited data")}
-    ${maybeRow("Recommended Usage", usageSummary(player))}${maybeRow("Player Notes", analysis.summary || player.description)}
-    <details class="nested-detail"><summary>Expandable Detail</summary>${maybeRow("Best formations", analysis.best_formations)}${maybeRow("Matchup advantage", analysis.matchup_advantage)}${maybeRow("Risk", analysis.risk_limitation)}${maybeRow("Trigger", analysis.in_game_trigger)}${maybeRow("Source status", (mediaForPlayer(player, side) || {}).source_status)}</details>
-  </details>`;
+  const related = relatedPlaysForPlayer(player);
+  const status = side === "opponent" ? cleanValue(analysis.matchup_priority || player.matchup_priority) : cleanValue(analysis.role || analysis.development_outlook);
+  const summary = `<span class="locked-player-summary">${PortraitBlock(player, side)}<span><strong>${cardValue(player.name)}</strong><em>${cardValue(player.position)}${classText ? ` | ${classText}` : ""}${jersey ? ` | #${jersey}` : ""}</em></span><b>${cleanValue(player.overall) ? `${player.overall} OVR` : "Limited data"}</b></span>`;
+  const body = `${CardHeader({ eyebrow: "Player Header", title: player.name, subtitle: `${cardValue(player.position)} | ${cardValue(classText)} | ${cardValue(status)}`, badge: Badge(status || "Status", status && /critical|featured|starter|starting/i.test(status) ? "important" : "neutral"), portrait: PortraitBlock(player, side, "player-portrait large") })}
+    ${CardSection("Core Profile", `<div class="card-metrics dashboard-metrics">${MetricRow("Position", player.position)}${MetricRow("Overall", player.overall)}${MetricRow("Class", classText)}${MetricRow("Depth Role", player.depthRole || analysis.role)}${MetricRow("Jersey", jersey)}${MetricRow("Size", [player.height, player.weight || player.weight_lbs].filter(Boolean).join(" / "))}</div>`)}
+    ${CardSection("Top 6 Position-Relevant Attributes", `<div class="card-metrics player-attribute-grid">${lockedAttributeRows(player, 6) || LimitedDataState("Attributes")}</div>`)}
+    ${CardSection("Season Stats", statBlock("Season Stats", seasonRows))}
+    ${CardSection("Last Game", statBlock("Last Game", lastRows))}
+    ${CardSection("Strengths", chipList(analysis.strengths) || LimitedDataState("Strengths"))}
+    ${CardSection("Limitations", chipList(analysis.limitations || analysis.weaknesses) || LimitedDataState("Limitations"))}
+    ${CardSection("Weekly Role", `<p>${cardValue(usageSummary(player))}</p>`)}
+    ${CardSection("Matchup Involvement", chipList(matchup) || LimitedDataState("Matchup Involvement"))}
+    ${CardSection("Related Plays", related.length ? `<div class="value-chips">${related.map(play => `<span>${play.name}</span>`).join("")}</div>` : LimitedDataState("Related Plays"))}
+    <details class="nested-detail"><summary>More Detail</summary>${remainingAttributeRowsForPlayer(player) || LimitedDataState("Remaining Attributes")}${maybeRow("Best formations", analysis.best_formations)}${maybeRow("Matchup advantage", analysis.matchup_advantage)}${maybeRow("Risk", analysis.risk_limitation)}${maybeRow("Trigger", analysis.in_game_trigger)}${maybeRow("Source status", (mediaForPlayer(player, side) || {}).source_status)}${maybeRow("Notes", analysis.summary || player.description)}</details>`;
+  return ExpandableCard({ className: "person-card premium-player-card locked-player-card compact-person player-detail", attrs: `data-player-id="${playerId(player)}" data-side="${side}"`, summary, body });
 }
 
 function sharedRosterMatch(player) {
@@ -2191,6 +2276,10 @@ function tacticalMatchupFor(play) {
 }
 
 function bestCallCard(play, rankNumber, label) {
+  return lockedPlayCard(play, rankNumber, label, "best-call-locked");
+}
+
+function legacyBestCallCard(play, rankNumber, label) {
   const group = tacticalMatchupFor(play);
   const summary = loadGameplanWeekly().quick_tactical_summary || {};
   const reason = explanationText(play).split(". ").slice(0, 1).join(". ");
@@ -2247,18 +2336,7 @@ function bestCallCard(play, rankNumber, label) {
 function renderTopAlternatives(picks) {
   if (!$("top3Inline")) return;
   $("top3Inline").innerHTML = `<div class="section-heading"><p>Top 3 Alternatives</p><strong><button class="text-link" type="button" onclick="switchTab('topplays')">View All Plays</button></strong></div>` +
-    (picks.length ? `<div class="alt-strip">${picks.slice(0, 3).map((play, i) => `<details class="alt-card compact-alt">
-      <summary>
-        <span class="rank-dot">${i + 1}</span>
-        <img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="" loading="lazy">
-        <strong>${play.name}</strong>
-        <em>${scoreLetter(play.score)}</em>
-      </summary>
-      <div class="small">${play.formation} | ${conceptType(play)} | ${play.risk} risk</div>
-      ${maybeRow("Success", estimateSuccess(play))}
-      ${maybeRow("Best usage", play.objective)}
-      <p class="small">${explanationText(play)}</p>
-    </details>`).join("")}</div>` : `<p class="small">Tap Show Top 3 Plays to populate alternatives.</p>`);
+    (picks.length ? `<div class="alt-strip locked-alt-strip">${picks.slice(0, 3).map((play, i) => lockedPlayCard(play, i + 1, "Alternative Play", "alternative-play-locked")).join("")}</div>` : `<p class="small">Tap Show Top 3 Plays to populate alternatives.</p>`);
 }
 
 function renderGameplanPanels() {
@@ -2394,6 +2472,35 @@ function populateRankFilters() {
 }
 
 function callCard(play, rankNumber) {
+  return lockedPlayCard(play, rankNumber, "Top Play", "top-play-locked");
+}
+
+function lockedPlayCard(play, rankNumber = 1, label = "Play Card", extraClass = "") {
+  const starred = favoritePlayIds().has(play.id);
+  const group = tacticalMatchupFor(play);
+  const protection = (loadGameplanWeekly().quick_tactical_summary || {}).best_protection_rule;
+  const carrier = ballCarrierBlock(play);
+  const runLane = runLaneBlock(play);
+  const bestSituation = cleanValue(play.objective) || cleanValue((play.situations || [])[0]);
+  const summary = `
+      <span class="rank-dot">${rankNumber}</span>
+      <img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="" loading="lazy">
+      <span><strong><mark class="grade-badge">${scoreLetter(play.score)}</mark> ${play.name}</strong><em>${play.formation} | ${playPersonnel(play) || "Personnel limited"} | ${conceptType(play)}</em></span>
+      <b>${scoreLetter(play.score)}<em>${play.score} / ${play.risk}</em></b>
+      <button class="icon-favorite ${starred ? "active" : ""}" type="button" aria-label="${starred ? "Remove favorite" : "Add favorite"}" onclick="event.preventDefault();event.stopPropagation();toggleFavoritePlay('${play.id}')">${starred ? "★" : "☆"}</button>`;
+  const body = `${CardHeader({ eyebrow: label, title: play.name, subtitle: `${play.formation} | ${playPersonnel(play) || "Personnel limited"} | ${conceptType(play)}`, badge: Badge(`${scoreLetter(play.score)} ${play.risk}`, play.risk === "high" ? "critical" : play.risk === "medium" ? "important" : "positive") })}
+    ${CardSection("Full-width Play Art", `<figure class="play-diagram full-play-art"><img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="${play.name}" loading="lazy" onerror="this.src='assets/play-diagrams/formation-fallback.svg'"></figure>`)}
+    ${CardSection("Why It Works", `<p>${explanationText(play)}</p>${scoreBreakdown(play)}`)}
+    ${CardSection("Primary Read / Run Lane", `${maybeRow("Primary read", play.primaryPlayerName)}${maybeRow("Run style", runStyleForPlay(play))}${runLane}`)}
+    ${CardSection("Protection", `${maybeRow("Protection rule", protection, "Limited data")}${maybeRow("Protection effect", signed(play.matchupModifier))}`)}
+    ${CardSection("Situational Fit", `<div class="card-metrics dashboard-metrics">${MetricRow("Best Situation", bestSituation)}${MetricRow("Field Zone", (play.eligibleFieldZones || []).join(", "))}${MetricRow("Game State", (play.eligibleGameStates || []).join(", "))}${MetricRow("Situation Modifier", signed(play.situationModifier))}</div>`)}
+    ${carrier || CardSection("Primary Ball Carrier / Primary Target", maybeRow("Primary target", play.primaryPlayerName, "Limited data"))}
+    ${CardSection("Counter / Alternative", `${maybeRow("Opponent weakness", group.weakness)}${maybeRow("Setup value", signed(play.setupBonus))}`)}
+    <details class="nested-detail"><summary>More Detail</summary>${maybeRow("Play ID", play.id)}${maybeRow("Personnel", playPersonnel(play))}${maybeRow("Success rate", estimateSuccess(play))}${maybeRow("Yards/play", yppEstimate(play))}${maybeRow("Recent-use penalty", signed(play.recentCallPenalty))}${maybeRow("Repetition penalty", signed(play.recentCallPenalty))}</details>`;
+  return ExpandableCard({ className: `play-card locked-play-card compact-play-row ${extraClass}`, attrs: `data-play-id="${play.id}" data-run-style="${runStyleForPlay(play)}"`, summary, body });
+}
+
+function legacyCallCard(play, rankNumber) {
   const starred = favoritePlayIds().has(play.id);
   return `<details class="play-card compact-play-row">
     <summary>
@@ -2676,6 +2783,23 @@ function MatchupCard(row, rutgers, opponent, stats = matchupCardStats(rutgers, o
 }
 
 function renderOLine() {
+  const slots = ["LT","LG","C","RG","RT"];
+  const matchupForSlot = slot => (loadMatchups() || []).find(row => row.rutgers_player && row.rutgers_player.position === slot) || {};
+  const slotCards = slots.map(slot => {
+    const starter = groupRosterPlayers(slot)[0];
+    const backups = groupRosterPlayers(slot).slice(1);
+    const matchup = matchupForSlot(slot);
+    const risk = cleanValue(matchup.risk || matchupPriority(matchup)) || "monitor";
+    return `<details class="oline-slot-card compact-detail" data-slot="${slot}">
+      <summary><span>${slot}</span><strong>${starter ? starter.name : "Limited data"}</strong><em>${starter ? `OVR ${cardValue(starter.overall)}` : "No starter"}</em><b>${displayGrade(matchup.grade, matchup.internal_score) || "Limited"}</b><i>${risk}</i></summary>
+      ${starter ? premiumPlayerCard(starter, "rutgers") : LimitedDataState(slot)}
+      ${backups.length ? `<details class="nested-detail"><summary>Depth</summary>${backups.map(player => premiumPlayerCard(player, "rutgers")).join("")}</details>` : ""}
+    </details>`;
+  }).join("");
+  return `<section class="locked-oline-card base-card card-gloss"><div class="section-heading compact-heading"><p>O-Line</p><strong>LT — LG — C — RG — RT</strong></div><div class="locked-oline-slots">${slotCards}</div></section>`;
+}
+
+function legacyRenderOLine() {
   const slots = ["LT","LG","C","RG","RT"];
   const starters = slots.map(slot => ({ slot, player: groupRosterPlayers(slot)[0] })).filter(row => row.player);
   const matched = loadMatchups().filter(row => row.rutgers_player && slots.includes(row.rutgers_player.position));
@@ -3004,6 +3128,15 @@ if (typeof module !== "undefined") {
     biggestRiskModel,
     tacticalCardModel,
     dashboardAlerts,
+    loadWeeklyCoachingDecisions,
+    loadWeeklyRunLaneAnalysis,
+    lockedPlayCard,
+    runStyleForPlay,
+    runPersonnelDecision,
+    bestVerifiedRunLane,
+    ballCarrierBlock,
+    runLaneBlock,
+    renderOLine,
     orderedMatchupRows,
     validMatchupRows,
     matchupPriority,

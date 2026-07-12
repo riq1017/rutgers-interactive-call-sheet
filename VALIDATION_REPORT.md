@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T05:00:51.889Z
+Validated: 2026-07-12T05:37:19.436Z
 
 - PASS - Authoritative enriched JSON files are present
 - PASS - Shared roster source has 48 verified players
@@ -38,10 +38,14 @@ Validated: 2026-07-12T05:00:51.889Z
 - PASS - GitHub Pages relative paths are preserved
 - PASS - Repeated Not available is avoided in enriched card renderers
 - PASS - Weekly action plan links board rows to prospect details when available
-- PASS - Last Game and Season Stats hide missing stat grids cleanly
+- PASS - Last Game and Season Stats remain separate with required categories
 - PASS - Gameplan default is compact with drill-down details
 - PASS - Top Plays uses compact rows and advanced filter drawer
 - PASS - Personnel uses one internal workspace section at a time
+- PASS - Roster uses horizontal position boxes instead of one long expanded report
+- PASS - Matchups show player-vs-player cards where position data resolves
+- PASS - Recruiting board starts from active_board when present
+- PASS - Prospect rating renderer hides unavailable stars and never prints Star as a value
 - PASS - Roster and prospects default to tap-open detail rows
 - PASS - Run and protection maps use compact tappable cells
 - PASS - More tab uses compact accordions for secondary groups

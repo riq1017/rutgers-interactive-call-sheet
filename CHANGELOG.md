@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## Mobile correction pass
+- Removed remaining 390px shell caps so the app uses the full phone viewport with 8-10px page padding.
+- Collapsed Gameplan secondary sections and compressed the global header so the first phone viewport reaches Best Call.
+- Replaced the Roster long list with horizontal position boxes and single-group compact player rows.
+- Added Personnel Scouting Report as its own internal section.
+- Reworked Matchups into compact player-vs-player cards when the weekly matchup row resolves to verified players.
+- Split Last Game and Season stat sheets into separate toggles with required categories and no invented values.
+- Bound Recruiting to the imported weekly `active_board` first, with class-record enrichment only when IDs resolve.
+- Added accessible visual star rendering that hides unavailable star ratings.
+- Regenerated validation and 390x844 screenshot artifacts for the correction pass.
+
 ## Mobile UI compaction pass
 - Compressed Gameplan defaults so Best Call appears in the first phone screen with full breakdowns behind tap-open details.
 - Moved secondary situation fields into a More Context drawer.

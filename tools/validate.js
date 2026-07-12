@@ -62,10 +62,14 @@ check('Mobile CSS prevents horizontal overflow and keeps bottom nav fixed', css.
 check('GitHub Pages relative paths are preserved', index.includes('data/engine_data.js') && !app.includes('fetch(') && !index.includes('http://'));
 check('Repeated Not available is avoided in enriched card renderers', (app.match(/Not available/g) || []).length <= 8 && app.includes('cleanValue'));
 check('Weekly action plan links board rows to prospect details when available', app.includes('classById') && app.includes('row.prospect_id') && app.includes('prospect.scouting_summary'));
-check('Last Game and Season Stats hide missing stat grids cleanly', app.includes('function renderStatSections') && app.includes('No verified ${title.toLowerCase()} stat grid was included'));
+check('Last Game and Season Stats remain separate with required categories', app.includes('Last Game Stat Sheet') && app.includes('Season Stat Sheet') && app.includes('offensive_line') && app.includes('third_down') && app.includes('red_zone'));
 check('Gameplan default is compact with drill-down details', app.includes('compact-best') && app.includes('View Full Breakdown') && app.includes('View Matchup Detail') && app.includes('alt-strip'));
 check('Top Plays uses compact rows and advanced filter drawer', app.includes('compact-play-row') && app.includes('Advanced Filters') && app.includes('sticky-filter'));
-check('Personnel uses one internal workspace section at a time', app.includes('function renderPersonnelPanel') && app.includes('active === "overview"') && app.includes('renderStatsWorkspace'));
+check('Personnel uses one internal workspace section at a time', app.includes('function renderPersonnelPanel') && app.includes('active === "overview"') && app.includes('renderStatsWorkspace') && app.includes('renderScoutingReport'));
+check('Roster uses horizontal position boxes instead of one long expanded report', app.includes('ROSTER_POSITION_GROUPS') && app.includes('position-rail') && app.includes('showRosterGroup') && css.includes('.position-box'));
+check('Matchups show player-vs-player cards where position data resolves', app.includes('findRutgersMatchupPlayer') && app.includes('findOpponentMatchupPlayer') && app.includes('matchup-sides'));
+check('Recruiting board starts from active_board when present', app.includes('function activeBoardRows') && app.includes('if (board.length)') && app.includes('board_order'));
+check('Prospect rating renderer hides unavailable stars and never prints Star as a value', app.includes('function starRating') && app.includes('aria-label="${stars}-star prospect"') && !app.includes('${cleanValue(p.stars)} stars'));
 check('Roster and prospects default to tap-open detail rows', app.includes('compact-person') && app.includes('compact-prospect') && app.includes('compact-action'));
 check('Run and protection maps use compact tappable cells', app.includes('compact-lane-map') && app.includes('compact-pressure-map'));
 check('More tab uses compact accordions for secondary groups', app.includes('details class="utility-section compact-detail"'));

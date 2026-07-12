@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T17:53:33.200Z
+Validated: 2026-07-12T18:09:21.499Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -15,6 +15,20 @@ Validated: 2026-07-12T17:53:33.200Z
 - PASS - Card resolver layer exists
 - PASS - Card resolver does not mutate authoritative JSON data
 - PASS - Approved matchup card uses shared card primitives
+- PASS - Pack B registry entries exist
+- PASS - Dashboard order resolves from registry
+- PASS - Pack B source refs resolve without duplicated football data
+- PASS - Executive dashboard container exists on Gameplan tab
+- PASS - Executive dashboard renders from registry cards
+- PASS - Game Header has both teams and verified ratings
+- PASS - Team Cards render Last Game and Season separately
+- PASS - Featured Player resolves by weekly player identity to roster player_id
+- PASS - Biggest Risk resolves by opponent player and matchup ID
+- PASS - Weekly tactical cards read from verified JSON or verified playbook context
+- PASS - Unsupported tactical cards remain outside the default dashboard
+- PASS - Top Matchups Preview preserves approved order
+- PASS - Dashboard fixture contains no raw nullish/object text
+- PASS - Pack B cards use shared card primitives
 - PASS - Shared roster source has 48 verified players
 - PASS - No duplicate hardcoded roster is used by the visible Recruiting engine
 - PASS - Gameplan engine reads enriched opponent/profile/player/group/matchup data

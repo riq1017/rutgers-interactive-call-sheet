@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Sprint 2 Pack B executive dashboard
+- Converted the Gameplan/Home default experience into a registry-driven executive dashboard using the shared Pack A card primitives.
+- Added dashboard registry entries for Game Header, Featured Player, Biggest Risk, tactical summary cards, Top Matchups Preview, Alerts, and Team Cards.
+- Added reusable dashboard card renderers for team summaries, featured player, biggest risk, weekly tactical summaries, matchup preview, and alerts.
+- Preserved Phase 1.2 matchup behavior, top-three matchup order, recommendation scoring, weekly package architecture, and GitHub Pages static compatibility.
+- Expanded validation for Pack B registry coverage, dashboard order, dynamic player/risk resolution, tactical card data sources, raw object leakage, and matchup regression.
+
 ## Sprint 2 Pack A architecture foundation
 - Added `PROJECT_SPEC.md` as the source-of-truth specification for future implementation requests.
 - Added shared card primitives and reusable glossy card design tokens/classes.

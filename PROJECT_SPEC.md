@@ -59,7 +59,7 @@ Cards follow `player_id`. Position slots follow roster/depth-chart state. Depart
 
 ## H. Program Lifecycle
 
-The coach career is permanent. The current program is dynamic. Rutgers is the active program today. Program switching is not implemented in Sprint 2 Pack A.
+The coach career is permanent. The current program is dynamic. Rutgers is the active program today. Program switching is not implemented in Sprint 2 Pack A or Pack B.
 
 ## I. Playbook Standards
 

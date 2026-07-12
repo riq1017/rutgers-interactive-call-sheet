@@ -4,6 +4,222 @@ window.CARD_REGISTRY = {
   "source_note": "Presentation registry only. Football names, ratings, stats, matchup results, and recommendations remain in source JSON files.",
   "cards": [
     {
+      "card_id": "dashboard_game_header",
+      "card_type": "game_header",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 1,
+      "priority": "critical",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "executive_header",
+      "source_refs": {
+        "rutgers_team": "data/rutgers_roster_base.json",
+        "opponent_profile": "data/gameplan_weekly.json#opponent_profile",
+        "weekly_package": "data/gameplan_weekly.json"
+      }
+    },
+    {
+      "card_id": "dashboard_featured_player",
+      "card_type": "featured_player",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 2,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "featured_player",
+      "source_refs": {
+        "featured_player": "weekly_plan.players priorityLabel=Featured",
+        "roster": "data/rutgers_roster_base.json",
+        "media": "data/base/rutgers_player_media.json"
+      }
+    },
+    {
+      "card_id": "dashboard_biggest_risk",
+      "card_type": "biggest_risk",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 3,
+      "priority": "critical",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "risk_summary",
+      "source_refs": {
+        "risk_source": "data/player_matchups.json highest priority valid risk",
+        "opponent_players": "data/gameplan_weekly.json#opponent_players",
+        "opponent_media": "data/weekly/opponent_player_media.json"
+      }
+    },
+    {
+      "card_id": "dashboard_best_run_lane",
+      "card_type": "tactical_summary",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 4,
+      "priority": "important",
+      "size": "small",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "tactical",
+      "source_refs": {
+        "tactical_type": "best_run_lane",
+        "source": "data/gameplan_weekly.json#quick_tactical_summary.best_run_ideas"
+      }
+    },
+    {
+      "card_id": "dashboard_protection_call",
+      "card_type": "tactical_summary",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 5,
+      "priority": "critical",
+      "size": "small",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "tactical",
+      "source_refs": {
+        "tactical_type": "protection_call",
+        "source": "data/gameplan_weekly.json#quick_tactical_summary.best_protection_rule"
+      }
+    },
+    {
+      "card_id": "dashboard_passing_focus",
+      "card_type": "tactical_summary",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 6,
+      "priority": "important",
+      "size": "small",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "tactical",
+      "source_refs": {
+        "tactical_type": "passing_focus",
+        "source": "data/gameplan_weekly.json#quick_tactical_summary.primary_attack"
+      }
+    },
+    {
+      "card_id": "dashboard_red_zone_plan",
+      "card_type": "tactical_summary",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 7,
+      "priority": "important",
+      "size": "small",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "tactical",
+      "source_refs": {
+        "tactical_type": "red_zone",
+        "source": "verified_playbook_context"
+      }
+    },
+    {
+      "card_id": "dashboard_third_down_plan",
+      "card_type": "tactical_summary",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 8,
+      "priority": "important",
+      "size": "small",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "tactical",
+      "source_refs": {
+        "tactical_type": "third_down",
+        "source": "verified_playbook_context"
+      }
+    },
+    {
+      "card_id": "dashboard_top_matchups_preview",
+      "card_type": "top_matchups_preview",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 9,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "matchup_preview",
+      "source_refs": {
+        "matchups": "data/player_matchups.json",
+        "order": "approved_top_three"
+      }
+    },
+    {
+      "card_id": "dashboard_alerts",
+      "card_type": "alerts",
+      "tab": "gameplan",
+      "section": "dashboard",
+      "order": 10,
+      "priority": "monitor",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "alerts",
+      "source_refs": {
+        "warnings": "weekly_plan.warnings",
+        "avoid": "data/gameplan_weekly.json#quick_tactical_summary.avoid",
+        "limitations": "data/player_matchups.json#data_limitations"
+      }
+    },
+    {
+      "card_id": "dashboard_tempo",
+      "card_type": "tactical_summary",
+      "tab": "gameplan",
+      "section": "dashboard_optional",
+      "order": 11,
+      "priority": "monitor",
+      "size": "small",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "tactical",
+      "source_refs": {
+        "tactical_type": "tempo",
+        "source": "data/gameplan_weekly.json#usage_plan"
+      }
+    },
+    {
+      "card_id": "team_card_rutgers",
+      "card_type": "team_card",
+      "tab": "gameplan",
+      "section": "team_cards",
+      "order": 1,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "team",
+      "source_refs": {
+        "team": "rutgers",
+        "roster": "data/rutgers_roster_base.json",
+        "last_game": "data/rutgers_last_game_stats.json",
+        "season": "data/rutgers_season_stats.json"
+      }
+    },
+    {
+      "card_id": "team_card_opponent",
+      "card_type": "team_card",
+      "tab": "gameplan",
+      "section": "team_cards",
+      "order": 2,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "team",
+      "source_refs": {
+        "team": "opponent",
+        "profile": "data/gameplan_weekly.json#opponent_profile",
+        "last_game": "data/opponent_last_game_stats.json",
+        "season": "data/opponent_season_stats.json"
+      }
+    },
+    {
       "card_id": "key_matchup_rt_vs_redg",
       "card_type": "key_matchup",
       "tab": "personnel",

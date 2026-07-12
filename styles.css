@@ -290,6 +290,128 @@ p{line-height:1.45}
   font-size:var(--type-sm);
 }
 .card-limited span{font-size:var(--type-xs);font-weight:900;text-transform:uppercase}
+.dashboard-panel{padding:11px}
+.dashboard-card-stack{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  min-width:0;
+}
+.dashboard-card{
+  padding:10px;
+}
+.dashboard-card summary{
+  position:relative;
+  display:block;
+  min-width:0;
+  cursor:pointer;
+  list-style:none;
+}
+.dashboard-card summary::-webkit-details-marker{display:none}
+.dashboard-card .card-header{margin-bottom:0}
+.dashboard-card[open] .card-header{margin-bottom:10px}
+.dashboard-card .card-section p{margin:0;color:#e7e7ec;font-size:13px}
+.dashboard-metrics{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+  margin-top:10px;
+}
+.game-header-teams{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  margin-top:10px;
+}
+.game-header-teams>div{
+  display:grid;
+  gap:4px;
+  min-width:0;
+  padding:8px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:8px;
+  background:rgba(0,0,0,.22);
+}
+.game-header-teams b{
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#222;
+  color:var(--muted);
+  font-size:10px;
+}
+.game-header-teams strong{font-size:13px;line-height:1.15}
+.game-header-teams span,.game-header-teams em{color:var(--muted);font-size:11px;font-style:normal;overflow-wrap:anywhere}
+.team-logo{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:8px;
+  border:2px solid var(--white);
+  background:var(--scarlet);
+  color:#fff;
+  font-family:Georgia,serif;
+  font-size:26px;
+  font-weight:950;
+}
+.team-logo.opponent{
+  border-color:var(--opponent-accent);
+  background:#111;
+  color:var(--opponent-accent);
+  font-family:inherit;
+  font-size:20px;
+}
+.team-card-pair{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+  margin-top:10px;
+}
+.team-card-stats .stat-section-grid{grid-template-columns:1fr}
+.featured-player-card .player-portrait,
+.risk-dashboard-card .player-portrait{width:44px;height:44px}
+.primary-recommendation{
+  margin-top:10px;
+  padding:10px;
+  border-left:3px solid var(--scarlet);
+  border-radius:7px;
+  background:rgba(204,0,51,.12);
+  font-size:15px;
+  font-weight:900;
+  line-height:1.25;
+}
+.preview-matchup-list{display:grid;gap:7px;margin-top:10px}
+.preview-matchup-list button{
+  min-height:0;
+  display:grid;
+  gap:3px;
+  padding:9px;
+  text-align:left;
+  font-weight:800;
+}
+.preview-matchup-list span{color:var(--muted);font-size:11px;font-weight:750}
+.alert-list{display:grid;gap:7px;margin-top:10px}
+.notice.information{border-color:#7fb7ff80;color:#cfe5ff}
+.notice.positive{border-color:#55d98b80;color:#ccf5dc}
+@media(min-width:390px){
+  .dashboard-card-stack .tactical-dashboard-card{
+    align-self:start;
+  }
+  .dashboard-card-stack{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .game-header-card,
+  .featured-player-card,
+  .risk-dashboard-card,
+  .top-matchups-preview-card,
+  .alerts-dashboard-card{
+    grid-column:1/-1;
+  }
+}
 .section-heading{
   display:grid;
   grid-template-columns:1fr;

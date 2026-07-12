@@ -1662,6 +1662,255 @@ function keyMatchupRegistryModels() {
   return models.map(model => ({ ...model, sourceIndex: (loadMatchups() || []).findIndex(row => row.matchup_id === model.row.matchup_id) }));
 }
 
+function dashboardRegistryCards(section = "dashboard") {
+  return cardRegistryEntries().filter(card => card.tab === "gameplan" && card.section === section);
+}
+
+function cardShell(entry, summary, body, extraClass = "") {
+  const priority = cleanValue(entry && entry.priority).toLowerCase() || "normal";
+  const size = cleanValue(entry && entry.size).toLowerCase() || "medium";
+  const attrs = entry ? `data-card-id="${cleanValue(entry.card_id)}" data-card-type="${cleanValue(entry.card_type)}"` : "";
+  if (entry && entry.expandable === false) return BaseCard({ className: `dashboard-card ${extraClass}`, priority, size, attrs, content: summary + body });
+  return ExpandableCard({ className: `dashboard-card ${extraClass} priority-${priority}`, attrs: `${attrs} data-priority="${priority}"`, summary, body });
+}
+
+function dashboardSummary(title, subtitle, badge = "", portrait = "") {
+  return CardHeader({ eyebrow: "Gameplan Dashboard", title, subtitle, badge, portrait });
+}
+
+function teamLogo(teamName, side = "rutgers") {
+  const text = side === "rutgers" ? "R" : cleanValue(teamName).slice(0, 1).toUpperCase();
+  return `<div class="team-logo ${side}" aria-label="${cardValue(teamName, side)} logo">${text || "T"}</div>`;
+}
+
+function rutgersTeamProfile() {
+  const roster = loadRutgersRoster();
+  const team = roster.team || {};
+  const profile = typeof TEAM_PROFILE !== "undefined" ? TEAM_PROFILE : {};
+  return {
+    name: cleanValue(team.name || profile.team) || "Rutgers",
+    record: team.record || profile.record,
+    conferenceRecord: profile.conference_record,
+    overall: team.overall || (profile.team_summary_observed || {}).overall,
+    offense: team.offense || (profile.team_summary_observed || {}).offense,
+    defense: team.defense || (profile.team_summary_observed || {}).defense,
+    rank: profile.rutgers_rank,
+    momentum: profile.momentum_status,
+    sourceStatus: roster.verification_status || profile.verification_status
+  };
+}
+
+function opponentTeamProfile() {
+  const opp = loadOpponentProfile();
+  return {
+    name: activeOpponentName(),
+    record: opp.record,
+    conferenceRecord: opp.conference_record,
+    overall: opp.overall,
+    offense: opp.offense_overall,
+    defense: opp.defense_overall,
+    conference: opp.conference,
+    rank: opp.conference_rank,
+    sourceStatus: opp.verification_status || opp.data_quality_rule
+  };
+}
+
+function teamMetricGrid(team, labels = {}) {
+  return `<div class="card-metrics dashboard-metrics">
+    ${MetricRow("Record", team.record)}
+    ${MetricRow("OVR", team.overall)}
+    ${MetricRow("OFF", team.offense)}
+    ${MetricRow("DEF", team.defense)}
+    ${MetricRow(labels.rank || "Rank", team.rank)}
+    ${MetricRow("Source", team.sourceStatus)}
+  </div>`;
+}
+
+function teamCard(entry, side) {
+  const team = side === "opponent" ? opponentTeamProfile() : rutgersTeamProfile();
+  const last = side === "opponent" ? loadOpponentLastGameStats() : loadRutgersLastGameStats();
+  const season = side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats();
+  const groups = side === "opponent" ? loadOpponentGroups() : [];
+  const summary = dashboardSummary(team.name, `${cardValue(team.record)} | OVR ${cardValue(team.overall)}`, Badge(side === "opponent" ? "Opponent" : "Rutgers", side === "opponent" ? "important" : "critical"), teamLogo(team.name, side));
+  const body = `${teamMetricGrid(team, { rank: side === "opponent" ? "Conf Rank" : "Rank" })}
+    ${CardSection("Last Game", renderStatSections("Last Game", last), "team-card-stats")}
+    ${CardSection("Season", renderStatSections("Season", season), "team-card-stats")}
+    ${CardSection("Strengths", chipList(groups.map(group => group.strength).filter(cleanValue)) || LimitedDataState("Strengths"))}
+    ${CardSection("Weaknesses", chipList(groups.map(group => group.weakness).filter(cleanValue)) || LimitedDataState("Weaknesses"))}`;
+  return cardShell(entry, summary, body, "team-dashboard-card");
+}
+
+function gameHeaderCard(entry) {
+  const rutgers = rutgersTeamProfile();
+  const opponent = opponentTeamProfile();
+  const weekly = loadGameplanWeekly();
+  const summary = dashboardSummary(`${activeWeekLabel()} vs ${opponent.name}`, `${cardValue(rutgers.record)} vs ${cardValue(opponent.record)} | ${cardValue(matchupConfidence())}`, Badge("Package loaded", "positive"));
+  const teamCards = dashboardRegistryCards("team_cards").map(card => renderDashboardCard(card)).join("");
+  const body = `<div class="game-header-teams">
+      <div>${teamLogo(rutgers.name, "rutgers")}<strong>${rutgers.name}</strong><span>${cardValue(rutgers.record)}</span><em>OVR ${cardValue(rutgers.overall)} | OFF ${cardValue(rutgers.offense)} | DEF ${cardValue(rutgers.defense)}</em></div>
+      <b>VS</b>
+      <div>${teamLogo(opponent.name, "opponent")}<strong>${opponent.name}</strong><span>${cardValue(opponent.record)}</span><em>OVR ${cardValue(opponent.overall)} | OFF ${cardValue(opponent.offense)} | DEF ${cardValue(opponent.defense)}</em></div>
+    </div>
+    <div class="card-metrics dashboard-metrics">
+      ${MetricRow("Week", activeWeekLabel())}
+      ${MetricRow("Home/Away", weekly.game_context && weekly.game_context.home_away)}
+      ${MetricRow("Venue", weekly.game_context && weekly.game_context.venue)}
+      ${MetricRow("Confidence", matchupConfidence())}
+      ${MetricRow("Status", "Loaded")}
+    </div>
+    ${teamCards ? `<div class="team-card-pair">${teamCards}</div>` : ""}`;
+  return cardShell(entry, summary, body, "game-header-card");
+}
+
+function weeklyPlayerByName(name) {
+  const target = cleanValue(name).toLowerCase();
+  return Object.values(weeklyPlayers()).find(player => cleanValue(player.name).toLowerCase() === target) || null;
+}
+
+function resolveFeaturedPlayer() {
+  const weekly = loadGameplanWeekly();
+  const sourceId = cleanValue(weekly.featured_player_id || (weekly.featured_player || {}).player_id);
+  let player = sourceId ? (loadRutgersRoster().players || []).find(row => playerId(row) === sourceId) : null;
+  let weeklyRow = player ? weeklyPlayerByName(player.name) : null;
+  if (!player) {
+    weeklyRow = Object.values(weeklyPlayers()).find(row => /featured/i.test(cleanValue(row.priorityLabel || row.weeklyRole))) || Object.values(weeklyPlayers()).find(row => /High Usage|Starting/i.test(cleanValue(row.priorityLabel || row.weeklyRole))) || null;
+    player = weeklyRow ? (loadRutgersRoster().players || []).find(row => cleanValue(row.name).toLowerCase() === cleanValue(weeklyRow.name).toLowerCase()) : null;
+  }
+  return { player, weeklyRow };
+}
+
+function featuredPlayerCard(entry) {
+  const { player, weeklyRow } = resolveFeaturedPlayer();
+  if (!player) return cardShell(entry, dashboardSummary("Featured Player", "Limited data", Badge("Monitor", "monitor")), LimitedDataState("Featured Player"), "featured-player-card");
+  const last = statsForPlayer(player, loadRutgersLastGameStats());
+  const season = statsForPlayer(player, loadRutgersSeasonStats());
+  const analysis = player.analysis || {};
+  const primaryStat = firstClean(compactStats(last, 1)) || firstClean(compactStats(season, 1));
+  const summary = dashboardSummary(player.name, `${player.position} | OVR ${cardValue(player.overall)} | ${cardValue((weeklyRow || {}).priorityLabel || analysis.role)}`, Badge("Featured", "positive"), PortraitBlock(player, "rutgers"));
+  const body = `<div class="card-metrics dashboard-metrics">
+      ${MetricRow("Position", player.position)}
+      ${MetricRow("Overall", player.overall)}
+      ${MetricRow("Key attribute", topAttributes(player, 1)[0])}
+      ${MetricRow("Production", primaryStat)}
+    </div>
+    ${CardSection("Weekly Role", `<p>${cardValue((weeklyRow || {}).weeklyRole || analysis.role)}</p>`)}
+    ${CardSection("Top Attributes", chipList(topAttributes(player, 4)))}
+    ${CardSection("Last Game", statBlock("Last Game", last))}
+    ${CardSection("Season", statBlock("Season", season))}
+    ${CardSection("Usage", chipList(analysis.best_usage || (weeklyRow || {}).bestConcepts))}
+    ${CardSection("Limitations", chipList(analysis.limitations))}`;
+  return cardShell(entry, summary, body, "featured-player-card");
+}
+
+function biggestRiskModel() {
+  const row = highestRiskMatchup();
+  const opponent = findOpponentMatchupPlayer(row);
+  const rutgers = findRutgersMatchupPlayer(row);
+  return { row, opponent, rutgers };
+}
+
+function biggestRiskCard(entry) {
+  const { row, opponent, rutgers } = biggestRiskModel();
+  if (!row || !opponent) return cardShell(entry, dashboardSummary("Biggest Risk", "Limited data", Badge("Monitor", "monitor")), LimitedDataState("Biggest Risk"), "risk-dashboard-card");
+  const rec = firstClean(row.tactical_recommendations || row.recommendations || []);
+  const statement = riskSummary(row);
+  const analysis = opponent.ui_analysis || {};
+  const last = statsForPlayer(opponent, loadOpponentLastGameStats());
+  const season = statsForPlayer(opponent, loadOpponentSeasonStats());
+  const summary = dashboardSummary(opponent.name, `${opponent.position} | ${cardValue(row.risk || row.status)} | ${cardValue(rutgers && rutgers.name || row.rutgers_unit)}`, Badge(matchupPriority(row), matchupPriority(row)), PortraitBlock(opponent, "opponent"));
+  const body = `${CardSection("Risk Statement", `<p>${cardValue(statement)}</p>`)}
+    ${CardSection("Tactical Response", `<strong>${cardValue(rec)}</strong>`)}
+    <div class="card-metrics dashboard-metrics">${MetricRow("Overall", opponent.overall)}${MetricRow("Confidence", cleanValue(row.confidence) ? `${row.confidence}%` : "")}${MetricRow("Grade", displayGrade(row.grade, row.internal_score))}${MetricRow("Affected Unit", rutgers && rutgers.name || row.rutgers_unit)}</div>
+    ${CardSection("Top Attributes", chipList(topAttributes(opponent, 5)))}
+    ${CardSection("Last Game", statBlock("Last Game", last))}
+    ${CardSection("Season", statBlock("Season", season))}
+    ${CardSection("Concepts to Increase", chipList(analysis.gameplan_increase || (opponent.gameplan_effect || {}).increase))}
+    ${CardSection("Concepts to Decrease", chipList(analysis.gameplan_decrease || (opponent.gameplan_effect || {}).decrease))}
+    ${CardSection("Limitations", maybeRow("Data limitations", row.data_limitations))}`;
+  return cardShell(entry, summary, body, "risk-dashboard-card");
+}
+
+function bestPlayForContext(context) {
+  return buildRankings(context, loadHistory(), loadRecentCalls())[0] || null;
+}
+
+function tacticalCardModel(entry) {
+  const refs = (entry && entry.source_refs) || {};
+  const summary = loadGameplanWeekly().quick_tactical_summary || {};
+  const usage = loadGameplanWeekly().usage_plan || {};
+  const matchups = orderedMatchupRows();
+  const type = cleanValue(refs.tactical_type || entry.card_type);
+  if (type === "best_run_lane") return { title: "Best Run Lane", recommendation: (summary.best_run_ideas || [])[0], reason: firstClean(summary.avoid || []), confidence: matchupConfidence(), evidence: summary.best_run_ideas, priority: "important" };
+  if (type === "protection_call") return { title: "Protection Call", recommendation: summary.best_protection_rule, reason: cleanValue((matchups[0] || {}).row && riskSummary((matchups[0] || {}).row)), confidence: matchupConfidence(), evidence: (matchups[0] || {}).row && ((matchups[0] || {}).row.recommendations || []), priority: "critical" };
+  if (type === "passing_focus") return { title: "Passing Focus", recommendation: summary.primary_attack || summary.secondary_attack, reason: summary.secondary_attack, confidence: matchupConfidence(), evidence: [summary.primary_attack, summary.secondary_attack], priority: "important" };
+  if (type === "tempo") return { title: "Tempo", recommendation: usage.note || firstClean(loadOpponentPlayers().flatMap(player => ((player.ui_analysis || {}).gameplan_increase || []).filter(item => /tempo/i.test(item)))), reason: usage.note, confidence: "Verified usage note", evidence: [usage.run_percent !== undefined ? `Run ${usage.run_percent}%` : "", usage.pass_percent !== undefined ? `Pass ${usage.pass_percent}%` : ""], priority: "monitor" };
+  if (type === "red_zone") {
+    const play = bestPlayForContext({ down: 2, dist: "short", distanceYards: 2, zone: "red_zone", gameState: "normal", key: "red_zone" });
+    return { title: "Red Zone Plan", recommendation: play && play.name, reason: play && `${play.formation} | ${conceptFamily(play)}`, confidence: play && scoreLetter(play.score), evidence: play && play.explanationParts, priority: "important" };
+  }
+  if (type === "third_down") {
+    const play = bestPlayForContext({ down: 3, dist: "medium", distanceYards: 5, zone: "normal", gameState: "normal", key: "medium" });
+    return { title: "Third-Down Plan", recommendation: play && play.name, reason: play && `${play.formation} | ${conceptFamily(play)}`, confidence: play && scoreLetter(play.score), evidence: play && play.explanationParts, priority: "important" };
+  }
+  return { title: labelize(type), recommendation: "", reason: "", confidence: "", evidence: [], priority: "normal" };
+}
+
+function tacticalSummaryCard(entry) {
+  const model = tacticalCardModel(entry);
+  const summary = dashboardSummary(model.title, cardValue(model.recommendation), Badge(model.confidence || model.priority, model.priority));
+  const body = `<div class="primary-recommendation">${cardValue(model.recommendation)}</div>
+    ${CardSection("Reason", `<p>${cardValue(model.reason)}</p>`)}
+    ${CardSection("Evidence", chipList(model.evidence))}
+    ${CardSection("Alternative", `<p>${cardValue((loadGameplanWeekly().quick_tactical_summary || {}).secondary_attack)}</p>`)}
+    ${CardSection("Trigger", `<p>${cardValue(firstClean((loadGameplanWeekly().quick_tactical_summary || {}).avoid || []))}</p>`)}`;
+  return cardShell(entry, summary, body, "tactical-dashboard-card");
+}
+
+function topMatchupsPreviewCard(entry) {
+  const top = orderedMatchupRows().slice(0, 3);
+  const summary = dashboardSummary("Top Matchups Preview", `${top.length} verified matchups`, Badge("View Match", "important"));
+  const body = `<div class="preview-matchup-list">${top.map(item => {
+    const row = item.row;
+    return `<button type="button" onclick="switchTab('personnel');setTimeout(()=>renderPersonnelMatchups('matchups'),0)"><strong>${cardValue(item.rutgers && item.rutgers.name)} vs ${cardValue(item.opponent && item.opponent.name)}</strong><span>${cardValue(item.rutgers && item.rutgers.position)} / ${cardValue(item.opponent && item.opponent.position)} | ${cardValue(row.advantage || row.status)} | ${displayGrade(row.grade, row.internal_score)} | ${cleanValue(row.confidence) ? `${row.confidence}%` : "Limited data"}</span></button>`;
+  }).join("") || LimitedDataState("Top Matchups")}</div>`;
+  return cardShell(entry, summary, body, "top-matchups-preview-card");
+}
+
+function dashboardAlerts() {
+  const weeklyWarnings = (WEEKLY_PLAN.warnings || []).map(text => ({ level: "warning", text, source: "weekly_plan" }));
+  const matchupLimits = (loadMatchups() || []).flatMap(row => (row.data_limitations || []).map(text => ({ level: "information", text, source: row.matchup_id })));
+  const avoid = ((loadGameplanWeekly().quick_tactical_summary || {}).avoid || []).map(text => ({ level: "warning", text, source: "quick_tactical_summary" }));
+  return [...weeklyWarnings, ...avoid, ...matchupLimits].filter(row => cleanValue(row.text));
+}
+
+function alertsCard(entry) {
+  const alerts = dashboardAlerts();
+  if (!alerts.length && !(entry && entry.visible)) return "";
+  const first = alerts[0] || { level: "positive", text: "Verified weekly package loaded", source: "validation" };
+  const summary = dashboardSummary("Alerts", first.text, Badge(first.level, first.level === "warning" ? "important" : "positive"));
+  const body = alerts.length ? `<div class="alert-list">${alerts.map(alert => `<div class="notice ${alert.level}"><strong>${cardValue(alert.text)}</strong><span>${cardValue(alert.source)}</span></div>`).join("")}</div>` : `<div class="notice positive">Verified weekly package loaded</div>`;
+  return cardShell(entry, summary, body, "alerts-dashboard-card");
+}
+
+function renderDashboardCard(entry) {
+  const type = cleanValue(entry.card_type);
+  if (type === "game_header") return gameHeaderCard(entry);
+  if (type === "team_card") return teamCard(entry, cleanValue((entry.source_refs || {}).team) === "opponent" ? "opponent" : "rutgers");
+  if (type === "featured_player") return featuredPlayerCard(entry);
+  if (type === "biggest_risk") return biggestRiskCard(entry);
+  if (type === "tactical_summary") return tacticalSummaryCard(entry);
+  if (type === "top_matchups_preview") return topMatchupsPreviewCard(entry);
+  if (type === "alerts") return alertsCard(entry);
+  return "";
+}
+
+function renderExecutiveDashboard() {
+  const node = $("executiveDashboard");
+  if (!node) return;
+  const cards = dashboardRegistryCards("dashboard").map(renderDashboardCard).filter(Boolean);
+  node.innerHTML = `<div class="section-heading compact-heading"><p>Executive Dashboard</p><strong>Weekly tactical cards</strong></div><div class="dashboard-card-stack">${cards.join("") || LimitedDataState("Executive Dashboard")}</div>`;
+}
+
 function playerId(player) {
   if (!player) return "";
   return cleanValue(player.player_id || player.opponent_player_id || player.id);
@@ -2013,6 +2262,13 @@ function renderTopAlternatives(picks) {
 }
 
 function renderGameplanPanels() {
+  if ($("executiveDashboard")) {
+    ["quickSummary","gameDayUsage","gameDayAlerts"].forEach(id => {
+      const node = $(id);
+      if (node) node.innerHTML = "";
+    });
+    return;
+  }
   const weekly = loadGameplanWeekly();
   const summary = weekly.quick_tactical_summary || {};
   const usage = weekly.usage_plan || {};
@@ -2060,6 +2316,7 @@ function renderStatic() {
   }).join("");
   if ($("gameplanScoutList")) $("gameplanScoutList").innerHTML = loadOpponentGroups().map(group => `<div class="scout-card"><h3>${group.group}</h3>${maybeRow("Strength", group.strength)}${maybeRow("Key player", group.key_player)}${maybeRow("Weakness", group.weakness)}${maybeRow("Attack plan", group.attack_plan)}</div>`).join("");
   renderUsage();
+  renderExecutiveDashboard();
   renderPersonnelMatchups();
   renderGameplanPanels();
   renderPackagePanel();
@@ -2740,6 +2997,13 @@ if (typeof module !== "undefined") {
     cardRegistryEntries,
     resolveCardEntry,
     keyMatchupRegistryModels,
+    dashboardRegistryCards,
+    renderDashboardCard,
+    renderExecutiveDashboard,
+    resolveFeaturedPlayer,
+    biggestRiskModel,
+    tacticalCardModel,
+    dashboardAlerts,
     orderedMatchupRows,
     validMatchupRows,
     matchupPriority,

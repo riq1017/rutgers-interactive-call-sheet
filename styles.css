@@ -796,6 +796,102 @@ details.breakout summary{cursor:pointer;font-weight:900}
 .compact-match summary,.compact-prospect summary{grid-template-columns:minmax(0,1fr)}
 .compact-prospect summary{grid-template-columns:24px minmax(0,1fr) auto}
 .compact-action summary{grid-template-columns:1fr}
+.matchup-card-system{min-width:0}
+.matchup-card-list{gap:9px}
+.matchup-card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid #ffffff24;
+  border-radius:10px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0) 24%),
+    radial-gradient(circle at top left,rgba(204,0,51,.2),transparent 38%),
+    linear-gradient(145deg,#17171b,#09090b 62%,#15120b);
+  box-shadow:0 12px 28px rgba(0,0,0,.32);
+}
+.matchup-card:before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#ffffff80,transparent);
+  pointer-events:none;
+}
+.matchup-card.priority-critical{border-color:#ff6b6b80}
+.matchup-card.priority-important{border-color:#ffd16680}
+.matchup-card.priority-monitor{border-color:#55d98b66}
+.matchup-card summary{
+  grid-template-columns:auto minmax(0,1fr) auto;
+  gap:8px;
+  padding:3px;
+}
+.match-thumb-pair{
+  display:flex;
+  align-items:center;
+  min-width:68px;
+}
+.player-portrait.thumb{
+  width:38px;
+  height:42px;
+  border-radius:10px;
+}
+.match-thumb-pair .player-portrait+ .player-portrait{
+  margin-left:-10px;
+  border-color:#ceb888;
+}
+.match-compact-copy{
+  min-width:0;
+  display:grid;
+  gap:3px;
+}
+.match-compact-copy strong{
+  font-size:13px;
+  line-height:1.18;
+}
+.match-compact-copy span,.match-compact-copy em{
+  min-width:0;
+  color:var(--muted);
+  font-size:11px;
+  font-style:normal;
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+.match-compact-copy em{color:#f0e2bd}
+.priority-badge{
+  align-self:start;
+  padding:4px 7px;
+  border:1px solid #ffffff2e;
+  border-radius:999px;
+  background:#09090b;
+  color:#fff;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:0;
+}
+.matchup-edge{
+  min-width:0;
+  margin-top:8px;
+  padding:8px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#101014;
+}
+.matchup-edge h4{
+  margin:0 0 7px;
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+}
+.matchup-action-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:10px 0 4px;
+}
+.matchup-action-row button{
+  min-height:44px;
+  background:#101014;
+}
 .premium-player-card summary{
   grid-template-columns:52px minmax(0,1fr) auto;
 }
@@ -1187,6 +1283,9 @@ details.breakout summary{cursor:pointer;font-weight:900}
   .production-grid,.featured-risk-grid{grid-template-columns:1fr}
   .matchup-header{grid-template-columns:1fr}
   .matchup-header>b{justify-self:center}
+  .matchup-card summary{grid-template-columns:auto minmax(0,1fr)}
+  .priority-badge{grid-column:2;justify-self:start}
+  .matchup-action-row{grid-template-columns:1fr}
   .oline-arrows{grid-template-columns:1fr}
   .play-card summary{grid-template-columns:auto 52px minmax(0,1fr) auto auto}
 }

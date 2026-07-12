@@ -1455,6 +1455,46 @@ function highestRiskMatchup() {
   return rows.find(row => /D|F|high/i.test(`${cleanValue(row.grade)} ${cleanValue(row.risk)}`)) || rows[0] || {};
 }
 
+function matchupPriority(row) {
+  const explicit = cleanValue(row.priority || row.severity || row.importance || row.risk).toLowerCase();
+  if (/critical|high|severe|must/.test(explicit)) return "critical";
+  if (/important|medium|watch|alert/.test(explicit)) return "important";
+  if (/monitor|low/.test(explicit)) return "monitor";
+  const grade = displayGrade(row.grade, row.internal_score);
+  const score = Number(row.internal_score);
+  const opponentEdge = cleanValue(row.advantage) && !/rutgers|even/i.test(cleanValue(row.advantage));
+  if (opponentEdge || /^D|F$/i.test(grade) || (Number.isFinite(score) && score < 70)) return "critical";
+  if (/C/i.test(grade) || (Number.isFinite(score) && score < 82)) return "important";
+  return "monitor";
+}
+
+function matchupPriorityRank(row) {
+  return { critical: 3, important: 2, monitor: 1 }[matchupPriority(row)] || 0;
+}
+
+function matchupImportance(row) {
+  const explicit = Number(row.importance || row.priority_score || row.severity_score);
+  if (Number.isFinite(explicit)) return explicit;
+  const score = Number(row.internal_score);
+  const confidence = Number(row.confidence || 0);
+  const opponentEdge = cleanValue(row.advantage) && !/rutgers|even/i.test(cleanValue(row.advantage));
+  return (opponentEdge ? 20 : 0) + (Number.isFinite(score) ? Math.max(0, 100 - score) : 0) + confidence / 10;
+}
+
+function validMatchupRows() {
+  return (loadMatchups() || []).map((row, sourceIndex) => ({ row, sourceIndex, rutgers: findRutgersMatchupPlayer(row), opponent: findOpponentMatchupPlayer(row) }))
+    .filter(item => item.rutgers && item.opponent);
+}
+
+function orderedMatchupRows() {
+  return validMatchupRows().sort((a, b) =>
+    matchupPriorityRank(b.row) - matchupPriorityRank(a.row) ||
+    Number(b.row.confidence || 0) - Number(a.row.confidence || 0) ||
+    matchupImportance(b.row) - matchupImportance(a.row) ||
+    a.sourceIndex - b.sourceIndex
+  );
+}
+
 function loadRutgersRoster() {
   return sharedRosterBase();
 }
@@ -1591,11 +1631,18 @@ function riskSummary(row) {
 
 function attributeComparisonRows(rutgers, opponent, evidence = []) {
   const evidenceByMetric = new Map((evidence || []).filter(item => item && typeof item === "object").map(item => [cleanValue(item.metric || item.label).toLowerCase(), item]));
+  const preferred = ["overall","strength","awareness","pass_block","run_block","pass block","run block","speed","acceleration","power_moves","finesse_moves","play_recognition","pursuit","agility","change_of_direction"];
   const keys = [...new Set([
+    ...preferred,
     ...Object.keys((rutgers && rutgers.attributes) || {}),
     ...Object.keys((opponent && opponent.attributes) || {}),
     ...evidence.map(item => item && typeof item === "object" ? item.metric : "").filter(Boolean)
-  ])].filter(key => !["overall"].includes(key)).slice(0, 8);
+  ])].filter(key => {
+    if (!key) return false;
+    const metric = cleanValue(key);
+    const ev = evidenceByMetric.get(metric.toLowerCase());
+    return cleanValue((rutgers && rutgers.attributes && rutgers.attributes[key]) ?? (opponent && opponent.attributes && opponent.attributes[key]) ?? (ev && (ev.rutgers ?? ev.opponent)));
+  }).slice(0, 10);
   return keys.map(key => {
     const metric = cleanValue(key);
     const ev = evidenceByMetric.get(metric.toLowerCase());
@@ -2124,36 +2171,65 @@ function renderScoutingReport() {
 }
 
 function renderMatchups() {
-  const rows = loadMatchups() || [];
-  return `<div class="segmented compact-tabs matchup-tabs">
-      <button class="active" type="button">Key Matchups</button><button type="button">All Matchups</button><button type="button" onclick="renderPersonnelMatchups('scouting')">Scouting Report</button>
+  const ordered = orderedMatchupRows();
+  const top = ordered.slice(0, 3);
+  const rest = ordered.slice(3);
+  return `<section class="matchup-card-system" data-valid-count="${ordered.length}">
+    <div class="section-heading compact-heading"><p>Personnel Match</p><strong>Key Matchups</strong></div>
+    <div class="compact-list matchup-card-list">${top.map(item => MatchupCard(item.row, item.rutgers, item.opponent, matchupCardStats(item.rutgers, item.opponent), matchupCardMedia(item.rutgers, item.opponent), { rank: item.sourceIndex + 1, key: true })).join("") || renderStatPlaceholder("Key Matchups", "Limited data")}</div>
+    <div class="matchup-action-row">
+      <button type="button" onclick="const d=document.getElementById('allMatchupsPanel'); if(d)d.open=!d.open;">All Matchups</button>
+      <button type="button" onclick="renderPersonnelMatchups('scouting')">Scouting Report</button>
     </div>
-    <div class="compact-list">${rows.slice(0, 3).map(row => matchupRow(row)).join("")}</div>
-    ${rows.length > 3 ? `<details class="breakout compact-detail"><summary>All Matchups</summary>${rows.slice(3).map(row => matchupRow(row)).join("")}</details>` : ""}`;
+    ${rest.length ? `<details id="allMatchupsPanel" class="breakout compact-detail all-matchups-panel"><summary>View All Matchups</summary><div class="compact-list matchup-card-list">${rest.map(item => MatchupCard(item.row, item.rutgers, item.opponent, matchupCardStats(item.rutgers, item.opponent), matchupCardMedia(item.rutgers, item.opponent), { rank: item.sourceIndex + 1 })).join("")}</div></details>` : ""}</section>`;
 }
 
 function matchupRow(row) {
   const rutgers = findRutgersMatchupPlayer(row);
   const opponent = findOpponentMatchupPlayer(row);
+  return MatchupCard(row, rutgers, opponent, matchupCardStats(rutgers, opponent), matchupCardMedia(rutgers, opponent));
+}
+
+function matchupCardStats(rutgers, opponent) {
+  return {
+    rutgersLast: rutgers && (rutgers.last_game ? [rutgers.last_game] : statsForPlayer(rutgers, loadRutgersLastGameStats())),
+    rutgersSeason: rutgers && (rutgers.season ? [rutgers.season] : statsForPlayer(rutgers, loadRutgersSeasonStats())),
+    opponentLast: opponent && (opponent.last_game ? [opponent.last_game] : statsForPlayer(opponent, loadOpponentLastGameStats())),
+    opponentSeason: opponent && (opponent.season ? [opponent.season] : statsForPlayer(opponent, loadOpponentSeasonStats()))
+  };
+}
+
+function matchupCardMedia(rutgers, opponent) {
+  return {
+    rutgers: mediaForPlayer(rutgers, "rutgers"),
+    opponent: mediaForPlayer(opponent, "opponent")
+  };
+}
+
+function MatchupCard(row, rutgers, opponent, stats = matchupCardStats(rutgers, opponent), media = matchupCardMedia(rutgers, opponent), options = {}) {
   const rutgersTitle = rutgers ? `${rutgers.name} (${rutgers.position})` : row.rutgers_unit;
   const opponentTitle = opponent ? `${opponent.name} (${opponent.position})` : cleanValue(row.opponent_player);
   const recommendations = row.tactical_recommendations || row.recommendations || [];
   const evidence = (row.evidence || []).map(item => typeof item === "object" ? `${cleanValue(item.metric || item.label || item.type || item.source)}: ${cleanValue(item.difference) ? `diff ${cleanValue(item.difference)}` : cleanValue(item.value || item.note || item.description)}` : item).filter(cleanValue);
   const limitations = row.data_limitations || [];
   const limited = limitations.length || !evidence.length;
-  const rutgersLast = rutgers && (rutgers.last_game ? [rutgers.last_game] : statsForPlayer(rutgers, loadRutgersLastGameStats()));
-  const rutgersSeason = rutgers && (rutgers.season ? [rutgers.season] : statsForPlayer(rutgers, loadRutgersSeasonStats()));
-  const opponentLast = opponent && (opponent.last_game ? [opponent.last_game] : statsForPlayer(opponent, loadOpponentLastGameStats()));
-  const opponentSeason = opponent && (opponent.season ? [opponent.season] : statsForPlayer(opponent, loadOpponentSeasonStats()));
-  return `<details class="match-card compact-match player-matchup"><summary><strong>${rutgersTitle} vs ${opponentTitle}</strong><span>${cleanValue(row.advantage || row.status)} | ${displayGrade(row.grade, row.internal_score)} | ${cleanValue(row.confidence) ? `${row.confidence}%` : "Limited data"}</span><em>${firstClean(recommendations)}</em></summary>
+  const priority = matchupPriority(row);
+  const dataStatus = limited ? "Limited data" : "Verified matchup data";
+  return `<details class="match-card compact-match player-matchup matchup-card priority-${priority}" data-matchup-id="${cleanValue(row.matchup_id)}" data-priority="${priority}">
+    <summary>
+      <span class="match-thumb-pair">${rutgers ? portraitImg(rutgers, "rutgers", "player-portrait thumb") : ""}${opponent ? portraitImg(opponent, "opponent", "player-portrait thumb") : ""}</span>
+      <span class="match-compact-copy"><strong>${rutgersTitle} vs ${opponentTitle}</strong><span>${cleanValue(row.advantage || row.status) || activeOpponentName()} | ${displayGrade(row.grade, row.internal_score)} | ${cleanValue(row.confidence) ? `${row.confidence}%` : "Limited data"}</span><em>${firstClean(recommendations) || "Limited data"}</em></span>
+      <b class="priority-badge">${priority}</b>
+    </summary>
     <div class="matchup-header">
       <div class="matchup-player">${rutgers ? portraitImg(rutgers, "rutgers") : ""}<span><strong>${cleanValue(rutgers && rutgers.name) || cleanValue(row.rutgers_unit)}</strong><em>${cleanValue(rutgers && rutgers.position)} ${cleanValue(rutgers && rutgers.overall) ? `| OVR ${rutgers.overall}` : ""}</em></span></div>
       <b>VS</b>
       <div class="matchup-player opponent">${opponent ? portraitImg(opponent, "opponent") : ""}<span><strong>${cleanValue(opponent && opponent.name) || cleanValue(row.opponent_player)}</strong><em>${cleanValue(opponent && opponent.position)} ${cleanValue(opponent && opponent.overall) ? `| OVR ${opponent.overall}` : ""}</em></span></div>
     </div>
+    <section class="matchup-edge"><h4>Matchup Edge</h4>${maybeRow("Advantage", row.advantage || row.status, "Limited data")}${maybeRow("Edge score", row.internal_score, "Limited data")}${maybeRow("Grade", displayGrade(row.grade, row.internal_score), "Limited data")}${maybeRow("Confidence", cleanValue(row.confidence) ? `${row.confidence}%` : "", "Limited data")}${maybeRow("Priority", priority)}</section>
     <section class="comparison-table"><h4>Comparison</h4><div class="comparison-head"><span>Attribute</span><strong>Rutgers</strong><em>Opponent</em><b>Edge</b></div>${attributeComparisonRows(rutgers, opponent, row.evidence || [])}</section>
-    <section class="match-production"><h4>Production</h4><div class="production-grid">${statBlock("Rutgers Last Game", rutgersLast)}${statBlock("Rutgers Season", rutgersSeason)}${statBlock("Opponent Last Game", opponentLast)}${statBlock("Opponent Season", opponentSeason)}</div></section>
-    <section class="match-result"><h4>Result</h4>${maybeRow("Letter grade", displayGrade(row.grade, row.internal_score), "Limited data")}${maybeRow("Confidence", cleanValue(row.confidence) ? `${row.confidence}%` : "", "Limited data")}${maybeRow("Advantage", row.advantage || row.status, "Limited data")}${limited ? maybeRow("Data status", "Limited data") : ""}${maybeRow("Key evidence", evidence, "Limited data")}${maybeRow("Tactical recommendation", recommendations, "Limited data")}${maybeRow("Data limitations", limitations)}${maybeRow("Analysis", row.description)}</section>
+    <section class="match-production"><h4>Production</h4><div class="production-grid">${statBlock("Rutgers Last Game", stats.rutgersLast)}${statBlock("Rutgers Season", stats.rutgersSeason)}${statBlock("Opponent Last Game", stats.opponentLast)}${statBlock("Opponent Season", stats.opponentSeason)}</div></section>
+    <section class="match-result"><h4>Tactical Result</h4>${maybeRow("Advantage", row.advantage || row.status, "Limited data")}${maybeRow("Key evidence", evidence, "Limited data")}${maybeRow("Tactical recommendation", recommendations, "Limited data")}${maybeRow("Protection/run adjustment", firstClean(recommendations), "Limited data")}${maybeRow("Data status", dataStatus)}${maybeRow("Data limitations", limitations)}${maybeRow("Analysis", row.description)}</section>
   </details>`;
 }
 
@@ -2461,6 +2537,11 @@ if (typeof module !== "undefined") {
     matchupRow,
     renderPersonnelOverview,
     opponentPlayerCard,
-    renderRosterCards
+    renderRosterCards,
+    renderMatchups,
+    MatchupCard,
+    orderedMatchupRows,
+    validMatchupRows,
+    matchupPriority
   };
 }

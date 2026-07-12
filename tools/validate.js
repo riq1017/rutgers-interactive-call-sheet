@@ -123,6 +123,26 @@ const descriptionCounts = renderedRecruitDescriptions.reduce((acc, text) => (acc
 check('Repeated generic recruiting descriptions are removed from rendered candidates', !app.includes('Review against roster need and verified scouting profile') && Object.values(descriptionCounts).every(count => count <= 3));
 check('Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS', css.includes('@media(max-width:420px)') && css.includes('overflow-x:hidden') && css.includes('env(safe-area-inset-bottom)') && css.includes('env(safe-area-inset-top)'));
 check('Only one matchup detail accordion is allowed open per list', app.includes('.compact-match') && app.includes('details.compact-detail[open],details.player-detail[open],details.compact-prospect[open],details.compact-match[open]'));
+const orderedMatchups = engine.orderedMatchupRows();
+const matchupSystemHtml = engine.renderMatchups();
+const keyCardCount = (matchupSystemHtml.match(/data-matchup-id=/g) || []).length - (matchupSystemHtml.includes('allMatchupsPanel') ? (orderedMatchups.length - Math.min(3, orderedMatchups.length)) : 0);
+const topThreeIds = orderedMatchups.slice(0, 3).map(item => item.row.matchup_id);
+const playerNamesInMatchups = PURDUE_MATCHUPS.matchups.flatMap(row => [row.rutgers_player && row.rutgers_player.name, row.opponent_player && row.opponent_player.name]).filter(Boolean);
+check('Reusable MatchupCard component renders key matchup cards', app.includes('function MatchupCard(') && matchupSystemHtml.includes('matchup-card-system') && matchupSystemHtml.includes('priority-badge'));
+check('Exactly three valid Key Matchups render when at least three valid rows exist', orderedMatchups.length < 3 ? keyCardCount === orderedMatchups.length : keyCardCount === 3, `key=${keyCardCount}, valid=${orderedMatchups.length}`);
+check('Top three matchup cards come from player_matchups.json', topThreeIds.length === Math.min(3, orderedMatchups.length) && topThreeIds.every(id => phase1Matchups.matchups.some(row => row.matchup_id === id)));
+check('Top three matchup selection is ordered by priority, confidence, importance, then source order', topThreeIds.join('|') === orderedMatchups.slice(0, 3).map(item => item.row.matchup_id).join('|'));
+check('No matchup player names are hardcoded in rendering source', playerNamesInMatchups.every(name => !app.includes(name)));
+check('All valid matchup Rutgers and opponent IDs resolve', orderedMatchups.length === phase1Matchups.matchups.filter(row => row.rutgers_player && row.opponent_player).length && orderedMatchups.every(item => item.rutgers && item.opponent));
+check('Matchup media paths resolve for valid cards', orderedMatchups.every(item => {
+  const rutgersMediaRow = rutgersMedia.players.find(row => row.player_id === item.rutgers.player_id);
+  const opponentMediaRow = opponentMedia.players.find(row => row.player_id === item.opponent.player_id);
+  return rutgersMediaRow && opponentMediaRow && fs.existsSync(path.join(root, rutgersMediaRow.portrait_path)) && fs.existsSync(path.join(root, opponentMediaRow.portrait_path));
+}));
+check('Matchup component keeps Last Game and Season separate', matchupSystemHtml.includes('Rutgers Last Game') && matchupSystemHtml.includes('Rutgers Season') && matchupSystemHtml.includes('Opponent Last Game') && matchupSystemHtml.includes('Opponent Season'));
+check('Matchup card fixtures contain no raw nullish/object text', !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(matchupSystemHtml));
+check('Glossy matchup card styling and mobile overflow safeguards exist', css.includes('.matchup-card') && css.includes('linear-gradient') && css.includes('.matchup-action-row') && css.includes('@media(max-width:420px)') && css.includes('overflow-x:hidden'));
+check('Fixed bottom navigation remains visible for matchup card system', css.includes('.bottom-nav') && css.includes('position:fixed') && css.includes('env(safe-area-inset-bottom)'));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

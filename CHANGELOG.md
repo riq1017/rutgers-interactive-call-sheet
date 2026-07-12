@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Phase 1.2 matchup card system
+- Replaced `Personnel -> Match -> Key Matchups` with a reusable JSON-driven `MatchupCard(...)` component.
+- Added top-three matchup ordering by priority/severity, confidence, matchup importance, and source order.
+- Rendered exactly three valid Key Matchups by default when at least three valid rows exist.
+- Reused the same matchup-card component for `All Matchups`.
+- Added compact portrait thumbnails, priority badges, matchup edge, attribute comparison, separate production sections, and tactical result blocks.
+- Added glossy black/scarlet/gold matchup styling with mobile overflow safeguards.
+- Expanded validation for top-three selection, ID/media resolution, nullish/object leakage, one-open-card behavior, and GitHub Pages compatibility.
+
 ## Phase 1.2 correction pass
 - Added a defensive nested-value formatter used by rows, cards, stats, matchups, and recruiting render paths to prevent `[object Object]`, `undefined`, and literal `null` leaks.
 - Completed mobile-first Rutgers and opponent player cards with separated Last Game and Season production blocks plus limited-data indicators.

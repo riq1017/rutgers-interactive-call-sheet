@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T18:46:07.991Z
+Validated: 2026-07-12T19:28:23.642Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -47,6 +47,20 @@ Validated: 2026-07-12T18:46:07.991Z
 - PASS - Recommended Ball Carrier block is JSON-driven and renderer has no hardcoded back names
 - PASS - Best-side recommendation stays hidden when lane scoring is limited
 - PASS - No internal score mislabeled as lane advantage
+- PASS - Pack D registry entries exist
+- PASS - Weekly matchup summary exists and parses
+- PASS - Weekly matchup summary has required sections
+- PASS - Offensive comparison rows resolve from summary
+- PASS - Defensive comparison rows resolve from summary
+- PASS - Best Play and Top Three resolve to verified play IDs
+- PASS - Run Game, Passing Game, Protection, Pressure, Coverage, Alerts resolve
+- PASS - Featured Player and Biggest Threat resolve
+- PASS - Gameplan is transformed into offensive and defensive coordinator sections
+- PASS - Best Play Hero renders from Play Card system data and has play art
+- PASS - Top Three selector updates hero without refresh or navigation
+- PASS - Coordinator dashboard contains no raw nullish/object text
+- PASS - Weekly matchup summary does not duplicate card registry football data
+- PASS - Weekly matchup summary static bundle loads before app.js
 - PASS - Shared roster source has 48 verified players
 - PASS - No duplicate hardcoded roster is used by the visible Recruiting engine
 - PASS - Gameplan engine reads enriched opponent/profile/player/group/matchup data

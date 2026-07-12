@@ -73,6 +73,14 @@ Play Cards must preserve all 192 verified visible play combinations and render p
 
 Run-lane recommendations may display a best side only when weekly run-lane analysis contains verified lane scoring. Limited-data lanes must remain limited and must not be promoted into fabricated left/right recommendations.
 
+## I.2 Gameplan Intelligence Standards
+
+The Gameplan tab is a coordinator dashboard, not a statistics page. It is organized into Offensive Gameplan and Defensive Gameplan sections.
+
+Weekly coordinator recommendations and comparison rows are resolved through `data/weekly/weekly_matchup_summary.json`. The UI renders that intelligence layer and must not fabricate missing comparison values, pressure calls, coverage calls, lane scores, player grades, or play grades.
+
+Unsupported defensive or offensive metrics remain `null` in JSON and render as `Limited data`. Best Play and Top Three references resolve by stable play IDs through the locked Play Card system.
+
 ## J. Validation Standards
 
 Required checks include roster count, media coverage, registry coverage, portrait existence, required position coverage, matchup ID resolution, play count, play ID uniqueness, no raw object coercion, mobile overflow safeguards, and GitHub Pages static compatibility.

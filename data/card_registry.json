@@ -463,6 +463,216 @@
       "source_refs": {
         "run_lane_analysis": "data/weekly/run_lane_analysis.json"
       }
+    },
+    {
+      "card_id": "offensive_executive_summary",
+      "card_type": "executive_summary",
+      "tab": "gameplan",
+      "section": "offensive_gameplan",
+      "order": 1,
+      "priority": "critical",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "executive_summary",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "offensive_comparison_table",
+      "card_type": "comparison_table",
+      "tab": "gameplan",
+      "section": "offensive_gameplan",
+      "order": 2,
+      "priority": "important",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "comparison_table",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "best_play_hero",
+      "card_type": "best_play",
+      "tab": "gameplan",
+      "section": "offensive_gameplan",
+      "order": 3,
+      "priority": "critical",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "best_play",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "top_three_selector",
+      "card_type": "top_three",
+      "tab": "gameplan",
+      "section": "offensive_gameplan",
+      "order": 4,
+      "priority": "important",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "top_three",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "run_game_card",
+      "card_type": "run_game",
+      "tab": "gameplan",
+      "section": "offensive_gameplan",
+      "order": 5,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "run_game",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "passing_game_card",
+      "card_type": "passing_game",
+      "tab": "gameplan",
+      "section": "offensive_gameplan",
+      "order": 6,
+      "priority": "important",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "passing_game",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "protection_card",
+      "card_type": "protection",
+      "tab": "gameplan",
+      "section": "offensive_gameplan",
+      "order": 7,
+      "priority": "critical",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "protection",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "offensive_alerts_card",
+      "card_type": "alerts",
+      "tab": "gameplan",
+      "section": "offensive_gameplan",
+      "order": 8,
+      "priority": "monitor",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "alerts",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "defensive_executive_summary",
+      "card_type": "executive_summary",
+      "tab": "gameplan",
+      "section": "defensive_gameplan",
+      "order": 1,
+      "priority": "monitor",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "executive_summary",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "defensive_comparison_table",
+      "card_type": "comparison_table",
+      "tab": "gameplan",
+      "section": "defensive_gameplan",
+      "order": 2,
+      "priority": "monitor",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "comparison_table",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "biggest_threat_card",
+      "card_type": "biggest_threat",
+      "tab": "gameplan",
+      "section": "defensive_gameplan",
+      "order": 3,
+      "priority": "critical",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "biggest_threat",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "pressure_card",
+      "card_type": "pressure",
+      "tab": "gameplan",
+      "section": "defensive_gameplan",
+      "order": 4,
+      "priority": "monitor",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "pressure",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "coverage_card",
+      "card_type": "coverage",
+      "tab": "gameplan",
+      "section": "defensive_gameplan",
+      "order": 5,
+      "priority": "monitor",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "coverage",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "defensive_alerts_card",
+      "card_type": "alerts",
+      "tab": "gameplan",
+      "section": "defensive_gameplan",
+      "order": 6,
+      "priority": "monitor",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "alerts",
+      "source_refs": {
+        "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
     }
   ]
 }

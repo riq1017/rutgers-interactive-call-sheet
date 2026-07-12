@@ -1616,6 +1616,10 @@ function loadWeeklyRunLaneAnalysis() {
   return typeof WEEKLY_RUN_LANE_ANALYSIS !== "undefined" ? WEEKLY_RUN_LANE_ANALYSIS : { lanes: [] };
 }
 
+function loadWeeklyMatchupSummary() {
+  return typeof WEEKLY_MATCHUP_SUMMARY !== "undefined" ? WEEKLY_MATCHUP_SUMMARY : {};
+}
+
 function loadPlayerCardRegistry() {
   return typeof PLAYER_CARD_REGISTRY !== "undefined" ? PLAYER_CARD_REGISTRY : { rutgers_cards: [], opponent_cards: [], counts: {} };
 }
@@ -1917,6 +1921,150 @@ function renderExecutiveDashboard() {
   if (!node) return;
   const cards = dashboardRegistryCards("dashboard").map(renderDashboardCard).filter(Boolean);
   node.innerHTML = `<div class="section-heading compact-heading"><p>Executive Dashboard</p><strong>Weekly tactical cards</strong></div><div class="dashboard-card-stack">${cards.join("") || LimitedDataState("Executive Dashboard")}</div>`;
+}
+
+function comparisonRowsTable(rows = [], mode = "offense") {
+  return `<div class="comparison-intel-table">${(rows || []).map(row => `<div class="comparison-intel-row">
+    <span>${cardValue(row.metric)}</span>
+    <strong>${mode === "defense" ? cardValue(row.mine_value) : cardValue(row.rutgers_value)}</strong>
+    <em>vs</em>
+    <b>${mode === "defense" ? cardValue(row.theirs_value) : cardValue(row.opponent_value)}</b>
+    <i>${cardValue(row.winning_side)}</i>
+    <small>${cardValue(row.confidence)}${cleanValue(row.reason) ? ` | ${cleanValue(row.reason)}` : ""}</small>
+  </div>`).join("") || LimitedDataState("Comparison Rows")}</div>`;
+}
+
+function summaryPlayById(playId) {
+  const play = playMap().get(playId);
+  return play ? scorePlay(play, { down: 1, dist: "medium", distanceYards: 5, zone: "normal", gameState: "normal", key: "medium" }, loadHistory(), loadRecentCalls()) : null;
+}
+
+function renderBestPlayHero(playId = "") {
+  const summary = loadWeeklyMatchupSummary();
+  const best = summary.best_play || {};
+  const selectedId = cleanValue(playId || best.play_id);
+  const play = summaryPlayById(selectedId);
+  if (!play) return LimitedDataState("Best Play Hero");
+  const decision = runPersonnelDecision(play) || {};
+  const carrier = decision.primary;
+  const lane = bestVerifiedRunLane(play);
+  return `<article class="base-card card-gloss coordinator-hero-card" data-hero-play-id="${selectedId}">
+    <div class="hero-play-art"><img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="${play.name}" loading="lazy" onerror="this.src='assets/play-diagrams/formation-fallback.svg'"></div>
+    ${CardHeader({ eyebrow: "Best Play Hero", title: play.name, subtitle: `${play.formation} | ${playPersonnel(play) || "Personnel limited"} | ${conceptFamily(play)}`, badge: Badge(displayGrade(best.grade, play.score) || scoreLetter(play.score), "important") })}
+    <div class="card-metrics dashboard-metrics">
+      ${MetricRow("Confidence", best.confidence)}
+      ${MetricRow("Best Down & Distance", best.best_down_distance || play.objective)}
+      ${MetricRow("Recommended Side", lane && lane.label)}
+      ${MetricRow("Recommended Ball Carrier", carrier && carrier.name)}
+      ${MetricRow("Primary Target", best.primary_target_player_id ? (playerById(best.primary_target_player_id) || {}).name : play.primaryPlayerName)}
+      ${MetricRow("Concept", conceptFamily(play))}
+    </div>
+    ${CardSection("Why It Works", `<p>${cardValue(best.why_it_works || explanationText(play))}</p>`)}
+    ${CardSection("Tactical Notes", `<p>${cardValue(best.tactical_notes)}</p>`)}
+  </article>`;
+}
+
+function selectCoordinatorHero(playId) {
+  const slot = $("bestPlayHeroSlot");
+  if (slot) slot.innerHTML = renderBestPlayHero(playId);
+  document.querySelectorAll("[data-hero-select]").forEach(button => button.classList.toggle("active", button.dataset.heroSelect === playId));
+}
+
+function topThreePlaysCard() {
+  const summary = loadWeeklyMatchupSummary();
+  const rows = summary.top_three || [];
+  const first = rows[0] && rows[0].play_id;
+  return BaseCard({ className: "coordinator-top-three-card", priority: "important", size: "large", content: `
+    ${CardHeader({ eyebrow: "Top Three Plays", title: "Best Play Selector", subtitle: "Tap 1, 2, or 3 to update the hero", badge: Badge("No refresh", "positive") })}
+    <div id="bestPlayHeroSlot">${renderBestPlayHero(first)}</div>
+    <div class="hero-selector-row">${rows.map(row => {
+      const play = playMap().get(row.play_id);
+      return `<button type="button" class="${row.rank === 1 ? "active" : ""}" data-hero-select="${row.play_id}" onclick="selectCoordinatorHero('${row.play_id}')"><strong>${row.rank}</strong><span>${play ? play.name : "Limited data"}</span></button>`;
+    }).join("")}</div>
+  ` });
+}
+
+function offensiveExecutiveCard() {
+  const s = ((loadWeeklyMatchupSummary().offense_vs_defense || {}).executive_summary) || {};
+  const featured = playerById(s.featured_offensive_player_id, "rutgers");
+  return BaseCard({ className: "coordinator-summary-card", priority: "critical", size: "large", content: `
+    ${CardHeader({ eyebrow: "Offensive Gameplan", title: "Executive Summary", subtitle: "What should I call next, and why?", badge: Badge(s.offensive_matchup_grade || "Limited", "important") })}
+    <div class="card-metrics dashboard-metrics">
+      ${MetricRow("Offensive Matchup Grade", s.offensive_matchup_grade)}
+      ${MetricRow("Confidence", s.confidence)}
+      ${MetricRow("Biggest Advantage", s.biggest_offensive_advantage)}
+      ${MetricRow("Biggest Concern", s.biggest_offensive_concern)}
+      ${MetricRow("Featured Player", featured && featured.name)}
+      ${MetricRow("Best Run Side", s.best_run_side)}
+      ${MetricRow("Best Pass Concept", s.best_pass_concept)}
+      ${MetricRow("Best Protection Call", s.best_protection_call)}
+    </div>` });
+}
+
+function runGameIntelCard() {
+  const run = loadWeeklyMatchupSummary().run_game || {};
+  const decisions = loadWeeklyCoachingDecisions().run_personnel || {};
+  const primary = playerById((decisions[run.recommended_back_role] || {}).primary_player_id);
+  const backup = playerById((decisions[run.backup_back_role] || {}).primary_player_id);
+  return BaseCard({ className: "coordinator-run-card", priority: "important", size: "medium", content: `${CardHeader({ eyebrow: "Run Game", title: "Run Game Card", subtitle: run.confidence, badge: Badge(run.confidence || "Limited", "important") })}
+    <div class="card-metrics dashboard-metrics">${MetricRow("Best Run Side", run.best_run_side)}${MetricRow("Worst Run Side", run.worst_run_side)}${MetricRow("Best Gap", run.best_gap)}${MetricRow("Worst Gap", run.worst_gap)}${MetricRow("Recommended RB", primary && primary.name)}${MetricRow("Backup RB", backup && backup.name)}</div>
+    ${CardSection("Best Run Concepts", chipList(run.best_run_concepts) || LimitedDataState("Best Run Concepts"))}
+    ${CardSection("Why", `<p>${cardValue(run.why)}</p>`)}` });
+}
+
+function passingGameIntelCard() {
+  const pass = loadWeeklyMatchupSummary().passing_game || {};
+  return BaseCard({ className: "coordinator-pass-card", priority: "important", size: "medium", content: `${CardHeader({ eyebrow: "Passing Game", title: "Passing Game Card", subtitle: pass.confidence, badge: Badge(pass.confidence || "Limited", "important") })}
+    ${CardSection("Best Concepts", chipList(pass.best_concepts) || LimitedDataState("Best Concepts"))}
+    <div class="card-metrics dashboard-metrics">${MetricRow("Weakest CB", pass.weakest_cb)}${MetricRow("Best WR Matchup", pass.best_wr_matchup)}${MetricRow("Protection", pass.protection_recommendation)}${MetricRow("Confidence", pass.confidence)}</div>
+    ${CardSection("Target Priority", chipList(pass.target_priority) || LimitedDataState("Target Priority"))}
+    ${CardSection("Why", `<p>${cardValue(pass.why)}</p>`)}` });
+}
+
+function protectionIntelCard() {
+  const protection = loadWeeklyMatchupSummary().protection || {};
+  return BaseCard({ className: "coordinator-protection-card", priority: "critical", size: "large", content: `${CardHeader({ eyebrow: "Protection", title: "Protection Card", subtitle: protection.recommendation, badge: Badge("O-Line", "critical") })}
+    <div class="protection-slot-row">${(protection.slots || []).map(slot => {
+      const matchup = (loadMatchups() || []).find(row => row.matchup_id === slot.matchup_id) || {};
+      return `<details class="protection-slot ${slot.status || "limited"}"><summary><span>${slot.slot}</span><strong>${cardValue(slot.status)}</strong></summary>${maybeRow("Defender", cleanValue((findOpponentMatchupPlayer(matchup) || {}).name))}${maybeRow("Pressure %", slot.pressure_pct)}${maybeRow("Double Team?", slot.double_team)}${maybeRow("Chip Help?", slot.chip_help)}${maybeRow("RB Help?", slot.running_back_help)}${maybeRow("Confidence", slot.confidence)}</details>`;
+    }).join("")}</div>` });
+}
+
+function alertsIntelCard(side = "offense") {
+  const alerts = ((loadWeeklyMatchupSummary().alerts || {})[side]) || [];
+  if (!alerts.length) return "";
+  return BaseCard({ className: `coordinator-alerts-card ${side}`, priority: "monitor", size: "medium", content: `${CardHeader({ eyebrow: `${labelize(side)} Alerts`, title: `${labelize(side)} Alerts`, subtitle: `${alerts.length} verified alerts`, badge: Badge("Alerts", "important") })}
+    <div class="alert-list">${alerts.map(alert => `<div class="notice ${alert.level || "information"}"><strong>${cardValue(alert.text)}</strong><span>${cardValue(alert.source)}</span></div>`).join("")}</div>` });
+}
+
+function defensiveCoordinatorSection() {
+  const summary = loadWeeklyMatchupSummary();
+  const def = (summary.defense_vs_offense || {}).executive_summary || {};
+  const threat = summary.biggest_threat || {};
+  const threatPlayer = playerById(threat.player_id, "opponent");
+  const pressure = summary.pressure || {};
+  const coverage = summary.coverage || {};
+  return `<section class="coordinator-section defensive-gameplan"><div class="section-heading"><p>Defensive Gameplan</p><strong>Coordinator Dashboard</strong></div>
+    ${BaseCard({ className: "coordinator-summary-card", content: `${CardHeader({ eyebrow: "Defensive Gameplan", title: "Executive Summary", subtitle: def.confidence, badge: Badge(def.defensive_grade || "Limited", "monitor") })}<div class="card-metrics dashboard-metrics">${MetricRow("Defensive Grade", def.defensive_grade)}${MetricRow("Confidence", def.confidence)}${MetricRow("Biggest Threat", def.biggest_threat)}${MetricRow("Biggest Opportunity", def.biggest_opportunity)}${MetricRow("Pressure Recommendation", def.pressure_recommendation)}${MetricRow("Coverage Recommendation", def.coverage_recommendation)}</div>` })}
+    ${BaseCard({ className: "coordinator-comparison-card", content: `${CardHeader({ eyebrow: "Opponent vs Rutgers", title: "Rutgers Defense vs Opponent Offense", subtitle: "Mine vs Theirs" })}${comparisonRowsTable((summary.defense_vs_offense || {}).comparisons || [], "defense")}` })}
+    ${BaseCard({ className: "coordinator-threat-card", priority: "critical", content: `${CardHeader({ eyebrow: "Biggest Threat", title: threatPlayer ? threatPlayer.name : "Limited data", subtitle: threatPlayer ? `${threatPlayer.position} | OVR ${cardValue(threatPlayer.overall)}` : "Limited data", portrait: threatPlayer ? PortraitBlock(threatPlayer, "opponent") : "" })}${threatPlayer ? statBlock("Season", statsForPlayer(threatPlayer, loadOpponentSeasonStats())) + statBlock("Last Game", statsForPlayer(threatPlayer, loadOpponentLastGameStats())) : LimitedDataState("Biggest Threat")}${CardSection("How To Stop", `<p>${cardValue(threat.how_to_stop)}</p>`)}${CardSection("Confidence", `<p>${cardValue(threat.confidence)}</p>`)}` })}
+    ${BaseCard({ className: "coordinator-pressure-card", content: `${CardHeader({ eyebrow: "Pressure", title: "Pressure Card", subtitle: pressure.confidence })}${CardSection("Recommended Pressures", chipList(pressure.recommendations) || LimitedDataState("Pressure"))}${CardSection("Reason", `<p>${cardValue(pressure.reason)}</p>`)}` })}
+    ${BaseCard({ className: "coordinator-coverage-card", content: `${CardHeader({ eyebrow: "Coverage", title: "Coverage Card", subtitle: coverage.confidence })}${CardSection("Recommended Coverages", chipList(coverage.recommendations) || LimitedDataState("Coverage"))}${CardSection("Reason", `<p>${cardValue(coverage.reason)}</p>`)}` })}
+    ${alertsIntelCard("defense")}
+  </section>`;
+}
+
+function renderCoordinatorDashboard() {
+  const summary = loadWeeklyMatchupSummary();
+  return `<section class="coordinator-section offensive-gameplan"><div class="section-heading"><p>Offensive Gameplan</p><strong>Coordinator Dashboard</strong></div>
+    ${offensiveExecutiveCard()}
+    ${BaseCard({ className: "coordinator-comparison-card", content: `${CardHeader({ eyebrow: "Rutgers vs Opponent", title: "Rutgers Offense vs Opponent Defense", subtitle: "Comparison rows only" })}${comparisonRowsTable((summary.offense_vs_defense || {}).comparisons || [], "offense")}` })}
+    ${topThreePlaysCard()}
+    ${runGameIntelCard()}
+    ${passingGameIntelCard()}
+    ${protectionIntelCard()}
+    ${alertsIntelCard("offense")}
+  </section>${defensiveCoordinatorSection()}`;
 }
 
 function playerId(player) {
@@ -2384,9 +2532,7 @@ function renderGameplanPanels() {
 function renderStatic() {
   renderGamedayHeader();
   if ($("gameplan")) {
-    const matchup = renderGameMatchupHeader();
-    if (!$("gameMatchupHeader")) $("gameplan").insertAdjacentHTML("afterbegin", `<div id="gameMatchupHeader">${matchup}</div>`);
-    else $("gameMatchupHeader").innerHTML = matchup;
+    $("gameplan").innerHTML = renderCoordinatorDashboard();
   }
   if ($("scriptList")) $("scriptList").innerHTML = WEEKLY_PLAN.openingScript.map((id, i) => {
     const play = playMap().get(id);
@@ -3053,8 +3199,8 @@ function boot() {
     const header = document.querySelector(".gameday-header");
     if (header) header.classList.toggle("compact-header", window.scrollY > 48);
   }, { passive: true });
-  $("bestBtn").addEventListener("click", () => showBest(1));
-  $("top3Btn").addEventListener("click", () => showBest(3));
+  if ($("bestBtn")) $("bestBtn").addEventListener("click", () => showBest(1));
+  if ($("top3Btn")) $("top3Btn").addEventListener("click", () => showBest(3));
   document.querySelectorAll("[data-tab]").forEach(button => button.addEventListener("click", () => switchTab(button.dataset.tab)));
   document.addEventListener("toggle", event => {
     const detail = event.target;
@@ -3130,6 +3276,11 @@ if (typeof module !== "undefined") {
     dashboardAlerts,
     loadWeeklyCoachingDecisions,
     loadWeeklyRunLaneAnalysis,
+    loadWeeklyMatchupSummary,
+    renderCoordinatorDashboard,
+    renderBestPlayHero,
+    topThreePlaysCard,
+    comparisonRowsTable,
     lockedPlayCard,
     runStyleForPlay,
     runPersonnelDecision,

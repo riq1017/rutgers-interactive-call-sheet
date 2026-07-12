@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Sprint 2 Pack D gameplan intelligence engine
+- Added `data/weekly/weekly_matchup_summary.json` and static bundle as the coordinator intelligence layer.
+- Rebuilt the Gameplan tab into Offensive Gameplan and Defensive Gameplan sections.
+- Added offensive executive summary, comparison table, Best Play Hero, Top Three selector, run game, passing game, protection, and alerts cards.
+- Added defensive executive summary, comparison table, biggest threat, pressure, coverage, and alerts cards with limited-data handling for unsupported defensive data.
+- Registered Pack D coordinator cards in `data/card_registry.json` without duplicating football values.
+- Expanded validation for weekly matchup summary sections, comparison rows, play/player/matchup ID resolution, Top Three hero updates, static loading, and Pack A/B/C/Phase 1.2 regressions.
+
 ## Sprint 2 Pack C locked player/play/run logic
 - Added weekly coaching-decision JSON and static bundle for JSON-driven run personnel.
 - Added weekly run-lane analysis JSON and static bundle with explicit limited-data lane status.

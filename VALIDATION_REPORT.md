@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T19:56:15.801Z
+Validated: 2026-07-12T20:34:02.398Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -56,11 +56,19 @@ Validated: 2026-07-12T19:56:15.801Z
 - PASS - Run Game, Passing Game, Protection, Pressure, Coverage, Alerts resolve
 - PASS - Featured Player and Biggest Threat resolve
 - PASS - Gameplan is transformed into offensive and defensive coordinator sections
-- PASS - Best Play Hero renders from Play Card system data and has play art
-- PASS - Top Three selector updates hero without refresh or navigation
+- PASS - Top Plays owns Best Play hero with play art and mode controls
+- PASS - Top Plays owns Top 3 selector without refresh or navigation
+- PASS - Top Plays inventory reaches all 192 verified Oregon play combinations
+- PASS - Gameplan no longer renders Top Plays hero, selector, or full play library
+- PASS - Gameplan removes raw Rutgers Offense vs Opponent Defense comparison wall
+- PASS - Gameplan removes raw Rutgers Defense vs Opponent Offense comparison wall
+- PASS - Gameplan concise card order resolves
 - PASS - Coordinator dashboard contains no raw nullish/object text
 - PASS - Weekly matchup summary does not duplicate card registry football data
 - PASS - Weekly matchup summary static bundle loads before app.js
+- PASS - Card registry moves Best Play and Top Three ownership to Top Plays
+- PASS - Card registry hides raw comparison walls from Gameplan
+- PASS - Card registry registers reusable RecruitCard collection
 - PASS - Shared roster source has 48 verified players
 - PASS - No duplicate hardcoded roster is used by the visible Recruiting engine
 - PASS - Gameplan engine reads enriched opponent/profile/player/group/matchup data
@@ -97,7 +105,9 @@ Validated: 2026-07-12T19:56:15.801Z
 - PASS - Mobile CSS prevents horizontal overflow and keeps bottom nav fixed
 - PASS - GitHub Pages relative paths are preserved
 - PASS - Repeated Not available is avoided in enriched card renderers
-- PASS - Weekly action plan links board rows to prospect details when available
+- PASS - Weekly action plan renders through reusable RecruitCard records
+- PASS - RecruitCard scheme fit values are restricted to approved labels
+- PASS - RecruitCard avoids generic evaluate/prioritize/assess instructions
 - PASS - Last Game and Season Stats remain separate with verified files
 - PASS - Gameplan default is compact with drill-down details
 - PASS - Top Plays uses compact rows and advanced filter drawer

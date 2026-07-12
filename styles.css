@@ -1198,6 +1198,213 @@ details[open]{
     transition-duration:.01ms!important;
   }
 }
+
+/* Sprint 2.5 correction pass 2: tab ownership and card consistency */
+.top-plays-hero-card{
+  padding:12px;
+  margin-bottom:12px;
+  border-color:rgba(204,0,51,.58);
+}
+.top-play-mode-control{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:10px;
+}
+.top-play-mode-control button{
+  min-height:48px;
+  border-radius:999px;
+}
+.top-play-hero-layout{
+  display:grid;
+  gap:10px;
+}
+.top-play-hero-art{
+  min-height:168px;
+  margin:0;
+}
+.top-play-hero-art img{
+  max-height:260px;
+}
+.top-three-selector{
+  display:none;
+  gap:8px;
+  margin-top:10px;
+}
+.top-three-selector.is-visible{
+  display:grid;
+}
+.top-three-selector button{
+  display:grid;
+  grid-template-columns:34px minmax(0,1fr);
+  align-items:center;
+  gap:9px;
+  min-height:58px;
+  text-align:left;
+}
+.top-three-selector strong{
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--scarlet);
+}
+.top-three-selector span{
+  display:grid;
+  gap:2px;
+}
+.top-three-selector em{
+  color:var(--muted);
+  font-size:11px;
+  font-style:normal;
+}
+.decision-card .card-header{
+  align-items:start;
+}
+.lane-callout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:4px 10px;
+  align-items:center;
+  margin:8px 0 10px;
+  padding:12px;
+  border:1px solid rgba(204,0,51,.36);
+  border-radius:12px;
+  background:linear-gradient(90deg,rgba(204,0,51,.22),rgba(255,255,255,.04));
+}
+.lane-callout span{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.lane-callout strong{
+  font-size:18px;
+}
+.lane-callout em{
+  grid-column:1/-1;
+  color:var(--muted);
+  font-style:normal;
+}
+.target-order{
+  display:grid;
+  gap:6px;
+  margin:8px 0 10px;
+}
+.target-order span{
+  display:grid;
+  grid-template-columns:28px minmax(0,1fr);
+  align-items:center;
+  gap:8px;
+  padding:8px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  background:rgba(0,0,0,.24);
+}
+.target-order strong{
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(204,0,51,.78);
+}
+.protection-slot-row{
+  grid-template-columns:repeat(auto-fit,minmax(96px,1fr));
+}
+.protection-slot summary{
+  place-items:stretch;
+  gap:3px;
+  text-align:left;
+}
+.protection-slot summary span{
+  color:var(--muted);
+}
+.protection-slot summary strong{
+  color:#fff;
+  text-transform:none;
+}
+.protection-slot summary em{
+  color:var(--muted);
+  font-size:10px;
+  font-style:normal;
+}
+.recruit-card-list{
+  display:grid;
+  gap:10px;
+  margin-top:8px;
+}
+.recruit-card{
+  display:block;
+  width:100%;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:14px;
+  background:var(--ds-glass);
+  box-shadow:var(--ds-shadow);
+  overflow:hidden;
+}
+.recruit-card summary{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  gap:9px;
+  align-items:center;
+  min-height:68px;
+  padding:10px;
+  cursor:pointer;
+}
+.recruit-card-title{
+  display:grid;
+  gap:2px;
+}
+.recruit-card-title strong{
+  font-size:15px;
+  line-height:1.15;
+}
+.recruit-card-title em{
+  color:var(--muted);
+  font-size:11px;
+  font-style:normal;
+}
+.recruit-card summary b{
+  max-width:96px;
+  color:var(--good);
+  font-size:11px;
+  text-align:right;
+}
+.recruit-card-compact{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+  padding:0 10px 10px;
+}
+.recruit-card-detail{
+  display:grid;
+  gap:8px;
+  padding:0 10px 12px;
+}
+.recruit-card .card-section{
+  margin-top:0;
+}
+.recruit-card p,
+.recruit-card .data-row{
+  text-align:left;
+}
+@media(max-width:430px){
+  .top-play-hero-art{min-height:146px}
+  .top-play-hero-metrics,.recruit-card-compact{grid-template-columns:1fr}
+  .protection-slot-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .protection-slot-row .protection-slot:nth-child(5){grid-column:1/-1}
+  .recruit-card summary{
+    grid-template-columns:auto minmax(0,1fr);
+  }
+  .recruit-card summary b{
+    grid-column:2;
+    justify-self:start;
+    max-width:none;
+    text-align:left;
+  }
+}
 .situation-panel .section-heading{margin-bottom:8px}
 .situation-panel .control-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .situation-panel label{font-size:11px}

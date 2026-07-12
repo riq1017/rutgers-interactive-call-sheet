@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Sprint 2.5 correction pass 2 tab ownership
+- Locked the permanent tab ownership standard into `PROJECT_SPEC.md`.
+- Moved Best Play, Top 3, Top Plays hero, Top 3 selector, filters, search, favorites, grouping, play art, and the full 192-play library fully under the Top Plays tab.
+- Simplified Gameplan into concise offensive and defensive coordinator cards: executive summary, run game, passing game, protection, biggest threat, pressure, coverage, and alerts.
+- Hid raw Rutgers-vs-opponent comparison wall cards from the Gameplan registry while preserving their source JSON for internal intelligence.
+- Converted Recruiting list and action-plan rows to reusable `RecruitCard` rendering with controlled scheme-fit labels and no repeated generic instructions.
+- Expanded validation for tab ownership, Gameplan card order, all-192 play reachability, Top Plays hero controls, registry ownership, and RecruitCard rendering.
+
 ## Sprint 2.5 premium native app experience
 - Added PWA install metadata, manifest, and a local SVG app icon for static GitHub Pages delivery.
 - Added a native application backdrop, premium gradient background, glass-card overrides, semantic design tokens, floating bottom navigation, page transitions, skeleton states, and reduced-motion support.

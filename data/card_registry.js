@@ -483,12 +483,12 @@ window.CARD_REGISTRY = {
       "card_id": "offensive_comparison_table",
       "card_type": "comparison_table",
       "tab": "gameplan",
-      "section": "offensive_gameplan",
-      "order": 2,
+      "section": "internal_intelligence",
+      "order": 90,
       "priority": "important",
       "size": "large",
       "expandable": true,
-      "visible": true,
+      "visible": false,
       "display_variant": "comparison_table",
       "source_refs": {
         "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
@@ -497,14 +497,14 @@ window.CARD_REGISTRY = {
     {
       "card_id": "best_play_hero",
       "card_type": "best_play",
-      "tab": "gameplan",
-      "section": "offensive_gameplan",
-      "order": 3,
+      "tab": "topplays",
+      "section": "top_plays",
+      "order": 1,
       "priority": "critical",
       "size": "large",
       "expandable": true,
       "visible": true,
-      "display_variant": "best_play",
+      "display_variant": "top_plays_best_play",
       "source_refs": {
         "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
       }
@@ -512,14 +512,14 @@ window.CARD_REGISTRY = {
     {
       "card_id": "top_three_selector",
       "card_type": "top_three",
-      "tab": "gameplan",
-      "section": "offensive_gameplan",
-      "order": 4,
+      "tab": "topplays",
+      "section": "top_plays",
+      "order": 2,
       "priority": "important",
       "size": "large",
       "expandable": true,
       "visible": true,
-      "display_variant": "top_three",
+      "display_variant": "top_plays_top_three",
       "source_refs": {
         "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
       }
@@ -529,12 +529,12 @@ window.CARD_REGISTRY = {
       "card_type": "run_game",
       "tab": "gameplan",
       "section": "offensive_gameplan",
-      "order": 5,
+      "order": 2,
       "priority": "important",
       "size": "medium",
       "expandable": true,
       "visible": true,
-      "display_variant": "run_game",
+      "display_variant": "run_game_primary",
       "source_refs": {
         "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
       }
@@ -544,12 +544,12 @@ window.CARD_REGISTRY = {
       "card_type": "passing_game",
       "tab": "gameplan",
       "section": "offensive_gameplan",
-      "order": 6,
+      "order": 3,
       "priority": "important",
       "size": "medium",
       "expandable": true,
       "visible": true,
-      "display_variant": "passing_game",
+      "display_variant": "passing_game_primary",
       "source_refs": {
         "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
       }
@@ -559,12 +559,12 @@ window.CARD_REGISTRY = {
       "card_type": "protection",
       "tab": "gameplan",
       "section": "offensive_gameplan",
-      "order": 7,
+      "order": 4,
       "priority": "critical",
       "size": "large",
       "expandable": true,
       "visible": true,
-      "display_variant": "protection",
+      "display_variant": "protection_primary",
       "source_refs": {
         "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
       }
@@ -603,12 +603,12 @@ window.CARD_REGISTRY = {
       "card_id": "defensive_comparison_table",
       "card_type": "comparison_table",
       "tab": "gameplan",
-      "section": "defensive_gameplan",
-      "order": 2,
+      "section": "internal_intelligence",
+      "order": 91,
       "priority": "monitor",
       "size": "large",
       "expandable": true,
-      "visible": true,
+      "visible": false,
       "display_variant": "comparison_table",
       "source_refs": {
         "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
@@ -672,6 +672,23 @@ window.CARD_REGISTRY = {
       "display_variant": "alerts",
       "source_refs": {
         "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"
+      }
+    },
+    {
+      "card_id": "recruit_card_collection",
+      "card_type": "recruit_card_collection",
+      "tab": "recruiting",
+      "section": "recruiting_board",
+      "order": 1,
+      "priority": "important",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "display_variant": "recruit_card_collection",
+      "source_refs": {
+        "weekly_board": "data/recruiting_weekly.json#active_board",
+        "prospect_pool": "data/recruiting_class.json#prospects",
+        "team_needs": "data/team_needs.json"
       }
     }
   ]

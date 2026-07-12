@@ -81,6 +81,18 @@ Weekly coordinator recommendations and comparison rows are resolved through `dat
 
 Unsupported defensive or offensive metrics remain `null` in JSON and render as `Limited data`. Best Play and Top Three references resolve by stable play IDs through the locked Play Card system.
 
+## I.3 Permanent Tab Responsibility Standard
+
+Gameplan owns offensive executive summary, defensive executive summary, run-game plan, passing-game plan, protection plan, pressure recommendation, coverage recommendation, biggest threat, and concise verified alerts.
+
+Top Plays owns Best Play, Top 3, the Best Play hero, Top 3 selector, all 192 verified visible play combinations, play art, play filters, play search, favorites, run/pass/RPO/play-action/screen groupings, and expanded Play Cards.
+
+Personnel owns roster, player cards, depth chart, O-line, and player matchup details.
+
+Recruiting owns the recruiting board, every prospect card, scheme fit, recruiting value, projected role, and player-specific recruiting intelligence.
+
+Gameplan must not own the full play library, play filters, play search, Top 3 selector, repeated full play cards, or Rutgers-vs-opponent raw comparison sections.
+
 ## J. Validation Standards
 
 Required checks include roster count, media coverage, registry coverage, portrait existence, required position coverage, matchup ID resolution, play count, play ID uniqueness, no raw object coercion, mobile overflow safeguards, and GitHub Pages static compatibility.

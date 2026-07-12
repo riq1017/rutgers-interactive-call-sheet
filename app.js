@@ -1970,6 +1970,98 @@ function selectCoordinatorHero(playId) {
   document.querySelectorAll("[data-hero-select]").forEach(button => button.classList.toggle("active", button.dataset.heroSelect === playId));
 }
 
+function topPlayLibraryContext() {
+  return { down: 1, dist: "medium", distanceYards: 5, zone: "normal", gameState: "normal", key: "medium" };
+}
+
+function displayScoredPlay(play) {
+  const scored = scorePlay(play, topPlayLibraryContext(), window.GAME_HISTORY || [], loadRecentCalls());
+  if (scored.eligible) return scored;
+  const personnel = playerFit(play);
+  return {
+    ...play,
+    eligible: true,
+    conceptFamily: conceptFamily(play),
+    primaryPlayer: personnel.primaryPlayer,
+    secondaryPlayer: personnel.secondaryPlayer,
+    primaryPlayerName: personnel.primaryPlayer.name,
+    secondaryPlayerName: personnel.secondaryPlayer ? personnel.secondaryPlayer.name : "",
+    targetAssignment: targetAssignment(play, personnel.primaryPlayer),
+    workloadRole: personnel.primaryPlayer.weeklyRole || "",
+    matchupRationale: matchupRationale(play, personnel),
+    baseScore: play.baseScore,
+    personnelFit: personnel.modifier,
+    matchupModifier: opponentMatchupModifier(play),
+    seasonModifier: personnel.seasonModifier,
+    recentFormModifier: personnel.recentModifier,
+    situationModifier: 0,
+    situationReasons: [],
+    setupBonus: 0,
+    setupReasons: [],
+    recentCallPenalty: 0,
+    recentCallReasons: [],
+    riskPenalty: 0,
+    riskReasons: [],
+    extendedGameplanModifier: 0,
+    extendedGameplanReasons: [],
+    score: clampScore(play.baseScore + personnel.modifier + opponentMatchupModifier(play)),
+    risk: play.riskLevel || WEEKLY_PLAN.riskRules[play.family] || "medium",
+    objective: play.objective || objectiveFor(play),
+    libraryOnly: true
+  };
+}
+
+function topPlayInventory() {
+  const rows = RUTGERS_PLAYBOOK.map(displayScoredPlay);
+  return rows.sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+}
+
+function topPlayRecommendedPerson(play) {
+  const decision = runPersonnelDecision(play) || {};
+  const carrier = decision.primary;
+  return cleanValue(carrier && carrier.name) || cleanValue(play.primaryPlayerName) || "Limited data";
+}
+
+function topPlayHeroCard(mode = window.TOP_PLAYS_VIEW || "best", selectedId = window.TOP_PLAYS_SELECTED_ID || "") {
+  const rows = topPlayInventory();
+  const topThree = rows.slice(0, 3);
+  const selected = rows.find(play => play.id === selectedId) || (mode === "top3" ? topThree[0] : rows[0]);
+  if (!selected) return LimitedDataState("Top Plays Hero");
+  const lane = bestVerifiedRunLane(selected);
+  const summary = loadWeeklyMatchupSummary().best_play || {};
+  const callType = conceptFamily(selected);
+  return `<article class="base-card card-gloss top-plays-hero-card" data-top-plays-hero data-selected-play-id="${selected.id}">
+    <div class="top-play-mode-control" role="group" aria-label="Top Plays mode">
+      <button type="button" class="${mode !== "top3" ? "active" : ""}" data-top-play-control="best" onclick="setTopPlaysMode('best')">Best Play</button>
+      <button type="button" class="${mode === "top3" ? "active" : ""}" data-top-play-control="top3" onclick="setTopPlaysMode('top3')">Top 3</button>
+    </div>
+    <div class="top-play-hero-layout">
+      <figure class="play-diagram top-play-hero-art"><img src="${selected.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="${selected.name}" loading="lazy" onerror="this.src='assets/play-diagrams/formation-fallback.svg'"></figure>
+      ${CardHeader({ eyebrow: mode === "top3" ? "Top 3 Selection" : "Best Play", title: selected.name, subtitle: `${selected.formation} | ${playPersonnel(selected) || "Personnel limited"} | ${callType}`, badge: Badge(`${scoreLetter(selected.score)} ${selected.score}`, selected.risk === "high" ? "critical" : selected.risk === "medium" ? "important" : "positive") })}
+      <div class="card-metrics dashboard-metrics top-play-hero-metrics">
+        ${MetricRow("Rank", `#${rows.findIndex(play => play.id === selected.id) + 1}`)}
+        ${MetricRow("Grade", scoreLetter(selected.score))}
+        ${MetricRow("Confidence", selected.score >= 82 ? "High" : selected.score >= 72 ? "Medium" : "Caution")}
+        ${MetricRow("Best Situation", cleanValue(summary.best_down_distance) || selected.objective)}
+        ${MetricRow("Recommended Side", lane && lane.label)}
+        ${MetricRow("Carrier / Target", topPlayRecommendedPerson(selected))}
+      </div>
+      ${CardSection("Why It Works", `<p>${cardValue(summary.why_it_works && selected.id === summary.play_id ? summary.why_it_works : explanationText(selected))}</p>`)}
+      ${CardSection("Coaching Action", `<p>${cardValue(summary.tactical_notes && selected.id === summary.play_id ? summary.tactical_notes : selected.targetAssignment)}</p>`)}
+    </div>
+    <div class="top-three-selector ${mode === "top3" ? "is-visible" : ""}" data-top-three-selector>
+      ${topThree.map((play, i) => `<button type="button" class="${selected.id === play.id ? "active" : ""}" data-top-three-row="${play.id}" onclick="setTopPlaysMode('top3','${play.id}')"><strong>${i + 1}</strong><span>${play.name}<em>${play.formation} | ${scoreLetter(play.score)} | ${conceptFamily(play)}</em></span></button>`).join("")}
+    </div>
+  </article>`;
+}
+
+function setTopPlaysMode(mode = "best", playId = "") {
+  window.TOP_PLAYS_VIEW = mode;
+  window.TOP_PLAYS_SELECTED_ID = playId;
+  const slot = $("topPlaysHeroSlot");
+  if (slot) slot.innerHTML = topPlayHeroCard(mode, playId);
+}
+
 function topThreePlaysCard() {
   const summary = loadWeeklyMatchupSummary();
   const rows = summary.top_three || [];
@@ -2006,28 +2098,59 @@ function runGameIntelCard() {
   const decisions = loadWeeklyCoachingDecisions().run_personnel || {};
   const primary = playerById((decisions[run.recommended_back_role] || {}).primary_player_id);
   const backup = playerById((decisions[run.backup_back_role] || {}).primary_player_id);
-  return BaseCard({ className: "coordinator-run-card", priority: "important", size: "medium", content: `${CardHeader({ eyebrow: "Run Game", title: "Run Game Card", subtitle: run.confidence, badge: Badge(run.confidence || "Limited", "important") })}
-    <div class="card-metrics dashboard-metrics">${MetricRow("Best Run Side", run.best_run_side)}${MetricRow("Worst Run Side", run.worst_run_side)}${MetricRow("Best Gap", run.best_gap)}${MetricRow("Worst Gap", run.worst_gap)}${MetricRow("Recommended RB", primary && primary.name)}${MetricRow("Backup RB", backup && backup.name)}</div>
-    ${CardSection("Best Run Concepts", chipList(run.best_run_concepts) || LimitedDataState("Best Run Concepts"))}
-    ${CardSection("Why", `<p>${cardValue(run.why)}</p>`)}` });
+  return BaseCard({ className: "coordinator-run-card decision-card", priority: "important", size: "medium", content: `${CardHeader({ eyebrow: "Run Game", title: cleanValue((run.best_run_concepts || [])[0]) || "Run Game Plan", subtitle: "Primary ground answer", badge: Badge(run.confidence || "Limited", "important"), portrait: primary ? PortraitBlock(primary, "rutgers") : "" })}
+    <div class="lane-callout"><span>Run lane</span><strong>${cardValue(run.best_run_side || "Limited data")}</strong><em>${cardValue(run.best_gap || "Gap limited")}</em></div>
+    <div class="card-metrics dashboard-metrics">${MetricRow("Recommended Back", primary && primary.name)}${MetricRow("Confidence", run.confidence)}${MetricRow("Best Gap", run.best_gap)}${MetricRow("Reason", run.why)}</div>
+    <details class="breakout compact-detail"><summary>Run Game Detail</summary>${maybeRow("Backup back", backup && backup.name)}${maybeRow("Best concepts", run.best_run_concepts)}${maybeRow("Avoid concepts", run.worst_run_side || run.worst_gap)}${maybeRow("Supporting O-line matchups", "See Personnel > Matchups")}${maybeRow("Opponent front-seven weakness", run.why)}${maybeRow("Change trigger", "Limited data")}${maybeRow("Data limitations", run.confidence)}</details>` });
 }
 
 function passingGameIntelCard() {
   const pass = loadWeeklyMatchupSummary().passing_game || {};
-  return BaseCard({ className: "coordinator-pass-card", priority: "important", size: "medium", content: `${CardHeader({ eyebrow: "Passing Game", title: "Passing Game Card", subtitle: pass.confidence, badge: Badge(pass.confidence || "Limited", "important") })}
-    ${CardSection("Best Concepts", chipList(pass.best_concepts) || LimitedDataState("Best Concepts"))}
-    <div class="card-metrics dashboard-metrics">${MetricRow("Weakest CB", pass.weakest_cb)}${MetricRow("Best WR Matchup", pass.best_wr_matchup)}${MetricRow("Protection", pass.protection_recommendation)}${MetricRow("Confidence", pass.confidence)}</div>
-    ${CardSection("Target Priority", chipList(pass.target_priority) || LimitedDataState("Target Priority"))}
-    ${CardSection("Why", `<p>${cardValue(pass.why)}</p>`)}` });
+  const targets = (pass.target_priority || []).filter(cleanValue);
+  return BaseCard({ className: "coordinator-pass-card decision-card", priority: "important", size: "medium", content: `${CardHeader({ eyebrow: "Passing Game", title: cleanValue((pass.best_concepts || [])[0]) || "Passing Game Plan", subtitle: "Primary pass answer", badge: Badge(pass.confidence || "Limited", "important") })}
+    <div class="target-order">${targets.length ? targets.map((target, i) => `<span><strong>${i + 1}</strong>${cardValue(target)}</span>`).join("") : `<span><strong>1</strong>${cardValue(pass.best_wr_matchup || "Limited data")}</span>`}</div>
+    <div class="card-metrics dashboard-metrics">${MetricRow("Best Matchup", pass.best_wr_matchup)}${MetricRow("Protection Call", pass.protection_recommendation)}${MetricRow("Confidence", pass.confidence)}${MetricRow("Reason", pass.why)}</div>
+    <details class="breakout compact-detail"><summary>Passing Game Detail</summary>${maybeRow("Target progression", targets)}${maybeRow("Secondary target", targets[1])}${maybeRow("Opponent coverage weakness", pass.weakest_cb)}${maybeRow("Blitz alert", pass.protection_recommendation)}${maybeRow("Hot adjustment", cleanValue((pass.best_concepts || [])[0]))}${maybeRow("Avoid condition", "Slow-developing dropbacks when edge pressure appears")}${maybeRow("Related play IDs", (loadWeeklyMatchupSummary().top_three || []).map(row => row.play_id))}${maybeRow("Data limitations", pass.confidence)}</details>` });
 }
 
 function protectionIntelCard() {
   const protection = loadWeeklyMatchupSummary().protection || {};
-  return BaseCard({ className: "coordinator-protection-card", priority: "critical", size: "large", content: `${CardHeader({ eyebrow: "Protection", title: "Protection Card", subtitle: protection.recommendation, badge: Badge("O-Line", "critical") })}
+  return BaseCard({ className: "coordinator-protection-card decision-card", priority: "critical", size: "large", content: `${CardHeader({ eyebrow: "Protection", title: "Protection Plan", subtitle: protection.recommendation, badge: Badge("LT-LG-C-RG-RT", "critical") })}
     <div class="protection-slot-row">${(protection.slots || []).map(slot => {
       const matchup = (loadMatchups() || []).find(row => row.matchup_id === slot.matchup_id) || {};
-      return `<details class="protection-slot ${slot.status || "limited"}"><summary><span>${slot.slot}</span><strong>${cardValue(slot.status)}</strong></summary>${maybeRow("Defender", cleanValue((findOpponentMatchupPlayer(matchup) || {}).name))}${maybeRow("Pressure %", slot.pressure_pct)}${maybeRow("Double Team?", slot.double_team)}${maybeRow("Chip Help?", slot.chip_help)}${maybeRow("RB Help?", slot.running_back_help)}${maybeRow("Confidence", slot.confidence)}</details>`;
+      const rutgers = findRutgersMatchupPlayer(matchup) || {};
+      const opponent = findOpponentMatchupPlayer(matchup) || {};
+      return `<details class="protection-slot ${slot.status || "limited"}"><summary><span>${slot.slot}</span><strong>${cardValue(shortPlayerName(rutgers.name) || slot.slot)}</strong><em>${cardValue(shortPlayerName(opponent.name) || slot.status)}</em></summary>${maybeRow("Rutgers player", rutgers.name)}${maybeRow("Opponent defender", opponent.name)}${maybeRow("Matchup grade", matchup.grade)}${maybeRow("Help recommendation", protection.recommendation)}${maybeRow("Chip help", slot.chip_help)}${maybeRow("Double team", slot.double_team)}${maybeRow("Slide / RB help", slot.running_back_help)}${maybeRow("Confidence", slot.confidence)}${maybeRow("Limited-data note", !slot.matchup_id ? "Limited data" : "")}</details>`;
     }).join("")}</div>` });
+}
+
+function shortPlayerName(name = "") {
+  const cleaned = cleanValue(name);
+  if (!cleaned) return "";
+  const parts = cleaned.split(/\s+/).filter(Boolean);
+  if (parts.length === 1) return parts[0];
+  return `${parts[0].replace(/\.$/, "").slice(0, 1)}. ${parts[parts.length - 1]}`;
+}
+
+function defensiveExecutiveCard() {
+  const def = ((loadWeeklyMatchupSummary().defense_vs_offense || {}).executive_summary) || {};
+  return BaseCard({ className: "coordinator-summary-card defensive-summary-card", content: `${CardHeader({ eyebrow: "Defensive Gameplan", title: "Executive Summary", subtitle: def.confidence, badge: Badge(def.defensive_grade || "Limited", "monitor") })}<div class="card-metrics dashboard-metrics">${MetricRow("Defensive Grade", def.defensive_grade)}${MetricRow("Confidence", def.confidence)}${MetricRow("Biggest Threat", def.biggest_threat)}${MetricRow("Opportunity", def.biggest_opportunity)}${MetricRow("Pressure", def.pressure_recommendation)}${MetricRow("Coverage", def.coverage_recommendation)}</div>` });
+}
+
+function biggestThreatCard() {
+  const threat = loadWeeklyMatchupSummary().biggest_threat || {};
+  const threatPlayer = playerById(threat.player_id, "opponent");
+  return BaseCard({ className: "coordinator-threat-card", priority: "critical", content: `${CardHeader({ eyebrow: "Biggest Threat", title: threatPlayer ? threatPlayer.name : "Limited data", subtitle: threatPlayer ? `${threatPlayer.position} | OVR ${cardValue(threatPlayer.overall)}` : "Limited data", portrait: threatPlayer ? PortraitBlock(threatPlayer, "opponent") : "" })}<div class="card-metrics dashboard-metrics">${MetricRow("Matchup", threat.matchup_id)}${MetricRow("Confidence", threat.confidence)}${MetricRow("Adjustment", threat.how_to_stop)}</div>` });
+}
+
+function pressureCard() {
+  const pressure = loadWeeklyMatchupSummary().pressure || {};
+  return BaseCard({ className: "coordinator-pressure-card decision-card", content: `${CardHeader({ eyebrow: "Pressure", title: "Pressure Recommendation", subtitle: pressure.confidence, badge: Badge(pressure.confidence || "Limited", "monitor") })}${CardSection("Calls", chipList(pressure.recommendations) || LimitedDataState("Pressure"))}${CardSection("Reason", `<p>${cardValue(pressure.reason)}</p>`)}` });
+}
+
+function coverageCard() {
+  const coverage = loadWeeklyMatchupSummary().coverage || {};
+  return BaseCard({ className: "coordinator-coverage-card decision-card", content: `${CardHeader({ eyebrow: "Coverage", title: "Coverage Recommendation", subtitle: coverage.confidence, badge: Badge(coverage.confidence || "Limited", "monitor") })}${CardSection("Calls", chipList(coverage.recommendations) || LimitedDataState("Coverage"))}${CardSection("Reason", `<p>${cardValue(coverage.reason)}</p>`)}` });
 }
 
 function alertsIntelCard(side = "offense") {
@@ -2038,33 +2161,21 @@ function alertsIntelCard(side = "offense") {
 }
 
 function defensiveCoordinatorSection() {
-  const summary = loadWeeklyMatchupSummary();
-  const def = (summary.defense_vs_offense || {}).executive_summary || {};
-  const threat = summary.biggest_threat || {};
-  const threatPlayer = playerById(threat.player_id, "opponent");
-  const pressure = summary.pressure || {};
-  const coverage = summary.coverage || {};
   return `<section class="coordinator-section defensive-gameplan"><div class="section-heading"><p>Defensive Gameplan</p><strong>Coordinator Dashboard</strong></div>
-    ${BaseCard({ className: "coordinator-summary-card", content: `${CardHeader({ eyebrow: "Defensive Gameplan", title: "Executive Summary", subtitle: def.confidence, badge: Badge(def.defensive_grade || "Limited", "monitor") })}<div class="card-metrics dashboard-metrics">${MetricRow("Defensive Grade", def.defensive_grade)}${MetricRow("Confidence", def.confidence)}${MetricRow("Biggest Threat", def.biggest_threat)}${MetricRow("Biggest Opportunity", def.biggest_opportunity)}${MetricRow("Pressure Recommendation", def.pressure_recommendation)}${MetricRow("Coverage Recommendation", def.coverage_recommendation)}</div>` })}
-    ${BaseCard({ className: "coordinator-comparison-card", content: `${CardHeader({ eyebrow: "Opponent vs Rutgers", title: "Rutgers Defense vs Opponent Offense", subtitle: "Mine vs Theirs" })}${comparisonRowsTable((summary.defense_vs_offense || {}).comparisons || [], "defense")}` })}
-    ${BaseCard({ className: "coordinator-threat-card", priority: "critical", content: `${CardHeader({ eyebrow: "Biggest Threat", title: threatPlayer ? threatPlayer.name : "Limited data", subtitle: threatPlayer ? `${threatPlayer.position} | OVR ${cardValue(threatPlayer.overall)}` : "Limited data", portrait: threatPlayer ? PortraitBlock(threatPlayer, "opponent") : "" })}${threatPlayer ? statBlock("Season", statsForPlayer(threatPlayer, loadOpponentSeasonStats())) + statBlock("Last Game", statsForPlayer(threatPlayer, loadOpponentLastGameStats())) : LimitedDataState("Biggest Threat")}${CardSection("How To Stop", `<p>${cardValue(threat.how_to_stop)}</p>`)}${CardSection("Confidence", `<p>${cardValue(threat.confidence)}</p>`)}` })}
-    ${BaseCard({ className: "coordinator-pressure-card", content: `${CardHeader({ eyebrow: "Pressure", title: "Pressure Card", subtitle: pressure.confidence })}${CardSection("Recommended Pressures", chipList(pressure.recommendations) || LimitedDataState("Pressure"))}${CardSection("Reason", `<p>${cardValue(pressure.reason)}</p>`)}` })}
-    ${BaseCard({ className: "coordinator-coverage-card", content: `${CardHeader({ eyebrow: "Coverage", title: "Coverage Card", subtitle: coverage.confidence })}${CardSection("Recommended Coverages", chipList(coverage.recommendations) || LimitedDataState("Coverage"))}${CardSection("Reason", `<p>${cardValue(coverage.reason)}</p>`)}` })}
-    ${alertsIntelCard("defense")}
+    ${defensiveExecutiveCard()}
+    ${biggestThreatCard()}
+    ${pressureCard()}
+    ${coverageCard()}
   </section>`;
 }
 
 function renderCoordinatorDashboard() {
-  const summary = loadWeeklyMatchupSummary();
   return `<section class="coordinator-section offensive-gameplan"><div class="section-heading"><p>Offensive Gameplan</p><strong>Coordinator Dashboard</strong></div>
     ${offensiveExecutiveCard()}
-    ${BaseCard({ className: "coordinator-comparison-card", content: `${CardHeader({ eyebrow: "Rutgers vs Opponent", title: "Rutgers Offense vs Opponent Defense", subtitle: "Comparison rows only" })}${comparisonRowsTable((summary.offense_vs_defense || {}).comparisons || [], "offense")}` })}
-    ${topThreePlaysCard()}
     ${runGameIntelCard()}
     ${passingGameIntelCard()}
     ${protectionIntelCard()}
-    ${alertsIntelCard("offense")}
-  </section>${defensiveCoordinatorSection()}`;
+  </section>${defensiveCoordinatorSection()}<section class="coordinator-section concise-alerts"><div class="section-heading"><p>Concise Alerts</p><strong>Verified Alerts</strong></div>${alertsIntelCard("offense")}${alertsIntelCard("defense")}</section>`;
 }
 
 function playerId(player) {
@@ -2556,7 +2667,7 @@ function renderRanks() {
   const risk = $("rankRisk") ? $("rankRisk").value : "all";
   const situation = $("rankSituation") ? $("rankSituation").value : "all";
   const favorites = favoritePlayIds();
-  const list = state.ranked.filter(play => {
+  const list = topPlayInventory().filter(play => {
     const type = conceptFamily(play);
     const passBucket = ["quick pass", "intermediate pass", "deep pass"].includes(type);
     if (family === "run" && !type.includes("run") && type !== "option") return false;
@@ -2574,6 +2685,7 @@ function renderRanks() {
   });
   if (!$("topFilterBar")) {
     $("topplays").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>Top Plays</strong></div>
+      <div id="topPlaysHeroSlot">${topPlayHeroCard("best")}</div>
       <div id="topFilterBar" class="pill-row sticky-filter">
         ${["all","favorites","run","pass","rpo","pa","screen"].map(v => `<button class="filter-pill" data-filter="${v}" type="button">${v === "pa" ? "PA" : labelize(v)}</button>`).join("")}
       </div>
@@ -2590,9 +2702,11 @@ function renderRanks() {
     $("search").addEventListener("input", renderRanks);
     ["rankFormation","rankPersonnel","rankSituation","rankRisk"].forEach(id => $(id).addEventListener("change", renderRanks));
     document.querySelectorAll(".filter-pill").forEach(btn => btn.addEventListener("click", () => { $("rankFamily").value = btn.dataset.filter; renderRanks(); }));
+  } else if ($("topPlaysHeroSlot")) {
+    $("topPlaysHeroSlot").innerHTML = topPlayHeroCard(window.TOP_PLAYS_VIEW || "best", window.TOP_PLAYS_SELECTED_ID || "");
   }
   const target = $("rankList");
-  if (target) target.innerHTML = list.map((play, i) => callCard(play, i + 1)).join("");
+  if (target) target.innerHTML = `<div class="section-heading compact-heading"><p>Verified Play Library</p><strong>${list.length} plays</strong></div>` + (list.length ? list.map((play, i) => callCard(play, i + 1)).join("") : LimitedDataState("Play Library"));
 }
 
 function populateRankFilters() {
@@ -3064,9 +3178,68 @@ function prospectSpecificText(...values) {
     /active board target/i,
     /match to the full recruiting-class record requires confirmation/i,
     /review against roster need/i,
-    /verified scouting profile/i
+    /verified scouting profile/i,
+    /^evaluate how/i,
+    /^prioritize if/i,
+    /^assess whether/i
   ];
   return values.map(cleanValue).find(text => text && !genericPatterns.some(pattern => pattern.test(text))) || "";
+}
+
+function resolvedSchemeFit(value) {
+  const text = cleanValue(value).toLowerCase();
+  if (/strong/.test(text)) return "Strong fit";
+  if (/moderate|medium/.test(text)) return "Moderate fit";
+  if (/weak|poor/.test(text)) return "Weak fit";
+  return "Insufficient verified data";
+}
+
+function prospectPrimaryAction(row, analysis = {}, priority = {}) {
+  return prospectSpecificText(row.recommended_action, analysis.recommended_action, analysis.recommended_action_reason) || cleanValue(priority.tier) || "Limited data";
+}
+
+function RecruitCard(row, index = 0, mode = "board") {
+  const p = row.prospect || {};
+  const a = p.analysis || {};
+  const priority = priorityBoard().find(item => item.position === (row.position || p.position)) || {};
+  const state = cleanValue(row.state || p.state || stateFromLocation(p.hometown));
+  const rating = starRating(row.stars || p.stars);
+  const schemeFit = resolvedSchemeFit(a.scheme_fit || row.scheme_fit);
+  const action = prospectPrimaryAction(row, a, priority);
+  const reason = prospectSpecificText(row.description, a.recommended_action_reason, p.scouting_summary, a.summary);
+  const aiSummary = prospectSpecificText(p.scouting_summary, a.summary);
+  const status = cleanValue(row.status || p.status || row.offer_status || p.offer_status || priority.tier);
+  const name = cleanValue(row.name || p.name) || "Limited data";
+  const position = cleanValue(row.position || p.position);
+  return `<details class="recruit-card prospect-card compact-prospect" data-recruit-card data-prospect-id="${cleanValue(row.prospect_id || p.prospect_id)}" ${row.open ? "open" : ""}>
+    <summary>
+      <span class="rank-dot">${row.board_order || index + 1}</span>
+      <span class="recruit-card-title"><strong>${name}</strong><em>${position}${rating ? ` | ${rating}` : ""}${state ? ` | ${state}` : ""}</em></span>
+      <b>${cardValue(status || "Limited data")}</b>
+    </summary>
+    <div class="recruit-card-compact">
+      ${maybeRow("Board rank", row.board_order || index + 1)}
+      ${maybeRow("Position", position)}
+      ${maybeRow("State", state)}
+      ${maybeRow("National Rank", row.national_rank || p.national_rank)}
+      ${maybeRow("Gem/Bust", row.gem_bust || p.gem_bust || p.dealbreaker)}
+      ${maybeRow("Scheme Fit", schemeFit)}
+      ${maybeRow("Recommended Action", action)}
+      ${maybeRow("Status", status)}
+    </div>
+    <div class="recruit-card-detail">
+      ${CardSection("Prospect Header", `${maybeRow("Name", name)}${maybeRow("Position", position)}${maybeRow("Scouting", cleanValue(row.scouting_percentage || p.scouting_percentage) ? `${cleanValue(row.scouting_percentage || p.scouting_percentage)}%` : "")}`)}
+      ${CardSection("Verified Scheme Fit", maybeRow("Scheme fit", schemeFit))}
+      ${CardSection("Position Need", `${maybeRow("Priority", priority.tier)}${maybeRow("Need score", priority.score)}${maybeRow("Coverage", priority.coverageStatus)}`)}
+      ${CardSection("Recruiting Value", maybeRow("Value", a.recruiting_value))}
+      ${CardSection("Projected Role", maybeRow("Role", a.projected_role))}
+      ${CardSection("Strengths", maybeRow("Strengths", a.strengths))}
+      ${CardSection("Questions", maybeRow("Questions", a.questions_to_verify))}
+      ${CardSection("Roster Competition", maybeRow("Competition", a.roster_competition))}
+      ${CardSection("Confidence", maybeRow("Confidence", row.confidence || p.confidence || row.scouting_percentage || p.scouting_percentage))}
+      <details class="nested-detail"><summary>More Detail</summary>${maybeRow("Interest", row.interest || p.interest)}${maybeRow("Offer", row.offer_status || p.offer_status)}${maybeRow("Visit", row.visit_status || p.visit_status)}${maybeRow("Commit", row.commit_status || p.commit_status || p.status)}${maybeRow("Reason", reason)}${maybeRow("AI Summary", aiSummary && aiSummary !== reason ? aiSummary : "")}</details>
+    </div>
+  </details>`;
 }
 
 function filteredRecruits(mode = "board") {
@@ -3115,35 +3288,19 @@ function renderRecruitList(mode = window.ACTIVE_RECRUITING_VIEW || "board") {
   window.ACTIVE_RECRUITING_VIEW = mode;
   if ($("recruitBoardTab")) $("recruitBoardTab").classList.toggle("active", mode === "board");
   if ($("prospectListTab")) $("prospectListTab").classList.toggle("active", mode === "prospects");
-  const priorityMap = new Map(priorityBoard().map(row => [row.position, row]));
   const openId = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("prospect") : "";
   const rows = filteredRecruits(mode);
-  $("recruitList").innerHTML = `<h3>${mode === "prospects" ? "Prospect List" : "Recruiting Board"}</h3>${rows.slice(0, mode === "prospects" ? 80 : 35).map((row, i) => {
-    const p = row.prospect || {};
-    const a = p.analysis || {};
-    const pr = priorityMap.get(row.position || p.position);
-    const state = cleanValue(row.state || p.state || stateFromLocation(p.hometown));
-    const rating = starRating(row.stars || p.stars);
-    const open = openId && openId === row.prospect_id ? "open" : "";
-    const reason = prospectSpecificText(row.description, a.recommended_action_reason);
-    const aiSummary = prospectSpecificText(p.scouting_summary, a.summary);
-    return `<details class="prospect-card compact-prospect" ${open}><summary><span class="rank-dot">${row.board_order || i + 1}</span><span><strong>${row.name}</strong><em>${cleanValue(row.position || p.position)}${rating ? ` | ${rating}` : ""}${state ? ` | ${state}` : ""}</em></span><b>${cleanValue(row.recommended_action || a.recommended_action || pr && pr.tier)}</b></summary>
-      <div class="card-grid">${maybeRow("Board rank", row.board_order)}${maybeRow("Position", row.position || p.position)}${rating ? `<div class="data-row"><span>Rating</span><strong>${rating}</strong></div>` : ""}${maybeRow("State", state)}${maybeRow("Scouting", cleanValue(row.scouting_percentage || p.scouting_percentage) ? `${cleanValue(row.scouting_percentage || p.scouting_percentage)}%` : "")}${maybeRow("Interest", row.interest || p.interest)}${maybeRow("Offer", row.offer_status || p.offer_status)}${maybeRow("Visit", row.visit_status || p.visit_status)}${maybeRow("Status", row.status || p.status)}</div>
-      ${maybeRow("National Rank", row.national_rank || p.national_rank)}${maybeRow("Interest", row.interest || p.interest)}${maybeRow("Offer", row.offer_status || p.offer_status)}${maybeRow("Visit", row.visit_status || p.visit_status)}${maybeRow("Commit", row.commit_status || p.commit_status || p.status)}${maybeRow("Gem/Bust", row.gem_bust || p.gem_bust || p.dealbreaker)}${maybeRow("Recommended Action", row.recommended_action || a.recommended_action)}${maybeRow("Reason", reason)}${maybeRow("AI Summary", aiSummary && aiSummary !== reason ? aiSummary : "")}${maybeRow("Recruiting value", a.recruiting_value)}${maybeRow("Projected role", a.projected_role)}${maybeRow("Strengths", a.strengths)}${maybeRow("Questions", a.questions_to_verify)}${maybeRow("Scheme fit", a.scheme_fit)}
-    </details>`;
-  }).join("")}`;
+  $("recruitList").innerHTML = `<h3>${mode === "prospects" ? "Prospect List" : "Recruiting Board"}</h3><div class="recruit-card-list">${rows.slice(0, mode === "prospects" ? 80 : 35).map((row, i) => RecruitCard({ ...row, open: openId && openId === row.prospect_id }, i, mode)).join("")}</div>`;
 }
 
 function renderActionPlan() {
   if (!$("actionPlanList")) return;
   const board = loadRecruitingWeekly().active_board || [];
   const classById = new Map((loadRecruitingClass().prospects || []).map(p => [p.prospect_id, p]));
-  $("actionPlanList").innerHTML = `<div class="section-heading compact-heading"><p>Weekly Action Plan</p><strong>Top 3</strong></div><div class="action-strip">${board.slice(0, 3).map(row => {
+  $("actionPlanList").innerHTML = `<div class="section-heading compact-heading"><p>Weekly Action Plan</p><strong>Top 3</strong></div><div class="action-strip recruit-card-list">${board.slice(0, 3).map((row, i) => {
     const prospect = classById.get(row.prospect_id) || {};
-    const action = cleanValue(row.recommended_action || (prospect.analysis || {}).recommended_action);
-    const reason = prospectSpecificText(row.description, (prospect.analysis || {}).recommended_action_reason, prospect.scouting_summary, (prospect.analysis || {}).summary);
-    return `<details class="action-row-card compact-action"><summary><strong>${cleanValue(row.name || prospect.name)}</strong><span>${cleanValue(row.position || prospect.position)} | ${action}</span></summary>${maybeRow("Reason", reason)}${maybeRow("Position priority", (priorityBoard().find(p => p.position === (row.position || prospect.position)) || {}).tier)}${maybeRow("Resource recommendation", action)}${maybeRow("Scouting", prospect.scouting_percentage ? `${prospect.scouting_percentage}% scouted` : "")}</details>`;
-  }).join("")}</div>${board.length > 3 ? `<details class="breakout compact-detail"><summary>View All Actions</summary>${board.slice(3).map(row => `<div class="data-row"><span>${cleanValue(row.position)}</span><strong>${cleanValue(row.name)} - ${cleanValue(row.recommended_action)}</strong></div>`).join("")}</details>` : ""}`;
+    return RecruitCard({ ...row, prospect }, i, "action");
+  }).join("")}</div>${board.length > 3 ? `<details class="breakout compact-detail"><summary>View All Actions</summary><div class="recruit-card-list">${board.slice(3).map((row, i) => RecruitCard({ ...row, prospect: classById.get(row.prospect_id) || {} }, i + 3, "action")).join("")}</div></details>` : ""}`;
 }
 
 function renderPackagePanel() {
@@ -3297,6 +3454,10 @@ if (typeof module !== "undefined") {
     renderCoordinatorDashboard,
     renderBestPlayHero,
     topThreePlaysCard,
+    topPlayHeroCard,
+    topPlayInventory,
+    RecruitCard,
+    resolvedSchemeFit,
     comparisonRowsTable,
     lockedPlayCard,
     runStyleForPlay,

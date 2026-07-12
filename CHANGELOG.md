@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Sprint 2 Pack A architecture foundation
+- Added `PROJECT_SPEC.md` as the source-of-truth specification for future implementation requests.
+- Added shared card primitives and reusable glossy card design tokens/classes.
+- Added `data/card_registry.json` plus a static `data/card_registry.js` bundle for GitHub Pages loading.
+- Added a card resolver layer that binds registry entries to existing matchup JSON by stable ID without mutating source data.
+- Refactored the approved Key Matchup card path to use shared card primitives while preserving Phase 1.2 matchup semantics and mobile behavior.
+- Expanded validation for project spec presence, registry schema, matchup ID resolution, no duplicated football data in the registry, shared card engine presence, resolver presence, and matchup regression.
+
 ## Phase 1.2 final semantic correction
 - Corrected `MATCHUP EDGE` semantics so internal matchup scores are not displayed as advantage margins.
 - Added explicit edge-display handling for verified differentials, advantage-only states, even states, and limited-data states.

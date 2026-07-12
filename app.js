@@ -1319,6 +1319,58 @@ function formatLimited(value, fallback = "Limited data") {
   return cleanValue(value) || fallback;
 }
 
+function cardValue(value, fallback = "Limited data") {
+  const cleaned = cleanValue(value);
+  return cleaned || fallback;
+}
+
+function BaseCard({ className = "", priority = "normal", size = "medium", attrs = "", content = "" } = {}) {
+  return `<article class="base-card card-gloss card-${size} card-priority-${priority} ${className}" ${attrs}>${content}</article>`;
+}
+
+function CardHeader({ title = "", subtitle = "", eyebrow = "", badge = "", portrait = "" } = {}) {
+  return `<div class="card-header">
+    ${portrait ? `<div class="card-header-media">${portrait}</div>` : ""}
+    <div class="card-header-copy">${eyebrow ? `<span>${cardValue(eyebrow, "")}</span>` : ""}<strong>${cardValue(title)}</strong>${subtitle ? `<em>${cardValue(subtitle, "")}</em>` : ""}</div>
+    ${badge ? `<div class="card-header-badge">${badge}</div>` : ""}
+  </div>`;
+}
+
+function CardSection(title, content, className = "") {
+  const body = cleanValue(content) || /<[^>]+>/.test(String(content || "")) ? content : "";
+  return body ? `<section class="card-section ${className}">${title ? `<h4>${cardValue(title, "")}</h4>` : ""}${body}</section>` : LimitedDataState(title);
+}
+
+function MetricRow(label, value, detail = "") {
+  return `<div class="metric-row"><span>${cardValue(label, "")}</span><strong>${cardValue(value)}</strong>${detail ? `<em>${cardValue(detail, "")}</em>` : ""}</div>`;
+}
+
+function StatBlock(title, rows, className = "") {
+  const body = Array.isArray(rows) ? rows.filter(Boolean).join("") : cleanValue(rows);
+  return `<div class="stat-block ${className}"><strong>${cardValue(title, "")}</strong>${body || `<span class="card-limited">Limited data</span>`}</div>`;
+}
+
+function Badge(value, variant = "neutral") {
+  return `<span class="card-badge card-badge-${variant}">${cardValue(value)}</span>`;
+}
+
+function PortraitBlock(player, side = "rutgers", className = "player-portrait") {
+  return portraitImg(player, side, className);
+}
+
+function LimitedDataState(label = "") {
+  return `<div class="card-limited">${label ? `<span>${cardValue(label, "")}</span>` : ""}<strong>Limited data</strong></div>`;
+}
+
+function CardActions(actions = []) {
+  const buttons = actions.filter(action => action && action.label).map(action => `<button type="button" ${action.onclick ? `onclick="${action.onclick}"` : ""}>${cardValue(action.label, "")}</button>`).join("");
+  return buttons ? `<div class="card-actions">${buttons}</div>` : "";
+}
+
+function ExpandableCard({ className = "", summary = "", body = "", open = false, attrs = "" } = {}) {
+  return `<details class="base-card card-gloss card-expanded ${className}" ${attrs} ${open ? "open" : ""}><summary>${summary || LimitedDataState("Card summary")}</summary>${body || LimitedDataState("Card detail")}</details>`;
+}
+
 function maybeRow(label, value, fallback = "") {
   const cleaned = cleanValue(value);
   if (cleaned) return `<div class="data-row"><span>${label}</span><strong>${cleaned}</strong></div>`;
@@ -1558,6 +1610,56 @@ function loadOpponentPlayerMedia() {
 
 function loadPlayerCardRegistry() {
   return typeof PLAYER_CARD_REGISTRY !== "undefined" ? PLAYER_CARD_REGISTRY : { rutgers_cards: [], opponent_cards: [], counts: {} };
+}
+
+function loadCardRegistry() {
+  return typeof CARD_REGISTRY !== "undefined" ? CARD_REGISTRY : { cards: [] };
+}
+
+function cardRegistryEntries(cardType = "") {
+  const registry = loadCardRegistry();
+  const cards = Array.isArray(registry.cards) ? registry.cards : [];
+  return cards
+    .filter(card => card && card.visible !== false && (!cardType || card.card_type === cardType))
+    .sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
+}
+
+function resolveCardEntry(entry) {
+  if (!entry || !entry.card_id) return { entry, status: "Limited data", missing: ["card_id"] };
+  if (entry.card_type === "key_matchup") {
+    const matchupId = cleanValue(entry.source_refs && entry.source_refs.matchup_id);
+    const row = (loadMatchups() || []).find(item => cleanValue(item.matchup_id) === matchupId);
+    if (!row) return { entry, status: "Limited data", missing: [`matchup_id:${matchupId || "missing"}`] };
+    const rutgers = findRutgersMatchupPlayer(row);
+    const opponent = findOpponentMatchupPlayer(row);
+    return {
+      entry,
+      row,
+      rutgers,
+      opponent,
+      stats: matchupCardStats(rutgers, opponent),
+      media: matchupCardMedia(rutgers, opponent),
+      status: rutgers && opponent ? "Verified matchup data" : "Limited data",
+      missing: [rutgers ? "" : "rutgers_player", opponent ? "" : "opponent_player"].filter(Boolean)
+    };
+  }
+  return { entry, status: "Limited data", missing: ["unsupported_card_type"] };
+}
+
+function keyMatchupRegistryModels() {
+  const entries = cardRegistryEntries("key_matchup");
+  const models = entries.map(resolveCardEntry).filter(model => model.row && model.rutgers && model.opponent);
+  if (!models.length) return orderedMatchupRows().map(item => ({
+    entry: null,
+    row: item.row,
+    rutgers: item.rutgers,
+    opponent: item.opponent,
+    stats: matchupCardStats(item.rutgers, item.opponent),
+    media: matchupCardMedia(item.rutgers, item.opponent),
+    status: "Verified matchup data",
+    sourceIndex: item.sourceIndex
+  }));
+  return models.map(model => ({ ...model, sourceIndex: (loadMatchups() || []).findIndex(row => row.matchup_id === model.row.matchup_id) }));
 }
 
 function playerId(player) {
@@ -2235,17 +2337,17 @@ function renderScoutingReport() {
 }
 
 function renderMatchups() {
-  const ordered = orderedMatchupRows();
+  const ordered = keyMatchupRegistryModels();
   const top = ordered.slice(0, 3);
   const rest = ordered.slice(3);
   return `<section class="matchup-card-system" data-valid-count="${ordered.length}">
     <div class="section-heading compact-heading"><p>Personnel Match</p><strong>Key Matchups</strong></div>
-    <div class="compact-list matchup-card-list">${top.map(item => MatchupCard(item.row, item.rutgers, item.opponent, matchupCardStats(item.rutgers, item.opponent), matchupCardMedia(item.rutgers, item.opponent), { rank: item.sourceIndex + 1, key: true })).join("") || renderStatPlaceholder("Key Matchups", "Limited data")}</div>
+    <div class="compact-list matchup-card-list">${top.map(item => MatchupCard(item.row, item.rutgers, item.opponent, item.stats, item.media, { rank: item.sourceIndex + 1, key: true, registryEntry: item.entry })).join("") || renderStatPlaceholder("Key Matchups", "Limited data")}</div>
     <div class="matchup-action-row">
       <button type="button" onclick="const d=document.getElementById('allMatchupsPanel'); if(d)d.open=!d.open;">All Matchups</button>
       <button type="button" onclick="renderPersonnelMatchups('scouting')">Scouting Report</button>
     </div>
-    ${rest.length ? `<details id="allMatchupsPanel" class="breakout compact-detail all-matchups-panel"><summary>View All Matchups</summary><div class="compact-list matchup-card-list">${rest.map(item => MatchupCard(item.row, item.rutgers, item.opponent, matchupCardStats(item.rutgers, item.opponent), matchupCardMedia(item.rutgers, item.opponent), { rank: item.sourceIndex + 1 })).join("")}</div></details>` : ""}</section>`;
+    ${rest.length ? `<details id="allMatchupsPanel" class="breakout compact-detail all-matchups-panel"><summary>View All Matchups</summary><div class="compact-list matchup-card-list">${rest.map(item => MatchupCard(item.row, item.rutgers, item.opponent, item.stats, item.media, { rank: item.sourceIndex + 1, registryEntry: item.entry })).join("")}</div></details>` : ""}</section>`;
 }
 
 function matchupRow(row) {
@@ -2283,26 +2385,37 @@ function MatchupCard(row, rutgers, opponent, stats = matchupCardStats(rutgers, o
   const remainingRows = remainingAttributeRows(rutgers, opponent, row.evidence || []);
   const edge = matchupEdgeDisplay(row);
   const support = tacticalSupport(row, evidence);
-  return `<details class="match-card compact-match player-matchup matchup-card priority-${priority}" data-matchup-id="${cleanValue(row.matchup_id)}" data-priority="${priority}">
-    <summary>
+  const registryAttrs = options.registryEntry ? `data-card-id="${cleanValue(options.registryEntry.card_id)}"` : "";
+  const summary = `
       <span class="match-thumb-pair">${rutgers ? portraitImg(rutgers, "rutgers", "player-portrait thumb") : ""}${opponent ? portraitImg(opponent, "opponent", "player-portrait thumb") : ""}</span>
       <span class="match-compact-copy"><strong>${rutgersTitle} <i>VS</i> ${opponentTitle}</strong><span>${cleanValue(row.advantage || row.status) || activeOpponentName()} | ${displayGrade(row.grade, row.internal_score)} | ${cleanValue(row.confidence) ? `${row.confidence}%` : "Limited data"}</span><em>${rec || "Limited data"}</em></span>
-      <b class="priority-badge">${priority}</b>
-    </summary>
+      <b class="priority-badge">${priority}</b>`;
+  const broadcastHeader = CardHeader({
+    eyebrow: "Verified matchup",
+    title: `${rutgersTitle} VS ${opponentTitle}`,
+    subtitle: `${displayGrade(row.grade, row.internal_score)} | ${cleanValue(row.confidence) ? `${row.confidence}% confidence` : "Limited data"}`,
+    badge: Badge(priority, priority)
+  });
+  const body = `${broadcastHeader}
     <div class="broadcast-matchup-grid">
       <div class="broadcast-player rutgers-side">${rutgers ? portraitImg(rutgers, "rutgers", "player-portrait broadcast") : ""}<span><strong>${cleanValue(rutgers && rutgers.name) || cleanValue(row.rutgers_unit)}</strong><em>${cleanValue(rutgers && rutgers.position)}${cleanValue(rutgers && rutgers.overall) ? ` | ${rutgers.overall} OVR` : ""}</em></span></div>
       <div class="broadcast-vs">VS</div>
       <div class="broadcast-player opponent-side">${opponent ? portraitImg(opponent, "opponent", "player-portrait broadcast") : ""}<span><strong>${cleanValue(opponent && opponent.name) || cleanValue(row.opponent_player)}</strong><em>${cleanValue(opponent && opponent.position)}${cleanValue(opponent && opponent.overall) ? ` | ${opponent.overall} OVR` : ""}</em></span></div>
     </div>
-    <section class="matchup-edge broadcast-edge"><h4>Matchup Edge</h4><strong>${edge.title}</strong><span>${edge.meta || "Limited data"} | ${priority}</span></section>
-    <section class="comparison-table broadcast-comparison"><h4>Selected Metrics</h4><div class="comparison-head"><span>Metric</span><strong>Rutgers</strong><em>Opponent</em><b>Edge</b></div>${attributeComparisonRows(rutgers, opponent, row.evidence || [], 4)}</section>
-    <section class="match-production broadcast-production"><h4>Production</h4><div class="production-grid compact-production-grid">${compactProductionBlock("Rutgers Last Game", stats.rutgersLast)}${compactProductionBlock("Rutgers Season", stats.rutgersSeason)}${compactProductionBlock("Opponent Last Game", stats.opponentLast)}${compactProductionBlock("Opponent Season", stats.opponentSeason)}</div></section>
-    <section class="tactical-callout"><h4>Tactical Recommendation</h4><strong>${rec || "Limited data"}</strong>${support ? `<p>${support}</p>` : ""}${cleanValue(row.confidence) ? `<span>${row.confidence}% confidence</span>` : ""}</section>
+    ${CardSection("Matchup Edge", `<strong>${edge.title}</strong><span>${edge.meta || "Limited data"} | ${priority}</span>`, "matchup-edge broadcast-edge")}
+    ${CardSection("Selected Metrics", `<div class="comparison-head"><span>Metric</span><strong>Rutgers</strong><em>Opponent</em><b>Edge</b></div>${attributeComparisonRows(rutgers, opponent, row.evidence || [], 4)}`, "comparison-table broadcast-comparison")}
+    ${CardSection("Production", `<div class="production-grid compact-production-grid">${compactProductionBlock("Rutgers Last Game", stats.rutgersLast)}${compactProductionBlock("Rutgers Season", stats.rutgersSeason)}${compactProductionBlock("Opponent Last Game", stats.opponentLast)}${compactProductionBlock("Opponent Season", stats.opponentSeason)}</div>`, "match-production broadcast-production")}
+    ${CardSection("Tactical Recommendation", `<strong>${rec || "Limited data"}</strong>${support ? `<p>${support}</p>` : ""}${cleanValue(row.confidence) ? `<span>${row.confidence}% confidence</span>` : ""}`, "tactical-callout")}
     <details class="nested-detail more-matchup-detail"><summary>More Detail</summary>
       ${remainingRows ? `<section class="comparison-table"><h4>Remaining Attributes</h4><div class="comparison-head"><span>Metric</span><strong>Rutgers</strong><em>Opponent</em><b>Edge</b></div>${remainingRows}</section>` : ""}
       <section class="evidence-detail"><h4>Evidence</h4>${evidenceRowsHtml(row.evidence || [])}</section>${maybeRow("Data limitations", limitations)}${maybeRow("Source status", dataStatus)}${maybeRow("Alternate recommendations", recommendations.slice(1))}${maybeRow("Secondary notes", row.description)}
-    </details>
-  </details>`;
+    </details>`;
+  return ExpandableCard({
+    className: `match-card compact-match player-matchup matchup-card priority-${priority}`,
+    attrs: `data-matchup-id="${cleanValue(row.matchup_id)}" data-priority="${priority}" ${registryAttrs}`,
+    summary,
+    body
+  });
 }
 
 function renderOLine() {
@@ -2612,6 +2725,21 @@ if (typeof module !== "undefined") {
     renderRosterCards,
     renderMatchups,
     MatchupCard,
+    BaseCard,
+    CardHeader,
+    CardSection,
+    MetricRow,
+    StatBlock,
+    Badge,
+    PortraitBlock,
+    LimitedDataState,
+    ExpandableCard,
+    CardActions,
+    cardValue,
+    loadCardRegistry,
+    cardRegistryEntries,
+    resolveCardEntry,
+    keyMatchupRegistryModels,
     orderedMatchupRows,
     validMatchupRows,
     matchupPriority,

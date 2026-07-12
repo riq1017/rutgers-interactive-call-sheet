@@ -4,7 +4,7 @@ const vm = require('vm');
 const root = path.resolve(__dirname, '..');
 const context = { window: {}, localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } };
 vm.createContext(context);
-for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js','data/phase1_verified_data.js','data/player_media.js']) {
+for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js','data/phase1_verified_data.js','data/player_media.js','data/card_registry.js']) {
   vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context, { filename: file });
 }
 Object.assign(global, context.window);
@@ -24,15 +24,31 @@ function ctx(down, yards, zone = 'normal', gameState = 'normal') {
   if (gameState === 'protect_lead') key = 'short';
   return { down, dist, distanceYards: yards, zone, gameState, key };
 }
-const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','weekly/opponent_player_media.json','player_media.js'];
+const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','weekly/opponent_player_media.json','player_media.js','card_registry.json','card_registry.js'];
 const phase1Transcript = JSON.parse(fs.readFileSync(path.join(root,'data','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json'), 'utf8'));
 const phase1Matchups = JSON.parse(fs.readFileSync(path.join(root,'data','player_matchups.json'), 'utf8'));
+const cardRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','card_registry.json'), 'utf8'));
 const rutgersLast = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_last_game_stats.json'), 'utf8'));
 const rutgersSeason = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_season_stats.json'), 'utf8'));
 const rutgersMedia = JSON.parse(fs.readFileSync(path.join(root,'data','base','rutgers_player_media.json'), 'utf8'));
 const opponentMedia = JSON.parse(fs.readFileSync(path.join(root,'data','weekly','opponent_player_media.json'), 'utf8'));
 const registry = JSON.parse(fs.readFileSync(path.join(root,'data','base','player_card_registry.json'), 'utf8'));
 check('Authoritative Phase 1 JSON files are present', requiredFiles.every(file => fs.existsSync(path.join(root,'data',file))));
+check('PROJECT_SPEC.md exists', fs.existsSync(path.join(root, 'PROJECT_SPEC.md')));
+check('Sprint 2 card registry exists', fs.existsSync(path.join(root, 'data', 'card_registry.json')) && cardRegistry.package_type === 'card_registry' && cardRegistry.schema_version === '1.0');
+const visibleRegistryCards = (cardRegistry.cards || []).filter(card => card.visible !== false);
+const registryIds = visibleRegistryCards.map(card => card.card_id);
+check('Card registry schema is valid for visible cards', visibleRegistryCards.every(card => card.card_id && card.card_type && card.tab && card.section && Number.isFinite(Number(card.order)) && ['critical','important','monitor','normal'].includes(card.priority) && ['small','medium','large'].includes(card.size) && typeof card.expandable === 'boolean' && card.source_refs && typeof card.source_refs === 'object'));
+check('Visible registry cards have unique card_id values', registryIds.length === new Set(registryIds).size);
+check('Visible matchup registry entries resolve to player_matchups.json', visibleRegistryCards.filter(card => card.card_type === 'key_matchup').every(card => phase1Matchups.matchups.some(row => row.matchup_id === card.source_refs.matchup_id)));
+check('Card registry does not duplicate player names or ratings', !/"name"\s*:|"overall"\s*:|"internal_score"\s*:|"confidence"\s*:|"grade"\s*:|"recommendation/i.test(JSON.stringify(cardRegistry)));
+check('Card registry static bundle is loaded before app.js', index.indexOf('data/card_registry.js') > index.indexOf('data/player_media.js') && index.indexOf('data/card_registry.js') < index.indexOf('app.js'));
+check('Shared card engine primitives exist', ['function BaseCard','function CardHeader','function CardSection','function MetricRow','function StatBlock','function Badge','function PortraitBlock','function LimitedDataState','function ExpandableCard','function CardActions'].every(token => app.includes(token)));
+check('Central defensive card formatter exists', app.includes('function cardValue') && app.includes('function cleanValue') && app.indexOf('function cleanValue') < app.indexOf('function cardValue'));
+check('Card resolver layer exists', ['function loadCardRegistry','function cardRegistryEntries','function resolveCardEntry','function keyMatchupRegistryModels'].every(token => app.includes(token)));
+const resolverSource = (app.match(/function resolveCardEntry[\s\S]*?\n}\n\nfunction keyMatchupRegistryModels/) || [''])[0];
+check('Card resolver does not mutate authoritative JSON data', !/row\.[A-Za-z0-9_]+\s*=|\b(row|rutgers|opponent)\[[^\]]+\]\s*=/.test(resolverSource));
+check('Approved matchup card uses shared card primitives', app.includes('return ExpandableCard({') && app.includes('CardSection("Matchup Edge"') && app.includes('CardHeader({'));
 check('Shared roster source has 48 verified players', RUTGERS_ROSTER_BASE.players.length === 48 && RUTGERS_ROSTER_BASE.package_type === 'rutgers_roster_base');
 check('No duplicate hardcoded roster is used by the visible Recruiting engine', app.includes('function loadRutgersRoster') && app.includes('return sharedRosterBase()'));
 check('Gameplan engine reads enriched opponent/profile/player/group/matchup data', app.includes('loadOpponentProfile') && app.includes('loadOpponentPlayers') && app.includes('loadOpponentGroups') && app.includes('loadMatchups'));

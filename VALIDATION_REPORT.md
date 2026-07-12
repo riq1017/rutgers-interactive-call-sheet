@@ -1,8 +1,20 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T17:34:54.874Z
+Validated: 2026-07-12T17:53:33.200Z
 
 - PASS - Authoritative Phase 1 JSON files are present
+- PASS - PROJECT_SPEC.md exists
+- PASS - Sprint 2 card registry exists
+- PASS - Card registry schema is valid for visible cards
+- PASS - Visible registry cards have unique card_id values
+- PASS - Visible matchup registry entries resolve to player_matchups.json
+- PASS - Card registry does not duplicate player names or ratings
+- PASS - Card registry static bundle is loaded before app.js
+- PASS - Shared card engine primitives exist
+- PASS - Central defensive card formatter exists
+- PASS - Card resolver layer exists
+- PASS - Card resolver does not mutate authoritative JSON data
+- PASS - Approved matchup card uses shared card primitives
 - PASS - Shared roster source has 48 verified players
 - PASS - No duplicate hardcoded roster is used by the visible Recruiting engine
 - PASS - Gameplan engine reads enriched opponent/profile/player/group/matchup data

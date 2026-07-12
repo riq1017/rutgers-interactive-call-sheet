@@ -1,0 +1,124 @@
+window.CARD_REGISTRY = {
+  "schema_version": "1.0",
+  "package_type": "card_registry",
+  "source_note": "Presentation registry only. Football names, ratings, stats, matchup results, and recommendations remain in source JSON files.",
+  "cards": [
+    {
+      "card_id": "key_matchup_rt_vs_redg",
+      "card_type": "key_matchup",
+      "tab": "personnel",
+      "section": "key_matchups",
+      "order": 1,
+      "priority": "critical",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "source_refs": {
+        "matchup_id": "rt_vs_redg",
+        "source_file": "data/player_matchups.json"
+      }
+    },
+    {
+      "card_id": "key_matchup_c_vs_dt",
+      "card_type": "key_matchup",
+      "tab": "personnel",
+      "section": "key_matchups",
+      "order": 2,
+      "priority": "important",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "source_refs": {
+        "matchup_id": "c_vs_dt",
+        "source_file": "data/player_matchups.json"
+      }
+    },
+    {
+      "card_id": "key_matchup_hb2_vs_sam",
+      "card_type": "key_matchup",
+      "tab": "personnel",
+      "section": "key_matchups",
+      "order": 3,
+      "priority": "important",
+      "size": "large",
+      "expandable": true,
+      "visible": true,
+      "source_refs": {
+        "matchup_id": "hb2_vs_sam",
+        "source_file": "data/player_matchups.json"
+      }
+    },
+    {
+      "card_id": "key_matchup_lt_vs_ledg",
+      "card_type": "key_matchup",
+      "tab": "personnel",
+      "section": "all_matchups",
+      "order": 4,
+      "priority": "normal",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "source_refs": {
+        "matchup_id": "lt_vs_ledg",
+        "source_file": "data/player_matchups.json"
+      }
+    },
+    {
+      "card_id": "key_matchup_rg_vs_dt",
+      "card_type": "key_matchup",
+      "tab": "personnel",
+      "section": "all_matchups",
+      "order": 5,
+      "priority": "normal",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "source_refs": {
+        "matchup_id": "rg_vs_dt",
+        "source_file": "data/player_matchups.json"
+      }
+    },
+    {
+      "card_id": "key_matchup_hb_vs_sam",
+      "card_type": "key_matchup",
+      "tab": "personnel",
+      "section": "all_matchups",
+      "order": 6,
+      "priority": "normal",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "source_refs": {
+        "matchup_id": "hb_vs_sam",
+        "source_file": "data/player_matchups.json"
+      }
+    },
+    {
+      "card_id": "key_matchup_te_vs_sam",
+      "card_type": "key_matchup",
+      "tab": "personnel",
+      "section": "all_matchups",
+      "order": 7,
+      "priority": "normal",
+      "size": "medium",
+      "expandable": true,
+      "visible": true,
+      "source_refs": {
+        "matchup_id": "te_vs_sam",
+        "source_file": "data/player_matchups.json"
+      }
+    },
+    {
+      "card_id": "future_player_card_placeholder",
+      "card_type": "player_card",
+      "tab": "personnel",
+      "section": "future_player_cards",
+      "order": 100,
+      "priority": "normal",
+      "size": "medium",
+      "expandable": true,
+      "visible": false,
+      "source_refs": {}
+    }
+  ]
+};

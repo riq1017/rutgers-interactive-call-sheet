@@ -76,7 +76,7 @@ check('Gameplan default is compact with drill-down details', app.includes('compa
 check('Top Plays uses compact rows and advanced filter drawer', app.includes('compact-play-row') && app.includes('Advanced Filters') && app.includes('sticky-filter'));
 check('Personnel uses one internal workspace section at a time', app.includes('function renderPersonnelPanel') && app.includes('active === "overview"') && app.includes('renderStatsWorkspace') && app.includes('renderScoutingReport'));
 check('Roster uses horizontal position boxes instead of one long expanded report', app.includes('ROSTER_POSITION_GROUPS') && app.includes('position-rail') && app.includes('showRosterGroup') && css.includes('.position-box'));
-check('Matchups show player-vs-player cards where position data resolves', app.includes('findRutgersMatchupPlayer') && app.includes('findOpponentMatchupPlayer') && app.includes('matchup-header'));
+check('Matchups show player-vs-player cards where position data resolves', app.includes('findRutgersMatchupPlayer') && app.includes('findOpponentMatchupPlayer') && app.includes('broadcast-matchup-grid'));
 check('Matchups bind to player_matchups.json', phase1Matchups.matchups.length === 7 && app.includes('PLAYER_MATCHUPS') && app.includes('Limited data'));
 check('Recruiting board starts from active_board when present', app.includes('function activeBoardRows') && app.includes('if (board.length)') && app.includes('board_order'));
 check('Prospect rating renderer hides unavailable stars and never prints Star as a value', app.includes('function starRating') && app.includes('aria-label="${stars}-star prospect"') && !app.includes('${cleanValue(p.stars)} stars'));
@@ -90,8 +90,8 @@ check('Every portrait asset exists', [...rutgersMedia.players, ...opponentMedia.
 check('Player card registry binds without duplicated ratings', registry.counts.total_cards === registry.rutgers_cards.length + registry.opponent_cards.length && JSON.stringify(registry).indexOf('"overall"') === -1);
 check('Player registry count matches generated card inventory', registry.counts.rutgers_players === 48 && registry.counts.opponent_players === 16 && registry.counts.total_cards === 64);
 check('Premium player card engine is present', app.includes('function premiumPlayerCard') && app.includes('Season Stats') && app.includes('Recommended Usage') && app.includes('Expandable Detail'));
-check('Portrait media binding is used in player and matchup cards', app.includes('function portraitImg') && app.includes('matchup-player') && app.includes('mediaForPlayer'));
-check('Matchup cards expose grade, confidence, evidence, recommendation, and portraits', app.includes('displayGrade(row.grade, row.internal_score)') && app.includes('Confidence') && app.includes('Key evidence') && app.includes('Tactical recommendation') && app.includes('portraitImg(rutgers'));
+check('Portrait media binding is used in player and matchup cards', app.includes('function portraitImg') && app.includes('broadcast-player') && app.includes('mediaForPlayer'));
+check('Matchup cards expose grade, confidence, evidence, recommendation, and portraits', app.includes('displayGrade(row.grade, row.internal_score)') && app.includes('Confidence') && app.includes('Evidence') && app.includes('Tactical Recommendation') && app.includes('portraitImg(rutgers'));
 check('Executive sticky header compacts on scroll', css.includes('.gameday-header.compact-header') && app.includes('window.scrollY > 48'));
 check('Top Plays supports favorites and personnel grouping', app.includes('toggleFavoritePlay') && app.includes('rankPersonnel') && app.includes('Favorites'));
 check('Top Plays still binds all 192 verified Oregon combinations', RUTGERS_PLAYBOOK.length === 192 && app.includes('Formation') && app.includes('Personnel'));
@@ -111,7 +111,7 @@ const fixtureHtml = [
 check('Rendered fixtures never leak raw object coercion', !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(fixtureHtml));
 check('Nested formatter converts objects to readable labels', engine.cleanValue({ player: 'Q. Gillians', threat_type: 'Power rush', lane: 'right edge' }).includes('Player: Q. Gillians') && !engine.cleanValue({ a: { b: 1 } }).includes('[object Object]'));
 check('Player cards render Last Game and Season as separate sections', fixtureHtml.includes('Last Game') && fixtureHtml.includes('Season') && fixtureHtml.includes('mini-stat-block'));
-check('Matchup cards use mobile header, comparison, production, and result sections', fixtureHtml.includes('matchup-header') && fixtureHtml.includes('comparison-table') && fixtureHtml.includes('match-production') && fixtureHtml.includes('match-result'));
+check('Matchup cards use mobile header, comparison, production, and result sections', fixtureHtml.includes('broadcast-matchup-grid') && fixtureHtml.includes('comparison-table') && fixtureHtml.includes('match-production') && fixtureHtml.includes('tactical-callout'));
 check('Featured Player and Biggest Risk render as actionable summaries', fixtureHtml.includes('summary-player-card') && fixtureHtml.includes('risk-link') && !fixtureHtml.includes('[object Object]'));
 const renderedRecruitDescriptions = (RECRUITING_WEEKLY.active_board || []).map(row => {
   const prospect = (RECRUITING_CLASS.prospects || []).find(p => p.prospect_id === row.prospect_id) || {};
@@ -143,6 +143,15 @@ check('Matchup component keeps Last Game and Season separate', matchupSystemHtml
 check('Matchup card fixtures contain no raw nullish/object text', !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(matchupSystemHtml));
 check('Glossy matchup card styling and mobile overflow safeguards exist', css.includes('.matchup-card') && css.includes('linear-gradient') && css.includes('.matchup-action-row') && css.includes('@media(max-width:420px)') && css.includes('overflow-x:hidden'));
 check('Fixed bottom navigation remains visible for matchup card system', css.includes('.bottom-nav') && css.includes('position:fixed') && css.includes('env(safe-area-inset-bottom)'));
+const firstMatchupCardHtml = engine.MatchupCard(orderedMatchups[0].row, orderedMatchups[0].rutgers, orderedMatchups[0].opponent);
+const defaultMetricCount = (firstMatchupCardHtml.match(/default-metric/g) || []).length;
+check('Broadcast matchup visual hierarchy is present', firstMatchupCardHtml.includes('broadcast-matchup-grid') && firstMatchupCardHtml.includes('broadcast-player') && firstMatchupCardHtml.includes('broadcast-vs'));
+check('Central matchup-edge panel is dominant and populated', firstMatchupCardHtml.includes('broadcast-edge') && firstMatchupCardHtml.includes('Matchup Edge') && firstMatchupCardHtml.includes('Grade'));
+check('Default comparison uses no more than four selected metrics', defaultMetricCount > 0 && defaultMetricCount <= 4, `defaultMetrics=${defaultMetricCount}`);
+check('Remaining matchup attributes move to More Detail', firstMatchupCardHtml.includes('more-matchup-detail') && firstMatchupCardHtml.includes('More Detail'));
+check('Tactical recommendation renders as primary coaching callout', firstMatchupCardHtml.includes('tactical-callout') && firstMatchupCardHtml.includes('Tactical Recommendation'));
+check('Empty production sections collapse to compact Limited data cards', firstMatchupCardHtml.includes('production-card') && firstMatchupCardHtml.includes('limited-production'));
+check('Broadcast matchup visual polish CSS exists', css.includes('.broadcast-matchup-grid') && css.includes('.broadcast-edge') && css.includes('.tactical-callout') && css.includes('.player-portrait.broadcast'));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

@@ -4,6 +4,7 @@ Validated: 2026-07-12
 
 ## Result
 
+- PASS - Visual polish adds broadcast-style expanded hierarchy with dominant player panels, central edge panel, compact production, tactical callout, and More Detail.
 - PASS - `Personnel -> Match -> Key Matchups` uses the reusable `MatchupCard(...)` component.
 - PASS - Exactly three valid matchup cards render by default when at least three valid rows exist.
 - PASS - `All Matchups` renders remaining valid rows using the same component.
@@ -17,6 +18,8 @@ Validated: 2026-07-12
 - PASS - Mobile CSS preserves no-horizontal-overflow safeguards for 390x844 and 430x932.
 - PASS - Fixed bottom navigation remains present.
 - PASS - GitHub Pages compatibility remains static.
+- PASS - Default comparison area renders no more than four selected metrics before More Detail.
+- PASS - Empty production sections render compact `Limited data` state.
 
 ## Top-Three Selection
 

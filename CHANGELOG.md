@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Phase 1.2 matchup visual polish
+- Rebuilt the expanded Key Matchup card hierarchy into a phone-first broadcast-style layout.
+- Added dominant Rutgers/opponent player panels, larger portraits, and a central `MATCHUP EDGE` result panel.
+- Limited default comparison rows to four verified metrics and moved remaining attributes/evidence/limitations into `More Detail`.
+- Converted production into compact Last Game/Season mini-cards with collapsed `Limited data` states.
+- Promoted the tactical recommendation into the final primary coaching callout.
+- Strengthened glossy black/scarlet/gold styling while preserving mobile overflow safeguards and fixed bottom navigation.
+- Expanded validation for visual hierarchy, central edge panel, selected-metric count, tactical callout, compact production, and static Pages compatibility.
+
 ## Phase 1.2 matchup card system
 - Replaced `Personnel -> Match -> Key Matchups` with a reusable JSON-driven `MatchupCard(...)` component.
 - Added top-three matchup ordering by priority/severity, confidence, matchup importance, and source order.

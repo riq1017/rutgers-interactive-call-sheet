@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T20:55:05.867Z
+Validated: 2026-07-12T21:05:39.844Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -181,5 +181,7 @@ Validated: 2026-07-12T20:55:05.867Z
 - PASS - Before screenshots exist for key pages
 - PASS - After screenshots exist for key pages
 - PASS - Sprint 2.5 screenshot artifacts are non-empty PNG files
+- PASS - Sprint 2.5 correction 2 screenshots exist at both required mobile viewports
+- PASS - Sprint 2.5 correction 2 screenshot artifacts are non-empty PNG files
 
 Overall: PASS

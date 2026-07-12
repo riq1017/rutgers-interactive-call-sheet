@@ -266,6 +266,7 @@ check('Evidence renders as separate rows without serialized objects', evidenceHt
 check('Top-three order remains semantic-correction unchanged', topThreeIds.join('|') === 'rt_vs_redg|c_vs_dt|hb2_vs_sam');
 const sprint25Docs = ['DESIGN_SYSTEM.md','JSON_STANDARD.md','UI_COMPONENT_STANDARD.md','VALIDATION_STANDARD.md','RELEASE_STANDARD.md'];
 const screenshotPages = ['gameplan','personnel','topplays','matchups','recruiting'];
+const correction2ScreenshotPages = ['gameplan_top','gameplan_run','gameplan_passing','gameplan_protection','topplays_best','topplays_top3','topplays_library','personnel','matchups','recruiting_cards','recruiting_expanded'];
 check('Sprint 2.5 design governance docs exist', sprint25Docs.every(file => fs.existsSync(path.join(root, 'docs', file))));
 check('Design System Governance Standard is indexed from PROJECT_SPEC', fs.readFileSync(path.join(root, 'PROJECT_SPEC.md'), 'utf8').includes('Design System Governance Standard') && fs.readFileSync(path.join(root, 'PROJECT_SPEC.md'), 'utf8').includes('docs/DESIGN_SYSTEM.md'));
 check('Native UI design tokens are present', ['--ds-space-1','--ds-radius-lg','--ds-rutgers','--ds-opponent','--ds-glass','--ds-shadow','--ds-text-hero'].every(token => css.includes(token)));
@@ -276,6 +277,8 @@ check('PWA manifest and app icon are wired for GitHub Pages', fs.existsSync(path
 check('Before screenshots exist for key pages', screenshotPages.every(page => fs.existsSync(path.join(root, 'screenshots', 'sprint2_5_before', `${page}_390x844.png`))));
 check('After screenshots exist for key pages', screenshotPages.every(page => fs.existsSync(path.join(root, 'screenshots', 'sprint2_5_after', `${page}_390x844.png`))));
 check('Sprint 2.5 screenshot artifacts are non-empty PNG files', ['sprint2_5_before','sprint2_5_after'].every(dir => screenshotPages.every(page => fs.statSync(path.join(root, 'screenshots', dir, `${page}_390x844.png`)).size > 10000)));
+check('Sprint 2.5 correction 2 screenshots exist at both required mobile viewports', ['390x844','430x932'].every(size => correction2ScreenshotPages.every(page => fs.existsSync(path.join(root, 'screenshots', `sprint2_5_correction2_${size}`, `${page}.png`)))));
+check('Sprint 2.5 correction 2 screenshot artifacts are non-empty PNG files', ['390x844','430x932'].every(size => correction2ScreenshotPages.every(page => fs.statSync(path.join(root, 'screenshots', `sprint2_5_correction2_${size}`, `${page}.png`)).size > 10000)));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

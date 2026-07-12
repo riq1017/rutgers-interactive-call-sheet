@@ -31,4 +31,6 @@ Required views:
 - `Mobile CSS prevents horizontal overflow and keeps bottom nav fixed`: PASS
 - `Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS`: PASS
 - `Executive sticky header compacts on scroll`: PASS
-- Screenshot capture status: pending final GitHub Pages capture for this correction commit.
+- Screenshot capture status: PASS
+- Source: live GitHub Pages after `app.js?v=sprint2_5_correction2c` was served.
+- Captured artifact count: 22 PNG files.

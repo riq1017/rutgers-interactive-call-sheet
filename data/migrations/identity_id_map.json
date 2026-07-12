@@ -1,0 +1,2628 @@
+{
+  "package_type": "identity_id_map",
+  "schema_version": "1.0",
+  "generated_at": "2026-07-12T21:51:41.092Z",
+  "id_rules_ref": [
+    "data/base/player_identity_registry.json#id_rules",
+    "data/base/prospect_identity_registry.json#id_rules",
+    "data/base/play_identity_registry.json#id_rules"
+  ],
+  "mappings": [
+    {
+      "entity_type": "player",
+      "legacy_id": "m-york-qb",
+      "canonical_id": "m-york-qb",
+      "name": "M. York",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "r-bieniemy-qb",
+      "canonical_id": "r-bieniemy-qb",
+      "name": "R. Bieniemy",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "s-warner-k",
+      "canonical_id": "s-warner-k",
+      "name": "S. Warner",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "j-portillo-p",
+      "canonical_id": "j-portillo-p",
+      "name": "J. Portillo",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "t-simonson-hb",
+      "canonical_id": "t-simonson-hb",
+      "name": "T. Simonson",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "j-haskins-hb",
+      "canonical_id": "j-haskins-hb",
+      "name": "J. Haskins",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "g-oluwatimi-fb",
+      "canonical_id": "g-oluwatimi-fb",
+      "name": "G. Oluwatimi",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "s-moore-te",
+      "canonical_id": "s-moore-te",
+      "name": "S. Moore",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "k-stacy-te",
+      "canonical_id": "k-stacy-te",
+      "name": "K. Stacy",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "s-degraffenreidt-wr",
+      "canonical_id": "s-degraffenreidt-wr",
+      "name": "S. Degraffenreidt",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "j-houston-wr",
+      "canonical_id": "j-houston-wr",
+      "name": "J. Houston",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "b-demarco-wr",
+      "canonical_id": "b-demarco-wr",
+      "name": "B. DeMarco",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "f-toure-wr",
+      "canonical_id": "f-toure-wr",
+      "name": "F. Toure",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "e-coke-wr",
+      "canonical_id": "e-coke-wr",
+      "name": "E. Coke",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "e-bell-wr",
+      "canonical_id": "e-bell-wr",
+      "name": "E. Bell",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "k-evans-wr",
+      "canonical_id": "k-evans-wr",
+      "name": "K. Evans",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "j-elijah-lt",
+      "canonical_id": "j-elijah-lt",
+      "name": "J. Elijah",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "b-newberry-rt",
+      "canonical_id": "b-newberry-rt",
+      "name": "B. Newberry",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "j-felton-rg",
+      "canonical_id": "j-felton-rg",
+      "name": "J. Felton",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "r-callow-lt",
+      "canonical_id": "r-callow-lt",
+      "name": "R. Callow",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "d-sturgis-c",
+      "canonical_id": "d-sturgis-c",
+      "name": "D. Sturgis",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "r-haines-c",
+      "canonical_id": "r-haines-c",
+      "name": "R. Haines",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "c-lantz-lg",
+      "canonical_id": "c-lantz-lg",
+      "name": "C. Lantz",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "w-nwaneri-redg",
+      "canonical_id": "w-nwaneri-redg",
+      "name": "W. Nwaneri",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "j-simon-redg",
+      "canonical_id": "j-simon-redg",
+      "name": "J. Simon",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "s-sousa-redg",
+      "canonical_id": "s-sousa-redg",
+      "name": "S. Sousa",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "z-mathis-redg",
+      "canonical_id": "z-mathis-redg",
+      "name": "Z. Mathis",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "e-king-redg",
+      "canonical_id": "e-king-redg",
+      "name": "E. King",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "a-anelli-dt",
+      "canonical_id": "a-anelli-dt",
+      "name": "A. Anelli",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "j-verrett-dt",
+      "canonical_id": "j-verrett-dt",
+      "name": "J. Verrett",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "p-cook-dt",
+      "canonical_id": "p-cook-dt",
+      "name": "P. Cook",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "j-strong-dt",
+      "canonical_id": "j-strong-dt",
+      "name": "J. Strong",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "t-hitchens-ledg",
+      "canonical_id": "t-hitchens-ledg",
+      "name": "T. Hitchens",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "i-deloatch-will",
+      "canonical_id": "i-deloatch-will",
+      "name": "I. Deloatch",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "k-archie-mike",
+      "canonical_id": "k-archie-mike",
+      "name": "K. Archie",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "i-smoker-mike",
+      "canonical_id": "i-smoker-mike",
+      "name": "I. Smoker",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "g-nix-mike",
+      "canonical_id": "g-nix-mike",
+      "name": "G. Nix",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "x-hakim-will",
+      "canonical_id": "x-hakim-will",
+      "name": "X. Hakim",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "e-nwaneri-mike",
+      "canonical_id": "e-nwaneri-mike",
+      "name": "E. Nwaneri",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "t-newson-mike",
+      "canonical_id": "t-newson-mike",
+      "name": "T. Newson",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "b-gordon-jr-cb",
+      "canonical_id": "b-gordon-jr-cb",
+      "name": "B. Gordon Jr.",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "s-murray-cb",
+      "canonical_id": "s-murray-cb",
+      "name": "S. Murray",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "d-anderson-cb",
+      "canonical_id": "d-anderson-cb",
+      "name": "D. Anderson",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "t-vega-cb",
+      "canonical_id": "t-vega-cb",
+      "name": "T. Vega",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "a-krull-cb",
+      "canonical_id": "a-krull-cb",
+      "name": "A. Krull",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "l-thompson-ss",
+      "canonical_id": "l-thompson-ss",
+      "name": "L. Thompson",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "t-nash-ss",
+      "canonical_id": "t-nash-ss",
+      "name": "T. Nash",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "m-segal-fs",
+      "canonical_id": "m-segal-fs",
+      "name": "M. Segal",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-ledg-y-hernandez",
+      "canonical_id": "pur-ledg-y-hernandez",
+      "name": "Y. Hernandez",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-ledg-k-webb",
+      "canonical_id": "pur-ledg-k-webb",
+      "name": "K. Webb",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-ledg-j-lewis",
+      "canonical_id": "pur-ledg-j-lewis",
+      "name": "J. Lewis",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-redg-q-gillians",
+      "canonical_id": "pur-redg-q-gillians",
+      "name": "Q. Gillians",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-redg-d-moses",
+      "canonical_id": "pur-redg-d-moses",
+      "name": "D. Moses",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-redg-m-sturgis",
+      "canonical_id": "pur-redg-m-sturgis",
+      "name": "M. Sturgis",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-redg-g-atwood",
+      "canonical_id": "pur-redg-g-atwood",
+      "name": "G. Atwood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-dt-d-garner",
+      "canonical_id": "pur-dt-d-garner",
+      "name": "D. Garner",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-dt-b-hanson",
+      "canonical_id": "pur-dt-b-hanson",
+      "name": "B. Hanson",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-dt-j-thomas",
+      "canonical_id": "pur-dt-j-thomas",
+      "name": "J. Thomas",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-dt-t-mcmillian",
+      "canonical_id": "pur-dt-t-mcmillian",
+      "name": "T. McMillian",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-dt-s-draft",
+      "canonical_id": "pur-dt-s-draft",
+      "name": "S. Draft",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-sam-k-witherspoon",
+      "canonical_id": "pur-sam-k-witherspoon",
+      "name": "K. Witherspoon",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-sam-m-gaston",
+      "canonical_id": "pur-sam-m-gaston",
+      "name": "M. Gaston",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-sam-g-casas",
+      "canonical_id": "pur-sam-g-casas",
+      "name": "G. Casas",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-sam-b-mcguinness",
+      "canonical_id": "pur-sam-b-mcguinness",
+      "name": "B. McGuinness",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-mike-a-warren",
+      "canonical_id": "pur-mike-a-warren",
+      "name": "A. Warren",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-will-b-leal",
+      "canonical_id": "pur-will-b-leal",
+      "name": "B. Leal",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-will-t-scales",
+      "canonical_id": "pur-will-t-scales",
+      "name": "T. Scales",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-ss-e-sawyer",
+      "canonical_id": "pur-ss-e-sawyer",
+      "name": "E. Sawyer",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-mike-r-ogden",
+      "canonical_id": "pur-mike-r-ogden",
+      "name": "R. Ogden",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-fs-k-smallwood",
+      "canonical_id": "pur-fs-k-smallwood",
+      "name": "K. Smallwood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-fs-j-goldsberry",
+      "canonical_id": "pur-fs-j-goldsberry",
+      "name": "J. Goldsberry",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-cb-r-jerry",
+      "canonical_id": "pur-cb-r-jerry",
+      "name": "R. Jerry",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-cb-r-daniels",
+      "canonical_id": "pur-cb-r-daniels",
+      "name": "R. Daniels",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "player",
+      "legacy_id": "pur-cb-d-lincoln",
+      "canonical_id": "pur-cb-d-lincoln",
+      "name": "D. Lincoln",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "glenn-godwin-qb",
+      "canonical_id": "glenn-godwin-qb",
+      "name": "Glenn Godwin",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "kellan-tolbert-rg",
+      "canonical_id": "kellan-tolbert-rg",
+      "name": "Kellan Tolbert",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "david-peppers-qb",
+      "canonical_id": "david-peppers-qb",
+      "name": "David Peppers",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "matthew-kordoma-qb",
+      "canonical_id": "matthew-kordoma-qb",
+      "name": "Matthew Kordoma",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "robert-willingham-qb",
+      "canonical_id": "robert-willingham-qb",
+      "name": "Robert Willingham",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "malik-ebiketie-hb",
+      "canonical_id": "malik-ebiketie-hb",
+      "name": "Malik Ebiketie",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "ed-tate-hb",
+      "canonical_id": "ed-tate-hb",
+      "name": "Ed Tate",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "kevin-ramirez-hb",
+      "canonical_id": "kevin-ramirez-hb",
+      "name": "Kevin Ramirez",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "anthony-craft-hb",
+      "canonical_id": "anthony-craft-hb",
+      "name": "Anthony Craft",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "tavares-grace-hb",
+      "canonical_id": "tavares-grace-hb",
+      "name": "Tavares Grace",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "richard-goodspeed-hb",
+      "canonical_id": "richard-goodspeed-hb",
+      "name": "Richard Goodspeed",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "oscar-wroten-hb",
+      "canonical_id": "oscar-wroten-hb",
+      "name": "Oscar Wroten",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "duke-mcnabb-hb",
+      "canonical_id": "duke-mcnabb-hb",
+      "name": "Duke McNabb",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "lester-childers-hb",
+      "canonical_id": "lester-childers-hb",
+      "name": "Lester Childers",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "rashard-bazley-hb",
+      "canonical_id": "rashard-bazley-hb",
+      "name": "Rashard Bazley",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "larry-missouri-hb",
+      "canonical_id": "larry-missouri-hb",
+      "name": "Larry Missouri",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "dillon-zingler-fb",
+      "canonical_id": "dillon-zingler-fb",
+      "name": "Dillon Zingler",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "terrence-greer-wr",
+      "canonical_id": "terrence-greer-wr",
+      "name": "Terrence Greer",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "damarious-montgomery-wr",
+      "canonical_id": "damarious-montgomery-wr",
+      "name": "Damarious Montgomery",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "skyler-sahara-wr",
+      "canonical_id": "skyler-sahara-wr",
+      "name": "Skyler Sahara",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "javier-emery-wr",
+      "canonical_id": "javier-emery-wr",
+      "name": "Javier Emery",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "trevor-garrison-wr",
+      "canonical_id": "trevor-garrison-wr",
+      "name": "Trevor Garrison",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "randall-ivy-wr",
+      "canonical_id": "randall-ivy-wr",
+      "name": "Randall Ivy",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "roy-tolbert-wr",
+      "canonical_id": "roy-tolbert-wr",
+      "name": "Roy Tolbert",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "vj-kazee-wr",
+      "canonical_id": "vj-kazee-wr",
+      "name": "VJ Kazee",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "lee-gooch-wr",
+      "canonical_id": "lee-gooch-wr",
+      "name": "Lee Gooch",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "leon-garnes-wr",
+      "canonical_id": "leon-garnes-wr",
+      "name": "Leon Garnes",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "james-jean-pierre-wr",
+      "canonical_id": "james-jean-pierre-wr",
+      "name": "James Jean-Pierre",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "jeremy-waters-wr",
+      "canonical_id": "jeremy-waters-wr",
+      "name": "Jeremy Waters",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "sean-gore-wr",
+      "canonical_id": "sean-gore-wr",
+      "name": "Sean Gore",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "emmett-barnes-wr",
+      "canonical_id": "emmett-barnes-wr",
+      "name": "Emmett Barnes",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "deon-knowles-te",
+      "canonical_id": "deon-knowles-te",
+      "name": "Deon Knowles",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "joey-kumar-te",
+      "canonical_id": "joey-kumar-te",
+      "name": "Joey Kumar",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "shakir-dow-c",
+      "canonical_id": "shakir-dow-c",
+      "name": "Shakir Dow",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "kona-mawae-lg",
+      "canonical_id": "kona-mawae-lg",
+      "name": "Kona Mawae",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "fetu-tuikolovatu-rg",
+      "canonical_id": "fetu-tuikolovatu-rg",
+      "name": "Fetu Tuikolovatu",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "lamar-landman-c",
+      "canonical_id": "lamar-landman-c",
+      "name": "Lamar Landman",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "josh-gholston-c",
+      "canonical_id": "josh-gholston-c",
+      "name": "Josh Gholston",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "rico-sexton-ath",
+      "canonical_id": "rico-sexton-ath",
+      "name": "Rico Sexton",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "lane-pressley-redg",
+      "canonical_id": "lane-pressley-redg",
+      "name": "Lane Pressley",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "takoby-miles-redg",
+      "canonical_id": "takoby-miles-redg",
+      "name": "Takoby Miles",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "mixon-redg",
+      "canonical_id": "mixon-redg",
+      "name": "Mixon",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "mauro-ledg",
+      "canonical_id": "mauro-ledg",
+      "name": "Mauro",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "r-j-pounds-redg",
+      "canonical_id": "r-j-pounds-redg",
+      "name": "R.J. Pounds",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "evan-barker-redg",
+      "canonical_id": "evan-barker-redg",
+      "name": "Evan Barker",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "thad-heinrich-redg",
+      "canonical_id": "thad-heinrich-redg",
+      "name": "Thad Heinrich",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "john-ajala-dt",
+      "canonical_id": "john-ajala-dt",
+      "name": "John Ajala",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "donte-burton-dt",
+      "canonical_id": "donte-burton-dt",
+      "name": "Donte Burton",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "bueno-will",
+      "canonical_id": "bueno-will",
+      "name": "Bueno",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "tyree-wyatt-will",
+      "canonical_id": "tyree-wyatt-will",
+      "name": "Tyree Wyatt",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "conrad-mauro-sam",
+      "canonical_id": "conrad-mauro-sam",
+      "name": "Conrad Mauro",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "titus-hancey-sam",
+      "canonical_id": "titus-hancey-sam",
+      "name": "Titus Hancey",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "jakori-allen-will",
+      "canonical_id": "jakori-allen-will",
+      "name": "Jakori Allen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "elton-zimmons-mike",
+      "canonical_id": "elton-zimmons-mike",
+      "name": "Elton Zimmons",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "cole-houchard-mike",
+      "canonical_id": "cole-houchard-mike",
+      "name": "Cole Houchard",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "boutte-mike",
+      "canonical_id": "boutte-mike",
+      "name": "Boutte",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "wayne-salazar-cb",
+      "canonical_id": "wayne-salazar-cb",
+      "name": "Wayne Salazar",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "lester-lock-cb",
+      "canonical_id": "lester-lock-cb",
+      "name": "Lester Lock",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "tre-sloan-fs",
+      "canonical_id": "tre-sloan-fs",
+      "name": "Tre Sloan",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "hakeem-aregu-fs",
+      "canonical_id": "hakeem-aregu-fs",
+      "name": "Hakeem Aregu",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "deontae-edmonds-ss",
+      "canonical_id": "deontae-edmonds-ss",
+      "name": "Deontae Edmonds",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-split-slot-open-shuffle-flood-x-dig",
+      "canonical_id": "gun-split-slot-open-shuffle-flood-x-dig",
+      "name": "Shuffle Flood X Dig",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-split-slot-open-shuffle-angle-z-spot",
+      "canonical_id": "gun-split-slot-open-shuffle-angle-z-spot",
+      "name": "Shuffle Angle Z Spot",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-split-slot-open-shuffle-slot-dig",
+      "canonical_id": "gun-split-slot-open-shuffle-slot-dig",
+      "name": "Shuffle Slot Dig",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-wing-tight-z-shuffle-flood-x-dig",
+      "canonical_id": "gun-wing-tight-z-shuffle-flood-x-dig",
+      "name": "Shuffle Flood X Dig",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-wing-tight-z-shuffle-angle-z-spot",
+      "canonical_id": "gun-wing-tight-z-shuffle-angle-z-spot",
+      "name": "Shuffle Angle Z Spot",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-wing-tight-z-pa-flood",
+      "canonical_id": "gun-wing-tight-z-pa-flood",
+      "name": "PA Flood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-deuce-close-four-verticals",
+      "canonical_id": "gun-deuce-close-four-verticals",
+      "name": "Four Verticals",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-deuce-close-deep-curls",
+      "canonical_id": "gun-deuce-close-deep-curls",
+      "name": "Deep Curls",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-deuce-close-shakes",
+      "canonical_id": "gun-deuce-close-shakes",
+      "name": "Shakes",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-deuce-twins-over-inside-zone",
+      "canonical_id": "gun-deuce-twins-over-inside-zone",
+      "name": "Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-deuce-twins-over-mesh-spot",
+      "canonical_id": "gun-deuce-twins-over-mesh-spot",
+      "name": "Mesh Spot",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-deuce-twins-over-rpo-glance-post",
+      "canonical_id": "gun-deuce-twins-over-rpo-glance-post",
+      "name": "RPO Glance Post",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-u-off-trips-shift-counter",
+      "canonical_id": "gun-u-off-trips-shift-counter",
+      "name": "Shift Counter",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-u-off-trips-shift-pa-counter-scissors",
+      "canonical_id": "gun-u-off-trips-shift-pa-counter-scissors",
+      "name": "Shift PA Counter Scissors",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-u-off-trips-shift-rpo-alert-counter",
+      "canonical_id": "gun-u-off-trips-shift-rpo-alert-counter",
+      "name": "Shift RPO Alert Counter",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-wing-slot-offset-inside-zone-split",
+      "canonical_id": "gun-wing-slot-offset-inside-zone-split",
+      "name": "Inside Zone Split",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-wing-slot-offset-mesh-spot",
+      "canonical_id": "gun-wing-slot-offset-mesh-spot",
+      "name": "Mesh Spot",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-wing-slot-offset-rpo-read-flat-wheel",
+      "canonical_id": "gun-wing-slot-offset-rpo-read-flat-wheel",
+      "name": "RPO Read Flat Wheel",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-normal-y-off-close-shift-inside-zone",
+      "canonical_id": "gun-normal-y-off-close-shift-inside-zone",
+      "name": "Shift Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-normal-y-off-close-shift-rpo-read-flat-wheel",
+      "canonical_id": "gun-normal-y-off-close-shift-rpo-read-flat-wheel",
+      "name": "Shift RPO Read Flat Wheel",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-normal-y-off-close-shift-hb-draw",
+      "canonical_id": "gun-normal-y-off-close-shift-hb-draw",
+      "name": "Shift HB Draw",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-doubles-y-off-wk-pa-x-burst",
+      "canonical_id": "gun-doubles-y-off-wk-pa-x-burst",
+      "name": "PA X Burst",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-doubles-y-off-wk-inside-zone",
+      "canonical_id": "gun-doubles-y-off-wk-inside-zone",
+      "name": "Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-doubles-y-off-wk-pa-te-out",
+      "canonical_id": "gun-doubles-y-off-wk-pa-te-out",
+      "name": "PA TE Out",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-y-off-trips-post-wheel-shallow",
+      "canonical_id": "gun-y-off-trips-post-wheel-shallow",
+      "name": "Post Wheel Shallow",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-y-off-trips-counter-y",
+      "canonical_id": "gun-y-off-trips-counter-y",
+      "name": "Counter Y",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-y-off-trips-pa-slot-corner",
+      "canonical_id": "gun-y-off-trips-pa-slot-corner",
+      "name": "PA Slot Corner",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-wing-trips-wk-shift-pa-counter",
+      "canonical_id": "gun-wing-trips-wk-shift-pa-counter",
+      "name": "Shift PA Counter",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-wing-trips-wk-shift-inside-zone",
+      "canonical_id": "gun-wing-trips-wk-shift-inside-zone",
+      "name": "Shift Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-wing-trips-wk-mesh-slot",
+      "canonical_id": "gun-wing-trips-wk-mesh-slot",
+      "name": "Mesh Slot",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-te-offset-wk-shuffle-angle",
+      "canonical_id": "gun-trips-te-offset-wk-shuffle-angle",
+      "name": "Shuffle Angle",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-te-offset-wk-shuffle-switch-corner",
+      "canonical_id": "gun-trips-te-offset-wk-shuffle-switch-corner",
+      "name": "Shuffle Switch Corner",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-te-offset-wk-shuffle-angle-y-wheel",
+      "canonical_id": "gun-trips-te-offset-wk-shuffle-angle-y-wheel",
+      "name": "Shuffle Angle Y Wheel",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trio-y-flex-jet-read-y-zone",
+      "canonical_id": "gun-trio-y-flex-jet-read-y-zone",
+      "name": "Jet Read Y Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trio-y-flex-pa-jet-sweep",
+      "canonical_id": "gun-trio-y-flex-pa-jet-sweep",
+      "name": "PA Jet Sweep",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trio-y-flex-zone-fake-jet",
+      "canonical_id": "gun-trio-y-flex-zone-fake-jet",
+      "name": "Zone Fake Jet",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-str-offset-pa-slot-cross",
+      "canonical_id": "gun-bunch-str-offset-pa-slot-cross",
+      "name": "PA Slot Cross",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-str-offset-mtn-inside-zone",
+      "canonical_id": "gun-bunch-str-offset-mtn-inside-zone",
+      "name": "MTN Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-str-offset-mtn-pa-verticals",
+      "canonical_id": "gun-bunch-str-offset-mtn-pa-verticals",
+      "name": "MTN PA Verticals",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-open-offset-rpo-alert-out",
+      "canonical_id": "gun-bunch-open-offset-rpo-alert-out",
+      "name": "RPO Alert Out",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-open-offset-y-sail",
+      "canonical_id": "gun-bunch-open-offset-y-sail",
+      "name": "Y Sail",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-open-offset-inside-zone",
+      "canonical_id": "gun-bunch-open-offset-inside-zone",
+      "name": "Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-quads-offset-deep-stick-slot",
+      "canonical_id": "gun-bunch-quads-offset-deep-stick-slot",
+      "name": "Deep Stick Slot",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-quads-offset-shallow-mesh-zone",
+      "canonical_id": "gun-bunch-quads-offset-shallow-mesh-zone",
+      "name": "Shallow Mesh Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-quads-offset-cheat-te-screen",
+      "canonical_id": "gun-bunch-quads-offset-cheat-te-screen",
+      "name": "Cheat TE Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-double-stack-mtn-wheel-shallow",
+      "canonical_id": "gun-double-stack-mtn-wheel-shallow",
+      "name": "MTN Wheel Shallow",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-double-stack-mtn-hb-swing",
+      "canonical_id": "gun-double-stack-mtn-hb-swing",
+      "name": "MTN HB Swing",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-double-stack-mtn-pa-verticals",
+      "canonical_id": "gun-double-stack-mtn-pa-verticals",
+      "name": "MTN PA Verticals",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-stack-y-flex-return-mesh-spot",
+      "canonical_id": "gun-stack-y-flex-return-mesh-spot",
+      "name": "Return Mesh Spot",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-stack-y-flex-reload-rpo-zone-read",
+      "canonical_id": "gun-stack-y-flex-reload-rpo-zone-read",
+      "name": "Reload RPO Zone Read",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-stack-y-flex-reload-te-cross",
+      "canonical_id": "gun-stack-y-flex-reload-te-cross",
+      "name": "Reload TE Cross",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-slot-inside-zone-split",
+      "canonical_id": "gun-trips-y-slot-inside-zone-split",
+      "name": "Inside Zone Split",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-slot-all-go",
+      "canonical_id": "gun-trips-y-slot-all-go",
+      "name": "All Go",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-slot-y-return-inside-zone",
+      "canonical_id": "gun-trips-y-slot-y-return-inside-zone",
+      "name": "Y Return Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-hb-wk-y-return-inside-zone",
+      "canonical_id": "gun-trips-hb-wk-y-return-inside-zone",
+      "name": "Y Return Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-hb-wk-y-return-mesh-remind",
+      "canonical_id": "gun-trips-hb-wk-y-return-mesh-remind",
+      "name": "Y Return Mesh Remind",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-hb-wk-rpo-alert-bubble",
+      "canonical_id": "gun-trips-hb-wk-rpo-alert-bubble",
+      "name": "RPO Alert Bubble",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-trio-slot-fade",
+      "canonical_id": "gun-empty-base-trio-slot-fade",
+      "name": "Slot Fade",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-trio-rpo-alert-bubble",
+      "canonical_id": "gun-empty-base-trio-rpo-alert-bubble",
+      "name": "RPO Alert Bubble",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-trio-pa-read",
+      "canonical_id": "gun-empty-base-trio-pa-read",
+      "name": "PA Read",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-hb-wide-ducks-sprint-flood",
+      "canonical_id": "gun-empty-hb-wide-ducks-sprint-flood",
+      "name": "Ducks Sprint Flood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-hb-wide-rpo-x-glance-bubble",
+      "canonical_id": "gun-empty-hb-wide-rpo-x-glance-bubble",
+      "name": "RPO X Glance Bubble",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-hb-wide-flood-hb-swing",
+      "canonical_id": "gun-empty-hb-wide-flood-hb-swing",
+      "name": "Flood HB Swing",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-flex-stick",
+      "canonical_id": "gun-empty-base-flex-stick",
+      "name": "Stick",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-flex-qb-draw",
+      "canonical_id": "gun-empty-base-flex-qb-draw",
+      "name": "QB Draw",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-flex-verticals-y-option",
+      "canonical_id": "gun-empty-base-flex-verticals-y-option",
+      "name": "Verticals Y Option",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-quads-deep-stick",
+      "canonical_id": "gun-empty-quads-deep-stick",
+      "name": "Deep Stick",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-quads-outside-zone",
+      "canonical_id": "gun-empty-quads-outside-zone",
+      "name": "Outside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-quads-pa-double-post",
+      "canonical_id": "gun-empty-quads-pa-double-post",
+      "name": "PA Double Post",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-trips-shot-wheel",
+      "canonical_id": "gun-empty-trips-shot-wheel",
+      "name": "Shot Wheel",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-trips-inside-trap",
+      "canonical_id": "gun-empty-trips-inside-trap",
+      "name": "Inside Trap",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-trips-pa-read",
+      "canonical_id": "gun-empty-trips-pa-read",
+      "name": "PA Read",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-y-flex-read-option",
+      "canonical_id": "gun-empty-y-flex-read-option",
+      "name": "Read Option",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-y-flex-all-go",
+      "canonical_id": "gun-empty-y-flex-all-go",
+      "name": "All Go",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-y-flex-y-lead-read-option",
+      "canonical_id": "gun-empty-y-flex-y-lead-read-option",
+      "name": "Y Lead Read Option",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-te-offset-return-sprint-comeback",
+      "canonical_id": "gun-trips-te-offset-return-sprint-comeback",
+      "name": "Return Sprint Comeback",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-te-offset-return-sprint-te-screen",
+      "canonical_id": "gun-trips-te-offset-return-sprint-te-screen",
+      "name": "Return Sprint TE Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-te-offset-return-sprint-spot",
+      "canonical_id": "gun-trips-te-offset-return-sprint-spot",
+      "name": "Return Sprint Spot",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-flex-verts",
+      "canonical_id": "gun-trips-y-flex-verts",
+      "name": "Verts",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-flex-hb-power",
+      "canonical_id": "gun-trips-y-flex-hb-power",
+      "name": "HB Power",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-flex-pa-flood",
+      "canonical_id": "gun-trips-y-flex-pa-flood",
+      "name": "PA Flood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-slot-flood",
+      "canonical_id": "gun-trips-y-slot-flood",
+      "name": "Flood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-slot-hb-inside-zone",
+      "canonical_id": "gun-trips-y-slot-hb-inside-zone",
+      "name": "HB Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-slot-mtn-wheel-screen",
+      "canonical_id": "gun-trips-y-slot-mtn-wheel-screen",
+      "name": "MTN Wheel Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-hb-wk-pa-flood",
+      "canonical_id": "gun-trips-hb-wk-pa-flood",
+      "name": "PA Flood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-hb-wk-hb-quick-base",
+      "canonical_id": "gun-trips-hb-wk-hb-quick-base",
+      "name": "HB Quick Base",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-hb-wk-pa-crossers",
+      "canonical_id": "gun-trips-hb-wk-pa-crossers",
+      "name": "PA Crossers",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-str-offset-shift-out",
+      "canonical_id": "gun-bunch-str-offset-shift-out",
+      "name": "Shift Out",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-str-offset-rpo-alert-bubble",
+      "canonical_id": "gun-bunch-str-offset-rpo-alert-bubble",
+      "name": "RPO Alert Bubble",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-str-offset-pa-crossers",
+      "canonical_id": "gun-bunch-str-offset-pa-crossers",
+      "name": "PA Crossers",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-open-offset-return-spacing",
+      "canonical_id": "gun-bunch-open-offset-return-spacing",
+      "name": "Return Spacing",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-open-offset-return-rpo-alert-flat",
+      "canonical_id": "gun-bunch-open-offset-return-rpo-alert-flat",
+      "name": "Return RPO Alert Flat",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-open-offset-return-pa-flood",
+      "canonical_id": "gun-bunch-open-offset-return-pa-flood",
+      "name": "Return PA Flood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-quads-offset-bubble-screen",
+      "canonical_id": "gun-bunch-quads-offset-bubble-screen",
+      "name": "Bubble Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-quads-offset-inside-zone",
+      "canonical_id": "gun-bunch-quads-offset-inside-zone",
+      "name": "Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-quads-offset-dagger",
+      "canonical_id": "gun-bunch-quads-offset-dagger",
+      "name": "Dagger",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-double-stack-return-spacing",
+      "canonical_id": "gun-double-stack-return-spacing",
+      "name": "Return Spacing",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-double-stack-return-rpo-alert-flat",
+      "canonical_id": "gun-double-stack-return-rpo-alert-flat",
+      "name": "Return RPO Alert Flat",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-double-stack-return-pa-flood",
+      "canonical_id": "gun-double-stack-return-pa-flood",
+      "name": "Return PA Flood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-quads-offset-pa-crossers",
+      "canonical_id": "gun-bunch-quads-offset-pa-crossers",
+      "name": "PA Crossers",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-quads-offset-shock-screen",
+      "canonical_id": "gun-bunch-quads-offset-shock-screen",
+      "name": "Shock Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-bunch-quads-offset-verticals",
+      "canonical_id": "gun-bunch-quads-offset-verticals",
+      "name": "Verticals",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-double-stack-all-go",
+      "canonical_id": "gun-double-stack-all-go",
+      "name": "All Go",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-double-stack-rpo-alert-trap",
+      "canonical_id": "gun-double-stack-rpo-alert-trap",
+      "name": "RPO Alert Trap",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-double-stack-hb-slip-screen",
+      "canonical_id": "gun-double-stack-hb-slip-screen",
+      "name": "HB Slip Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-stack-y-flex-curl-combo",
+      "canonical_id": "gun-stack-y-flex-curl-combo",
+      "name": "Curl Combo",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-stack-y-flex-inside-zone",
+      "canonical_id": "gun-stack-y-flex-inside-zone",
+      "name": "Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-stack-y-flex-pa-jailbreak-screen",
+      "canonical_id": "gun-stack-y-flex-pa-jailbreak-screen",
+      "name": "PA Jailbreak Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-slot-shift-slot-out",
+      "canonical_id": "gun-trips-y-slot-shift-slot-out",
+      "name": "Shift Slot Out",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-slot-shift-hb-screen",
+      "canonical_id": "gun-trips-y-slot-shift-hb-screen",
+      "name": "Shift HB Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-y-slot-shift-te-screen-wheel",
+      "canonical_id": "gun-trips-y-slot-shift-te-screen-wheel",
+      "name": "Shift TE Screen Wheel",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-hb-wk-mtn-outside-zone",
+      "canonical_id": "gun-trips-hb-wk-mtn-outside-zone",
+      "name": "MTN Outside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-hb-wk-mtn-pa-crossers",
+      "canonical_id": "gun-trips-hb-wk-mtn-pa-crossers",
+      "name": "MTN PA Crossers",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-trips-hb-wk-mtn-inside-zone",
+      "canonical_id": "gun-trips-hb-wk-mtn-inside-zone",
+      "name": "MTN Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-trio-pa-crossers",
+      "canonical_id": "gun-empty-base-trio-pa-crossers",
+      "name": "PA Crossers",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-trio-mtn-wheel",
+      "canonical_id": "gun-empty-base-trio-mtn-wheel",
+      "name": "MTN Wheel",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-hb-wide-pa-flood",
+      "canonical_id": "gun-empty-hb-wide-pa-flood",
+      "name": "PA Flood",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-hb-wide-inside-zone",
+      "canonical_id": "gun-empty-hb-wide-inside-zone",
+      "name": "Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-hb-wide-pa-crossers",
+      "canonical_id": "gun-empty-hb-wide-pa-crossers",
+      "name": "PA Crossers",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-flex-wheel-screen",
+      "canonical_id": "gun-empty-base-flex-wheel-screen",
+      "name": "Wheel Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-flex-deep-stick",
+      "canonical_id": "gun-empty-base-flex-deep-stick",
+      "name": "Deep Stick",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-base-flex-hb-slip-screen",
+      "canonical_id": "gun-empty-base-flex-hb-slip-screen",
+      "name": "HB Slip Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-quads-curl-combo",
+      "canonical_id": "gun-empty-quads-curl-combo",
+      "name": "Curl Combo",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-quads-qb-draw",
+      "canonical_id": "gun-empty-quads-qb-draw",
+      "name": "QB Draw",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-quads-shock-slot-option",
+      "canonical_id": "gun-empty-quads-shock-slot-option",
+      "name": "Shock Slot Option",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-trips-all-curls",
+      "canonical_id": "gun-empty-trips-all-curls",
+      "name": "All Curls",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-trips-bubble-screen",
+      "canonical_id": "gun-empty-trips-bubble-screen",
+      "name": "Bubble Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-trips-deep-attack",
+      "canonical_id": "gun-empty-trips-deep-attack",
+      "name": "Deep Attack",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-y-flex-shift-mesh",
+      "canonical_id": "gun-empty-y-flex-shift-mesh",
+      "name": "Shift Mesh",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-y-flex-shift-x-mid-screen",
+      "canonical_id": "gun-empty-y-flex-shift-x-mid-screen",
+      "name": "Shift X Mid Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-y-flex-shift-shock-whips",
+      "canonical_id": "gun-empty-y-flex-shift-shock-whips",
+      "name": "Shift Shock Whips",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-hb-wide-qb-dig",
+      "canonical_id": "gun-empty-hb-wide-qb-dig",
+      "name": "QB Dig",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-hb-wide-seams-y-corner",
+      "canonical_id": "gun-empty-hb-wide-seams-y-corner",
+      "name": "Seams Y Corner",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-empty-hb-wide-hotline-up",
+      "canonical_id": "gun-empty-hb-wide-hotline-up",
+      "name": "Hotline Up",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-split-slot-open-x-dig",
+      "canonical_id": "gun-split-slot-open-x-dig",
+      "name": "X Dig",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-split-slot-open-hb-off-tackle",
+      "canonical_id": "gun-split-slot-open-hb-off-tackle",
+      "name": "HB Off Tackle",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "gun-split-slot-open-pa-slot-post",
+      "canonical_id": "gun-split-slot-open-pa-slot-post",
+      "name": "PA Slot Post",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-full-house-tight-read-option",
+      "canonical_id": "pistol-full-house-tight-read-option",
+      "name": "Read Option",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-full-house-tight-pa-crossers",
+      "canonical_id": "pistol-full-house-tight-pa-crossers",
+      "name": "PA Crossers",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-full-house-tight-counter-lead",
+      "canonical_id": "pistol-full-house-tight-counter-lead",
+      "name": "Counter Lead",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-ace-read-option",
+      "canonical_id": "pistol-ace-read-option",
+      "name": "Read Option",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-ace-pa-deep-in",
+      "canonical_id": "pistol-ace-pa-deep-in",
+      "name": "PA Deep In",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-ace-hb-dive",
+      "canonical_id": "pistol-ace-hb-dive",
+      "name": "HB Dive",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-wing-hb-dive",
+      "canonical_id": "pistol-wing-hb-dive",
+      "name": "HB Dive",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-wing-mtn-pa-cross",
+      "canonical_id": "pistol-wing-mtn-pa-cross",
+      "name": "MTN PA Cross",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-wing-mtn-power-o",
+      "canonical_id": "pistol-wing-mtn-power-o",
+      "name": "MTN Power O",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-wing-slot-y-stick",
+      "canonical_id": "pistol-wing-slot-y-stick",
+      "name": "Y Stick",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-wing-slot-hb-counter",
+      "canonical_id": "pistol-wing-slot-hb-counter",
+      "name": "HB Counter",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-wing-slot-pa-counter-y-screen",
+      "canonical_id": "pistol-wing-slot-pa-counter-y-screen",
+      "name": "PA Counter Y Screen",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-jet-touch-pass",
+      "canonical_id": "pistol-y-off-trips-jet-touch-pass",
+      "name": "Jet Touch Pass",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-jet-dash-wk",
+      "canonical_id": "pistol-y-off-trips-jet-dash-wk",
+      "name": "Jet Dash WK",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-jet-split-zone",
+      "canonical_id": "pistol-y-off-trips-jet-split-zone",
+      "name": "Jet Split Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-pa-x-burst",
+      "canonical_id": "pistol-y-off-trips-pa-x-burst",
+      "name": "PA X Burst",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-read-option-wk",
+      "canonical_id": "pistol-y-off-trips-read-option-wk",
+      "name": "Read Option WK",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-pa-deep-out",
+      "canonical_id": "pistol-y-off-trips-pa-deep-out",
+      "name": "PA Deep Out",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-inside-zone",
+      "canonical_id": "pistol-y-off-trips-inside-zone",
+      "name": "Inside Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-pa-double-post",
+      "canonical_id": "pistol-y-off-trips-pa-double-post",
+      "name": "PA Double Post",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-counter-y",
+      "canonical_id": "pistol-y-off-trips-counter-y",
+      "name": "Counter Y",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "pistol-y-off-trips-vertical-te-cross",
+      "canonical_id": "pistol-y-off-trips-vertical-te-cross",
+      "name": "Vertical TE Cross",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-hb-dive",
+      "canonical_id": "i-form-hulk-hb-dive",
+      "name": "HB Dive",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-pa-te-corner",
+      "canonical_id": "i-form-hulk-pa-te-corner",
+      "name": "PA TE Corner",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-hb-toss",
+      "canonical_id": "i-form-hulk-hb-toss",
+      "name": "HB Toss",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-fb-dive",
+      "canonical_id": "i-form-hulk-fb-dive",
+      "name": "FB Dive",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-pa-power-o",
+      "canonical_id": "i-form-hulk-pa-power-o",
+      "name": "PA Power O",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-strong-stretch",
+      "canonical_id": "i-form-hulk-strong-stretch",
+      "name": "Strong Stretch",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-hb-iso",
+      "canonical_id": "i-form-hulk-hb-iso",
+      "name": "HB Iso",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-pa-cross",
+      "canonical_id": "i-form-hulk-pa-cross",
+      "name": "PA Cross",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-hb-counter-wk",
+      "canonical_id": "i-form-hulk-hb-counter-wk",
+      "name": "HB Counter WK",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "i-form-hulk-hb-stretch",
+      "canonical_id": "i-form-hulk-hb-stretch",
+      "name": "HB Stretch",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "wildcat-unbalanced-jet-sweep",
+      "canonical_id": "wildcat-unbalanced-jet-sweep",
+      "name": "Jet Sweep",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "wildcat-unbalanced-pa-jet-sweep",
+      "canonical_id": "wildcat-unbalanced-pa-jet-sweep",
+      "name": "PA Jet Sweep",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "wildcat-unbalanced-power",
+      "canonical_id": "wildcat-unbalanced-power",
+      "name": "Power",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "wildcat-unbalanced-pa-cross",
+      "canonical_id": "wildcat-unbalanced-pa-cross",
+      "name": "PA Cross",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "wildcat-unbalanced-zone",
+      "canonical_id": "wildcat-unbalanced-zone",
+      "name": "Zone",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "goal-line-goal-line-hb-dive",
+      "canonical_id": "goal-line-goal-line-hb-dive",
+      "name": "HB Dive",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "goal-line-goal-line-pa-spot",
+      "canonical_id": "goal-line-goal-line-pa-spot",
+      "name": "PA Spot",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "goal-line-goal-line-qb-sneak",
+      "canonical_id": "goal-line-goal-line-qb-sneak",
+      "name": "QB Sneak",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "goal-line-goal-line-hb-sting",
+      "canonical_id": "goal-line-goal-line-hb-sting",
+      "name": "HB Sting",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "goal-line-goal-line-pa-waggle",
+      "canonical_id": "goal-line-goal-line-pa-waggle",
+      "name": "PA Waggle",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "goal-line-goal-line-strong-toss",
+      "canonical_id": "goal-line-goal-line-strong-toss",
+      "name": "Strong Toss",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "hail-mary-hail-mary-hail-mary",
+      "canonical_id": "hail-mary-hail-mary-hail-mary",
+      "name": "Hail Mary",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "hail-mary-hail-mary-shot-save-clock",
+      "canonical_id": "hail-mary-hail-mary-shot-save-clock",
+      "name": "Shot Save Clock",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "hail-mary-hail-mary-goal-post",
+      "canonical_id": "hail-mary-hail-mary-goal-post",
+      "name": "Goal Post",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "special-teams-field-goal-fake-fg-kicker-flip",
+      "canonical_id": "special-teams-field-goal-fake-fg-kicker-flip",
+      "name": "Fake FG Kicker Flip",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "special-teams-field-goal-field-goal-47-yds",
+      "canonical_id": "special-teams-field-goal-field-goal-47-yds",
+      "name": "Field Goal - 47 YDS",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "special-teams-field-goal-fake-fg-k-flip-pass",
+      "canonical_id": "special-teams-field-goal-fake-fg-k-flip-pass",
+      "name": "Fake FG K Flip Pass",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "special-teams-punt-fake-punt-fb-flat",
+      "canonical_id": "special-teams-punt-fake-punt-fb-flat",
+      "name": "Fake Punt FB Flat",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "special-teams-punt-punt",
+      "canonical_id": "special-teams-punt-punt",
+      "name": "Punt",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "special-teams-punt-fake-punt-shovel",
+      "canonical_id": "special-teams-punt-fake-punt-shovel",
+      "name": "Fake Punt Shovel",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "special-teams-qb-kneel-qb-kneel",
+      "canonical_id": "special-teams-qb-kneel-qb-kneel",
+      "name": "QB Kneel",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "special-teams-clock-management-qb-kneel",
+      "canonical_id": "special-teams-clock-management-qb-kneel",
+      "name": "QB Kneel",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "play",
+      "legacy_id": "special-teams-punt-safe-punt-safe",
+      "canonical_id": "special-teams-punt-safe-punt-safe",
+      "name": "Punt Safe",
+      "status": "preserved",
+      "references_updated": []
+    }
+  ]
+}

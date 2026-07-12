@@ -97,6 +97,14 @@ Gameplan must not own the full play library, play filters, play search, Top 3 se
 
 Required checks include roster count, media coverage, registry coverage, portrait existence, required position coverage, matchup ID resolution, play count, play ID uniqueness, no raw object coercion, mobile overflow safeguards, and GitHub Pages static compatibility.
 
+## J.1 Identity Linkage Standard
+
+Every rendered card and recommendation must resolve through a canonical stable ID. Rutgers players use existing valid `player_id` values from `data/rutgers_roster_base.json`; missing future Rutgers IDs are generated as `rut-{position}-{normalized-name}`. Opponent players preserve existing valid IDs from weekly opponent/player/stat packages; missing future opponent IDs are generated as `{team-abbreviation}-{position}-{normalized-name}`. Recruiting prospects preserve existing valid `prospect_id` values; missing future prospect IDs are generated as `rec-{position}-{normalized-name}` with a numeric disambiguator only when needed. Verified play combinations preserve existing static play IDs; missing future play IDs are generated as `play-{formation-family}-{set-or-subformation}-{play-name}`.
+
+Normalization is lowercase, hyphen-separated, punctuation-free, stable across weekly imports, and never random UUID-based. Identity registries live at `data/base/player_identity_registry.json`, `data/base/prospect_identity_registry.json`, and `data/base/play_identity_registry.json`; the audit migration map lives at `data/migrations/identity_id_map.json`.
+
+Identity registries may reference source files and IDs only. They must not duplicate ratings, attributes, stats, grades, recruiting evaluations, play scores, or matchup claims. Missing source data remains `N/A` or `Limited data`; unresolved identity references are hard validation failures.
+
 ## K. Release Workflow
 
 The release workflow is: implement, self-validate, generate reports, phone test, freeze approved component, and use the tagged/frozen baseline for the next pack. Cross-sprint scope leakage is not allowed.

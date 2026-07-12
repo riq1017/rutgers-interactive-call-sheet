@@ -24,7 +24,7 @@ function ctx(down, yards, zone = 'normal', gameState = 'normal') {
   if (gameState === 'protect_lead') key = 'short';
   return { down, dist, distanceYards: yards, zone, gameState, key };
 }
-const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','weekly/opponent_player_media.json','weekly/coaching_decisions.json','weekly/run_lane_analysis.json','weekly/weekly_matchup_summary.json','player_media.js','card_registry.json','card_registry.js'];
+const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','base/player_identity_registry.json','base/prospect_identity_registry.json','base/play_identity_registry.json','migrations/identity_id_map.json','weekly/opponent_player_media.json','weekly/coaching_decisions.json','weekly/run_lane_analysis.json','weekly/weekly_matchup_summary.json','player_media.js','card_registry.json','card_registry.js'];
 const phase1Transcript = JSON.parse(fs.readFileSync(path.join(root,'data','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json'), 'utf8'));
 const phase1Matchups = JSON.parse(fs.readFileSync(path.join(root,'data','player_matchups.json'), 'utf8'));
 const cardRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','card_registry.json'), 'utf8'));
@@ -33,9 +33,15 @@ const runLaneAnalysis = JSON.parse(fs.readFileSync(path.join(root,'data','weekly
 const weeklyMatchupSummary = JSON.parse(fs.readFileSync(path.join(root,'data','weekly','weekly_matchup_summary.json'), 'utf8'));
 const rutgersLast = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_last_game_stats.json'), 'utf8'));
 const rutgersSeason = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_season_stats.json'), 'utf8'));
+const opponentLast = JSON.parse(fs.readFileSync(path.join(root,'data','opponent_last_game_stats.json'), 'utf8'));
+const opponentSeason = JSON.parse(fs.readFileSync(path.join(root,'data','opponent_season_stats.json'), 'utf8'));
 const rutgersMedia = JSON.parse(fs.readFileSync(path.join(root,'data','base','rutgers_player_media.json'), 'utf8'));
 const opponentMedia = JSON.parse(fs.readFileSync(path.join(root,'data','weekly','opponent_player_media.json'), 'utf8'));
 const registry = JSON.parse(fs.readFileSync(path.join(root,'data','base','player_card_registry.json'), 'utf8'));
+const playerIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','base','player_identity_registry.json'), 'utf8'));
+const prospectIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','base','prospect_identity_registry.json'), 'utf8'));
+const playIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','base','play_identity_registry.json'), 'utf8'));
+const identityIdMap = JSON.parse(fs.readFileSync(path.join(root,'data','migrations','identity_id_map.json'), 'utf8'));
 check('Authoritative Phase 1 JSON files are present', requiredFiles.every(file => fs.existsSync(path.join(root,'data',file))));
 check('PROJECT_SPEC.md exists', fs.existsSync(path.join(root, 'PROJECT_SPEC.md')));
 check('Sprint 2 card registry exists', fs.existsSync(path.join(root, 'data', 'card_registry.json')) && cardRegistry.package_type === 'card_registry' && cardRegistry.schema_version === '1.0');
@@ -52,6 +58,81 @@ check('Card resolver layer exists', ['function loadCardRegistry','function cardR
 const resolverSource = (app.match(/function resolveCardEntry[\s\S]*?\n}\n\nfunction keyMatchupRegistryModels/) || [''])[0];
 check('Card resolver does not mutate authoritative JSON data', !/row\.[A-Za-z0-9_]+\s*=|\b(row|rutgers|opponent)\[[^\]]+\]\s*=/.test(resolverSource));
 check('Approved matchup card uses shared card primitives', app.includes('return ExpandableCard({') && app.includes('CardSection("Matchup Edge"') && app.includes('CardHeader({'));
+const unique = values => values.length === new Set(values).size;
+const rutgersRosterById = new Map(RUTGERS_ROSTER_BASE.players.map(player => [player.player_id, player]));
+const opponentPlayersById = new Map(PURDUE_OPPONENT_PLAYERS.players.map(player => [player.player_id, player]));
+const prospectById = new Map(RECRUITING_CLASS.prospects.map(prospect => [prospect.prospect_id, prospect]));
+const playbookById = new Map(RUTGERS_PLAYBOOK.map(play => [play.id, play]));
+const allCanonicalPlayerIds = playerIdentityRegistry.players.map(row => row.player_id || row.opponent_player_id);
+const rutgersIdentityRows = playerIdentityRegistry.players.filter(row => row.entity_type === 'rutgers_player');
+const opponentIdentityRows = playerIdentityRegistry.players.filter(row => row.entity_type === 'opponent_player');
+const opponentIdentityById = new Map(opponentIdentityRows.map(row => [row.opponent_player_id, row]));
+const prospectIdentityRows = prospectIdentityRegistry.prospects || [];
+const playIdentityRows = playIdentityRegistry.plays || [];
+const allStatRows = stats => Object.values(stats).filter(Array.isArray).flat();
+const rutgersLastRows = allStatRows(rutgersLast);
+const rutgersSeasonRows = allStatRows(rutgersSeason);
+const opponentLastRows = allStatRows(opponentLast);
+const opponentSeasonRows = allStatRows(opponentSeason);
+const namePositionMatch = (row, source) => source && row.name === source.name && row.position === source.position;
+check('Identity registries parse and declare package types', playerIdentityRegistry.package_type === 'player_identity_registry' && prospectIdentityRegistry.package_type === 'prospect_identity_registry' && playIdentityRegistry.package_type === 'play_identity_registry' && identityIdMap.package_type === 'identity_id_map');
+check('Canonical player IDs are present and unique', allCanonicalPlayerIds.every(Boolean) && unique(allCanonicalPlayerIds));
+check('Canonical prospect IDs are present and unique', prospectIdentityRows.every(row => row.prospect_id) && unique(prospectIdentityRows.map(row => row.prospect_id)));
+check('Canonical play IDs are present and unique', playIdentityRows.every(row => row.play_id) && unique(playIdentityRows.map(row => row.play_id)));
+check('Rutgers identity registry matches roster source by ID/name/position', rutgersIdentityRows.length === RUTGERS_ROSTER_BASE.players.length && rutgersIdentityRows.every(row => namePositionMatch(row, rutgersRosterById.get(row.player_id))));
+check('Opponent identity registry matches opponent source or stat-only rows by ID/name/position', opponentIdentityRows.length >= PURDUE_OPPONENT_PLAYERS.players.length && opponentIdentityRows.filter(row => row.card_ref).length === PURDUE_OPPONENT_PLAYERS.players.length && opponentIdentityRows.every(row => {
+  const source = opponentPlayersById.get(row.opponent_player_id);
+  return source ? namePositionMatch({ ...row, player_id: row.opponent_player_id }, source) : row.source_status === 'stat_only_identity' && row.name && row.position;
+}));
+check('Prospect identity registry matches recruiting class by ID/name/position', prospectIdentityRows.length === RECRUITING_CLASS.prospects.length && prospectIdentityRows.every(row => namePositionMatch(row, prospectById.get(row.prospect_id))));
+check('Play identity registry matches verified playbook by ID/name/formation/set', playIdentityRows.length === RUTGERS_PLAYBOOK.length && playIdentityRows.every(row => { const play = playbookById.get(row.play_id); return play && row.play_name === play.name && row.formation_family === play.formationFamily && row.set_or_subformation === play.set; }));
+check('Identity migration map covers every canonical entity', identityIdMap.mappings.length === allCanonicalPlayerIds.length + prospectIdentityRows.length + playIdentityRows.length && identityIdMap.mappings.every(row => row.canonical_id && ['preserved','created','remapped'].includes(row.status)));
+check('Rutgers roster count equals base Player Card count', RUTGERS_ROSTER_BASE.players.length === registry.rutgers_cards.length && registry.rutgers_cards.every(card => rutgersRosterById.has(card.player_id)));
+check('Opponent player count equals opponent Player Card count', PURDUE_OPPONENT_PLAYERS.players.length === registry.opponent_cards.length && registry.opponent_cards.every(card => opponentPlayersById.has(card.player_id)));
+check('Rutgers media binds exactly one portrait to each Rutgers player_id', rutgersMedia.players.length === RUTGERS_ROSTER_BASE.players.length && unique(rutgersMedia.players.map(row => row.player_id)) && rutgersMedia.players.every(row => rutgersRosterById.has(row.player_id) && fs.existsSync(path.join(root, row.portrait_path))));
+check('Opponent media binds exactly one portrait to each opponent player ID', opponentMedia.players.length === PURDUE_OPPONENT_PLAYERS.players.length && unique(opponentMedia.players.map(row => row.player_id)) && opponentMedia.players.every(row => opponentPlayersById.has(row.player_id) && fs.existsSync(path.join(root, row.portrait_path))));
+check('Rutgers stat rows resolve by player_id and matching name only', [...rutgersLastRows, ...rutgersSeasonRows].every(row => rutgersRosterById.has(row.player_id) && rutgersRosterById.get(row.player_id).name === row.name));
+check('Opponent stat rows resolve by player_id and matching name only', [...opponentLastRows, ...opponentSeasonRows].every(row => opponentIdentityById.has(row.player_id) && opponentIdentityById.get(row.player_id).name === row.name));
+check('Every RecruitCard can render from one prospect_id without loose prospect rows', RECRUITING_CLASS.prospects.length === prospectIdentityRows.length && RECRUITING_CLASS.prospects.every((prospect, index) => engine.RecruitCard({ ...prospect, prospect }, index, 'prospect').includes(`data-prospect-id="${prospect.prospect_id}"`)));
+check('Recruit attribute objects resolve per prospect and missing values render N/A or are hidden', RECRUITING_CLASS.prospects.every(prospect => prospect.analysis && prospect.analysis.display_stats && prospect.analysis.display_stats.position === prospect.position) && engine.formatLimited(undefined, 'N/A') === 'N/A');
+const verifiedGemIds = RECRUITING_CLASS.prospects.filter(prospect => prospect.gem === true || prospect.gem_status === 'Gem' || prospect.analysis?.gem_status === 'Gem').map(prospect => prospect.prospect_id);
+const recruitClassHtml = RECRUITING_CLASS.prospects.map((prospect, index) => engine.RecruitCard({ ...prospect, prospect }, index, 'prospect')).join('\n');
+check('Verified recruit gem state is source-driven', verifiedGemIds.length === 0 ? !recruitClassHtml.includes('💎') : verifiedGemIds.every(id => engine.RecruitCard({ ...prospectById.get(id), prospect: prospectById.get(id) }, 0, 'prospect').includes('💎')));
+const verifiedDevelopmentTraitIds = RUTGERS_ROSTER_BASE.players.filter(player => player.development_trait || player.dev_trait).map(player => player.player_id);
+check('Verified development traits are source-driven and not invented', verifiedDevelopmentTraitIds.length === 0 ? !app.includes('development-trait-badge') : verifiedDevelopmentTraitIds.every(id => engine.premiumPlayerCard(rutgersRosterById.get(id), 'rutgers').includes(rutgersRosterById.get(id).development_trait || rutgersRosterById.get(id).dev_trait)));
+check('Every verified playbook record is preserved as one canonical play identity', RUTGERS_PLAYBOOK.length === 192 && playIdentityRows.length === 192 && unique(RUTGERS_PLAYBOOK.map(play => play.verifiedVisibleKey)));
+check('Play art bindings resolve by play_id or placeholder without dropping plays', playIdentityRows.every(row => playbookById.has(row.play_id) && row.art_ref && fs.existsSync(path.join(root, row.art_ref))));
+const weeklyPlayRefs = [weeklyMatchupSummary.best_play.play_id, ...weeklyMatchupSummary.top_three.map(row => row.play_id), ...runLaneAnalysis.lanes.flatMap(row => row.recommended_play_ids || [])];
+check('Weekly recommendation play references resolve to canonical play IDs', weeklyPlayRefs.every(id => playbookById.has(id) && playIdentityRows.some(row => row.play_id === id)));
+const weeklyPlayerRefs = [
+  weeklyMatchupSummary.featured_player.player_id,
+  weeklyMatchupSummary.best_play.primary_target_player_id,
+  weeklyMatchupSummary.passing_game.best_wr_matchup && weeklyMatchupSummary.passing_game.best_wr_matchup.player_id,
+  ...Object.values(coachingDecisions.run_personnel).flatMap(row => [row.primary_player_id, row.secondary_player_id]),
+  ...weeklyMatchupSummary.protection.slots.flatMap(row => [row.rutgers_player_id].filter(Boolean))
+].filter(Boolean);
+check('Weekly recommendation Rutgers player references resolve to canonical roster IDs', weeklyPlayerRefs.every(id => rutgersRosterById.has(id)));
+check('Run play recommended carriers resolve to active roster identities when evidence exists', RUTGERS_PLAYBOOK.filter(play => engine.runStyleForPlay(play)).every(play => { const decision = engine.runPersonnelDecision(play); return !decision || !decision.primary || rutgersRosterById.has(decision.primary.player_id); }));
+check('Matchups resolve Rutgers/opponent IDs, names, media, attributes, stats, and recommendation from one matchup record', PLAYER_MATCHUPS.matchups.every(row => {
+  const rutgers = row.rutgers_player && rutgersRosterById.get(row.rutgers_player.player_id);
+  const opponent = row.opponent_player && opponentPlayersById.get(row.opponent_player.player_id);
+  const rutgersMediaRow = rutgersMedia.players.find(media => media.player_id === row.rutgers_player.player_id);
+  const opponentMediaRow = opponentMedia.players.find(media => media.player_id === row.opponent_player.player_id);
+  return rutgers && opponent &&
+    row.rutgers_player.name === rutgers.name && row.rutgers_player.position === rutgers.position &&
+    row.opponent_player.name === opponent.name && row.opponent_player.position === opponent.position &&
+    rutgersMediaRow && opponentMediaRow &&
+    row.rutgers_player.attributes && row.opponent_player.attributes &&
+    row.grade && Array.isArray(row.tactical_recommendations);
+}));
+const identityUnresolvedReferences = [
+  ...allCanonicalPlayerIds.filter(id => !id),
+  ...prospectIdentityRows.filter(row => !prospectById.has(row.prospect_id)).map(row => row.prospect_id),
+  ...playIdentityRows.filter(row => !playbookById.has(row.play_id)).map(row => row.play_id),
+  ...weeklyPlayRefs.filter(id => !playbookById.has(id)),
+  ...weeklyPlayerRefs.filter(id => !rutgersRosterById.has(id))
+];
+check('Identity unresolved reference count is zero', identityUnresolvedReferences.length === 0, `unresolved=${identityUnresolvedReferences.length}`);
 const packBIds = ['dashboard_game_header','dashboard_featured_player','dashboard_biggest_risk','dashboard_best_run_lane','dashboard_protection_call','dashboard_passing_focus','dashboard_red_zone_plan','dashboard_third_down_plan','dashboard_top_matchups_preview','dashboard_alerts','dashboard_tempo','team_card_rutgers','team_card_opponent'];
 const cardById = new Map((cardRegistry.cards || []).map(card => [card.card_id, card]));
 const dashboardCards = (cardRegistry.cards || []).filter(card => card.visible !== false && card.tab === 'gameplan' && card.section === 'dashboard').sort((a,b) => Number(a.order) - Number(b.order));

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Identity linkage foundation
+- Added canonical identity registries for players, prospects, and verified plays without duplicating ratings, attributes, stats, matchup grades, or recommendation scores.
+- Added `data/migrations/identity_id_map.json` to audit preserved, created, or remapped IDs.
+- Preserved existing stable Rutgers, opponent, prospect, and play IDs; added stat-only opponent identities for Purdue stat rows that are outside the 16-card opponent package.
+- Expanded validation for duplicate IDs, missing IDs, unresolved foreign keys, roster/card count parity, media binding, stats binding, RecruitCard count parity, verified gem/development-trait handling, play recommendation linkage, matchup linkage, and 192-play preservation.
+- Added identity audit reports for Rutgers players, recruits, plays, media, stats, matchups, play-player fit, and regression.
+
 ## Sprint 2.5 correction pass 2 tab ownership
 - Locked the permanent tab ownership standard into `PROJECT_SPEC.md`.
 - Moved Best Play, Top 3, Top Plays hero, Top 3 selector, filters, search, favorites, grouping, play art, and the full 192-play library fully under the Top Plays tab.

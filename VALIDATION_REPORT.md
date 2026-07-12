@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T21:05:39.844Z
+Validated: 2026-07-12T21:55:38.637Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -15,6 +15,32 @@ Validated: 2026-07-12T21:05:39.844Z
 - PASS - Card resolver layer exists
 - PASS - Card resolver does not mutate authoritative JSON data
 - PASS - Approved matchup card uses shared card primitives
+- PASS - Identity registries parse and declare package types
+- PASS - Canonical player IDs are present and unique
+- PASS - Canonical prospect IDs are present and unique
+- PASS - Canonical play IDs are present and unique
+- PASS - Rutgers identity registry matches roster source by ID/name/position
+- PASS - Opponent identity registry matches opponent source or stat-only rows by ID/name/position
+- PASS - Prospect identity registry matches recruiting class by ID/name/position
+- PASS - Play identity registry matches verified playbook by ID/name/formation/set
+- PASS - Identity migration map covers every canonical entity
+- PASS - Rutgers roster count equals base Player Card count
+- PASS - Opponent player count equals opponent Player Card count
+- PASS - Rutgers media binds exactly one portrait to each Rutgers player_id
+- PASS - Opponent media binds exactly one portrait to each opponent player ID
+- PASS - Rutgers stat rows resolve by player_id and matching name only
+- PASS - Opponent stat rows resolve by player_id and matching name only
+- PASS - Every RecruitCard can render from one prospect_id without loose prospect rows
+- PASS - Recruit attribute objects resolve per prospect and missing values render N/A or are hidden
+- PASS - Verified recruit gem state is source-driven
+- PASS - Verified development traits are source-driven and not invented
+- PASS - Every verified playbook record is preserved as one canonical play identity
+- PASS - Play art bindings resolve by play_id or placeholder without dropping plays
+- PASS - Weekly recommendation play references resolve to canonical play IDs
+- PASS - Weekly recommendation Rutgers player references resolve to canonical roster IDs
+- PASS - Run play recommended carriers resolve to active roster identities when evidence exists
+- PASS - Matchups resolve Rutgers/opponent IDs, names, media, attributes, stats, and recommendation from one matchup record
+- PASS - Identity unresolved reference count is zero (unresolved=0)
 - PASS - Pack B registry entries exist
 - PASS - Dashboard order resolves from registry
 - PASS - Pack B source refs resolve without duplicated football data

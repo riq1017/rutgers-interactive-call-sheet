@@ -128,6 +128,28 @@ function clampScore(value) {
   return Math.max(0, Math.min(100, Math.round(value * 10) / 10));
 }
 
+function scoreLetter(value) {
+  const score = Number(value);
+  if (!Number.isFinite(score)) return "";
+  if (score >= 97) return "A+";
+  if (score >= 93) return "A";
+  if (score >= 90) return "A-";
+  if (score >= 87) return "B+";
+  if (score >= 83) return "B";
+  if (score >= 80) return "B-";
+  if (score >= 77) return "C+";
+  if (score >= 73) return "C";
+  if (score >= 70) return "C-";
+  if (score >= 67) return "D+";
+  if (score >= 63) return "D";
+  if (score >= 60) return "D-";
+  return "F";
+}
+
+function displayGrade(value, fallbackScore = "") {
+  return cleanValue(value) || scoreLetter(fallbackScore);
+}
+
 function displayValue(value) {
   if (value === null || value === undefined || value === "") return "";
   if (Array.isArray(value)) return value.length ? value.join(", ") : "";
@@ -1321,11 +1343,15 @@ function showRosterGroup(group) {
 function topAttributes(entity, max = 3) {
   const display = ((entity.analysis || entity.ui_analysis || {}).display_stats || {}).top_attributes;
   if (Array.isArray(display) && display.length) return display.slice(0, max).map(item => `${item.label} ${item.value}`);
+  if (entity.attributes && typeof entity.attributes === "object") {
+    return Object.entries(entity.attributes).filter(([, value]) => cleanValue(value)).slice(0, max).map(([key, value]) => `${labelize(key)} ${value}`);
+  }
   const keys = ["overall","speed","acceleration","agility","change_of_direction","strength","awareness","play_recognition","power_moves","finesse_moves"];
   return keys.filter(key => cleanValue(entity[key]) && key !== "overall").slice(0, max).map(key => `${labelize(key)} ${entity[key]}`);
 }
 
 function findRutgersMatchupPlayer(row) {
+  if (row.rutgers_player) return row.rutgers_player;
   const unit = cleanValue(row.rutgers_unit);
   const direct = ["LT","LG","C","RG","RT","QB","TE","HB","WR"].find(pos => new RegExp(`(^|[^A-Z])${pos}([^A-Z]|$)`, "i").test(unit));
   let candidates = [];
@@ -1336,6 +1362,7 @@ function findRutgersMatchupPlayer(row) {
 }
 
 function findOpponentMatchupPlayer(row) {
+  if (row.opponent_player && typeof row.opponent_player === "object") return row.opponent_player;
   const target = cleanValue(row.opponent_player).toLowerCase();
   return (loadOpponentPlayers() || []).find(player => cleanValue(player.name).toLowerCase() === target) || null;
 }
@@ -1361,9 +1388,9 @@ function activeWeekLabel() {
 function matchupConfidence() {
   const matchups = loadMatchups() || [];
   if (!matchups.length) return "";
-  const highRisk = matchups.filter(row => /high/i.test(cleanValue(row.risk))).length;
+  const highRisk = matchups.filter(row => /high|limited|d/i.test(`${cleanValue(row.risk)} ${cleanValue(row.grade)} ${cleanValue(row.data_limitations)}`)).length;
   if (highRisk >= 2) return "Caution";
-  if (matchups.some(row => /Rutgers/i.test(cleanValue(row.status)))) return "Targeted edges";
+  if (matchups.some(row => /Rutgers/i.test(cleanValue(row.status || row.advantage)))) return "Targeted edges";
   return "Verified matchup data loaded";
 }
 
@@ -1375,7 +1402,7 @@ function keyOpponentPlayer(pattern) {
 
 function highestRiskMatchup() {
   const rows = loadMatchups() || [];
-  return rows.find(row => /high/i.test(cleanValue(row.risk))) || rows[0] || {};
+  return rows.find(row => /D|F|high/i.test(`${cleanValue(row.grade)} ${cleanValue(row.risk)}`)) || rows[0] || {};
 }
 
 function loadRutgersRoster() {
@@ -1399,19 +1426,36 @@ function loadTeamNeeds() {
 }
 
 function loadOpponentProfile() {
-  return (loadGameplanWeekly().opponent_profile) || (typeof PURDUE_OPPONENT_PROFILE !== "undefined" ? PURDUE_OPPONENT_PROFILE : {});
+  return (loadGameplanWeekly().opponent_profile) || {};
 }
 
 function loadOpponentPlayers() {
-  return (loadGameplanWeekly().opponent_players) || (typeof PURDUE_OPPONENT_PLAYERS !== "undefined" ? PURDUE_OPPONENT_PLAYERS.players : []);
+  return (loadGameplanWeekly().opponent_players) || [];
 }
 
 function loadOpponentGroups() {
-  return (loadGameplanWeekly().opponent_position_groups) || (typeof PURDUE_OPPONENT_POSITION_GROUPS !== "undefined" ? PURDUE_OPPONENT_POSITION_GROUPS.groups : []);
+  return (loadGameplanWeekly().opponent_position_groups) || [];
 }
 
 function loadMatchups() {
-  return (loadGameplanWeekly().matchups) || (typeof PURDUE_MATCHUPS !== "undefined" ? PURDUE_MATCHUPS.matchups : []);
+  if (typeof PLAYER_MATCHUPS !== "undefined" && Array.isArray(PLAYER_MATCHUPS.matchups)) return PLAYER_MATCHUPS.matchups;
+  return (loadGameplanWeekly().matchups) || [];
+}
+
+function loadRutgersLastGameStats() {
+  return typeof RUTGERS_LAST_GAME_STATS !== "undefined" ? RUTGERS_LAST_GAME_STATS : (loadGameplanWeekly().last_game || {});
+}
+
+function loadRutgersSeasonStats() {
+  return typeof RUTGERS_SEASON_STATS !== "undefined" ? RUTGERS_SEASON_STATS : (loadGameplanWeekly().season_stats || {});
+}
+
+function loadOpponentLastGameStats() {
+  return typeof OPPONENT_LAST_GAME_STATS !== "undefined" ? OPPONENT_LAST_GAME_STATS : {};
+}
+
+function loadOpponentSeasonStats() {
+  return typeof OPPONENT_SEASON_STATS !== "undefined" ? OPPONENT_SEASON_STATS : {};
 }
 
 function sharedRosterMatch(player) {
@@ -1524,7 +1568,7 @@ function bestCallCard(play, rankNumber, label) {
           <span class="risk ${play.risk}">${play.risk} risk</span>
         </div>
       </div>
-      <div class="score">${play.score}<span>Final score</span></div>
+      <div class="score">${scoreLetter(play.score)}<span>${play.score} internal</span></div>
     </div>
     <figure class="play-diagram large-diagram">
       <img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="${play.name}" loading="lazy" onerror="this.src='assets/play-diagrams/formation-fallback.svg'">
@@ -1569,7 +1613,7 @@ function renderTopAlternatives(picks) {
         <span class="rank-dot">${i + 1}</span>
         <img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="" loading="lazy">
         <strong>${play.name}</strong>
-        <em>${play.score}</em>
+        <em>${scoreLetter(play.score)}</em>
       </summary>
       <div class="small">${play.formation} | ${conceptType(play)} | ${play.risk} risk</div>
       ${maybeRow("Success", estimateSuccess(play))}
@@ -1699,8 +1743,8 @@ function callCard(play, rankNumber) {
     <summary>
       <span class="rank-dot">${rankNumber}</span>
       <img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="" loading="lazy">
-      <span><strong>${play.name}</strong><em>${play.formation} | ${conceptType(play)}</em></span>
-      <b>${play.score}<em>${play.risk}</em></b>
+      <span><strong><mark class="grade-badge">${scoreLetter(play.score)}</mark> ${play.name}</strong><em>${play.formation} | ${conceptType(play)}</em></span>
+      <b>${scoreLetter(play.score)}<em>${play.score} / ${play.risk}</em></b>
     </summary>
     <div class="card-grid">
       ${maybeRow("Personnel", playPersonnel(play))}
@@ -1904,30 +1948,41 @@ function matchupRow(row) {
   const rutgers = findRutgersMatchupPlayer(row);
   const opponent = findOpponentMatchupPlayer(row);
   const rutgersTitle = rutgers ? `${rutgers.name} (${rutgers.position})` : row.rutgers_unit;
-  const opponentTitle = opponent ? `${opponent.name} (${opponent.position})` : row.opponent_player;
-  return `<details class="match-card compact-match player-matchup"><summary><strong>${rutgersTitle} vs ${opponentTitle}</strong><span>${cleanValue(row.status)} | ${cleanValue(row.risk)}</span><em>${firstClean(row.recommendations)}</em></summary>
+  const opponentTitle = opponent ? `${opponent.name} (${opponent.position})` : cleanValue(row.opponent_player);
+  const recommendations = row.tactical_recommendations || row.recommendations || [];
+  const evidence = (row.evidence || []).map(item => typeof item === "object" ? `${cleanValue(item.label || item.type || item.source)} ${cleanValue(item.value || item.note || item.description)}` : item).filter(cleanValue);
+  const limitations = row.data_limitations || [];
+  const limited = limitations.length || !evidence.length;
+  return `<details class="match-card compact-match player-matchup"><summary><strong>${rutgersTitle} vs ${opponentTitle}</strong><span>${cleanValue(row.advantage || row.status)} | ${displayGrade(row.grade, row.internal_score)} | ${cleanValue(row.confidence) ? `${row.confidence}%` : "LIMITED DATA"}</span><em>${firstClean(recommendations)}</em></summary>
     <div class="matchup-sides">
       <div class="match-side"><h4>Rutgers Side</h4>${maybeRow("Player", rutgers && rutgers.name)}${maybeRow("Position", rutgers && rutgers.position)}${maybeRow("Overall", rutgers && rutgers.overall)}${maybeRow("Ratings", rutgers ? topAttributes(rutgers) : "")}${maybeRow("Last-game stats", rutgers && rutgers.last_game_stats)}${maybeRow("Season stats", rutgers && rutgers.season_stats)}</div>
-      <div class="match-side"><h4>Opponent Side</h4>${maybeRow("Player", opponent && opponent.name)}${maybeRow("Position", opponent && opponent.position)}${maybeRow("Overall", opponent && opponent.overall)}${maybeRow("Ratings", opponent ? topAttributes(opponent) : "")}${maybeRow("Production", opponent && opponent.production_stats)}</div>
+      <div class="match-side"><h4>Opponent Side</h4>${maybeRow("Player", opponent && opponent.name)}${maybeRow("Position", opponent && opponent.position)}${maybeRow("Overall", opponent && opponent.overall)}${maybeRow("Ratings", opponent ? topAttributes(opponent) : "")}${maybeRow("Last Game", opponent && opponent.last_game)}${maybeRow("Season", opponent && opponent.season)}</div>
     </div>
-    ${maybeRow("Advantage", row.status)}${maybeRow("Risk", row.risk)}${maybeRow("Confidence", row.confidence)}${maybeRow("Analysis", row.description)}${maybeRow("Recommended concepts", row.recommendations)}${maybeRow("Avoid concepts", row.risk === "High" ? "Isolated slow-developing protection" : "")}${maybeRow("Protection adjustment", (row.recommendations || []).filter(x => /chip|protection|scan/i.test(x)))}${maybeRow("Usage adjustment", (row.recommendations || []).filter(x => /quick|screen|boot|run/i.test(x)))}
+    ${maybeRow("Advantage", row.advantage || row.status)}${maybeRow("Grade", displayGrade(row.grade, row.internal_score))}${maybeRow("Confidence", cleanValue(row.confidence) ? `${row.confidence}%` : "")}${limited ? maybeRow("Data status", "LIMITED DATA") : ""}${maybeRow("Evidence", evidence)}${maybeRow("Recommendation", recommendations)}${maybeRow("Limitations", limitations)}${maybeRow("Analysis", row.description)}
   </details>`;
 }
 
 function renderOLine() {
-  const linemen = (loadRutgersRoster().players || []).filter(p => ["LT","LG","C","RG","RT","T","G"].includes(p.position));
-  return linemen.length ? `<div class="compact-list">${linemen.map(p => `<details class="person-card compact-person"><summary><strong>${p.name}</strong><span>${p.position} | ${p.class_year} | OVR ${p.overall}</span></summary>${maybeRow("Position", p.position)}${maybeRow("Overall", p.overall)}${maybeRow("Class", p.class_year)}${maybeRow("Matchup note", (p.analysis || {}).matchup_advantage)}${maybeRow("Trend", (p.analysis || {}).development_outlook)}</details>`).join("")}</div>` : renderStatPlaceholder("O-Line", "No verified offensive-line stat grid was provided.");
+  const slots = ["LT","LG","C","RG","RT"];
+  const starters = slots.map(slot => ({ slot, player: groupRosterPlayers(slot)[0] })).filter(row => row.player);
+  const matched = loadMatchups().filter(row => row.rutgers_player && slots.includes(row.rutgers_player.position));
+  return starters.length ? `<div class="oline-alignment">${starters.map(({ slot, player }) => `<details class="oline-node"><summary><span>${slot}</span><strong>${player.name}</strong><em>${cleanValue(player.jersey_number) ? `#${player.jersey_number}` : `OVR ${player.overall}`}</em></summary>${maybeRow("Overall", player.overall)}${maybeRow("Ratings", topAttributes(player))}${maybeRow("Last Game", (matched.find(row => row.rutgers_player.player_id === player.player_id) || {}).rutgers_player && (matched.find(row => row.rutgers_player.player_id === player.player_id) || {}).rutgers_player.last_game)}${maybeRow("Season", (matched.find(row => row.rutgers_player.player_id === player.player_id) || {}).rutgers_player && (matched.find(row => row.rutgers_player.player_id === player.player_id) || {}).rutgers_player.season)}${maybeRow("Matchup", (matched.find(row => row.rutgers_player.player_id === player.player_id) || {}).opponent_player && `${(matched.find(row => row.rutgers_player.player_id === player.player_id) || {}).opponent_player.name} ${displayGrade((matched.find(row => row.rutgers_player.player_id === player.player_id) || {}).grade, (matched.find(row => row.rutgers_player.player_id === player.player_id) || {}).internal_score)}`)}</details>`).join("")}</div>
+    <div class="summary-grid compact-grid">${maybeRow("Best run lane", (loadGameplanWeekly().quick_tactical_summary || {}).best_run_ideas && (loadGameplanWeekly().quick_tactical_summary || {}).best_run_ideas[0])}${maybeRow("Avoid lane", (loadGameplanWeekly().quick_tactical_summary || {}).avoid && (loadGameplanWeekly().quick_tactical_summary || {}).avoid[0])}${maybeRow("Protection direction", (loadGameplanWeekly().quick_tactical_summary || {}).best_protection_rule)}${maybeRow("Chip help", firstClean(loadMatchups().flatMap(row => row.tactical_recommendations || row.recommendations || []).filter(text => /chip|help|scan/i.test(text))))}${maybeRow("Double team", firstClean(loadMatchups().flatMap(row => row.tactical_recommendations || row.recommendations || []).filter(text => /double/i.test(text))))}</div>` : renderStatPlaceholder("O-Line", "No verified offensive-line alignment was provided.");
 }
 
 function renderStatsWorkspace() {
   const requested = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("stats") : "";
   const showSeason = requested === "season";
+  const opponentLast = loadOpponentLastGameStats();
+  const opponentSeason = loadOpponentSeasonStats();
   return `<div class="segmented compact-tabs stat-toggle">
       <button class="${!showSeason ? "active" : ""}" type="button" onclick="renderPersonnelMatchups('stats')">Last Game</button>
       <button class="${showSeason ? "active" : ""}" type="button" onclick="history.replaceState(null,'','?tab=personnel&personnel=stats&stats=season');renderPersonnelMatchups('stats')">Season</button>
     </div>
-    <details class="breakout compact-detail" ${!showSeason ? "open" : ""}><summary>Last Game Stat Sheet</summary>${renderStatSections("Last Game", loadGameplanWeekly().last_game || {})}</details>
-    <details class="breakout compact-detail" ${showSeason ? "open" : ""}><summary>Season Stat Sheet</summary>${renderStatSections("Season Stats", loadGameplanWeekly().season_stats || {})}</details>`;
+    <details class="breakout compact-detail" ${!showSeason ? "open" : ""}><summary>Rutgers Last Game Stat Sheet</summary>${renderStatSections("Last Game", loadRutgersLastGameStats())}</details>
+    <details class="breakout compact-detail" ${showSeason ? "open" : ""}><summary>Rutgers Season Stat Sheet</summary>${renderStatSections("Season Stats", loadRutgersSeasonStats())}</details>
+    <details class="breakout compact-detail"><summary>Opponent Last Game</summary>${renderStatSections("Opponent Last Game", opponentLast)}</details>
+    <details class="breakout compact-detail"><summary>Opponent Season</summary>${renderStatSections("Opponent Season", opponentSeason)}</details>`;
 }
 
 function renderStatSections(title, data) {
@@ -1936,10 +1991,17 @@ function renderStatSections(title, data) {
   if (!entries.length) return `<div class="stat-section-grid">${categories.map(key => `<article class="stat-card empty-stat"><h3>${labelize(key)}</h3><p>No verified ${title.toLowerCase()} values provided.</p></article>`).join("")}</div>`;
   const allEntries = categories.map(key => [key, data[key]]).filter(([, value]) => value !== undefined).concat(entries.filter(([key]) => !categories.includes(key)));
   return `<div class="stat-section-grid">${allEntries.map(([key, value]) => {
-    if (Array.isArray(value)) return `<article class="stat-card"><h3>${labelize(key)}</h3>${maybeList(value)}</article>`;
+    if (Array.isArray(value)) return `<article class="stat-card stat-ticker"><h3>${labelize(key)}</h3><div class="stat-rail">${value.map(item => statChip(item)).join("")}</div></article>`;
     if (value && typeof value === "object") return `<article class="stat-card"><h3>${labelize(key)}</h3>${Object.entries(value).map(([k, v]) => maybeRow(labelize(k), v)).join("")}</article>`;
     return `<article class="stat-card"><h3>${labelize(key)}</h3>${maybeRow("Value", value)}</article>`;
   }).join("")}</div>`;
+}
+
+function statChip(item) {
+  if (!item || typeof item !== "object") return cleanValue(item) ? `<div class="stat-chip"><strong>${cleanValue(item)}</strong></div>` : "";
+  const entries = Object.entries(item).filter(([key, value]) => !["player_id"].includes(key) && cleanValue(value));
+  const name = cleanValue(item.name || item.player || item.team || entries[0] && entries[0][1]);
+  return `<div class="stat-chip"><strong>${name}</strong>${entries.filter(([key]) => !["name","player","team"].includes(key)).slice(0, 8).map(([key, value]) => `<span>${labelize(key)} ${cleanValue(value)}</span>`).join("")}</div>`;
 }
 
 function renderStatPlaceholder(title, message) {

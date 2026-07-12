@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0",
+  "package_type": "opponent_last_game_stats",
+  "opponent": {
+    "name": "Purdue",
+    "replace_next_week": true
+  },
+  "source_video": "IMG_3052.mp4",
+  "verification_status": "verified_from_visible_video_frames",
+  "scope_note": "Visible Purdue player-stat screens were transcribed. This package is weekly and must be fully replaced for the next opponent.",
+  "defense": [
+    {
+      "player_id": "pur-mike-a-warren",
+      "name": "A. Warren",
+      "solo": 11,
+      "assists": 2,
+      "tackles": 13,
+      "tfl": 1,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 0
+    },
+    {
+      "player_id": "pur-ledg-y-hernandez",
+      "name": "Y. Hernandez",
+      "solo": 7,
+      "assists": 1,
+      "tackles": 8,
+      "tfl": 3,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 0
+    },
+    {
+      "player_id": "pur-redg-q-gillians",
+      "name": "Q. Gillians",
+      "solo": 7,
+      "assists": 1,
+      "tackles": 8,
+      "tfl": 2,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 0
+    },
+    {
+      "player_id": "pur-will-b-leal",
+      "name": "B. Leal",
+      "solo": 3,
+      "assists": 4,
+      "tackles": 7,
+      "tfl": 0,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 0
+    },
+    {
+      "player_id": "pur-will-t-scales",
+      "name": "T. Scales",
+      "solo": 4,
+      "assists": 2,
+      "tackles": 6,
+      "tfl": 3,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 0
+    },
+    {
+      "player_id": "pur-ss-e-sawyer",
+      "name": "E. Sawyer",
+      "solo": 3,
+      "assists": 3,
+      "tackles": 6,
+      "tfl": 1,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 0
+    },
+    {
+      "player_id": "pur-mike-r-ogden",
+      "name": "R. Ogden",
+      "solo": 5,
+      "assists": 1,
+      "tackles": 6,
+      "tfl": 0,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 1
+    },
+    {
+      "player_id": "pur-fs-k-smallwood",
+      "name": "K. Smallwood",
+      "solo": 2,
+      "assists": 3,
+      "tackles": 5,
+      "tfl": 0,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 0
+    },
+    {
+      "player_id": "pur-fs-j-goldsberry",
+      "name": "J. Goldsberry",
+      "solo": 2,
+      "assists": 2,
+      "tackles": 4,
+      "tfl": 1,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 0
+    },
+    {
+      "player_id": "pur-cb-r-jerry",
+      "name": "R. Jerry",
+      "solo": 4,
+      "assists": 0,
+      "tackles": 4,
+      "tfl": 0,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 1
+    },
+    {
+      "player_id": "pur-dt-b-hanson",
+      "name": "B. Hanson",
+      "solo": 1,
+      "assists": 1,
+      "tackles": 2,
+      "tfl": 0,
+      "sacks": 0.0,
+      "interceptions": 0,
+      "deflections": 0
+    }
+  ],
+  "generated_utc": "2026-07-12T14:03:50.633048+00:00"
+}

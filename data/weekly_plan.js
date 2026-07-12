@@ -236,7 +236,7 @@ window.WEEKLY_PLAN = {
         "yardsPerCompletion": 7.7,
         "rushingAttempts": 3,
         "rushingYards": 9,
-        "yardsPerCarry": 3.0
+        "yardsPerCarry": 3
       },
       "rollingStats": {},
       "weeklyRole": "Backup quarterback and change-of-pace runner only.",
@@ -441,7 +441,7 @@ window.WEEKLY_PLAN = {
         "yardsPerReception": 10.5,
         "receivingTouchdowns": 0,
         "yardsAfterCatch": 8,
-        "yardsAfterCatchAverage": 2.0,
+        "yardsAfterCatchAverage": 2,
         "longReception": 18,
         "drops": 0,
         "yardsPerTarget": null,
@@ -590,10 +590,10 @@ window.WEEKLY_PLAN = {
         "rushingYards": 0,
         "receptions": 2,
         "receivingYards": 26,
-        "yardsPerReception": 13.0,
+        "yardsPerReception": 13,
         "receivingTouchdowns": 1,
         "yardsAfterCatch": 10,
-        "yardsAfterCatchAverage": 5.0,
+        "yardsAfterCatchAverage": 5,
         "longReception": 14,
         "drops": 0
       },
@@ -690,7 +690,7 @@ window.WEEKLY_PLAN = {
       "lastGameStats": {
         "receptions": 4,
         "receivingYards": 32,
-        "yardsPerReception": 8.0,
+        "yardsPerReception": 8,
         "receivingTouchdowns": 0,
         "yardsAfterCatch": 10,
         "yardsAfterCatchAverage": 2.5,
@@ -741,10 +741,10 @@ window.WEEKLY_PLAN = {
         "rushingYards": 1,
         "receptions": 1,
         "receivingYards": 22,
-        "yardsPerReception": 22.0,
+        "yardsPerReception": 22,
         "receivingTouchdowns": 0,
         "yardsAfterCatch": 2,
-        "yardsAfterCatchAverage": 2.0,
+        "yardsAfterCatchAverage": 2,
         "longReception": 22,
         "drops": 0
       },
@@ -773,18 +773,18 @@ window.WEEKLY_PLAN = {
     }
   },
   "openingScript": [
-    "inside-zone-split",
-    "hb-dive-pistol",
-    "rpo-read-zone-bubbles",
-    "y-stick",
-    "counter",
-    "pa-boot-slide",
-    "pa-fl-counter-y-screen",
-    "power-o",
-    "te-attack",
-    "hb-sting",
-    "mesh-spot",
-    "pa-y-seam"
+    "gun-split-slot-open-shuffle-flood-x-dig",
+    "gun-split-slot-open-shuffle-angle-z-spot",
+    "gun-split-slot-open-shuffle-slot-dig",
+    "gun-wing-tight-z-shuffle-flood-x-dig",
+    "gun-wing-tight-z-shuffle-angle-z-spot",
+    "gun-wing-tight-z-pa-flood",
+    "gun-deuce-close-four-verticals",
+    "gun-deuce-close-deep-curls",
+    "gun-deuce-close-shakes",
+    "gun-deuce-twins-over-inside-zone",
+    "gun-deuce-twins-over-mesh-spot",
+    "gun-deuce-twins-over-rpo-glance-post"
   ],
   "warnings": [
     "Do not call consecutive slow-developing dropbacks.",

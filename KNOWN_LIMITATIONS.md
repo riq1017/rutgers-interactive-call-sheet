@@ -1,7 +1,8 @@
-# KNOWN_LIMITATIONS
+# Known Limitations
 
-- `depth_chart_seed.json` marks the full Rutgers roster/depth chart as manual transcription required, so non-verified roster rows are not added.
-- Depth-chart order, injuries, expected departures, development traits, coach-ability tiers, and most prospect fields remain null unless verified in source data.
-- Headless Edge produced the required 390x844 screenshots. Edge logged background sync network aborts because network access is restricted, but the local static app loaded and screenshots were written.
-- Weekly Gameplan matchup modifiers remain neutral when an imported package omits matchup matrix data.
-- Verified per-lane rushing attempts/yards, per-gap pressure counts, detailed O-line stat grids, full last-game stat grids, and full season stat grids are not present in the current package; the UI hides those missing metrics rather than fabricating them.
+- Oregon playbook completeness cannot be verified from the supplied video. Status remains `CANNOT_VERIFY_COMPLETE_FROM_THIS_VIDEO`.
+- All 192 Oregon visible plays currently use placeholder play art because matching diagrams were not supplied for this transcript.
+- Opponent package is Purdue for this week, but it is treated as replaceable weekly data.
+- Purdue offensive roster and Purdue defensive-back attributes are incomplete in the supplied package, so unsupported matchup groups remain limited data.
+- Position-specific blocking/coverage ratings were not visible for every matchup; the matchup package carries explicit data limitations.
+- Recruiting star values remain hidden where the existing recruiting data does not provide verified numeric stars.

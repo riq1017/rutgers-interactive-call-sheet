@@ -1,8 +1,8 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T05:37:19.436Z
+Validated: 2026-07-12T14:47:46.654Z
 
-- PASS - Authoritative enriched JSON files are present
+- PASS - Authoritative Phase 1 JSON files are present
 - PASS - Shared roster source has 48 verified players
 - PASS - No duplicate hardcoded roster is used by the visible Recruiting engine
 - PASS - Gameplan engine reads enriched opponent/profile/player/group/matchup data
@@ -27,7 +27,9 @@ Validated: 2026-07-12T05:37:19.436Z
 - PASS - No static opponent facts remain in noscript fallback
 - PASS - No old four quarterback summary boxes remain
 - PASS - No fake mockup players were copied
-- PASS - Existing play art remains functional
+- PASS - Oregon visible playbook inventory imports every verified row
+- PASS - Oregon playbook completeness is not overstated
+- PASS - Missing Oregon play art uses placeholders without dropping plays
 - PASS - Best Call remains functional
 - PASS - Top 3 remains functional and diverse
 - PASS - Gameplan import validation accepts enriched package
@@ -38,12 +40,13 @@ Validated: 2026-07-12T05:37:19.436Z
 - PASS - GitHub Pages relative paths are preserved
 - PASS - Repeated Not available is avoided in enriched card renderers
 - PASS - Weekly action plan links board rows to prospect details when available
-- PASS - Last Game and Season Stats remain separate with required categories
+- PASS - Last Game and Season Stats remain separate with verified files
 - PASS - Gameplan default is compact with drill-down details
 - PASS - Top Plays uses compact rows and advanced filter drawer
 - PASS - Personnel uses one internal workspace section at a time
 - PASS - Roster uses horizontal position boxes instead of one long expanded report
 - PASS - Matchups show player-vs-player cards where position data resolves
+- PASS - Matchups bind to player_matchups.json
 - PASS - Recruiting board starts from active_board when present
 - PASS - Prospect rating renderer hides unavailable stars and never prints Star as a value
 - PASS - Roster and prospects default to tap-open detail rows

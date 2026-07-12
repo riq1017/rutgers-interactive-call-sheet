@@ -1,0 +1,775 @@
+{
+  "schema_version": "1.0",
+  "package_type": "player_matchups",
+  "base_team": "Rutgers",
+  "opponent": "Purdue",
+  "opponent_replace_next_week": true,
+  "source_files": [
+    "rutgers_roster_base(1).json",
+    "purdue_opponent_players(1).json",
+    "rutgers_last_game_stats.json",
+    "rutgers_season_stats.json",
+    "opponent_last_game_stats.json",
+    "opponent_season_stats.json"
+  ],
+  "verification_status": "generated_from_verified_visible_data",
+  "matchups": [
+    {
+      "matchup_id": "rt_vs_redg",
+      "type": "pass_protection",
+      "rutgers_player": {
+        "player_id": "b-newberry-rt",
+        "name": "B. Newberry",
+        "position": "RT",
+        "overall": 73,
+        "attributes": {
+          "overall": 73,
+          "strength": 80,
+          "awareness": 72,
+          "speed": 69,
+          "acceleration": 86,
+          "agility": 85,
+          "change_of_direction": 57
+        },
+        "last_game": null,
+        "season": null
+      },
+      "opponent_player": {
+        "player_id": "pur-redg-q-gillians",
+        "name": "Q. Gillians",
+        "position": "REDG",
+        "overall": 84,
+        "attributes": {
+          "overall": 84,
+          "strength": 78,
+          "awareness": 84,
+          "speed": 76,
+          "acceleration": 82,
+          "agility": 71,
+          "change_of_direction": 76
+        },
+        "last_game": {
+          "player_id": "pur-redg-q-gillians",
+          "name": "Q. Gillians",
+          "solo": 7,
+          "assists": 1,
+          "tackles": 8,
+          "tfl": 2,
+          "sacks": 0.0,
+          "interceptions": 0,
+          "deflections": 0
+        },
+        "season": {
+          "player_id": "pur-redg-q-gillians",
+          "name": "Q. Gillians",
+          "games": 4,
+          "solo": 12,
+          "assists": 1,
+          "tackles": 13,
+          "tfl": 3,
+          "sacks": 0.0
+        }
+      },
+      "advantage": "Purdue",
+      "internal_score": 68.8,
+      "grade": "D",
+      "confidence": 92,
+      "evidence": [
+        {
+          "metric": "overall",
+          "rutgers": 73,
+          "opponent": 84,
+          "difference": -11
+        },
+        {
+          "metric": "strength",
+          "rutgers": 80,
+          "opponent": 78,
+          "difference": 2
+        },
+        {
+          "metric": "awareness",
+          "rutgers": 72,
+          "opponent": 84,
+          "difference": -12
+        },
+        {
+          "metric": "speed",
+          "rutgers": 69,
+          "opponent": 76,
+          "difference": -7
+        },
+        {
+          "metric": "acceleration",
+          "rutgers": 86,
+          "opponent": 82,
+          "difference": 4
+        },
+        {
+          "metric": "agility",
+          "rutgers": 85,
+          "opponent": 71,
+          "difference": 14
+        },
+        {
+          "metric": "change_of_direction",
+          "rutgers": 57,
+          "opponent": 76,
+          "difference": -19
+        }
+      ],
+      "tactical_recommendations": [
+        "Chip Q. Gillians with TE/RB",
+        "Use quick game and screens",
+        "Move launch point away from right edge"
+      ],
+      "data_limitations": [
+        "Position-specific blocking/coverage ratings were not visible in the supplied roster videos; grade uses visible athletic/awareness/overall data plus production."
+      ]
+    },
+    {
+      "matchup_id": "lt_vs_ledg",
+      "type": "pass_protection",
+      "rutgers_player": {
+        "player_id": "j-elijah-lt",
+        "name": "J. Elijah",
+        "position": "LT",
+        "overall": 80,
+        "attributes": {
+          "overall": 80,
+          "strength": 80,
+          "awareness": 74,
+          "speed": 73,
+          "acceleration": 82,
+          "agility": 75,
+          "change_of_direction": 64
+        },
+        "last_game": null,
+        "season": null
+      },
+      "opponent_player": {
+        "player_id": "pur-ledg-y-hernandez",
+        "name": "Y. Hernandez",
+        "position": "LEDG",
+        "overall": 75,
+        "attributes": {
+          "overall": 75,
+          "strength": null,
+          "awareness": null,
+          "speed": 72,
+          "acceleration": 80,
+          "agility": 74,
+          "change_of_direction": 65
+        },
+        "last_game": {
+          "player_id": "pur-ledg-y-hernandez",
+          "name": "Y. Hernandez",
+          "solo": 7,
+          "assists": 1,
+          "tackles": 8,
+          "tfl": 3,
+          "sacks": 0.0,
+          "interceptions": 0,
+          "deflections": 0
+        },
+        "season": {
+          "player_id": "pur-ledg-y-hernandez",
+          "name": "Y. Hernandez",
+          "games": 5,
+          "solo": 11,
+          "assists": 1,
+          "tackles": 12,
+          "tfl": 3,
+          "sacks": 0.0
+        }
+      },
+      "advantage": "Even",
+      "internal_score": 77.4,
+      "grade": "C+",
+      "confidence": 88,
+      "evidence": [
+        {
+          "metric": "overall",
+          "rutgers": 80,
+          "opponent": 75,
+          "difference": 5
+        },
+        {
+          "metric": "speed",
+          "rutgers": 73,
+          "opponent": 72,
+          "difference": 1
+        },
+        {
+          "metric": "acceleration",
+          "rutgers": 82,
+          "opponent": 80,
+          "difference": 2
+        },
+        {
+          "metric": "agility",
+          "rutgers": 75,
+          "opponent": 74,
+          "difference": 1
+        },
+        {
+          "metric": "change_of_direction",
+          "rutgers": 64,
+          "opponent": 65,
+          "difference": -1
+        }
+      ],
+      "tactical_recommendations": [
+        "Use normal protection with alert help",
+        "Mix counters and screens to slow pursuit"
+      ],
+      "data_limitations": [
+        "Position-specific blocking/coverage ratings were not visible in the supplied roster videos; grade uses visible athletic/awareness/overall data plus production."
+      ]
+    },
+    {
+      "matchup_id": "rg_vs_dt",
+      "type": "interior_run_pass",
+      "rutgers_player": {
+        "player_id": "j-felton-rg",
+        "name": "J. Felton",
+        "position": "RG",
+        "overall": 80,
+        "attributes": {
+          "overall": 80,
+          "strength": 89,
+          "awareness": 75,
+          "speed": 77,
+          "acceleration": 79,
+          "agility": 76,
+          "change_of_direction": 62
+        },
+        "last_game": null,
+        "season": null
+      },
+      "opponent_player": {
+        "player_id": "pur-dt-d-garner",
+        "name": "D. Garner",
+        "position": "DT",
+        "overall": 76,
+        "attributes": {
+          "overall": 76,
+          "strength": 79,
+          "awareness": 75,
+          "speed": 65,
+          "acceleration": 70,
+          "agility": 65,
+          "change_of_direction": 69
+        },
+        "last_game": null,
+        "season": null
+      },
+      "advantage": "Rutgers",
+      "internal_score": 83.4,
+      "grade": "B",
+      "confidence": 90,
+      "evidence": [
+        {
+          "metric": "overall",
+          "rutgers": 80,
+          "opponent": 76,
+          "difference": 4
+        },
+        {
+          "metric": "strength",
+          "rutgers": 89,
+          "opponent": 79,
+          "difference": 10
+        },
+        {
+          "metric": "awareness",
+          "rutgers": 75,
+          "opponent": 75,
+          "difference": 0
+        },
+        {
+          "metric": "speed",
+          "rutgers": 77,
+          "opponent": 65,
+          "difference": 12
+        },
+        {
+          "metric": "acceleration",
+          "rutgers": 79,
+          "opponent": 70,
+          "difference": 9
+        },
+        {
+          "metric": "agility",
+          "rutgers": 76,
+          "opponent": 65,
+          "difference": 11
+        },
+        {
+          "metric": "change_of_direction",
+          "rutgers": 62,
+          "opponent": 69,
+          "difference": -7
+        }
+      ],
+      "tactical_recommendations": [
+        "Use double teams on D. Garner",
+        "Run zone away or trap/wham",
+        "Avoid isolated slow-developing interior concepts"
+      ],
+      "data_limitations": [
+        "Position-specific blocking/coverage ratings were not visible in the supplied roster videos; grade uses visible athletic/awareness/overall data plus production."
+      ]
+    },
+    {
+      "matchup_id": "c_vs_dt",
+      "type": "interior_run",
+      "rutgers_player": {
+        "player_id": "d-sturgis-c",
+        "name": "D. Sturgis",
+        "position": "C",
+        "overall": 79,
+        "attributes": {
+          "overall": 79,
+          "strength": 85,
+          "awareness": 77,
+          "speed": 67,
+          "acceleration": 77,
+          "agility": 69,
+          "change_of_direction": 57
+        },
+        "last_game": null,
+        "season": null
+      },
+      "opponent_player": {
+        "player_id": "pur-dt-b-hanson",
+        "name": "B. Hanson",
+        "position": "DT",
+        "overall": 73,
+        "attributes": {
+          "overall": 73,
+          "strength": 84,
+          "awareness": 82,
+          "speed": 70,
+          "acceleration": 75,
+          "agility": 70,
+          "change_of_direction": 59
+        },
+        "last_game": {
+          "player_id": "pur-dt-b-hanson",
+          "name": "B. Hanson",
+          "solo": 1,
+          "assists": 1,
+          "tackles": 2,
+          "tfl": 0,
+          "sacks": 0.0,
+          "interceptions": 0,
+          "deflections": 0
+        },
+        "season": {
+          "player_id": "pur-dt-b-hanson",
+          "name": "B. Hanson",
+          "games": 5,
+          "solo": 11,
+          "assists": 4,
+          "tackles": 15,
+          "tfl": 2,
+          "sacks": 0.0
+        }
+      },
+      "advantage": "Even",
+      "internal_score": 74.6,
+      "grade": "C",
+      "confidence": 92,
+      "evidence": [
+        {
+          "metric": "overall",
+          "rutgers": 79,
+          "opponent": 73,
+          "difference": 6
+        },
+        {
+          "metric": "strength",
+          "rutgers": 85,
+          "opponent": 84,
+          "difference": 1
+        },
+        {
+          "metric": "awareness",
+          "rutgers": 77,
+          "opponent": 82,
+          "difference": -5
+        },
+        {
+          "metric": "speed",
+          "rutgers": 67,
+          "opponent": 70,
+          "difference": -3
+        },
+        {
+          "metric": "acceleration",
+          "rutgers": 77,
+          "opponent": 75,
+          "difference": 2
+        },
+        {
+          "metric": "agility",
+          "rutgers": 69,
+          "opponent": 70,
+          "difference": -1
+        },
+        {
+          "metric": "change_of_direction",
+          "rutgers": 57,
+          "opponent": 59,
+          "difference": -2
+        }
+      ],
+      "tactical_recommendations": [
+        "Use combo blocks",
+        "Make B. Hanson redirect laterally"
+      ],
+      "data_limitations": [
+        "Position-specific blocking/coverage ratings were not visible in the supplied roster videos; grade uses visible athletic/awareness/overall data plus production."
+      ]
+    },
+    {
+      "matchup_id": "hb_vs_sam",
+      "type": "space_run",
+      "rutgers_player": {
+        "player_id": "t-simonson-hb",
+        "name": "T. Simonson",
+        "position": "HB",
+        "overall": 77,
+        "attributes": {
+          "overall": 77,
+          "strength": 85,
+          "awareness": 74,
+          "speed": 88,
+          "acceleration": 90,
+          "agility": 84,
+          "change_of_direction": 79
+        },
+        "last_game": {
+          "player_id": "t-simonson-hb",
+          "name": "T. Simonson",
+          "carries": 24,
+          "yards": 100,
+          "avg": 4.2,
+          "td": 2,
+          "fumbles": 0,
+          "broken_tackles": 2,
+          "yac": 33,
+          "long": 14,
+          "runs_20_plus": 0
+        },
+        "season": {
+          "player_id": "t-simonson-hb",
+          "name": "T. Simonson",
+          "games": 5,
+          "receptions": 12,
+          "yards": 118,
+          "avg": 9.8,
+          "td": 1,
+          "yac": 73
+        }
+      },
+      "opponent_player": {
+        "player_id": "pur-sam-k-witherspoon",
+        "name": "K. Witherspoon",
+        "position": "SAM",
+        "overall": 68,
+        "attributes": {
+          "overall": 68,
+          "strength": 70,
+          "awareness": 75,
+          "speed": 75,
+          "acceleration": 81,
+          "agility": 75,
+          "change_of_direction": 78
+        },
+        "last_game": null,
+        "season": null
+      },
+      "advantage": "Rutgers",
+      "internal_score": 86.8,
+      "grade": "B",
+      "confidence": 92,
+      "evidence": [
+        {
+          "metric": "overall",
+          "rutgers": 77,
+          "opponent": 68,
+          "difference": 9
+        },
+        {
+          "metric": "strength",
+          "rutgers": 85,
+          "opponent": 70,
+          "difference": 15
+        },
+        {
+          "metric": "awareness",
+          "rutgers": 74,
+          "opponent": 75,
+          "difference": -1
+        },
+        {
+          "metric": "speed",
+          "rutgers": 88,
+          "opponent": 75,
+          "difference": 13
+        },
+        {
+          "metric": "acceleration",
+          "rutgers": 90,
+          "opponent": 81,
+          "difference": 9
+        },
+        {
+          "metric": "agility",
+          "rutgers": 84,
+          "opponent": 75,
+          "difference": 9
+        },
+        {
+          "metric": "change_of_direction",
+          "rutgers": 79,
+          "opponent": 78,
+          "difference": 1
+        }
+      ],
+      "tactical_recommendations": [
+        "Use motion and misdirection",
+        "Stress linebacker processing in space",
+        "Feature screens and split-flow concepts"
+      ],
+      "data_limitations": [
+        "Position-specific blocking/coverage ratings were not visible in the supplied roster videos; grade uses visible athletic/awareness/overall data plus production."
+      ]
+    },
+    {
+      "matchup_id": "hb2_vs_sam",
+      "type": "space_run",
+      "rutgers_player": {
+        "player_id": "j-haskins-hb",
+        "name": "J. Haskins",
+        "position": "HB",
+        "overall": 75,
+        "attributes": {
+          "overall": 75,
+          "strength": 68,
+          "awareness": 74,
+          "speed": 88,
+          "acceleration": 85,
+          "agility": 88,
+          "change_of_direction": 92
+        },
+        "last_game": {
+          "player_id": "j-haskins-hb",
+          "name": "J. Haskins",
+          "carries": 11,
+          "yards": 147,
+          "avg": 13.4,
+          "td": 2,
+          "fumbles": 0,
+          "broken_tackles": 0,
+          "yac": 11,
+          "long": 75,
+          "runs_20_plus": 2
+        },
+        "season": {
+          "player_id": "j-haskins-hb",
+          "name": "J. Haskins",
+          "games": 5,
+          "receptions": 11,
+          "yards": 104,
+          "avg": 9.5,
+          "td": 1,
+          "yac": 85
+        }
+      },
+      "opponent_player": {
+        "player_id": "pur-sam-m-gaston",
+        "name": "M. Gaston",
+        "position": "SAM",
+        "overall": 68,
+        "attributes": {
+          "overall": 68,
+          "strength": 79,
+          "awareness": 83,
+          "speed": 79,
+          "acceleration": 78,
+          "agility": 85,
+          "change_of_direction": 71
+        },
+        "last_game": null,
+        "season": null
+      },
+      "advantage": "Rutgers",
+      "internal_score": 80.8,
+      "grade": "B-",
+      "confidence": 92,
+      "evidence": [
+        {
+          "metric": "overall",
+          "rutgers": 75,
+          "opponent": 68,
+          "difference": 7
+        },
+        {
+          "metric": "strength",
+          "rutgers": 68,
+          "opponent": 79,
+          "difference": -11
+        },
+        {
+          "metric": "awareness",
+          "rutgers": 74,
+          "opponent": 83,
+          "difference": -9
+        },
+        {
+          "metric": "speed",
+          "rutgers": 88,
+          "opponent": 79,
+          "difference": 9
+        },
+        {
+          "metric": "acceleration",
+          "rutgers": 85,
+          "opponent": 78,
+          "difference": 7
+        },
+        {
+          "metric": "agility",
+          "rutgers": 88,
+          "opponent": 85,
+          "difference": 3
+        },
+        {
+          "metric": "change_of_direction",
+          "rutgers": 92,
+          "opponent": 71,
+          "difference": 21
+        }
+      ],
+      "tactical_recommendations": [
+        "Use motion and misdirection",
+        "Stress linebacker processing in space",
+        "Feature screens and split-flow concepts"
+      ],
+      "data_limitations": [
+        "Position-specific blocking/coverage ratings were not visible in the supplied roster videos; grade uses visible athletic/awareness/overall data plus production."
+      ]
+    },
+    {
+      "matchup_id": "te_vs_sam",
+      "type": "route_and_chip",
+      "rutgers_player": {
+        "player_id": "s-moore-te",
+        "name": "S. Moore",
+        "position": "TE",
+        "overall": 74,
+        "attributes": {
+          "overall": 74,
+          "strength": 76,
+          "awareness": 88,
+          "speed": 75,
+          "acceleration": 82,
+          "agility": 81,
+          "change_of_direction": 76
+        },
+        "last_game": null,
+        "season": {
+          "player_id": "s-moore-te",
+          "name": "S. Moore",
+          "games": 5,
+          "receptions": 21,
+          "yards": 218,
+          "avg": 10.4,
+          "td": 1,
+          "yac": 58,
+          "long": 28
+        }
+      },
+      "opponent_player": {
+        "player_id": "pur-sam-k-witherspoon",
+        "name": "K. Witherspoon",
+        "position": "SAM",
+        "overall": 68,
+        "attributes": {
+          "overall": 68,
+          "strength": 70,
+          "awareness": 75,
+          "speed": 75,
+          "acceleration": 81,
+          "agility": 75,
+          "change_of_direction": 78
+        },
+        "last_game": null,
+        "season": null
+      },
+      "advantage": "Rutgers",
+      "internal_score": 81.4,
+      "grade": "B-",
+      "confidence": 92,
+      "evidence": [
+        {
+          "metric": "overall",
+          "rutgers": 74,
+          "opponent": 68,
+          "difference": 6
+        },
+        {
+          "metric": "strength",
+          "rutgers": 76,
+          "opponent": 70,
+          "difference": 6
+        },
+        {
+          "metric": "awareness",
+          "rutgers": 88,
+          "opponent": 75,
+          "difference": 13
+        },
+        {
+          "metric": "speed",
+          "rutgers": 75,
+          "opponent": 75,
+          "difference": 0
+        },
+        {
+          "metric": "acceleration",
+          "rutgers": 82,
+          "opponent": 81,
+          "difference": 1
+        },
+        {
+          "metric": "agility",
+          "rutgers": 81,
+          "opponent": 75,
+          "difference": 6
+        },
+        {
+          "metric": "change_of_direction",
+          "rutgers": 76,
+          "opponent": 78,
+          "difference": -2
+        }
+      ],
+      "tactical_recommendations": [
+        "Use chip-and-release",
+        "Attack low play recognition with play action and option routes"
+      ],
+      "data_limitations": [
+        "Position-specific blocking/coverage ratings were not visible in the supplied roster videos; grade uses visible athletic/awareness/overall data plus production."
+      ]
+    }
+  ],
+  "missing_matchup_groups": [
+    "WR vs CB cannot be fully graded because Purdue CB attribute records were not included in the supplied opponent roster JSON.",
+    "Rutgers defense vs Purdue offense cannot be fully graded because the supplied Purdue roster JSON contains only defensive players."
+  ],
+  "generated_utc": "2026-07-12T14:03:50.633048+00:00"
+}

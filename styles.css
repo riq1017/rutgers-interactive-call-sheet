@@ -65,7 +65,7 @@ p{line-height:1.45}
   position:sticky;
   top:0;
   z-index:20;
-  width:100%;
+  width:100vw;
   max-width:none;
   overflow-x:hidden;
   padding:8px 10px 8px;
@@ -130,7 +130,7 @@ p{line-height:1.45}
 }
 
 .app-shell{
-  width:100%;
+  width:100vw;
   min-width:0;
   max-width:none;
   margin:0;
@@ -145,6 +145,7 @@ p{line-height:1.45}
   border:1px solid var(--line);
   border-radius:8px;
   background:var(--surface);
+  overflow:hidden;
 }
 .section-heading{
   display:grid;
@@ -293,10 +294,10 @@ details.breakout summary{cursor:pointer;font-weight:900}
 .bottom-nav{
   position:fixed;
   left:0;
-  right:auto;
+  right:0;
   bottom:0;
   z-index:30;
-  width:100%;
+  width:auto;
   max-width:none;
   overflow:hidden;
   display:grid;
@@ -474,7 +475,7 @@ details.breakout summary{cursor:pointer;font-weight:900}
 .team-block strong{font-size:13px}
 .team-block strong{overflow-wrap:anywhere}
 .team-block span,.team-block em{max-width:100%;color:var(--muted);font-size:11px;font-style:normal;overflow:hidden;text-overflow:clip}
-.logo.big,.purdue-logo{
+.logo.big,.opponent-logo{
   width:54px;
   height:44px;
   display:grid;
@@ -483,7 +484,7 @@ details.breakout summary{cursor:pointer;font-weight:900}
   font-size:38px;
   font-weight:950;
 }
-.purdue-logo{color:#d5b26a;text-shadow:0 0 0 2px #111}
+.opponent-logo{color:#d5b26a;text-shadow:0 0 0 2px #111}
 .versus{
   align-self:center;
   justify-self:center;
@@ -609,6 +610,31 @@ details.breakout summary{cursor:pointer;font-weight:900}
 .compact-play-row summary img{width:48px;height:34px}
 .compact-play-row summary b{font-size:18px;text-align:right}
 .compact-play-row summary b em{display:block;color:var(--muted);font-size:9px;font-style:normal;text-transform:uppercase}
+.compact-play-row summary{
+  display:grid !important;
+  grid-template-columns:24px 46px minmax(0,1fr) 38px !important;
+  gap:6px;
+  width:100%;
+}
+.compact-play-row summary img{width:46px;height:34px}
+.compact-play-row summary b{
+  justify-self:end;
+  text-align:right;
+  font-size:17px;
+  min-width:0;
+}
+.grade-badge{
+  display:inline-grid;
+  place-items:center;
+  min-width:28px;
+  min-height:20px;
+  margin-right:5px;
+  border-radius:5px;
+  background:var(--scarlet);
+  color:#fff;
+  font-size:11px;
+  font-weight:950;
+}
 .play-card summary span strong,.prospect-card summary strong{display:block;font-size:14px}
 .play-card summary span em,.prospect-card summary em{display:block;color:var(--muted);font-size:11px;font-style:normal}
 .play-card summary b{color:var(--good);font-size:22px}
@@ -702,6 +728,36 @@ details.breakout summary{cursor:pointer;font-weight:900}
 .position-box span{font-size:12px;font-weight:900}
 .position-box em,.position-box small,.position-box b{font-size:10px;font-style:normal;color:var(--muted)}
 .position-box b{color:var(--good)}
+.oline-alignment{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(58px,1fr));
+  gap:6px;
+  align-items:start;
+  overflow-x:auto;
+  padding-bottom:6px;
+}
+.oline-node{
+  min-width:58px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#101014;
+  padding:7px 4px;
+  text-align:center;
+}
+.oline-node summary{list-style:none;cursor:pointer}
+.oline-node summary::-webkit-details-marker{display:none}
+.oline-node span{
+  width:36px;
+  height:36px;
+  margin:0 auto 5px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--scarlet);
+  font-weight:950;
+}
+.oline-node strong{display:block;font-size:10px;line-height:1.15}
+.oline-node em{display:block;color:var(--good);font-size:10px;font-style:normal}
 .compact-person,.compact-match,.compact-action,.compact-prospect{padding:8px;margin-top:0}
 .compact-person summary,.compact-match summary,.compact-action summary,.compact-prospect summary,.compact-accordion summary{
   display:grid;
@@ -739,6 +795,29 @@ details.breakout summary{cursor:pointer;font-weight:900}
 .stars{color:var(--warn);letter-spacing:0;font-size:12px}
 .empty-stat p{margin:0;color:var(--muted);font-size:11px}
 .stat-toggle,.matchup-tabs{margin-bottom:8px}
+.stat-rail{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding-bottom:4px;
+}
+.stat-rail::-webkit-scrollbar{display:none}
+.stat-chip{
+  flex:0 0 76%;
+  min-width:0;
+  scroll-snap-align:start;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#101014;
+  padding:8px;
+}
+.stat-chip strong{display:block;margin-bottom:5px}
+.stat-chip span{display:block;color:var(--muted);font-size:11px;line-height:1.3}
+.stat-rail:hover,.stat-rail:active{animation-play-state:paused}
+@media (prefers-reduced-motion:no-preference){
+  .stat-rail{scroll-behavior:smooth}
+}
 .action-strip{
   display:flex;
   gap:7px;
@@ -805,7 +884,7 @@ details.breakout summary{cursor:pointer;font-weight:900}
   .matchup-hero{grid-template-columns:1fr;gap:6px}
   .matchup-hero .versus{justify-self:center}
   .versus{width:24px;height:24px;font-size:9px}
-  .logo.big,.purdue-logo{width:40px;height:32px;font-size:28px}
+  .logo.big,.opponent-logo{width:40px;height:32px;font-size:28px}
   .team-block{padding:8px 4px}
   .team-block em{font-size:10px}
   .alt-card summary,.play-card summary{grid-template-columns:auto 52px minmax(0,1fr) auto}

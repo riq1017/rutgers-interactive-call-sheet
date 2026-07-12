@@ -24,8 +24,12 @@ function ctx(down, yards, zone = 'normal', gameState = 'normal') {
   if (gameState === 'protect_lead') key = 'short';
   return { down, dist, distanceYards: yards, zone, gameState, key };
 }
-const requiredFiles = ['rutgers_roster_base.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','purdue_opponent_profile.json','purdue_opponent_players.json','purdue_opponent_position_groups.json','purdue_matchups.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json'];
-check('Authoritative enriched JSON files are present', requiredFiles.every(file => fs.existsSync(path.join(root,'data',file))));
+const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json'];
+const phase1Transcript = JSON.parse(fs.readFileSync(path.join(root,'data','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json'), 'utf8'));
+const phase1Matchups = JSON.parse(fs.readFileSync(path.join(root,'data','player_matchups.json'), 'utf8'));
+const rutgersLast = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_last_game_stats.json'), 'utf8'));
+const rutgersSeason = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_season_stats.json'), 'utf8'));
+check('Authoritative Phase 1 JSON files are present', requiredFiles.every(file => fs.existsSync(path.join(root,'data',file))));
 check('Shared roster source has 48 verified players', RUTGERS_ROSTER_BASE.players.length === 48 && RUTGERS_ROSTER_BASE.package_type === 'rutgers_roster_base');
 check('No duplicate hardcoded roster is used by the visible Recruiting engine', app.includes('function loadRutgersRoster') && app.includes('return sharedRosterBase()'));
 check('Gameplan engine reads enriched opponent/profile/player/group/matchup data', app.includes('loadOpponentProfile') && app.includes('loadOpponentPlayers') && app.includes('loadOpponentGroups') && app.includes('loadMatchups'));
@@ -50,7 +54,9 @@ check('No Name unverified remains', !index.includes('Name unverified') && !app.i
 check('No static opponent facts remain in noscript fallback', !index.includes('Purdue record') && !index.includes('Q. Gillians') && index.includes('Enable JavaScript'));
 check('No old four quarterback summary boxes remain', !app.includes('Quarterbacks') || app.indexOf('Quarterbacks') < app.indexOf('function loadRutgersRoster'));
 check('No fake mockup players were copied', !app.includes('Jaylen Walker') && !app.includes('Marcus Evans') && !app.includes('Ethan Johnson'));
-check('Existing play art remains functional', fs.readdirSync(path.join(root,'assets','play-diagrams')).filter(f => f.endsWith('.svg') && f !== 'formation-fallback.svg').length === 48 && RUTGERS_PLAYBOOK.every(p => p.diagramPath && fs.existsSync(path.join(root,p.diagramPath))));
+check('Oregon visible playbook inventory imports every verified row', RUTGERS_PLAYBOOK.length === 192 && phase1Transcript.summary.unique_visible_formation_play_combinations === 192);
+check('Oregon playbook completeness is not overstated', phase1Transcript.complete_playbook_status === 'CANNOT_VERIFY_COMPLETE_FROM_THIS_VIDEO' && app.includes('CANNOT_VERIFY_COMPLETE_FROM_THIS_VIDEO') === false);
+check('Missing Oregon play art uses placeholders without dropping plays', RUTGERS_PLAYBOOK.every(p => p.diagramPath === 'assets/play-diagrams/formation-fallback.svg' && fs.existsSync(path.join(root,p.diagramPath))));
 const rankings = engine.buildRankings(ctx(1,5), [], []);
 check('Best Call remains functional', rankings.length > 0 && rankings[0].score >= 0);
 check('Top 3 remains functional and diverse', engine.diverseTop(rankings, 4).length >= 3 && new Set(engine.diverseTop(rankings, 4).map(p => p.conceptFamily)).size >= 2);
@@ -62,12 +68,13 @@ check('Mobile CSS prevents horizontal overflow and keeps bottom nav fixed', css.
 check('GitHub Pages relative paths are preserved', index.includes('data/engine_data.js') && !app.includes('fetch(') && !index.includes('http://'));
 check('Repeated Not available is avoided in enriched card renderers', (app.match(/Not available/g) || []).length <= 8 && app.includes('cleanValue'));
 check('Weekly action plan links board rows to prospect details when available', app.includes('classById') && app.includes('row.prospect_id') && app.includes('prospect.scouting_summary'));
-check('Last Game and Season Stats remain separate with required categories', app.includes('Last Game Stat Sheet') && app.includes('Season Stat Sheet') && app.includes('offensive_line') && app.includes('third_down') && app.includes('red_zone'));
+check('Last Game and Season Stats remain separate with verified files', rutgersLast.package_type === 'rutgers_last_game_stats' && rutgersSeason.package_type === 'rutgers_season_stats' && app.includes('loadRutgersLastGameStats') && app.includes('loadRutgersSeasonStats'));
 check('Gameplan default is compact with drill-down details', app.includes('compact-best') && app.includes('View Full Breakdown') && app.includes('View Matchup Detail') && app.includes('alt-strip'));
 check('Top Plays uses compact rows and advanced filter drawer', app.includes('compact-play-row') && app.includes('Advanced Filters') && app.includes('sticky-filter'));
 check('Personnel uses one internal workspace section at a time', app.includes('function renderPersonnelPanel') && app.includes('active === "overview"') && app.includes('renderStatsWorkspace') && app.includes('renderScoutingReport'));
 check('Roster uses horizontal position boxes instead of one long expanded report', app.includes('ROSTER_POSITION_GROUPS') && app.includes('position-rail') && app.includes('showRosterGroup') && css.includes('.position-box'));
 check('Matchups show player-vs-player cards where position data resolves', app.includes('findRutgersMatchupPlayer') && app.includes('findOpponentMatchupPlayer') && app.includes('matchup-sides'));
+check('Matchups bind to player_matchups.json', phase1Matchups.matchups.length === 7 && app.includes('PLAYER_MATCHUPS') && app.includes('LIMITED DATA'));
 check('Recruiting board starts from active_board when present', app.includes('function activeBoardRows') && app.includes('if (board.length)') && app.includes('board_order'));
 check('Prospect rating renderer hides unavailable stars and never prints Star as a value', app.includes('function starRating') && app.includes('aria-label="${stars}-star prospect"') && !app.includes('${cleanValue(p.stars)} stars'));
 check('Roster and prospects default to tap-open detail rows', app.includes('compact-person') && app.includes('compact-prospect') && app.includes('compact-action'));

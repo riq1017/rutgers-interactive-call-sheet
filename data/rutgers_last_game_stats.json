@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "package_type": "rutgers_last_game_stats",
+  "team": "Rutgers",
+  "opponent": "Nebraska",
+  "source_video": "IMG_3055.mp4",
+  "verification_status": "verified_from_visible_video_frames",
+  "scope_note": "Only values clearly visible in the supplied player-stat screens are included. Unshown categories are null/omitted.",
+  "passing": [
+    {
+      "player_id": "m-york-qb",
+      "name": "M. York",
+      "rating": 139.7,
+      "yards": 281,
+      "td": 3,
+      "int": 2,
+      "long": 25,
+      "sacks": 2,
+      "completions": 25,
+      "attempts": 39,
+      "completion_pct": 64,
+      "yards_per_completion": 11.2
+    },
+    {
+      "player_id": "r-bieniemy-qb",
+      "name": "R. Bieniemy",
+      "rating": 13.3,
+      "yards": 23,
+      "td": 0,
+      "int": 2,
+      "long": 14,
+      "sacks": 1,
+      "completions": 3,
+      "attempts": 7,
+      "completion_pct": 42,
+      "yards_per_completion": 7.7
+    }
+  ],
+  "rushing": [
+    {
+      "player_id": "j-haskins-hb",
+      "name": "J. Haskins",
+      "carries": 11,
+      "yards": 147,
+      "avg": 13.4,
+      "td": 2,
+      "fumbles": 0,
+      "broken_tackles": 0,
+      "yac": 11,
+      "long": 75,
+      "runs_20_plus": 2
+    },
+    {
+      "player_id": "t-simonson-hb",
+      "name": "T. Simonson",
+      "carries": 24,
+      "yards": 100,
+      "avg": 4.2,
+      "td": 2,
+      "fumbles": 0,
+      "broken_tackles": 2,
+      "yac": 33,
+      "long": 14,
+      "runs_20_plus": 0
+    },
+    {
+      "player_id": "r-bieniemy-qb",
+      "name": "R. Bieniemy",
+      "carries": 3,
+      "yards": 9,
+      "avg": 3.0,
+      "td": 0,
+      "fumbles": 0,
+      "broken_tackles": 0,
+      "yac": 4,
+      "long": 17,
+      "runs_20_plus": 0
+    },
+    {
+      "player_id": "m-york-qb",
+      "name": "M. York",
+      "carries": 9,
+      "yards": 6,
+      "avg": 0.7,
+      "td": 0,
+      "fumbles": 0,
+      "broken_tackles": 0,
+      "yac": 2,
+      "long": 7,
+      "runs_20_plus": 0
+    },
+    {
+      "player_id": "s-degraffenreidt-wr",
+      "name": "S. Degraffenreidt",
+      "carries": 1,
+      "yards": 1,
+      "avg": 1.0,
+      "td": 0,
+      "fumbles": 0,
+      "broken_tackles": 0,
+      "yac": 0,
+      "long": 1,
+      "runs_20_plus": 0
+    },
+    {
+      "player_id": "b-demarco-wr",
+      "name": "B. DeMarco",
+      "carries": 1,
+      "yards": 1,
+      "avg": 1.0,
+      "td": 0,
+      "fumbles": 0,
+      "broken_tackles": 0,
+      "yac": 1,
+      "long": 1,
+      "runs_20_plus": 0
+    }
+  ],
+  "receiving": [],
+  "defense": [],
+  "special_teams": [],
+  "generated_utc": "2026-07-12T14:03:50.633048+00:00"
+}

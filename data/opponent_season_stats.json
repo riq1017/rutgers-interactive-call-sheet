@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0",
+  "package_type": "opponent_season_stats",
+  "opponent": {
+    "name": "Purdue",
+    "games_played": 5,
+    "replace_next_week": true
+  },
+  "source_video": "IMG_3053.mp4",
+  "verification_status": "verified_from_visible_video_frames",
+  "scope_note": "Only clearly readable season-defense rows are included. The package is weekly and opponent-specific.",
+  "defense": [
+    {
+      "player_id": "pur-mike-a-warren",
+      "name": "A. Warren",
+      "games": 5,
+      "solo": 40,
+      "assists": 4,
+      "tackles": 44,
+      "tfl": 3,
+      "sacks": 0.5
+    },
+    {
+      "player_id": "pur-will-b-leal",
+      "name": "B. Leal",
+      "games": 5,
+      "solo": 16,
+      "assists": 9,
+      "tackles": 25,
+      "tfl": 1,
+      "sacks": 0.0
+    },
+    {
+      "player_id": "pur-cb-r-daniels",
+      "name": "R. Daniels",
+      "games": 5,
+      "solo": 16,
+      "assists": 8,
+      "tackles": 24,
+      "tfl": 1,
+      "sacks": 0.5
+    },
+    {
+      "player_id": "pur-will-t-scales",
+      "name": "T. Scales",
+      "games": 5,
+      "solo": 12,
+      "assists": 8,
+      "tackles": 20,
+      "tfl": 4,
+      "sacks": 0.0
+    },
+    {
+      "player_id": "pur-fs-k-smallwood",
+      "name": "K. Smallwood",
+      "games": 5,
+      "solo": 14,
+      "assists": 6,
+      "tackles": 20,
+      "tfl": 1,
+      "sacks": 0.0
+    },
+    {
+      "player_id": "pur-fs-j-goldsberry",
+      "name": "J. Goldsberry",
+      "games": 5,
+      "solo": 17,
+      "assists": 3,
+      "tackles": 20,
+      "tfl": 1,
+      "sacks": 0.0
+    },
+    {
+      "player_id": "pur-ss-e-sawyer",
+      "name": "E. Sawyer",
+      "games": 5,
+      "solo": 12,
+      "assists": 5,
+      "tackles": 17,
+      "tfl": 1,
+      "sacks": 0.0
+    },
+    {
+      "player_id": "pur-mike-r-ogden",
+      "name": "R. Ogden",
+      "games": 5,
+      "solo": 14,
+      "assists": 3,
+      "tackles": 17,
+      "tfl": 0,
+      "sacks": 0.0
+    },
+    {
+      "player_id": "pur-cb-d-lincoln",
+      "name": "D. Lincoln",
+      "games": 3,
+      "solo": 13,
+      "assists": 4,
+      "tackles": 17,
+      "tfl": 0,
+      "sacks": 0.0,
+      "interceptions": 1,
+      "int_yards": 7
+    },
+    {
+      "player_id": "pur-dt-b-hanson",
+      "name": "B. Hanson",
+      "games": 5,
+      "solo": 11,
+      "assists": 4,
+      "tackles": 15,
+      "tfl": 2,
+      "sacks": 0.0
+    },
+    {
+      "player_id": "pur-redg-q-gillians",
+      "name": "Q. Gillians",
+      "games": 4,
+      "solo": 12,
+      "assists": 1,
+      "tackles": 13,
+      "tfl": 3,
+      "sacks": 0.0
+    },
+    {
+      "player_id": "pur-ledg-y-hernandez",
+      "name": "Y. Hernandez",
+      "games": 5,
+      "solo": 11,
+      "assists": 1,
+      "tackles": 12,
+      "tfl": 3,
+      "sacks": 0.0
+    }
+  ],
+  "generated_utc": "2026-07-12T14:03:50.633048+00:00"
+}

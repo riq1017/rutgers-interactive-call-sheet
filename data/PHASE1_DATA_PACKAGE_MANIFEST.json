@@ -1,0 +1,41 @@
+{
+  "package": "PHASE1_VERIFIED_DATA_PACKAGE",
+  "base_team": "Rutgers",
+  "weekly_opponent": "Purdue",
+  "architecture": {
+    "rutgers_is_base": true,
+    "opponent_is_weekly_replaceable": true
+  },
+  "files": [
+    {
+      "name": "rutgers_last_game_stats.json",
+      "status": "created_and_json_valid"
+    },
+    {
+      "name": "rutgers_season_stats.json",
+      "status": "created_and_json_valid"
+    },
+    {
+      "name": "opponent_last_game_stats.json",
+      "status": "created_and_json_valid"
+    },
+    {
+      "name": "opponent_season_stats.json",
+      "status": "created_and_json_valid"
+    },
+    {
+      "name": "player_matchups.json",
+      "status": "created_and_json_valid"
+    },
+    {
+      "name": "OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json",
+      "status": "already_created"
+    }
+  ],
+  "limitations": [
+    "Stats files contain only clearly readable values from supplied video frames.",
+    "Purdue offense and Purdue defensive-back attributes are incomplete in the supplied roster JSON.",
+    "No unseen or ambiguous values were fabricated."
+  ],
+  "generated_utc": "2026-07-12T14:03:50.633048+00:00"
+}

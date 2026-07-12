@@ -1,11 +1,10 @@
-# Rutgers Gameday Gameplan
+# Rutgers Interactive Gameday Call Sheet
 
-Premium mobile Rutgers football coaching dashboard for Gameplan, Top Plays, Personnel & Matchups, Recruiting, and More.
+Mobile-first Rutgers football operations app for Gameplan, Top Plays, Personnel, Recruiting, and package management.
 
-## Open
+## Run
 
-### Windows
-Open `index.html`, or run a static server from this folder. If `python` is not on PATH, use any simple static server.
+Open `index.html` directly, or serve the folder with any static server:
 
 ```powershell
 python -m http.server 8000
@@ -13,67 +12,53 @@ python -m http.server 8000
 
 Then open `http://127.0.0.1:8000/`.
 
-### iPhone
-Use the GitHub Pages URL, or serve this folder from Windows and open the computer's local-network URL in Safari. The app uses relative paths and does not require a build step.
+The app is GitHub Pages compatible and uses relative static files only.
 
-Direct phone QA links:
+## Phase 1 Data
 
-- `index.html?tab=personnel&personnel=rutgers`
-- `index.html?tab=personnel&personnel=run`
-- `index.html?tab=personnel&personnel=protection`
-- `index.html?tab=personnel&personnel=matchups`
-- `index.html?tab=recruiting`
+Rutgers is the permanent base team. Weekly opponent files are replaceable data.
 
-## Data Sources
-
-Authoritative enriched files are in `data/`:
+Verified Phase 1 files in `data/`:
 
 - `rutgers_roster_base.json`
-- `gameplan_weekly.json`
-- `recruiting_class.json`
-- `recruiting_weekly.json`
-- `team_needs.json`
-- `coach_recruiting_modifiers.json`
-- `purdue_opponent_profile.json`
-- `purdue_opponent_players.json`
-- `purdue_opponent_position_groups.json`
-- `purdue_matchups.json`
-- `APP_DATA_BINDING_REQUIREMENTS.json`
+- `rutgers_last_game_stats.json`
+- `rutgers_season_stats.json`
+- `opponent_last_game_stats.json`
+- `opponent_season_stats.json`
+- `player_matchups.json`
+- `OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json`
+- `PHASE1_DATA_PACKAGE_MANIFEST.json`
 
-`data/engine_data.js` wraps those JSON files for static GitHub Pages loading.
+Static loaders:
 
-## Data Binding
-
-- Personnel cards render from `rutgers_roster_base.json`.
-- Opponent header, opponent cards, position groups, and matchup cards render from the active weekly gameplan package and linked opponent JSON.
-- Recruiting overview renders from `recruiting_weekly.json`.
-- Prospect cards render from `recruiting_class.json`, linked by stable `prospect_id` where available.
-- Missing values are hidden; the app does not invent ratings, faces, names, lane stats, pressure counts, last-game stats, or season stats.
+- `data/rutgers_playbook.js` imports all 192 verified visible Oregon formation/play combinations.
+- `data/phase1_verified_data.js` exposes Phase 1 JSON for GitHub Pages.
+- `data/engine_data.js` preserves the existing static package architecture.
 
 ## Validation
 
 ```powershell
 node --check app.js
 node --check tools\validate.js
+node --check data\rutgers_playbook.js
+node --check data\phase1_verified_data.js
 node tools\validate.js
 ```
 
-Reports:
+Required Phase 1 reports:
 
-- `VALIDATION_REPORT.md`
-- `GAMEPLAN_VALIDATION_REPORT.md`
-- `TOP_PLAYS_VALIDATION_REPORT.md`
-- `PERSONNEL_MATCHUPS_VALIDATION_REPORT.md`
-- `RUN_DIRECTION_VALIDATION_REPORT.md`
-- `PROTECTION_VALIDATION_REPORT.md`
-- `OPPONENT_VALIDATION_REPORT.md`
-- `MATCHUP_VALIDATION_REPORT.md`
-- `RECRUITING_VALIDATION_REPORT.md`
-- `MORE_PAGE_VALIDATION_REPORT.md`
+- `PHASE1_FINAL_VALIDATION_REPORT.md`
+- `PLAYER_DATA_BINDING_REPORT.md`
+- `PLAYER_MATCHUP_VALIDATION_REPORT.md`
+- `OREGON_PLAYBOOK_INTEGRATION_REPORT.md`
 - `MOBILE_VALIDATION_REPORT.md`
+- `KNOWN_LIMITATIONS.md`
+- `VALIDATION_REPORT.md`
 
-Screenshots are in `screenshots/`.
+## Current Limits
 
-## Limitations
-
-The enriched package does not include verified per-lane rushing attempts/yards, per-gap pressure counts, detailed O-line stat grids, full last-game stat grids, or full season stat grids. Those fields are hidden rather than fabricated.
+- Oregon playbook status remains `CANNOT_VERIFY_COMPLETE_FROM_THIS_VIDEO`.
+- All 192 Oregon visible plays use placeholder art until verified play diagrams are supplied.
+- Opponent offensive roster and some defensive-back attributes are unavailable in the supplied package.
+- Matchups with incomplete evidence display `LIMITED DATA`.
+- Missing values are hidden rather than invented.

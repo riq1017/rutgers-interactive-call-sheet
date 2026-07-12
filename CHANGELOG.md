@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## Phase 1 final implementation
+- Integrated `PHASE1_CODEX_VERIFIED_DATA_PACKAGE.zip` as the current verified data source.
+- Added Rutgers Last Game, Rutgers Season, opponent Last Game, and opponent Season stat files as separate scopes.
+- Replaced Top Plays inventory with all 192 verified visible Oregon formation/play combinations.
+- Preserved `complete_playbook_status = CANNOT_VERIFY_COMPLETE_FROM_THIS_VIDEO`.
+- Added placeholder play art for all Oregon visible plays without removing any verified play.
+- Bound Matchups to `player_matchups.json` with grade, confidence, evidence, recommendation, and limited-data messaging.
+- Added O-line alignment view with LT/LG/C/RG/RT markers.
+- Removed Purdue-specific fallback logic from application code; Purdue remains only current weekly data.
+- Added Phase 1 validation, player binding, matchup, playbook, mobile, and limitations reports.
+
 ## Mobile correction pass
 - Removed remaining 390px shell caps so the app uses the full phone viewport with 8-10px page padding.
 - Collapsed Gameplan secondary sections and compressed the global header so the first phone viewport reaches Best Call.

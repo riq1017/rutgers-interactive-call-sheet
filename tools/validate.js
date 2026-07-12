@@ -24,7 +24,7 @@ function ctx(down, yards, zone = 'normal', gameState = 'normal') {
   if (gameState === 'protect_lead') key = 'short';
   return { down, dist, distanceYards: yards, zone, gameState, key };
 }
-const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','depth_chart_seed.json','depth_chart_seed.js','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','base/player_identity_registry.json','base/prospect_identity_registry.json','base/play_identity_registry.json','migrations/identity_id_map.json','weekly/opponent_player_media.json','weekly/coaching_decisions.json','weekly/run_lane_analysis.json','weekly/weekly_matchup_summary.json','player_media.js','card_registry.json','card_registry.js'];
+const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','depth_chart_seed.json','depth_chart_seed.js','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','base/player_identity_registry.json','base/prospect_identity_registry.json','base/play_identity_registry.json','migrations/identity_id_map.json','weekly/opponent_player_media.json','weekly/coaching_decisions.json','weekly/run_lane_analysis.json','weekly/weekly_matchup_summary.json','audit/video_evidence_index.json','player_media.js','card_registry.json','card_registry.js'];
 const phase1Transcript = JSON.parse(fs.readFileSync(path.join(root,'data','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json'), 'utf8'));
 const phase1Matchups = JSON.parse(fs.readFileSync(path.join(root,'data','player_matchups.json'), 'utf8'));
 const cardRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','card_registry.json'), 'utf8'));
@@ -43,6 +43,7 @@ const playerIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data',
 const prospectIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','base','prospect_identity_registry.json'), 'utf8'));
 const playIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','base','play_identity_registry.json'), 'utf8'));
 const identityIdMap = JSON.parse(fs.readFileSync(path.join(root,'data','migrations','identity_id_map.json'), 'utf8'));
+const videoEvidenceIndex = JSON.parse(fs.readFileSync(path.join(root,'data','audit','video_evidence_index.json'), 'utf8'));
 check('Authoritative Phase 1 JSON files are present', requiredFiles.every(file => fs.existsSync(path.join(root,'data',file))));
 check('PROJECT_SPEC.md exists', fs.existsSync(path.join(root, 'PROJECT_SPEC.md')));
 check('Sprint 2 card registry exists', fs.existsSync(path.join(root, 'data', 'card_registry.json')) && cardRegistry.package_type === 'card_registry' && cardRegistry.schema_version === '1.0');
@@ -163,6 +164,54 @@ const identityUnresolvedReferences = [
   ...weeklyPlayerRefs.filter(id => !rutgersRosterById.has(id))
 ];
 check('Identity unresolved reference count is zero', identityUnresolvedReferences.length === 0, `unresolved=${identityUnresolvedReferences.length}`);
+const auditRecords = videoEvidenceIndex.records || [];
+const auditByType = type => auditRecords.filter(row => row.entity_type === type);
+const requiredVideoReports = [
+  'COMPLETE_VIDEO_AUDIT_REPORT.md',
+  'RUTGERS_VIDEO_DATA_RECOVERY_REPORT.md',
+  'OPPONENT_VIDEO_DATA_RECOVERY_REPORT.md',
+  'RECRUIT_VIDEO_DATA_RECOVERY_REPORT.md',
+  'PLAY_VIDEO_DATA_RECOVERY_REPORT.md',
+  'COMPLETE_APP_NA_RECHECK_REPORT.md',
+  'IDENTITY_JOIN_INTEGRITY_REPORT.md',
+  'UNIFORM_CARD_CONTRACT_REPORT.md',
+  'SPORTS_APP_BEHAVIOR_REPORT.md',
+  'FINAL_VIDEO_TO_JSON_REGRESSION_REPORT.md'
+];
+check('Complete video audit reports exist', requiredVideoReports.every(file => fs.existsSync(path.join(root, file))));
+check('Video evidence index has one record for every audited app entity', videoEvidenceIndex.package_type === 'video_evidence_index' &&
+  auditByType('rutgers_player').length === RUTGERS_ROSTER_BASE.players.length &&
+  auditByType('opponent_player').length === PURDUE_OPPONENT_PLAYERS.players.length &&
+  auditByType('recruit').length === RECRUITING_CLASS.prospects.length &&
+  auditByType('play').length === playIdentityRows.length &&
+  auditByType('matchup').length === phase1Matchups.matchups.length,
+  `records=${auditRecords.length}`);
+check('Video audit count parity is preserved', videoEvidenceIndex.counts.rutgers.roster_players === registry.rutgers_cards.length &&
+  videoEvidenceIndex.counts.opponent.roster_players === registry.opponent_cards.length &&
+  videoEvidenceIndex.counts.recruiting.recruit_names === RECRUITING_CLASS.prospects.length &&
+  videoEvidenceIndex.counts.plays.verified_plays === RUTGERS_PLAYBOOK.length &&
+  videoEvidenceIndex.counts.plays.canonical_ids === playIdentityRows.length);
+check('Video evidence records use real-or-null timestamps only', auditRecords.every(row => row.timestamps && ['overview','attributes','stats'].every(key => row.timestamps[key] === null || /^\d{2}:\d{2}(:\d{2})?$/.test(row.timestamps[key]))));
+check('Remaining N/A fields are documented in the recheck report', videoEvidenceIndex.counts.totals.remaining_na_fields >= 0 && fs.readFileSync(path.join(root, 'COMPLETE_APP_NA_RECHECK_REPORT.md'), 'utf8').includes('video checked: yes'));
+check('Video audit unresolved join count is zero', videoEvidenceIndex.counts.totals.unresolved_joins === 0);
+const textOnly = html => String(html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+const renderedCardText = [
+  ...RUTGERS_ROSTER_BASE.players.map(player => engine.premiumPlayerCard(player, 'rutgers')),
+  ...PURDUE_OPPONENT_PLAYERS.players.map(player => engine.premiumPlayerCard(player, 'opponent')),
+  ...RECRUITING_CLASS.prospects.map((prospect, index) => engine.RecruitCard({ ...prospect, prospect }, index, 'prospect')),
+  ...engine.topPlayInventory().slice(0, 30).map((play, index) => engine.lockedPlayCard(play, index + 1)),
+  engine.renderCoordinatorDashboard()
+].map(textOnly).join(' ');
+const visibleInternalIds = [
+  ...RUTGERS_ROSTER_BASE.players.map(row => row.player_id),
+  ...PURDUE_OPPONENT_PLAYERS.players.map(row => row.player_id),
+  ...RECRUITING_CLASS.prospects.map(row => row.prospect_id),
+  ...playIdentityRows.map(row => row.play_id),
+  ...phase1Matchups.matchups.map(row => row.matchup_id)
+].filter(id => id && renderedCardText.includes(id));
+check('Internal IDs are hidden from rendered production card text', visibleInternalIds.length === 0 && !/Related play IDs|Play ID|prospect_id|player_id|matchup_id|play_id|Join state/i.test(renderedCardText), `visible=${visibleInternalIds.slice(0,5).join(',')}`);
+check('Uniform player and recruit card tab contracts render', RUTGERS_ROSTER_BASE.players.every(player => engine.premiumPlayerCard(player, 'rutgers').includes('Overview') && engine.premiumPlayerCard(player, 'rutgers').includes('Attributes') && engine.premiumPlayerCard(player, 'rutgers').includes('Matchups') && engine.premiumPlayerCard(player, 'rutgers').includes('Plays')) &&
+  RECRUITING_CLASS.prospects.every((prospect, index) => { const html = engine.RecruitCard({ ...prospect, prospect }, index, 'prospect'); return html.includes('Overview') && html.includes('Scouting') && html.includes('Fit') && html.includes('Activity'); }));
 const packBIds = ['dashboard_game_header','dashboard_featured_player','dashboard_biggest_risk','dashboard_best_run_lane','dashboard_protection_call','dashboard_passing_focus','dashboard_red_zone_plan','dashboard_third_down_plan','dashboard_top_matchups_preview','dashboard_alerts','dashboard_tempo','team_card_rutgers','team_card_opponent'];
 const cardById = new Map((cardRegistry.cards || []).map(card => [card.card_id, card]));
 const dashboardCards = (cardRegistry.cards || []).filter(card => card.visible !== false && card.tab === 'gameplan' && card.section === 'dashboard').sort((a,b) => Number(a.order) - Number(b.order));

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Complete video-to-JSON audit
+- Added `data/audit/video_evidence_index.json` generation for every current Rutgers player, opponent player, recruit, verified visible play, and matchup.
+- Added complete video/data recovery reports for Rutgers, opponent, recruiting, plays, remaining `N/A` rechecks, identity integrity, uniform card contracts, sports-app behavior, and final regression.
+- Added validation for audit count parity, real-or-null timestamps, documented source-missing fields, zero unresolved joins, hidden visible internal IDs, and uniform player/recruit detail tab contracts.
+- Removed visible production references to play IDs and matchup IDs in favor of play names and player-vs-player matchup labels.
+- Added shared detail tab strips for player and recruit cards while preserving the current static GitHub Pages app architecture and recommendation logic.
+
 ## Identity join correction
 - Added explicit identity join states for verified, source-missing, join-failed, and not-applicable data.
 - Recovered the verified W. Boudreaux recruiting scouting record and bound it to the weekly board by canonical `prospect_id`.

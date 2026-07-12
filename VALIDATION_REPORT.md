@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T22:43:21.765Z
+Validated: 2026-07-12T23:52:12.652Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -55,6 +55,14 @@ Validated: 2026-07-12T22:43:21.765Z
 - PASS - Run play recommended carriers resolve to active roster identities when evidence exists
 - PASS - Matchups resolve Rutgers/opponent IDs, names, media, attributes, stats, and recommendation from one matchup record
 - PASS - Identity unresolved reference count is zero (unresolved=0)
+- PASS - Complete video audit reports exist
+- PASS - Video evidence index has one record for every audited app entity (records=325)
+- PASS - Video audit count parity is preserved
+- PASS - Video evidence records use real-or-null timestamps only
+- PASS - Remaining N/A fields are documented in the recheck report
+- PASS - Video audit unresolved join count is zero
+- PASS - Internal IDs are hidden from rendered production card text (visible=)
+- PASS - Uniform player and recruit card tab contracts render
 - PASS - Pack B registry entries exist
 - PASS - Dashboard order resolves from registry
 - PASS - Pack B source refs resolve without duplicated football data

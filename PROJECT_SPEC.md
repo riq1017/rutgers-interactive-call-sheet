@@ -122,6 +122,16 @@ Recruit board rank must render only from the authoritative explicit rank field. 
 
 Rutgers depth-chart slots resolve by explicit `player_id` first, then migration mapping, then exact normalized full name plus exact position. Generic `T`, `G`, or `OL` positions must not be guessed into left or right slots without an explicit slot source.
 
+## J.3 Video Evidence And Production ID Standard
+
+Video-derived data must be indexed in `data/audit/video_evidence_index.json` when it is recovered into authoritative JSON. The evidence index records every current Rutgers player, opponent player, recruit, verified visible play, and matchup, with source video/frame metadata and verified/source-missing field lists.
+
+Timestamps must never be invented. If the active source package contains only extracted frames or source-video filenames without timestamp metadata, the timestamp field remains `null` and the limitation is documented in the audit reports.
+
+Canonical IDs remain internal implementation details. Production card text must not show `player_id`, `prospect_id`, `play_id`, or `matchup_id`; visible cards must use player names, play names, matchup labels, or human-readable summaries instead.
+
+Uniform card contracts are required. Player detail cards use the same Overview, Attributes, Stats, Matchups, and Plays sections. Recruit detail cards use the same Overview, Scouting, Fit, and Activity sections.
+
 ## K. Release Workflow
 
 The release workflow is: implement, self-validate, generate reports, phone test, freeze approved component, and use the tagged/frozen baseline for the next pack. Cross-sprint scope leakage is not allowed.

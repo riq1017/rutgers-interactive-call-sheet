@@ -583,12 +583,26 @@ function renderRanks() {
   const q = $("search") ? $("search").value.toLowerCase() : "";
   const family = $("rankFamily") ? $("rankFamily").value : "all";
   const formation = $("rankFormation") ? $("rankFormation").value : "all";
-  const list = state.ranked.filter(play => {
-    if (family !== "all" && play.conceptFamily !== family) return false;
+  const sourceRows = typeof topPlayInventory === "function" ? topPlayInventory() : state.ranked;
+  const list = sourceRows.filter(play => {
+    const type = play.conceptFamily || conceptFamily(play);
+    const passBucket = ["quick pass", "intermediate pass", "deep pass"].includes(type);
+    if (family === "run" && !type.includes("run") && type !== "option") return false;
+    if (family === "pass" && !passBucket) return false;
+    if (family === "rpo" && type !== "RPO") return false;
+    if (family === "pa" && type !== "play action") return false;
+    if (family === "screen" && type !== "screen") return false;
+    if (!["all","favorites","run","pass","rpo","pa","screen"].includes(family) && type !== family) return false;
     if (formation !== "all" && play.formation !== formation) return false;
     return !q || play.name.toLowerCase().includes(q) || play.formation.toLowerCase().includes(q) || play.primaryPlayerName.toLowerCase().includes(q);
   });
-  $("rankList").innerHTML = list.map((play, i) => callCard(play, i + 1)).join("");
+  const heroSlot = $("topPlaysHeroSlot");
+  if (heroSlot && typeof topPlayHeroCard === "function") {
+    heroSlot.innerHTML = topPlayHeroCard(window.TOP_PLAYS_VIEW || "best", window.TOP_PLAYS_SELECTED_ID || "");
+  } else if ($("topplays") && typeof topPlayHeroCard === "function") {
+    $("topplays").insertAdjacentHTML("afterbegin", `<div id="topPlaysHeroSlot">${topPlayHeroCard("best")}</div>`);
+  }
+  $("rankList").innerHTML = `<div class="section-heading compact-heading"><p>Verified Play Library</p><strong>${list.length} plays</strong></div>` + list.map((play, i) => callCard(play, i + 1)).join("");
 }
 
 function populateRankFilters() {

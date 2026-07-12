@@ -90,10 +90,10 @@ function distanceYardsFromSelect(value) {
 }
 
 function situationContext() {
-  const down = Number($("down").value);
-  const dist = $("distance").value;
-  const zone = $("zone").value;
-  const gameState = $("state").value;
+  const down = Number(($("down") && $("down").value) || 1);
+  const dist = ($("distance") && $("distance").value) || "medium";
+  const zone = ($("zone") && $("zone").value) || "normal";
+  const gameState = ($("state") && $("state").value) || "normal";
   let key = dist;
   if (zone === "goal_line" || zone === "red_zone") key = zone;
   if (zone === "fringe") key = "red_zone";

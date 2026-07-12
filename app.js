@@ -1288,20 +1288,51 @@ function renderPackagePanel() {
   $("importRecruitingWeekly").addEventListener("change", event => importEnginePackage(event.target.files[0], "recruiting"));
 }
 
-function cleanValue(value) {
-  if (value === null || value === undefined || value === "" || value === "Unknown" || value === "Not available") return "";
-  if (Array.isArray(value)) return value.filter(cleanValue).join(", ");
-  return String(value);
+function labelForKey(key) {
+  return labelize(String(key || "").replace(/_/g, " "));
 }
 
-function maybeRow(label, value) {
+function formatObjectValue(value, depth = 0) {
+  if (!value || typeof value !== "object" || depth > 2) return "";
+  const entries = Object.entries(value).filter(([key, item]) => !["schema_version","package_type","source_video","source_videos","verification_status"].includes(key) && cleanValue(item));
+  if (!entries.length) return "";
+  const preferred = ["name","player","position","overall","archetype","threat_type","matchup","lane","recommendation","adjustment","summary","description"];
+  const ordered = entries.sort(([a], [b]) => {
+    const ai = preferred.indexOf(a);
+    const bi = preferred.indexOf(b);
+    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+  });
+  return ordered.slice(0, depth ? 6 : 8).map(([key, item]) => `${labelForKey(key)}: ${cleanValue(item, depth + 1)}`).join("; ");
+}
+
+function cleanValue(value, depth = 0) {
+  if (value === null || value === undefined || value === "" || value === "Unknown" || value === "Not available") return "";
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (Array.isArray(value)) return value.map(item => cleanValue(item, depth + 1)).filter(Boolean).join(", ");
+  if (typeof value === "object") return formatObjectValue(value, depth);
+  const text = String(value).trim();
+  if (!text || text === "undefined" || text === "null" || text === "[object Object]") return "";
+  return text;
+}
+
+function formatLimited(value, fallback = "Limited data") {
+  return cleanValue(value) || fallback;
+}
+
+function maybeRow(label, value, fallback = "") {
   const cleaned = cleanValue(value);
-  return cleaned ? `<div class="data-row"><span>${label}</span><strong>${cleaned}</strong></div>` : "";
+  if (cleaned) return `<div class="data-row"><span>${label}</span><strong>${cleaned}</strong></div>`;
+  return fallback ? `<div class="data-row limited"><span>${label}</span><strong>${fallback}</strong></div>` : "";
+}
+
+function chipList(items, className = "value-chips") {
+  const rows = Array.isArray(items) ? items.map(item => cleanValue(item)).filter(Boolean) : cleanValue(items).split(",").map(item => item.trim()).filter(Boolean);
+  return rows.length ? `<div class="${className}">${rows.map(item => `<span>${item}</span>`).join("")}</div>` : "";
 }
 
 function maybeList(items) {
-  const rows = (items || []).filter(cleanValue);
-  return rows.length ? `<ul class="tight-list">${rows.map(item => `<li>${cleanValue(item)}</li>`).join("")}</ul>` : "";
+  const rows = (items || []).map(item => cleanValue(item)).filter(Boolean);
+  return rows.length ? `<ul class="tight-list">${rows.map(item => `<li>${item}</li>`).join("")}</ul>` : "";
 }
 
 function firstClean(items) {
@@ -1528,6 +1559,11 @@ function compactStats(rows, limit = 5) {
   return entries.slice(0, limit).map(([key, value]) => `${labelize(key)} ${cleanValue(value)}`);
 }
 
+function statBlock(title, rows, fallback = "Limited data") {
+  const chips = chipList(compactStats(rows, 8), "stat-chip-row");
+  return `<section class="mini-stat-block"><h4>${title}</h4>${chips || `<p>${fallback}</p>`}</section>`;
+}
+
 function matchupSummaryForPlayer(player, side = "rutgers") {
   const id = playerId(player);
   const rows = (loadMatchups() || []).filter(row => {
@@ -1543,6 +1579,34 @@ function usageSummary(player) {
   return firstClean([analysis.best_usage, analysis.recommended_usage, analysis.in_game_trigger, analysis.role, analysis.summary]);
 }
 
+function riskSummary(row) {
+  if (!row) return "";
+  const opponent = findOpponentMatchupPlayer(row) || (row.opponent_player && typeof row.opponent_player === "object" ? row.opponent_player : null);
+  const name = cleanValue(opponent && opponent.name) || cleanValue(row.opponent_player);
+  const threat = cleanValue((opponent && opponent.archetype) || row.type || row.risk || row.status || row.advantage);
+  const lane = cleanValue(row.rutgers_unit || row.matchup || row.lane);
+  const rec = firstClean(row.tactical_recommendations || row.recommendations || []);
+  return [name, threat, lane, rec].filter(Boolean).join(" — ");
+}
+
+function attributeComparisonRows(rutgers, opponent, evidence = []) {
+  const evidenceByMetric = new Map((evidence || []).filter(item => item && typeof item === "object").map(item => [cleanValue(item.metric || item.label).toLowerCase(), item]));
+  const keys = [...new Set([
+    ...Object.keys((rutgers && rutgers.attributes) || {}),
+    ...Object.keys((opponent && opponent.attributes) || {}),
+    ...evidence.map(item => item && typeof item === "object" ? item.metric : "").filter(Boolean)
+  ])].filter(key => !["overall"].includes(key)).slice(0, 8);
+  return keys.map(key => {
+    const metric = cleanValue(key);
+    const ev = evidenceByMetric.get(metric.toLowerCase());
+    const rv = (rutgers && rutgers.attributes && rutgers.attributes[key]) ?? (ev && ev.rutgers);
+    const ov = (opponent && opponent.attributes && opponent.attributes[key]) ?? (ev && ev.opponent);
+    const diff = ev && Number(ev.difference);
+    const adv = Number.isFinite(diff) ? (diff > 0 ? "Rutgers" : diff < 0 ? "Opponent" : "Even") : "";
+    return `<div class="comparison-row"><span>${labelize(metric)}</span><strong>${formatLimited(rv)}</strong><em>${formatLimited(ov)}</em><b class="${adv === "Rutgers" ? "good" : adv === "Opponent" ? "bad" : ""}">${adv || "Limited"}</b></div>`;
+  }).join("") || `<div class="comparison-row limited"><span>Attributes</span><strong>Limited data</strong><em>Limited data</em><b>Limited</b></div>`;
+}
+
 function premiumPlayerCard(player, side = "rutgers") {
   const analysis = (player.analysis || player.ui_analysis || {});
   const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
@@ -1550,6 +1614,7 @@ function premiumPlayerCard(player, side = "rutgers") {
   const classText = cleanValue(player.class_year || player.year || player.class);
   const jersey = cleanValue(player.jersey_number || player.jersey);
   const matchup = matchupSummaryForPlayer(player, side);
+  const limited = (!seasonRows.length || !lastRows.length) ? `<p class="limited-note">Limited data where verified production was not provided.</p>` : "";
   return `<details class="person-card premium-player-card compact-person player-detail">
     <summary>
       ${portraitImg(player, side)}
@@ -1560,10 +1625,11 @@ function premiumPlayerCard(player, side = "rutgers") {
       <div class="portrait-panel">${portraitImg(player, side, "player-portrait large")}</div>
       <div class="card-grid">
         ${maybeRow("Overall", player.overall)}${maybeRow("Position", player.position)}${maybeRow("Class", classText)}${maybeRow("Jersey", jersey)}${maybeRow("Height", player.height)}${maybeRow("Weight", player.weight)}${maybeRow("Development", analysis.development_outlook || analysis.development)}
-        ${maybeRow("Attributes", topAttributes(player, 6))}${maybeRow("Season Stats", compactStats(seasonRows, 6))}${maybeRow("Last Game", compactStats(lastRows, 6))}
+        ${maybeRow("Attributes", topAttributes(player, 6), "Limited data")}
       </div>
     </div>
-    ${maybeRow("Strengths", analysis.strengths)}${maybeRow("Weaknesses", analysis.limitations || analysis.weaknesses)}${maybeRow("Matchup Summary", matchup)}
+    <div class="production-grid">${statBlock("Last Game", lastRows)}${statBlock("Season", seasonRows)}</div>${limited}
+    ${maybeRow("Role", analysis.role || analysis.matchup_priority)}${maybeRow("Strengths", analysis.strengths, "Limited data")}${maybeRow("Weaknesses", analysis.limitations || analysis.weaknesses, "Limited data")}${maybeRow("Matchup Summary", matchup, "Limited data")}
     ${maybeRow("Recommended Usage", usageSummary(player))}${maybeRow("Player Notes", analysis.summary || player.description)}
     <details class="nested-detail"><summary>Expandable Detail</summary>${maybeRow("Best formations", analysis.best_formations)}${maybeRow("Matchup advantage", analysis.matchup_advantage)}${maybeRow("Risk", analysis.risk_limitation)}${maybeRow("Trigger", analysis.in_game_trigger)}${maybeRow("Source status", (mediaForPlayer(player, side) || {}).source_status)}</details>
   </details>`;
@@ -1916,12 +1982,16 @@ function renderPersonnelOverview() {
   const bestLane = (lanes.find(row => row.status === "feature") || lanes[0] || {}).lane;
   const risk = highestRiskMatchup();
   const featured = (loadRutgersRoster().players || []).find(p => /QB|HB|WR|TE/.test(p.position)) || {};
+  const featuredSummary = featured.player_id ? `<button class="summary-player-card" type="button" onclick="renderPersonnelMatchups('rutgers');setTimeout(()=>showRosterGroup('${rosterGroupFor(featured.position)}'),0)">${portraitImg(featured, "rutgers")}<span><strong>${featured.name}</strong><em>${featured.position} | OVR ${featured.overall}</em></span></button>` : "";
+  const riskText = riskSummary(risk);
   return `${renderGameMatchupHeader().replace('<section class="panel matchup-hero">','<section class="panel matchup-hero compact overview-matchup">')}
     <div class="summary-grid compact-grid">
       ${maybeRow("Best run lane", bestLane)}
       ${maybeRow("Protection call", (loadGameplanWeekly().quick_tactical_summary || {}).best_protection_rule)}
-      ${maybeRow("Featured player", featured.name)}
-      ${maybeRow("Biggest risk", cleanValue(risk.opponent_player) || cleanValue(risk.risk))}
+    </div>
+    <div class="featured-risk-grid">
+      <section><h3>Featured Player</h3>${featuredSummary || renderStatPlaceholder("Featured Player", "Limited data")}</section>
+      <section><h3>Biggest Risk</h3><button class="risk-link" type="button" onclick="renderPersonnelMatchups('matchups')"><strong>${riskText || "Limited data"}</strong><span>Tap to view matchup detail</span></button></section>
     </div>
     <h3>Key Matchups</h3>
     <div class="compact-list">${(loadMatchups() || []).slice(0, 3).map(row => matchupRow(row)).join("")}</div>`;
@@ -2009,10 +2079,13 @@ function groupOpponentPlayers(players) {
 
 function opponentPlayerCard(player) {
   const a = player.ui_analysis || {};
-  return `<details class="person-card compact-person premium-player-card"><summary>${portraitImg(player, "opponent")}<span><strong>${player.name}</strong><em>${player.position} | ${player.year}${player.redshirt ? " (RS)" : ""} | OVR ${player.overall}</em></span><b>${cleanValue(a.matchup_priority)}</b></summary>
-    <div class="player-card-grid"><div class="portrait-panel">${portraitImg(player, "opponent", "player-portrait large")}</div><div class="card-grid">${maybeRow("Overall", player.overall)}${maybeRow("Position", player.position)}${maybeRow("Attributes", topAttributes(player, 6))}${maybeRow("Matchup Summary", matchupSummaryForPlayer(player, "opponent"))}</div></div>
+  const seasonRows = statsForPlayer(player, loadOpponentSeasonStats());
+  const lastRows = statsForPlayer(player, loadOpponentLastGameStats());
+  return `<details class="person-card compact-person premium-player-card player-detail"><summary>${portraitImg(player, "opponent")}<span><strong>${player.name}</strong><em>${player.position} | ${player.year}${player.redshirt ? " (RS)" : ""} | OVR ${player.overall}</em></span><b>${cleanValue(a.matchup_priority) || "Threat"}</b></summary>
+    <div class="player-card-grid"><div class="portrait-panel">${portraitImg(player, "opponent", "player-portrait large")}</div><div class="card-grid">${maybeRow("Overall", player.overall)}${maybeRow("Position", player.position)}${maybeRow("Attributes", topAttributes(player, 6), "Limited data")}${maybeRow("Threat level", a.matchup_priority || player.archetype)}${maybeRow("Matchup Summary", matchupSummaryForPlayer(player, "opponent"), "Limited data")}</div></div>
+    <div class="production-grid">${statBlock("Last Game", lastRows)}${statBlock("Season", seasonRows)}</div>
     ${maybeRow("Archetype", player.archetype)}${maybeRow("Scouting summary", a.summary || player.description)}${maybeRow("Top attributes", a.strengths)}
-    ${maybeRow("Strengths", a.strengths)}${maybeRow("Weaknesses", a.weaknesses)}${maybeRow("Matchup priority", a.matchup_priority)}${maybeRow("Concepts to increase", a.gameplan_increase)}${maybeRow("Concepts to decrease", a.gameplan_decrease)}${maybeRow("In-game trigger", a.in_game_trigger)}
+    ${maybeRow("Strengths", a.strengths, "Limited data")}${maybeRow("Weaknesses", a.weaknesses, "Limited data")}${maybeRow("Concepts to increase", a.gameplan_increase)}${maybeRow("Concepts to decrease", a.gameplan_decrease)}${maybeRow("Matchup recommendation", a.in_game_trigger)}
   </details>`;
 }
 
@@ -2065,15 +2138,22 @@ function matchupRow(row) {
   const rutgersTitle = rutgers ? `${rutgers.name} (${rutgers.position})` : row.rutgers_unit;
   const opponentTitle = opponent ? `${opponent.name} (${opponent.position})` : cleanValue(row.opponent_player);
   const recommendations = row.tactical_recommendations || row.recommendations || [];
-  const evidence = (row.evidence || []).map(item => typeof item === "object" ? `${cleanValue(item.label || item.type || item.source)} ${cleanValue(item.value || item.note || item.description)}` : item).filter(cleanValue);
+  const evidence = (row.evidence || []).map(item => typeof item === "object" ? `${cleanValue(item.metric || item.label || item.type || item.source)}: ${cleanValue(item.difference) ? `diff ${cleanValue(item.difference)}` : cleanValue(item.value || item.note || item.description)}` : item).filter(cleanValue);
   const limitations = row.data_limitations || [];
   const limited = limitations.length || !evidence.length;
-  return `<details class="match-card compact-match player-matchup"><summary><strong>${rutgersTitle} vs ${opponentTitle}</strong><span>${cleanValue(row.advantage || row.status)} | ${displayGrade(row.grade, row.internal_score)} | ${cleanValue(row.confidence) ? `${row.confidence}%` : "LIMITED DATA"}</span><em>${firstClean(recommendations)}</em></summary>
-    <div class="matchup-sides">
-      <div class="match-side portrait-match-side">${rutgers ? portraitImg(rutgers, "rutgers", "player-portrait large") : ""}<h4>Rutgers Player</h4>${maybeRow("Player", rutgers && rutgers.name)}${maybeRow("Position", rutgers && rutgers.position)}${maybeRow("Overall", rutgers && rutgers.overall)}${maybeRow("Attributes", rutgers ? topAttributes(rutgers, 5) : "")}${maybeRow("Last-game stats", rutgers && (rutgers.last_game_stats || compactStats(statsForPlayer(rutgers, loadRutgersLastGameStats()))))}${maybeRow("Season stats", rutgers && (rutgers.season_stats || compactStats(statsForPlayer(rutgers, loadRutgersSeasonStats()))))}</div>
-      <div class="match-side portrait-match-side">${opponent ? portraitImg(opponent, "opponent", "player-portrait large") : ""}<h4>Opponent Player</h4>${maybeRow("Player", opponent && opponent.name)}${maybeRow("Position", opponent && opponent.position)}${maybeRow("Overall", opponent && opponent.overall)}${maybeRow("Attributes", opponent ? topAttributes(opponent, 5) : "")}${maybeRow("Last Game", opponent && (opponent.last_game || compactStats(statsForPlayer(opponent, loadOpponentLastGameStats()))))}${maybeRow("Season", opponent && (opponent.season || compactStats(statsForPlayer(opponent, loadOpponentSeasonStats()))))}</div>
+  const rutgersLast = rutgers && (rutgers.last_game ? [rutgers.last_game] : statsForPlayer(rutgers, loadRutgersLastGameStats()));
+  const rutgersSeason = rutgers && (rutgers.season ? [rutgers.season] : statsForPlayer(rutgers, loadRutgersSeasonStats()));
+  const opponentLast = opponent && (opponent.last_game ? [opponent.last_game] : statsForPlayer(opponent, loadOpponentLastGameStats()));
+  const opponentSeason = opponent && (opponent.season ? [opponent.season] : statsForPlayer(opponent, loadOpponentSeasonStats()));
+  return `<details class="match-card compact-match player-matchup"><summary><strong>${rutgersTitle} vs ${opponentTitle}</strong><span>${cleanValue(row.advantage || row.status)} | ${displayGrade(row.grade, row.internal_score)} | ${cleanValue(row.confidence) ? `${row.confidence}%` : "Limited data"}</span><em>${firstClean(recommendations)}</em></summary>
+    <div class="matchup-header">
+      <div class="matchup-player">${rutgers ? portraitImg(rutgers, "rutgers") : ""}<span><strong>${cleanValue(rutgers && rutgers.name) || cleanValue(row.rutgers_unit)}</strong><em>${cleanValue(rutgers && rutgers.position)} ${cleanValue(rutgers && rutgers.overall) ? `| OVR ${rutgers.overall}` : ""}</em></span></div>
+      <b>VS</b>
+      <div class="matchup-player opponent">${opponent ? portraitImg(opponent, "opponent") : ""}<span><strong>${cleanValue(opponent && opponent.name) || cleanValue(row.opponent_player)}</strong><em>${cleanValue(opponent && opponent.position)} ${cleanValue(opponent && opponent.overall) ? `| OVR ${opponent.overall}` : ""}</em></span></div>
     </div>
-    ${maybeRow("Advantage", row.advantage || row.status)}${maybeRow("Grade", displayGrade(row.grade, row.internal_score))}${maybeRow("Confidence", cleanValue(row.confidence) ? `${row.confidence}%` : "")}${limited ? maybeRow("Data status", "LIMITED DATA") : ""}${maybeRow("Evidence", evidence)}${maybeRow("Recommendation", recommendations)}${maybeRow("Limitations", limitations)}${maybeRow("Analysis", row.description)}
+    <section class="comparison-table"><h4>Comparison</h4><div class="comparison-head"><span>Attribute</span><strong>Rutgers</strong><em>Opponent</em><b>Edge</b></div>${attributeComparisonRows(rutgers, opponent, row.evidence || [])}</section>
+    <section class="match-production"><h4>Production</h4><div class="production-grid">${statBlock("Rutgers Last Game", rutgersLast)}${statBlock("Rutgers Season", rutgersSeason)}${statBlock("Opponent Last Game", opponentLast)}${statBlock("Opponent Season", opponentSeason)}</div></section>
+    <section class="match-result"><h4>Result</h4>${maybeRow("Letter grade", displayGrade(row.grade, row.internal_score), "Limited data")}${maybeRow("Confidence", cleanValue(row.confidence) ? `${row.confidence}%` : "", "Limited data")}${maybeRow("Advantage", row.advantage || row.status, "Limited data")}${limited ? maybeRow("Data status", "Limited data") : ""}${maybeRow("Key evidence", evidence, "Limited data")}${maybeRow("Tactical recommendation", recommendations, "Limited data")}${maybeRow("Data limitations", limitations)}${maybeRow("Analysis", row.description)}</section>
   </details>`;
 }
 
@@ -2191,6 +2271,16 @@ function prospectPoolRows() {
   });
 }
 
+function prospectSpecificText(...values) {
+  const genericPatterns = [
+    /active board target/i,
+    /match to the full recruiting-class record requires confirmation/i,
+    /review against roster need/i,
+    /verified scouting profile/i
+  ];
+  return values.map(cleanValue).find(text => text && !genericPatterns.some(pattern => pattern.test(text))) || "";
+}
+
 function filteredRecruits(mode = "board") {
   const f = currentRecruitFilters();
   const activeIds = new Set((loadRecruitingWeekly().active_board || []).map(row => row.prospect_id));
@@ -2247,8 +2337,8 @@ function renderRecruitList(mode = window.ACTIVE_RECRUITING_VIEW || "board") {
     const state = cleanValue(row.state || p.state || stateFromLocation(p.hometown));
     const rating = starRating(row.stars || p.stars);
     const open = openId && openId === row.prospect_id ? "open" : "";
-    const reason = cleanValue(row.description || a.recommended_action_reason);
-    const aiSummary = cleanValue(p.scouting_summary || a.summary);
+    const reason = prospectSpecificText(row.description, a.recommended_action_reason);
+    const aiSummary = prospectSpecificText(p.scouting_summary, a.summary);
     return `<details class="prospect-card compact-prospect" ${open}><summary><span class="rank-dot">${row.board_order || i + 1}</span><span><strong>${row.name}</strong><em>${cleanValue(row.position || p.position)}${rating ? ` | ${rating}` : ""}${state ? ` | ${state}` : ""}</em></span><b>${cleanValue(row.recommended_action || a.recommended_action || pr && pr.tier)}</b></summary>
       <div class="card-grid">${maybeRow("Board rank", row.board_order)}${maybeRow("Position", row.position || p.position)}${rating ? `<div class="data-row"><span>Rating</span><strong>${rating}</strong></div>` : ""}${maybeRow("State", state)}${maybeRow("Scouting", cleanValue(row.scouting_percentage || p.scouting_percentage) ? `${cleanValue(row.scouting_percentage || p.scouting_percentage)}%` : "")}${maybeRow("Interest", row.interest || p.interest)}${maybeRow("Offer", row.offer_status || p.offer_status)}${maybeRow("Visit", row.visit_status || p.visit_status)}${maybeRow("Status", row.status || p.status)}</div>
       ${maybeRow("National Rank", row.national_rank || p.national_rank)}${maybeRow("Interest", row.interest || p.interest)}${maybeRow("Offer", row.offer_status || p.offer_status)}${maybeRow("Visit", row.visit_status || p.visit_status)}${maybeRow("Commit", row.commit_status || p.commit_status || p.status)}${maybeRow("Gem/Bust", row.gem_bust || p.gem_bust || p.dealbreaker)}${maybeRow("Recommended Action", row.recommended_action || a.recommended_action)}${maybeRow("Reason", reason)}${maybeRow("AI Summary", aiSummary && aiSummary !== reason ? aiSummary : "")}${maybeRow("Recruiting value", a.recruiting_value)}${maybeRow("Projected role", a.projected_role)}${maybeRow("Strengths", a.strengths)}${maybeRow("Questions", a.questions_to_verify)}${maybeRow("Scheme fit", a.scheme_fit)}
@@ -2263,7 +2353,8 @@ function renderActionPlan() {
   $("actionPlanList").innerHTML = `<div class="section-heading compact-heading"><p>Weekly Action Plan</p><strong>Top 3</strong></div><div class="action-strip">${board.slice(0, 3).map(row => {
     const prospect = classById.get(row.prospect_id) || {};
     const action = cleanValue(row.recommended_action || (prospect.analysis || {}).recommended_action);
-    return `<details class="action-row-card compact-action"><summary><strong>${cleanValue(row.name || prospect.name)}</strong><span>${cleanValue(row.position || prospect.position)} | ${action}</span></summary>${maybeRow("Reason", row.description || (prospect.analysis || {}).summary || prospect.scouting_summary)}${maybeRow("Position priority", (priorityBoard().find(p => p.position === (row.position || prospect.position)) || {}).tier)}${maybeRow("Resource recommendation", action)}${maybeRow("Scouting requirement", prospect.scouting_percentage ? `${prospect.scouting_percentage}% scouted` : "Confirm linked prospect detail before major spend")}</details>`;
+    const reason = prospectSpecificText(row.description, (prospect.analysis || {}).recommended_action_reason, prospect.scouting_summary, (prospect.analysis || {}).summary);
+    return `<details class="action-row-card compact-action"><summary><strong>${cleanValue(row.name || prospect.name)}</strong><span>${cleanValue(row.position || prospect.position)} | ${action}</span></summary>${maybeRow("Reason", reason)}${maybeRow("Position priority", (priorityBoard().find(p => p.position === (row.position || prospect.position)) || {}).tier)}${maybeRow("Resource recommendation", action)}${maybeRow("Scouting", prospect.scouting_percentage ? `${prospect.scouting_percentage}% scouted` : "")}</details>`;
   }).join("")}</div>${board.length > 3 ? `<details class="breakout compact-detail"><summary>View All Actions</summary>${board.slice(3).map(row => `<div class="data-row"><span>${cleanValue(row.position)}</span><strong>${cleanValue(row.name)} - ${cleanValue(row.recommended_action)}</strong></div>`).join("")}</details>` : ""}`;
 }
 
@@ -2325,9 +2416,9 @@ function boot() {
   document.querySelectorAll("[data-tab]").forEach(button => button.addEventListener("click", () => switchTab(button.dataset.tab)));
   document.addEventListener("toggle", event => {
     const detail = event.target;
-    if (!(detail instanceof HTMLDetailsElement) || !detail.open || !detail.matches(".compact-detail,.player-detail,.compact-prospect")) return;
+    if (!(detail instanceof HTMLDetailsElement) || !detail.open || !detail.matches(".compact-detail,.player-detail,.compact-prospect,.compact-match")) return;
     const scope = detail.closest(".tab") || document;
-    scope.querySelectorAll("details.compact-detail[open],details.player-detail[open],details.compact-prospect[open]").forEach(node => {
+    scope.querySelectorAll("details.compact-detail[open],details.player-detail[open],details.compact-prospect[open],details.compact-match[open]").forEach(node => {
       if (node !== detail && node.parentElement === detail.parentElement) node.open = false;
     });
   }, true);
@@ -2363,6 +2454,13 @@ if (typeof module !== "undefined") {
     normalizePosition,
     priorityScore,
     priorityBoard,
-    performanceNeed
+    performanceNeed,
+    cleanValue,
+    formatLimited,
+    premiumPlayerCard,
+    matchupRow,
+    renderPersonnelOverview,
+    opponentPlayerCard,
+    renderRosterCards
   };
 }

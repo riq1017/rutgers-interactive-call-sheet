@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T15:18:31.622Z
+Validated: 2026-07-12T15:45:21.847Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - Shared roster source has 48 verified players
@@ -70,5 +70,13 @@ Validated: 2026-07-12T15:18:31.622Z
 - PASS - Responsive layout keeps new cards within phone viewport
 - PASS - JSON parsing for new media files succeeds
 - PASS - GitHub Pages compatibility remains static
+- PASS - Rendered fixtures never leak raw object coercion
+- PASS - Nested formatter converts objects to readable labels
+- PASS - Player cards render Last Game and Season as separate sections
+- PASS - Matchup cards use mobile header, comparison, production, and result sections
+- PASS - Featured Player and Biggest Risk render as actionable summaries
+- PASS - Repeated generic recruiting descriptions are removed from rendered candidates
+- PASS - Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS
+- PASS - Only one matchup detail accordion is allowed open per list
 
 Overall: PASS

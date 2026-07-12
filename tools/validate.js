@@ -52,7 +52,7 @@ check('All recruiting positions are filterable from class data', new Set(RECRUIT
 check('Prospect descriptions display from analysis', RECRUITING_CLASS.prospects.every(p => p.analysis && p.analysis.summary) && app.includes('Scouting summary'));
 check('Opponent player descriptions display from ui_analysis', PURDUE_OPPONENT_PLAYERS.players.every(p => p.ui_analysis && p.ui_analysis.summary) && app.includes('ui_analysis'));
 check('Matchup descriptions display', PURDUE_MATCHUPS.matchups.every(m => m.description) && app.includes('row.description'));
-check('Null fields are hidden in normal UI helpers', app.includes('function maybeRow') && app.includes('return cleaned ?') && !app.includes('Unknown stars'));
+check('Null fields are hidden in normal UI helpers', app.includes('function maybeRow') && app.includes('formatLimited') && !app.includes('Unknown stars'));
 check('No Name unverified remains', !index.includes('Name unverified') && !app.includes('Name unverified'));
 check('No static opponent facts remain in noscript fallback', !index.includes('Purdue record') && !index.includes('Q. Gillians') && index.includes('Enable JavaScript'));
 check('No old four quarterback summary boxes remain', !app.includes('Quarterbacks') || app.indexOf('Quarterbacks') < app.indexOf('function loadRutgersRoster'));
@@ -76,8 +76,8 @@ check('Gameplan default is compact with drill-down details', app.includes('compa
 check('Top Plays uses compact rows and advanced filter drawer', app.includes('compact-play-row') && app.includes('Advanced Filters') && app.includes('sticky-filter'));
 check('Personnel uses one internal workspace section at a time', app.includes('function renderPersonnelPanel') && app.includes('active === "overview"') && app.includes('renderStatsWorkspace') && app.includes('renderScoutingReport'));
 check('Roster uses horizontal position boxes instead of one long expanded report', app.includes('ROSTER_POSITION_GROUPS') && app.includes('position-rail') && app.includes('showRosterGroup') && css.includes('.position-box'));
-check('Matchups show player-vs-player cards where position data resolves', app.includes('findRutgersMatchupPlayer') && app.includes('findOpponentMatchupPlayer') && app.includes('matchup-sides'));
-check('Matchups bind to player_matchups.json', phase1Matchups.matchups.length === 7 && app.includes('PLAYER_MATCHUPS') && app.includes('LIMITED DATA'));
+check('Matchups show player-vs-player cards where position data resolves', app.includes('findRutgersMatchupPlayer') && app.includes('findOpponentMatchupPlayer') && app.includes('matchup-header'));
+check('Matchups bind to player_matchups.json', phase1Matchups.matchups.length === 7 && app.includes('PLAYER_MATCHUPS') && app.includes('Limited data'));
 check('Recruiting board starts from active_board when present', app.includes('function activeBoardRows') && app.includes('if (board.length)') && app.includes('board_order'));
 check('Prospect rating renderer hides unavailable stars and never prints Star as a value', app.includes('function starRating') && app.includes('aria-label="${stars}-star prospect"') && !app.includes('${cleanValue(p.stars)} stars'));
 check('Roster and prospects default to tap-open detail rows', app.includes('compact-person') && app.includes('compact-prospect') && app.includes('compact-action'));
@@ -90,8 +90,8 @@ check('Every portrait asset exists', [...rutgersMedia.players, ...opponentMedia.
 check('Player card registry binds without duplicated ratings', registry.counts.total_cards === registry.rutgers_cards.length + registry.opponent_cards.length && JSON.stringify(registry).indexOf('"overall"') === -1);
 check('Player registry count matches generated card inventory', registry.counts.rutgers_players === 48 && registry.counts.opponent_players === 16 && registry.counts.total_cards === 64);
 check('Premium player card engine is present', app.includes('function premiumPlayerCard') && app.includes('Season Stats') && app.includes('Recommended Usage') && app.includes('Expandable Detail'));
-check('Portrait media binding is used in player and matchup cards', app.includes('function portraitImg') && app.includes('portrait-match-side') && app.includes('mediaForPlayer'));
-check('Matchup cards expose grade, confidence, evidence, recommendation, and portraits', app.includes('displayGrade(row.grade, row.internal_score)') && app.includes('Confidence') && app.includes('Evidence') && app.includes('Recommendation') && app.includes('portraitImg(rutgers'));
+check('Portrait media binding is used in player and matchup cards', app.includes('function portraitImg') && app.includes('matchup-player') && app.includes('mediaForPlayer'));
+check('Matchup cards expose grade, confidence, evidence, recommendation, and portraits', app.includes('displayGrade(row.grade, row.internal_score)') && app.includes('Confidence') && app.includes('Key evidence') && app.includes('Tactical recommendation') && app.includes('portraitImg(rutgers'));
 check('Executive sticky header compacts on scroll', css.includes('.gameday-header.compact-header') && app.includes('window.scrollY > 48'));
 check('Top Plays supports favorites and personnel grouping', app.includes('toggleFavoritePlay') && app.includes('rankPersonnel') && app.includes('Favorites'));
 check('Top Plays still binds all 192 verified Oregon combinations', RUTGERS_PLAYBOOK.length === 192 && app.includes('Formation') && app.includes('Personnel'));
@@ -101,6 +101,28 @@ check('O-Line visualization includes run, protection, double-team, and chip-help
 check('Responsive layout keeps new cards within phone viewport', css.includes('.player-card-grid') && css.includes('@media(max-width:420px)') && css.includes('overflow-x:hidden'));
 check('JSON parsing for new media files succeeds', rutgersMedia.package_type === 'rutgers_player_media' && opponentMedia.package_type === 'opponent_player_media' && registry.package_type === 'player_card_registry');
 check('GitHub Pages compatibility remains static', !app.includes('fetch(') && index.includes('data/player_media.js') && [...rutgersMedia.players, ...opponentMedia.players].every(row => !/^https?:/i.test(row.portrait_path)));
+const fixtureHtml = [
+  engine.premiumPlayerCard(RUTGERS_ROSTER_BASE.players[0], 'rutgers'),
+  engine.opponentPlayerCard(PURDUE_OPPONENT_PLAYERS.players[0]),
+  engine.matchupRow(PURDUE_MATCHUPS.matchups[0]),
+  engine.renderPersonnelOverview(),
+  engine.cleanValue({ name: 'Fixture', stats: { yards: 12, td: 1 }, tags: ['inside', 'zone'] })
+].join('\n');
+check('Rendered fixtures never leak raw object coercion', !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(fixtureHtml));
+check('Nested formatter converts objects to readable labels', engine.cleanValue({ player: 'Q. Gillians', threat_type: 'Power rush', lane: 'right edge' }).includes('Player: Q. Gillians') && !engine.cleanValue({ a: { b: 1 } }).includes('[object Object]'));
+check('Player cards render Last Game and Season as separate sections', fixtureHtml.includes('Last Game') && fixtureHtml.includes('Season') && fixtureHtml.includes('mini-stat-block'));
+check('Matchup cards use mobile header, comparison, production, and result sections', fixtureHtml.includes('matchup-header') && fixtureHtml.includes('comparison-table') && fixtureHtml.includes('match-production') && fixtureHtml.includes('match-result'));
+check('Featured Player and Biggest Risk render as actionable summaries', fixtureHtml.includes('summary-player-card') && fixtureHtml.includes('risk-link') && !fixtureHtml.includes('[object Object]'));
+const renderedRecruitDescriptions = (RECRUITING_WEEKLY.active_board || []).map(row => {
+  const prospect = (RECRUITING_CLASS.prospects || []).find(p => p.prospect_id === row.prospect_id) || {};
+  const a = prospect.analysis || {};
+  const values = [row.description, a.recommended_action_reason, prospect.scouting_summary, a.summary].map(value => engine.cleanValue(value)).filter(Boolean);
+  return values.find(text => !/active board target|match to the full recruiting-class record requires confirmation|review against roster need|verified scouting profile/i.test(text)) || '';
+}).filter(Boolean);
+const descriptionCounts = renderedRecruitDescriptions.reduce((acc, text) => (acc[text] = (acc[text] || 0) + 1, acc), {});
+check('Repeated generic recruiting descriptions are removed from rendered candidates', !app.includes('Review against roster need and verified scouting profile') && Object.values(descriptionCounts).every(count => count <= 3));
+check('Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS', css.includes('@media(max-width:420px)') && css.includes('overflow-x:hidden') && css.includes('env(safe-area-inset-bottom)') && css.includes('env(safe-area-inset-top)'));
+check('Only one matchup detail accordion is allowed open per list', app.includes('.compact-match') && app.includes('details.compact-detail[open],details.player-detail[open],details.compact-prospect[open],details.compact-match[open]'));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

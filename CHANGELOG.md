@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Phase 1.2 correction pass
+- Added a defensive nested-value formatter used by rows, cards, stats, matchups, and recruiting render paths to prevent `[object Object]`, `undefined`, and literal `null` leaks.
+- Completed mobile-first Rutgers and opponent player cards with separated Last Game and Season production blocks plus limited-data indicators.
+- Reworked expanded matchup cards into a mobile header, comparison table, production sections, and result block.
+- Fixed Featured Player and Biggest Risk summaries so they render readable, tappable football summaries.
+- Improved portrait framing, team-color border treatment, card spacing, and phone-width fallbacks.
+- Filtered repeated generic recruiting descriptions from rendered cards while preserving prospect-specific summaries.
+- Expanded validation with rendered fixtures, duplicate-description checks, mobile breakpoint checks, and raw-object leak detection.
+
 ## Phase 1.2 player card engine + executive UI polish
 - Added static Rutgers and opponent player media registries with fictional SVG portraits bound by `player_id`.
 - Added `player_card_registry.json` to bind card rendering to existing roster, stat, matchup, and opponent JSON without duplicating ratings.

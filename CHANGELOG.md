@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Phase 1.2 final semantic correction
+- Corrected `MATCHUP EDGE` semantics so internal matchup scores are not displayed as advantage margins.
+- Added explicit edge-display handling for verified differentials, advantage-only states, even states, and limited-data states.
+- Reworked More Detail evidence into separate readable rows with metric, Rutgers value, opponent value, and edge/result.
+- Expanded validation for internal-score suppression, verified differential behavior, advantage/even/limited states, evidence rows, and unchanged top-three ordering.
+
 ## Phase 1.2 matchup visual polish
 - Rebuilt the expanded Key Matchup card hierarchy into a phone-first broadcast-style layout.
 - Added dominant Rutgers/opponent player panels, larger portraits, and a central `MATCHUP EDGE` result panel.

@@ -1676,6 +1676,48 @@ function tacticalSupport(row, evidence) {
   return firstClean([row.adjustment, row.protection_adjustment, row.run_game_adjustment, row.description, evidence && evidence[0]]);
 }
 
+function explicitEdgeDifferential(row) {
+  const candidates = [row.verified_edge_differential, row.edge_differential, row.edge_difference, row.differential];
+  const value = candidates.find(item => item !== null && item !== undefined && item !== "" && Number.isFinite(Number(item)));
+  return value === undefined ? null : Number(value);
+}
+
+function matchupEdgeDisplay(row) {
+  const advantage = cleanValue(row.advantage || row.status);
+  const grade = displayGrade(row.grade, row.internal_score);
+  const confidence = cleanValue(row.confidence) ? `${row.confidence}% Confidence` : "";
+  const meta = [`Grade ${grade || "Limited"}`, confidence].filter(Boolean).join(" • ");
+  const diff = explicitEdgeDifferential(row);
+  if (Number.isFinite(diff) && advantage && !/even/i.test(advantage)) {
+    return { title: `${advantage.toUpperCase()} ${diff > 0 ? "+" : ""}${diff}`, meta };
+  }
+  if (advantage && /even/i.test(advantage)) return { title: "EVEN", meta };
+  if (advantage) return { title: `${advantage.toUpperCase()} ADVANTAGE`, meta };
+  return { title: "LIMITED DATA", meta };
+}
+
+function evidenceRows(evidence = []) {
+  const opponent = activeOpponentName() || "Opponent";
+  const seen = new Set();
+  return (evidence || []).map(item => {
+    if (!item || typeof item !== "object") return null;
+    const metric = cleanValue(item.metric || item.label || item.type);
+    const rutgers = cleanValue(item.rutgers);
+    const opponentValue = cleanValue(item.opponent);
+    const diff = Number(item.difference);
+    const result = Number.isFinite(diff) ? (diff > 0 ? "Rutgers edge" : diff < 0 ? `${opponent} edge` : "Even") : cleanValue(item.result || item.interpretation);
+    const key = `${metric}|${rutgers}|${opponentValue}|${result}`;
+    if (!metric || seen.has(key)) return null;
+    seen.add(key);
+    return { metric, rutgers, opponent: opponentValue, result };
+  }).filter(Boolean);
+}
+
+function evidenceRowsHtml(evidence = []) {
+  const rows = evidenceRows(evidence);
+  return rows.length ? `<div class="evidence-row-list">${rows.map(row => `<div class="evidence-row"><span>${labelize(row.metric)}</span><strong>${row.rutgers ? `Rutgers ${row.rutgers}` : ""}</strong><em>${row.opponent ? `${activeOpponentName()} ${row.opponent}` : ""}</em><b>${row.result || "Limited data"}</b></div>`).join("")}</div>` : `<div class="evidence-row limited"><span>Evidence</span><b>Limited data</b></div>`;
+}
+
 function premiumPlayerCard(player, side = "rutgers") {
   const analysis = (player.analysis || player.ui_analysis || {});
   const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
@@ -2239,8 +2281,7 @@ function MatchupCard(row, rutgers, opponent, stats = matchupCardStats(rutgers, o
   const dataStatus = limited ? "Limited data" : "Verified matchup data";
   const rec = firstClean(recommendations);
   const remainingRows = remainingAttributeRows(rutgers, opponent, row.evidence || []);
-  const edgeName = cleanValue(row.advantage || row.status);
-  const edgeScore = cleanValue(row.edge_score || row.edge_difference || row.difference || row.internal_score);
+  const edge = matchupEdgeDisplay(row);
   const support = tacticalSupport(row, evidence);
   return `<details class="match-card compact-match player-matchup matchup-card priority-${priority}" data-matchup-id="${cleanValue(row.matchup_id)}" data-priority="${priority}">
     <summary>
@@ -2253,13 +2294,13 @@ function MatchupCard(row, rutgers, opponent, stats = matchupCardStats(rutgers, o
       <div class="broadcast-vs">VS</div>
       <div class="broadcast-player opponent-side">${opponent ? portraitImg(opponent, "opponent", "player-portrait broadcast") : ""}<span><strong>${cleanValue(opponent && opponent.name) || cleanValue(row.opponent_player)}</strong><em>${cleanValue(opponent && opponent.position)}${cleanValue(opponent && opponent.overall) ? ` | ${opponent.overall} OVR` : ""}</em></span></div>
     </div>
-    <section class="matchup-edge broadcast-edge"><h4>Matchup Edge</h4><strong>${edgeName || "Limited data"}</strong>${edgeScore ? `<b>${edgeScore}</b>` : ""}<span>Grade ${displayGrade(row.grade, row.internal_score) || "Limited"} | ${cleanValue(row.confidence) ? `${row.confidence}% Confidence` : "Limited confidence"} | ${priority}</span></section>
+    <section class="matchup-edge broadcast-edge"><h4>Matchup Edge</h4><strong>${edge.title}</strong><span>${edge.meta || "Limited data"} | ${priority}</span></section>
     <section class="comparison-table broadcast-comparison"><h4>Selected Metrics</h4><div class="comparison-head"><span>Metric</span><strong>Rutgers</strong><em>Opponent</em><b>Edge</b></div>${attributeComparisonRows(rutgers, opponent, row.evidence || [], 4)}</section>
     <section class="match-production broadcast-production"><h4>Production</h4><div class="production-grid compact-production-grid">${compactProductionBlock("Rutgers Last Game", stats.rutgersLast)}${compactProductionBlock("Rutgers Season", stats.rutgersSeason)}${compactProductionBlock("Opponent Last Game", stats.opponentLast)}${compactProductionBlock("Opponent Season", stats.opponentSeason)}</div></section>
     <section class="tactical-callout"><h4>Tactical Recommendation</h4><strong>${rec || "Limited data"}</strong>${support ? `<p>${support}</p>` : ""}${cleanValue(row.confidence) ? `<span>${row.confidence}% confidence</span>` : ""}</section>
     <details class="nested-detail more-matchup-detail"><summary>More Detail</summary>
       ${remainingRows ? `<section class="comparison-table"><h4>Remaining Attributes</h4><div class="comparison-head"><span>Metric</span><strong>Rutgers</strong><em>Opponent</em><b>Edge</b></div>${remainingRows}</section>` : ""}
-      ${maybeRow("Evidence", evidence, "Limited data")}${maybeRow("Data limitations", limitations)}${maybeRow("Source status", dataStatus)}${maybeRow("Alternate recommendations", recommendations.slice(1))}${maybeRow("Secondary notes", row.description)}
+      <section class="evidence-detail"><h4>Evidence</h4>${evidenceRowsHtml(row.evidence || [])}</section>${maybeRow("Data limitations", limitations)}${maybeRow("Source status", dataStatus)}${maybeRow("Alternate recommendations", recommendations.slice(1))}${maybeRow("Secondary notes", row.description)}
     </details>
   </details>`;
 }
@@ -2573,6 +2614,9 @@ if (typeof module !== "undefined") {
     MatchupCard,
     orderedMatchupRows,
     validMatchupRows,
-    matchupPriority
+    matchupPriority,
+    matchupEdgeDisplay,
+    explicitEdgeDifferential,
+    evidenceRowsHtml
   };
 }

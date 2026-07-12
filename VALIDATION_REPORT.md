@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T17:23:19.925Z
+Validated: 2026-07-12T17:34:54.874Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - Shared roster source has 48 verified players
@@ -96,5 +96,12 @@ Validated: 2026-07-12T17:23:19.925Z
 - PASS - Tactical recommendation renders as primary coaching callout
 - PASS - Empty production sections collapse to compact Limited data cards
 - PASS - Broadcast matchup visual polish CSS exists
+- PASS - Internal score is not rendered under MATCHUP EDGE (internal=68.8)
+- PASS - Verified differential renders only when explicitly available
+- PASS - Advantage-only matchup edge renders without fabricated number
+- PASS - Even matchup edge renders without fabricated number
+- PASS - Limited matchup edge state renders correctly
+- PASS - Evidence renders as separate rows without serialized objects
+- PASS - Top-three order remains semantic-correction unchanged
 
 Overall: PASS

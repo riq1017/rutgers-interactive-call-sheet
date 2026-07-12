@@ -152,6 +152,17 @@ check('Remaining matchup attributes move to More Detail', firstMatchupCardHtml.i
 check('Tactical recommendation renders as primary coaching callout', firstMatchupCardHtml.includes('tactical-callout') && firstMatchupCardHtml.includes('Tactical Recommendation'));
 check('Empty production sections collapse to compact Limited data cards', firstMatchupCardHtml.includes('production-card') && firstMatchupCardHtml.includes('limited-production'));
 check('Broadcast matchup visual polish CSS exists', css.includes('.broadcast-matchup-grid') && css.includes('.broadcast-edge') && css.includes('.tactical-callout') && css.includes('.player-portrait.broadcast'));
+const firstInternalScore = String(orderedMatchups[0].row.internal_score);
+const edgePanelMatch = firstMatchupCardHtml.match(/<section class="matchup-edge broadcast-edge">([\s\S]*?)<\/section>/);
+const edgePanelHtml = edgePanelMatch ? edgePanelMatch[1] : '';
+check('Internal score is not rendered under MATCHUP EDGE', firstInternalScore && !edgePanelHtml.includes(firstInternalScore), `internal=${firstInternalScore}`);
+check('Verified differential renders only when explicitly available', engine.matchupEdgeDisplay({ advantage: 'Rutgers', grade: 'B', confidence: 90, verified_edge_differential: 7, internal_score: 88 }).title === 'RUTGERS +7');
+check('Advantage-only matchup edge renders without fabricated number', engine.matchupEdgeDisplay({ advantage: 'Purdue', grade: 'D', confidence: 92, internal_score: 68.8 }).title === 'PURDUE ADVANTAGE');
+check('Even matchup edge renders without fabricated number', engine.matchupEdgeDisplay({ advantage: 'Even', grade: 'C', confidence: 92, internal_score: 74.6 }).title === 'EVEN');
+check('Limited matchup edge state renders correctly', engine.matchupEdgeDisplay({ grade: 'C', confidence: 70, internal_score: 74.6 }).title === 'LIMITED DATA');
+const evidenceHtml = engine.evidenceRowsHtml(orderedMatchups[0].row.evidence || []);
+check('Evidence renders as separate rows without serialized objects', evidenceHtml.includes('evidence-row-list') && evidenceHtml.includes('evidence-row') && !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(evidenceHtml));
+check('Top-three order remains semantic-correction unchanged', topThreeIds.join('|') === 'rt_vs_redg|c_vs_dt|hb2_vs_sam');
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

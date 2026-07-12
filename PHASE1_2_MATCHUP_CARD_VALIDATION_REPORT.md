@@ -20,6 +20,8 @@ Validated: 2026-07-12
 - PASS - GitHub Pages compatibility remains static.
 - PASS - Default comparison area renders no more than four selected metrics before More Detail.
 - PASS - Empty production sections render compact `Limited data` state.
+- PASS - Final semantic correction keeps internal scores out of the central `MATCHUP EDGE` display.
+- PASS - Evidence renders as separate metric rows.
 
 ## Top-Three Selection
 

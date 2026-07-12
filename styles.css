@@ -1074,6 +1074,44 @@ details.breakout summary{cursor:pointer;font-weight:900}
   border-color:#ffffff1f;
   background:#0b0b0e;
 }
+.evidence-detail{
+  margin-top:8px;
+}
+.evidence-detail h4{
+  margin:0 0 7px;
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+}
+.evidence-row-list{
+  display:grid;
+  gap:5px;
+}
+.evidence-row{
+  display:grid;
+  grid-template-columns:1fr .78fr .78fr .88fr;
+  gap:5px;
+  align-items:center;
+  padding:6px 0;
+  border-bottom:1px solid #ffffff12;
+}
+.evidence-row span,.evidence-row strong,.evidence-row em,.evidence-row b{
+  min-width:0;
+  font-size:10px;
+  line-height:1.2;
+  overflow-wrap:anywhere;
+}
+.evidence-row span{
+  color:#fff;
+  font-weight:900;
+}
+.evidence-row strong,.evidence-row em{
+  color:var(--muted);
+  font-style:normal;
+}
+.evidence-row b{
+  color:#e3c16c;
+}
 .premium-player-card summary{
   grid-template-columns:52px minmax(0,1fr) auto;
 }
@@ -1473,6 +1511,7 @@ details.breakout summary{cursor:pointer;font-weight:900}
   .broadcast-player{min-height:168px}
   .player-portrait.broadcast{height:118px}
   .compact-production-grid{grid-template-columns:1fr}
+  .evidence-row{grid-template-columns:1fr}
   .oline-arrows{grid-template-columns:1fr}
   .play-card summary{grid-template-columns:auto 52px minmax(0,1fr) auto auto}
 }

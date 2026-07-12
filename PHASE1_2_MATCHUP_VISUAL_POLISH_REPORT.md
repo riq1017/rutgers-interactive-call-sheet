@@ -25,6 +25,8 @@ This pass is limited to visual polish for `Personnel -> Match -> Key Matchups`.
 - PASS - `node --check app.js`
 - PASS - `node --check tools/validate.js`
 - PASS - `node tools/validate.js`
+- PASS - Final semantic correction confirms `MATCHUP EDGE` does not display internal ranking scores as margins.
+- PASS - Evidence rows render one item per row without serialized JSON/object text.
 
 ## Notes
 

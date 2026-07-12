@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T03:10:47.837Z
+Validated: 2026-07-12T04:18:43.623Z
 
 - PASS - Authoritative enriched JSON files are present
 - PASS - Shared roster source has 48 verified players
@@ -10,18 +10,21 @@ Validated: 2026-07-12T03:10:47.837Z
 - PASS - Gameplan tab structure is present
 - PASS - Best Call keeps visible play art
 - PASS - Top Plays supports required filters
-- PASS - Personnel heading and Rutgers vs Purdue comparison exist
+- PASS - Personnel heading and dynamic Rutgers/opponent comparison exist
 - PASS - Personnel includes run direction map
+- PASS - Run direction map avoids horizontal overflow at phone width
 - PASS - Personnel includes protection map
-- PASS - Personnel includes Purdue opponent cards
+- PASS - Protection map avoids horizontal overflow at phone width
+- PASS - Personnel includes current opponent cards
 - PASS - Personnel includes matchup cards
 - PASS - Recruiting overview uses real resources
 - PASS - All recruiting positions are filterable from class data
 - PASS - Prospect descriptions display from analysis
-- PASS - Purdue player descriptions display from ui_analysis
+- PASS - Opponent player descriptions display from ui_analysis
 - PASS - Matchup descriptions display
 - PASS - Null fields are hidden in normal UI helpers
 - PASS - No Name unverified remains
+- PASS - No static opponent facts remain in noscript fallback
 - PASS - No old four quarterback summary boxes remain
 - PASS - No fake mockup players were copied
 - PASS - Existing play art remains functional
@@ -34,5 +37,7 @@ Validated: 2026-07-12T03:10:47.837Z
 - PASS - Mobile CSS prevents horizontal overflow and keeps bottom nav fixed
 - PASS - GitHub Pages relative paths are preserved
 - PASS - Repeated Not available is avoided in enriched card renderers
+- PASS - Weekly action plan links board rows to prospect details when available
+- PASS - Last Game and Season Stats hide missing stat grids cleanly
 
 Overall: PASS

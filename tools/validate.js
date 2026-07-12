@@ -33,18 +33,21 @@ check('Recruiting engine reads enriched class, weekly, team needs, and coach mod
 check('Gameplan tab structure is present', ['gameMatchupHeader','recommendation','top3Inline','quickSummary','gameDayUsage','gameDayAlerts'].every(token => app.includes(token) || index.includes(token)));
 check('Best Call keeps visible play art', app.includes('large-diagram') && app.includes('play.diagramPath'));
 check('Top Plays supports required filters', ['run','pass','rpo','pa','screen','rankFormation','rankPersonnel','rankSituation','rankRisk','rankZone','rankState'].every(token => app.includes(token)));
-check('Personnel heading and Rutgers vs Purdue comparison exist', app.includes('Personnel & Matchups') && app.includes('renderGameMatchupHeader'));
+check('Personnel heading and dynamic Rutgers/opponent comparison exist', app.includes('Personnel & Matchups') && app.includes('renderGameMatchupHeader') && app.includes('activeOpponentName()'));
 check('Personnel includes run direction map', app.includes('function renderRunDirection') && app.includes('lane-map') && app.includes('Left edge') && app.includes('Right edge'));
-check('Personnel includes protection map', app.includes('function renderProtection') && app.includes('pressure-map') && app.includes('Right edge'));
-check('Personnel includes Purdue opponent cards', app.includes('function renderOpponent') && PURDUE_OPPONENT_PLAYERS.players.length === 16);
+check('Run direction map avoids horizontal overflow at phone width', css.includes('grid-template-columns:repeat(auto-fit,minmax(92px,1fr))') && css.includes('overflow-x:hidden'));
+check('Personnel includes protection map', app.includes('function renderProtection') && app.includes('pressure-map') && app.includes('Right edge') && app.includes('highestRiskMatchup'));
+check('Protection map avoids horizontal overflow at phone width', css.includes('grid-template-columns:repeat(auto-fit,minmax(104px,1fr))'));
+check('Personnel includes current opponent cards', app.includes('function renderOpponent') && app.includes('${activeOpponentName()} Players') && PURDUE_OPPONENT_PLAYERS.players.length === 16);
 check('Personnel includes matchup cards', app.includes('function renderMatchups') && PURDUE_MATCHUPS.matchups.length >= 3);
 check('Recruiting overview uses real resources', RECRUITING_WEEKLY.resources.scholarship_limit === 35 && RECRUITING_WEEKLY.resources.weekly_hours_total === 440 && app.includes('scholarships_used'));
 check('All recruiting positions are filterable from class data', new Set(RECRUITING_CLASS.prospects.map(p => p.position).filter(Boolean)).size >= 10 && app.includes('filterPosition'));
 check('Prospect descriptions display from analysis', RECRUITING_CLASS.prospects.every(p => p.analysis && p.analysis.summary) && app.includes('Scouting summary'));
-check('Purdue player descriptions display from ui_analysis', PURDUE_OPPONENT_PLAYERS.players.every(p => p.ui_analysis && p.ui_analysis.summary) && app.includes('ui_analysis'));
+check('Opponent player descriptions display from ui_analysis', PURDUE_OPPONENT_PLAYERS.players.every(p => p.ui_analysis && p.ui_analysis.summary) && app.includes('ui_analysis'));
 check('Matchup descriptions display', PURDUE_MATCHUPS.matchups.every(m => m.description) && app.includes('row.description'));
 check('Null fields are hidden in normal UI helpers', app.includes('function maybeRow') && app.includes('return cleaned ?') && !app.includes('Unknown stars'));
 check('No Name unverified remains', !index.includes('Name unverified') && !app.includes('Name unverified'));
+check('No static opponent facts remain in noscript fallback', !index.includes('Purdue record') && !index.includes('Q. Gillians') && index.includes('Enable JavaScript'));
 check('No old four quarterback summary boxes remain', !app.includes('Quarterbacks') || app.indexOf('Quarterbacks') < app.indexOf('function loadRutgersRoster'));
 check('No fake mockup players were copied', !app.includes('Jaylen Walker') && !app.includes('Marcus Evans') && !app.includes('Ethan Johnson'));
 check('Existing play art remains functional', fs.readdirSync(path.join(root,'assets','play-diagrams')).filter(f => f.endsWith('.svg') && f !== 'formation-fallback.svg').length === 48 && RUTGERS_PLAYBOOK.every(p => p.diagramPath && fs.existsSync(path.join(root,p.diagramPath))));
@@ -58,6 +61,8 @@ check('More page contains utilities/history/analytics/settings only', app.includ
 check('Mobile CSS prevents horizontal overflow and keeps bottom nav fixed', css.includes('overflow-x:hidden') && css.includes('position:fixed') && css.includes('env(safe-area-inset-bottom)'));
 check('GitHub Pages relative paths are preserved', index.includes('data/engine_data.js') && !app.includes('fetch(') && !index.includes('http://'));
 check('Repeated Not available is avoided in enriched card renderers', (app.match(/Not available/g) || []).length <= 8 && app.includes('cleanValue'));
+check('Weekly action plan links board rows to prospect details when available', app.includes('classById') && app.includes('row.prospect_id') && app.includes('prospect.scouting_summary'));
+check('Last Game and Season Stats hide missing stat grids cleanly', app.includes('function renderStatSections') && app.includes('No verified ${title.toLowerCase()} stat grid was included'));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

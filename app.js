@@ -932,10 +932,43 @@ function recruitingPerformance() {
   return (typeof RECRUITING_WEEKLY !== "undefined" && RECRUITING_WEEKLY.recruiting_performance) || (typeof RECRUITING_PERFORMANCE !== "undefined" ? RECRUITING_PERFORMANCE : { metrics: {}, missing_metric_behavior: "neutral" });
 }
 
+const JOIN_STATES = Object.freeze({
+  verified: "verified",
+  source_missing: "source_missing",
+  join_failed: "join_failed",
+  not_applicable: "not_applicable"
+});
+
+const POSITION_ALIAS_MAP = Object.freeze({
+  LT: "LT",
+  LG: "LG",
+  C: "C",
+  RG: "RG",
+  RT: "RT",
+  HB: "HB",
+  RB: "HB",
+  EDGE: "EDGE",
+  LE: "EDGE",
+  RE: "EDGE",
+  REDG: "EDGE",
+  LEDG: "EDGE",
+  T: "T",
+  G: "G",
+  OL: "OL"
+});
+
 function normalizePosition(position) {
-  if (!position) return "Unknown";
-  if (position === "LT" || position === "RT") return "T";
-  return position;
+  const key = cleanValue(position).toUpperCase();
+  return POSITION_ALIAS_MAP[key] || key || "Unknown";
+}
+
+function normalizeIdentityText(value) {
+  return cleanValue(value).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().replace(/\s+/g, " ");
+}
+
+function joinState(value, required = true) {
+  if (value) return JOIN_STATES.verified;
+  return required ? JOIN_STATES.join_failed : JOIN_STATES.source_missing;
 }
 
 function clampUnit(value) {
@@ -1622,6 +1655,10 @@ function loadOpponentPlayerMedia() {
   return typeof OPPONENT_PLAYER_MEDIA !== "undefined" ? OPPONENT_PLAYER_MEDIA : { players: [] };
 }
 
+function loadDepthChartSeed() {
+  return typeof RUTGERS_DEPTH_CHART_SEED !== "undefined" ? RUTGERS_DEPTH_CHART_SEED : { position_groups: [] };
+}
+
 function loadWeeklyCoachingDecisions() {
   return typeof WEEKLY_COACHING_DECISIONS !== "undefined" ? WEEKLY_COACHING_DECISIONS : { run_personnel: {} };
 }
@@ -2197,11 +2234,70 @@ function playerId(player) {
   return cleanValue(player.player_id || player.opponent_player_id || player.id);
 }
 
+function resolveRutgersPlayerById(player_id) {
+  const id = cleanValue(player_id);
+  const player = (loadRutgersRoster().players || []).find(row => row.player_id === id) || null;
+  return { state: joinState(player), player, player_id: id };
+}
+
+function resolveOpponentPlayerById(player_id) {
+  const id = cleanValue(player_id);
+  const player = (loadOpponentPlayers() || []).find(row => row.player_id === id) || null;
+  return { state: joinState(player), player, player_id: id };
+}
+
+function resolveProspectById(prospect_id) {
+  const id = cleanValue(prospect_id);
+  const prospect = (loadRecruitingClass().prospects || []).find(row => row.prospect_id === id) || null;
+  return { state: joinState(prospect), prospect, prospect_id: id };
+}
+
+function resolveRecruitScoutingById(prospect_id, boardRow = {}) {
+  const byId = resolveProspectById(prospect_id);
+  if (byId.prospect) return { ...byId, scouting: byId.prospect, source: "prospect_id" };
+  const targetName = normalizeIdentityText(boardRow.name);
+  const targetPosition = normalizePosition(boardRow.position);
+  const targetState = normalizeIdentityText(boardRow.state || stateFromLocation(boardRow.hometown));
+  const candidates = (loadRecruitingClass().prospects || []).filter(row => normalizeIdentityText(row.name) === targetName);
+  const exact = candidates.filter(row => !cleanValue(boardRow.position) || normalizePosition(row.position) === targetPosition);
+  if (exact.length === 1) return { state: JOIN_STATES.verified, prospect: exact[0], scouting: exact[0], prospect_id: exact[0].prospect_id, source: "name_position" };
+  const withState = exact.filter(row => !targetState || normalizeIdentityText(row.state || stateFromLocation(row.hometown)) === targetState);
+  if (withState.length === 1) return { state: JOIN_STATES.verified, prospect: withState[0], scouting: withState[0], prospect_id: withState[0].prospect_id, source: "name_state_position" };
+  return { state: JOIN_STATES.source_missing, prospect: null, scouting: null, prospect_id: cleanValue(prospect_id), source: "source_missing" };
+}
+
+function resolveDepthSlotByPlayerId(slot) {
+  const normalizedSlot = normalizePosition(slot);
+  const group = (loadDepthChartSeed().position_groups || []).find(row => normalizePosition(row.position) === normalizedSlot);
+  const entry = group && (group.players || []).find(row => row.player_id);
+  if (!entry) return { state: JOIN_STATES.source_missing, slot: normalizedSlot, player: null, depth: null };
+  const resolved = resolveRutgersPlayerById(entry.player_id);
+  return { state: resolved.player ? JOIN_STATES.verified : JOIN_STATES.join_failed, slot: normalizedSlot, player: resolved.player, depth: entry };
+}
+
+function resolvePlayerMediaById(player_id, side = "rutgers") {
+  const id = cleanValue(player_id);
+  const doc = side === "opponent" ? loadOpponentPlayerMedia() : loadRutgersPlayerMedia();
+  const media = (doc.players || []).find(row => row.player_id === id) || null;
+  return { state: media ? JOIN_STATES.verified : JOIN_STATES.source_missing, media, player_id: id };
+}
+
+function resolvePlayerStatsById(player_id, side = "rutgers") {
+  const id = cleanValue(player_id);
+  const last = statsForPlayer({ player_id: id }, side === "opponent" ? loadOpponentLastGameStats() : loadRutgersLastGameStats());
+  const season = statsForPlayer({ player_id: id }, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
+  return {
+    state: last.length || season.length ? JOIN_STATES.verified : JOIN_STATES.source_missing,
+    last,
+    season,
+    player_id: id
+  };
+}
+
 function mediaForPlayer(player, side = "rutgers") {
   const id = playerId(player);
   if (!id) return null;
-  const doc = side === "opponent" ? loadOpponentPlayerMedia() : loadRutgersPlayerMedia();
-  return (doc.players || []).find(row => row.player_id === id) || null;
+  return resolvePlayerMediaById(id, side).media;
 }
 
 function portraitImg(player, side = "rutgers", className = "player-portrait") {
@@ -3060,12 +3156,13 @@ function renderOLine() {
   const slots = ["LT","LG","C","RG","RT"];
   const matchupForSlot = slot => (loadMatchups() || []).find(row => row.rutgers_player && row.rutgers_player.position === slot) || {};
   const slotCards = slots.map(slot => {
-    const starter = groupRosterPlayers(slot)[0];
-    const backups = groupRosterPlayers(slot).slice(1);
+    const resolved = resolveDepthSlotByPlayerId(slot);
+    const starter = resolved.player;
+    const backups = groupRosterPlayers(slot).filter(player => player.player_id !== (starter && starter.player_id));
     const matchup = matchupForSlot(slot);
     const risk = cleanValue(matchup.risk || matchupPriority(matchup)) || "monitor";
     return `<details class="oline-slot-card compact-detail" data-slot="${slot}">
-      <summary><span>${slot}</span><strong>${starter ? starter.name : "Limited data"}</strong><em>${starter ? `OVR ${cardValue(starter.overall)}` : "No starter"}</em><b>${displayGrade(matchup.grade, matchup.internal_score) || "Limited"}</b><i>${risk}</i></summary>
+      <summary><span>${slot}</span><strong>${starter ? starter.name : "N/A"}</strong><em>${starter ? `OVR ${cardValue(starter.overall)}` : "N/A"}</em><b>${displayGrade(matchup.grade, matchup.internal_score) || "Limited"}</b><i>${resolved.state}</i></summary>
       ${starter ? premiumPlayerCard(starter, "rutgers") : LimitedDataState(slot)}
       ${backups.length ? `<details class="nested-detail"><summary>Depth</summary>${backups.map(player => premiumPlayerCard(player, "rutgers")).join("")}</details>` : ""}
     </details>`;
@@ -3075,7 +3172,7 @@ function renderOLine() {
 
 function legacyRenderOLine() {
   const slots = ["LT","LG","C","RG","RT"];
-  const starters = slots.map(slot => ({ slot, player: groupRosterPlayers(slot)[0] })).filter(row => row.player);
+  const starters = slots.map(slot => ({ slot, player: resolveDepthSlotByPlayerId(slot).player })).filter(row => row.player);
   const matched = loadMatchups().filter(row => row.rutgers_player && slots.includes(row.rutgers_player.position));
   const summary = loadGameplanWeekly().quick_tactical_summary || {};
   const recs = loadMatchups().flatMap(row => row.tactical_recommendations || row.recommendations || []);
@@ -3183,7 +3280,7 @@ function prospectPoolRows() {
   const boardById = new Map((loadRecruitingWeekly().active_board || []).map(row => [row.prospect_id, row]));
   return (loadRecruitingClass().prospects || []).map((prospect, i) => {
     const board = boardById.get(prospect.prospect_id) || {};
-    return { ...board, prospect, prospect_id: prospect.prospect_id, board_order: board.board_order || i + 1, name: cleanValue(board.name) || prospect.name, position: cleanValue(board.position) || prospect.position };
+    return { ...board, prospect, prospect_id: prospect.prospect_id, board_order: board.board_order || null, name: cleanValue(board.name) || prospect.name, position: cleanValue(board.position) || prospect.position };
   });
 }
 
@@ -3212,8 +3309,31 @@ function prospectPrimaryAction(row, analysis = {}, priority = {}) {
   return prospectSpecificText(row.recommended_action, analysis.recommended_action, analysis.recommended_action_reason) || cleanValue(priority.tier) || "Limited data";
 }
 
+function boardRankDisplay(row) {
+  return cleanValue(row && row.board_order) || "N/A";
+}
+
+function recruitAttributeRows(prospect = {}) {
+  const attrs = prospect.attributes || {};
+  const display = (prospect.analysis || {}).display_stats || {};
+  const ordered = [
+    ["Awareness", attrs.awareness || display.awareness],
+    ["Speed", attrs.speed || display.speed],
+    ["Acceleration", attrs.acceleration || display.acceleration],
+    ["Change of Direction", attrs.change_of_direction || display.change_of_direction],
+    ["Agility", attrs.agility || display.agility],
+    ["Man Coverage", attrs.man_coverage || display.man_coverage],
+    ["Zone Coverage", attrs.zone_coverage || display.zone_coverage],
+    ["Press", attrs.press || display.press],
+    ["Catching", attrs.catching || display.catching],
+    ["Tackle", attrs.tackle || display.tackle]
+  ];
+  return ordered.map(([label, value]) => maybeRow(label, cleanValue(value) || "N/A", "N/A")).join("");
+}
+
 function RecruitCard(row, index = 0, mode = "board") {
-  const p = row.prospect || {};
+  const resolved = resolveRecruitScoutingById(row.prospect_id || (row.prospect || {}).prospect_id, row);
+  const p = resolved.prospect || row.prospect || {};
   const a = p.analysis || {};
   const priority = priorityBoard().find(item => item.position === (row.position || p.position)) || {};
   const state = cleanValue(row.state || p.state || stateFromLocation(p.hometown));
@@ -3223,33 +3343,48 @@ function RecruitCard(row, index = 0, mode = "board") {
   const reason = prospectSpecificText(row.description, a.recommended_action_reason, p.scouting_summary, a.summary);
   const aiSummary = prospectSpecificText(p.scouting_summary, a.summary);
   const status = cleanValue(row.status || p.status || row.offer_status || p.offer_status || priority.tier);
+  const gemVerified = p.gem === true || p.gem_status === "Gem" || a.gem_status === "Gem";
   const name = cleanValue(row.name || p.name) || "Limited data";
   const position = cleanValue(row.position || p.position);
+  const rank = boardRankDisplay(row);
+  const scouting = cleanValue(row.scouting_percentage || p.scouting_percentage || a.display_stats && a.display_stats.scouting_percentage);
+  const ability = cleanValue((p.abilities || [])[0] || p.ability || a.ability || a.display_stats && a.display_stats.ability);
+  const mental = cleanValue((p.mentals || [])[0] || p.mental || a.mental || a.display_stats && a.display_stats.mental);
+  const developmentTrait = cleanValue(p.development_trait || p.dev_trait || a.development_trait || a.display_stats && a.display_stats.development_trait);
+  const joinBadge = resolved.state === JOIN_STATES.verified ? "Verified" : "Source missing";
   return `<details class="recruit-card prospect-card compact-prospect" data-recruit-card data-prospect-id="${cleanValue(row.prospect_id || p.prospect_id)}" ${row.open ? "open" : ""}>
     <summary>
-      <span class="rank-dot">${row.board_order || index + 1}</span>
-      <span class="recruit-card-title"><strong>${name}</strong><em>${position}${rating ? ` | ${rating}` : ""}${state ? ` | ${state}` : ""}</em></span>
-      <b>${cardValue(status || "Limited data")}</b>
+      <span class="rank-dot">${rank}</span>
+      <span class="recruit-card-title"><strong>${gemVerified ? "💎 " : ""}${name}</strong><em>${position}${rating ? ` | ${rating}` : ""}${state ? ` | ${state}` : ""}</em></span>
+      <b>${cardValue(status || joinBadge)}</b>
     </summary>
     <div class="recruit-card-compact">
-      ${maybeRow("Board rank", row.board_order || index + 1)}
+      ${maybeRow("Board rank", rank, "N/A")}
       ${maybeRow("Position", position)}
       ${maybeRow("State", state)}
+      ${maybeRow("Height", p.height || a.display_stats && a.display_stats.height, "N/A")}
+      ${maybeRow("Weight", cleanValue(p.weight_lbs || a.display_stats && a.display_stats.weight_lbs) ? `${cleanValue(p.weight_lbs || a.display_stats && a.display_stats.weight_lbs)} lbs` : "N/A", "N/A")}
       ${maybeRow("National Rank", row.national_rank || p.national_rank)}
-      ${maybeRow("Gem/Bust", row.gem_bust || p.gem_bust || p.dealbreaker)}
+      ${maybeRow("Archetype", p.archetype || a.display_stats && a.display_stats.archetype, "N/A")}
+      ${maybeRow("Gem/Bust", gemVerified ? "Gem" : (row.gem_bust || p.gem_bust || "N/A"), "N/A")}
+      ${maybeRow("Ability", ability || "N/A", "N/A")}
+      ${maybeRow("Mental", mental || "N/A", "N/A")}
+      ${maybeRow("Development", developmentTrait || "N/A", "N/A")}
       ${maybeRow("Scheme Fit", schemeFit)}
       ${maybeRow("Recommended Action", action)}
       ${maybeRow("Status", status)}
     </div>
     <div class="recruit-card-detail">
-      ${CardSection("Prospect Header", `${maybeRow("Name", name)}${maybeRow("Position", position)}${maybeRow("Scouting", cleanValue(row.scouting_percentage || p.scouting_percentage) ? `${cleanValue(row.scouting_percentage || p.scouting_percentage)}%` : "")}`)}
+      ${CardSection("Prospect Header", `${maybeRow("Name", name)}${maybeRow("Position", position)}${maybeRow("Hometown", p.hometown, "N/A")}${maybeRow("Scouting", scouting ? `${scouting}%` : "N/A", "N/A")}${maybeRow("Join state", resolved.state)}`)}
+      ${CardSection("Shown Attributes", recruitAttributeRows(p))}
+      ${CardSection("Abilities / Development", `${maybeRow("Ability", ability || "N/A", "N/A")}${maybeRow("Mental", mental || "N/A", "N/A")}${maybeRow("Development Trait", developmentTrait || "N/A", "N/A")}${maybeRow("Gem", gemVerified ? "Gem" : "N/A", "N/A")}`)}
       ${CardSection("Verified Scheme Fit", maybeRow("Scheme fit", schemeFit))}
       ${CardSection("Position Need", `${maybeRow("Priority", priority.tier)}${maybeRow("Need score", priority.score)}${maybeRow("Coverage", priority.coverageStatus)}`)}
-      ${CardSection("Recruiting Value", maybeRow("Value", a.recruiting_value))}
-      ${CardSection("Projected Role", maybeRow("Role", a.projected_role))}
+      ${CardSection("Recruiting Value", maybeRow("Value", a.recruiting_value, "N/A"))}
+      ${CardSection("Projected Role", maybeRow("Role", a.projected_role, "N/A"))}
       ${CardSection("Strengths", maybeRow("Strengths", a.strengths))}
-      ${CardSection("Questions", maybeRow("Questions", a.questions_to_verify))}
-      ${CardSection("Roster Competition", maybeRow("Competition", a.roster_competition))}
+      ${CardSection("Questions", maybeRow("Questions", a.questions_to_verify, "N/A"))}
+      ${CardSection("Roster Competition", maybeRow("Competition", a.roster_competition, "N/A"))}
       ${CardSection("Confidence", maybeRow("Confidence", row.confidence || p.confidence || row.scouting_percentage || p.scouting_percentage))}
       <details class="nested-detail"><summary>More Detail</summary>${maybeRow("Interest", row.interest || p.interest)}${maybeRow("Offer", row.offer_status || p.offer_status)}${maybeRow("Visit", row.visit_status || p.visit_status)}${maybeRow("Commit", row.commit_status || p.commit_status || p.status)}${maybeRow("Reason", reason)}${maybeRow("AI Summary", aiSummary && aiSummary !== reason ? aiSummary : "")}</details>
     </div>
@@ -3288,13 +3423,13 @@ function activeBoardRows() {
       return {
         ...row,
         prospect: linked,
-        board_order: row.board_order || i + 1,
+        board_order: row.board_order || null,
         name: cleanValue(row.name) || cleanValue(linked && linked.name),
         position: cleanValue(row.position) || cleanValue(linked && linked.position)
       };
     }).sort((a, b) => Number(a.board_order || 999) - Number(b.board_order || 999));
   }
-  return (loadRecruitingClass().prospects || []).map((prospect, i) => ({ ...prospect, prospect, board_order: i + 1 }));
+  return (loadRecruitingClass().prospects || []).map(prospect => ({ ...prospect, prospect, board_order: null }));
 }
 
 function renderRecruitList(mode = window.ACTIVE_RECRUITING_VIEW || "board") {
@@ -3431,8 +3566,17 @@ if (typeof module !== "undefined") {
     priorityScore,
     priorityBoard,
     performanceNeed,
+    JOIN_STATES,
+    POSITION_ALIAS_MAP,
     cleanValue,
     formatLimited,
+    resolveRutgersPlayerById,
+    resolveOpponentPlayerById,
+    resolveProspectById,
+    resolveRecruitScoutingById,
+    resolveDepthSlotByPlayerId,
+    resolvePlayerMediaById,
+    resolvePlayerStatsById,
     premiumPlayerCard,
     matchupRow,
     renderPersonnelOverview,

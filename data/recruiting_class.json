@@ -2807,6 +2807,74 @@
           "dealbreaker": "Championship Contender"
         }
       }
+    },
+    {
+      "prospect_id": "w-boudreaux",
+      "name": "W. Boudreaux",
+      "position": "FS",
+      "height": "6'0\"",
+      "weight_lbs": 210,
+      "hometown": "Rock Island, IL",
+      "archetype": "Coverage Specialist",
+      "scouting_percentage": 100,
+      "attributes": {
+        "awareness": 73,
+        "speed": 91,
+        "acceleration": 91,
+        "change_of_direction": 90,
+        "agility": 90,
+        "man_coverage": 65,
+        "zone_coverage": 77,
+        "press": 71,
+        "catching": 61,
+        "tackle": 76
+      },
+      "abilities": [
+        "Robber"
+      ],
+      "mentals": [
+        "Winning Time"
+      ],
+      "development_trait": "Hidden",
+      "source_video": "user_verified_recruiting_screenshot",
+      "verification_status": "verified_from_user_recruiting_screenshot",
+      "analysis": {
+        "summary": "W. Boudreaux is a verified FS prospect detail record from the user-provided recruiting screenshot.",
+        "projected_role": null,
+        "strengths": [
+          "Speed 91",
+          "Acceleration 91",
+          "Change Of Direction 90",
+          "Agility 90",
+          "Zone Coverage 77",
+          "Tackle 76"
+        ],
+        "questions_to_verify": [],
+        "scheme_fit": "Insufficient verified data",
+        "recruiting_value": null,
+        "recommended_action": null,
+        "display_stats": {
+          "position": "FS",
+          "height": "6'0\"",
+          "weight_lbs": 210,
+          "archetype": "Coverage Specialist",
+          "hometown": "Rock Island, IL",
+          "scouting_percentage": 100,
+          "awareness": 73,
+          "speed": 91,
+          "acceleration": 91,
+          "change_of_direction": 90,
+          "agility": 90,
+          "man_coverage": 65,
+          "zone_coverage": 77,
+          "press": 71,
+          "catching": 61,
+          "tackle": 76,
+          "ability": "Robber",
+          "mental": "Winning Time",
+          "development_trait": "Hidden"
+        }
+      }
     }
   ],
   "description_rule": "Every record includes a football description based on visible position, rank, archetype and physical profile."

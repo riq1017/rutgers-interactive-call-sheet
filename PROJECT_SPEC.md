@@ -105,6 +105,23 @@ Normalization is lowercase, hyphen-separated, punctuation-free, stable across we
 
 Identity registries may reference source files and IDs only. They must not duplicate ratings, attributes, stats, grades, recruiting evaluations, play scores, or matchup claims. Missing source data remains `N/A` or `Limited data`; unresolved identity references are hard validation failures.
 
+## J.2 Identity Join State Standard
+
+A canonical ID is not successfully linked merely because it exists. Successful joins must resolve the exact identity record, exact source detail record, exact attribute/stat/media/depth record when applicable, and then render the correct card.
+
+Join states are explicit:
+
+- `verified`: exact source data resolved and may render the real value.
+- `source_missing`: the source package is valid but the field or detail row is genuinely absent; render `N/A`, hide the field, or document the limitation.
+- `join_failed`: a required canonical foreign key or detail record did not resolve; validation must fail and the UI must not mask it as normal missing data.
+- `not_applicable`: the field does not apply to the card or context; render `N/A` or hide the field.
+
+Recruiting joins resolve by `prospect_id` first, then explicit migration mapping, then exact normalized full name plus position, then exact normalized full name plus state plus position. Recruit joins must not use array index, board order, surname only, display text only, or position alone.
+
+Recruit board rank must render only from the authoritative explicit rank field. If the rank source is absent, render `N/A`; never derive display rank from array position.
+
+Rutgers depth-chart slots resolve by explicit `player_id` first, then migration mapping, then exact normalized full name plus exact position. Generic `T`, `G`, or `OL` positions must not be guessed into left or right slots without an explicit slot source.
+
 ## K. Release Workflow
 
 The release workflow is: implement, self-validate, generate reports, phone test, freeze approved component, and use the tagged/frozen baseline for the next pack. Cross-sprint scope leakage is not allowed.

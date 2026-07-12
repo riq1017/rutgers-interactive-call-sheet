@@ -4,7 +4,7 @@ const vm = require('vm');
 const root = path.resolve(__dirname, '..');
 const context = { window: {}, localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } };
 vm.createContext(context);
-for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js','data/phase1_verified_data.js','data/player_media.js','data/card_registry.js','data/weekly/coaching_decisions.js','data/weekly/run_lane_analysis.js','data/weekly/weekly_matchup_summary.js']) {
+for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js','data/depth_chart_seed.js','data/phase1_verified_data.js','data/player_media.js','data/card_registry.js','data/weekly/coaching_decisions.js','data/weekly/run_lane_analysis.js','data/weekly/weekly_matchup_summary.js']) {
   vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context, { filename: file });
 }
 Object.assign(global, context.window);
@@ -24,7 +24,7 @@ function ctx(down, yards, zone = 'normal', gameState = 'normal') {
   if (gameState === 'protect_lead') key = 'short';
   return { down, dist, distanceYards: yards, zone, gameState, key };
 }
-const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','base/player_identity_registry.json','base/prospect_identity_registry.json','base/play_identity_registry.json','migrations/identity_id_map.json','weekly/opponent_player_media.json','weekly/coaching_decisions.json','weekly/run_lane_analysis.json','weekly/weekly_matchup_summary.json','player_media.js','card_registry.json','card_registry.js'];
+const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','depth_chart_seed.json','depth_chart_seed.js','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','base/player_identity_registry.json','base/prospect_identity_registry.json','base/play_identity_registry.json','migrations/identity_id_map.json','weekly/opponent_player_media.json','weekly/coaching_decisions.json','weekly/run_lane_analysis.json','weekly/weekly_matchup_summary.json','player_media.js','card_registry.json','card_registry.js'];
 const phase1Transcript = JSON.parse(fs.readFileSync(path.join(root,'data','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json'), 'utf8'));
 const phase1Matchups = JSON.parse(fs.readFileSync(path.join(root,'data','player_matchups.json'), 'utf8'));
 const cardRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','card_registry.json'), 'utf8'));
@@ -38,6 +38,7 @@ const opponentSeason = JSON.parse(fs.readFileSync(path.join(root,'data','opponen
 const rutgersMedia = JSON.parse(fs.readFileSync(path.join(root,'data','base','rutgers_player_media.json'), 'utf8'));
 const opponentMedia = JSON.parse(fs.readFileSync(path.join(root,'data','weekly','opponent_player_media.json'), 'utf8'));
 const registry = JSON.parse(fs.readFileSync(path.join(root,'data','base','player_card_registry.json'), 'utf8'));
+const depthChartSeed = JSON.parse(fs.readFileSync(path.join(root,'data','depth_chart_seed.json'), 'utf8'));
 const playerIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','base','player_identity_registry.json'), 'utf8'));
 const prospectIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','base','prospect_identity_registry.json'), 'utf8'));
 const playIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','base','play_identity_registry.json'), 'utf8'));
@@ -98,8 +99,37 @@ check('Recruit attribute objects resolve per prospect and missing values render 
 const verifiedGemIds = RECRUITING_CLASS.prospects.filter(prospect => prospect.gem === true || prospect.gem_status === 'Gem' || prospect.analysis?.gem_status === 'Gem').map(prospect => prospect.prospect_id);
 const recruitClassHtml = RECRUITING_CLASS.prospects.map((prospect, index) => engine.RecruitCard({ ...prospect, prospect }, index, 'prospect')).join('\n');
 check('Verified recruit gem state is source-driven', verifiedGemIds.length === 0 ? !recruitClassHtml.includes('💎') : verifiedGemIds.every(id => engine.RecruitCard({ ...prospectById.get(id), prospect: prospectById.get(id) }, 0, 'prospect').includes('💎')));
+const boardRows = RECRUITING_WEEKLY.active_board || [];
+const wBoudreauxBoard = boardRows.find(row => row.prospect_id === 'w-boudreaux') || {};
+const wBoudreauxJoin = engine.resolveRecruitScoutingById('w-boudreaux', wBoudreauxBoard);
+const wBoudreaux = wBoudreauxJoin.prospect || {};
+const wBoudreauxHtml = engine.RecruitCard(wBoudreauxBoard, 0, 'board');
+const wExpectedAttributes = { awareness: 73, speed: 91, acceleration: 91, change_of_direction: 90, agility: 90, man_coverage: 65, zone_coverage: 77, press: 71, catching: 61, tackle: 76 };
+check('W. Boudreaux resolves to exact verified scouting detail record', wBoudreauxJoin.state === 'verified' && wBoudreaux.prospect_id === 'w-boudreaux' && wBoudreaux.name === 'W. Boudreaux' && wBoudreaux.position === 'FS' && wBoudreaux.height === '6\'0"' && wBoudreaux.weight_lbs === 210 && wBoudreaux.archetype === 'Coverage Specialist' && wBoudreaux.hometown === 'Rock Island, IL' && wBoudreaux.scouting_percentage === 100);
+check('W. Boudreaux shown attributes belong to his prospect_id', Object.entries(wExpectedAttributes).every(([key, value]) => wBoudreaux.attributes && wBoudreaux.attributes[key] === value));
+check('W. Boudreaux ability, mental, and development trait resolve', (wBoudreaux.abilities || []).includes('Robber') && (wBoudreaux.mentals || []).includes('Winning Time') && wBoudreaux.development_trait === 'Hidden');
+check('W. Boudreaux card displays verified fields and source-missing board rank as N/A', ['W. Boudreaux','FS','6\'0"','210 lbs','Coverage Specialist','Rock Island, IL','100%','Robber','Winning Time','Hidden','Speed','91','Zone Coverage','77'].every(token => wBoudreauxHtml.includes(token)) && wBoudreauxHtml.includes('<span>Board rank</span><strong>N/A</strong>') && !wBoudreauxHtml.includes('Limited data'));
+const explicitRankRows = boardRows.filter(row => row.board_order !== null && row.board_order !== undefined);
+const boardRankMismatches = explicitRankRows.filter(row => !engine.RecruitCard(row, 0, 'board').includes(`<span>Board rank</span><strong>${row.board_order}</strong>`));
+check('Recruit board rank uses explicit board_order and never array index fallback', boardRankMismatches.length === 0 && engine.RecruitCard(wBoudreauxBoard, 31, 'board').includes('<span>Board rank</span><strong>N/A</strong>'), `mismatches=${boardRankMismatches.length}`);
+const boardJoinResults = boardRows.map(row => engine.resolveRecruitScoutingById(row.prospect_id, row));
+const recruitFailedJoins = boardJoinResults.filter(row => row.state === 'join_failed');
+check('Recruit joins distinguish source_missing from join_failed', recruitFailedJoins.length === 0 && boardJoinResults.filter(row => row.state === 'verified').length >= 1);
+check('Every recruit scouting attribute object is owned by matching prospect_id', RECRUITING_CLASS.prospects.every(prospect => prospect.attributes ? prospect.prospect_id && prospectById.get(prospect.prospect_id) === prospect : true));
+check('Verified recruit ability, mental, and development fields attach to owning prospect only', RECRUITING_CLASS.prospects.every(prospect => {
+  const html = engine.RecruitCard({ prospect_id: prospect.prospect_id, prospect }, 0, 'prospect');
+  return (prospect.abilities || []).every(item => html.includes(item)) && (prospect.mentals || []).every(item => html.includes(item)) && (!prospect.development_trait || html.includes(prospect.development_trait));
+}));
 const verifiedDevelopmentTraitIds = RUTGERS_ROSTER_BASE.players.filter(player => player.development_trait || player.dev_trait).map(player => player.player_id);
 check('Verified development traits are source-driven and not invented', verifiedDevelopmentTraitIds.length === 0 ? !app.includes('development-trait-badge') : verifiedDevelopmentTraitIds.every(id => engine.premiumPlayerCard(rutgersRosterById.get(id), 'rutgers').includes(rutgersRosterById.get(id).development_trait || rutgersRosterById.get(id).dev_trait)));
+const olineSlots = ['LT','LG','C','RG','RT'];
+const olineJoinRows = olineSlots.map(slot => engine.resolveDepthSlotByPlayerId(slot));
+check('Position alias normalization does not silently guess generic line sides', engine.normalizePosition('LT') === 'LT' && engine.normalizePosition('RT') === 'RT' && engine.normalizePosition('T') === 'T' && engine.normalizePosition('G') === 'G' && engine.normalizePosition('OL') === 'OL' && engine.normalizePosition('REDG') === 'EDGE' && engine.normalizePosition('RB') === 'HB');
+check('Rutgers LT/LG/C/RG/RT depth slots resolve through canonical player IDs', olineJoinRows.every(row => row.state === 'verified' && row.player && rutgersRosterById.has(row.player.player_id) && row.player.position === row.slot));
+check('Rutgers O-line card no longer masks resolved slots as No starter', !engine.renderOLine().includes('No starter') && olineSlots.every(slot => engine.renderOLine().includes(`data-slot="${slot}"`)));
+check('Rutgers player detail joins resolve attributes, media, stats, and depth role by player_id', RUTGERS_ROSTER_BASE.players.every(player => player.attributes && engine.resolvePlayerMediaById(player.player_id, 'rutgers').state === 'verified' && ['verified','source_missing'].includes(engine.resolvePlayerStatsById(player.player_id, 'rutgers').state)));
+check('Depth chart seed owns explicit canonical O-line player IDs', (depthChartSeed.position_groups || []).filter(row => olineSlots.includes(row.position)).every(row => (row.players || []).length === 1 && rutgersRosterById.has(row.players[0].player_id)));
+check('join_failed is never rendered as ordinary Limited data in recruit or O-line cards', !/join_failed[\\s\\S]{0,80}Limited data/i.test(wBoudreauxHtml + engine.renderOLine()));
 check('Every verified playbook record is preserved as one canonical play identity', RUTGERS_PLAYBOOK.length === 192 && playIdentityRows.length === 192 && unique(RUTGERS_PLAYBOOK.map(play => play.verifiedVisibleKey)));
 check('Play art bindings resolve by play_id or placeholder without dropping plays', playIdentityRows.every(row => playbookById.has(row.play_id) && row.art_ref && fs.existsSync(path.join(root, row.art_ref))));
 const weeklyPlayRefs = [weeklyMatchupSummary.best_play.play_id, ...weeklyMatchupSummary.top_three.map(row => row.play_id), ...runLaneAnalysis.lanes.flatMap(row => row.recommended_play_ids || [])];

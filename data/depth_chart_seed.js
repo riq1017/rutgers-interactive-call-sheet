@@ -1,4 +1,4 @@
-{
+window.RUTGERS_DEPTH_CHART_SEED = {
   "schema_version": "1.0",
   "team": "Rutgers",
   "source_video": "IMG_3011.mp4",
@@ -153,4 +153,4 @@
   },
   "codex_instruction": "Review the original video/contact sheet and populate only clearly readable players. Leave unclear values null.",
   "updated_for": "identity_join_correction"
-}
+};

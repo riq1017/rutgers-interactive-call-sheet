@@ -1,7 +1,7 @@
 {
   "package_type": "identity_id_map",
   "schema_version": "1.0",
-  "generated_at": "2026-07-12T21:51:41.092Z",
+  "generated_at": "2026-07-12T22:34:12.116Z",
   "id_rules_ref": [
     "data/base/player_identity_registry.json#id_rules",
     "data/base/prospect_identity_registry.json#id_rules",
@@ -1085,6 +1085,14 @@
       "legacy_id": "deontae-edmonds-ss",
       "canonical_id": "deontae-edmonds-ss",
       "name": "Deontae Edmonds",
+      "status": "preserved",
+      "references_updated": []
+    },
+    {
+      "entity_type": "prospect",
+      "legacy_id": "w-boudreaux",
+      "canonical_id": "w-boudreaux",
+      "name": "W. Boudreaux",
       "status": "preserved",
       "references_updated": []
     },

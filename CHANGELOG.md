@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Identity join correction
+- Added explicit identity join states for verified, source-missing, join-failed, and not-applicable data.
+- Recovered the verified W. Boudreaux recruiting scouting record and bound it to the weekly board by canonical `prospect_id`.
+- Updated RecruitCard rendering so recovered scouting attributes, abilities, mentals, development trait, and source-missing fields render from resolved display data.
+- Added authoritative O-line depth-chart seed bindings for LT, LG, C, RG, and RT using canonical Rutgers `player_id` values.
+- Added centralized player, prospect, media, stats, scouting, and depth-slot resolvers.
+- Expanded validation to hard-fail failed joins, wrong attribute ownership, board-rank index fallback, generic O-line side guessing, and masked join failures.
+- Added identity join audit reports for recruiting, W. Boudreaux, Rutgers depth chart, Rutgers player details, join-state validation, and regression.
+
 ## Identity linkage foundation
 - Added canonical identity registries for players, prospects, and verified plays without duplicating ratings, attributes, stats, matchup grades, or recommendation scores.
 - Added `data/migrations/identity_id_map.json` to audit preserved, created, or remapped IDs.

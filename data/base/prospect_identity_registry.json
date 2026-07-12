@@ -1,13 +1,13 @@
 {
   "package_type": "prospect_identity_registry",
   "schema_version": "1.0",
-  "generated_at": "2026-07-12T21:51:41.092Z",
+  "generated_at": "2026-07-12T22:34:12.116Z",
   "id_rules": {
     "prospect": "Preserve existing valid unique prospect_id; otherwise rec-{position}-{normalized-name}-{disambiguator-if-needed}.",
     "normalization": "lowercase, hyphen-separated, punctuation removed, no random UUIDs."
   },
   "counts": {
-    "prospects": 61,
+    "prospects": 62,
     "active_board": 35
   },
   "prospects": [
@@ -679,6 +679,17 @@
       "board_ref": null,
       "scouting_ref": "data/recruiting_class.json",
       "recommendation_ref": null,
+      "canonical_status": "preserved",
+      "generated_rule": null
+    },
+    {
+      "prospect_id": "w-boudreaux",
+      "name": "W. Boudreaux",
+      "position": "FS",
+      "class_ref": "data/recruiting_class.json",
+      "board_ref": "data/recruiting_weekly.json#active_board",
+      "scouting_ref": "data/recruiting_class.json",
+      "recommendation_ref": "data/recruiting_weekly.json#active_board",
       "canonical_status": "preserved",
       "generated_rule": null
     }

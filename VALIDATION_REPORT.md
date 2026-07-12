@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T21:58:48.806Z
+Validated: 2026-07-12T22:43:21.765Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -33,7 +33,21 @@ Validated: 2026-07-12T21:58:48.806Z
 - PASS - Every RecruitCard can render from one prospect_id without loose prospect rows
 - PASS - Recruit attribute objects resolve per prospect and missing values render N/A or are hidden
 - PASS - Verified recruit gem state is source-driven
+- PASS - W. Boudreaux resolves to exact verified scouting detail record
+- PASS - W. Boudreaux shown attributes belong to his prospect_id
+- PASS - W. Boudreaux ability, mental, and development trait resolve
+- PASS - W. Boudreaux card displays verified fields and source-missing board rank as N/A
+- PASS - Recruit board rank uses explicit board_order and never array index fallback (mismatches=0)
+- PASS - Recruit joins distinguish source_missing from join_failed
+- PASS - Every recruit scouting attribute object is owned by matching prospect_id
+- PASS - Verified recruit ability, mental, and development fields attach to owning prospect only
 - PASS - Verified development traits are source-driven and not invented
+- PASS - Position alias normalization does not silently guess generic line sides
+- PASS - Rutgers LT/LG/C/RG/RT depth slots resolve through canonical player IDs
+- PASS - Rutgers O-line card no longer masks resolved slots as No starter
+- PASS - Rutgers player detail joins resolve attributes, media, stats, and depth role by player_id
+- PASS - Depth chart seed owns explicit canonical O-line player IDs
+- PASS - join_failed is never rendered as ordinary Limited data in recruit or O-line cards
 - PASS - Every verified playbook record is preserved as one canonical play identity
 - PASS - Play art bindings resolve by play_id or placeholder without dropping plays
 - PASS - Weekly recommendation play references resolve to canonical play IDs

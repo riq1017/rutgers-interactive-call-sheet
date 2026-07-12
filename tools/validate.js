@@ -4,7 +4,7 @@ const vm = require('vm');
 const root = path.resolve(__dirname, '..');
 const context = { window: {}, localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } };
 vm.createContext(context);
-for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js']) {
+for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js','data/phase1_verified_data.js','data/player_media.js']) {
   vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context, { filename: file });
 }
 Object.assign(global, context.window);
@@ -24,11 +24,14 @@ function ctx(down, yards, zone = 'normal', gameState = 'normal') {
   if (gameState === 'protect_lead') key = 'short';
   return { down, dist, distanceYards: yards, zone, gameState, key };
 }
-const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json'];
+const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','weekly/opponent_player_media.json','player_media.js'];
 const phase1Transcript = JSON.parse(fs.readFileSync(path.join(root,'data','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json'), 'utf8'));
 const phase1Matchups = JSON.parse(fs.readFileSync(path.join(root,'data','player_matchups.json'), 'utf8'));
 const rutgersLast = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_last_game_stats.json'), 'utf8'));
 const rutgersSeason = JSON.parse(fs.readFileSync(path.join(root,'data','rutgers_season_stats.json'), 'utf8'));
+const rutgersMedia = JSON.parse(fs.readFileSync(path.join(root,'data','base','rutgers_player_media.json'), 'utf8'));
+const opponentMedia = JSON.parse(fs.readFileSync(path.join(root,'data','weekly','opponent_player_media.json'), 'utf8'));
+const registry = JSON.parse(fs.readFileSync(path.join(root,'data','base','player_card_registry.json'), 'utf8'));
 check('Authoritative Phase 1 JSON files are present', requiredFiles.every(file => fs.existsSync(path.join(root,'data',file))));
 check('Shared roster source has 48 verified players', RUTGERS_ROSTER_BASE.players.length === 48 && RUTGERS_ROSTER_BASE.package_type === 'rutgers_roster_base');
 check('No duplicate hardcoded roster is used by the visible Recruiting engine', app.includes('function loadRutgersRoster') && app.includes('return sharedRosterBase()'));
@@ -80,6 +83,24 @@ check('Prospect rating renderer hides unavailable stars and never prints Star as
 check('Roster and prospects default to tap-open detail rows', app.includes('compact-person') && app.includes('compact-prospect') && app.includes('compact-action'));
 check('Run and protection maps use compact tappable cells', app.includes('compact-lane-map') && app.includes('compact-pressure-map'));
 check('More tab uses compact accordions for secondary groups', app.includes('details class="utility-section compact-detail"'));
+check('Player media static bundle loads before app.js', index.indexOf('data/player_media.js') > index.indexOf('data/phase1_verified_data.js') && index.indexOf('data/player_media.js') < index.indexOf('app.js'));
+check('Rutgers portrait registry covers every verified roster player', rutgersMedia.players.length === RUTGERS_ROSTER_BASE.players.length && rutgersMedia.players.every(row => RUTGERS_ROSTER_BASE.players.some(player => player.player_id === row.player_id)));
+check('Opponent portrait registry covers every current opponent player', opponentMedia.players.length === PURDUE_OPPONENT_PLAYERS.players.length && opponentMedia.players.every(row => PURDUE_OPPONENT_PLAYERS.players.some(player => player.player_id === row.player_id)));
+check('Every portrait asset exists', [...rutgersMedia.players, ...opponentMedia.players].every(row => fs.existsSync(path.join(root, row.portrait_path))));
+check('Player card registry binds without duplicated ratings', registry.counts.total_cards === registry.rutgers_cards.length + registry.opponent_cards.length && JSON.stringify(registry).indexOf('"overall"') === -1);
+check('Player registry count matches generated card inventory', registry.counts.rutgers_players === 48 && registry.counts.opponent_players === 16 && registry.counts.total_cards === 64);
+check('Premium player card engine is present', app.includes('function premiumPlayerCard') && app.includes('Season Stats') && app.includes('Recommended Usage') && app.includes('Expandable Detail'));
+check('Portrait media binding is used in player and matchup cards', app.includes('function portraitImg') && app.includes('portrait-match-side') && app.includes('mediaForPlayer'));
+check('Matchup cards expose grade, confidence, evidence, recommendation, and portraits', app.includes('displayGrade(row.grade, row.internal_score)') && app.includes('Confidence') && app.includes('Evidence') && app.includes('Recommendation') && app.includes('portraitImg(rutgers'));
+check('Executive sticky header compacts on scroll', css.includes('.gameday-header.compact-header') && app.includes('window.scrollY > 48'));
+check('Top Plays supports favorites and personnel grouping', app.includes('toggleFavoritePlay') && app.includes('rankPersonnel') && app.includes('Favorites'));
+check('Top Plays still binds all 192 verified Oregon combinations', RUTGERS_PLAYBOOK.length === 192 && app.includes('Formation') && app.includes('Personnel'));
+check('Recruiting has board and prospect-list workspaces', app.includes('Recruiting Board') && app.includes('Prospect List') && app.includes('prospectPoolRows'));
+check('Recruiting details include required status fields without duplicated descriptions', ['National Rank','Interest','Offer','Visit','Commit','Gem/Bust','Recommended Action','AI Summary'].every(token => app.includes(token)) && app.includes('aiSummary !== reason'));
+check('O-Line visualization includes run, protection, double-team, and chip-help arrows', app.includes('oline-arrows') && app.includes('run-arrow') && app.includes('protect-arrow') && app.includes('double-arrow') && app.includes('chip-arrow'));
+check('Responsive layout keeps new cards within phone viewport', css.includes('.player-card-grid') && css.includes('@media(max-width:420px)') && css.includes('overflow-x:hidden'));
+check('JSON parsing for new media files succeeds', rutgersMedia.package_type === 'rutgers_player_media' && opponentMedia.package_type === 'opponent_player_media' && registry.package_type === 'player_card_registry');
+check('GitHub Pages compatibility remains static', !app.includes('fetch(') && index.includes('data/player_media.js') && [...rutgersMedia.players, ...opponentMedia.players].every(row => !/^https?:/i.test(row.portrait_path)));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

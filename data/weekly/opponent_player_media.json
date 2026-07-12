@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0",
+  "package_type": "opponent_player_media",
+  "opponent": {
+    "team": "Purdue",
+    "nickname": "Boilermakers",
+    "week": ""
+  },
+  "generated_utc": "2026-07-12T15:09:13.628Z",
+  "source_note": "Fictional opponent portrait media only. Football data remains in weekly opponent/player JSONs.",
+  "players": [
+    {
+      "player_id": "pur-ledg-y-hernandez",
+      "portrait_path": "assets/player-portraits/opponent/pur-ledg-y-hernandez.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-ledg-k-webb",
+      "portrait_path": "assets/player-portraits/opponent/pur-ledg-k-webb.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-ledg-j-lewis",
+      "portrait_path": "assets/player-portraits/opponent/pur-ledg-j-lewis.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-redg-q-gillians",
+      "portrait_path": "assets/player-portraits/opponent/pur-redg-q-gillians.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-redg-d-moses",
+      "portrait_path": "assets/player-portraits/opponent/pur-redg-d-moses.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-redg-m-sturgis",
+      "portrait_path": "assets/player-portraits/opponent/pur-redg-m-sturgis.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-redg-g-atwood",
+      "portrait_path": "assets/player-portraits/opponent/pur-redg-g-atwood.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-dt-d-garner",
+      "portrait_path": "assets/player-portraits/opponent/pur-dt-d-garner.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-dt-b-hanson",
+      "portrait_path": "assets/player-portraits/opponent/pur-dt-b-hanson.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-dt-j-thomas",
+      "portrait_path": "assets/player-portraits/opponent/pur-dt-j-thomas.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-dt-t-mcmillian",
+      "portrait_path": "assets/player-portraits/opponent/pur-dt-t-mcmillian.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-dt-s-draft",
+      "portrait_path": "assets/player-portraits/opponent/pur-dt-s-draft.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-sam-k-witherspoon",
+      "portrait_path": "assets/player-portraits/opponent/pur-sam-k-witherspoon.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-sam-m-gaston",
+      "portrait_path": "assets/player-portraits/opponent/pur-sam-m-gaston.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-sam-g-casas",
+      "portrait_path": "assets/player-portraits/opponent/pur-sam-g-casas.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    },
+    {
+      "player_id": "pur-sam-b-mcguinness",
+      "portrait_path": "assets/player-portraits/opponent/pur-sam-b-mcguinness.svg",
+      "media_type": "fictional_svg_portrait",
+      "framing": "waist_up",
+      "uniform": "Purdue black and gold",
+      "background": "dark",
+      "source_status": "generated_fictional_media_no_ratings"
+    }
+  ]
+}

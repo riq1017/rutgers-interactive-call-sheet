@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## Phase 1.2 player card engine + executive UI polish
+- Added static Rutgers and opponent player media registries with fictional SVG portraits bound by `player_id`.
+- Added `player_card_registry.json` to bind card rendering to existing roster, stat, matchup, and opponent JSON without duplicating ratings.
+- Added premium player cards with portraits, verified attributes, season stats, last-game stats, matchup summaries, recommended usage, notes, and expandable detail.
+- Upgraded matchup cards with Rutgers/opponent portraits, overall, attributes, grade, confidence, evidence, and recommendations.
+- Added compact O-line run/protection visualization with run arrows, protection arrows, double-team callouts, and chip-help callouts.
+- Split Recruiting into `Recruiting Board` and `Prospect List` workspaces and added required prospect status fields without duplicated descriptions.
+- Enhanced Top Plays with favorites, personnel grouping, existing search/filter support, and letter-grade display across all 192 verified Oregon combinations.
+- Added sticky-header compression for a more executive phone-first layout while preserving fixed bottom navigation and Rutgers scarlet/black/white styling.
+- Expanded validation for media binding, registry counts, portrait assets, responsive layout, static GitHub Pages compatibility, and JSON parsing.
+
 ## Phase 1 final implementation
 - Integrated `PHASE1_CODEX_VERIFIED_DATA_PACKAGE.zip` as the current verified data source.
 - Added Rutgers Last Game, Rutgers Season, opponent Last Game, and opponent Season stat files as separate scopes.

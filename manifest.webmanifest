@@ -1,0 +1,19 @@
+{
+  "name": "Coordinator OS",
+  "short_name": "Coordinator OS",
+  "description": "Mobile-first Rutgers gameday coaching application shell.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050506",
+  "theme_color": "#cc0033",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

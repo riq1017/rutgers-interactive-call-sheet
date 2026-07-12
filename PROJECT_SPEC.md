@@ -88,3 +88,15 @@ Required checks include roster count, media coverage, registry coverage, portrai
 ## K. Release Workflow
 
 The release workflow is: implement, self-validate, generate reports, phone test, freeze approved component, and use the tagged/frozen baseline for the next pack. Cross-sprint scope leakage is not allowed.
+
+## L. Documentation Index
+
+Detailed permanent standards now live under `/docs`:
+
+- `docs/DESIGN_SYSTEM.md` defines the Design System Governance Standard, including DS-001 through DS-009, DS-013, and DS-014.
+- `docs/JSON_STANDARD.md` defines DS-010 JSON ownership and package source-of-truth rules.
+- `docs/UI_COMPONENT_STANDARD.md` defines DS-011 reusable intelligence and shared component rules.
+- `docs/VALIDATION_STANDARD.md` defines DS-012 visual regression and validation policy.
+- `docs/RELEASE_STANDARD.md` defines release, report, and deployment workflow.
+
+Future implementation prompts should begin by reading this `PROJECT_SPEC.md` index and then the linked standard documents relevant to the requested scope.

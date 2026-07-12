@@ -3175,11 +3175,28 @@ function setStatus(message) {
   if (result) result.textContent = message;
 }
 
+const tabScrollPositions = {};
+let activeTabName = "gameplan";
+
 function switchTab(tabName, shouldScroll = true) {
+  if (activeTabName) tabScrollPositions[activeTabName] = window.scrollY;
   document.querySelectorAll("[data-tab]").forEach(button => button.classList.toggle("active", button.dataset.tab === tabName));
-  document.querySelectorAll(".tab").forEach(panel => panel.classList.toggle("active", panel.id === tabName));
+  document.querySelectorAll(".tab").forEach(panel => {
+    const isActive = panel.id === tabName;
+    if (panel.classList.contains("active") && !isActive) panel.classList.add("tab-leaving");
+    panel.classList.toggle("active", isActive);
+    if (isActive) panel.classList.remove("tab-leaving");
+  });
+  activeTabName = tabName;
   const panel = $(tabName);
-  if (panel && shouldScroll) panel.scrollIntoView({ block: "start" });
+  if (shouldScroll) {
+    const remembered = tabScrollPositions[tabName];
+    if (Number.isFinite(remembered) && remembered > 0) {
+      window.scrollTo({ top: remembered, behavior: "smooth" });
+    } else if (panel) {
+      panel.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+  }
 }
 
 function boot() {

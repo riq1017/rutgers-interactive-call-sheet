@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ROSTER_BASE_SCHEMA",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "team",
+    "players",
+    "position_groups"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "team": {
+      "type": "string"
+    },
+    "players": {
+      "type": "array"
+    },
+    "position_groups": {
+      "type": "array"
+    },
+    "unresolved": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

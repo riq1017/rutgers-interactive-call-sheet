@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "target_application": "Rutgers Gameday Gameplan",
+  "engine_boundary": {
+    "gameplan_engine_owns": [
+      "opponent_analysis",
+      "personnel_matchups",
+      "play_scoring",
+      "opening_script",
+      "weekly_gameplan"
+    ],
+    "recruiting_engine_owns": [
+      "position_progress_evaluation",
+      "depth_chart_risk",
+      "future_departures",
+      "team_needs_scoring",
+      "prospect_ranking",
+      "weekly_recruiting_actions"
+    ],
+    "shared_data_layer": [
+      "team_profile",
+      "roster",
+      "depth_chart",
+      "injuries",
+      "last_game",
+      "season_trends"
+    ]
+  },
+  "single_import_workflow": true,
+  "unified_weekly_json_sections": {
+    "team_profile": {},
+    "week": {},
+    "rutgers_last_game": {},
+    "rutgers_season": {},
+    "depth_chart_updates": [],
+    "recruiting_engine_update": {},
+    "recruiting_board_update": {},
+    "history_update": {}
+  },
+  "codex_merge_rule": "Keep Recruiting as a separate engine inside the same app. One weekly JSON may feed both engines."
+}

@@ -1,0 +1,62 @@
+{
+  "package_name": "Rutgers Recruiting Engine Video Seed",
+  "schema_version": "1.0",
+  "generated_utc": "2026-07-12T00:19:38.206279+00:00",
+  "purpose": "Codex-ready seed data for a separate Recruiting Engine inside Gameday Gameplan.",
+  "source_videos": [
+    {
+      "file": "IMG_3011.mp4",
+      "category": "current_roster_and_depth_chart",
+      "authoritative_for": [
+        "roster",
+        "depth_chart",
+        "position_groups"
+      ],
+      "reference_contact_sheet": "reference/IMG_3011_roster_depth_chart_contact.jpg"
+    },
+    {
+      "file": "IMG_3012.mp4",
+      "category": "current_recruiting_board_and_prospect_details",
+      "authoritative_for": [
+        "board_targets",
+        "scouting_status",
+        "prospect_detail"
+      ],
+      "reference_contact_sheet": "reference/IMG_3012_recruiting_board_contact.jpg"
+    },
+    {
+      "file": "IMG_30121.mp4",
+      "category": "prospect_list",
+      "authoritative_for": [
+        "available_prospects",
+        "interest",
+        "dealbreakers"
+      ],
+      "reference_contact_sheet": "reference/IMG_30121_prospect_list_contact.jpg"
+    },
+    {
+      "file": "IMG_3013.mp4",
+      "category": "prospect_list_continuation",
+      "authoritative_for": [
+        "available_prospects",
+        "interest",
+        "dealbreakers"
+      ],
+      "reference_contact_sheet": "reference/IMG_3013_prospect_list_contact.jpg"
+    },
+    {
+      "file": "IMG_3014.mp4",
+      "category": "coach_abilities_and_recruiting_modifiers",
+      "authoritative_for": [
+        "coach_recruiting_abilities",
+        "resource_modifiers"
+      ],
+      "reference_contact_sheet": "reference/IMG_3014_coach_abilities_contact.jpg"
+    }
+  ],
+  "data_quality_policy": {
+    "do_not_invent": true,
+    "unknown_representation": null,
+    "rule": "Only clearly readable values are populated. Unclear values remain null and must be reviewed against the referenced contact sheet or original video."
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GAMEPLAN_WEEKLY_SCHEMA_v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "package_type",
+    "package_name",
+    "week",
+    "opponent",
+    "shared_roster_file"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "package_type": {
+      "const": "gameplan_weekly_update"
+    },
+    "package_name": {
+      "type": "string"
+    },
+    "week": {
+      "type": [
+        "number",
+        "string"
+      ]
+    },
+    "opponent": {
+      "type": "string"
+    },
+    "shared_roster_file": {
+      "const": "data/rutgers_roster_base.json"
+    }
+  },
+  "additionalProperties": true
+}

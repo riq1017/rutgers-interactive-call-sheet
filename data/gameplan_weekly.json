@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0",
+  "package_type": "gameplan_weekly_update",
+  "package_name": "Purdue Week 6 Gameplan",
+  "week": 6,
+  "opponent": "Purdue",
+  "last_updated": "This Week",
+  "shared_roster_file": "data/rutgers_roster_base.json",
+  "quick_tactical_summary": [
+    "Interior run and RPO remain the preferred answers when down and distance allow.",
+    "Q. Gillians edge pressure makes quick game, screens, movement passes, chips, and boots important.",
+    "Deep shots should be protected and situational, not repeated into pressure."
+  ],
+  "game_day_usage": {
+    "target_run_rate": null,
+    "target_pass_rate": null,
+    "notes": [
+      "Use live history, recent-call memory, and verified matchup traits to rotate concepts."
+    ]
+  },
+  "run_direction": [
+    {
+      "direction": "Inside zone / power",
+      "recommendation": "Feature only when eligible by down and distance.",
+      "evidence": "Purdue defensive tackles reported mostly low-to-mid 70s."
+    },
+    {
+      "direction": "Outside / counter",
+      "recommendation": "Use as constraint and explosive changeup.",
+      "evidence": "J. Haskins verified explosive last game in existing weekly package."
+    }
+  ],
+  "protection": [
+    {
+      "item": "Edge pressure",
+      "recommendation": "Use quick game, screens, movement passes, chips, and avoid repeated slow drops.",
+      "evidence": "REDG Q. Gillians visible at 84 OVR."
+    }
+  ],
+  "opponent_defense": [
+    {
+      "unit": "Edge",
+      "summary": "Q. Gillians, 84 OVR visible edge threat."
+    },
+    {
+      "unit": "Defensive tackles",
+      "summary": "Mostly low-to-mid 70s."
+    },
+    {
+      "unit": "Linebackers",
+      "summary": "Mostly low 70s."
+    }
+  ],
+  "matchup_matrix": [
+    {
+      "rutgers": "Interior run",
+      "opponent": "Purdue DTs",
+      "fit": "Advantage when situation allows"
+    },
+    {
+      "rutgers": "Quick game / screens",
+      "opponent": "Purdue edge pressure",
+      "fit": "Protection answer"
+    },
+    {
+      "rutgers": "TE middle field",
+      "opponent": "Purdue LBs",
+      "fit": "Matchup stress point"
+    }
+  ],
+  "alerts": [
+    "Do not call consecutive slow-developing dropbacks.",
+    "Do not recommend runs on 4th-and-long."
+  ]
+}

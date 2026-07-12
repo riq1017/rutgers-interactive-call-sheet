@@ -4,89 +4,186 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#cc0033">
-<title>Rutgers Interactive Call Sheet</title>
+<title>Rutgers Gameday Gameplan</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>
-  <div>
-    <div class="eyebrow">RUTGERS FOOTBALL</div>
-    <h1>Interactive Call Sheet</h1>
-    <div id="matchupLine" class="sub"></div>
+<header class="gameday-header">
+  <div class="header-top">
+    <div>
+      <div id="programLabel" class="eyebrow">Rutgers Football</div>
+      <h1 id="appTitle">Gameday Gameplan</h1>
+      <div id="weekOpponent" class="header-sub">Loading weekly package</div>
+    </div>
+    <div class="logo" aria-label="Rutgers">R</div>
   </div>
-  <div class="logo">R</div>
+  <div class="header-stats" aria-label="Team status">
+    <div><span>Record</span><strong id="seasonRecord">Not available</strong></div>
+    <div><span>Rutgers</span><strong id="rutgersRank">Not available</strong></div>
+    <div><span>Offense</span><strong id="offenseRank">Not available</strong></div>
+    <div><span>Defense</span><strong id="defenseRank">Not available</strong></div>
+  </div>
+  <div id="momentumStatus" class="momentum">Not available</div>
 </header>
 
-<main>
-  <section class="panel compact">
-    <div class="grid two">
-      <label>Down
-        <select id="down">
-          <option value="1">1st</option><option value="2">2nd</option>
-          <option value="3">3rd</option><option value="4">4th</option>
-        </select>
+<main class="app-shell">
+  <section id="gameplan" class="tab active" aria-label="Gameplan tab">
+    <section class="panel situation-panel" aria-labelledby="situationTitle">
+      <div class="section-heading">
+        <p>Situation</p>
+        <strong id="situationTitle">Call context</strong>
+      </div>
+      <div class="control-grid">
+        <label>Down
+          <select id="down">
+            <option value="1">1st</option><option value="2">2nd</option>
+            <option value="3">3rd</option><option value="4">4th</option>
+          </select>
+        </label>
+        <label>Distance
+          <select id="distance">
+            <option value="short">Short (1-3)</option>
+            <option value="medium" selected>Medium (4-6)</option>
+            <option value="long">Long (7+)</option>
+          </select>
+        </label>
+        <label>Field Zone
+          <select id="zone">
+            <option value="normal" selected>Open Field</option>
+            <option value="backed_up">Backed Up</option>
+            <option value="fringe">Red-Zone Fringe</option>
+            <option value="red_zone">Red Zone</option>
+            <option value="goal_line">Goal Line</option>
+          </select>
+        </label>
+        <label>Game State
+          <select id="state">
+            <option value="normal" selected>Normal</option>
+            <option value="two_minute">Two Minute</option>
+            <option value="protect_lead">Protect Lead</option>
+            <option value="must_score">Must Score</option>
+          </select>
+        </label>
+        <label>Quarter
+          <select id="quarter">
+            <option>1st</option><option>2nd</option><option>3rd</option><option>4th</option>
+          </select>
+        </label>
+        <label>Time
+          <input id="clock" inputmode="numeric" value="15:00" aria-label="Game clock">
+        </label>
+        <label>Score
+          <input id="score" value="0-0" aria-label="Score">
+        </label>
+        <label>Tempo
+          <select id="tempo">
+            <option value="normal" selected>Normal</option>
+            <option value="fast">Fast</option>
+            <option value="bleed">Bleed Clock</option>
+          </select>
+        </label>
+      </div>
+      <div class="action-row">
+        <button id="bestBtn" class="primary">Call Best Play</button>
+        <button id="top3Btn">Show Top 3 Plays</button>
+      </div>
+    </section>
+    <section id="recommendation" class="panel best-call-card"></section>
+    <section id="top3Inline" class="panel"></section>
+    <section id="quickSummary" class="panel"></section>
+    <section id="gameDayUsage" class="panel"></section>
+    <section id="gameDayAlerts" class="panel optional-panel"></section>
+    <section class="panel">
+      <div class="section-heading">
+        <p>Opening Script</p>
+        <strong>First 12 calls</strong>
+      </div>
+      <div id="scriptList"></div>
+    </section>
+    <section class="panel">
+      <div class="section-heading">
+        <p>Scouting Report</p>
+        <strong>Opponent traits</strong>
+      </div>
+      <div id="gameplanScoutList"></div>
+    </section>
+    <section class="panel">
+      <div class="section-heading">
+        <p>History</p>
+        <strong>Logged calls</strong>
+      </div>
+      <div id="historyList" class="small"></div>
+    </section>
+  </section>
+
+  <section id="topplays" class="tab panel" aria-label="Top plays tab">
+    <div class="section-heading">
+      <p>Top Plays</p>
+      <strong>Adjusted rankings</strong>
+    </div>
+    <div class="filter-grid">
+      <label>Concept
+        <select id="rankFamily"><option value="all">All</option></select>
       </label>
-      <label>Distance
-        <select id="distance">
-          <option value="short">Short (1–3)</option>
-          <option value="medium" selected>Medium (4–6)</option>
-          <option value="long">Long (7+)</option>
-        </select>
-      </label>
-      <label>Field Zone
-        <select id="zone">
-          <option value="normal" selected>Open Field</option>
-          <option value="backed_up">Backed Up</option>
-          <option value="fringe">Red-Zone Fringe</option>
-          <option value="red_zone">Red Zone</option>
-          <option value="goal_line">Goal Line</option>
-        </select>
-      </label>
-      <label>Game State
-        <select id="state">
-          <option value="normal" selected>Normal</option>
-          <option value="two_minute">Two Minute</option>
-          <option value="protect_lead">Protect Lead</option>
-          <option value="must_score">Must Score</option>
-        </select>
+      <label>Formation
+        <select id="rankFormation"><option value="all">All</option></select>
       </label>
     </div>
-    <button id="bestBtn" class="primary">CALL BEST PLAY</button>
-    <button id="top3Btn">SHOW TOP 3</button>
-  </section>
-
-  <section class="panel compact tools">
-    <button id="exportBtn">EXPORT WEEKLY JSON</button>
-    <label class="fileTool">IMPORT WEEKLY JSON
-      <input id="importWeekly" type="file" accept="application/json,.json">
-    </label>
-    <div id="dataStatus" class="small"></div>
-  </section>
-
-  <section id="recommendation" class="panel hero"></section>
-
-  <nav class="tabs">
-    <button data-tab="rankings" class="active">Rankings</button>
-    <button data-tab="script">Opening 12</button>
-    <button data-tab="matchup">Matchup</button>
-    <button data-tab="usage">Usage</button>
-  </nav>
-
-  <section id="rankings" class="tab active panel">
-    <input id="search" placeholder="Search play or formation">
+    <input id="search" placeholder="Search play, formation, or player">
     <div id="rankList"></div>
   </section>
 
-  <section id="script" class="tab panel"><div id="scriptList"></div></section>
-  <section id="matchup" class="tab panel"><div id="traitList"></div></section>
-  <section id="usage" class="tab panel"><div id="usageList"></div></section>
+  <section id="personnel" class="tab panel" aria-label="Personnel tab">
+    <div class="section-heading">
+      <p>Personnel &amp; Matchups</p>
+      <strong>Shared roster and weekly fits</strong>
+    </div>
+    <div id="rosterList"></div>
+    <div id="usageList"></div>
+    <div id="lineAnalysis"></div>
+    <div id="runDirectionList"></div>
+    <div id="protectionList"></div>
+    <div id="opponentDefenseList"></div>
+    <div id="matchupMatrix"></div>
+  </section>
+
+  <section id="recruiting" class="tab panel" aria-label="Recruiting tab">
+    <div class="section-heading">
+      <p>Recruiting</p>
+      <strong>Board workspace</strong>
+    </div>
+    <div id="recruitingOverview"></div>
+    <div id="teamNeedsList"></div>
+    <div id="priorityList"></div>
+    <div id="recruitingFilters" class="filter-grid"></div>
+    <div id="recruitList"></div>
+    <div id="recruitDetail"></div>
+    <div id="actionPlanList"></div>
+  </section>
+
+  <section id="more" class="tab panel" aria-label="More tab">
+    <div class="section-heading">
+      <p>More</p>
+      <strong>Packages</strong>
+    </div>
+    <div id="enginePackagePanel"></div>
+    <div id="dataStatus" class="small"></div>
+    <div id="moreList"></div>
+  </section>
 </main>
 
-<footer>Rutgers weekly data engine · Purdue week</footer>
+<nav class="bottom-nav" aria-label="Primary">
+  <button data-tab="gameplan" class="active">Gameplan</button>
+  <button data-tab="topplays">Top Plays</button>
+  <button data-tab="personnel">Personnel</button>
+  <button data-tab="recruiting">Recruiting</button>
+  <button data-tab="more">More</button>
+</nav>
+
 <noscript>
   <main class="noscript">
-    <section class="panel hero">
-      <div class="meta">STATIC PHONE FALLBACK</div>
+    <section class="panel best-call-card">
+      <div class="card-label">Static Phone Fallback</div>
       <h2>Rutgers vs Purdue</h2>
       <p>Purdue record: 1-4. Use this static card when JavaScript is unavailable.</p>
     </section>
@@ -119,6 +216,8 @@
 <script src="data/rutgers_playbook.js"></script>
 <script src="data/weekly_plan.js"></script>
 <script src="data/game_history.js"></script>
+<script src="data/recruiting_data.js"></script>
+<script src="data/engine_data.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

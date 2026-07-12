@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "source_video": "IMG_3014.mp4",
+  "source_reference": "reference/IMG_3014_coach_abilities_contact.jpg",
+  "coach_name": "Ty Hargrove",
+  "observed_archetypes": [
+    "Recruiter",
+    "Motivator"
+  ],
+  "abilities": [],
+  "unresolved": [
+    "Exact purchased tiers and point values require manual review.",
+    "Exact position-specific recruiting bonuses require manual review."
+  ]
+}

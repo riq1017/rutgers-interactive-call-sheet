@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RECRUITING_WEEKLY_SCHEMA_v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "package_type",
+    "package_name",
+    "shared_roster_file",
+    "recruiting_priority_order"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "package_type": {
+      "const": "recruiting_weekly_update"
+    },
+    "package_name": {
+      "type": "string"
+    },
+    "shared_roster_file": {
+      "const": "data/rutgers_roster_base.json"
+    },
+    "recruiting_priority_order": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "team": "Rutgers",
+  "source_video": "IMG_3011.mp4",
+  "source_reference": "reference/IMG_3011_roster_depth_chart_contact.jpg",
+  "status": "manual_transcription_required",
+  "position_groups": [
+    {
+      "position": "QB",
+      "players": []
+    },
+    {
+      "position": "HB",
+      "players": []
+    },
+    {
+      "position": "WR",
+      "players": []
+    },
+    {
+      "position": "TE",
+      "players": []
+    },
+    {
+      "position": "LT",
+      "players": []
+    },
+    {
+      "position": "LG",
+      "players": []
+    },
+    {
+      "position": "C",
+      "players": []
+    },
+    {
+      "position": "RG",
+      "players": []
+    },
+    {
+      "position": "RT",
+      "players": []
+    },
+    {
+      "position": "EDGE",
+      "players": []
+    },
+    {
+      "position": "DT",
+      "players": []
+    },
+    {
+      "position": "OLB",
+      "players": []
+    },
+    {
+      "position": "MIKE",
+      "players": []
+    },
+    {
+      "position": "CB",
+      "players": []
+    },
+    {
+      "position": "FS",
+      "players": []
+    },
+    {
+      "position": "SS",
+      "players": []
+    },
+    {
+      "position": "K",
+      "players": []
+    },
+    {
+      "position": "P",
+      "players": []
+    }
+  ],
+  "player_schema": {
+    "name": null,
+    "position": null,
+    "depth_order": null,
+    "overall": null,
+    "class_year": null,
+    "redshirt": null,
+    "development_trait": null,
+    "archetype": null,
+    "injury_status": null,
+    "expected_departure": null,
+    "verification_status": "unreviewed"
+  },
+  "codex_instruction": "Review the original video/contact sheet and populate only clearly readable players. Leave unclear values null."
+}

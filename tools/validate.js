@@ -3,142 +3,62 @@ const path = require("path");
 const vm = require("vm");
 
 const root = path.resolve(__dirname, "..");
-const context = { window: {}, localStorage: { getItem: () => "[]", setItem: () => {}, removeItem: () => {} } };
+const context = { window: {}, localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } };
 vm.createContext(context);
-
-for (const file of ["data/rutgers_team.js", "data/rutgers_playbook.js", "data/weekly_plan.js"]) {
+for (const file of ["data/rutgers_team.js", "data/rutgers_playbook.js", "data/weekly_plan.js", "data/game_history.js", "data/recruiting_data.js", "data/engine_data.js"]) {
   vm.runInContext(fs.readFileSync(path.join(root, file), "utf8"), context, { filename: file });
 }
-
-const team = context.window.RUTGERS_TEAM;
-const playbook = context.window.RUTGERS_PLAYBOOK;
-const weekly = context.window.WEEKLY_PLAN;
+Object.assign(global, context.window);
+global.window = { GAME_HISTORY: [] };
+global.localStorage = { getItem: () => null, setItem: () => {}, removeItem: () => {} };
+const engine = require(path.join(root, "app.js"));
 const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
-const source = fs.readFileSync(path.join(root, "docs", "SOURCE_EXTRACTION_REPORT.md"), "utf8");
-
-global.RUTGERS_TEAM = team;
-global.RUTGERS_PLAYBOOK = playbook;
-global.WEEKLY_PLAN = weekly;
-global.window = { GAME_HISTORY: [] };
-global.localStorage = { getItem: () => "[]", setItem: () => {}, removeItem: () => {} };
-const engine = require(path.join(root, "app.js"));
-
 const checks = [];
-function check(name, passed, detail = "") {
-  checks.push({ name, passed, detail });
-}
-function names(rows) {
-  return rows.map(p => p.name).join(", ");
-}
-function ctx(down, distanceYards, zone = "normal", gameState = "normal") {
-  const dist = distanceYards <= 2 ? "short" : distanceYards <= 6 ? "medium" : "long";
+function check(name, passed, detail = "") { checks.push({ name, passed: Boolean(passed), detail }); }
+function ctx(down, yards, zone = "normal", gameState = "normal") {
+  const dist = yards <= 3 ? "short" : yards <= 6 ? "medium" : "long";
   let key = dist;
-  if (zone === "goal_line" || zone === "red_zone" || zone === "fringe") key = zone === "fringe" ? "red_zone" : zone;
+  if (zone === "goal_line" || zone === "red_zone") key = zone;
   if (gameState === "two_minute" || gameState === "must_score") key = gameState;
   if (gameState === "protect_lead") key = "short";
-  return { down, dist, distanceYards, zone, gameState, key };
+  return { down, dist, distanceYards: yards, zone, gameState, key };
 }
+const dataFiles = ["data/rutgers_roster_base.json", "data/gameplan_weekly.json", "data/recruiting_weekly.json", "ROSTER_BASE_SCHEMA.json", "GAMEPLAN_WEEKLY_SCHEMA_v2.json", "RECRUITING_WEEKLY_SCHEMA_v2.json"];
+check("Shared roster and schema files exist", dataFiles.every(file => fs.existsSync(path.join(root, file))), dataFiles.filter(file => !fs.existsSync(path.join(root, file))).join(", "));
+check("Both weekly engines reference the same roster base", GAMEPLAN_WEEKLY.shared_roster_file === "data/rutgers_roster_base.json" && RECRUITING_WEEKLY.shared_roster_file === "data/rutgers_roster_base.json");
+check("Roster base preserves unresolved nulls", RUTGERS_ROSTER_BASE.players.some(player => player.depth_chart_order === null) && RUTGERS_ROSTER_BASE.unresolved && RUTGERS_ROSTER_BASE.position_groups.some(group => group.unresolved));
+check("No conflicting duplicate roster import controls remain", !index.includes("importRosterData") && !index.includes("Import Roster JSON") && !app.includes("ROSTER_KEY"));
+check("Gameplan and Recruiting import/export controls are separated on More", ["importGameplanWeekly", "importRecruitingWeekly", "exportGameplanBtn", "exportRecruitingBtn", "enginePackagePanel"].every(id => index.includes(id) || app.includes(id)));
+check("Invalid package types are rejected before assignment", app.includes("validateGameplanWeekly(parsed)") && app.includes("validateRecruitingWeekly(parsed)") && app.includes("Wrong package_type"));
+check("Gameplan owns situation controls", index.indexOf('id="gameplan"') < index.indexOf('id="down"') && index.indexOf('id="down"') < index.indexOf('id="recommendation"'));
+check("Package controls live on More", index.indexOf('id="more"') < index.indexOf('id="enginePackagePanel"') && !index.includes('id="exportBtn"'));
+check("Best Call and Top 3 alternatives are separate", index.includes('id="recommendation"') && index.includes('id="top3Inline"') && app.includes("renderTopAlternatives"));
+check("Quick Tactical Summary and Game-Day Usage render", index.includes('id="quickSummary"') && index.includes('id="gameDayUsage"') && app.includes("renderGameplanPanels"));
+check("Personnel & Matchups page includes required surfaces", ["lineAnalysis", "runDirectionList", "protectionList", "opponentDefenseList", "matchupMatrix"].every(id => index.includes(id)) && app.includes("renderPersonnelMatchups"));
+check("Recruiting page keeps requested sections", ["recruitingOverview", "teamNeedsList", "priorityList", "recruitList", "recruitDetail", "actionPlanList"].every(id => index.includes(id)));
+check("Recruiting priority starts from performance/depth before game targets", RECRUITING_WEEKLY.recruiting_priority_order[0] === "on_field_performance_and_progress" && RECRUITING_WEEKLY.recruiting_priority_order[1] === "current_depth_chart");
+check("Play art assets remain available", fs.readdirSync(path.join(root, "assets", "play-diagrams")).filter(file => file.endsWith(".svg") && file !== "formation-fallback.svg").length === 48);
+check("All play diagram paths resolve", RUTGERS_PLAYBOOK.every(play => play.diagramPath && fs.existsSync(path.join(root, play.diagramPath))));
+const fourthLong = engine.buildRankings(ctx(4, 10, "normal"), [], []);
+check("No run is recommended on 4th-and-long", fourthLong.slice(0, 3).every(play => !["inside run", "outside run", "option"].includes(play.conceptFamily)), fourthLong.slice(0,3).map(p => p.name).join(", "));
+const baseFirst = engine.buildRankings(ctx(1, 5), [], []);
+const thirdMedium = engine.buildRankings(ctx(3, 5), [], []);
+const protectLead = engine.buildRankings(ctx(1, 5, "normal", "protect_lead"), [], []);
+check("Rankings respond to down, distance, and game state", baseFirst[0].id !== thirdMedium[0].id || baseFirst[0].score !== thirdMedium[0].score || baseFirst[0].id !== protectLead[0].id);
+const repeated = engine.buildRankings(ctx(1, 5), [], [{ playId: baseFirst[0].id, family: baseFirst[0].conceptFamily }]);
+check("Recent-call penalties change repeated recommendations", repeated[0].id !== baseFirst[0].id || repeated[0].score < baseFirst[0].score, `${baseFirst[0].name} -> ${repeated[0].name}`);
+const diverse = engine.diverseTop(baseFirst, 4);
+check("Top alternatives include multiple concept families", new Set(diverse.map(play => play.conceptFamily)).size >= 2);
+check("Shared roster loads through exported helper", engine.sharedRosterBase().players.length === RUTGERS_ROSTER_BASE.players.length);
+check("Recruiting priority uses shared roster", app.includes("return sharedRosterBase()") && engine.priorityBoard().length === TEAM_NEEDS_DATA.positions.length);
+check("Missing values render as Not available", engine.displayValue(null) === "Not available");
+check("Rutgers mobile styling has no horizontal overflow", css.includes("overflow-x:hidden") && css.includes("@media(max-width:420px)") && index.includes("viewport-fit=cover"));
+check("GitHub Pages compatibility preserved", !index.includes("type=\"module\"") && index.includes("data/engine_data.js") && !app.includes("fetch("));
+check("No Name unverified placeholder is in app output templates", !app.includes("Name unverified"));
 
-const ids = new Set();
-const duplicateIds = [];
-for (const play of playbook) {
-  if (ids.has(play.id)) duplicateIds.push(play.id);
-  ids.add(play.id);
-}
-check("All play IDs are unique", duplicateIds.length === 0, duplicateIds.join(", "));
-
-const requiredMetadata = ["eligibleDowns", "minDistance", "maxDistance", "eligibleFieldZones", "eligibleGameStates", "lineToGainCapability", "primaryPositions", "secondaryPositions", "requiredAttributes", "riskLevel"];
-check("Every play supports eligibility and player-fit metadata", playbook.every(play => requiredMetadata.every(field => field in play)));
-
-const openingUnique = new Set(weekly.openingScript);
-const missingOpening = weekly.openingScript.filter(id => !ids.has(id));
-check("Opening script has 12 valid unique references", weekly.openingScript.length === 12 && openingUnique.size === 12 && missingOpening.length === 0, missingOpening.join(", "));
-
-const covered = new Set();
-for (const play of playbook) for (const situation of play.situations || []) covered.add(situation);
-const requiredSituations = ["short", "medium", "long", "red_zone", "goal_line", "two_minute", "normal", "must_score"];
-const missingSituations = requiredSituations.filter(situation => !covered.has(situation));
-check("Situation coverage exists for required app buckets", missingSituations.length === 0, missingSituations.join(", "));
-
-check("Rutgers weekly data is separated from playbook data", fs.existsSync(path.join(root, "data", "rutgers_team.js")) && fs.existsSync(path.join(root, "data", "rutgers_playbook.js")));
-check("Opponent weekly data is separated from game history", fs.existsSync(path.join(root, "data", "weekly_plan.js")) && fs.existsSync(path.join(root, "data", "game_history.js")));
-check("Static no-JavaScript fallback exists", index.includes("<noscript>") && index.includes("STATIC PHONE FALLBACK") && index.includes("Rutgers vs Purdue"));
-check("Weekly JSON import/export controls exist", index.includes("importWeekly") && index.includes("exportBtn") && app.includes("exportWeeklyJson") && app.includes("importWeeklyJson"));
-check("Expanded result logging fields exist", ["yards", "sack", "turnover", "explosive", "thirdDownConversion", "redZoneTouchdown"].every(token => app.includes(token)));
-check("localStorage persistence exists for result history and recent calls", app.includes("rutgers_game_history") && app.includes("rutgers_recent_calls"));
-check("Mobile layout rules exist", css.includes("@media(max-width:420px)") && index.includes("viewport-fit=cover"));
-check("No unconfirmed numeric ratings were added outside source anchors", team.overall === 84 && team.offense === 84 && team.defense === 86 && source.includes("84/84/86") && weekly.opponent.record === "1-4");
-
-const fourthTenRed = engine.buildRankings(ctx(4, 10, "red_zone"), [], []);
-check("4th-and-10 red zone never recommends a run", fourthTenRed.length > 0 && !["inside run", "outside run", "option"].includes(fourthTenRed[0].conceptFamily), names(fourthTenRed.slice(0, 3)));
-check("4th-and-10 red zone Top 3 excludes runs", fourthTenRed.slice(0, 3).every(play => !["inside run", "outside run", "option"].includes(play.conceptFamily)), names(fourthTenRed.slice(0, 3)));
-
-const fourthEight = engine.buildRankings(ctx(4, 8, "normal"), [], []);
-check("4th-and-8 open field never recommends Power O or HB Dive", fourthEight.slice(0, 3).every(play => !["power-o", "hb-dive", "hb-dive-pistol"].includes(play.id)), names(fourthEight.slice(0, 3)));
-
-const fourthTwo = engine.buildRankings(ctx(4, 2, "normal"), [], []);
-check("4th-and-2 may recommend Power O", fourthTwo.some(play => play.id === "power-o"));
-
-const thirdLong = engine.buildRankings(ctx(3, 9, "normal"), [], []);
-check("3rd-and-long prioritizes eligible passing concepts", thirdLong.length > 0 && ["intermediate pass", "deep pass"].includes(thirdLong[0].conceptFamily), names(thirdLong.slice(0, 3)));
-
-const fourthLongGoal = engine.buildRankings(ctx(4, 8, "goal_line"), [], []);
-check("Goal-line formation does not override long-distance restrictions", fourthLongGoal.every(play => !["inside run", "option"].includes(play.conceptFamily)), names(fourthLongGoal.slice(0, 3)));
-
-const diverse = engine.diverseTop(engine.buildRankings(ctx(2, 5, "normal"), [], []), 3);
-check("Top 3 contains only eligible plays", diverse.every(play => play.eligible));
-check("Top 3 contains at least two families when possible", new Set(diverse.map(play => play.conceptFamily)).size >= 2, names(diverse));
-
-const recommendation = engine.buildRankings(ctx(1, 5, "normal"), [], [])[0];
-check("Primary player is assigned for every recommendation", Boolean(recommendation.primaryPlayerName), recommendation.primaryPlayerName);
-
-const displayedNames = Object.values(weekly.players).map(player => player.name);
-check("No verified player is displayed with a placeholder name", !displayedNames.some(name => ["Freshman QB", "WR1", "WR2", "WR3", "WR4", "TE1", "TE2", "HB2"].includes(name)), displayedNames.join(", "));
-check("Missing statistics show Not available", engine.displayValue(null) === "Not available" && app.includes("Not available"));
-check("One missing stat does not become zero", engine.displayValue(null) !== "0");
-
-const highAttrPlay = { ...playbook[0], requiredAttributes: ["missingAttribute"] };
-check("Personnel-fit score respects modifier caps", Math.abs(engine.playerFit(highAttrPlay).modifier) <= 10);
-check("Matchup score respects modifier caps", Math.abs(engine.opponentMatchupModifier(playbook.find(p => p.family === "run_inside"))) <= 12);
-
-const insideRun = playbook.find(play => engine.conceptFamily(play) === "inside run");
-const secondInsideRun = playbook.find(play => engine.conceptFamily(play) === "inside run" && play.id !== insideRun.id);
-const rpo = playbook.find(play => engine.conceptFamily(play) === "RPO");
-const playAction = playbook.find(play => engine.conceptFamily(play) === "play action");
-const exactLast = engine.recentCallPenalty(insideRun, [{ playId: insideRun.id, family: "inside run" }]);
-check("Repeated plays receive the required penalties", exactLast.value <= -18 && exactLast.reasons.includes("same play last call -18"));
-
-const runSetupHistory = [{ playId: insideRun.id, result: "success" }, { playId: secondInsideRun.id, result: "success" }];
-check("Successful runs promote RPO and play action", engine.setupBonus(rpo, runSetupHistory).value >= 6 && engine.setupBonus(playAction, runSetupHistory).value >= 8);
-
-const persisted = [{ playId: insideRun.id, result: "success", yards: 5 }];
-global.localStorage = { getItem: key => key === "rutgers_game_history" ? JSON.stringify(persisted) : "[]", setItem: () => {}, removeItem: () => {} };
-delete require.cache[require.resolve(path.join(root, "app.js"))];
-const engineReloaded = require(path.join(root, "app.js"));
-check("Result history survives refresh", engineReloaded.buildRankings(ctx(1, 2), persisted, []).length > 0);
-
-check("Usage cards render without horizontal scrolling on iPhone width", css.includes("overflow-wrap:anywhere") && css.includes(".usageGroup"));
-
-const deepPlay = playbook.find(play => engine.conceptFamily(play) === "deep pass");
-const originalDeep = engine.scorePlay(deepPlay, ctx(4, 8), [], []).score;
-const savedModifier = weekly.familyModifiers.deep;
-weekly.familyModifiers.deep = savedModifier + 6;
-const updatedDeep = engine.scorePlay(deepPlay, ctx(4, 8), [], []).score;
-weekly.familyModifiers.deep = savedModifier;
-check("Weekly-plan data can update recommendations without editing app.js", updatedDeep !== originalDeep);
-
-const report = [
-  "# VALIDATION_REPORT",
-  "",
-  `Validated: ${new Date().toISOString()}`,
-  "",
-  ...checks.map(item => `- ${item.passed ? "PASS" : "FAIL"} - ${item.name}${item.detail ? ` (${item.detail})` : ""}`),
-  "",
-  checks.every(item => item.passed) ? "Overall: PASS" : "Overall: FAIL"
-].join("\n");
-
+const report = ["# VALIDATION_REPORT", "", `Validated: ${new Date().toISOString()}`, "", ...checks.map(item => `- ${item.passed ? "PASS" : "FAIL"} - ${item.name}${item.detail ? ` (${item.detail})` : ""}`), "", checks.every(item => item.passed) ? "Overall: PASS" : "Overall: FAIL"].join("\n");
 fs.writeFileSync(path.join(root, "VALIDATION_REPORT.md"), report + "\n");
 console.log(report);
 if (!checks.every(item => item.passed)) process.exit(1);

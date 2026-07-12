@@ -1,9 +1,23 @@
 window.WEEKLY_PLAN = {
   "buildId": "PURDUE-WEEK-001",
+  "gameday": {
+    "title": "Gameday Gameplan",
+    "currentWeek": "Week 6",
+    "seasonRecord": "5-0",
+    "rutgersRank": "#18",
+    "offenseRank": "22",
+    "defenseRank": "19",
+    "momentumStatus": "High",
+    "lastUpdated": "This Week",
+    "packageOptions": [
+      "Export weekly JSON",
+      "Import weekly JSON"
+    ]
+  },
   "opponent": {
     "name": "Purdue",
     "record": "1-4",
-    "week": "First active weekly package",
+    "week": "Week 6",
     "location": "unknown",
     "seasonStats": {
       "pointsAllowed": null,
@@ -43,14 +57,38 @@ window.WEEKLY_PLAN = {
     }
   },
   "modifierCaps": {
-    "personnelFit": [-10, 10],
-    "opponentMatchup": [-12, 12],
-    "seasonProduction": [-8, 8],
-    "recentGameForm": [-6, 6],
-    "situationFit": [-20, 20],
-    "setupBonus": [-10, 10],
-    "recentCallDiversity": [-18, 0],
-    "riskPenalty": [-15, 0]
+    "personnelFit": [
+      -10,
+      10
+    ],
+    "opponentMatchup": [
+      -12,
+      12
+    ],
+    "seasonProduction": [
+      -8,
+      8
+    ],
+    "recentGameForm": [
+      -6,
+      6
+    ],
+    "situationFit": [
+      -20,
+      20
+    ],
+    "setupBonus": [
+      -10,
+      10
+    ],
+    "recentCallDiversity": [
+      -18,
+      0
+    ],
+    "riskPenalty": [
+      -15,
+      0
+    ]
   },
   "traits": [
     {
@@ -93,12 +131,13 @@ window.WEEKLY_PLAN = {
   },
   "rutgersStats": {
     "quarterback": {
-      "completionPercentage": null,
-      "yardsPerAttempt": null,
-      "touchdownRate": null,
-      "interceptionRate": null,
-      "sackRate": null,
-      "pressurePerformance": "Not available",
+      "starter": "M. York",
+      "completionPercentage": 0.64,
+      "yardsPerAttempt": 7.21,
+      "touchdownRate": 0.0769,
+      "interceptionRate": 0.0513,
+      "sackRate": 0.0488,
+      "pressurePerformance": "2 sacks in last game",
       "shortEfficiency": "Not available",
       "mediumEfficiency": "Not available",
       "deepEfficiency": "Not available",
@@ -106,228 +145,630 @@ window.WEEKLY_PLAN = {
       "movementPassEfficiency": "Not available"
     },
     "teamAverages": {
-      "yardsPerCarry": null,
-      "yardsPerAttempt": null
-    }
+      "yardsPerCarry": 5.39,
+      "yardsPerAttempt": 6.61
+    },
+    "lastGameSource": "IMG_2973(3).mp4"
   },
   "players": {
     "QB1": {
       "id": "QB1",
-      "name": "Name unverified",
+      "name": "M. York",
       "position": "QB",
       "depthRole": "QB1",
-      "overall": 69,
+      "overall": 77,
       "attributes": {
-        "speed": 81,
-        "awareness": 66,
-        "throwPower": 90,
-        "shortAccuracy": null,
-        "mediumAccuracy": 85,
-        "deepAccuracy": 79,
-        "throwOnRun": 83,
-        "playAction": 66,
-        "throwUnderPressure": 63
+        "speed": 82,
+        "acceleration": 86,
+        "agility": 82,
+        "changeOfDirection": 82,
+        "strength": 52,
+        "awareness": 75,
+        "throwPower": 92
       },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "passerRating": 139.7,
+        "passingYards": 281,
+        "passingTouchdowns": 3,
+        "interceptions": 2,
+        "longPass": 25,
+        "sacks": 2,
+        "completions": 25,
+        "attempts": 39,
+        "completionPercentage": 0.64,
+        "yardsPerCompletion": 11.2,
+        "rushingAttempts": 9,
+        "rushingYards": 6,
+        "yardsPerCarry": 0.7
+      },
       "rollingStats": {},
-      "weeklyRole": "High-percentage throws early, RPO decisions, movement passes and limited obvious long-drop exposure.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["RPO", "quick pass", "play action"],
-      "bestFormations": ["Pistol", "Shotgun"],
-      "matchupAdvantages": ["Quick answers and movement against Purdue edge pressure"],
-      "risks": ["Throw under pressure 63; play action 66"],
-      "usageTriggers": ["Increase quick game after sacks", "Use movement passes after successful runs"],
+      "weeklyRole": "Starting quarterback. Use quick answers, RPO decisions and movement passes; unlock intermediate throws when protection holds.",
+      "workloadTarget": "Primary quarterback; avoid consecutive slow-developing dropbacks.",
+      "bestConcepts": [
+        "RPO",
+        "quick pass",
+        "play action",
+        "intermediate pass"
+      ],
+      "bestFormations": [
+        "Pistol",
+        "Shotgun"
+      ],
+      "matchupAdvantages": [
+        "92 throw power and 82 speed give access to movement throws and selective shots away from Purdue edge pressure"
+      ],
+      "risks": [
+        "Threw 2 interceptions and took 2 sacks last game"
+      ],
+      "usageTriggers": [
+        "After 2 sacks, promote quick game/screens/boots",
+        "After two successful interior runs, promote RPO and play action"
+      ],
       "priorityLabel": "High Usage"
     },
     "QB2": {
       "id": "QB2",
-      "name": "Name unverified",
+      "name": "R. Bieniamy",
       "position": "QB",
       "depthRole": "QB2",
-      "overall": null,
-      "attributes": {},
+      "overall": 75,
+      "attributes": {
+        "speed": 83,
+        "acceleration": 80,
+        "agility": 82,
+        "changeOfDirection": 87,
+        "strength": 45,
+        "awareness": 78,
+        "throwPower": 91
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "passerRating": 13.3,
+        "passingYards": 23,
+        "passingTouchdowns": 0,
+        "interceptions": 2,
+        "longPass": 14,
+        "sacks": 1,
+        "completions": 3,
+        "attempts": 7,
+        "completionPercentage": 0.42,
+        "yardsPerCompletion": 7.7,
+        "rushingAttempts": 3,
+        "rushingYards": 9,
+        "yardsPerCarry": 3.0
+      },
       "rollingStats": {},
-      "weeklyRole": "Emergency depth only unless new evidence updates the weekly package.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["quick pass"],
-      "bestFormations": ["Not available"],
-      "matchupAdvantages": ["Not available"],
-      "risks": ["Name and ratings unverified"],
-      "usageTriggers": ["Emergency only"],
+      "weeklyRole": "Backup quarterback and change-of-pace runner only.",
+      "workloadTarget": "Emergency or package usage only.",
+      "bestConcepts": [
+        "option",
+        "quick pass"
+      ],
+      "bestFormations": [
+        "Pistol"
+      ],
+      "matchupAdvantages": [
+        "83 speed and 87 change of direction"
+      ],
+      "risks": [
+        "2 interceptions on 7 attempts last game"
+      ],
+      "usageTriggers": [
+        "Use only for a defined option package or injury relief"
+      ],
       "priorityLabel": "Emergency Only"
     },
     "HB1": {
       "id": "HB1",
-      "name": "Antwan Simonsen",
+      "name": "T. Simonson",
       "position": "HB",
       "depthRole": "HB1",
-      "overall": null,
-      "attributes": {},
+      "overall": 77,
+      "attributes": {
+        "speed": 88,
+        "acceleration": 90,
+        "agility": 84,
+        "changeOfDirection": 79,
+        "strength": 65,
+        "awareness": 74,
+        "carrying": 76
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "carries": 24,
+        "rushingYards": 100,
+        "yardsPerCarry": 4.2,
+        "rushingTouchdowns": 2,
+        "fumbles": 0,
+        "brokenTackles": 2,
+        "yardsAfterContact": 33,
+        "longRush": 14,
+        "runs20Plus": 0,
+        "receptions": 2,
+        "receivingYards": 15,
+        "yardsPerReception": 7.5,
+        "receivingTouchdowns": 0,
+        "receivingLong": 14,
+        "drops": 1
+      },
       "rollingStats": {},
-      "weeklyRole": "Featured interior-run engine through inside runs, screens and checkdowns.",
-      "workloadTarget": "18-24 carries and 3-5 targets",
-      "bestConcepts": ["inside run", "screen", "RPO"],
-      "bestFormations": ["Pistol", "Goal Line Offense", "Shotgun"],
-      "matchupAdvantages": ["Purdue DT group mostly low-to-mid 70s"],
-      "risks": ["Fumble and fatigue data not available"],
-      "usageTriggers": ["Maintain Featured role if live YPC is 4.5+", "Increase HB2 rotation if below 3.0 YPC after at least 8 carries"],
+      "weeklyRole": "Featured interior runner and primary volume back.",
+      "workloadTarget": "18-24 carries and 2-4 targets.",
+      "bestConcepts": [
+        "inside run",
+        "RPO",
+        "screen"
+      ],
+      "bestFormations": [
+        "Pistol",
+        "Goal Line Offense",
+        "Shotgun"
+      ],
+      "matchupAdvantages": [
+        "Purdue defensive tackles and linebackers are mostly in the low-to-mid 70s"
+      ],
+      "risks": [
+        "76 carrying and one receiving drop last game"
+      ],
+      "usageTriggers": [
+        "Keep featured if live YPC stays at 4.0+",
+        "Shift to RPO/boot when Purdue compresses the box"
+      ],
       "priorityLabel": "Featured"
     },
     "HB2": {
       "id": "HB2",
-      "name": "Name unverified",
+      "name": "J. Haskins",
       "position": "HB",
       "depthRole": "HB2",
-      "overall": null,
-      "attributes": {},
+      "overall": 75,
+      "attributes": {
+        "speed": 88,
+        "acceleration": 85,
+        "agility": 88,
+        "changeOfDirection": 82,
+        "strength": 68,
+        "awareness": 74,
+        "carrying": 68
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "carries": 11,
+        "rushingYards": 147,
+        "yardsPerCarry": 13.4,
+        "rushingTouchdowns": 2,
+        "fumbles": 0,
+        "brokenTackles": 0,
+        "yardsAfterContact": 11,
+        "longRush": 75,
+        "runs20Plus": 2,
+        "receptions": 2,
+        "receivingYards": 19,
+        "yardsPerReception": 9.5,
+        "receivingTouchdowns": 0,
+        "receivingLong": 13,
+        "drops": 0
+      },
       "rollingStats": {},
-      "weeklyRole": "Rotational constraint option if HB1 efficiency drops or fatigue risk rises.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["screen", "outside run"],
-      "bestFormations": ["Pistol", "Shotgun"],
-      "matchupAdvantages": ["Not available"],
-      "risks": ["Name and ratings unverified"],
-      "usageTriggers": ["Use after HB1 low efficiency or to change pace"],
-      "priorityLabel": "Rotational"
+      "weeklyRole": "Explosive change-of-pace back who earned a larger rotation after a 147-yard game.",
+      "workloadTarget": "8-12 carries plus 2-3 targets; increase if explosive efficiency continues.",
+      "bestConcepts": [
+        "outside run",
+        "inside run",
+        "screen"
+      ],
+      "bestFormations": [
+        "Pistol",
+        "Shotgun"
+      ],
+      "matchupAdvantages": [
+        "88 speed and 88 agility; produced two 20+ yard runs last game"
+      ],
+      "risks": [
+        "68 carrying is lower than ideal"
+      ],
+      "usageTriggers": [
+        "Increase rotation after any Simonson fatigue or if Haskins starts above 5.0 YPC"
+      ],
+      "priorityLabel": "High Usage"
+    },
+    "FB": {
+      "id": "FB",
+      "name": "G. Oluwatimi",
+      "position": "FB",
+      "depthRole": "FB1",
+      "overall": 59,
+      "attributes": {
+        "speed": 71,
+        "acceleration": 71,
+        "agility": 70,
+        "changeOfDirection": 68,
+        "strength": 74,
+        "awareness": 67,
+        "carrying": 73
+      },
+      "seasonStats": {},
+      "lastGameStats": {
+        "carries": 0,
+        "rushingYards": 0,
+        "receptions": 0,
+        "receivingYards": 0
+      },
+      "rollingStats": {},
+      "weeklyRole": "Lead blocker and short-yardage personnel piece.",
+      "workloadTarget": "Blocking-focused situational snaps.",
+      "bestConcepts": [
+        "inside run",
+        "play action"
+      ],
+      "bestFormations": [
+        "Goal Line Offense",
+        "Pistol"
+      ],
+      "matchupAdvantages": [
+        "74 strength supports interior run packages"
+      ],
+      "risks": [
+        "59 overall limits standalone touches"
+      ],
+      "usageTriggers": [
+        "Use when the plan shifts to power or goal-line personnel"
+      ],
+      "priorityLabel": "Situational"
     },
     "WR1": {
       "id": "WR1",
-      "name": "Name unverified",
+      "name": "S. Degraffenreidt",
       "position": "WR",
       "depthRole": "WR1",
-      "overall": null,
-      "attributes": {},
+      "overall": 81,
+      "attributes": {
+        "speed": 88,
+        "acceleration": 90,
+        "agility": 93,
+        "changeOfDirection": 93,
+        "strength": 74,
+        "awareness": 89,
+        "catching": 83
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "carries": 1,
+        "rushingYards": 1,
+        "receptions": 4,
+        "receivingYards": 42,
+        "yardsPerReception": 10.5,
+        "receivingTouchdowns": 0,
+        "yardsAfterCatch": 8,
+        "yardsAfterCatchAverage": 2.0,
+        "longReception": 18,
+        "drops": 0,
+        "yardsPerTarget": null,
+        "catchRate": null
+      },
       "rollingStats": {},
-      "weeklyRole": "Primary route-fit target when available data supports passing concepts.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["intermediate pass", "deep pass"],
-      "bestFormations": ["Pistol", "Shotgun"],
-      "matchupAdvantages": ["Not available"],
-      "risks": ["Name and ratings unverified"],
-      "usageTriggers": ["Prioritize if catch efficiency or route-family efficiency is verified"],
+      "weeklyRole": "Primary all-around receiver and first read on chain-moving concepts.",
+      "workloadTarget": "6-9 targets plus selective motion/gadget work.",
+      "bestConcepts": [
+        "quick pass",
+        "intermediate pass",
+        "RPO"
+      ],
+      "bestFormations": [
+        "Shotgun",
+        "Pistol"
+      ],
+      "matchupAdvantages": [
+        "93 agility/COD and 89 awareness fit mesh, glance and option routes"
+      ],
+      "risks": [
+        "No verified season target total in supplied footage"
+      ],
+      "usageTriggers": [
+        "Feature on 3rd-and-medium and RPO access throws"
+      ],
       "priorityLabel": "High Usage"
     },
     "WR2": {
       "id": "WR2",
-      "name": "Name unverified",
+      "name": "K. Evans",
       "position": "WR",
       "depthRole": "WR2",
-      "overall": null,
-      "attributes": {},
+      "overall": 80,
+      "attributes": {
+        "speed": 87,
+        "acceleration": 90,
+        "agility": 96,
+        "changeOfDirection": 93,
+        "strength": 81,
+        "awareness": 92,
+        "catching": 84
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "receptions": 5,
+        "receivingYards": 41,
+        "yardsPerReception": 8.2,
+        "receivingTouchdowns": 1,
+        "yardsAfterCatch": 3,
+        "yardsAfterCatchAverage": 0.6,
+        "longReception": 11,
+        "drops": 1
+      },
       "rollingStats": {},
-      "weeklyRole": "Chain-moving and quick-game candidate.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["quick pass", "intermediate pass"],
-      "bestFormations": ["Pistol", "Shotgun"],
-      "matchupAdvantages": ["Average Purdue linebacker group on crossers/mesh"],
-      "risks": ["Name and ratings unverified"],
-      "usageTriggers": ["Increase after sacks or pressure"],
-      "priorityLabel": "Rotational"
+      "weeklyRole": "High-awareness possession target and red-zone option.",
+      "workloadTarget": "5-8 targets.",
+      "bestConcepts": [
+        "quick pass",
+        "intermediate pass",
+        "red zone pass"
+      ],
+      "bestFormations": [
+        "Shotgun",
+        "Pistol"
+      ],
+      "matchupAdvantages": [
+        "92 awareness, 96 agility and 81 strength fit traffic catches against linebackers"
+      ],
+      "risks": [
+        "One drop last game"
+      ],
+      "usageTriggers": [
+        "Prioritize on 3rd down and condensed red-zone concepts"
+      ],
+      "priorityLabel": "High Usage"
     },
     "WR3": {
       "id": "WR3",
-      "name": "Name unverified",
+      "name": "J. Houston",
       "position": "WR",
       "depthRole": "WR3",
-      "overall": null,
-      "attributes": {},
+      "overall": 81,
+      "attributes": {
+        "speed": 92,
+        "acceleration": 98,
+        "agility": 91,
+        "changeOfDirection": 90,
+        "strength": 60,
+        "awareness": 64,
+        "catching": 80
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "carries": 0,
+        "rushingYards": 0,
+        "receptions": 2,
+        "receivingYards": 29,
+        "yardsPerReception": 14.5,
+        "receivingTouchdowns": 0,
+        "yardsAfterCatch": 1,
+        "yardsAfterCatchAverage": 0.5,
+        "longReception": 25,
+        "drops": 0
+      },
       "rollingStats": {},
-      "weeklyRole": "Rotational receiver.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["quick pass"],
-      "bestFormations": ["Not available"],
-      "matchupAdvantages": ["Not available"],
-      "risks": ["Name and ratings unverified"],
-      "usageTriggers": ["Not available"],
-      "priorityLabel": "Rotational"
+      "weeklyRole": "Primary field-stretcher and first protected deep-shot candidate.",
+      "workloadTarget": "3-6 targets with one or two calculated vertical opportunities.",
+      "bestConcepts": [
+        "deep pass",
+        "play action"
+      ],
+      "bestFormations": [
+        "Shotgun",
+        "Pistol"
+      ],
+      "matchupAdvantages": [
+        "92 speed and 98 acceleration can punish safeties after the run game draws them down"
+      ],
+      "risks": [
+        "64 awareness; do not force long drops against Gillians"
+      ],
+      "usageTriggers": [
+        "Take a shot after successful runs or when Purdue rotates a safety into the box"
+      ],
+      "priorityLabel": "Situational"
     },
     "WR4": {
       "id": "WR4",
-      "name": "Name unverified",
+      "name": "F. Toure",
       "position": "WR",
       "depthRole": "WR4",
-      "overall": null,
-      "attributes": {},
+      "overall": 81,
+      "attributes": {
+        "speed": 88,
+        "acceleration": 88,
+        "agility": 87,
+        "changeOfDirection": 85,
+        "strength": 70,
+        "awareness": 78,
+        "catching": 82
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "carries": 0,
+        "rushingYards": 0,
+        "receptions": 2,
+        "receivingYards": 26,
+        "yardsPerReception": 13.0,
+        "receivingTouchdowns": 1,
+        "yardsAfterCatch": 10,
+        "yardsAfterCatchAverage": 5.0,
+        "longReception": 14,
+        "drops": 0
+      },
       "rollingStats": {},
-      "weeklyRole": "Situational receiver.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["Not available"],
-      "bestFormations": ["Not available"],
-      "matchupAdvantages": ["Not available"],
-      "risks": ["Name and ratings unverified"],
-      "usageTriggers": ["Not available"],
-      "priorityLabel": "Situational"
+      "weeklyRole": "Efficient rotational target with useful YAC and red-zone value.",
+      "workloadTarget": "3-5 targets.",
+      "bestConcepts": [
+        "intermediate pass",
+        "quick pass",
+        "red zone pass"
+      ],
+      "bestFormations": [
+        "Shotgun",
+        "Pistol"
+      ],
+      "matchupAdvantages": [
+        "Scored last game and averaged 5.0 YAC per catch"
+      ],
+      "risks": [
+        "Small last-game sample"
+      ],
+      "usageTriggers": [
+        "Increase after a successful first target or in red-zone rotation"
+      ],
+      "priorityLabel": "Rotational"
     },
     "TE1": {
       "id": "TE1",
-      "name": "Name unverified",
+      "name": "S. Moore",
       "position": "TE",
       "depthRole": "TE1",
-      "overall": null,
-      "attributes": {},
+      "overall": 74,
+      "attributes": {
+        "speed": 75,
+        "acceleration": 82,
+        "agility": 81,
+        "changeOfDirection": 78,
+        "strength": 76,
+        "awareness": 88,
+        "catching": 82
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "receptions": 5,
+        "receivingYards": 69,
+        "yardsPerReception": 13.8,
+        "receivingTouchdowns": 1,
+        "yardsAfterCatch": 13,
+        "yardsAfterCatchAverage": 2.6,
+        "longReception": 25,
+        "drops": 0
+      },
       "rollingStats": {},
-      "weeklyRole": "Boots, seams, stick, flats, mesh and red-zone concepts.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["quick pass", "intermediate pass", "play action"],
-      "bestFormations": ["Pistol", "Goal Line Offense"],
-      "matchupAdvantages": ["Purdue linebackers mostly low 70s"],
-      "risks": ["Name and ratings unverified"],
-      "usageTriggers": ["Increase against linebackers and elite edge pressure as chip/release answer"],
-      "priorityLabel": "High Usage"
+      "weeklyRole": "Featured tight end and primary linebacker matchup target.",
+      "workloadTarget": "5-8 targets plus chip/release responsibility.",
+      "bestConcepts": [
+        "play action",
+        "intermediate pass",
+        "quick pass",
+        "red zone pass"
+      ],
+      "bestFormations": [
+        "Pistol",
+        "Goal Line Offense",
+        "Shotgun"
+      ],
+      "matchupAdvantages": [
+        "88 awareness and a 69-yard, 1-TD last game against a Purdue LB group in the low 70s"
+      ],
+      "risks": [
+        "75 speed limits pure vertical separation"
+      ],
+      "usageTriggers": [
+        "Feature on boots, seams, stick and mesh; use chip help versus Gillians"
+      ],
+      "priorityLabel": "Featured"
     },
     "TE2": {
       "id": "TE2",
-      "name": "Name unverified",
+      "name": "K. Stacy",
       "position": "TE",
       "depthRole": "TE2",
-      "overall": null,
-      "attributes": {},
+      "overall": 72,
+      "attributes": {
+        "speed": 78,
+        "acceleration": 84,
+        "agility": 84,
+        "changeOfDirection": 71,
+        "strength": 63,
+        "awareness": 82,
+        "catching": 84
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "receptions": 4,
+        "receivingYards": 32,
+        "yardsPerReception": 8.0,
+        "receivingTouchdowns": 0,
+        "yardsAfterCatch": 10,
+        "yardsAfterCatchAverage": 2.5,
+        "longReception": 13,
+        "drops": 0
+      },
       "rollingStats": {},
-      "weeklyRole": "Situational heavy personnel.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["play action", "inside run"],
-      "bestFormations": ["Goal Line Offense"],
-      "matchupAdvantages": ["Not available"],
-      "risks": ["Name and ratings unverified"],
-      "usageTriggers": ["Short yardage or protection support"],
-      "priorityLabel": "Situational"
+      "weeklyRole": "Second tight end and reliable underneath chain mover.",
+      "workloadTarget": "3-5 targets in 12 personnel and red-zone packages.",
+      "bestConcepts": [
+        "quick pass",
+        "play action",
+        "red zone pass"
+      ],
+      "bestFormations": [
+        "Pistol",
+        "Goal Line Offense"
+      ],
+      "matchupAdvantages": [
+        "84 catching and clean last-game hands against weaker Purdue linebackers"
+      ],
+      "risks": [
+        "63 strength reduces blocking advantage"
+      ],
+      "usageTriggers": [
+        "Increase in 12 personnel, boots and short-yardage pass looks"
+      ],
+      "priorityLabel": "Rotational"
     },
     "GADGET": {
       "id": "GADGET",
-      "name": "Name unverified",
-      "position": "ATH",
-      "depthRole": "Returner / slot / gadget",
-      "overall": null,
-      "attributes": {},
+      "name": "B. DeMarco",
+      "position": "WR",
+      "depthRole": "WR / gadget",
+      "overall": 80,
+      "attributes": {
+        "speed": 87,
+        "acceleration": 88,
+        "agility": 90,
+        "changeOfDirection": 93,
+        "strength": 62,
+        "awareness": 73,
+        "catching": 88
+      },
       "seasonStats": {},
-      "lastGameStats": {},
+      "lastGameStats": {
+        "carries": 1,
+        "rushingYards": 1,
+        "receptions": 1,
+        "receivingYards": 22,
+        "yardsPerReception": 22.0,
+        "receivingTouchdowns": 0,
+        "yardsAfterCatch": 2,
+        "yardsAfterCatchAverage": 2.0,
+        "longReception": 22,
+        "drops": 0
+      },
       "rollingStats": {},
-      "weeklyRole": "Specialty constraint role only if verified later.",
-      "workloadTarget": "Not available",
-      "bestConcepts": ["screen"],
-      "bestFormations": ["Not available"],
-      "matchupAdvantages": ["Not available"],
-      "risks": ["Name and ratings unverified"],
-      "usageTriggers": ["Not available"],
+      "weeklyRole": "Selective gadget and explosive-changeup receiver.",
+      "workloadTarget": "2-4 touches/targets.",
+      "bestConcepts": [
+        "deep pass",
+        "RPO",
+        "screen"
+      ],
+      "bestFormations": [
+        "Shotgun",
+        "Pistol"
+      ],
+      "matchupAdvantages": [
+        "88 catching and 93 COD; produced a 22-yard reception last game"
+      ],
+      "risks": [
+        "Limited recent volume"
+      ],
+      "usageTriggers": [
+        "Use after repeated base calls to create a constraint or explosive chance"
+      ],
       "priorityLabel": "Situational"
     }
   },

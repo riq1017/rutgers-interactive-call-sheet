@@ -1,0 +1,216 @@
+{
+  "schema_version": "1.0",
+  "team": "Rutgers",
+  "source_priority": [
+    "Rutgers_Recruiting_Engine_5_Video_Seed.zip depth_chart_seed.json",
+    "existing corrected Rutgers video-derived roster.json",
+    "manual review notes remain unresolved where source fields are null"
+  ],
+  "data_quality": {
+    "rule": "Only values clearly readable from supplied footage are populated.",
+    "null_meaning": "Not visible or not confidently readable.",
+    "verification_required": true
+  },
+  "source_video": "IMG_3011.mp4",
+  "source_reference": "reference/IMG_3011_roster_depth_chart_contact.jpg",
+  "players": [
+    {
+      "player_id": "roster-qb-m-york",
+      "display_name": "M. York",
+      "position": "QB",
+      "depth_chart_order": null,
+      "depth_role": null,
+      "overall_displayed": 77,
+      "overall_sidebar_boosted": 78,
+      "class_year": "FR",
+      "redshirt_status": null,
+      "height": "6'1\"",
+      "weight_lbs": 270,
+      "archetype": "Pocket Passer",
+      "development_trait": null,
+      "injury_status": null,
+      "expected_departure": null,
+      "scheme_role": null,
+      "visible_attributes": {},
+      "season_stats": {},
+      "last_game_stats": {},
+      "source_video": "IMG_2965(3).mp4",
+      "source_reference": "reference_frames/roster/roster_01.jpg",
+      "verification_status": "high_confidence_from_frame"
+    },
+    {
+      "player_id": "roster-qb-r-bieniemy",
+      "display_name": "R. Bieniemy",
+      "position": "QB",
+      "depth_chart_order": null,
+      "depth_role": null,
+      "overall_displayed": 77,
+      "overall_sidebar_boosted": null,
+      "class_year": "SO",
+      "redshirt_status": null,
+      "height": null,
+      "weight_lbs": null,
+      "archetype": null,
+      "development_trait": null,
+      "injury_status": null,
+      "expected_departure": null,
+      "scheme_role": null,
+      "visible_attributes": {},
+      "season_stats": {},
+      "last_game_stats": {},
+      "source_video": "IMG_2965(3).mp4",
+      "source_reference": "reference_frames/roster/roster_01.jpg",
+      "verification_status": "medium_confidence_from_frame"
+    },
+    {
+      "player_id": "roster-qb-s-warner",
+      "display_name": "S. Warner",
+      "position": "QB",
+      "depth_chart_order": null,
+      "depth_role": null,
+      "overall_displayed": null,
+      "overall_sidebar_boosted": null,
+      "class_year": "JR",
+      "redshirt_status": "RS",
+      "height": null,
+      "weight_lbs": null,
+      "archetype": null,
+      "development_trait": null,
+      "injury_status": null,
+      "expected_departure": null,
+      "scheme_role": null,
+      "visible_attributes": {},
+      "season_stats": {},
+      "last_game_stats": {},
+      "source_video": "IMG_2965(3).mp4",
+      "source_reference": "reference_frames/roster/roster_01.jpg",
+      "verification_status": "medium_confidence_from_frame"
+    },
+    {
+      "player_id": "roster-qb-j-portillo",
+      "display_name": "J. Portillo",
+      "position": "QB",
+      "depth_chart_order": null,
+      "depth_role": null,
+      "overall_displayed": null,
+      "overall_sidebar_boosted": null,
+      "class_year": "FR",
+      "redshirt_status": null,
+      "height": null,
+      "weight_lbs": null,
+      "archetype": null,
+      "development_trait": null,
+      "injury_status": null,
+      "expected_departure": null,
+      "scheme_role": null,
+      "visible_attributes": {},
+      "season_stats": {},
+      "last_game_stats": {},
+      "source_video": "IMG_2965(3).mp4",
+      "source_reference": "reference_frames/roster/roster_01.jpg",
+      "verification_status": "medium_confidence_from_frame"
+    }
+  ],
+  "position_groups": [
+    {
+      "position": "QB",
+      "players": [
+        "roster-qb-m-york",
+        "roster-qb-r-bieniemy",
+        "roster-qb-s-warner",
+        "roster-qb-j-portillo"
+      ],
+      "unresolved": false
+    },
+    {
+      "position": "HB",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "WR",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "TE",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "LT",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "LG",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "C",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "RG",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "RT",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "EDGE",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "DT",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "OLB",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "MIKE",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "CB",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "FS",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "SS",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "K",
+      "players": [],
+      "unresolved": true
+    },
+    {
+      "position": "P",
+      "players": [],
+      "unresolved": true
+    }
+  ],
+  "unresolved": {
+    "full_depth_chart": "depth_chart_seed.json marks roster/depth chart as manual_transcription_required; no unreadable players were added.",
+    "depth_order": "Existing structured roster did not verify depth-chart order; depth_chart_order remains null.",
+    "non_qb_positions": "No additional non-QB shared roster rows were machine-readable in the supplied seed JSON."
+  }
+}

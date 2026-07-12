@@ -1,7 +1,6 @@
 # KNOWN_LIMITATIONS
 
-- Play-art SVGs are concept-matched schematics from the supplied package, not verified exact in-game route art.
-- Recruiting priority scoring uses neutral values for missing performance, signing, pipeline, interest, cost, and competition metrics.
-- Roster-driven recruiting priority is limited by the small verified roster subset in `data/roster.json`.
-- Static JSON import/export works in-browser, but raw JSON files do not auto-fetch from disk; `data/recruiting_data.js` is the static loader for file and GitHub Pages compatibility.
-- Recruiting filters cover the available verified/null-safe fields; unavailable fields render as `Unknown`.
+- `depth_chart_seed.json` marks the full Rutgers roster/depth chart as manual transcription required, so non-verified roster rows are not added.
+- Depth-chart order, injuries, expected departures, development traits, coach-ability tiers, and most prospect fields remain null unless verified in source data.
+- The live browser smoke was blocked by local URL policy in the in-app browser; static mobile checks and clean ZIP validation passed.
+- Weekly Gameplan matchup modifiers remain neutral when an imported package omits run direction, protection, or matchup matrix data.

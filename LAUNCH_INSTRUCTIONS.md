@@ -1,23 +1,22 @@
 # LAUNCH_INSTRUCTIONS
 
 ## Windows
-
-1. Extract the final ZIP.
-2. Open `Rutgers_Interactive_Call_Sheet_Purdue_v1/index.html` in Chrome or Edge.
-3. Use the bottom navigation to switch between Gameplan, Top Plays, Personnel, Recruiting, and More.
-
-## iPhone
-
-1. Upload the extracted folder to GitHub Pages or any static web host.
-2. Open the published URL in Safari.
-3. Add it to the Home Screen if desired.
-
-## Local Static Server Option
-
-From the extracted project folder:
+Open `index.html` directly, or run a local static server from this folder:
 
 ```powershell
-node -e "require('http').createServer((req,res)=>{const fs=require('fs'),path=require('path');let p=decodeURIComponent(req.url.split('?')[0]);if(p==='/')p='/index.html';fs.readFile(path.join(process.cwd(),p),(e,d)=>{res.writeHead(e?404:200);res.end(e?'not found':d)})}).listen(8766,'127.0.0.1')"
+python -m http.server 8000
 ```
 
-Then open `http://127.0.0.1:8766/`.
+Then open `http://127.0.0.1:8000/`.
+
+## iPhone
+Use the GitHub Pages deployment URL, or serve the folder from Windows on the same network and open the computer's LAN URL in Safari.
+
+## Validation
+Run:
+
+```powershell
+node --check app.js
+node --check tools\validate.js
+node tools\validate.js
+```

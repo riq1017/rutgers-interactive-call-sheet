@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T19:44:35.535Z
+Validated: 2026-07-12T19:56:15.801Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -161,5 +161,15 @@ Validated: 2026-07-12T19:44:35.535Z
 - PASS - Limited matchup edge state renders correctly
 - PASS - Evidence renders as separate rows without serialized objects
 - PASS - Top-three order remains semantic-correction unchanged
+- PASS - Sprint 2.5 design governance docs exist
+- PASS - Design System Governance Standard is indexed from PROJECT_SPEC
+- PASS - Native UI design tokens are present
+- PASS - Premium background and glass card system are present
+- PASS - Premium floating bottom navigation is present
+- PASS - Native page transitions and reduced-motion fallback are present
+- PASS - PWA manifest and app icon are wired for GitHub Pages
+- PASS - Before screenshots exist for key pages
+- PASS - After screenshots exist for key pages
+- PASS - Sprint 2.5 screenshot artifacts are non-empty PNG files
 
 Overall: PASS

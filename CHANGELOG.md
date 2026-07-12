@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Sprint 2.5 premium native app experience
+- Added PWA install metadata, manifest, and a local SVG app icon for static GitHub Pages delivery.
+- Added a native application backdrop, premium gradient background, glass-card overrides, semantic design tokens, floating bottom navigation, page transitions, skeleton states, and reduced-motion support.
+- Added tab scroll memory and smooth tab transitions without changing football recommendation, matchup, player, play, or JSON logic.
+- Refactored permanent standards into `docs/DESIGN_SYSTEM.md`, `docs/JSON_STANDARD.md`, `docs/UI_COMPONENT_STANDARD.md`, `docs/VALIDATION_STANDARD.md`, and `docs/RELEASE_STANDARD.md`, with `PROJECT_SPEC.md` now indexing them.
+- Captured before-and-after 390 x 844 screenshots for Gameplan, Personnel, Top Plays, Matchups, and Recruiting and referenced them in the Sprint 2.5 native UI report.
+- Expanded validation for Sprint 2.5 design governance docs, native tokens, PWA wiring, animation, navigation, and screenshot artifacts.
+
 ## Sprint 2 Pack D gameplan intelligence engine
 - Added `data/weekly/weekly_matchup_summary.json` and static bundle as the coordinator intelligence layer.
 - Rebuilt the Gameplan tab into Offensive Gameplan and Defensive Gameplan sections.

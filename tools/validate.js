@@ -243,6 +243,18 @@ check('Limited matchup edge state renders correctly', engine.matchupEdgeDisplay(
 const evidenceHtml = engine.evidenceRowsHtml(orderedMatchups[0].row.evidence || []);
 check('Evidence renders as separate rows without serialized objects', evidenceHtml.includes('evidence-row-list') && evidenceHtml.includes('evidence-row') && !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(evidenceHtml));
 check('Top-three order remains semantic-correction unchanged', topThreeIds.join('|') === 'rt_vs_redg|c_vs_dt|hb2_vs_sam');
+const sprint25Docs = ['DESIGN_SYSTEM.md','JSON_STANDARD.md','UI_COMPONENT_STANDARD.md','VALIDATION_STANDARD.md','RELEASE_STANDARD.md'];
+const screenshotPages = ['gameplan','personnel','topplays','matchups','recruiting'];
+check('Sprint 2.5 design governance docs exist', sprint25Docs.every(file => fs.existsSync(path.join(root, 'docs', file))));
+check('Design System Governance Standard is indexed from PROJECT_SPEC', fs.readFileSync(path.join(root, 'PROJECT_SPEC.md'), 'utf8').includes('Design System Governance Standard') && fs.readFileSync(path.join(root, 'PROJECT_SPEC.md'), 'utf8').includes('docs/DESIGN_SYSTEM.md'));
+check('Native UI design tokens are present', ['--ds-space-1','--ds-radius-lg','--ds-rutgers','--ds-opponent','--ds-glass','--ds-shadow','--ds-text-hero'].every(token => css.includes(token)));
+check('Premium background and glass card system are present', css.includes('.native-backdrop') && css.includes('backdrop-filter') && css.includes('--ds-glass') && css.includes('.panel:before'));
+check('Premium floating bottom navigation is present', css.includes('.bottom-nav') && css.includes('border-radius:22px') && css.includes('backdrop-filter:blur(24px)'));
+check('Native page transitions and reduced-motion fallback are present', css.includes('@keyframes tabEnter') && css.includes('prefers-reduced-motion') && app.includes('tabScrollPositions'));
+check('PWA manifest and app icon are wired for GitHub Pages', fs.existsSync(path.join(root, 'manifest.webmanifest')) && fs.existsSync(path.join(root, 'assets', 'app-icon.svg')) && index.includes('rel="manifest"') && index.includes('apple-touch-icon'));
+check('Before screenshots exist for key pages', screenshotPages.every(page => fs.existsSync(path.join(root, 'screenshots', 'sprint2_5_before', `${page}_390x844.png`))));
+check('After screenshots exist for key pages', screenshotPages.every(page => fs.existsSync(path.join(root, 'screenshots', 'sprint2_5_after', `${page}_390x844.png`))));
+check('Sprint 2.5 screenshot artifacts are non-empty PNG files', ['sprint2_5_before','sprint2_5_after'].every(dir => screenshotPages.every(page => fs.statSync(path.join(root, 'screenshots', dir, `${page}_390x844.png`)).size > 10000)));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

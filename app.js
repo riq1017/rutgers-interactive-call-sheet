@@ -2415,6 +2415,107 @@ function compactStats(rows, limit = 5) {
   return entries.slice(0, limit).map(([key, value]) => `${labelize(key)} ${cleanValue(value)}`);
 }
 
+function abbrevLabel(label) {
+  const map = {
+    overall: "OVR",
+    speed: "SPD",
+    acceleration: "ACC",
+    agility: "AGI",
+    change_of_direction: "COD",
+    awareness: "AWR",
+    strength: "STR",
+    pass_block: "PBK",
+    run_block: "RBK",
+    throw_power: "THP",
+    power_moves: "PWM",
+    finesse_moves: "FNM",
+    play_recognition: "PRC",
+    zone_coverage: "ZCV",
+    man_coverage: "MCV",
+    catching: "CTH",
+    tackle: "TKL",
+    yards: "YDS",
+    td: "TD",
+    touchdowns: "TD",
+    sacks: "SACK",
+    tackles: "TAK",
+    receptions: "REC",
+    completions: "COMP",
+    attempts: "ATT"
+  };
+  const key = String(label || "").toLowerCase().replace(/\s+/g, "_");
+  return map[key] || labelize(label).split(/\s+/).map(part => part[0]).join("").slice(0, 4).toUpperCase();
+}
+
+function statPairsFromObject(obj = {}, keys = []) {
+  return keys.map(key => ({ label: abbrevLabel(key), value: cleanValue(obj && obj[key]) })).filter(row => row.value);
+}
+
+function firstStatPairs(rows = [], limit = 3) {
+  const pairs = [];
+  (rows || []).forEach(row => {
+    Object.entries(row || {}).forEach(([key, value]) => {
+      if (!["name","player"].includes(key) && !isInternalDisplayKey(key) && cleanValue(value) && pairs.length < limit) pairs.push({ label: abbrevLabel(key), value: cleanValue(value) });
+    });
+  });
+  return pairs;
+}
+
+function sportsStatStrip(pairs = [], fallback = "N/A") {
+  const rows = pairs.filter(row => cleanValue(row && row.value)).slice(0, 6);
+  if (!rows.length) return `<div class="sports-stat-strip limited"><span>${fallback}</span></div>`;
+  return `<div class="sports-stat-strip">${rows.map(row => `<span><b>${cardValue(row.value, "N/A")}</b><em>${cardValue(row.label, "")}</em></span>`).join("")}</div>`;
+}
+
+function playerStatPairs(player, side = "rutgers") {
+  const attrs = player.attributes || player || {};
+  const pos = normalizePosition(player.position);
+  const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
+  const lastRows = statsForPlayer(player, side === "opponent" ? loadOpponentLastGameStats() : loadRutgersLastGameStats());
+  const attributeKeys = /QB/.test(pos) ? ["overall","speed","awareness","acceleration"] :
+    /HB|WR|TE|CB|FS|SS|DB/.test(pos) ? ["overall","speed","acceleration","agility"] :
+    /LT|LG|C|RG|RT|OL/.test(pos) ? ["overall","strength","awareness","run_block","pass_block"] :
+    ["overall","speed","acceleration","awareness","strength"];
+  return [
+    ...statPairsFromObject({ ...attrs, overall: player.overall || player.overall_displayed }, attributeKeys),
+    ...firstStatPairs(seasonRows, 2),
+    ...firstStatPairs(lastRows, 1).map(row => ({ ...row, label: `LG ${row.label}` }))
+  ].slice(0, 6);
+}
+
+function verifiedDevBadge(entity = {}) {
+  const dev = cleanValue(entity.development_trait || entity.dev_trait);
+  return dev && dev !== "N/A" ? `<span class="dev-trait-badge" title="${dev}">${dev}</span>` : "";
+}
+
+function recruitStarsText(model = {}) {
+  const stars = Number(model.stars);
+  if (!Number.isFinite(stars) || stars < 1) return "Stars N/A";
+  const safeStars = Math.max(1, Math.min(5, Math.round(stars)));
+  return `${"&#9733;".repeat(safeStars)}${"&#9734;".repeat(5 - safeStars)}`;
+}
+
+function recruitStatPairs(model = {}) {
+  const attrs = model.attributes || {};
+  return statPairsFromObject(attrs, [
+    "speed",
+    "acceleration",
+    "change_of_direction",
+    "agility",
+    "awareness",
+    "zone_coverage",
+    "man_coverage",
+    "press",
+    "catching",
+    "tackle"
+  ]).slice(0, 6);
+}
+
+function recruitAvatar(model = {}) {
+  const initials = cleanValue(model.name).split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join("").toUpperCase() || "RU";
+  return `<span class="recruit-avatar" aria-hidden="true">${initials}</span>`;
+}
+
 function statBlock(title, rows, fallback = "Limited data") {
   const chips = chipList(compactStats(rows, 8), "stat-chip-row");
   return `<section class="mini-stat-block"><h4>${title}</h4>${chips || `<p>${fallback}</p>`}</section>`;
@@ -3063,24 +3164,42 @@ function renderRosterCards(activeGroup = "QB") {
 function compactPlayerListCard(player, side = "rutgers", group = "") {
   const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
   const role = cleanValue((player.analysis || player.ui_analysis || {}).role || player.weekly_role || player.depth_role || player.archetype);
-  return `<button class="person-card compact-person sports-list-card player-compact-card" type="button" data-player-card data-player-name="${player.name}" onclick="showPlayerDetail('${player.player_id}','${side}','${group}')">
-    ${portraitImg(player, side)}
-    <span><strong>${player.name}</strong><em>${player.position} | ${player.class_year || player.year || "N/A"} | OVR ${player.overall || player.overall_displayed || "N/A"}</em></span>
-    <span class="compact-meta"><b>${role || "Available"}</b><em>${compactStats(seasonRows, 2).join(" | ") || "Stats N/A"}</em></span>
+  const badge = matchupSummaryForPlayer(player, side)[0] || (side === "opponent" ? readableStatus((player.ui_analysis || {}).matchup_priority, "Threat") : "Fit");
+  return `<button class="person-card compact-person sports-list-card player-compact-card sports-athlete-card" type="button" data-player-card data-player-name="${player.name}" onclick="showPlayerDetail('${player.player_id}','${side}','${group}')">
+    <span class="sports-card-left">${portraitImg(player, side)}<i>${side === "rutgers" ? "RU" : activeOpponentName().slice(0, 3).toUpperCase()}</i></span>
+    <span class="sports-card-main"><strong>${player.name}${verifiedDevBadge(player)}</strong><em>${player.position} · ${player.class_year || player.year || "N/A"} · ${player.overall || player.overall_displayed || "N/A"} OVR</em><small>${role || "Available"}</small></span>
+    <span class="sports-card-badge">${badge}</span>
     <span class="chevron">›</span>
+    ${sportsStatStrip(playerStatPairs(player, side))}
   </button>`;
 }
 
 function playerDetailHtml(id, side = "rutgers", group = "") {
   const player = side === "opponent" ? (loadOpponentPlayers() || []).find(row => row.player_id === id) : (loadRutgersRoster().players || []).find(row => row.player_id === id);
   if (!player) return LimitedDataState("Player Detail");
+  const analysis = player.analysis || player.ui_analysis || {};
+  const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
+  const lastRows = statsForPlayer(player, side === "opponent" ? loadOpponentLastGameStats() : loadRutgersLastGameStats());
+  const matchups = matchupSummaryForPlayer(player, side);
+  const related = relatedPlaysForPlayer(player);
   return `<section class="detail-screen player-detail-screen" data-player-detail>
-    <button class="back-button" type="button" onclick="${side === "opponent" ? "const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderOpponent(window.OPPONENT_POSITION_FILTER||'all')" : `showRosterGroup('${group || rosterGroupFor(player.position)}')`}">Back</button>
-    ${premiumPlayerCard(player, side)}
+    <button class="back-button" type="button" onclick="${side === "opponent" ? "const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderOpponent(window.OPPONENT_POSITION_FILTER||'all');restoreDetailScroll('personnel')" : `showRosterGroup('${group || rosterGroupFor(player.position)}');restoreDetailScroll('personnel')`}">Back</button>
+    <header class="sports-profile-hero ${side}">
+      ${portraitImg(player, side, "player-portrait profile-portrait")}
+      <div><span class="team-pill">${side === "rutgers" ? "Rutgers" : activeOpponentName()}</span><h2>${player.name}${verifiedDevBadge(player)}</h2><p>${player.position} · ${player.class_year || player.year || "N/A"} · ${player.overall || player.overall_displayed || "N/A"} OVR</p></div>
+      <b>${matchups[0] || readableStatus(analysis.matchup_priority || analysis.role, "Verified")}</b>
+    </header>
+    ${DetailTabStrip(["Overview", "Attributes", "Stats", "Matchups", "Plays"])}
+    <section class="detail-panel" data-detail-section="Overview">${maybeRow("Position", player.position, "N/A")}${maybeRow("Class", player.class_year || player.year || player.class, "N/A")}${maybeRow("Overall", player.overall || player.overall_displayed, "N/A")}${maybeRow("Depth Role", player.depthRole || analysis.role || analysis.matchup_priority, "N/A")}${maybeRow("Height", player.height, "N/A")}${maybeRow("Weight", player.weight_lbs ? `${player.weight_lbs} lbs` : player.weight, "N/A")}${maybeRow("Archetype", player.archetype, "N/A")}${maybeRow("Weekly Role", usageSummary(player), "N/A")}${maybeRow("Jersey", player.jersey_number || player.jersey, "N/A")}${maybeRow("Hometown", player.hometown, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Attributes"><div class="sports-stat-grid">${lockedAttributeRows(player, 12) || LimitedDataState("Attributes")}</div></section>
+    <section class="detail-panel" data-detail-section="Stats"><div class="sports-stat-card"><h3>Season</h3>${sportsStatStrip(firstStatPairs(seasonRows, 8), "N/A")}</div><div class="sports-stat-card"><h3>Last Game</h3>${sportsStatStrip(firstStatPairs(lastRows, 8), "N/A")}</div></section>
+    <section class="detail-panel" data-detail-section="Matchups">${matchups.length ? chipList(matchups) : LimitedDataState("Matchups")}${maybeRow("Recommendation", analysis.in_game_trigger || analysis.matchup_advantage, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Plays">${related.length ? `<div class="compact-list">${related.slice(0, 6).map(play => `<button class="play-link-row" type="button" onclick="switchTab('topplays')"><img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt=""><span><strong>${play.name}</strong><em>${play.formation} · ${conceptFamily(play)}</em></span></button>`).join("")}</div>` : LimitedDataState("Related Plays")}</section>
   </section>`;
 }
 
 function showPlayerDetail(id, side = "rutgers", group = "") {
+  saveDetailScroll("personnel");
   const panel = $("personnelPanel");
   if (panel) panel.innerHTML = playerDetailHtml(id, side, group);
 }
@@ -3161,6 +3280,16 @@ function opponentPositionBucket(position) {
 }
 
 function opponentPlayerCard(player) {
+  const analysisCompact = player.ui_analysis || {};
+  const roleCompact = cleanValue(player.archetype || analysisCompact.matchup_priority || analysisCompact.summary);
+  const badgeCompact = readableStatus(analysisCompact.matchup_priority || player.archetype, "Threat");
+  return `<button class="person-card compact-person sports-list-card opponent-compact-card sports-athlete-card" type="button" data-opponent-card data-player-name="${player.name}" onclick="showOpponentPlayerDetail('${player.player_id}')">
+    <span class="sports-card-left">${portraitImg(player, "opponent")}<i>${activeOpponentName().slice(0, 3).toUpperCase()}</i></span>
+    <span class="sports-card-main"><strong>${player.name}${verifiedDevBadge(player)}</strong><em>${player.position} &middot; ${player.year || player.class_year || "N/A"} &middot; ${player.overall || "N/A"} OVR</em><small>${roleCompact || "Threat profile"}</small></span>
+    <span class="sports-card-badge">${badgeCompact}</span>
+    <span class="chevron">&rsaquo;</span>
+    ${sportsStatStrip(playerStatPairs(player, "opponent"))}
+  </button>`;
   const seasonRowsCompact = statsForPlayer(player, loadOpponentSeasonStats());
   const keyAttribute = topAttributes(player, 1)[0] || "N/A";
   return `<button class="person-card compact-person sports-list-card opponent-compact-card" type="button" data-opponent-card data-player-name="${player.name}" onclick="showOpponentPlayerDetail('${player.player_id}')">
@@ -3181,6 +3310,7 @@ function opponentPlayerCard(player) {
 }
 
 function opponentPlayerDetailHtml(id) {
+  return playerDetailHtml(id, "opponent", "");
   const player = (loadOpponentPlayers() || []).find(row => row.player_id === id) || {};
   const a = player.ui_analysis || {};
   const seasonRows = statsForPlayer(player, loadOpponentSeasonStats());
@@ -3197,6 +3327,7 @@ function opponentPlayerDetailHtml(id) {
 }
 
 function showOpponentPlayerDetail(id) {
+  saveDetailScroll("personnel");
   const panel = $("personnelPanel");
   if (panel) panel.innerHTML = opponentPlayerDetailHtml(id);
 }
@@ -3583,6 +3714,16 @@ function recruitAttributeRows(prospect = {}) {
 
 function RecruitCard(row, index = 0, mode = "board") {
   const model = resolveRecruitDisplayModel(row);
+  const starText = recruitStarsText(model);
+  const fitBadge = cleanValue(model.schemeFit || model.priority && model.priority.tier || model.action) || "Priority N/A";
+  return `<button class="recruit-card prospect-card compact-prospect sports-list-card recruit-compact-card sports-athlete-card" type="button" data-recruit-card data-prospect-id="${model.prospect_id}" onclick="showRecruitDetail('${model.prospect_id}','${mode}')">
+    <span class="sports-card-left">${recruitAvatar(model)}<i>#${model.boardRank}</i></span>
+    <span class="sports-card-main recruit-card-title"><strong>${model.name}${model.gemVerified ? " &#128142;" : ""}</strong><em>${model.position} &middot; ${starText} &middot; ${model.class}</em><small>${model.archetype || "Archetype N/A"}${model.scouting !== "N/A" ? ` &middot; ${model.scouting}% scouted` : " &middot; Scouting N/A"}</small></span>
+    <span class="sports-card-badge">${fitBadge}</span>
+    <span class="chevron">&rsaquo;</span>
+    ${sportsStatStrip(recruitStatPairs(model), "Attributes N/A")}
+    <span class="sr-only">Overview Scouting Fit Activity</span>
+  </button>`;
   return `<button class="recruit-card prospect-card compact-prospect sports-list-card" type="button" data-recruit-card data-prospect-id="${model.prospect_id}" onclick="showRecruitDetail('${model.prospect_id}','${mode}')">
     <span class="rank-dot">${model.boardRank}</span>
     <span class="recruit-card-title"><strong>${model.gemVerified ? "&#128142; " : ""}${model.name}</strong><em>${model.position} | ${model.class} | ${model.rating || "Stars N/A"} | ${model.state}</em></span>
@@ -3654,6 +3795,20 @@ function recruitDetailHtml(id, mode = "board") {
   const row = [...activeBoardRows(), ...prospectPoolRows()].find(item => item.prospect_id === id || (item.prospect || {}).prospect_id === id || ((item.linked_prospect_ids || [])[0] === id)) || { prospect_id: id };
   const model = resolveRecruitDisplayModel(row);
   const abilityRows = `${maybeRow("Abilities", model.abilities.length ? model.abilities : "N/A", "N/A")}${maybeRow("Mentals", model.mentals.length ? model.mentals : "N/A", "N/A")}${maybeRow("Development Trait", model.developmentTrait, "N/A")}`;
+  const stars = recruitStarsText(model);
+  return `<section class="detail-screen recruit-detail-screen" data-recruit-detail>
+    <button class="back-button" type="button" onclick="renderRecruitList('${mode}');restoreDetailScroll('recruiting')">Back</button>
+    <header class="sports-profile-hero recruit">
+      ${recruitAvatar(model)}
+      <div><span class="team-pill">Recruiting Board #${model.boardRank}</span><h2>${model.name}${model.gemVerified ? " &#128142;" : ""}</h2><p>${model.position} &middot; ${stars} &middot; ${model.class}</p><small>${model.archetype || "Archetype N/A"}${model.scouting !== "N/A" ? ` &middot; ${model.scouting}% scouted` : " &middot; Scouting N/A"}</small></div>
+      <b>${cleanValue(model.schemeFit || model.priority && model.priority.tier) || "Fit N/A"}</b>
+    </header>
+    ${DetailTabStrip(["Overview", "Scouting", "Fit", "Activity"])}
+    <section class="detail-panel" data-detail-section="Overview">${maybeRow("Board Rank", model.boardRank, "N/A")}${maybeRow("Status", model.status, "N/A")}${maybeRow("Class", model.class, "N/A")}${maybeRow("Position", model.position, "N/A")}${maybeRow("Stars", stars, "N/A")}${maybeRow("National Rank", model.nationalRank, "N/A")}${maybeRow("Position Rank", model.positionRank, "N/A")}${maybeRow("State", model.state, "N/A")}${maybeRow("Hometown", model.hometown, "N/A")}${maybeRow("Height", model.height, "N/A")}${maybeRow("Weight", model.weight, "N/A")}${maybeRow("Archetype", model.archetype, "N/A")}${maybeRow("Scouting", model.scouting === "N/A" ? "N/A" : `${model.scouting}%`, "N/A")}${maybeRow("Gem/Bust", model.gem, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Scouting">${sportsStatStrip(recruitStatPairs(model), "Attributes N/A")}${recruitAttributeRows({ attributes: model.attributes })}${abilityRows}</section>
+    <section class="detail-panel" data-detail-section="Fit">${maybeRow("Scheme Fit", model.schemeFit)}${maybeRow("Position Need", model.priority.tier, "N/A")}${maybeRow("Roster Competition", model.rosterCompetition, "N/A")}${maybeRow("Projected Role", model.projectedRole, "N/A")}${maybeRow("Recruiting Value", model.recruitingValue, "N/A")}${maybeRow("Recommendation", model.action, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Activity">${maybeRow("Status", model.status, "N/A")}${maybeRow("Weekly Priority", model.priority.tier, "N/A")}${maybeRow("Interest Movement", "N/A", "N/A")}${maybeRow("Action History", model.reason, "N/A")}${maybeRow("Next Action", model.action, "N/A")}</section>
+  </section>`;
   return `<section class="detail-screen recruit-detail-screen" data-recruit-detail>
     <button class="back-button" type="button" onclick="renderRecruitList('${mode}')">Back</button>
     ${CardHeader({ eyebrow: `#${model.boardRank} ${model.status}`, title: `${model.gemVerified ? "&#128142; " : ""}${model.name}`, subtitle: `${model.position} | ${model.class} | ${model.archetype}`, badge: Badge(model.scouting === "N/A" ? "Scouting N/A" : `${model.scouting}% scouted`, "important") })}
@@ -3666,6 +3821,7 @@ function recruitDetailHtml(id, mode = "board") {
 }
 
 function showRecruitDetail(id, mode = "board") {
+  saveDetailScroll("recruiting");
   const target = $("recruitList");
   if (target) target.innerHTML = recruitDetailHtml(id, mode);
 }
@@ -3768,7 +3924,19 @@ function setStatus(message) {
 }
 
 const tabScrollPositions = {};
+const detailScrollPositions = {};
 let activeTabName = "gameplan";
+
+function saveDetailScroll(key) {
+  if (typeof window === "undefined") return;
+  detailScrollPositions[key] = window.scrollY || 0;
+}
+
+function restoreDetailScroll(key) {
+  if (typeof window === "undefined") return;
+  const y = detailScrollPositions[key] || 0;
+  setTimeout(() => window.scrollTo(0, y), 0);
+}
 
 function switchTab(tabName, shouldScroll = true) {
   if (activeTabName) tabScrollPositions[activeTabName] = window.scrollY;
@@ -3866,6 +4034,8 @@ if (typeof module !== "undefined") {
     premiumPlayerCard,
     matchupRow,
     renderPersonnelOverview,
+    compactPlayerListCard,
+    playerDetailHtml,
     opponentPlayerCard,
     renderRosterCards,
     renderMatchups,
@@ -3904,6 +4074,9 @@ if (typeof module !== "undefined") {
     RecruitCard,
     resolveRecruitDisplayModel,
     recruitDetailHtml,
+    recruitStarsText,
+    recruitStatPairs,
+    sportsStatStrip,
     resolvedSchemeFit,
     comparisonRowsTable,
     lockedPlayCard,

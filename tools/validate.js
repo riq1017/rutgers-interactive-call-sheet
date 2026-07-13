@@ -112,7 +112,7 @@ check('W. Boudreaux shown attributes belong to his prospect_id', Object.entries(
 check('W. Boudreaux ability, mental, and development trait resolve', (wBoudreaux.abilities || []).includes('Robber') && (wBoudreaux.mentals || []).includes('Winning Time') && wBoudreaux.development_trait === 'Hidden');
 check('W. Boudreaux card displays verified fields and source-missing board rank as N/A', ['W. Boudreaux','FS','6\'0"','210 lbs','Coverage Specialist','Rock Island, IL','100%','Robber','Winning Time','Hidden','Speed','91','Zone Coverage','77'].every(token => wBoudreauxHtml.includes(token)) && wBoudreauxHtml.includes('<span>Board Rank</span><strong>N/A</strong>') && !wBoudreauxHtml.includes('Limited data'));
 const explicitRankRows = boardRows.filter(row => row.board_order !== null && row.board_order !== undefined);
-const boardRankMismatches = explicitRankRows.filter(row => !engine.RecruitCard(row, 0, 'board').includes(`<span class="rank-dot">${row.board_order}</span>`));
+const boardRankMismatches = explicitRankRows.filter(row => !engine.RecruitCard(row, 0, 'board').includes(`<i>#${row.board_order}</i>`));
 check('Recruit board rank uses explicit board_order and never array index fallback', boardRankMismatches.length === 0 && engine.recruitDetailHtml('w-boudreaux', 'prospects').includes('<span>Board Rank</span><strong>N/A</strong>'), `mismatches=${boardRankMismatches.length}`);
 const boardJoinResults = boardRows.map(row => engine.resolveRecruitScoutingById(row.prospect_id, row));
 const recruitFailedJoins = boardJoinResults.filter(row => row.state === 'join_failed');
@@ -123,7 +123,7 @@ check('Verified recruit ability, mental, and development fields attach to owning
   return (prospect.abilities || []).every(item => html.includes(item)) && (prospect.mentals || []).every(item => html.includes(item)) && (!prospect.development_trait || html.includes(prospect.development_trait));
 }));
 const verifiedDevelopmentTraitIds = RUTGERS_ROSTER_BASE.players.filter(player => player.development_trait || player.dev_trait).map(player => player.player_id);
-check('Verified development traits are source-driven and not invented', verifiedDevelopmentTraitIds.length === 0 ? !app.includes('development-trait-badge') : verifiedDevelopmentTraitIds.every(id => engine.premiumPlayerCard(rutgersRosterById.get(id), 'rutgers').includes(rutgersRosterById.get(id).development_trait || rutgersRosterById.get(id).dev_trait)));
+check('Verified development traits are source-driven and not invented', verifiedDevelopmentTraitIds.length === 0 ? RUTGERS_ROSTER_BASE.players.every(player => !engine.compactPlayerListCard(player, 'rutgers', engine.normalizePosition(player.position)).includes('dev-trait-badge')) : verifiedDevelopmentTraitIds.every(id => engine.compactPlayerListCard(rutgersRosterById.get(id), 'rutgers', engine.normalizePosition(rutgersRosterById.get(id).position)).includes(rutgersRosterById.get(id).development_trait || rutgersRosterById.get(id).dev_trait)));
 const olineSlots = ['LT','LG','C','RG','RT'];
 const olineJoinRows = olineSlots.map(slot => engine.resolveDepthSlotByPlayerId(slot));
 check('Position alias normalization does not silently guess generic line sides', engine.normalizePosition('LT') === 'LT' && engine.normalizePosition('RT') === 'RT' && engine.normalizePosition('T') === 'T' && engine.normalizePosition('G') === 'G' && engine.normalizePosition('OL') === 'OL' && engine.normalizePosition('REDG') === 'EDGE' && engine.normalizePosition('RB') === 'HB');
@@ -232,6 +232,25 @@ const visibleInternalIds = [
 check('Internal IDs are hidden from rendered production card text', visibleInternalIds.length === 0 && !/Related play IDs|Play ID|prospect_id|player_id|matchup_id|play_id|Join state/i.test(renderedCardText), `visible=${visibleInternalIds.slice(0,5).join(',')}`);
 check('Raw internal production status keys are hidden from rendered card text', !/\b(active_target|source_missing|join_failed|verified_matchup_data|limited_lane_scoring)\b/i.test(renderedCardText + engine.renderCoordinatorDashboard() + engine.renderOpponent('all')));
 check('Player and recruit detail behavior uses dedicated screens instead of inline default expansion', app.includes('data-recruit-detail') && app.includes('data-opponent-detail') && app.includes('data-player-detail') && engine.RecruitCard(boardRows[0], 0, 'board').startsWith('<button') && engine.renderOpponent('all').includes('opponent-compact-card'));
+const rutgersCompactCards = RUTGERS_ROSTER_BASE.players.map(player => engine.compactPlayerListCard(player, 'rutgers', engine.normalizePosition(player.position)));
+const opponentCompactCards = PURDUE_OPPONENT_PLAYERS.players.map(player => engine.opponentPlayerCard(player));
+const boardCompactCards = activeBoardRowsForValidation(boardRows, RECRUITING_CLASS.prospects).slice(0, 35).map((row, index) => engine.RecruitCard(row, index, 'board'));
+function activeBoardRowsForValidation(board, prospects) {
+  const byId = new Map(prospects.map(row => [row.prospect_id, row]));
+  return board.map(row => ({ ...row, prospect: byId.get(row.prospect_id) || byId.get((row.linked_prospect_ids || [])[0]) || {} }));
+}
+const compactCardContract = html => html.startsWith('<button') && html.includes('sports-athlete-card') && html.includes('sports-card-left') && html.includes('sports-card-main') && html.includes('sports-card-badge') && html.includes('sports-stat-strip') && !html.includes('<details');
+check('Rutgers compact player cards use one sports-app layout', rutgersCompactCards.length === 48 && rutgersCompactCards.every(compactCardContract));
+check('Purdue compact player cards use one sports-app layout', opponentCompactCards.length === 16 && opponentCompactCards.every(compactCardContract));
+check('Recruit compact cards use one sports-app layout', boardCompactCards.length === 35 && boardCompactCards.every(html => compactCardContract(html) && html.includes('recruit-compact-card')));
+check('Compact cards keep internal IDs out of visible text', !visibleInternalIds.some(id => [...rutgersCompactCards, ...opponentCompactCards, ...boardCompactCards].map(textOnly).join(' ').includes(id)));
+const verifiedStarProspects = RECRUITING_CLASS.prospects.filter(prospect => Number(prospect.stars) > 0);
+check('Recruit star ratings are video-source driven only', verifiedStarProspects.length === 0 ? boardCompactCards.every(html => html.includes('Stars N/A')) : verifiedStarProspects.every(prospect => engine.RecruitCard({ ...prospect, prospect }, 0, 'prospect').includes('&#9733;')));
+check('Verified recruit gem badges are source-driven only', verifiedGemIds.length === 0 ? !boardCompactCards.join('\n').includes('&#128142;') : verifiedGemIds.every(id => engine.RecruitCard({ ...prospectById.get(id), prospect: prospectById.get(id) }, 0, 'prospect').includes('&#128142;')));
+check('Dedicated player detail screens expose sports profile hero and required tabs', RUTGERS_ROSTER_BASE.players.every(player => { const html = engine.playerDetailHtml(player.player_id, 'rutgers', engine.normalizePosition(player.position)); return html.includes('sports-profile-hero') && ['Overview','Attributes','Stats','Matchups','Plays'].every(token => html.includes(token)) && html.indexOf('Season') < html.indexOf('Last Game'); }));
+check('Dedicated Purdue detail screens expose sports profile hero and required tabs', PURDUE_OPPONENT_PLAYERS.players.every(player => { const html = engine.opponentPlayerDetailHtml(player.player_id); return html.includes('sports-profile-hero opponent') && ['Overview','Attributes','Stats','Matchups','Plays'].every(token => html.includes(token)); }));
+check('Dedicated recruit detail screens expose sports profile hero and required tabs', boardRows.slice(0, 35).every(row => { const html = engine.recruitDetailHtml(row.prospect_id, 'board'); return html.includes('sports-profile-hero recruit') && ['Overview','Scouting','Fit','Activity'].every(token => html.includes(token)); }));
+check('Back navigation and scroll restoration helpers are wired', app.includes('function saveDetailScroll') && app.includes('function restoreDetailScroll') && app.includes("restoreDetailScroll('personnel')") && app.includes("restoreDetailScroll('recruiting')"));
 check('Uniform player and recruit card tab contracts render', RUTGERS_ROSTER_BASE.players.every(player => engine.premiumPlayerCard(player, 'rutgers').includes('Overview') && engine.premiumPlayerCard(player, 'rutgers').includes('Attributes') && engine.premiumPlayerCard(player, 'rutgers').includes('Matchups') && engine.premiumPlayerCard(player, 'rutgers').includes('Plays')) &&
   RECRUITING_CLASS.prospects.every((prospect, index) => { const html = engine.RecruitCard({ ...prospect, prospect }, index, 'prospect'); return html.includes('Overview') && html.includes('Scouting') && html.includes('Fit') && html.includes('Activity'); }));
 const packBIds = ['dashboard_game_header','dashboard_featured_player','dashboard_biggest_risk','dashboard_best_run_lane','dashboard_protection_call','dashboard_passing_focus','dashboard_red_zone_plan','dashboard_third_down_plan','dashboard_top_matchups_preview','dashboard_alerts','dashboard_tempo','team_card_rutgers','team_card_opponent'];
@@ -453,6 +472,7 @@ const sprint25Docs = ['DESIGN_SYSTEM.md','JSON_STANDARD.md','UI_COMPONENT_STANDA
 const screenshotPages = ['gameplan','personnel','topplays','matchups','recruiting'];
 const correction2ScreenshotPages = ['gameplan_top','gameplan_run','gameplan_passing','gameplan_protection','topplays_best','topplays_top3','topplays_library','personnel','matchups','recruiting_cards','recruiting_expanded'];
 const productionBindingScreens = ['compact_gameplan','best_run_arrow','protection_card','topplays_best','topplays_top3','full_play_list','purdue_full_roster','purdue_player_detail','recruiting_compact_board','recruiting_top3','recruit_detail_scouting','recovered_recruit_detail'];
+const sportsAppCardScreens = ['rutgers_compact_player_list','rutgers_player_card_with_dev_trait','rutgers_player_detail_overview','rutgers_player_detail_stats','purdue_compact_roster_list','purdue_player_detail','recruiting_compact_board','recruit_card_with_star_rating','recruit_card_with_gem','recruit_detail_scouting','back_navigation_restored'];
 check('Sprint 2.5 design governance docs exist', sprint25Docs.every(file => fs.existsSync(path.join(root, 'docs', file))));
 check('Design System Governance Standard is indexed from PROJECT_SPEC', fs.readFileSync(path.join(root, 'PROJECT_SPEC.md'), 'utf8').includes('Design System Governance Standard') && fs.readFileSync(path.join(root, 'PROJECT_SPEC.md'), 'utf8').includes('docs/DESIGN_SYSTEM.md'));
 check('Native UI design tokens are present', ['--ds-space-1','--ds-radius-lg','--ds-rutgers','--ds-opponent','--ds-glass','--ds-shadow','--ds-text-hero'].every(token => css.includes(token)));
@@ -467,6 +487,11 @@ check('Sprint 2.5 correction 2 screenshots exist at both required mobile viewpor
 check('Sprint 2.5 correction 2 screenshot artifacts are non-empty PNG files', ['390x844','430x932'].every(size => correction2ScreenshotPages.every(page => fs.statSync(path.join(root, 'screenshots', `sprint2_5_correction2_${size}`, `${page}.png`)).size > 10000)));
 check('Production binding screenshots exist at 390x844 and 430x932', ['390x844','430x932'].every(size => productionBindingScreens.every(page => fs.existsSync(path.join(root, 'screenshots', `production_binding_${size}`, `${page}.png`)))));
 check('Production binding screenshot artifacts are non-empty PNG files', ['390x844','430x932'].every(size => productionBindingScreens.every(page => fs.statSync(path.join(root, 'screenshots', `production_binding_${size}`, `${page}.png`)).size > 10000)));
+check('Sports-app card screenshots exist at 390x844 and 430x932', ['390x844','430x932'].every(size => sportsAppCardScreens.every(page => fs.existsSync(path.join(root, 'screenshots', `sports_app_cards_${size}`, `${page}.png`)))));
+check('Sports-app card screenshot artifacts are non-empty PNG files', ['390x844','430x932'].every(size => sportsAppCardScreens.every(page => {
+  const file = path.join(root, 'screenshots', `sports_app_cards_${size}`, `${page}.png`);
+  return fs.existsSync(file) && fs.statSync(file).size > 10000;
+})));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

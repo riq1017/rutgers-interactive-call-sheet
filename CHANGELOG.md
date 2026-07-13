@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Sports-app player and recruit card redesign
+- Replaced active Rutgers, Purdue, and recruit list cards with compact sports-app cards using portrait-left, data-center, badge-right, and bottom stat-strip structure.
+- Added dedicated sports profile detail screens for Rutgers players, Purdue players, and recruits with hero sections, sticky detail tabs, separated Season and Last Game stats, and list back-navigation with scroll restoration.
+- Added source-driven recruit star and gem rendering: current verified JSON contains no numeric star or gem fields, so the UI shows `Stars N/A` and no gem badge instead of inventing values.
+- Added source-driven development-trait badges for compact player cards; current verified Rutgers/Purdue player data contains no dev-trait fields, so no trait badges are invented.
+- Added sports-app screenshot capture at 390x844 and 430x932 for Rutgers player list/detail, Purdue roster/detail, Recruiting board/detail, and back-navigation restoration.
+- Expanded validation for compact card layout consistency, hidden internal IDs, star/gem/dev-trait source ownership, dedicated detail screens, scroll restoration, screenshot artifacts, and static GitHub Pages favicon loading.
+
 ## Production binding and sports-app correction
 - Added canonical recruit display-model resolution from the video-verified Rutgers board and four-star class packages.
 - Converted Recruiting to sports-app compact cards, ranked Top 3 action rows, and dedicated recruit detail screens.

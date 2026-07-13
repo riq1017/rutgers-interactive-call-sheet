@@ -93,6 +93,14 @@ Recruiting owns the recruiting board, every prospect card, scheme fit, recruitin
 
 Gameplan must not own the full play library, play filters, play search, Top 3 selector, repeated full play cards, or Rutgers-vs-opponent raw comparison sections.
 
+## I.4 Sports-App Card Interaction Standard
+
+Rutgers players, weekly opponent players, and recruits use compact list-first cards. Compact cards must use one shared sports-app structure: portrait or avatar on the left, identity and verified role data in the center, one fit/threat/priority badge on the right, and a bottom strip of 4-6 verified metrics.
+
+Full player and recruit information belongs on dedicated detail screens, not giant inline expanded cards. Detail screens must provide a hero, tab strip, separated stats sections, and a back action that returns to the prior list with filter and scroll context preserved where practical.
+
+Recruit stars, recruit gem status, and player development traits are rendered only when present in connected video-verified or authoritative JSON. Absence renders `N/A` or no badge; the UI must not infer stars, gems, or development traits from rank, position, or roster role.
+
 ## J. Validation Standards
 
 Required checks include roster count, media coverage, registry coverage, portrait existence, required position coverage, matchup ID resolution, play count, play ID uniqueness, no raw object coercion, mobile overflow safeguards, and GitHub Pages static compatibility.

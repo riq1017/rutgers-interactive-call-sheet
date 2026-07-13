@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T01:18:17.041Z
+Validated: 2026-07-13T02:27:41.589Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -71,6 +71,16 @@ Validated: 2026-07-13T01:18:17.041Z
 - PASS - Internal IDs are hidden from rendered production card text (visible=)
 - PASS - Raw internal production status keys are hidden from rendered card text
 - PASS - Player and recruit detail behavior uses dedicated screens instead of inline default expansion
+- PASS - Rutgers compact player cards use one sports-app layout
+- PASS - Purdue compact player cards use one sports-app layout
+- PASS - Recruit compact cards use one sports-app layout
+- PASS - Compact cards keep internal IDs out of visible text
+- PASS - Recruit star ratings are video-source driven only
+- PASS - Verified recruit gem badges are source-driven only
+- PASS - Dedicated player detail screens expose sports profile hero and required tabs
+- PASS - Dedicated Purdue detail screens expose sports profile hero and required tabs
+- PASS - Dedicated recruit detail screens expose sports profile hero and required tabs
+- PASS - Back navigation and scroll restoration helpers are wired
 - PASS - Uniform player and recruit card tab contracts render
 - PASS - Pack B registry entries exist
 - PASS - Dashboard order resolves from registry
@@ -243,5 +253,7 @@ Validated: 2026-07-13T01:18:17.041Z
 - PASS - Sprint 2.5 correction 2 screenshot artifacts are non-empty PNG files
 - PASS - Production binding screenshots exist at 390x844 and 430x932
 - PASS - Production binding screenshot artifacts are non-empty PNG files
+- PASS - Sports-app card screenshots exist at 390x844 and 430x932
+- PASS - Sports-app card screenshot artifacts are non-empty PNG files
 
 Overall: PASS

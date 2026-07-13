@@ -101,25 +101,25 @@ check('Recruit attribute objects resolve per prospect and missing values render 
 const verifiedGemIds = RECRUITING_CLASS.prospects.filter(prospect => prospect.gem === true || prospect.gem_status === 'Gem' || prospect.analysis?.gem_status === 'Gem').map(prospect => prospect.prospect_id);
 const recruitClassHtml = RECRUITING_CLASS.prospects.map((prospect, index) => engine.RecruitCard({ ...prospect, prospect }, index, 'prospect')).join('\n');
 check('Verified recruit gem state is source-driven', verifiedGemIds.length === 0 ? !recruitClassHtml.includes('💎') : verifiedGemIds.every(id => engine.RecruitCard({ ...prospectById.get(id), prospect: prospectById.get(id) }, 0, 'prospect').includes('💎')));
-const boardRows = RECRUITING_WEEKLY.active_board || [];
+const boardRows = (global.VIDEO_VERIFIED_RUTGERS_PROSPECT_BOARD || RECRUITING_WEEKLY).active_board || [];
 const wBoudreauxBoard = boardRows.find(row => row.prospect_id === 'w-boudreaux') || {};
 const wBoudreauxJoin = engine.resolveRecruitScoutingById('w-boudreaux', wBoudreauxBoard);
 const wBoudreaux = wBoudreauxJoin.prospect || {};
-const wBoudreauxHtml = engine.RecruitCard(wBoudreauxBoard, 0, 'board');
+const wBoudreauxHtml = engine.recruitDetailHtml('w-boudreaux', 'prospects');
 const wExpectedAttributes = { awareness: 73, speed: 91, acceleration: 91, change_of_direction: 90, agility: 90, man_coverage: 65, zone_coverage: 77, press: 71, catching: 61, tackle: 76 };
 check('W. Boudreaux resolves to exact verified scouting detail record', wBoudreauxJoin.state === 'verified' && wBoudreaux.prospect_id === 'w-boudreaux' && wBoudreaux.name === 'W. Boudreaux' && wBoudreaux.position === 'FS' && wBoudreaux.height === '6\'0"' && wBoudreaux.weight_lbs === 210 && wBoudreaux.archetype === 'Coverage Specialist' && wBoudreaux.hometown === 'Rock Island, IL' && wBoudreaux.scouting_percentage === 100);
 check('W. Boudreaux shown attributes belong to his prospect_id', Object.entries(wExpectedAttributes).every(([key, value]) => wBoudreaux.attributes && wBoudreaux.attributes[key] === value));
 check('W. Boudreaux ability, mental, and development trait resolve', (wBoudreaux.abilities || []).includes('Robber') && (wBoudreaux.mentals || []).includes('Winning Time') && wBoudreaux.development_trait === 'Hidden');
-check('W. Boudreaux card displays verified fields and source-missing board rank as N/A', ['W. Boudreaux','FS','6\'0"','210 lbs','Coverage Specialist','Rock Island, IL','100%','Robber','Winning Time','Hidden','Speed','91','Zone Coverage','77'].every(token => wBoudreauxHtml.includes(token)) && wBoudreauxHtml.includes('<span>Board rank</span><strong>N/A</strong>') && !wBoudreauxHtml.includes('Limited data'));
+check('W. Boudreaux card displays verified fields and source-missing board rank as N/A', ['W. Boudreaux','FS','6\'0"','210 lbs','Coverage Specialist','Rock Island, IL','100%','Robber','Winning Time','Hidden','Speed','91','Zone Coverage','77'].every(token => wBoudreauxHtml.includes(token)) && wBoudreauxHtml.includes('<span>Board Rank</span><strong>N/A</strong>') && !wBoudreauxHtml.includes('Limited data'));
 const explicitRankRows = boardRows.filter(row => row.board_order !== null && row.board_order !== undefined);
-const boardRankMismatches = explicitRankRows.filter(row => !engine.RecruitCard(row, 0, 'board').includes(`<span>Board rank</span><strong>${row.board_order}</strong>`));
-check('Recruit board rank uses explicit board_order and never array index fallback', boardRankMismatches.length === 0 && engine.RecruitCard(wBoudreauxBoard, 31, 'board').includes('<span>Board rank</span><strong>N/A</strong>'), `mismatches=${boardRankMismatches.length}`);
+const boardRankMismatches = explicitRankRows.filter(row => !engine.RecruitCard(row, 0, 'board').includes(`<span class="rank-dot">${row.board_order}</span>`));
+check('Recruit board rank uses explicit board_order and never array index fallback', boardRankMismatches.length === 0 && engine.recruitDetailHtml('w-boudreaux', 'prospects').includes('<span>Board Rank</span><strong>N/A</strong>'), `mismatches=${boardRankMismatches.length}`);
 const boardJoinResults = boardRows.map(row => engine.resolveRecruitScoutingById(row.prospect_id, row));
 const recruitFailedJoins = boardJoinResults.filter(row => row.state === 'join_failed');
 check('Recruit joins distinguish source_missing from join_failed', recruitFailedJoins.length === 0 && boardJoinResults.filter(row => row.state === 'verified').length >= 1);
 check('Every recruit scouting attribute object is owned by matching prospect_id', RECRUITING_CLASS.prospects.every(prospect => prospect.attributes ? prospect.prospect_id && prospectById.get(prospect.prospect_id) === prospect : true));
 check('Verified recruit ability, mental, and development fields attach to owning prospect only', RECRUITING_CLASS.prospects.every(prospect => {
-  const html = engine.RecruitCard({ prospect_id: prospect.prospect_id, prospect }, 0, 'prospect');
+  const html = engine.recruitDetailHtml(prospect.prospect_id, 'prospects');
   return (prospect.abilities || []).every(item => html.includes(item)) && (prospect.mentals || []).every(item => html.includes(item)) && (!prospect.development_trait || html.includes(prospect.development_trait));
 }));
 const verifiedDevelopmentTraitIds = RUTGERS_ROSTER_BASE.players.filter(player => player.development_trait || player.dev_trait).map(player => player.player_id);
@@ -230,6 +230,8 @@ const visibleInternalIds = [
   ...phase1Matchups.matchups.map(row => row.matchup_id)
 ].filter(id => id && renderedCardText.includes(id));
 check('Internal IDs are hidden from rendered production card text', visibleInternalIds.length === 0 && !/Related play IDs|Play ID|prospect_id|player_id|matchup_id|play_id|Join state/i.test(renderedCardText), `visible=${visibleInternalIds.slice(0,5).join(',')}`);
+check('Raw internal production status keys are hidden from rendered card text', !/\b(active_target|source_missing|join_failed|verified_matchup_data|limited_lane_scoring)\b/i.test(renderedCardText + engine.renderCoordinatorDashboard() + engine.renderOpponent('all')));
+check('Player and recruit detail behavior uses dedicated screens instead of inline default expansion', app.includes('data-recruit-detail') && app.includes('data-opponent-detail') && app.includes('data-player-detail') && engine.RecruitCard(boardRows[0], 0, 'board').startsWith('<button') && engine.renderOpponent('all').includes('opponent-compact-card'));
 check('Uniform player and recruit card tab contracts render', RUTGERS_ROSTER_BASE.players.every(player => engine.premiumPlayerCard(player, 'rutgers').includes('Overview') && engine.premiumPlayerCard(player, 'rutgers').includes('Attributes') && engine.premiumPlayerCard(player, 'rutgers').includes('Matchups') && engine.premiumPlayerCard(player, 'rutgers').includes('Plays')) &&
   RECRUITING_CLASS.prospects.every((prospect, index) => { const html = engine.RecruitCard({ ...prospect, prospect }, index, 'prospect'); return html.includes('Overview') && html.includes('Scouting') && html.includes('Fit') && html.includes('Activity'); }));
 const packBIds = ['dashboard_game_header','dashboard_featured_player','dashboard_biggest_risk','dashboard_best_run_lane','dashboard_protection_call','dashboard_passing_focus','dashboard_red_zone_plan','dashboard_third_down_plan','dashboard_top_matchups_preview','dashboard_alerts','dashboard_tempo','team_card_rutgers','team_card_opponent'];
@@ -289,11 +291,13 @@ check('Featured Player and Biggest Threat resolve', rosterIds.has(weeklyMatchupS
 const coordinatorHtml = engine.renderCoordinatorDashboard();
 check('Gameplan is transformed into offensive and defensive coordinator sections', coordinatorHtml.includes('Offensive Gameplan') && coordinatorHtml.includes('Defensive Gameplan') && app.includes('renderCoordinatorDashboard()'));
 const topPlayInventory = engine.topPlayInventory();
+const productionRanking = engine.productionPlayRanking();
 const topPlayHeroHtml = engine.topPlayHeroCard('best');
 const topThreeHeroHtml = engine.topPlayHeroCard('top3');
 const topPlayModeSource = (app.match(/function setTopPlaysMode[\s\S]*?\n}/) || [''])[0];
 check('Top Plays owns Best Play hero with play art and mode controls', topPlayHeroHtml.includes('data-top-plays-hero') && topPlayHeroHtml.includes('top-play-hero-art') && topPlayHeroHtml.includes('class="active" data-top-play-control="best"') && topPlayHeroHtml.includes('data-top-play-control="top3"') && topPlayHeroHtml.includes(topPlayInventory[0].id));
 check('Top Plays owns Top 3 selector without refresh or navigation', topThreeHeroHtml.includes('data-top-three-selector') && (topThreeHeroHtml.match(/data-top-three-row=/g) || []).length === 3 && app.includes('function setTopPlaysMode') && !/location\.href|window\.location/.test(topPlayModeSource));
+check('Production ranking returns one Best Play and three unique Top 3 play IDs', playIds.has(productionRanking.best_play_id) && productionRanking.top_three_play_ids.length === 3 && new Set(productionRanking.top_three_play_ids).size === 3 && productionRanking.top_three_play_ids.every(id => playIds.has(id)) && productionRanking.candidate_count === 192);
 check('Top Plays inventory reaches all 192 verified Oregon play combinations', topPlayInventory.length === 192 && new Set(topPlayInventory.map(play => play.id)).size === 192);
 check('Gameplan no longer renders Top Plays hero, selector, or full play library', !coordinatorHtml.includes('data-top-plays-hero') && !coordinatorHtml.includes('top-three-selector') && !coordinatorHtml.includes('locked-play-card'));
 check('Gameplan removes raw Rutgers Offense vs Opponent Defense comparison wall', !coordinatorHtml.includes('Rutgers Offense vs Opponent Defense') && !coordinatorHtml.includes('offense-comparison-table'));
@@ -321,7 +325,8 @@ check('Personnel includes run direction map', app.includes('function renderRunDi
 check('Run direction map avoids horizontal overflow at phone width', css.includes('grid-template-columns:repeat(auto-fit,minmax(92px,1fr))') && css.includes('overflow-x:hidden'));
 check('Personnel includes protection map', app.includes('function renderProtection') && app.includes('pressure-map') && app.includes('Right edge') && app.includes('highestRiskMatchup'));
 check('Protection map avoids horizontal overflow at phone width', css.includes('grid-template-columns:repeat(auto-fit,minmax(104px,1fr))'));
-check('Personnel includes current opponent accordions', app.includes('function renderOpponent') && app.includes('${activeOpponentName()} Scouting') && app.includes('groupOpponentPlayers') && PURDUE_OPPONENT_PLAYERS.players.length === 16);
+const opponentRosterHtml = engine.renderOpponent('all');
+check('Personnel includes full current opponent roster browser', app.includes('function renderOpponent') && opponentRosterHtml.includes('Full Roster') && (opponentRosterHtml.match(/data-opponent-card/g) || []).length === 16 && new Set((opponentRosterHtml.match(/data-player-name="[^"]+"/g) || [])).size === 16);
 check('Personnel includes matchup cards', app.includes('function renderMatchups') && PURDUE_MATCHUPS.matchups.length >= 3);
 check('Recruiting overview uses real resources', RECRUITING_WEEKLY.resources.scholarship_limit === 35 && RECRUITING_WEEKLY.resources.weekly_hours_total === 440 && app.includes('scholarships_used'));
 check('All recruiting positions are filterable from class data', new Set(RECRUITING_CLASS.prospects.map(p => p.position).filter(Boolean)).size >= 10 && app.includes('filterPosition'));
@@ -349,7 +354,7 @@ check('Repeated Not available is avoided in enriched card renderers', (app.match
 const firstBoardRow = (RECRUITING_WEEKLY.active_board || [])[0] || {};
 const firstProspect = (RECRUITING_CLASS.prospects || []).find(prospect => prospect.prospect_id === firstBoardRow.prospect_id) || {};
 const recruitFixtureHtml = engine.RecruitCard({ ...firstBoardRow, prospect: firstProspect }, 0, 'board');
-check('Weekly action plan renders through reusable RecruitCard records', app.includes('classById') && app.includes('row.prospect_id') && app.includes('RecruitCard({ ...row, prospect }') && recruitFixtureHtml.includes('data-recruit-card'));
+check('Weekly action plan renders as mobile-safe ranked recruiting list', app.includes('ranked-recruit-list') && app.includes('ranked-recruit-row') && recruitFixtureHtml.includes('data-recruit-card') && recruitFixtureHtml.includes('sports-list-card'));
 check('RecruitCard scheme fit values are restricted to approved labels', ['Strong fit','Moderate fit','Weak fit','Insufficient verified data'].every(value => engine.resolvedSchemeFit(value) === value) && engine.resolvedSchemeFit('unknown') === 'Insufficient verified data');
 check('RecruitCard avoids generic evaluate/prioritize/assess instructions', !/Review against roster need|Evaluate how|Prioritize if|Assess whether/i.test(recruitFixtureHtml));
 check('Last Game and Season Stats remain separate with verified files', rutgersLast.package_type === 'rutgers_last_game_stats' && rutgersSeason.package_type === 'rutgers_season_stats' && app.includes('loadRutgersLastGameStats') && app.includes('loadRutgersSeasonStats'));
@@ -447,6 +452,7 @@ check('Top-three order remains semantic-correction unchanged', topThreeIds.join(
 const sprint25Docs = ['DESIGN_SYSTEM.md','JSON_STANDARD.md','UI_COMPONENT_STANDARD.md','VALIDATION_STANDARD.md','RELEASE_STANDARD.md'];
 const screenshotPages = ['gameplan','personnel','topplays','matchups','recruiting'];
 const correction2ScreenshotPages = ['gameplan_top','gameplan_run','gameplan_passing','gameplan_protection','topplays_best','topplays_top3','topplays_library','personnel','matchups','recruiting_cards','recruiting_expanded'];
+const productionBindingScreens = ['compact_gameplan','best_run_arrow','protection_card','topplays_best','topplays_top3','full_play_list','purdue_full_roster','purdue_player_detail','recruiting_compact_board','recruiting_top3','recruit_detail_scouting','recovered_recruit_detail'];
 check('Sprint 2.5 design governance docs exist', sprint25Docs.every(file => fs.existsSync(path.join(root, 'docs', file))));
 check('Design System Governance Standard is indexed from PROJECT_SPEC', fs.readFileSync(path.join(root, 'PROJECT_SPEC.md'), 'utf8').includes('Design System Governance Standard') && fs.readFileSync(path.join(root, 'PROJECT_SPEC.md'), 'utf8').includes('docs/DESIGN_SYSTEM.md'));
 check('Native UI design tokens are present', ['--ds-space-1','--ds-radius-lg','--ds-rutgers','--ds-opponent','--ds-glass','--ds-shadow','--ds-text-hero'].every(token => css.includes(token)));
@@ -459,6 +465,8 @@ check('After screenshots exist for key pages', screenshotPages.every(page => fs.
 check('Sprint 2.5 screenshot artifacts are non-empty PNG files', ['sprint2_5_before','sprint2_5_after'].every(dir => screenshotPages.every(page => fs.statSync(path.join(root, 'screenshots', dir, `${page}_390x844.png`)).size > 10000)));
 check('Sprint 2.5 correction 2 screenshots exist at both required mobile viewports', ['390x844','430x932'].every(size => correction2ScreenshotPages.every(page => fs.existsSync(path.join(root, 'screenshots', `sprint2_5_correction2_${size}`, `${page}.png`)))));
 check('Sprint 2.5 correction 2 screenshot artifacts are non-empty PNG files', ['390x844','430x932'].every(size => correction2ScreenshotPages.every(page => fs.statSync(path.join(root, 'screenshots', `sprint2_5_correction2_${size}`, `${page}.png`)).size > 10000)));
+check('Production binding screenshots exist at 390x844 and 430x932', ['390x844','430x932'].every(size => productionBindingScreens.every(page => fs.existsSync(path.join(root, 'screenshots', `production_binding_${size}`, `${page}.png`)))));
+check('Production binding screenshot artifacts are non-empty PNG files', ['390x844','430x932'].every(size => productionBindingScreens.every(page => fs.statSync(path.join(root, 'screenshots', `production_binding_${size}`, `${page}.png`)).size > 10000)));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

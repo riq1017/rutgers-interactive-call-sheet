@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Production binding and sports-app correction
+- Added canonical recruit display-model resolution from the video-verified Rutgers board and four-star class packages.
+- Converted Recruiting to sports-app compact cards, ranked Top 3 action rows, and dedicated recruit detail screens.
+- Added full Purdue roster browser sourced from `data/video_verified/purdue_roster.json` with compact cards and dedicated opponent detail screens.
+- Added `productionPlayRanking()` so Best Play and Top 3 share one deduped verified-play source.
+- Added visible run-direction arrows and readable protection/status labels in compact Gameplan cards.
+- Converted Rutgers roster lists to compact card-to-detail behavior.
+- Added production binding validation, reports, and phone screenshots at 390x844 and 430x932.
+
 ## CFB27 video-only data package
 - Added `data/video_verified/` JSON and static JS bundles for Rutgers season stats, Purdue season stats, Purdue roster, four-star freshman class, Rutgers prospect board, and the video-only evidence index.
 - Added video-only data generation from the five supplied package videos with timestamp/frame evidence and explicit `N/A` fields.

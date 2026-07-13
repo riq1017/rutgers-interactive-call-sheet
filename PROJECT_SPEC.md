@@ -140,6 +140,18 @@ The static GitHub Pages app loads video-only bundles before `app.js`. App data l
 
 Video-only records must include a source video, timestamp/frame evidence, verified fields, and `N/A` fields. Internal IDs remain hidden from production UI and may appear only in audit JSON or developer reports.
 
+## J.5 Production Binding And Sports-App Interaction
+
+Production recruiting screens resolve through a display model that prefers the video-verified Rutgers prospect board and four-star freshman class packages. If a video-verified value exists for the same canonical recruit identity, the production card or detail screen must use it instead of stale resolver output.
+
+Opponent roster screens render the full active weekly opponent roster from the video-verified opponent roster package when present. Purdue is the current package, but the behavior is weekly-package driven.
+
+Top Plays uses one production ranking object for Best Play and Top 3. Top 3 must contain three unique verified play IDs when at least three eligible verified plays exist.
+
+Roster, opponent, and recruiting lists follow the sports-app pattern: compact card, tap, dedicated detail screen, back. Default list screens must not render giant inline detail pages.
+
+Production UI must translate raw internal status values such as `active_target`, `source_missing`, `verified_matchup_data`, and `limited_lane_scoring` into readable labels or `N/A`.
+
 ## K. Release Workflow
 
 The release workflow is: implement, self-validate, generate reports, phone test, freeze approved component, and use the tagged/frozen baseline for the next pack. Cross-sprint scope leakage is not allowed.

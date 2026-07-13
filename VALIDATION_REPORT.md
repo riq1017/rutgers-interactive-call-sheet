@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T00:32:21.676Z
+Validated: 2026-07-13T01:18:17.041Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -69,6 +69,8 @@ Validated: 2026-07-13T00:32:21.676Z
 - PASS - Video-only records carry timestamp evidence and N/A audit fields
 - PASS - App loaders prefer video-only verified bundles when present
 - PASS - Internal IDs are hidden from rendered production card text (visible=)
+- PASS - Raw internal production status keys are hidden from rendered card text
+- PASS - Player and recruit detail behavior uses dedicated screens instead of inline default expansion
 - PASS - Uniform player and recruit card tab contracts render
 - PASS - Pack B registry entries exist
 - PASS - Dashboard order resolves from registry
@@ -113,6 +115,7 @@ Validated: 2026-07-13T00:32:21.676Z
 - PASS - Gameplan is transformed into offensive and defensive coordinator sections
 - PASS - Top Plays owns Best Play hero with play art and mode controls
 - PASS - Top Plays owns Top 3 selector without refresh or navigation
+- PASS - Production ranking returns one Best Play and three unique Top 3 play IDs
 - PASS - Top Plays inventory reaches all 192 verified Oregon play combinations
 - PASS - Gameplan no longer renders Top Plays hero, selector, or full play library
 - PASS - Gameplan removes raw Rutgers Offense vs Opponent Defense comparison wall
@@ -136,7 +139,7 @@ Validated: 2026-07-13T00:32:21.676Z
 - PASS - Run direction map avoids horizontal overflow at phone width
 - PASS - Personnel includes protection map
 - PASS - Protection map avoids horizontal overflow at phone width
-- PASS - Personnel includes current opponent accordions
+- PASS - Personnel includes full current opponent roster browser
 - PASS - Personnel includes matchup cards
 - PASS - Recruiting overview uses real resources
 - PASS - All recruiting positions are filterable from class data
@@ -160,7 +163,7 @@ Validated: 2026-07-13T00:32:21.676Z
 - PASS - Mobile CSS prevents horizontal overflow and keeps bottom nav fixed
 - PASS - GitHub Pages relative paths are preserved
 - PASS - Repeated Not available is avoided in enriched card renderers
-- PASS - Weekly action plan renders through reusable RecruitCard records
+- PASS - Weekly action plan renders as mobile-safe ranked recruiting list
 - PASS - RecruitCard scheme fit values are restricted to approved labels
 - PASS - RecruitCard avoids generic evaluate/prioritize/assess instructions
 - PASS - Last Game and Season Stats remain separate with verified files
@@ -238,5 +241,7 @@ Validated: 2026-07-13T00:32:21.676Z
 - PASS - Sprint 2.5 screenshot artifacts are non-empty PNG files
 - PASS - Sprint 2.5 correction 2 screenshots exist at both required mobile viewports
 - PASS - Sprint 2.5 correction 2 screenshot artifacts are non-empty PNG files
+- PASS - Production binding screenshots exist at 390x844 and 430x932
+- PASS - Production binding screenshot artifacts are non-empty PNG files
 
 Overall: PASS

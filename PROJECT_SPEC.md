@@ -132,6 +132,14 @@ Canonical IDs remain internal implementation details. Production card text must 
 
 Uniform card contracts are required. Player detail cards use the same Overview, Attributes, Stats, Matchups, and Plays sections. Recruit detail cards use the same Overview, Scouting, Fit, and Activity sections.
 
+## J.4 Video-Only Source Layer
+
+When a `data/video_verified/` package is present, it is the active source layer for the fields it covers. The video-only source layer is generated only from the five CFB27 video-only package videos and must keep unshown or unreadable values as `N/A`.
+
+The static GitHub Pages app loads video-only bundles before `app.js`. App data loaders prefer video-only Rutgers season stats, Purdue season stats, Purdue roster, four-star freshman class, and Rutgers prospect board data when those bundles are present.
+
+Video-only records must include a source video, timestamp/frame evidence, verified fields, and `N/A` fields. Internal IDs remain hidden from production UI and may appear only in audit JSON or developer reports.
+
 ## K. Release Workflow
 
 The release workflow is: implement, self-validate, generate reports, phone test, freeze approved component, and use the tagged/frozen baseline for the next pack. Cross-sprint scope leakage is not allowed.

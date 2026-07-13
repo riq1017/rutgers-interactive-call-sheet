@@ -1,0 +1,1211 @@
+{
+  "schema_version": "1.0",
+  "package_type": "video_verified_purdue_roster",
+  "source_rule": "Only fields represented by the video-only Purdue roster package are verified; absent fields are N/A.",
+  "source_video": "Purdue roster.mp4",
+  "players": [
+    {
+      "player_id": "pur-ledg-y-hernandez",
+      "name": "Y. Hernandez",
+      "position": "LEDG",
+      "year": "JR",
+      "redshirt": true,
+      "overall": 75,
+      "speed": 72,
+      "acceleration": 80,
+      "agility": 74,
+      "change_of_direction": 65,
+      "archetype": "Power Rusher",
+      "height": "6'1\"",
+      "weight_lbs": 221,
+      "hometown": "Atlantic City, NJ",
+      "description": "Compact power edge defender with enough burst to threaten the outside shoulder. His profile is more strength-and-contact oriented than pure speed, so Rutgers should avoid predictable long-developing dropbacks and force him to defend misdirection, screens, and runs that make him change direction.",
+      "gameplan_effect": {
+        "increase": [
+          "quick game",
+          "screens",
+          "boots away",
+          "misdirection",
+          "chip help"
+        ],
+        "decrease": [
+          "isolated tackle protection",
+          "slow-developing dropbacks"
+        ]
+      },
+      "ui_analysis": {
+        "summary": "Compact power edge defender with enough burst to threaten the outside shoulder. His profile is more strength-and-contact oriented than pure speed, so Rutgers should avoid predictable long-developing dropbacks and force him to defend misdirection, screens, and runs that make him change direction.",
+        "strengths": [
+          "Weight Lbs 221",
+          "Acceleration 80",
+          "Overall 75",
+          "Agility 74",
+          "Speed 72"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "quick game",
+          "screens",
+          "boots away",
+          "misdirection",
+          "chip help"
+        ],
+        "gameplan_decrease": [
+          "isolated tackle protection",
+          "slow-developing dropbacks"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "JR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 0,
+        "timestamp": "00:00:00",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0000_00000000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "height",
+        "weight_lbs",
+        "hometown",
+        "overall",
+        "archetype",
+        "development_trait"
+      ],
+      "na_fields": []
+    },
+    {
+      "player_id": "pur-ledg-k-webb",
+      "name": "K. Webb",
+      "position": "LEDG",
+      "year": "SO",
+      "redshirt": true,
+      "overall": 74,
+      "speed": 79,
+      "acceleration": 83,
+      "agility": 83,
+      "change_of_direction": 71,
+      "archetype": null,
+      "height": null,
+      "weight_lbs": null,
+      "description": "The most athletic left-edge option shown. His speed, acceleration, and agility make him a better space defender than a pure power rusher. Rutgers should test his discipline with counters, split-flow action, and screen concepts rather than repeatedly giving him clean pursuit angles.",
+      "gameplan_effect": {
+        "increase": [
+          "counter",
+          "split-flow play action",
+          "screens",
+          "inside runs away from pursuit"
+        ],
+        "decrease": [
+          "slow perimeter runs toward his speed"
+        ]
+      },
+      "ui_analysis": {
+        "summary": "The most athletic left-edge option shown. His speed, acceleration, and agility make him a better space defender than a pure power rusher. Rutgers should test his discipline with counters, split-flow action, and screen concepts rather than repeatedly giving him clean pursuit angles.",
+        "strengths": [
+          "Acceleration 83",
+          "Agility 83",
+          "Speed 79",
+          "Overall 74",
+          "Change Of Direction 71"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "counter",
+          "split-flow play action",
+          "screens",
+          "inside runs away from pursuit"
+        ],
+        "gameplan_decrease": [
+          "slow perimeter runs toward his speed"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "SO",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 1,
+        "timestamp": "00:00:01",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0001_00001000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-ledg-j-lewis",
+      "name": "J. Lewis",
+      "position": "LEDG",
+      "year": "SR",
+      "redshirt": true,
+      "overall": 70,
+      "speed": 78,
+      "acceleration": 78,
+      "agility": 71,
+      "change_of_direction": 68,
+      "description": "Experienced rotational edge defender with solid movement skills but a lower overall ceiling than the top two players. Rutgers can test him with tempo and repeated run-pass conflicts when he rotates in.",
+      "gameplan_effect": {
+        "increase": [
+          "tempo after substitution",
+          "RPOs",
+          "play action"
+        ],
+        "decrease": []
+      },
+      "ui_analysis": {
+        "summary": "Experienced rotational edge defender with solid movement skills but a lower overall ceiling than the top two players. Rutgers can test him with tempo and repeated run-pass conflicts when he rotates in.",
+        "strengths": [
+          "Speed 78",
+          "Acceleration 78",
+          "Agility 71",
+          "Overall 70",
+          "Change Of Direction 68"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "tempo after substitution",
+          "RPOs",
+          "play action"
+        ],
+        "gameplan_decrease": [],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "SR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 2,
+        "timestamp": "00:00:02",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0002_00002000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-redg-q-gillians",
+      "name": "Q. Gillians",
+      "position": "REDG",
+      "year": "JR",
+      "redshirt": true,
+      "overall": 84,
+      "speed": 76,
+      "acceleration": 82,
+      "agility": 71,
+      "change_of_direction": 76,
+      "strength": 78,
+      "awareness": 84,
+      "play_recognition": 81,
+      "power_moves": 85,
+      "finesse_moves": 71,
+      "archetype": "Pure Power",
+      "height": "6'3\"",
+      "weight_lbs": 295,
+      "hometown": "Rochester, NY",
+      "abilities": [
+        "Workhorse",
+        "Hammer"
+      ],
+      "description": "Purdue's most dangerous visible defender. Gillians combines strong awareness and recognition with an 85 power-move rating, making him the primary edge-pressure threat. Rutgers should avoid leaving the right tackle isolated, use chips from the back or tight end, move the launch point away from him, and call quick answers before he can convert speed to power.",
+      "gameplan_effect": {
+        "increase": [
+          "RB chip",
+          "TE chip",
+          "quick game",
+          "screens",
+          "boots away",
+          "max-protection shots"
+        ],
+        "decrease": [
+          "slow-developing dropbacks",
+          "right-side isolation",
+          "deep play action without help"
+        ]
+      },
+      "matchup_priority": "critical",
+      "ui_analysis": {
+        "summary": "Purdue's most dangerous visible defender. Gillians combines strong awareness and recognition with an 85 power-move rating, making him the primary edge-pressure threat. Rutgers should avoid leaving the right tackle isolated, use chips from the back or tight end, move the launch point away from him, and call quick answers before he can convert speed to power.",
+        "strengths": [
+          "Weight Lbs 295",
+          "Power Moves 85",
+          "Overall 84",
+          "Awareness 84",
+          "Acceleration 82"
+        ],
+        "matchup_priority": "critical",
+        "gameplan_increase": [
+          "RB chip",
+          "TE chip",
+          "quick game",
+          "screens",
+          "boots away",
+          "max-protection shots"
+        ],
+        "gameplan_decrease": [
+          "slow-developing dropbacks",
+          "right-side isolation",
+          "deep play action without help"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "JR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 3,
+        "timestamp": "00:00:03",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0003_00003000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "height",
+        "weight_lbs",
+        "hometown",
+        "overall",
+        "archetype",
+        "development_trait"
+      ],
+      "na_fields": []
+    },
+    {
+      "player_id": "pur-redg-d-moses",
+      "name": "D. Moses",
+      "position": "REDG",
+      "year": "JR",
+      "redshirt": true,
+      "overall": 73,
+      "speed": 73,
+      "acceleration": 82,
+      "agility": 75,
+      "change_of_direction": 67,
+      "strength": 76,
+      "awareness": 73,
+      "play_recognition": 80,
+      "power_moves": 73,
+      "finesse_moves": 77,
+      "description": "Balanced rotational edge with decent burst and a slightly better finesse profile than power profile. He is less disruptive than Gillians, so Rutgers should attack more aggressively when he is on the field.",
+      "gameplan_effect": {
+        "increase": [
+          "standard dropback game",
+          "off-tackle runs",
+          "play action"
+        ],
+        "decrease": []
+      },
+      "ui_analysis": {
+        "summary": "Balanced rotational edge with decent burst and a slightly better finesse profile than power profile. He is less disruptive than Gillians, so Rutgers should attack more aggressively when he is on the field.",
+        "strengths": [
+          "Acceleration 82",
+          "Play Recognition 80",
+          "Finesse Moves 77",
+          "Strength 76",
+          "Agility 75"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "standard dropback game",
+          "off-tackle runs",
+          "play action"
+        ],
+        "gameplan_decrease": [],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "JR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 4,
+        "timestamp": "00:00:04",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0004_00004000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-redg-m-sturgis",
+      "name": "M. Sturgis",
+      "position": "REDG",
+      "year": "SO",
+      "overall": 63,
+      "speed": 70,
+      "acceleration": 75,
+      "agility": 75,
+      "change_of_direction": 69,
+      "strength": 73,
+      "awareness": 61,
+      "play_recognition": 62,
+      "power_moves": 70,
+      "finesse_moves": 66,
+      "description": "Young rotational edge with limited awareness and recognition. Rutgers should use tempo, motion, read-option looks, and misdirection to force processing errors.",
+      "gameplan_effect": {
+        "increase": [
+          "tempo",
+          "motion",
+          "read option",
+          "RPO",
+          "misdirection"
+        ],
+        "decrease": []
+      },
+      "ui_analysis": {
+        "summary": "Young rotational edge with limited awareness and recognition. Rutgers should use tempo, motion, read-option looks, and misdirection to force processing errors.",
+        "strengths": [
+          "Acceleration 75",
+          "Agility 75",
+          "Strength 73",
+          "Speed 70",
+          "Power Moves 70"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "tempo",
+          "motion",
+          "read option",
+          "RPO",
+          "misdirection"
+        ],
+        "gameplan_decrease": [],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "SO",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 5,
+        "timestamp": "00:00:05",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0005_00005000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-redg-g-atwood",
+      "name": "G. Atwood",
+      "position": "REDG",
+      "year": "FR",
+      "overall": 61,
+      "speed": 62,
+      "acceleration": 82,
+      "agility": 63,
+      "change_of_direction": 68,
+      "strength": 72,
+      "awareness": 61,
+      "play_recognition": 60,
+      "power_moves": 73,
+      "finesse_moves": 67,
+      "description": "Raw freshman edge with good initial acceleration but poor awareness and play recognition. Rutgers should attack him with option responsibility, counters, boots, and fast tempo.",
+      "gameplan_effect": {
+        "increase": [
+          "option looks",
+          "counter",
+          "boot action",
+          "tempo"
+        ],
+        "decrease": []
+      },
+      "ui_analysis": {
+        "summary": "Raw freshman edge with good initial acceleration but poor awareness and play recognition. Rutgers should attack him with option responsibility, counters, boots, and fast tempo.",
+        "strengths": [
+          "Acceleration 82",
+          "Power Moves 73",
+          "Strength 72",
+          "Change Of Direction 68",
+          "Finesse Moves 67"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "option looks",
+          "counter",
+          "boot action",
+          "tempo"
+        ],
+        "gameplan_decrease": [],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "FR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 6,
+        "timestamp": "00:00:06",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0006_00006000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-dt-d-garner",
+      "name": "D. Garner",
+      "position": "DT",
+      "year": "JR",
+      "redshirt": true,
+      "overall": 76,
+      "speed": 65,
+      "acceleration": 70,
+      "agility": 65,
+      "change_of_direction": 69,
+      "strength": 79,
+      "awareness": 75,
+      "play_recognition": 74,
+      "power_moves": 84,
+      "finesse_moves": 71,
+      "archetype": "Pure Power",
+      "height": "6'3\"",
+      "weight_lbs": 308,
+      "hometown": "Canton, OH",
+      "abilities": [
+        "Workhorse"
+      ],
+      "description": "Purdue's best visible interior defender. Garner is a strong power tackle with an 84 power-move rating and enough strength to disrupt straight-ahead blocking. Rutgers should avoid repeatedly running directly at him without double teams, combination blocks, or misdirection.",
+      "gameplan_effect": {
+        "increase": [
+          "double teams",
+          "zone away",
+          "trap",
+          "wham",
+          "play action off successful doubles"
+        ],
+        "decrease": [
+          "single-block inside runs at his alignment"
+        ]
+      },
+      "matchup_priority": "high",
+      "ui_analysis": {
+        "summary": "Purdue's best visible interior defender. Garner is a strong power tackle with an 84 power-move rating and enough strength to disrupt straight-ahead blocking. Rutgers should avoid repeatedly running directly at him without double teams, combination blocks, or misdirection.",
+        "strengths": [
+          "Weight Lbs 308",
+          "Power Moves 84",
+          "Strength 79",
+          "Overall 76",
+          "Awareness 75"
+        ],
+        "matchup_priority": "high",
+        "gameplan_increase": [
+          "double teams",
+          "zone away",
+          "trap",
+          "wham",
+          "play action off successful doubles"
+        ],
+        "gameplan_decrease": [
+          "single-block inside runs at his alignment"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "JR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 7,
+        "timestamp": "00:00:07",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0007_00007000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "height",
+        "weight_lbs",
+        "hometown",
+        "overall",
+        "archetype",
+        "development_trait"
+      ],
+      "na_fields": []
+    },
+    {
+      "player_id": "pur-dt-b-hanson",
+      "name": "B. Hanson",
+      "position": "DT",
+      "year": "FR",
+      "overall": 73,
+      "speed": 70,
+      "acceleration": 75,
+      "agility": 70,
+      "change_of_direction": 59,
+      "strength": 84,
+      "awareness": 82,
+      "play_recognition": 76,
+      "power_moves": 71,
+      "finesse_moves": 71,
+      "description": "Strong freshman interior defender with surprising awareness. He is difficult to move but less agile laterally, so Rutgers should make him redirect with zone flow, counters, and pullers.",
+      "gameplan_effect": {
+        "increase": [
+          "outside zone",
+          "counter",
+          "pull schemes",
+          "screens"
+        ],
+        "decrease": [
+          "repeated straight-line iso runs"
+        ]
+      },
+      "ui_analysis": {
+        "summary": "Strong freshman interior defender with surprising awareness. He is difficult to move but less agile laterally, so Rutgers should make him redirect with zone flow, counters, and pullers.",
+        "strengths": [
+          "Strength 84",
+          "Awareness 82",
+          "Play Recognition 76",
+          "Acceleration 75",
+          "Overall 73"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "outside zone",
+          "counter",
+          "pull schemes",
+          "screens"
+        ],
+        "gameplan_decrease": [
+          "repeated straight-line iso runs"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "FR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 8,
+        "timestamp": "00:00:08",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0008_00008000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-dt-j-thomas",
+      "name": "J. Thomas",
+      "position": "DT",
+      "year": "SR",
+      "redshirt": true,
+      "overall": 73,
+      "speed": 69,
+      "acceleration": 73,
+      "agility": 64,
+      "change_of_direction": 67,
+      "strength": 79,
+      "awareness": 77,
+      "play_recognition": 72,
+      "power_moves": 78,
+      "finesse_moves": 67,
+      "description": "Veteran rotational tackle with solid strength and power-rush value. He is competent but not dominant, making him a reasonable target for combination blocks and tempo-based fatigue.",
+      "gameplan_effect": {
+        "increase": [
+          "combo blocks",
+          "tempo",
+          "inside zone with leverage"
+        ],
+        "decrease": []
+      },
+      "ui_analysis": {
+        "summary": "Veteran rotational tackle with solid strength and power-rush value. He is competent but not dominant, making him a reasonable target for combination blocks and tempo-based fatigue.",
+        "strengths": [
+          "Strength 79",
+          "Power Moves 78",
+          "Awareness 77",
+          "Overall 73",
+          "Acceleration 73"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "combo blocks",
+          "tempo",
+          "inside zone with leverage"
+        ],
+        "gameplan_decrease": [],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "SR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 9,
+        "timestamp": "00:00:09",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0009_00009000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-dt-t-mcmillian",
+      "name": "T. McMillian",
+      "position": "DT",
+      "year": "FR",
+      "redshirt": true,
+      "overall": 71,
+      "speed": 67,
+      "acceleration": 84,
+      "agility": 84,
+      "change_of_direction": 62,
+      "strength": 83,
+      "awareness": 60,
+      "play_recognition": 78,
+      "power_moves": 77,
+      "finesse_moves": 75,
+      "description": "Explosive but raw interior defender. His acceleration and agility can create sudden penetration, while low awareness makes him vulnerable to traps, misdirection, and screen action.",
+      "gameplan_effect": {
+        "increase": [
+          "trap",
+          "wham",
+          "screens",
+          "draws",
+          "misdirection"
+        ],
+        "decrease": [
+          "slow mesh-point runs into immediate penetration"
+        ]
+      },
+      "ui_analysis": {
+        "summary": "Explosive but raw interior defender. His acceleration and agility can create sudden penetration, while low awareness makes him vulnerable to traps, misdirection, and screen action.",
+        "strengths": [
+          "Acceleration 84",
+          "Agility 84",
+          "Strength 83",
+          "Play Recognition 78",
+          "Power Moves 77"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "trap",
+          "wham",
+          "screens",
+          "draws",
+          "misdirection"
+        ],
+        "gameplan_decrease": [
+          "slow mesh-point runs into immediate penetration"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "FR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 10,
+        "timestamp": "00:00:10",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0010_00010000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-dt-s-draft",
+      "name": "S. Draft",
+      "position": "DT",
+      "year": "SO",
+      "overall": 70,
+      "speed": 71,
+      "acceleration": 87,
+      "agility": 71,
+      "change_of_direction": 67,
+      "strength": 78,
+      "awareness": 66,
+      "play_recognition": 75,
+      "power_moves": 67,
+      "finesse_moves": 83,
+      "description": "Quick interior penetrator with excellent acceleration and an 83 finesse-move rating. Rutgers should be cautious with slow-developing interior runs and should use traps, screens, and quick-hitting concepts against his upfield style.",
+      "gameplan_effect": {
+        "increase": [
+          "trap",
+          "screens",
+          "quick passes",
+          "draws"
+        ],
+        "decrease": [
+          "slow interior zone",
+          "long-developing play action through his gap"
+        ]
+      },
+      "ui_analysis": {
+        "summary": "Quick interior penetrator with excellent acceleration and an 83 finesse-move rating. Rutgers should be cautious with slow-developing interior runs and should use traps, screens, and quick-hitting concepts against his upfield style.",
+        "strengths": [
+          "Acceleration 87",
+          "Finesse Moves 83",
+          "Strength 78",
+          "Play Recognition 75",
+          "Speed 71"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "trap",
+          "screens",
+          "quick passes",
+          "draws"
+        ],
+        "gameplan_decrease": [
+          "slow interior zone",
+          "long-developing play action through his gap"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "SO",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 11,
+        "timestamp": "00:00:11",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0011_00011000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-sam-k-witherspoon",
+      "name": "K. Witherspoon",
+      "position": "SAM",
+      "year": "SO",
+      "overall": 68,
+      "speed": 75,
+      "acceleration": 81,
+      "agility": 75,
+      "change_of_direction": 78,
+      "strength": 70,
+      "awareness": 75,
+      "play_recognition": 58,
+      "tackling": 82,
+      "power": 68,
+      "archetype": "Lurker",
+      "height": "6'1\"",
+      "weight_lbs": 212,
+      "hometown": "Columbus, OH",
+      "description": "Sound tackler with decent movement skills but low play recognition. Rutgers should manipulate him with play action, motion, RPO reads, and route combinations that force him to diagnose quickly.",
+      "gameplan_effect": {
+        "increase": [
+          "play action",
+          "RPO",
+          "motion",
+          "TE option routes"
+        ],
+        "decrease": [
+          "predictable downhill runs directly into his fit"
+        ]
+      },
+      "ui_analysis": {
+        "summary": "Sound tackler with decent movement skills but low play recognition. Rutgers should manipulate him with play action, motion, RPO reads, and route combinations that force him to diagnose quickly.",
+        "strengths": [
+          "Weight Lbs 212",
+          "Tackling 82",
+          "Acceleration 81",
+          "Change Of Direction 78",
+          "Speed 75"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "play action",
+          "RPO",
+          "motion",
+          "TE option routes"
+        ],
+        "gameplan_decrease": [
+          "predictable downhill runs directly into his fit"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "SO",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 12,
+        "timestamp": "00:00:12",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0012_00012000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "height",
+        "weight_lbs",
+        "hometown",
+        "overall",
+        "archetype",
+        "development_trait"
+      ],
+      "na_fields": []
+    },
+    {
+      "player_id": "pur-sam-m-gaston",
+      "name": "M. Gaston",
+      "position": "SAM",
+      "year": "FR",
+      "overall": 68,
+      "speed": 79,
+      "acceleration": 78,
+      "agility": 85,
+      "change_of_direction": 71,
+      "strength": 79,
+      "awareness": 83,
+      "play_recognition": 74,
+      "tackling": 80,
+      "power": 74,
+      "description": "Athletic young linebacker with strong awareness and agility. He closes space well, so Rutgers should avoid exposing slower players to him in open-field matchups and instead use layered route combinations.",
+      "gameplan_effect": {
+        "increase": [
+          "high-low concepts",
+          "misdirection",
+          "route combinations"
+        ],
+        "decrease": [
+          "isolated slow-developing checkdowns in space"
+        ]
+      },
+      "ui_analysis": {
+        "summary": "Athletic young linebacker with strong awareness and agility. He closes space well, so Rutgers should avoid exposing slower players to him in open-field matchups and instead use layered route combinations.",
+        "strengths": [
+          "Agility 85",
+          "Awareness 83",
+          "Tackling 80",
+          "Speed 79",
+          "Strength 79"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "high-low concepts",
+          "misdirection",
+          "route combinations"
+        ],
+        "gameplan_decrease": [
+          "isolated slow-developing checkdowns in space"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "FR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 13,
+        "timestamp": "00:00:13",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0013_00013000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-sam-g-casas",
+      "name": "G. Casas",
+      "position": "SAM",
+      "year": "FR",
+      "overall": 65,
+      "speed": 73,
+      "acceleration": 78,
+      "agility": 76,
+      "change_of_direction": 72,
+      "strength": 87,
+      "awareness": 59,
+      "play_recognition": 68,
+      "tackling": 73,
+      "power": 76,
+      "description": "Strong but inexperienced linebacker. His 87 strength makes him difficult near the box, but low awareness leaves him vulnerable to option reads, play action, and coverage conflicts.",
+      "gameplan_effect": {
+        "increase": [
+          "RPO",
+          "play action",
+          "option",
+          "angle routes"
+        ],
+        "decrease": [
+          "power runs directly at him without leverage"
+        ]
+      },
+      "ui_analysis": {
+        "summary": "Strong but inexperienced linebacker. His 87 strength makes him difficult near the box, but low awareness leaves him vulnerable to option reads, play action, and coverage conflicts.",
+        "strengths": [
+          "Strength 87",
+          "Acceleration 78",
+          "Agility 76",
+          "Power 76",
+          "Speed 73"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "RPO",
+          "play action",
+          "option",
+          "angle routes"
+        ],
+        "gameplan_decrease": [
+          "power runs directly at him without leverage"
+        ],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "FR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 14,
+        "timestamp": "00:00:14",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0014_00014000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    },
+    {
+      "player_id": "pur-sam-b-mcguinness",
+      "name": "B. McGuinness",
+      "position": "SAM",
+      "year": "JR",
+      "overall": 61,
+      "speed": 80,
+      "acceleration": 77,
+      "agility": 70,
+      "change_of_direction": 74,
+      "strength": 69,
+      "awareness": 64,
+      "play_recognition": 68,
+      "tackling": 79,
+      "power": 67,
+      "description": "Fast rotational linebacker with limited overall awareness. Rutgers should use motion and route stems to force communication and exploit assignment errors.",
+      "gameplan_effect": {
+        "increase": [
+          "motion",
+          "mesh",
+          "option routes",
+          "tempo"
+        ],
+        "decrease": []
+      },
+      "ui_analysis": {
+        "summary": "Fast rotational linebacker with limited overall awareness. Rutgers should use motion and route stems to force communication and exploit assignment errors.",
+        "strengths": [
+          "Speed 80",
+          "Tackling 79",
+          "Acceleration 77",
+          "Change Of Direction 74",
+          "Agility 70"
+        ],
+        "matchup_priority": "standard",
+        "gameplan_increase": [
+          "motion",
+          "mesh",
+          "option routes",
+          "tempo"
+        ],
+        "gameplan_decrease": [],
+        "in_game_trigger": "Escalate protection or concept adjustments if this player creates repeated negative plays."
+      },
+      "class_year": "JR",
+      "jersey_number": "N/A",
+      "development_trait": "N/A",
+      "abilities": [],
+      "mentals": [],
+      "source_video": "Purdue roster.mp4",
+      "evidence": {
+        "timestamp_seconds": 15,
+        "timestamp": "00:00:15",
+        "frame": "outputs/cfb27_video_only_package/frames/purdue_roster/frame_0015_00015000ms.png"
+      },
+      "verified_fields": [
+        "player_id",
+        "name",
+        "position",
+        "class_year",
+        "jersey_number",
+        "overall",
+        "development_trait"
+      ],
+      "na_fields": [
+        "height",
+        "weight_lbs",
+        "hometown",
+        "archetype"
+      ]
+    }
+  ]
+}

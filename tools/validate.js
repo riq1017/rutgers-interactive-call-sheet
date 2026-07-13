@@ -4,7 +4,7 @@ const vm = require('vm');
 const root = path.resolve(__dirname, '..');
 const context = { window: {}, localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } };
 vm.createContext(context);
-for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js','data/depth_chart_seed.js','data/phase1_verified_data.js','data/player_media.js','data/card_registry.js','data/weekly/coaching_decisions.js','data/weekly/run_lane_analysis.js','data/weekly/weekly_matchup_summary.js']) {
+for (const file of ['data/rutgers_team.js','data/rutgers_playbook.js','data/weekly_plan.js','data/game_history.js','data/recruiting_data.js','data/engine_data.js','data/depth_chart_seed.js','data/phase1_verified_data.js','data/player_media.js','data/card_registry.js','data/weekly/coaching_decisions.js','data/weekly/run_lane_analysis.js','data/weekly/weekly_matchup_summary.js','data/video_verified/rutgers_season_stats.js','data/video_verified/purdue_season_stats.js','data/video_verified/purdue_roster.js','data/video_verified/four_star_freshman_class.js','data/video_verified/rutgers_prospect_board.js','data/video_verified/video_evidence_index.js']) {
   vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context, { filename: file });
 }
 Object.assign(global, context.window);
@@ -24,7 +24,7 @@ function ctx(down, yards, zone = 'normal', gameState = 'normal') {
   if (gameState === 'protect_lead') key = 'short';
   return { down, dist, distanceYards: yards, zone, gameState, key };
 }
-const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','depth_chart_seed.json','depth_chart_seed.js','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','base/player_identity_registry.json','base/prospect_identity_registry.json','base/play_identity_registry.json','migrations/identity_id_map.json','weekly/opponent_player_media.json','weekly/coaching_decisions.json','weekly/run_lane_analysis.json','weekly/weekly_matchup_summary.json','audit/video_evidence_index.json','player_media.js','card_registry.json','card_registry.js'];
+const requiredFiles = ['rutgers_roster_base.json','rutgers_last_game_stats.json','rutgers_season_stats.json','opponent_last_game_stats.json','opponent_season_stats.json','player_matchups.json','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json','PHASE1_DATA_PACKAGE_MANIFEST.json','recruiting_class.json','recruiting_weekly.json','team_needs.json','coach_recruiting_modifiers.json','gameplan_weekly.json','depth_chart_seed.json','depth_chart_seed.js','APP_DATA_BINDING_REQUIREMENTS.json','base/rutgers_player_media.json','base/player_card_registry.json','base/player_identity_registry.json','base/prospect_identity_registry.json','base/play_identity_registry.json','migrations/identity_id_map.json','weekly/opponent_player_media.json','weekly/coaching_decisions.json','weekly/run_lane_analysis.json','weekly/weekly_matchup_summary.json','audit/video_evidence_index.json','video_verified/rutgers_season_stats.json','video_verified/purdue_season_stats.json','video_verified/purdue_roster.json','video_verified/four_star_freshman_class.json','video_verified/rutgers_prospect_board.json','video_verified/video_evidence_index.json','player_media.js','card_registry.json','card_registry.js'];
 const phase1Transcript = JSON.parse(fs.readFileSync(path.join(root,'data','OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json'), 'utf8'));
 const phase1Matchups = JSON.parse(fs.readFileSync(path.join(root,'data','player_matchups.json'), 'utf8'));
 const cardRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','card_registry.json'), 'utf8'));
@@ -44,6 +44,7 @@ const prospectIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data
 const playIdentityRegistry = JSON.parse(fs.readFileSync(path.join(root,'data','base','play_identity_registry.json'), 'utf8'));
 const identityIdMap = JSON.parse(fs.readFileSync(path.join(root,'data','migrations','identity_id_map.json'), 'utf8'));
 const videoEvidenceIndex = JSON.parse(fs.readFileSync(path.join(root,'data','audit','video_evidence_index.json'), 'utf8'));
+const videoOnlyEvidence = JSON.parse(fs.readFileSync(path.join(root,'data','video_verified','video_evidence_index.json'), 'utf8'));
 check('Authoritative Phase 1 JSON files are present', requiredFiles.every(file => fs.existsSync(path.join(root,'data',file))));
 check('PROJECT_SPEC.md exists', fs.existsSync(path.join(root, 'PROJECT_SPEC.md')));
 check('Sprint 2 card registry exists', fs.existsSync(path.join(root, 'data', 'card_registry.json')) && cardRegistry.package_type === 'card_registry' && cardRegistry.schema_version === '1.0');
@@ -194,6 +195,25 @@ check('Video audit count parity is preserved', videoEvidenceIndex.counts.rutgers
 check('Video evidence records use real-or-null timestamps only', auditRecords.every(row => row.timestamps && ['overview','attributes','stats'].every(key => row.timestamps[key] === null || /^\d{2}:\d{2}(:\d{2})?$/.test(row.timestamps[key]))));
 check('Remaining N/A fields are documented in the recheck report', videoEvidenceIndex.counts.totals.remaining_na_fields >= 0 && fs.readFileSync(path.join(root, 'COMPLETE_APP_NA_RECHECK_REPORT.md'), 'utf8').includes('video checked: yes'));
 check('Video audit unresolved join count is zero', videoEvidenceIndex.counts.totals.unresolved_joins === 0);
+const requiredVideoOnlyReports = [
+  'VIDEO_PACKAGE_INGEST_REPORT.md',
+  'RUTGERS_SEASON_STATS_VIDEO_AUDIT.md',
+  'PURDUE_SEASON_STATS_VIDEO_AUDIT.md',
+  'PURDUE_ROSTER_VIDEO_AUDIT.md',
+  'FOUR_STAR_FRESHMAN_CLASS_VIDEO_AUDIT.md',
+  'RUTGERS_PROSPECT_BOARD_VIDEO_AUDIT.md',
+  'PLAYER_ATTRIBUTE_AND_STAT_EXTRACTION_REPORT.md',
+  'VIDEO_ONLY_NA_REPORT.md',
+  'VIDEO_ONLY_CARD_POPULATION_REPORT.md',
+  'FINAL_VIDEO_ONLY_REGRESSION_REPORT.md'
+];
+check('Video-only required reports exist', requiredVideoOnlyReports.every(file => fs.existsSync(path.join(root, file))));
+check('Video-only evidence index parses and covers all five source videos', videoOnlyEvidence.package_type === 'video_only_evidence_index' && videoOnlyEvidence.source_videos.length === 5 && videoOnlyEvidence.records.length > 0);
+check('Video-only unresolved identity count is zero', videoOnlyEvidence.counts.unresolved_identities === 0);
+check('Video-only JSON card population counts are stable', videoOnlyEvidence.counts.purdue_roster_records === 16 && videoOnlyEvidence.counts.recruit_cards_populated === 62 && videoOnlyEvidence.counts.rutgers_season_stat_records > 0 && videoOnlyEvidence.counts.purdue_season_stat_records > 0);
+check('Video-only bundles load before app.js', index.indexOf('data/video_verified/rutgers_season_stats.js') > index.indexOf('data/weekly/weekly_matchup_summary.js') && index.indexOf('data/video_verified/video_evidence_index.js') < index.indexOf('app.js'));
+check('Video-only records carry timestamp evidence and N/A audit fields', (videoOnlyEvidence.records || []).every(row => row.evidence && /^\d{2}:\d{2}:\d{2}$/.test(row.evidence.timestamp) && Array.isArray(row.verified_fields) && Array.isArray(row.na_fields)));
+check('App loaders prefer video-only verified bundles when present', app.includes('VIDEO_VERIFIED_RUTGERS_SEASON_STATS') && app.includes('VIDEO_VERIFIED_PURDUE_SEASON_STATS') && app.includes('VIDEO_VERIFIED_PURDUE_ROSTER') && app.includes('VIDEO_VERIFIED_FOUR_STAR_FRESHMAN_CLASS') && app.includes('VIDEO_VERIFIED_RUTGERS_PROSPECT_BOARD'));
 const textOnly = html => String(html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 const renderedCardText = [
   ...RUTGERS_ROSTER_BASE.players.map(player => engine.premiumPlayerCard(player, 'rutgers')),

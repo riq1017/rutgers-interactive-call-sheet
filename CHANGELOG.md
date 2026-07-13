@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## CFB27 video-only data package
+- Added `data/video_verified/` JSON and static JS bundles for Rutgers season stats, Purdue season stats, Purdue roster, four-star freshman class, Rutgers prospect board, and the video-only evidence index.
+- Added video-only data generation from the five supplied package videos with timestamp/frame evidence and explicit `N/A` fields.
+- Updated static app loaders so video-only bundles are preferred when present.
+- Added validation for video-only reports, bundle loading, timestamp evidence, unresolved identity count, card population counts, and loader usage.
+- Added required video-only audit, N/A, extraction, card population, and regression reports.
+
 ## Complete video-to-JSON audit
 - Added `data/audit/video_evidence_index.json` generation for every current Rutgers player, opponent player, recruit, verified visible play, and matchup.
 - Added complete video/data recovery reports for Rutgers, opponent, recruiting, plays, remaining `N/A` rechecks, identity integrity, uniform card contracts, sports-app behavior, and final regression.

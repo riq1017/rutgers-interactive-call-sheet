@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-12T23:52:12.652Z
+Validated: 2026-07-13T00:32:21.676Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -61,6 +61,13 @@ Validated: 2026-07-12T23:52:12.652Z
 - PASS - Video evidence records use real-or-null timestamps only
 - PASS - Remaining N/A fields are documented in the recheck report
 - PASS - Video audit unresolved join count is zero
+- PASS - Video-only required reports exist
+- PASS - Video-only evidence index parses and covers all five source videos
+- PASS - Video-only unresolved identity count is zero
+- PASS - Video-only JSON card population counts are stable
+- PASS - Video-only bundles load before app.js
+- PASS - Video-only records carry timestamp evidence and N/A audit fields
+- PASS - App loaders prefer video-only verified bundles when present
 - PASS - Internal IDs are hidden from rendered production card text (visible=)
 - PASS - Uniform player and recruit card tab contracts render
 - PASS - Pack B registry entries exist

@@ -1339,9 +1339,32 @@ function labelForKey(key) {
   return labelize(String(key || "").replace(/_/g, " "));
 }
 
+const INTERNAL_DISPLAY_KEYS = new Set([
+  "player_id",
+  "prospect_id",
+  "play_id",
+  "matchup_id",
+  "schema_version",
+  "package_type",
+  "source_video",
+  "source_videos",
+  "verification_status",
+  "verified_fields",
+  "na_fields",
+  "unresolved_fields",
+  "evidence",
+  "video_file",
+  "frame",
+  "timestamp"
+]);
+
+function isInternalDisplayKey(key) {
+  return INTERNAL_DISPLAY_KEYS.has(String(key || "").toLowerCase());
+}
+
 function formatObjectValue(value, depth = 0) {
   if (!value || typeof value !== "object" || depth > 2) return "";
-  const entries = Object.entries(value).filter(([key, item]) => !["schema_version","package_type","source_video","source_videos","verification_status"].includes(key) && cleanValue(item));
+  const entries = Object.entries(value).filter(([key, item]) => !isInternalDisplayKey(key) && cleanValue(item));
   if (!entries.length) return "";
   const preferred = ["name","player","position","overall","archetype","threat_type","matchup","lane","recommendation","adjustment","summary","description"];
   const ordered = entries.sort(([a], [b]) => {
@@ -1608,10 +1631,15 @@ function loadGameplanWeekly() {
 }
 
 function loadRecruitingClass() {
+  if (typeof VIDEO_VERIFIED_FOUR_STAR_FRESHMAN_CLASS !== "undefined") return VIDEO_VERIFIED_FOUR_STAR_FRESHMAN_CLASS;
   return typeof RECRUITING_CLASS !== "undefined" ? RECRUITING_CLASS : { prospects: [] };
 }
 
 function loadRecruitingWeekly() {
+  if (typeof VIDEO_VERIFIED_RUTGERS_PROSPECT_BOARD !== "undefined") {
+    const base = typeof RECRUITING_WEEKLY !== "undefined" ? RECRUITING_WEEKLY : { resources: {}, active_board: [], team_needs: [] };
+    return { ...base, active_board: VIDEO_VERIFIED_RUTGERS_PROSPECT_BOARD.active_board || [] };
+  }
   return typeof RECRUITING_WEEKLY !== "undefined" ? RECRUITING_WEEKLY : { resources: {}, active_board: [], team_needs: [] };
 }
 
@@ -1624,6 +1652,7 @@ function loadOpponentProfile() {
 }
 
 function loadOpponentPlayers() {
+  if (typeof VIDEO_VERIFIED_PURDUE_ROSTER !== "undefined") return VIDEO_VERIFIED_PURDUE_ROSTER.players || [];
   return (loadGameplanWeekly().opponent_players) || [];
 }
 
@@ -1641,6 +1670,7 @@ function loadRutgersLastGameStats() {
 }
 
 function loadRutgersSeasonStats() {
+  if (typeof VIDEO_VERIFIED_RUTGERS_SEASON_STATS !== "undefined") return VIDEO_VERIFIED_RUTGERS_SEASON_STATS.categories || {};
   return typeof RUTGERS_SEASON_STATS !== "undefined" ? RUTGERS_SEASON_STATS : (loadGameplanWeekly().season_stats || {});
 }
 
@@ -1649,6 +1679,7 @@ function loadOpponentLastGameStats() {
 }
 
 function loadOpponentSeasonStats() {
+  if (typeof VIDEO_VERIFIED_PURDUE_SEASON_STATS !== "undefined") return VIDEO_VERIFIED_PURDUE_SEASON_STATS.categories || {};
   return typeof OPPONENT_SEASON_STATS !== "undefined" ? OPPONENT_SEASON_STATS : {};
 }
 
@@ -2329,7 +2360,7 @@ function statsForPlayer(player, data) {
 }
 
 function compactStats(rows, limit = 5) {
-  const entries = (rows || []).flatMap(row => Object.entries(row || {}).filter(([key, value]) => !["player_id","name","player"].includes(key) && cleanValue(value)));
+  const entries = (rows || []).flatMap(row => Object.entries(row || {}).filter(([key, value]) => !["name","player"].includes(key) && !isInternalDisplayKey(key) && cleanValue(value)));
   return entries.slice(0, limit).map(([key, value]) => `${labelize(key)} ${cleanValue(value)}`);
 }
 

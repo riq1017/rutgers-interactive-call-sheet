@@ -2662,9 +2662,25 @@ function abbrevLabel(label) {
     touchdowns: "TD",
     sacks: "SACK",
     tackles: "TAK",
+    tfl: "TFL",
+    interceptions: "INT",
+    ints: "INT",
+    int: "INT",
+    pass_deflections: "PD",
+    pass_breakups: "PD",
+    completion_pct: "CP",
     receptions: "REC",
     completions: "COMP",
-    attempts: "ATT"
+    attempts: "ATT",
+    carries: "CAR",
+    long: "LONG",
+    avg: "AVG",
+    power_moves: "PMV",
+    finesse_moves: "FMV",
+    short_accuracy: "SAC",
+    medium_accuracy: "MAC",
+    deep_accuracy: "DAC",
+    press: "PRS"
   };
   const key = String(label || "").toLowerCase().replace(/\s+/g, "_");
   return map[key] || labelize(label).split(/\s+/).map(part => part[0]).join("").slice(0, 4).toUpperCase();
@@ -2684,18 +2700,43 @@ function firstStatPairs(rows = [], limit = 3) {
   return pairs;
 }
 
-function sportsStatStrip(pairs = [], fallback = "N/A") {
-  const rows = pairs.filter(row => cleanValue(row && row.value)).slice(0, 6);
+function sportsStatStrip(pairs = [], fallback = "N/A", limit = 6) {
+  const rows = pairs.filter(row => cleanValue(row && row.value)).slice(0, limit);
   if (!rows.length) return `<div class="sports-stat-strip limited"><span>${fallback}</span></div>`;
   return `<div class="sports-stat-strip">${rows.map(row => `<span><b>${cardValue(row.value, "N/A")}</b><em>${cardValue(row.label, "")}</em></span>`).join("")}</div>`;
 }
 
+function statPriorityKeysForPosition(position = "") {
+  const pos = normalizePosition(position);
+  if (pos === "QB") return ["games","yards","td","interceptions","sacks","completions","attempts","completion_pct"];
+  if (["HB","RB","FB"].includes(pos)) return ["games","carries","yards","avg","td","long"];
+  if (["WR","TE"].includes(pos)) return ["games","receptions","yards","avg","td","long"];
+  if (["K"].includes(pos)) return ["games","fg_made","fg_attempts","fg_pct","xp_made","long"];
+  if (["P"].includes(pos)) return ["games","punts","yards","avg","long","inside_20"];
+  return ["games","tackles","tfl","sacks","interceptions","pass_deflections"];
+}
+
+function scoreStatRowForKeys(row = {}, keys = []) {
+  return keys.reduce((score, key, index) => score + (cleanValue(row[key]) ? (keys.length - index) : 0), 0);
+}
+
+function bestSeasonRowForPlayer(player = {}, rows = []) {
+  const keys = statPriorityKeysForPosition(player.position);
+  return (rows || []).slice().sort((a, b) => scoreStatRowForKeys(b, keys) - scoreStatRowForKeys(a, keys))[0] || {};
+}
+
+function priorityStatPairsForPlayer(player = {}, rows = []) {
+  const keys = statPriorityKeysForPosition(player.position);
+  const row = bestSeasonRowForPlayer(player, rows);
+  return keys.map(key => ({ label: abbrevLabel(key), value: cleanValue(row[key]) || "N/A" }));
+}
+
 function profileSeasonRibbon(player = {}, side = "rutgers") {
   const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
-  const statPairs = firstStatPairs(seasonRows, 4);
+  const statPairs = priorityStatPairsForPlayer(player, seasonRows);
   const fallbackPairs = playerStatPairs(player, side).slice(0, 4);
   const pairs = statPairs.length ? statPairs : fallbackPairs;
-  return `<section class="profile-season-ribbon"><h3>2025 Season Stats</h3>${sportsStatStrip(pairs, "N/A")}</section>`;
+  return `<section class="profile-season-ribbon"><h3>2025 Season Stats</h3>${sportsStatStrip(pairs, "N/A", 8)}</section>`;
 }
 
 function playerProfileBioGrid(player = {}, side = "rutgers") {
@@ -3515,6 +3556,29 @@ function rosterHubPlayers(side = "team", bucket = "all") {
   return bucket === "all" ? players : players.filter(player => playerBucket(player.position) === bucket);
 }
 
+function rosterTableColumnsForBucket(bucket = "all") {
+  const upper = cleanValue(bucket).toUpperCase();
+  const normalized = ["QB","RB","WR","TE","OL","DL","LB","DB","ST"].includes(upper) ? upper : playerBucket(bucket);
+  const columns = {
+    QB: ["overall","speed","awareness","throw_power","short_accuracy","medium_accuracy","deep_accuracy"],
+    RB: ["overall","speed","acceleration","agility","change_of_direction","carrying","strength"],
+    WR: ["overall","speed","acceleration","agility","catching","route_running","release"],
+    TE: ["overall","speed","acceleration","catching","run_block","pass_block","strength"],
+    OL: ["overall","strength","awareness","run_block","pass_block","impact_block","lead_block"],
+    DL: ["overall","speed","acceleration","awareness","power_moves","finesse_moves","play_recognition"],
+    LB: ["overall","speed","acceleration","awareness","tackle","play_recognition","zone_coverage"],
+    DB: ["overall","speed","acceleration","agility","man_coverage","zone_coverage","press"],
+    ST: ["overall","kick_power","kick_accuracy","awareness","speed","acceleration"]
+  };
+  return columns[normalized] || ["overall","speed","acceleration","agility","awareness","strength"];
+}
+
+function rosterTableValue(player = {}, key = "") {
+  const attrs = player.attributes || {};
+  if (key === "overall") return cardValue(player.overall || player.overall_displayed || attrs.overall, "N/A");
+  return cardValue(attrs[key], "N/A");
+}
+
 function rosterLeaderCard(title, row, valueKey = "yards", side = "team") {
   const player = row ? weeklyRosterPlayers(side).find(item => playerId(item) === row.player_id || cleanValue(item.name) === cleanValue(row.name || row.player)) : null;
   return `<section class="team-leader-card">${player ? portraitImg(player, side === "opponent" ? "opponent" : "rutgers", "player-portrait thumb") : ""}<span>${title}</span><strong>${row ? cardValue(row.name || row.player, "N/A") : "N/A"}</strong><b>${row ? cardValue(row[valueKey], "N/A") : "N/A"}</b></section>`;
@@ -3538,11 +3602,14 @@ function rosterHubLeaderStrip(side = "team") {
 function rosterHubTable(side = "team", bucket = "all") {
   const rows = rosterHubPlayers(side, bucket).sort((a, b) => Number(b.overall || b.overall_displayed || 0) - Number(a.overall || a.overall_displayed || 0));
   const visible = rows.slice(0, bucket === "all" ? 16 : 24);
-  return `<article class="sports-stat-card roster-table-card"><h3>${bucket === "all" ? "Roster" : `${bucket} Roster`}</h3><div class="sports-table-scroll"><table class="sports-stat-table roster-hub-table"><thead><tr><th>Name</th><th>Pos</th><th>Yr</th><th>OVR</th><th>SPD</th><th>AWR</th></tr></thead><tbody>${visible.map(player => `<tr onclick="${side === "opponent" ? `showOpponentPlayerDetail('${player.player_id}')` : `showPlayerDetail('${player.player_id}','rutgers','${rosterGroupFor(player.position)}')`}"><td>${cardValue(player.name, "N/A")}</td><td>${cardValue(player.position, "N/A")}</td><td>${cardValue(player.class_year || player.year || player.class, "N/A")}</td><td>${cardValue(player.overall || player.overall_displayed, "N/A")}</td><td>${cardValue((player.attributes || {}).speed, "N/A")}</td><td>${cardValue((player.attributes || {}).awareness, "N/A")}</td></tr>`).join("")}</tbody></table></div></article>`;
+  const inferredBucket = bucket === "all" ? playerBucket((visible[0] || {}).position || "all") : bucket;
+  const columns = rosterTableColumnsForBucket(inferredBucket);
+  return `<article class="sports-stat-card roster-table-card"><h3>${bucket === "all" ? "Roster" : `${bucket} Roster`}</h3><div class="sports-table-scroll"><table class="sports-stat-table roster-hub-table"><thead><tr><th>Name</th><th>Pos</th><th>Yr</th>${columns.map(key => `<th>${abbrevLabel(key)}</th>`).join("")}</tr></thead><tbody>${visible.map(player => `<tr onclick="${side === "opponent" ? `showOpponentPlayerDetail('${player.player_id}')` : `showPlayerDetail('${player.player_id}','rutgers','${rosterGroupFor(player.position)}')`}"><td>${cardValue(player.name, "N/A")}</td><td>${cardValue(player.position, "N/A")}</td><td>${cardValue(player.class_year || player.year || player.class, "N/A")}</td>${columns.map(key => `<td>${rosterTableValue(player, key)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></article>`;
 }
 
 function renderTeamRosterHub(side = "team", activeBucket = "all") {
-  const normalized = playerBucket(activeBucket);
+  const activeUpper = cleanValue(activeBucket).toUpperCase();
+  const normalized = ["QB","RB","WR","TE","OL","DL","LB","DB","ST"].includes(activeUpper) ? activeUpper : playerBucket(activeBucket);
   const bucket = activeBucket === "all" || activeBucket === "ALL" ? "all" : normalized;
   const label = side === "opponent" ? activeOpponentName() : weeklyTeamName();
   const players = weeklyRosterPlayers(side);

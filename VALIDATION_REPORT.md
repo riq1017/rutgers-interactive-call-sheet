@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T17:21:45.662Z
+Validated: 2026-07-13T17:48:49.495Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -88,6 +88,7 @@ Validated: 2026-07-13T17:21:45.662Z
 - PASS - Recruit star ratings render the user-confirmed four-star class
 - PASS - Verified recruit gem badges are source-driven only
 - PASS - Dedicated player detail screens expose sports profile hero and required tabs
+- PASS - M. York profile season ribbon prioritizes verified QB production
 - PASS - Dedicated Purdue detail screens expose sports profile hero and required tabs
 - PASS - Dedicated recruit detail screens expose sports profile hero and required tabs
 - PASS - Recruit detail hero uses mobile-safe two-column layout and compact badge
@@ -172,6 +173,7 @@ Validated: 2026-07-13T17:21:45.662Z
 - PASS - Protection map avoids horizontal overflow at phone width
 - PASS - Personnel includes current opponent roster hub with sports-table browser
 - PASS - Purdue roster hub includes verified LB, DB, and specialist identities
+- PASS - Purdue roster table uses position-aware verified attributes
 - PASS - Unavailable Purdue offensive groups are reported as source-missing instead of invented
 - PASS - Personnel includes matchup cards
 - PASS - Recruiting overview uses real resources
@@ -245,6 +247,7 @@ Validated: 2026-07-13T17:21:45.662Z
 - PASS - Verified recruit profile fields populate from linked class/scouting records
 - PASS - More analytics panels are interactive and data-backed
 - PASS - Portrait presentation uses improved crop and framed source-bound assets
+- PASS - Premium player profile hero uses enlarged fictional portrait crop and safe fact rows
 - PASS - Scout workspace renders defined opponent sections
 - PASS - Repeated generic recruiting descriptions are removed from rendered candidates
 - PASS - Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS

@@ -3269,18 +3269,21 @@ details[open]{
     grid-column: 1 / -1;
   }
   .premium-player-profile {
-    grid-template-columns:112px minmax(0,1fr);
-    min-height:190px;
+    grid-template-columns:126px minmax(0,1fr);
+    min-height:202px;
   }
   .premium-player-profile > b {
     grid-column:2;
   }
   .profile-art-panel {
-    min-height:190px;
+    min-height:202px;
   }
   .profile-art-panel .profile-portrait {
-    width:108px;
-    height:170px;
+    width:142px;
+    height:202px;
+    margin-left:-12px;
+    margin-bottom:-10px;
+    object-position:center 24%;
   }
   .profile-art-panel span {
     font-size:3.8rem;
@@ -3289,8 +3292,8 @@ details[open]{
     padding:14px 10px;
   }
   .profile-bio-row {
-    grid-template-columns:68px minmax(0,1fr);
-    gap:7px;
+    grid-template-columns:84px minmax(0,1fr);
+    gap:8px;
   }
   .roster-browse-row {
     grid-template-columns:1fr;
@@ -3368,7 +3371,7 @@ details[open]{
   margin:12px 12px 0;
 }
 .premium-player-profile{
-  grid-template-columns:minmax(116px,34%) minmax(0,1fr);
+  grid-template-columns:minmax(132px,38%) minmax(0,1fr);
   gap:0;
   min-height:210px;
   padding:0;
@@ -3411,11 +3414,13 @@ details[open]{
 .profile-art-panel .profile-portrait{
   position:relative;
   z-index:1;
-  width:min(142px,92%);
-  height:188px;
+  width:calc(100% + 28px);
+  height:218px;
+  margin-left:-10px;
+  margin-bottom:-12px;
   border-radius:0;
   object-fit:cover;
-  object-position:center 12%;
+  object-position:center 24%;
   box-shadow:none;
   filter:drop-shadow(0 20px 24px rgba(0,0,0,.54));
 }
@@ -3461,8 +3466,8 @@ details[open]{
 }
 .profile-bio-row{
   display:grid;
-  grid-template-columns:minmax(72px,.72fr) minmax(0,1fr);
-  gap:10px;
+  grid-template-columns:minmax(92px,.78fr) minmax(0,1fr);
+  gap:12px;
   align-items:baseline;
 }
 .profile-bio-row span{
@@ -3473,6 +3478,8 @@ details[open]{
 .profile-bio-row strong{
   color:#fff;
   font-size:1rem;
+  line-height:1.16;
+  overflow-wrap:anywhere;
 }
 .profile-season-ribbon{
   margin:12px;
@@ -3491,6 +3498,7 @@ details[open]{
   text-transform:uppercase;
 }
 .profile-season-ribbon .sports-stat-strip{
+  grid-template-columns:repeat(4,minmax(0,1fr));
   padding:10px;
   background:transparent;
 }

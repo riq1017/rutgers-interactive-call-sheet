@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Personnel profile stat completion
+- Updated player profile season ribbons to use position-aware stat priority instead of the first visible stat fields.
+- Confirmed M. York now shows verified season `YDS 1305` and `TD 11`, while season `INT` and `SACK` remain `N/A` because they are not present in the verified season source.
+- Reworked roster hub tables to use position-aware verified attribute columns such as DL `PMV/FMV/PRC`, DB coverage columns, and QB passing ratings.
+- Enlarged and cropped the fictional portrait area in premium player profiles and widened fact rows to prevent hometown/archetype label collisions.
+- Added validation for M. York's season ribbon, Purdue DL roster attributes, and the updated portrait/fact-row treatment.
+
 ## Personnel roster, matchup, and player-card redesign
 - Rebuilt player detail screens around a premium sports-profile hero with larger fictional portrait framing, team/position/class/overall identity, profile facts, and a scarlet `2025 Season Stats` ribbon before the tabbed details.
 - Converted Team and Purdue Personnel sub-tabs into Home Team and Away Team roster hubs with team headers, Players/Team controls, team leader strips, phone-safe roster tables, position filters, and compact tap-through cards.

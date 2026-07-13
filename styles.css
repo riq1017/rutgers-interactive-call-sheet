@@ -2417,14 +2417,15 @@ details[open]{
   height:56px;
   display:block;
   object-fit:cover;
+  object-position:center 18%;
   border:2px solid #cc003366;
   border-radius:8px;
-  background:#08080a;
-  box-shadow:0 8px 18px rgba(0,0,0,.28);
+  background:radial-gradient(circle at 50% 8%,rgba(255,255,255,.16),transparent 38%),#08080a;
+  box-shadow:0 10px 22px rgba(0,0,0,.36), inset 0 0 0 1px rgba(255,255,255,.08);
 }
 .opponent .player-portrait,
 .matchup-player.opponent .player-portrait,
-.portrait-match-side .player-portrait{border-color:#ceb88899}
+.portrait-match-side .player-portrait{border-color:#ceb88899;background:radial-gradient(circle at 50% 8%,rgba(206,184,136,.20),transparent 38%),#08080a}
 .player-portrait.large{
   width:100%;
   height:auto;
@@ -3043,6 +3044,9 @@ details[open]{
   width: 88px;
   height: 88px;
   border-radius: 18px;
+  object-fit: cover;
+  object-position: center 16%;
+  box-shadow: 0 16px 32px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.10);
 }
 
 .sports-profile-hero h2 {
@@ -3503,4 +3507,39 @@ details[open]{
   .sports-stat-table th,
   .sports-stat-table td{padding:7px 5px}
 }
+
+.source-status-card{
+  display:grid;
+  gap:6px;
+  padding:10px 11px;
+  border:1px solid rgba(227,193,108,.28);
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(227,193,108,.10),rgba(204,0,51,.08)),rgba(8,8,10,.68);
+  color:#fff;
+}
+.source-status-card strong{
+  color:#e3c16c;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.source-status-card span,
+.source-status-card p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+.source-status-card.verified{
+  border-color:rgba(85,217,139,.28);
+  background:linear-gradient(135deg,rgba(85,217,139,.10),rgba(204,0,51,.07)),rgba(8,8,10,.68);
+}
+.source-status-card.verified strong{color:var(--good)}
+.stat-source-note{min-width:0}
+.analytics-group .analytics-panel{
+  margin-top:10px;
+  padding:10px;
+}
+.analytics-panel .stat-category-grid{margin-top:10px}
 

@@ -32,6 +32,14 @@ Stats views must use structured sports tables or stat strips. Whole JSON objects
 
 Phone detail views should make verified data feel present even when optional profile fields are unavailable. Use compact verified-data summaries, collapsed source-missing notes, short stat tables, and fixed-bottom-nav clearance rather than long stacks of visible `N/A` rows.
 
+Literal source values such as `N/A`, `Limited data`, `Insufficient verified data`, `source_missing`, or `not_applicable` must not be counted as verified traits, abilities, ratings, or stats. When a player or recruit has verified identity/ratings but no verified trait, ability, or profile-detail record, the UI should show a compact source-status note instead of a long visible list of `N/A` rows.
+
+Recruiting board records and recruiting class/scouting records are separate sources. If a board-only recruit has no linked class/scouting detail record, the UI must label the state as `Needs verified detail link`; it must not imply that the recruit was fully checked and every profile field is legitimately missing. When a linked verified class/scouting record exists, the recruit detail card should surface national rank, position rank, state/hometown, height, weight, archetype, scouting percentage, attributes, abilities, mentals, development trait, and gem status exactly as provided.
+
+Stats views should render verified category tables first and group unavailable categories into compact source-status notes. Large empty stat cards containing only `N/A` are not allowed when the category is absent from the verified source.
+
+More > Analytics must be a functional in-page workspace. Analytics panels may summarize only existing verified roster, stat, opponent, and recruiting data; they must not create new football facts or inferred ratings.
+
 ## D. UI Standards
 
 The base theme is Rutgers scarlet, black, and white, with opponent accent treatment used only as supporting context. The top header is sticky and compacts after scroll. Bottom navigation is fixed and must remain visible.

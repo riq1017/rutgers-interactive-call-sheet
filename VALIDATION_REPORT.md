@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T15:03:39.593Z
+Validated: 2026-07-13T15:57:45.755Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -239,6 +239,12 @@ Validated: 2026-07-13T15:03:39.593Z
 - PASS - Recruit detail tabs are usable buttons with image-limited Scouting and Fit sections
 - PASS - Stats workspace renders a sports-stat dashboard instead of stacked stat-sheet accordions
 - PASS - Stats workspace has phone-safe table metadata and bottom-nav clearance
+- PASS - Stats workspace hides large empty N/A category cards and shows source-status notes
+- PASS - Purdue player missing traits render as source-status instead of N/A stacks
+- PASS - Board-only recruits are flagged as needing verified detail links
+- PASS - Verified recruit profile fields populate from linked class/scouting records
+- PASS - More analytics panels are interactive and data-backed
+- PASS - Portrait presentation uses improved crop and framed source-bound assets
 - PASS - Scout workspace renders defined opponent sections
 - PASS - Repeated generic recruiting descriptions are removed from rendered candidates
 - PASS - Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS

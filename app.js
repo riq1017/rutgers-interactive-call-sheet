@@ -1385,6 +1385,11 @@ function cleanValue(value, depth = 0) {
   return text;
 }
 
+function hasVerifiedDisplayValue(value) {
+  const text = cleanValue(value);
+  return Boolean(text && !/^(N\/A|Limited data|Insufficient verified data|Source missing|Not applicable)$/i.test(text));
+}
+
 function formatLimited(value, fallback = "Limited data") {
   return cleanValue(value) || fallback;
 }
@@ -2732,7 +2737,7 @@ function verifiedDataSummary(player = {}, side = "rutgers") {
   const stats = resolvePlayerStatsById(playerId(player), side);
   const season = stats.season.length;
   const last = stats.last.length;
-  const traitCount = verifiedArray(player.physical_abilities || player.abilities).length + verifiedArray(player.mental_abilities || player.mentals).length + (cleanValue(player.development_trait || player.dev_trait) ? 1 : 0);
+  const traitCount = verifiedArray(player.physical_abilities || player.abilities).filter(hasVerifiedDisplayValue).length + verifiedArray(player.mental_abilities || player.mentals).filter(hasVerifiedDisplayValue).length + (hasVerifiedDisplayValue(player.development_trait || player.dev_trait) ? 1 : 0);
   const chips = [
     ratings ? `${ratings} ratings` : "",
     season ? "Season stats" : "",
@@ -3594,6 +3599,20 @@ function compactPlayerListCard(player, side = "rutgers", group = "") {
   </button>`;
 }
 
+function playerTraitRows(player = {}) {
+  const dev = hasVerifiedDisplayValue(player.development_trait || player.dev_trait) ? cleanValue(player.development_trait || player.dev_trait) : "";
+  const physical = verifiedArray(player.physical_abilities || player.abilities).filter(hasVerifiedDisplayValue);
+  const mental = verifiedArray(player.mental_abilities || player.mentals).filter(hasVerifiedDisplayValue);
+  const evidence = evidenceSummary(player);
+  const rows = [
+    dev ? maybeRow("Development Trait", dev) : "",
+    physical.length ? maybeRow("Physical Abilities", physical) : "",
+    mental.length ? maybeRow("Mental Abilities", mental) : ""
+  ].filter(Boolean).join("");
+  if (rows) return `${rows}${maybeRow("Evidence", evidence, "N/A")}`;
+  return `<div class="source-status-card compact trait-source-note"><strong>No verified trait data</strong><span>The current roster evidence verifies this player's identity, position, overall, and available attributes, but does not show development trait or ability fields.</span></div>${maybeRow("Evidence", evidence, "N/A")}`;
+}
+
 function playerDetailHtml(id, side = "rutgers", group = "") {
   const player = side === "opponent" ? (loadOpponentPlayers() || []).find(row => row.player_id === id) : (loadRutgersRoster().players || []).find(row => row.player_id === id);
   if (!player) return LimitedDataState("Player Detail");
@@ -3602,7 +3621,7 @@ function playerDetailHtml(id, side = "rutgers", group = "") {
   const lastRows = statsForPlayer(player, side === "opponent" ? loadOpponentLastGameStats() : loadRutgersLastGameStats());
   const matchups = matchupSummaryForPlayer(player, side);
   const related = relatedPlaysForPlayer(player);
-  const traitRows = `${maybeRow("Development Trait", player.development_trait || player.dev_trait || "N/A", "N/A")}${maybeRow("Physical Abilities", verifiedArray(player.physical_abilities || player.abilities).length ? verifiedArray(player.physical_abilities || player.abilities) : "N/A", "N/A")}${maybeRow("Mental Abilities", verifiedArray(player.mental_abilities || player.mentals).length ? verifiedArray(player.mental_abilities || player.mentals) : "N/A", "N/A")}${maybeRow("Evidence", evidenceSummary(player), "N/A")}`;
+  const traitRows = playerTraitRows(player);
   return `<section class="detail-screen player-detail-screen" data-player-detail>
     <button class="back-button" type="button" onclick="${side === "opponent" ? "const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderOpponent(window.OPPONENT_POSITION_FILTER||'all');restoreDetailScroll('personnel')" : `showRosterGroup('${group || rosterGroupFor(player.position)}');restoreDetailScroll('personnel')`}">Back</button>
     <header class="sports-profile-hero ${side}">
@@ -3979,6 +3998,41 @@ function statTable(title, rows = [], key = "") {
   </article>`;
 }
 
+function statSourceNote(title, message, status = "Source missing") {
+  return `<article class="sports-stat-card source-status-card stat-source-note"><h3>${title}</h3><strong>${status}</strong><p>${message}</p></article>`;
+}
+
+function availableStatTables(data = {}) {
+  const categories = [
+    ["Passing", "passing"],
+    ["Rushing", "rushing"],
+    ["Receiving", "receiving"],
+    ["Defense", "defense"],
+    ["Turnovers", "turnovers"],
+    ["Third Down", "third_down"],
+    ["Red Zone", "red_zone"],
+    ["Kicking", "kicking"]
+  ];
+  const rows = [];
+  const missingRutgers = [];
+  const missingOpponent = [];
+  categories.forEach(([title, key]) => {
+    const rutgersRows = flattenedStatEntries(data.rutgers && data.rutgers[key]);
+    const opponentRows = flattenedStatEntries(data.opponent && data.opponent[key]);
+    if (rutgersRows.length) rows.push(statTable(`${weeklyTeamName()} ${title}`, rutgersRows, key));
+    else missingRutgers.push(title);
+    if (opponentRows.length) rows.push(statTable(`${activeOpponentName()} ${title}`, opponentRows, key));
+    else missingOpponent.push(title);
+  });
+  if (missingRutgers.length) {
+    rows.push(statSourceNote(`${weeklyTeamName()} unavailable categories`, `${missingRutgers.join(", ")} were not visible in the verified ${data.label.toLowerCase()} stat source.`));
+  }
+  if (missingOpponent.length) {
+    rows.push(statSourceNote(`${activeOpponentName()} unavailable categories`, `${missingOpponent.join(", ")} were not visible in the verified ${data.label.toLowerCase()} stat source. Purdue defense production remains available when present.`));
+  }
+  return rows.join("");
+}
+
 function topStatLeader(rows = [], valueKey = "yards") {
   return (rows || []).filter(row => cleanValue(row && row[valueKey])).sort((a, b) => Number(b[valueKey]) - Number(a[valueKey]))[0] || null;
 }
@@ -3996,16 +4050,6 @@ function statLeaderStrip(data = {}, opponent = {}) {
 function renderStatsWorkspace() {
   const mode = activeStatsMode();
   const data = statsModeData(mode);
-  const categories = [
-    ["Passing", "passing"],
-    ["Rushing", "rushing"],
-    ["Receiving", "receiving"],
-    ["Defense", "defense"],
-    ["Turnovers", "turnovers"],
-    ["Third Down", "third_down"],
-    ["Red Zone", "red_zone"],
-    ["Kicking", "kicking"]
-  ];
   return `<section class="stats-dashboard" data-stats-dashboard data-stats-mode="${mode}">
     <div class="segmented compact-tabs stat-toggle">
       <button class="${mode === "last" ? "active" : ""}" type="button" onclick="history.replaceState(null,'','?tab=personnel&personnel=stats&stats=last');renderPersonnelMatchups('stats')">Last Game</button>
@@ -4013,7 +4057,7 @@ function renderStatsWorkspace() {
     </div>
     ${CardHeader({ eyebrow: "Stats Hub", title: `${weeklyTeamName()} vs ${activeOpponentName()}`, subtitle: data.label, badge: Badge(data.label, "positive") })}
     ${statLeaderStrip(data.rutgers, data.opponent)}
-    <div class="stat-category-grid">${categories.map(([title, key]) => `${statTable(`${weeklyTeamName()} ${title}`, flattenedStatEntries(data.rutgers[key]), key)}${statTable(`${activeOpponentName()} ${title}`, flattenedStatEntries(data.opponent[key]), key)}`).join("")}</div>
+    <div class="stat-category-grid">${availableStatTables(data)}</div>
   </section>`;
 }
 
@@ -4192,11 +4236,13 @@ function resolveRecruitDisplayModel(row = {}) {
   const board = boardById.get(inputId) || (loadRecruitingWeekly().active_board || []).find(item => (item.linked_prospect_ids || []).includes(inputId)) || {};
   const linkedId = cleanValue((board.linked_prospect_ids || [])[0]);
   const recovery = recoveryById.get(inputId) || recoveryById.get(linkedId) || {};
-  let prospect = mergeRecruitScouting(board, classById.get(inputId) || classById.get(linkedId) || row.prospect || {}, recovery);
+  let classRecord = classById.get(inputId) || classById.get(linkedId) || row.prospect || {};
+  let prospect = mergeRecruitScouting(board, classRecord, recovery);
   if (!prospect.prospect_id) {
     const name = normalizeIdentityText(board.name || row.name);
     const pos = normalizePosition(board.position || row.position);
     const matched = (loadRecruitingClass().prospects || []).find(item => normalizeIdentityText(item.name) === name && normalizePosition(item.position) === pos) || {};
+    classRecord = matched;
     prospect = mergeRecruitScouting(board, matched, recovery);
   }
   const analysis = prospect.analysis || {};
@@ -4209,6 +4255,20 @@ function resolveRecruitDisplayModel(row = {}) {
   const state = verifiedValue(board.state, prospect.state, stateFromLocation(prospect.hometown || board.hometown));
   const gemVerified = prospect.gem === true || prospect.gem_status === "Gem" || analysis.gem_status === "Gem" || board.gem_status === "Gem";
   const verifiedStars = Number(verifiedValue(board.stars, prospect.stars, display.stars)) || 4;
+  const profileFields = {
+    nationalRank: verifiedValue(board.national_rank, prospect.national_rank, display.national_rank),
+    positionRank: verifiedValue(board.position_rank, prospect.position_rank, display.position_rank),
+    state,
+    hometown: verifiedValue(board.hometown, prospect.hometown),
+    height: verifiedValue(board.height, prospect.height, display.height),
+    weight: verifiedValue(board.weight_lbs, prospect.weight_lbs, display.weight_lbs),
+    archetype: verifiedValue(board.archetype, prospect.archetype, display.archetype),
+    scouting: verifiedValue(board.scouting_percentage, prospect.scouting_percentage, display.scouting_percentage)
+  };
+  const missingProfileFields = Object.entries(profileFields).filter(([, value]) => !cleanValue(value) || cleanValue(value) === "N/A").map(([key]) => key);
+  const hasDetailRecord = Boolean(cleanValue(classRecord && classRecord.prospect_id) || cleanValue(recovery && recovery.prospect_id));
+  const needsVerifiedDetailLink = !hasDetailRecord && missingProfileFields.length >= 5;
+  const detailStatus = needsVerifiedDetailLink ? "Needs verified detail link" : missingProfileFields.length ? "Partial verified profile" : "Verified profile";
   return {
     prospect_id: verifiedValue(prospect.prospect_id, linkedId, board.prospect_id, inputId),
     board,
@@ -4220,14 +4280,14 @@ function resolveRecruitDisplayModel(row = {}) {
     boardRank: verifiedValue(board.board_order) || "N/A",
     stars: verifiedStars,
     rating: starRating(verifiedStars),
-    nationalRank: verifiedValue(board.national_rank, prospect.national_rank, display.national_rank) || "N/A",
-    positionRank: verifiedValue(board.position_rank, prospect.position_rank, display.position_rank) || "N/A",
-    state: state || "N/A",
-    hometown: verifiedValue(board.hometown, prospect.hometown) || "N/A",
-    height: verifiedValue(board.height, prospect.height, display.height) || "N/A",
-    weight: verifiedValue(board.weight_lbs, prospect.weight_lbs, display.weight_lbs) ? `${verifiedValue(board.weight_lbs, prospect.weight_lbs, display.weight_lbs)} lbs` : "N/A",
-    archetype: verifiedValue(board.archetype, prospect.archetype, display.archetype) || "N/A",
-    scouting: verifiedValue(board.scouting_percentage, prospect.scouting_percentage, display.scouting_percentage) || "N/A",
+    nationalRank: profileFields.nationalRank || "N/A",
+    positionRank: profileFields.positionRank || "N/A",
+    state: profileFields.state || "N/A",
+    hometown: profileFields.hometown || "N/A",
+    height: profileFields.height || "N/A",
+    weight: profileFields.weight ? `${profileFields.weight} lbs` : "N/A",
+    archetype: profileFields.archetype || "N/A",
+    scouting: profileFields.scouting || "N/A",
     attributes,
     abilities: (prospect.abilities || []).filter(cleanValue),
     mentals: (prospect.mentals || []).filter(cleanValue),
@@ -4241,7 +4301,11 @@ function resolveRecruitDisplayModel(row = {}) {
     summary: prospectSpecificText(prospect.scouting_summary, analysis.summary),
     projectedRole: verifiedValue(analysis.projected_role) || "N/A",
     recruitingValue: verifiedValue(analysis.recruiting_value) || "N/A",
-    rosterCompetition: verifiedValue(analysis.roster_competition) || "N/A"
+    rosterCompetition: verifiedValue(analysis.roster_competition) || "N/A",
+    hasDetailRecord,
+    needsVerifiedDetailLink,
+    detailStatus,
+    missingProfileFields
   };
 }
 
@@ -4310,7 +4374,7 @@ function recruitAttributeRows(prospect = {}) {
 function RecruitCard(row, index = 0, mode = "board") {
   const model = resolveRecruitDisplayModel(row);
   const starText = recruitStarsText(model);
-  const fitBadge = cleanValue(model.schemeFit || model.priority && model.priority.tier || model.action) || "Priority N/A";
+  const fitBadge = model.needsVerifiedDetailLink ? model.detailStatus : (cleanValue(model.schemeFit || model.priority && model.priority.tier || model.action) || "Priority N/A");
   return `<button class="recruit-card prospect-card compact-prospect sports-list-card recruit-compact-card sports-athlete-card" type="button" data-recruit-card data-prospect-id="${model.prospect_id}" onclick="showRecruitDetail('${model.prospect_id}','${mode}')">
     <span class="sports-card-left">${recruitAvatar(model)}<i>#${model.boardRank}</i></span>
     <span class="sports-card-main recruit-card-title"><strong>${model.name}${model.gemVerified ? " &#128142;" : ""}</strong><em>${model.position} &middot; ${starText} &middot; ${model.class}</em><small>${model.archetype || "Archetype N/A"}${model.scouting !== "N/A" ? ` &middot; ${model.scouting}% scouted` : " &middot; Scouting N/A"}</small></span>
@@ -4391,15 +4455,16 @@ function recruitDetailHtml(id, mode = "board") {
   const model = resolveRecruitDisplayModel(row);
   const abilityRows = `${maybeRow("Abilities", model.abilities.length ? model.abilities : "N/A", "N/A")}${maybeRow("Mentals", model.mentals.length ? model.mentals : "N/A", "N/A")}${maybeRow("Development Trait", model.developmentTrait, "N/A")}`;
   const stars = recruitStarsText(model);
+  const detailStatusCard = model.needsVerifiedDetailLink ? `<div class="source-status-card compact recruit-link-status"><strong>Needs verified detail link</strong><span>This recruiting board row is verified, but no matching class or scouting-detail JSON record is linked yet. Profile-only fields remain unavailable until the video-derived detail record is connected.</span></div>` : `<div class="source-status-card compact recruit-link-status verified"><strong>${model.detailStatus}</strong><span>${model.missingProfileFields.length ? `${model.missingProfileFields.length} optional profile fields are not visible in the linked verified source.` : "Board and scouting detail are linked for this recruit."}</span></div>`;
   return `<section class="detail-screen recruit-detail-screen" data-recruit-detail>
     <button class="back-button" type="button" onclick="renderRecruitList('${mode}');restoreDetailScroll('recruiting')">Back</button>
     <header class="sports-profile-hero recruit">
       ${recruitAvatar(model)}
       <div><span class="team-pill">Recruiting Board #${model.boardRank}</span><h2>${model.name}${model.gemVerified ? " &#128142;" : ""}</h2><p>${model.position} &middot; ${stars} &middot; ${model.class}</p><small>${model.archetype || "Archetype N/A"}${model.scouting !== "N/A" ? ` &middot; ${model.scouting}% scouted` : " &middot; Scouting N/A"}</small></div>
-      <b>${compactRecruitBadge(model.schemeFit || model.priority && model.priority.tier) || "Fit N/A"}</b>
+      <b>${compactRecruitBadge(model.needsVerifiedDetailLink ? model.detailStatus : (model.schemeFit || model.priority && model.priority.tier)) || "Fit N/A"}</b>
     </header>
     ${DetailTabStrip(["Overview", "Scouting", "Fit", "Activity"])}
-    <section class="detail-panel" data-detail-section="Overview">${maybeRow("Board Rank", model.boardRank, "N/A")}${maybeRow("Status", model.status, "N/A")}${maybeRow("Class", model.class, "N/A")}${maybeRow("Position", model.position, "N/A")}${maybeRow("Stars", stars, "N/A")}${maybeRow("National Rank", model.nationalRank, "N/A")}${maybeRow("Position Rank", model.positionRank, "N/A")}${maybeRow("State", model.state, "N/A")}${maybeRow("Hometown", model.hometown, "N/A")}${maybeRow("Height", model.height, "N/A")}${maybeRow("Weight", model.weight, "N/A")}${maybeRow("Archetype", model.archetype, "N/A")}${maybeRow("Scouting", model.scouting === "N/A" ? "N/A" : `${model.scouting}%`, "N/A")}${maybeRow("Gem/Bust", model.gem, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Overview">${detailStatusCard}${maybeRow("Board Rank", model.boardRank, "N/A")}${maybeRow("Status", model.status, "N/A")}${maybeRow("Class", model.class, "N/A")}${maybeRow("Position", model.position, "N/A")}${maybeRow("Stars", stars, "N/A")}${maybeRow("National Rank", model.nationalRank, "N/A")}${maybeRow("Position Rank", model.positionRank, "N/A")}${maybeRow("State", model.state, "N/A")}${maybeRow("Hometown", model.hometown, "N/A")}${maybeRow("Height", model.height, "N/A")}${maybeRow("Weight", model.weight, "N/A")}${maybeRow("Archetype", model.archetype, "N/A")}${maybeRow("Scouting", model.scouting === "N/A" ? "N/A" : `${model.scouting}%`, "N/A")}${maybeRow("Gem/Bust", model.gem, "N/A")}</section>
     <section class="detail-panel" data-detail-section="Scouting">${maybeRow("Attributes", recruitStatPairs(model).length ? "Verified fields below" : "N/A", "N/A")}${recruitAttributeRows({ attributes: model.attributes })}${abilityRows}</section>
     <section class="detail-panel" data-detail-section="Fit">${maybeRow("Scheme Fit", model.schemeFit)}${maybeRow("Position Need", model.priority.tier, "N/A")}${maybeRow("Roster Competition", model.rosterCompetition, "N/A")}${maybeRow("Projected Role", model.projectedRole, "N/A")}${maybeRow("Recruiting Value", model.recruitingValue, "N/A")}${maybeRow("Recommendation", model.action, "N/A")}${maybeRow("Status", model.status, "N/A")}${maybeRow("Weekly Priority", model.priority.tier, "N/A")}${maybeRow("Interest Movement", "N/A", "N/A")}</section>
     <section class="detail-panel" data-detail-section="Activity">${maybeRow("Offer", model.board.offer_status, "N/A")}${maybeRow("Visit", model.board.visit_status, "N/A")}${maybeRow("Commit", model.board.commit_status || model.prospect.status, "N/A")}${maybeRow("Action History", model.reason, "N/A")}${maybeRow("Next Action", model.action, "N/A")}${maybeRow("Source", model.board.source_video || model.prospect.source_video, "N/A")}</section>
@@ -4501,6 +4566,50 @@ function renderActionPlan() {
   $("actionPlanList").innerHTML = `<div class="section-heading compact-heading"><p>Weekly Action Plan</p><strong>Top 3 Needs Fits</strong></div><div class="ranked-recruit-list scrollable-recruit-top3" data-recruit-top-three>${rows.map((model, i) => `<button type="button" class="ranked-recruit-row" onclick="showRecruitDetail('${model.prospect_id}','board')"><strong>${i + 1}</strong><span>${model.name}</span><em>${model.position} | ${recruitStarsText(model)}</em><b>${model.priority.tier || model.schemeFit}</b><small>${model.priority.position ? `${model.priority.position} need ${model.priority.score}` : model.action}</small></button>`).join("")}</div>`;
 }
 
+function analyticsPanelHtml(kind = "team_trends") {
+  const last = statsModeData("last");
+  const season = statsModeData("season");
+  const needs = priorityBoard().slice(0, 6);
+  const rutgersPlayers = loadRutgersRoster().players || [];
+  const opponentDefense = flattenedStatEntries(season.opponent.defense).length ? flattenedStatEntries(season.opponent.defense) : flattenedStatEntries(last.opponent.defense);
+  const panels = {
+    team_trends: `<section class="utility-section analytics-panel" data-analytics-panel="team_trends">
+      <h3>Team Trends</h3>
+      ${statLeaderStrip(season.rutgers, season.opponent)}
+      <div class="stat-category-grid">${statTable("Rutgers Season Passing", flattenedStatEntries(season.rutgers.passing), "passing")}${statTable("Rutgers Season Rushing", flattenedStatEntries(season.rutgers.rushing), "rushing")}${statTable("Rutgers Season Receiving", flattenedStatEntries(season.rutgers.receiving), "receiving")}</div>
+    </section>`,
+    player_development: `<section class="utility-section analytics-panel" data-analytics-panel="player_development">
+      <h3>Player Development</h3>
+      <div class="compact-list">${rutgersPlayers.slice(0, 8).map(player => compactPlayerListCard(player, "rutgers", rosterGroupFor(player.position))).join("")}</div>
+    </section>`,
+    opponent_tendencies: `<section class="utility-section analytics-panel" data-analytics-panel="opponent_tendencies">
+      <h3>Opponent Tendencies</h3>
+      <div class="overview-grid">${maybeRow("Opponent", activeOpponentName())}${maybeRow("Verified defense rows", opponentDefense.length)}${maybeRow("Source", "Weekly Purdue package")}${maybeRow("Status", opponentDefense.length ? "Defense production verified" : "Limited source")}</div>
+      <div class="stat-category-grid">${opponentDefense.length ? statTable(`${activeOpponentName()} Defensive Production`, opponentDefense, "defense") : statSourceNote("Opponent production", "No verified opponent tendency table is available in the current weekly package.")}</div>
+    </section>`,
+    recruiting_analytics: `<section class="utility-section analytics-panel" data-analytics-panel="recruiting_analytics">
+      <h3>Recruiting Analytics</h3>
+      <div class="compact-list team-needs-list">${needs.map(row => `<article class="sports-list-card need-card"><span class="rank-dot">${row.position}</span><span><strong>${row.tier}</strong><em>${row.coverageStatus}</em><small>${row.graduatingCount} graduating | position changes ${row.positionChangeDelta}</small></span><b>${row.score}</b></article>`).join("")}</div>
+    </section>`
+  };
+  return panels[kind] || panels.team_trends;
+}
+
+function renderMoreAnalytics(kind = "team_trends") {
+  const target = $("analyticsPanel");
+  if (target) target.innerHTML = analyticsPanelHtml(kind);
+}
+
+function analyticsGroup() {
+  const items = [
+    ["Team trends", "team_trends"],
+    ["Player development", "player_development"],
+    ["Opponent tendencies", "opponent_tendencies"],
+    ["Recruiting analytics", "recruiting_analytics"]
+  ];
+  return `<details class="utility-section compact-detail analytics-group" open><summary>Analytics</summary>${items.map(([label, key]) => `<button class="utility-row" type="button" onclick="renderMoreAnalytics('${key}')"><span>${label}</span><em>&rsaquo;</em></button>`).join("")}<div id="analyticsPanel">${analyticsPanelHtml("team_trends")}</div></details>`;
+}
+
 function renderPackagePanel() {
   if (!$("more")) return;
   const gp = loadGameplanWeekly();
@@ -4511,7 +4620,7 @@ function renderPackagePanel() {
       <label class="fileTool">Import Recruiting JSON<input id="importRecruitingWeekly" type="file" accept="application/json,.json"></label><button id="exportRecruitingBtn" type="button">Export Recruiting JSON</button>
     </div><div class="overview-grid">${maybeRow("Current package", gp.package_type)}${maybeRow("Current week", activeWeekLabel())}${maybeRow("Opponent", activeOpponentName())}${maybeRow("Last updated", gp.generated_utc)}${maybeRow("Validation result", "Loaded")}</div><div id="dataStatus" class="small"></div></section>
     ${moreGroup("History", ["Gameplan history", "Recruiting updates", "Opponent history", "Game results"])}
-    ${moreGroup("Analytics", ["Team trends", "Player development", "Opponent tendencies", "Recruiting analytics"])}
+    ${analyticsGroup()}
     ${moreGroup("Settings & Tools", ["Gameplan scoring weights", "Recruiting scoring weights", "Display preferences", "Data validation", "Data management", "Clear cache", "Diagnostics", "Help", "About"])}`;
   $("exportGameplanBtn").addEventListener("click", () => exportJsonFile("gameplan_weekly.json", gp));
   $("exportRecruitingBtn").addEventListener("click", () => exportJsonFile("recruiting_weekly.json", rw));
@@ -4641,6 +4750,10 @@ if (typeof module !== "undefined") {
     premiumPlayerCard,
     matchupRow,
     renderPersonnelOverview,
+    renderStatsWorkspace,
+    availableStatTables,
+    analyticsPanelHtml,
+    playerTraitRows,
     compactPlayerListCard,
     playerDetailHtml,
     opponentPlayerCard,

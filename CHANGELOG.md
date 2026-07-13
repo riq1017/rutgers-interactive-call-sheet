@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Verified data presentation recovery and analytics panels
+- Changed Purdue player Traits tabs so source-missing development traits and abilities render as compact verified-source notes instead of stacked `N/A` rows.
+- Added stricter verified-value handling so literal `N/A` source fields are not counted as verified traits.
+- Added recruit detail-link status cards so board-only recruits clearly show `Needs verified detail link` while linked class/scouting records populate national rank, position rank, hometown, height, weight, and archetype.
+- Reworked Stats Hub category rendering to show only verified tables by default and move unavailable categories into compact source-status notes.
+- Made More > Analytics functional with Team Trends, Player Development, Opponent Tendencies, and Recruiting Analytics panels backed by existing verified data.
+- Improved portrait crop, frame lighting, and source-bound presentation without replacing fictional assets or adding external photos.
+- Expanded validation for Purdue trait source status, verified recruit profile fields, analytics panels, portrait polish, and empty Stats Hub category suppression.
+
 ## Phone UX and verified data presentation polish
 - Added a verified-data summary to player detail Overview screens so source-backed ratings, traits, and stats are visibly acknowledged before optional profile gaps.
 - Changed optional source-missing bio fields into a collapsed "Source fields not shown" note to reduce repeated `N/A` clutter on phone screens.

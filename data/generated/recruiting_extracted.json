@@ -1,0 +1,344 @@
+{
+  "counts": {
+    "complete_records": 0,
+    "manual_review_records": 8,
+    "omitted_fields": 0,
+    "partial_records": 0,
+    "records": 8
+  },
+  "manual_review_records": [
+    "manual-recruiting_screen-screen-bab58ba6d9a5",
+    "manual-recruiting_screen-screen-238dbf3f7711",
+    "manual-recruiting_screen-screen-b1ee83ba783e",
+    "manual-recruiting_screen-screen-25bb87cddc7e",
+    "manual-recruiting_screen-screen-c6f246a5249a",
+    "manual-recruiting_screen-screen-ec2d0b28daa1",
+    "manual-recruiting_screen-screen-38167459ace9",
+    "manual-recruiting_screen-screen-7a11dfdfe281"
+  ],
+  "package_type": "recruiting_extracted",
+  "records": [
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "value": "Recruiting"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-recruiting_screen-screen-bab58ba6d9a5",
+      "record_type": "recruiting_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 7148,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:01:59",
+            "verification_status": "manual_review"
+          },
+          "value": "Recruiting"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 7148,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:01:59",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-recruiting_screen-screen-238dbf3f7711",
+      "record_type": "recruiting_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 14235,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:03:57",
+            "verification_status": "manual_review"
+          },
+          "value": "Recruiting"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 14235,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:03:57",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-recruiting_screen-screen-b1ee83ba783e",
+      "record_type": "recruiting_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 21323,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:05:55",
+            "verification_status": "manual_review"
+          },
+          "value": "Recruiting"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 21323,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:05:55",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-recruiting_screen-screen-25bb87cddc7e",
+      "record_type": "recruiting_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 28411,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:07:53",
+            "verification_status": "manual_review"
+          },
+          "value": "Recruiting"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 28411,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:07:53",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-recruiting_screen-screen-c6f246a5249a",
+      "record_type": "recruiting_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 35498,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:09:51",
+            "verification_status": "manual_review"
+          },
+          "value": "Recruiting"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 35498,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:09:51",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-recruiting_screen-screen-ec2d0b28daa1",
+      "record_type": "recruiting_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 42586,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:11:49",
+            "verification_status": "manual_review"
+          },
+          "value": "Recruiting"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 42586,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:11:49",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-recruiting_screen-screen-38167459ace9",
+      "record_type": "recruiting_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 49673,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:13:47",
+            "verification_status": "manual_review"
+          },
+          "value": "Recruiting"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 49673,
+            "manual_review": true,
+            "source_video": "rutgers recruitment page.mp4",
+            "source_video_hash": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+            "timestamp": "00:13:47",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-recruiting_screen-screen-7a11dfdfe281",
+      "record_type": "recruiting_screen",
+      "verification_status": "manual_review"
+    }
+  ],
+  "schema_version": "video_source_truth_first_pass_v1",
+  "source_of_truth": "input_videos"
+}

@@ -193,3 +193,8 @@ Detailed permanent standards now live under `/docs`:
 - `docs/RELEASE_STANDARD.md` defines release, report, and deployment workflow.
 
 Future implementation prompts should begin by reading this `PROJECT_SPEC.md` index and then the linked standard documents relevant to the requested scope.
+
+## Permanent Video Source-Of-Truth Engine
+`input_videos/` is the permanent source-of-truth intake folder for weekly CFB27 videos and future adapters. The ingestion layer must inventory every unique detected screen before extraction, preserve field-level evidence for every extracted value, and route uncertain values to manual review instead of guessing. Legacy JSON may be used for comparison and conflict reporting only; video-backed values win when confidently extracted.
+
+The 192-play Oregon play inventory remains a legacy comparison baseline. Active video-verified plays must be separated from legacy-unverified, manual-review, and conflicted plays. A legacy play must never be marked video-backed unless source video evidence verifies both formation and play name.

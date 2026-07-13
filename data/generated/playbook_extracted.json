@@ -1,0 +1,3731 @@
+{
+  "conflicted_plays": [],
+  "counts": {
+    "conflicted": 0,
+    "legacy_baseline": 192,
+    "legacy_unverified": 192,
+    "manual_review": 6,
+    "omitted_fields": 0,
+    "video_verified": 0
+  },
+  "legacy_baseline_count": 192,
+  "legacy_unverified_plays": [
+    {
+      "legacy_index": 1,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:00"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:00",
+        "formation_family": "Gun",
+        "play_name": "Shuffle Flood X Dig",
+        "set_or_subformation": "Split Slot Open",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_001",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 2,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:00"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:00",
+        "formation_family": "Gun",
+        "play_name": "Shuffle Angle Z Spot",
+        "set_or_subformation": "Split Slot Open",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_002",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 3,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:00"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:00",
+        "formation_family": "Gun",
+        "play_name": "Shuffle Slot Dig",
+        "set_or_subformation": "Split Slot Open",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_003",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 4,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:04"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:04",
+        "formation_family": "Gun",
+        "play_name": "Shuffle Flood X Dig",
+        "set_or_subformation": "Wing Tight Z",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_004",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 5,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:04"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:04",
+        "formation_family": "Gun",
+        "play_name": "Shuffle Angle Z Spot",
+        "set_or_subformation": "Wing Tight Z",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_005",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 6,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:04"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:04",
+        "formation_family": "Gun",
+        "play_name": "PA Flood",
+        "set_or_subformation": "Wing Tight Z",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_006",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 7,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:06"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:06",
+        "formation_family": "Gun",
+        "play_name": "Four Verticals",
+        "set_or_subformation": "Deuce Close",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_007",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 8,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:06"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:06",
+        "formation_family": "Gun",
+        "play_name": "Deep Curls",
+        "set_or_subformation": "Deuce Close",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_008",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 9,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:06"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:06",
+        "formation_family": "Gun",
+        "play_name": "Shakes",
+        "set_or_subformation": "Deuce Close",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_009",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 10,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:08"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:08",
+        "formation_family": "Gun",
+        "play_name": "Inside Zone",
+        "set_or_subformation": "Deuce Twins Over",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_010",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 11,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:08"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:08",
+        "formation_family": "Gun",
+        "play_name": "Mesh Spot",
+        "set_or_subformation": "Deuce Twins Over",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_011",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 12,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:08"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:08",
+        "formation_family": "Gun",
+        "play_name": "RPO Glance Post",
+        "set_or_subformation": "Deuce Twins Over",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_012",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 13,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:12"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:12",
+        "formation_family": "Gun",
+        "play_name": "Shift Counter",
+        "set_or_subformation": "U Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_013",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 14,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:12"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:12",
+        "formation_family": "Gun",
+        "play_name": "Shift PA Counter Scissors",
+        "set_or_subformation": "U Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_014",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 15,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:12"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:12",
+        "formation_family": "Gun",
+        "play_name": "Shift RPO Alert Counter",
+        "set_or_subformation": "U Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_015",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 16,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:14"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:14",
+        "formation_family": "Gun",
+        "play_name": "Inside Zone Split",
+        "set_or_subformation": "Wing Slot Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_016",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 17,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:14"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:14",
+        "formation_family": "Gun",
+        "play_name": "Mesh Spot",
+        "set_or_subformation": "Wing Slot Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_017",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 18,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:14"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:14",
+        "formation_family": "Gun",
+        "play_name": "RPO Read Flat Wheel",
+        "set_or_subformation": "Wing Slot Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_018",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 19,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:16"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:16",
+        "formation_family": "Gun",
+        "play_name": "Shift Inside Zone",
+        "set_or_subformation": "Normal Y Off Close",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_019",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 20,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:16"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:16",
+        "formation_family": "Gun",
+        "play_name": "Shift RPO Read Flat Wheel",
+        "set_or_subformation": "Normal Y Off Close",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_020",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 21,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:16"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:16",
+        "formation_family": "Gun",
+        "play_name": "Shift HB Draw",
+        "set_or_subformation": "Normal Y Off Close",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_021",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 22,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:20"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:20",
+        "formation_family": "Gun",
+        "play_name": "PA X Burst",
+        "set_or_subformation": "Doubles Y Off Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_022",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 23,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:20"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:20",
+        "formation_family": "Gun",
+        "play_name": "Inside Zone",
+        "set_or_subformation": "Doubles Y Off Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_023",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 24,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:20"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:20",
+        "formation_family": "Gun",
+        "play_name": "PA TE Out",
+        "set_or_subformation": "Doubles Y Off Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_024",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 25,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:22"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:22",
+        "formation_family": "Gun",
+        "play_name": "Post Wheel Shallow",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_025",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 26,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:22"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:22",
+        "formation_family": "Gun",
+        "play_name": "Counter Y",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_026",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 27,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:22"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:22",
+        "formation_family": "Gun",
+        "play_name": "PA Slot Corner",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_027",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 28,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:24"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:24",
+        "formation_family": "Gun",
+        "play_name": "Shift PA Counter",
+        "set_or_subformation": "Wing Trips Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_028",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 29,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:24"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:24",
+        "formation_family": "Gun",
+        "play_name": "Shift Inside Zone",
+        "set_or_subformation": "Wing Trips Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_029",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 30,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:24"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:24",
+        "formation_family": "Gun",
+        "play_name": "Mesh Slot",
+        "set_or_subformation": "Wing Trips Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_030",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 31,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:28"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:28",
+        "formation_family": "Gun",
+        "play_name": "Shuffle Angle",
+        "set_or_subformation": "Trips TE Offset Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_031",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 32,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:28"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:28",
+        "formation_family": "Gun",
+        "play_name": "Shuffle Switch Corner",
+        "set_or_subformation": "Trips TE Offset Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_032",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 33,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:28"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:28",
+        "formation_family": "Gun",
+        "play_name": "Shuffle Angle Y Wheel",
+        "set_or_subformation": "Trips TE Offset Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_033",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 34,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:30"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:30",
+        "formation_family": "Gun",
+        "play_name": "Jet Read Y Zone",
+        "set_or_subformation": "Trio Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_034",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 35,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:30"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:30",
+        "formation_family": "Gun",
+        "play_name": "PA Jet Sweep",
+        "set_or_subformation": "Trio Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_035",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 36,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:30"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:30",
+        "formation_family": "Gun",
+        "play_name": "Zone Fake Jet",
+        "set_or_subformation": "Trio Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_036",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 37,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:32"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:32",
+        "formation_family": "Gun",
+        "play_name": "PA Slot Cross",
+        "set_or_subformation": "Bunch Str Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_037",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 38,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:32"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:32",
+        "formation_family": "Gun",
+        "play_name": "MTN Inside Zone",
+        "set_or_subformation": "Bunch Str Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_038",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 39,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:32"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:32",
+        "formation_family": "Gun",
+        "play_name": "MTN PA Verticals",
+        "set_or_subformation": "Bunch Str Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_039",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 40,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:34"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:34",
+        "formation_family": "Gun",
+        "play_name": "RPO Alert Out",
+        "set_or_subformation": "Bunch Open Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_040",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 41,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:34"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:34",
+        "formation_family": "Gun",
+        "play_name": "Y Sail",
+        "set_or_subformation": "Bunch Open Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_041",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 42,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:34"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:34",
+        "formation_family": "Gun",
+        "play_name": "Inside Zone",
+        "set_or_subformation": "Bunch Open Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_042",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 43,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:36"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:36",
+        "formation_family": "Gun",
+        "play_name": "Deep Stick Slot",
+        "set_or_subformation": "Bunch Quads Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_043",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 44,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:36"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:36",
+        "formation_family": "Gun",
+        "play_name": "Shallow Mesh Zone",
+        "set_or_subformation": "Bunch Quads Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_044",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 45,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:36"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:36",
+        "formation_family": "Gun",
+        "play_name": "Cheat TE Screen",
+        "set_or_subformation": "Bunch Quads Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_045",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 46,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:38"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:38",
+        "formation_family": "Gun",
+        "play_name": "MTN Wheel Shallow",
+        "set_or_subformation": "Double Stack",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_046",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 47,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:38"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:38",
+        "formation_family": "Gun",
+        "play_name": "MTN HB Swing",
+        "set_or_subformation": "Double Stack",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_047",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 48,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:38"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:38",
+        "formation_family": "Gun",
+        "play_name": "MTN PA Verticals",
+        "set_or_subformation": "Double Stack",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_048",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 49,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:40"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:40",
+        "formation_family": "Gun",
+        "play_name": "Return Mesh Spot",
+        "set_or_subformation": "Stack Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_049",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 50,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:40"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:40",
+        "formation_family": "Gun",
+        "play_name": "Reload RPO Zone Read",
+        "set_or_subformation": "Stack Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_050",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 51,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:40"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:40",
+        "formation_family": "Gun",
+        "play_name": "Reload TE Cross",
+        "set_or_subformation": "Stack Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_051",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 52,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:42"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:42",
+        "formation_family": "Gun",
+        "play_name": "Inside Zone Split",
+        "set_or_subformation": "Trips Y Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_052",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 53,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:42"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:42",
+        "formation_family": "Gun",
+        "play_name": "All Go",
+        "set_or_subformation": "Trips Y Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_053",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 54,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:42"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:42",
+        "formation_family": "Gun",
+        "play_name": "Y Return Inside Zone",
+        "set_or_subformation": "Trips Y Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_054",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 55,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:44"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:44",
+        "formation_family": "Gun",
+        "play_name": "Y Return Inside Zone",
+        "set_or_subformation": "Trips HB Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_055",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 56,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:44"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:44",
+        "formation_family": "Gun",
+        "play_name": "Y Return Mesh Remind",
+        "set_or_subformation": "Trips HB Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_056",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 57,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:44"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:44",
+        "formation_family": "Gun",
+        "play_name": "RPO Alert Bubble",
+        "set_or_subformation": "Trips HB Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_057",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 58,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:46"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:46",
+        "formation_family": "Gun",
+        "play_name": "Slot Fade",
+        "set_or_subformation": "Empty Base Trio",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_058",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 59,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:46",
+          "01:26"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:46",
+        "formation_family": "Gun",
+        "play_name": "RPO Alert Bubble",
+        "set_or_subformation": "Empty Base Trio",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_059",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 60,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:46"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:46",
+        "formation_family": "Gun",
+        "play_name": "PA Read",
+        "set_or_subformation": "Empty Base Trio",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_060",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 61,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:48"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:48",
+        "formation_family": "Gun",
+        "play_name": "Ducks Sprint Flood",
+        "set_or_subformation": "Empty HB Wide",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_061",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 62,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:48"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:48",
+        "formation_family": "Gun",
+        "play_name": "RPO X Glance Bubble",
+        "set_or_subformation": "Empty HB Wide",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_062",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 63,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:48"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:48",
+        "formation_family": "Gun",
+        "play_name": "Flood HB Swing",
+        "set_or_subformation": "Empty HB Wide",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_063",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 64,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:50"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:50",
+        "formation_family": "Gun",
+        "play_name": "Stick",
+        "set_or_subformation": "Empty Base Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_064",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 65,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:50"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:50",
+        "formation_family": "Gun",
+        "play_name": "QB Draw",
+        "set_or_subformation": "Empty Base Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_065",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 66,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:50"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:50",
+        "formation_family": "Gun",
+        "play_name": "Verticals Y Option",
+        "set_or_subformation": "Empty Base Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_066",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 67,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:52"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:52",
+        "formation_family": "Gun",
+        "play_name": "Deep Stick",
+        "set_or_subformation": "Empty Quads",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_067",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 68,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:52"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:52",
+        "formation_family": "Gun",
+        "play_name": "Outside Zone",
+        "set_or_subformation": "Empty Quads",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_068",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 69,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:52"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:52",
+        "formation_family": "Gun",
+        "play_name": "PA Double Post",
+        "set_or_subformation": "Empty Quads",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_069",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 70,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:54"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:54",
+        "formation_family": "Gun",
+        "play_name": "Shot Wheel",
+        "set_or_subformation": "Empty Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_070",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 71,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:54"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:54",
+        "formation_family": "Gun",
+        "play_name": "Inside Trap",
+        "set_or_subformation": "Empty Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_071",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 72,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:54"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:54",
+        "formation_family": "Gun",
+        "play_name": "PA Read",
+        "set_or_subformation": "Empty Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_072",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 73,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:56"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:56",
+        "formation_family": "Gun",
+        "play_name": "Read Option",
+        "set_or_subformation": "Empty Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_073",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 74,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:56"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:56",
+        "formation_family": "Gun",
+        "play_name": "All Go",
+        "set_or_subformation": "Empty Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_074",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 75,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:56"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "00:56",
+        "formation_family": "Gun",
+        "play_name": "Y Lead Read Option",
+        "set_or_subformation": "Empty Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_075",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 76,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:58"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:58",
+        "formation_family": "Gun",
+        "play_name": "Return Sprint Comeback",
+        "set_or_subformation": "Trips TE Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_076",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 77,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:58"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:58",
+        "formation_family": "Gun",
+        "play_name": "Return Sprint TE Screen",
+        "set_or_subformation": "Trips TE Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_077",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 78,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "00:58"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "00:58",
+        "formation_family": "Gun",
+        "play_name": "Return Sprint Spot",
+        "set_or_subformation": "Trips TE Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_078",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 79,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:00"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:00",
+        "formation_family": "Gun",
+        "play_name": "Verts",
+        "set_or_subformation": "Trips Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_079",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 80,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:00"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:00",
+        "formation_family": "Gun",
+        "play_name": "HB Power",
+        "set_or_subformation": "Trips Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_080",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 81,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:00"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:00",
+        "formation_family": "Gun",
+        "play_name": "PA Flood",
+        "set_or_subformation": "Trips Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_081",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 82,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:02"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:02",
+        "formation_family": "Gun",
+        "play_name": "Flood",
+        "set_or_subformation": "Trips Y Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_082",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 83,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:02"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:02",
+        "formation_family": "Gun",
+        "play_name": "HB Inside Zone",
+        "set_or_subformation": "Trips Y Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_083",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 84,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:02"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:02",
+        "formation_family": "Gun",
+        "play_name": "MTN Wheel Screen",
+        "set_or_subformation": "Trips Y Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_084",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 85,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:04"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:04",
+        "formation_family": "Gun",
+        "play_name": "PA Flood",
+        "set_or_subformation": "Trips HB Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_085",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 86,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:04"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:04",
+        "formation_family": "Gun",
+        "play_name": "HB Quick Base",
+        "set_or_subformation": "Trips HB Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_086",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 87,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:04"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:04",
+        "formation_family": "Gun",
+        "play_name": "PA Crossers",
+        "set_or_subformation": "Trips HB Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_087",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 88,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:06"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:06",
+        "formation_family": "Gun",
+        "play_name": "Shift Out",
+        "set_or_subformation": "Bunch Str Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_088",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 89,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:06"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:06",
+        "formation_family": "Gun",
+        "play_name": "RPO Alert Bubble",
+        "set_or_subformation": "Bunch Str Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_089",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 90,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:06"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:06",
+        "formation_family": "Gun",
+        "play_name": "PA Crossers",
+        "set_or_subformation": "Bunch Str Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_090",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 91,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:08"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:08",
+        "formation_family": "Gun",
+        "play_name": "Return Spacing",
+        "set_or_subformation": "Bunch Open Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_091",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 92,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:08"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:08",
+        "formation_family": "Gun",
+        "play_name": "Return RPO Alert Flat",
+        "set_or_subformation": "Bunch Open Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_092",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 93,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:08"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:08",
+        "formation_family": "Gun",
+        "play_name": "Return PA Flood",
+        "set_or_subformation": "Bunch Open Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_093",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 94,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:10"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:10",
+        "formation_family": "Gun",
+        "play_name": "Bubble Screen",
+        "set_or_subformation": "Bunch Quads Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_094",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 95,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:10"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:10",
+        "formation_family": "Gun",
+        "play_name": "Inside Zone",
+        "set_or_subformation": "Bunch Quads Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_095",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 96,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:10"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:10",
+        "formation_family": "Gun",
+        "play_name": "Dagger",
+        "set_or_subformation": "Bunch Quads Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_096",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 97,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:12"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:12",
+        "formation_family": "Gun",
+        "play_name": "Return Spacing",
+        "set_or_subformation": "Double Stack",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_097",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 98,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:12"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:12",
+        "formation_family": "Gun",
+        "play_name": "Return RPO Alert Flat",
+        "set_or_subformation": "Double Stack",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_098",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 99,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:12"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:12",
+        "formation_family": "Gun",
+        "play_name": "Return PA Flood",
+        "set_or_subformation": "Double Stack",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_099",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 100,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:16"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:16",
+        "formation_family": "Gun",
+        "play_name": "PA Crossers",
+        "set_or_subformation": "Bunch Quads Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_100",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 101,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:16"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:16",
+        "formation_family": "Gun",
+        "play_name": "Shock Screen",
+        "set_or_subformation": "Bunch Quads Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_101",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 102,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:16"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:16",
+        "formation_family": "Gun",
+        "play_name": "Verticals",
+        "set_or_subformation": "Bunch Quads Offset",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_102",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 103,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:18"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:18",
+        "formation_family": "Gun",
+        "play_name": "All Go",
+        "set_or_subformation": "Double Stack",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_103",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 104,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:18"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:18",
+        "formation_family": "Gun",
+        "play_name": "RPO Alert Trap",
+        "set_or_subformation": "Double Stack",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_104",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 105,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:18"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:18",
+        "formation_family": "Gun",
+        "play_name": "HB Slip Screen",
+        "set_or_subformation": "Double Stack",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_105",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 106,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:20"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:20",
+        "formation_family": "Gun",
+        "play_name": "Curl Combo",
+        "set_or_subformation": "Stack Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_106",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 107,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:20"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:20",
+        "formation_family": "Gun",
+        "play_name": "Inside Zone",
+        "set_or_subformation": "Stack Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_107",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 108,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:20"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:20",
+        "formation_family": "Gun",
+        "play_name": "PA Jailbreak Screen",
+        "set_or_subformation": "Stack Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_108",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 109,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:22"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:22",
+        "formation_family": "Gun",
+        "play_name": "Shift Slot Out",
+        "set_or_subformation": "Trips Y Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_109",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 110,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:22"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:22",
+        "formation_family": "Gun",
+        "play_name": "Shift HB Screen",
+        "set_or_subformation": "Trips Y Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_110",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 111,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:22"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:22",
+        "formation_family": "Gun",
+        "play_name": "Shift TE Screen Wheel",
+        "set_or_subformation": "Trips Y Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_111",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 112,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:24"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:24",
+        "formation_family": "Gun",
+        "play_name": "MTN Outside Zone",
+        "set_or_subformation": "Trips HB Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_112",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 113,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:24"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:24",
+        "formation_family": "Gun",
+        "play_name": "MTN PA Crossers",
+        "set_or_subformation": "Trips HB Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_113",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 114,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:24"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:24",
+        "formation_family": "Gun",
+        "play_name": "MTN Inside Zone",
+        "set_or_subformation": "Trips HB Wk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_114",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 115,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:26"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:26",
+        "formation_family": "Gun",
+        "play_name": "PA Crossers",
+        "set_or_subformation": "Empty Base Trio",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_115",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 116,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:26"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:26",
+        "formation_family": "Gun",
+        "play_name": "MTN Wheel",
+        "set_or_subformation": "Empty Base Trio",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_116",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 117,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:28"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:28",
+        "formation_family": "Gun",
+        "play_name": "PA Flood",
+        "set_or_subformation": "Empty HB Wide",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_117",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 118,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:28"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:28",
+        "formation_family": "Gun",
+        "play_name": "Inside Zone",
+        "set_or_subformation": "Empty HB Wide",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_118",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 119,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:28"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:28",
+        "formation_family": "Gun",
+        "play_name": "PA Crossers",
+        "set_or_subformation": "Empty HB Wide",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_119",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 120,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:30"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:30",
+        "formation_family": "Gun",
+        "play_name": "Wheel Screen",
+        "set_or_subformation": "Empty Base Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_120",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 121,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:30"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:30",
+        "formation_family": "Gun",
+        "play_name": "Deep Stick",
+        "set_or_subformation": "Empty Base Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_121",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 122,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:30"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:30",
+        "formation_family": "Gun",
+        "play_name": "HB Slip Screen",
+        "set_or_subformation": "Empty Base Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_122",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 123,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:32"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:32",
+        "formation_family": "Gun",
+        "play_name": "Curl Combo",
+        "set_or_subformation": "Empty Quads",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_123",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 124,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:32"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:32",
+        "formation_family": "Gun",
+        "play_name": "QB Draw",
+        "set_or_subformation": "Empty Quads",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_124",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 125,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:32"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:32",
+        "formation_family": "Gun",
+        "play_name": "Shock Slot Option",
+        "set_or_subformation": "Empty Quads",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_125",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 126,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:34"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:34",
+        "formation_family": "Gun",
+        "play_name": "All Curls",
+        "set_or_subformation": "Empty Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_126",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 127,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:34"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:34",
+        "formation_family": "Gun",
+        "play_name": "Bubble Screen",
+        "set_or_subformation": "Empty Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_127",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 128,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:34"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:34",
+        "formation_family": "Gun",
+        "play_name": "Deep Attack",
+        "set_or_subformation": "Empty Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_128",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 129,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:36"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:36",
+        "formation_family": "Gun",
+        "play_name": "Shift Mesh",
+        "set_or_subformation": "Empty Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_129",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 130,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:36"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:36",
+        "formation_family": "Gun",
+        "play_name": "Shift X Mid Screen",
+        "set_or_subformation": "Empty Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_130",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 131,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:36"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:36",
+        "formation_family": "Gun",
+        "play_name": "Shift Shock Whips",
+        "set_or_subformation": "Empty Y-Flex",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_131",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 132,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:38"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:38",
+        "formation_family": "Gun",
+        "play_name": "QB Dig",
+        "set_or_subformation": "Empty HB Wide",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_132",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 133,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:38"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:38",
+        "formation_family": "Gun",
+        "play_name": "Seams Y Corner",
+        "set_or_subformation": "Empty HB Wide",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_133",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 134,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:38"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:38",
+        "formation_family": "Gun",
+        "play_name": "Hotline Up",
+        "set_or_subformation": "Empty HB Wide",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_134",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 135,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:40"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:40",
+        "formation_family": "Gun",
+        "play_name": "X Dig",
+        "set_or_subformation": "Split Slot Open",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_135",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 136,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:40"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:40",
+        "formation_family": "Gun",
+        "play_name": "HB Off Tackle",
+        "set_or_subformation": "Split Slot Open",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_136",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 137,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:40"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:40",
+        "formation_family": "Gun",
+        "play_name": "PA Slot Post",
+        "set_or_subformation": "Split Slot Open",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_137",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 138,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:44"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:44",
+        "formation_family": "Pistol",
+        "play_name": "Read Option",
+        "set_or_subformation": "Full House Tight",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_138",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 139,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:44"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:44",
+        "formation_family": "Pistol",
+        "play_name": "PA Crossers",
+        "set_or_subformation": "Full House Tight",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_139",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 140,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:44"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:44",
+        "formation_family": "Pistol",
+        "play_name": "Counter Lead",
+        "set_or_subformation": "Full House Tight",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_140",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 141,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:46"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:46",
+        "formation_family": "Pistol",
+        "play_name": "Read Option",
+        "set_or_subformation": "Ace",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_141",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 142,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:46"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:46",
+        "formation_family": "Pistol",
+        "play_name": "PA Deep In",
+        "set_or_subformation": "Ace",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_142",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 143,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:46"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:46",
+        "formation_family": "Pistol",
+        "play_name": "HB Dive",
+        "set_or_subformation": "Ace",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_143",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 144,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:48"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:48",
+        "formation_family": "Pistol",
+        "play_name": "HB Dive",
+        "set_or_subformation": "Wing",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_144",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 145,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:48"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:48",
+        "formation_family": "Pistol",
+        "play_name": "MTN PA Cross",
+        "set_or_subformation": "Wing",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_145",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 146,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:48"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:48",
+        "formation_family": "Pistol",
+        "play_name": "MTN Power O",
+        "set_or_subformation": "Wing",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_146",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 147,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:50"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:50",
+        "formation_family": "Pistol",
+        "play_name": "Y Stick",
+        "set_or_subformation": "Wing Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_147",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 148,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:50"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:50",
+        "formation_family": "Pistol",
+        "play_name": "HB Counter",
+        "set_or_subformation": "Wing Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_148",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 149,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:50"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:50",
+        "formation_family": "Pistol",
+        "play_name": "PA Counter Y Screen",
+        "set_or_subformation": "Wing Slot",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_149",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 150,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:52"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:52",
+        "formation_family": "Pistol",
+        "play_name": "Jet Touch Pass",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_150",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 151,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:52"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:52",
+        "formation_family": "Pistol",
+        "play_name": "Jet Dash WK",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_151",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 152,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:52"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "01:52",
+        "formation_family": "Pistol",
+        "play_name": "Jet Split Zone",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_152",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 153,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:54"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:54",
+        "formation_family": "Pistol",
+        "play_name": "PA X Burst",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_153",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 154,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:54"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:54",
+        "formation_family": "Pistol",
+        "play_name": "Read Option WK",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_154",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 155,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:54"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:54",
+        "formation_family": "Pistol",
+        "play_name": "PA Deep Out",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_155",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 156,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:56",
+          "01:58"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:56",
+        "formation_family": "Pistol",
+        "play_name": "Inside Zone",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_156",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 157,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:56",
+          "01:58"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:56",
+        "formation_family": "Pistol",
+        "play_name": "PA Double Post",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_157",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 158,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:56"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:56",
+        "formation_family": "Pistol",
+        "play_name": "Counter Y",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_158",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 159,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "01:58"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "01:58",
+        "formation_family": "Pistol",
+        "play_name": "Vertical TE Cross",
+        "set_or_subformation": "Y Off Trips",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_159",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 160,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:02"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:02",
+        "formation_family": "I Form",
+        "play_name": "HB Dive",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_160",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 161,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:02"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:02",
+        "formation_family": "I Form",
+        "play_name": "PA TE Corner",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_161",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 162,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:02"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:02",
+        "formation_family": "I Form",
+        "play_name": "HB Toss",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_162",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 163,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:04"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:04",
+        "formation_family": "I Form",
+        "play_name": "FB Dive",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_163",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 164,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:04"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:04",
+        "formation_family": "I Form",
+        "play_name": "PA Power O",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_164",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 165,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:04"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:04",
+        "formation_family": "I Form",
+        "play_name": "Strong Stretch",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_165",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 166,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:06",
+          "02:08"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:06",
+        "formation_family": "I Form",
+        "play_name": "HB Iso",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_166",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 167,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:06",
+          "02:08"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:06",
+        "formation_family": "I Form",
+        "play_name": "PA Cross",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_167",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 168,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:06"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:06",
+        "formation_family": "I Form",
+        "play_name": "HB Counter WK",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_168",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 169,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:08"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "02:08",
+        "formation_family": "I Form",
+        "play_name": "HB Stretch",
+        "set_or_subformation": "Hulk",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_169",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 170,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:10",
+          "02:12",
+          "02:14"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:10",
+        "formation_family": "Wildcat",
+        "play_name": "Jet Sweep",
+        "set_or_subformation": "Unbalanced",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_170",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 171,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:10",
+          "02:14"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:10",
+        "formation_family": "Wildcat",
+        "play_name": "PA Jet Sweep",
+        "set_or_subformation": "Unbalanced",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_171",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 172,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:10",
+          "02:14"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:10",
+        "formation_family": "Wildcat",
+        "play_name": "Power",
+        "set_or_subformation": "Unbalanced",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_172",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 173,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:12"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:12",
+        "formation_family": "Wildcat",
+        "play_name": "PA Cross",
+        "set_or_subformation": "Unbalanced",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_173",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 174,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:12"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:12",
+        "formation_family": "Wildcat",
+        "play_name": "Zone",
+        "set_or_subformation": "Unbalanced",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_174",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 175,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:18"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:18",
+        "formation_family": "Goal Line",
+        "play_name": "HB Dive",
+        "set_or_subformation": "Goal Line",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_175",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 176,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:18"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:18",
+        "formation_family": "Goal Line",
+        "play_name": "PA Spot",
+        "set_or_subformation": "Goal Line",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_176",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 177,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:18"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:18",
+        "formation_family": "Goal Line",
+        "play_name": "QB Sneak",
+        "set_or_subformation": "Goal Line",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_177",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 178,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:20"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:20",
+        "formation_family": "Goal Line",
+        "play_name": "HB Sting",
+        "set_or_subformation": "Goal Line",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_178",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 179,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:20"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:20",
+        "formation_family": "Goal Line",
+        "play_name": "PA Waggle",
+        "set_or_subformation": "Goal Line",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_179",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 180,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:20"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:20",
+        "formation_family": "Goal Line",
+        "play_name": "Strong Toss",
+        "set_or_subformation": "Goal Line",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_180",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 181,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:24"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "02:24",
+        "formation_family": "Hail Mary",
+        "play_name": "Hail Mary",
+        "set_or_subformation": "Hail Mary",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_181",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 182,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:24"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "02:24",
+        "formation_family": "Hail Mary",
+        "play_name": "Shot Save Clock",
+        "set_or_subformation": "Hail Mary",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_182",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 183,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:24"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "02:24",
+        "formation_family": "Hail Mary",
+        "play_name": "Goal Post",
+        "set_or_subformation": "Hail Mary",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_183",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 184,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:26"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:26",
+        "formation_family": "Special Teams",
+        "play_name": "Fake FG Kicker Flip",
+        "set_or_subformation": "Field Goal",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_184",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 185,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:26"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:26",
+        "formation_family": "Special Teams",
+        "play_name": "Field Goal - 47 YDS",
+        "set_or_subformation": "Field Goal",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_185",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 186,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:26"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:26",
+        "formation_family": "Special Teams",
+        "play_name": "Fake FG K Flip Pass",
+        "set_or_subformation": "Field Goal",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_186",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 187,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:30"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:30",
+        "formation_family": "Special Teams",
+        "play_name": "Fake Punt FB Flat",
+        "set_or_subformation": "Punt",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_187",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 188,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:30"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:30",
+        "formation_family": "Special Teams",
+        "play_name": "Punt",
+        "set_or_subformation": "Punt",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_188",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 189,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:30"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:30",
+        "formation_family": "Special Teams",
+        "play_name": "Fake Punt Shovel",
+        "set_or_subformation": "Punt",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_189",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 190,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:32"
+        ],
+        "confidence": "high",
+        "first_visible_timestamp": "02:32",
+        "formation_family": "Special Teams",
+        "play_name": "QB Kneel",
+        "set_or_subformation": "QB Kneel",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_190",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 191,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:34"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "02:34",
+        "formation_family": "Special Teams",
+        "play_name": "QB Kneel",
+        "set_or_subformation": "Clock Management",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_191",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    },
+    {
+      "legacy_index": 192,
+      "legacy_play": {
+        "all_visible_timestamps": [
+          "02:36"
+        ],
+        "confidence": "medium",
+        "first_visible_timestamp": "02:36",
+        "formation_family": "Special Teams",
+        "play_name": "Punt Safe",
+        "set_or_subformation": "Punt Safe",
+        "source_video": "IMG_3050.mp4",
+        "visibility_status": "VERIFIED_VISIBLE"
+      },
+      "play_id": "legacy_play_192",
+      "reason": "Comparison baseline only until video verifies formation and play name.",
+      "verification_status": "legacy_unverified"
+    }
+  ],
+  "manual_review_plays": [
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 60,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:01",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-b778bc139502",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 60,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:01",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_001_00001s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 60,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:01",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 2035,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:33",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-28e9b22842ee",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 2035,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:33",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_002_00033s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 2035,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:33",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 4010,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:06",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-ce1bce3bd04e",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 4010,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:06",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_003_00066s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 4010,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:06",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 5985,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:39",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-c79bfe27b12d",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 5985,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:39",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_004_00099s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 5985,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:39",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 7959,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:12",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-e27d0013d10c",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 7959,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:12",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_005_00132s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 7959,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:12",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 9934,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:45",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-e823166dbd37",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 9934,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:45",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_006_00165s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 9934,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:45",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    }
+  ],
+  "package_type": "playbook_extracted",
+  "schema_version": "video_source_truth_first_pass_v1",
+  "source_of_truth": "input_videos",
+  "video_verified_plays": []
+}

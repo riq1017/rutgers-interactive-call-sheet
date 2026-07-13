@@ -1,0 +1,100 @@
+{
+  "consolidated_totals": {
+    "complete_player_cards": 0,
+    "confidence_percentage": 35.0,
+    "duplicates_removed": 0,
+    "legacy_play_baseline": 192,
+    "partial_player_cards": 0,
+    "unique_players": 0,
+    "unique_plays": 0,
+    "unique_recruits": 0,
+    "unreadable_records": 42,
+    "video_verified_plays": 0
+  },
+  "generated_at": "2026-07-13T23:34:32.988026Z",
+  "package_type": "source_truth_summary",
+  "per_video_counts": [
+    {
+      "complete_cards": 0,
+      "confidence": 0.35,
+      "duplicates_removed": 0,
+      "partial_cards": 0,
+      "players": 0,
+      "plays": 0,
+      "recruits": 0,
+      "screen_count": 6,
+      "type": "Playbook",
+      "unreadable_records": 6,
+      "video": "Oregon PLaybook.mp4"
+    },
+    {
+      "complete_cards": 0,
+      "confidence": 0.35,
+      "duplicates_removed": 0,
+      "partial_cards": 0,
+      "players": 0,
+      "plays": 0,
+      "recruits": 0,
+      "screen_count": 8,
+      "type": "Opponent Roster",
+      "unreadable_records": 8,
+      "video": "Purdue Roster.mp4"
+    },
+    {
+      "complete_cards": 0,
+      "confidence": 0.35,
+      "duplicates_removed": 0,
+      "partial_cards": 0,
+      "players": 0,
+      "plays": 0,
+      "recruits": 0,
+      "screen_count": 6,
+      "type": "Opponent Season Stats",
+      "unreadable_records": 6,
+      "video": "Purdue Season Stats.mp4"
+    },
+    {
+      "complete_cards": 0,
+      "confidence": 0.35,
+      "duplicates_removed": 0,
+      "partial_cards": 0,
+      "players": 0,
+      "plays": 0,
+      "recruits": 0,
+      "screen_count": 8,
+      "type": "Recruiting",
+      "unreadable_records": 8,
+      "video": "rutgers recruitment page.mp4"
+    },
+    {
+      "complete_cards": 0,
+      "confidence": 0.35,
+      "duplicates_removed": 0,
+      "partial_cards": 0,
+      "players": 0,
+      "plays": 0,
+      "recruits": 0,
+      "screen_count": 8,
+      "type": "Current Team Roster",
+      "unreadable_records": 8,
+      "video": "Rutgers Roster.webm"
+    },
+    {
+      "complete_cards": 0,
+      "confidence": 0.35,
+      "duplicates_removed": 0,
+      "partial_cards": 0,
+      "players": 0,
+      "plays": 0,
+      "recruits": 0,
+      "screen_count": 6,
+      "type": "Current Team Season Stats",
+      "unreadable_records": 6,
+      "video": "Rutgers Season stats.mp4"
+    }
+  ],
+  "schema_version": "video_source_truth_first_pass_v1",
+  "screen_count": 42,
+  "source_of_truth": "input_videos",
+  "video_count": 6
+}

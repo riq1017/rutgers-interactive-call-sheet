@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T17:48:49.495Z
+Validated: 2026-07-13T23:35:19.280Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -293,5 +293,15 @@ Validated: 2026-07-13T17:48:49.495Z
 - PASS - Production binding screenshot artifacts are non-empty PNG files
 - PASS - Sports-app card screenshots exist at 390x844 and 430x932
 - PASS - Sports-app card screenshot artifacts are non-empty PNG files
+- PASS - Permanent video source generated files exist
+- PASS - Permanent video source manifest detects all six current videos (Oregon PLaybook.mp4, Purdue Roster.mp4, Purdue Season Stats.mp4, Rutgers Roster.webm, Rutgers Season stats.mp4, rutgers recruitment page.mp4)
+- PASS - Screen inventory exists and every screen has a final disposition (screens=42)
+- PASS - Legacy 192-play baseline remains intact in generated playbook
+- PASS - Generated playbook separates video-verified, legacy-unverified, manual-review, and conflicted plays
+- PASS - Generated playbook does not falsely expand video-verified active plays
+- PASS - Generated field-level evidence is complete
+- PASS - Coach abilities remain separated from player abilities
+- PASS - Current-team and opponent video outputs remain separated
+- PASS - Raw input videos are protected by gitignore
 
 Overall: PASS

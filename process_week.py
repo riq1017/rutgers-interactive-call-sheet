@@ -1,0 +1,320 @@
+﻿#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse, hashlib, json, shutil, subprocess, sys, time
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+VIDEO_EXTENSIONS = {".mp4", ".mov", ".webm", ".mkv"}
+FINAL_DISPOSITIONS = {"fully_extracted","partially_extracted","duplicate","irrelevant_transition","unreadable_manual_review"}
+GENERATED_FILES = [
+  "current_team_roster_extracted.json","opponent_roster_extracted.json",
+  "current_team_season_stats_extracted.json","opponent_season_stats_extracted.json",
+  "recruiting_extracted.json","playbook_extracted.json","play_art_manifest.json",
+  "coach_abilities_extracted.json","career_context.json","video_manifest.json",
+  "source_truth_summary.json","source_truth_players.json","source_truth_plays.json",
+  "source_truth_recruits.json","extraction_confidence.json","screen_inventory.json"
+]
+STREAMLABS = Path(r"C:\Program Files\Streamlabs OBS\resources\app.asar.unpacked\node_modules\obs-studio-node")
+
+def root() -> Path:
+  return Path(__file__).resolve().parent
+
+def now() -> str:
+  return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
+
+def ftime(ts: float) -> str:
+  return datetime.fromtimestamp(ts, timezone.utc).isoformat().replace("+00:00","Z")
+
+def read_json(path: Path, fallback: Any) -> Any:
+  try:
+    return json.loads(path.read_text(encoding="utf-8"))
+  except Exception:
+    return fallback
+
+def write_json(path: Path, payload: Any) -> None:
+  path.parent.mkdir(parents=True, exist_ok=True)
+  path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+def resolve_ffmpeg(repo: Optional[Path] = None) -> Dict[str, str]:
+  repo = repo or root()
+  cfg = repo / "video_tools.local.json"
+  if cfg.exists():
+    data = read_json(cfg, {})
+    if data.get("ffmpeg") and data.get("ffprobe") and Path(data["ffmpeg"]).exists() and Path(data["ffprobe"]).exists():
+      return {"ffmpeg": str(Path(data["ffmpeg"])), "ffprobe": str(Path(data["ffprobe"])), "source": "local_config"}
+  ffmpeg, ffprobe = shutil.which("ffmpeg"), shutil.which("ffprobe")
+  if ffmpeg and ffprobe:
+    return {"ffmpeg": ffmpeg, "ffprobe": ffprobe, "source": "system_path"}
+  sf, sp = STREAMLABS / "ffmpeg.exe", STREAMLABS / "ffprobe.exe"
+  if sf.exists() and sp.exists():
+    return {"ffmpeg": str(sf), "ffprobe": str(sp), "source": "streamlabs_obs"}
+  raise RuntimeError("FFmpeg/FFprobe not found. Add them to PATH, create video_tools.local.json, or install Streamlabs OBS.")
+
+def discover_videos(input_dir: Path) -> List[Path]:
+  if not input_dir.exists():
+    return []
+  return sorted([p for p in input_dir.iterdir() if p.is_file() and p.suffix.lower() in VIDEO_EXTENSIONS], key=lambda p: p.name.lower())
+
+def classify_video_name(name: str) -> Dict[str, Any]:
+  n = name.lower()
+  table = [
+    ("oregon", "playbook", "Playbook", "playbook"),
+    ("purdue", "season", "Opponent Season Stats", "opponent_season_stats"),
+    ("purdue", "roster", "Opponent Roster", "opponent_roster"),
+    ("rutgers", "season", "Current Team Season Stats", "current_team_season_stats"),
+    ("rutgers", "recruit", "Recruiting", "recruiting"),
+    ("rutgers", "roster", "Current Team Roster", "current_team_roster"),
+    ("depth", "", "Depth Chart", "depth_chart"),
+  ]
+  for a,b,cls,pkg in table:
+    if a in n and (not b or b in n):
+      return {"classification": cls, "package": pkg, "classification_hints": [f"filename:{a}", f"filename:{b}" if b else "filename:depth"], "classification_method": ["filename_hint","screen_inventory_pending"]}
+  return {"classification": "Unknown / Manual Review", "package": "unknown", "classification_hints": ["manual_review_required"], "classification_method": ["filename_hint","screen_inventory_pending"]}
+
+def sha256_file(path: Path) -> str:
+  h = hashlib.sha256()
+  with path.open("rb") as handle:
+    for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+      h.update(chunk)
+  return h.hexdigest()
+
+def ffprobe_meta(ffprobe: str, video: Path) -> Dict[str, Any]:
+  out = subprocess.run([ffprobe,"-v","error","-print_format","json","-show_format","-show_streams",str(video)], capture_output=True, text=True, check=True).stdout
+  data = json.loads(out or "{}")
+  stream = next((s for s in data.get("streams", []) if s.get("codec_type") == "video"), {})
+  dur = data.get("format", {}).get("duration") or stream.get("duration")
+  return {"duration_seconds": round(float(dur),3) if dur else None, "resolution": {"width": stream.get("width"), "height": stream.get("height")}, "frame_rate": stream.get("avg_frame_rate") or stream.get("r_frame_rate"), "codec": stream.get("codec_name")}
+
+def sample_timestamps(duration: Optional[float], max_samples: int = 8) -> List[float]:
+  if not duration or duration <= 0:
+    return [0.5]
+  count = 4 if duration < 45 else 6 if duration < 180 else max_samples
+  start, end = min(1.0, duration * 0.05), max(1.0, duration * 0.92)
+  return [round(start + (end - start) * i / max(1, count - 1), 3) for i in range(count)]
+
+def extract_frame(ffmpeg: str, video: Path, output: Path, ts: float) -> bool:
+  output.parent.mkdir(parents=True, exist_ok=True)
+  cmd = [ffmpeg,"-y","-ss",f"{ts:.3f}","-i",str(video),"-frames:v","1","-q:v","3","-loglevel","error",str(output)]
+  res = subprocess.run(cmd, capture_output=True, text=True)
+  return res.returncode == 0 and output.exists() and output.stat().st_size > 0
+
+def frame_signature(path: Path) -> str:
+  data = path.read_bytes()
+  step = max(1, len(data) // 4096)
+  return hashlib.sha1(bytes(data[i] for i in range(0, len(data), step)[:4096])).hexdigest()
+
+def short_hash(text: str) -> str:
+  return hashlib.sha1(text.encode("utf-8", "ignore")).hexdigest()[:12]
+
+def legacy_playbook(repo: Path) -> List[Dict[str, Any]]:
+  data = read_json(repo / "data" / "OREGON_PLAYBOOK_VISIBLE_TRANSCRIPT_VERIFIED.json", [])
+  if isinstance(data, dict):
+    for key in ("verified_visible_master_inventory","plays","playbook","items"): 
+      if isinstance(data.get(key), list):
+        return data[key]
+    return []
+  return data if isinstance(data, list) else []
+
+def play_identity(play: Dict[str, Any], idx: int) -> str:
+  return str(play.get("play_id") or play.get("id") or f"legacy_play_{idx+1:03d}")
+
+def evidence(video: Dict[str, Any], screen: Dict[str, Any], confidence: float = 0.35, manual: bool = True) -> Dict[str, Any]:
+  return {"source_video": video["filename"], "source_video_hash": video["sha256"], "timestamp": screen.get("timestamp"), "frame_number": screen.get("frame_number"), "confidence": confidence, "verification_status": "manual_review" if manual else "video_verified", "manual_review": manual}
+
+def field(value: Any, ev: Dict[str, Any]) -> Dict[str, Any]:
+  return {"value": value, "evidence": dict(ev)}
+
+def build_manifest(repo: Path, tools: Dict[str,str], selected: Optional[str], force: bool) -> Dict[str, Any]:
+  files = discover_videos(repo / "input_videos")
+  if selected:
+    files = [p for p in files if p.name.lower() == selected.lower()]
+    if not files:
+      raise SystemExit(f"Video not found in input_videos: {selected}")
+  cache_path = repo / "data" / "generated" / ".video_cache.json"
+  cache = read_json(cache_path, {})
+  videos = []
+  for video in files:
+    h, st = sha256_file(video), video.stat()
+    cls = classify_video_name(video.name)
+    status = "cached" if cache.get(video.name) == h and not force else "processed"
+    videos.append({"filename": video.name, "sha256": h, "size_bytes": st.st_size, "created_at": ftime(st.st_ctime), "modified_at": ftime(st.st_mtime), "processing_status": status, "processing_time_seconds": 0, **cls, **ffprobe_meta(tools["ffprobe"], video)})
+    cache[video.name] = h
+  return {"package_type": "video_manifest", "schema_version": "video_source_truth_first_pass_v1", "generated_at": now(), "source_of_truth": "input_videos", "ffmpeg": tools, "videos": videos, "_cache": cache}
+
+def build_screens(repo: Path, ffmpeg: str, videos: List[Dict[str, Any]], force: bool, review: bool) -> List[Dict[str, Any]]:
+  seen, screens = {}, []
+  for video in videos:
+    src = repo / "input_videos" / video["filename"]
+    stem = Path(video["filename"]).stem.replace(" ", "_")
+    for idx, ts in enumerate(sample_timestamps(video.get("duration_seconds"))):
+      rel = Path("assets") / "reference_frames" / stem / f"screen_{idx+1:03d}_{int(ts):05d}s.jpg"
+      out = repo / rel
+      ok = out.exists() and not force or extract_frame(ffmpeg, src, out, ts)
+      sig = frame_signature(out) if ok else f"missing-{video['sha256']}-{idx}"
+      dup = seen.get(sig)
+      sid = f"screen-{short_hash(video['sha256'] + str(idx))}"
+      if dup:
+        disposition, status, manual, confidence = "duplicate", "duplicate", False, 0.95
+      elif ok:
+        seen[sig] = sid
+        disposition, status, manual, confidence = ("unreadable_manual_review","manual_review_required",True,0.35) if review else ("partially_extracted","frame_captured_no_ocr",True,0.35)
+      else:
+        disposition, status, manual, confidence = "unreadable_manual_review", "frame_capture_failed", True, 0.0
+      screens.append({"screen_id": sid, "source_video": video["filename"], "video_hash": video["sha256"], "timestamp": f"00:{int(ts//60):02d}:{int(ts%60):02d}", "timestamp_seconds": ts, "frame_number": int(round(ts*60)), "screen_classification": video["classification"], "detected_entity": video["package"], "detected_entity_type": video["package"], "extraction_status": status, "duplicate_screen_status": "duplicate" if dup else "unique", "duplicate_of": dup, "disposition": disposition, "confidence": confidence, "manual_review": manual, "reference_frame": str(rel).replace("\\","/") if ok else None, "frame_hash": sig})
+  return screens
+
+def manual_record(video: Dict[str, Any], screen: Dict[str, Any], record_type: str) -> Dict[str, Any]:
+  ev = evidence(video, screen)
+  return {"record_id": f"manual-{record_type}-{screen['screen_id']}", "record_type": record_type, "fields": {"source_screen_type": field(screen["screen_classification"], ev), "visible_text": field(None, ev)}, "additional_visible_fields": {}, "manual_review": True, "verification_status": "manual_review", "completeness": {"visible_fields_detected": 1, "fields_extracted_successfully": 0, "fields_unreadable": 1, "fields_manual_review": 1, "fields_omitted": 0}}
+
+def records_for(videos: List[Dict[str, Any]], screens: List[Dict[str, Any]], package: str, record_type: str) -> List[Dict[str, Any]]:
+  out = []
+  by_name = {v["filename"]: v for v in videos}
+  for s in screens:
+    if s["detected_entity"] == package and s["duplicate_screen_status"] == "unique":
+      out.append(manual_record(by_name[s["source_video"]], s, record_type))
+  return out
+
+def extraction_package(videos, screens, package_type, package, record_type):
+  recs = records_for(videos, screens, package, record_type)
+  return {"package_type": package_type, "schema_version": "video_source_truth_first_pass_v1", "source_of_truth": "input_videos", "records": recs, "manual_review_records": [r["record_id"] for r in recs], "counts": {"records": len(recs), "complete_records": 0, "partial_records": 0, "manual_review_records": len(recs), "omitted_fields": 0}}
+
+def per_video_counts(videos, screens):
+  rows = []
+  for v in videos:
+    ss = [s for s in screens if s["source_video"] == v["filename"]]
+    rows.append({"video": v["filename"], "type": v["classification"], "players": 0, "complete_cards": 0, "partial_cards": 0, "plays": 0, "recruits": 0, "duplicates_removed": sum(s["disposition"]=="duplicate" for s in ss), "unreadable_records": sum(bool(s["manual_review"]) for s in ss), "confidence": round(sum(s["confidence"] for s in ss) / max(1, len(ss)), 3), "screen_count": len(ss)})
+  return rows
+
+def build_outputs(repo: Path, manifest: Dict[str, Any], screens: List[Dict[str, Any]]) -> Dict[str, Any]:
+  videos, legacy = manifest["videos"], legacy_playbook(repo)
+  legacy_unverified = [{"play_id": play_identity(p, i), "legacy_index": i+1, "legacy_play": p, "verification_status": "legacy_unverified", "reason": "Comparison baseline only until video verifies formation and play name."} for i,p in enumerate(legacy)]
+  by_name = {v["filename"]: v for v in videos}
+  manual_plays = []
+  for s in [s for s in screens if s["detected_entity"] == "playbook" and s["duplicate_screen_status"] == "unique"]:
+    ev = evidence(by_name[s["source_video"]], s)
+    manual_plays.append({"manual_review_id": f"play-screen-{s['screen_id']}", "formation": field(None, ev), "play_name": field(None, ev), "play_art_image": field(s.get("reference_frame"), ev), "verification_status": "manual_review", "reason": "Formation and play name need manual review/OCR before binding."})
+  rows = per_video_counts(videos, screens)
+  totals = {"unique_players": 0, "unique_plays": 0, "unique_recruits": 0, "complete_player_cards": 0, "partial_player_cards": 0, "duplicates_removed": sum(r["duplicates_removed"] for r in rows), "unreadable_records": sum(r["unreadable_records"] for r in rows), "confidence_percentage": round(100 * sum(r["confidence"] for r in rows) / max(1,len(rows)), 1), "legacy_play_baseline": len(legacy), "video_verified_plays": 0}
+  cur_roster = extraction_package(videos, screens, "current_team_roster_extracted", "current_team_roster", "player_card")
+  opp_roster = extraction_package(videos, screens, "opponent_roster_extracted", "opponent_roster", "player_card")
+  recruiting = extraction_package(videos, screens, "recruiting_extracted", "recruiting", "recruiting_screen")
+  return {
+    "video_manifest.json": {k:v for k,v in manifest.items() if k != "_cache"},
+    "screen_inventory.json": {"package_type": "screen_inventory", "schema_version": "video_source_truth_first_pass_v1", "generated_at": now(), "screen_count": len(screens), "final_dispositions": sorted(FINAL_DISPOSITIONS), "screens": screens},
+    "current_team_roster_extracted.json": cur_roster,
+    "opponent_roster_extracted.json": opp_roster,
+    "current_team_season_stats_extracted.json": extraction_package(videos, screens, "current_team_season_stats_extracted", "current_team_season_stats", "stat_screen"),
+    "opponent_season_stats_extracted.json": extraction_package(videos, screens, "opponent_season_stats_extracted", "opponent_season_stats", "stat_screen"),
+    "recruiting_extracted.json": recruiting,
+    "coach_abilities_extracted.json": {"package_type": "coach_abilities_extracted", "schema_version": "video_source_truth_first_pass_v1", "source_of_truth": "input_videos", "coach_abilities": [], "player_abilities": [], "separation_rule": "coach abilities are never mixed with player abilities", "counts": {"coach_abilities": 0, "manual_review_records": 0, "omitted_fields": 0}},
+    "playbook_extracted.json": {"package_type": "playbook_extracted", "schema_version": "video_source_truth_first_pass_v1", "source_of_truth": "input_videos", "legacy_baseline_count": len(legacy), "video_verified_plays": [], "legacy_unverified_plays": legacy_unverified, "manual_review_plays": manual_plays, "conflicted_plays": [], "counts": {"legacy_baseline": len(legacy), "video_verified": 0, "legacy_unverified": len(legacy_unverified), "manual_review": len(manual_plays), "conflicted": 0, "omitted_fields": 0}},
+    "play_art_manifest.json": {"package_type": "play_art_manifest", "schema_version": "video_source_truth_first_pass_v1", "source_of_truth": "input_videos", "bindings": [], "manual_review_art_frames": manual_plays, "binding_rule": "play art binds only after formation and play name are confidently verified", "counts": {"verified_bindings": 0, "manual_review_frames": len(manual_plays), "omitted_fields": 0}},
+    "career_context.json": {"package_type": "career_context", "schema_version": "video_source_truth_first_pass_v1", "active_adapter": "cfb27", "active_context": "Rutgers Season 2 Week 6 vs Purdue", "current_team": "Rutgers", "current_opponent": "Purdue", "active_playbook_package": "Oregon", "source_of_truth": "input_videos"},
+    "source_truth_summary.json": {"package_type": "source_truth_summary", "schema_version": "video_source_truth_first_pass_v1", "generated_at": now(), "source_of_truth": "input_videos", "video_count": len(videos), "screen_count": len(screens), "consolidated_totals": totals, "per_video_counts": rows},
+    "source_truth_players.json": {"package_type": "source_truth_players", "source_of_truth": "input_videos", "players": [], "manual_review_screens": cur_roster["records"] + opp_roster["records"], "counts": {"players": 0, "manual_review_records": len(cur_roster["records"] + opp_roster["records"]), "omitted_fields": 0}},
+    "source_truth_plays.json": {"package_type": "source_truth_plays", "source_of_truth": "input_videos", "video_verified_plays": [], "legacy_unverified_count": len(legacy_unverified), "manual_review_plays": manual_plays, "counts": {"video_verified": 0, "legacy_unverified": len(legacy_unverified), "manual_review": len(manual_plays), "omitted_fields": 0}},
+    "source_truth_recruits.json": {"package_type": "source_truth_recruits", "source_of_truth": "input_videos", "recruits": [], "manual_review_screens": recruiting["records"], "counts": {"recruits": 0, "manual_review_records": len(recruiting["records"]), "omitted_fields": 0}},
+    "extraction_confidence.json": {"package_type": "extraction_confidence", "source_of_truth": "input_videos", "per_video": rows, "overall_confidence": totals["confidence_percentage"], "ocr_status": "not_enabled_first_runnable_pass"},
+  }
+
+def walk_evidence(obj: Any, loc: str, errors: List[str]) -> None:
+  if isinstance(obj, dict):
+    if "value" in obj:
+      ev = obj.get("evidence") or {}
+      for k in ("source_video","source_video_hash","timestamp","frame_number","confidence","verification_status","manual_review"):
+        if k not in ev:
+          errors.append(f"{loc}.{k}")
+    for k,v in obj.items():
+      walk_evidence(v, f"{loc}.{k}", errors)
+  elif isinstance(obj, list):
+    for i,v in enumerate(obj):
+      walk_evidence(v, f"{loc}[{i}]", errors)
+
+def validate_generated(repo: Path) -> List[str]:
+  gen, errors = repo / "data" / "generated", []
+  for name in GENERATED_FILES:
+    if not (gen / name).exists():
+      errors.append(f"missing {name}")
+  inv = read_json(gen / "screen_inventory.json", {"screens":[]})
+  for s in inv.get("screens", []):
+    if s.get("disposition") not in FINAL_DISPOSITIONS:
+      errors.append(f"bad disposition {s.get('screen_id')}")
+  pb = read_json(gen / "playbook_extracted.json", {})
+  if pb.get("legacy_baseline_count") != 192:
+    errors.append("legacy baseline not 192")
+  for key in ("video_verified_plays","legacy_unverified_plays","manual_review_plays","conflicted_plays"):
+    if not isinstance(pb.get(key), list):
+      errors.append(f"missing play group {key}")
+  for name in GENERATED_FILES:
+    walk_evidence(read_json(gen / name, {}), name, errors)
+  return errors
+
+def table(headers, rows) -> str:
+  return "| " + " | ".join(headers) + " |\n| " + " | ".join(["---"] * len(headers)) + " |\n" + "\n".join("| " + " | ".join(str(v) for v in row) + " |" for row in rows) + "\n"
+
+def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapsed: float) -> None:
+  reports = repo / "reports"; reports.mkdir(exist_ok=True)
+  rows = outputs["source_truth_summary.json"]["per_video_counts"]
+  count_table = table(["Video","Type","Players","Complete Cards","Partial Cards","Plays","Recruits","Duplicates Removed","Unreadable Records","Confidence"], [[r["video"],r["type"],r["players"],r["complete_cards"],r["partial_cards"],r["plays"],r["recruits"],r["duplicates_removed"],r["unreadable_records"],r["confidence"]] for r in rows])
+  (reports / "per_video_verified_counts.md").write_text("# Per-Video Verified Counts\n\n" + count_table, encoding="utf-8")
+  screens = outputs["screen_inventory.json"]["screens"]
+  screen_table = table(["Video","Timestamp","Frame","Class","Entity","Disposition","Confidence","Manual Review"], [[s["source_video"],s["timestamp"],s["frame_number"],s["screen_classification"],s["detected_entity"],s["disposition"],s["confidence"],s["manual_review"]] for s in screens])
+  (reports / "screen_inventory_report.md").write_text("# Screen Inventory Report\n\n" + screen_table, encoding="utf-8")
+  manual = [s for s in screens if s["manual_review"]]
+  (reports / "manual_review_required.md").write_text("# Manual Review Required\n\n" + table(["Video","Timestamp","Entity","Reason"], [[s["source_video"],s["timestamp"],s["detected_entity"],s["extraction_status"]] for s in manual]), encoding="utf-8")
+  basic = {
+    "video_extraction_report.md": f"# Video Extraction Report\n\nDetected videos: {len(outputs['video_manifest.json']['videos'])}\n\n{count_table}",
+    "processing_performance.md": f"# Processing Performance\n\nElapsed seconds: {elapsed:.2f}\n\nFFmpeg source: {outputs['video_manifest.json']['ffmpeg']['source']}\n",
+    "player_card_inventory.md": "# Player Card Inventory\n\nFirst pass inventories roster screens for manual player-card extraction. Verified player counts remain 0 until OCR/manual review promotes records.\n",
+    "player_card_field_completeness.md": "# Player Card Field Completeness\n\nOmitted fields: 0. Unreadable visible fields are represented as null evidence fields for manual review.\n",
+    "playbook_extraction_report.md": "# Playbook Extraction Report\n\nLegacy baseline: 192 plays. Video-verified active plays: 0 until formation and play name are confidently verified from the Oregon playbook video.\n",
+    "coach_abilities_report.md": "# Coach Abilities Report\n\nNo coach ability records were video-verified in this first runnable pass. Coach data remains separated from player abilities.\n",
+    "source_conflicts.md": "# Source Conflicts\n\nNo video-vs-legacy value conflicts were promoted because OCR-dependent fields remain manual review.\n",
+    "source_truth_verification.md": "# Source Truth Verification\n\n`input_videos/` is the authoritative intake folder. Legacy JSON is comparison-only for this pipeline.\n",
+    "validation_report.md": "# Generated Pipeline Validation\n\nOverall: " + ("PASS" if not errors else "FAIL") + "\n\n" + ("\n".join(f"- {e}" for e in errors) if errors else "- All generated checks passed.") + "\n",
+  }
+  for name, text in basic.items():
+    (reports / name).write_text(text, encoding="utf-8")
+
+def run(args) -> int:
+  repo, start = root(), time.perf_counter()
+  tools = resolve_ffmpeg(repo)
+  manifest = build_manifest(repo, tools, args.video, args.force)
+  if args.dry_run:
+    print(json.dumps({"dry_run": True, "videos": [{"filename": v["filename"], "classification": v["classification"], "duration_seconds": v["duration_seconds"], "resolution": v["resolution"]} for v in manifest["videos"]]}, indent=2))
+    return 0
+  screens = build_screens(repo, tools["ffmpeg"], manifest["videos"], args.force, args.review)
+  elapsed = time.perf_counter() - start
+  for v in manifest["videos"]:
+    v["processing_time_seconds"] = round(elapsed / max(1, len(manifest["videos"])), 3)
+  outputs = build_outputs(repo, manifest, screens)
+  gen = repo / "data" / "generated"; gen.mkdir(parents=True, exist_ok=True)
+  for name, payload in outputs.items():
+    write_json(gen / name, payload)
+  write_json(gen / ".video_cache.json", manifest.get("_cache", {}))
+  errors = validate_generated(repo)
+  write_reports(repo, outputs, errors, elapsed)
+  print(json.dumps({"status": "PASS" if not errors else "FAIL", "videos": [{"filename": v["filename"], "classification": v["classification"]} for v in manifest["videos"]], "screen_count": len(screens), "legacy_play_baseline": len(legacy_playbook(repo)), "video_verified_plays": 0, "manual_review_screens": sum(1 for s in screens if s["manual_review"]), "elapsed_seconds": round(elapsed, 2), "errors": errors}, indent=2))
+  return 0 if not errors else 1
+
+def parse_args(argv=None):
+  p = argparse.ArgumentParser(description="Process weekly source-of-truth videos.")
+  p.add_argument("--force", action="store_true")
+  p.add_argument("--video")
+  p.add_argument("--dry-run", action="store_true")
+  p.add_argument("--review", action="store_true")
+  return p.parse_args(argv)
+
+def main(argv=None) -> int:
+  try:
+    return run(parse_args(argv))
+  except Exception as exc:
+    print(f"process_week failed: {exc}", file=sys.stderr)
+    return 2
+
+if __name__ == "__main__":
+  raise SystemExit(main())
+

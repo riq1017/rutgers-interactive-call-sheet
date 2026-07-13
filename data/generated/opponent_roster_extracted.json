@@ -1,0 +1,344 @@
+{
+  "counts": {
+    "complete_records": 0,
+    "manual_review_records": 8,
+    "omitted_fields": 0,
+    "partial_records": 0,
+    "records": 8
+  },
+  "manual_review_records": [
+    "manual-player_card-screen-5fd57a3616a0",
+    "manual-player_card-screen-6efb6a537ed1",
+    "manual-player_card-screen-33427cb143c2",
+    "manual-player_card-screen-127ef65e04fd",
+    "manual-player_card-screen-bbd9f47c64ee",
+    "manual-player_card-screen-b7be8a8986f9",
+    "manual-player_card-screen-6f9a9910be4e",
+    "manual-player_card-screen-ceef10b22db3"
+  ],
+  "package_type": "opponent_roster_extracted",
+  "records": [
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "value": "Opponent Roster"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-player_card-screen-5fd57a3616a0",
+      "record_type": "player_card",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 2417,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:40",
+            "verification_status": "manual_review"
+          },
+          "value": "Opponent Roster"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 2417,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:40",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-player_card-screen-6efb6a537ed1",
+      "record_type": "player_card",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 4774,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:19",
+            "verification_status": "manual_review"
+          },
+          "value": "Opponent Roster"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 4774,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:19",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-player_card-screen-33427cb143c2",
+      "record_type": "player_card",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 7131,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:58",
+            "verification_status": "manual_review"
+          },
+          "value": "Opponent Roster"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 7131,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:58",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-player_card-screen-127ef65e04fd",
+      "record_type": "player_card",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 9488,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:02:38",
+            "verification_status": "manual_review"
+          },
+          "value": "Opponent Roster"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 9488,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:02:38",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-player_card-screen-bbd9f47c64ee",
+      "record_type": "player_card",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "manual_review"
+          },
+          "value": "Opponent Roster"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-player_card-screen-b7be8a8986f9",
+      "record_type": "player_card",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "manual_review"
+          },
+          "value": "Opponent Roster"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-player_card-screen-6f9a9910be4e",
+      "record_type": "player_card",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 16559,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:04:35",
+            "verification_status": "manual_review"
+          },
+          "value": "Opponent Roster"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 16559,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:04:35",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-player_card-screen-ceef10b22db3",
+      "record_type": "player_card",
+      "verification_status": "manual_review"
+    }
+  ],
+  "schema_version": "video_source_truth_first_pass_v1",
+  "source_of_truth": "input_videos"
+}

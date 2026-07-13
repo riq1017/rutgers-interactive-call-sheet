@@ -556,6 +556,75 @@ check('Sports-app card screenshot artifacts are non-empty PNG files', ['390x844'
   return fs.existsSync(file) && fs.statSync(file).size > 10000;
 })));
 
+
+
+// Permanent video source-of-truth generated-data validation
+const generatedDir = path.join(root, 'data', 'generated');
+function readGeneratedJson(name) {
+  return JSON.parse(fs.readFileSync(path.join(generatedDir, name), 'utf8'));
+}
+function evidenceFieldProblems(value, location, problems = []) {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => evidenceFieldProblems(item, `${location}[${index}]`, problems));
+    return problems;
+  }
+  if (value && typeof value === 'object') {
+    if (Object.prototype.hasOwnProperty.call(value, 'value')) {
+      const ev = value.evidence || {};
+      ['source_video','source_video_hash','timestamp','frame_number','confidence','verification_status','manual_review'].forEach(key => {
+        if (!Object.prototype.hasOwnProperty.call(ev, key)) problems.push(`${location}.${key}`);
+      });
+    }
+    Object.keys(value).forEach(key => evidenceFieldProblems(value[key], `${location}.${key}`, problems));
+  }
+  return problems;
+}
+const generatedNames = [
+  'current_team_roster_extracted.json',
+  'opponent_roster_extracted.json',
+  'current_team_season_stats_extracted.json',
+  'opponent_season_stats_extracted.json',
+  'recruiting_extracted.json',
+  'playbook_extracted.json',
+  'play_art_manifest.json',
+  'coach_abilities_extracted.json',
+  'career_context.json',
+  'video_manifest.json',
+  'source_truth_summary.json',
+  'source_truth_players.json',
+  'source_truth_plays.json',
+  'source_truth_recruits.json',
+  'extraction_confidence.json',
+  'screen_inventory.json'
+];
+check('Permanent video source generated files exist', generatedNames.every(name => fs.existsSync(path.join(generatedDir, name))));
+const generatedManifest = readGeneratedJson('video_manifest.json');
+const generatedScreenInventory = readGeneratedJson('screen_inventory.json');
+const generatedPlaybook = readGeneratedJson('playbook_extracted.json');
+const generatedCoach = readGeneratedJson('coach_abilities_extracted.json');
+const manifestNames = (generatedManifest.videos || []).map(video => video.filename).sort();
+const expectedVideoNames = [
+  'Oregon PLaybook.mp4',
+  'Purdue Roster.mp4',
+  'Purdue Season Stats.mp4',
+  'Rutgers Roster.webm',
+  'Rutgers Season stats.mp4',
+  'rutgers recruitment page.mp4'
+].sort();
+check('Permanent video source manifest detects all six current videos', expectedVideoNames.every(name => manifestNames.includes(name)) && manifestNames.length >= expectedVideoNames.length, manifestNames.join(', '));
+const finalDispositions = new Set(['fully_extracted','partially_extracted','duplicate','irrelevant_transition','unreadable_manual_review']);
+check('Screen inventory exists and every screen has a final disposition', Array.isArray(generatedScreenInventory.screens) && generatedScreenInventory.screens.length > 0 && generatedScreenInventory.screens.every(screen => finalDispositions.has(screen.disposition)), `screens=${(generatedScreenInventory.screens || []).length}`);
+check('Legacy 192-play baseline remains intact in generated playbook', RUTGERS_PLAYBOOK.length === 192 && generatedPlaybook.legacy_baseline_count === 192 && (generatedPlaybook.legacy_unverified_plays || []).length === 192);
+check('Generated playbook separates video-verified, legacy-unverified, manual-review, and conflicted plays', ['video_verified_plays','legacy_unverified_plays','manual_review_plays','conflicted_plays'].every(key => Array.isArray(generatedPlaybook[key])));
+check('Generated playbook does not falsely expand video-verified active plays', (generatedPlaybook.video_verified_plays || []).length <= (generatedPlaybook.manual_review_plays || []).length && (generatedPlaybook.video_verified_plays || []).length === generatedPlaybook.counts.video_verified);
+const generatedEvidenceProblems = generatedNames.flatMap(name => evidenceFieldProblems(readGeneratedJson(name), name));
+check('Generated field-level evidence is complete', generatedEvidenceProblems.length === 0, generatedEvidenceProblems.slice(0, 5).join(', '));
+check('Coach abilities remain separated from player abilities', Array.isArray(generatedCoach.coach_abilities) && Array.isArray(generatedCoach.player_abilities) && generatedCoach.player_abilities.length === 0);
+const generatedCurrentRoster = readGeneratedJson('current_team_roster_extracted.json');
+const generatedOpponentRoster = readGeneratedJson('opponent_roster_extracted.json');
+check('Current-team and opponent video outputs remain separated', generatedCurrentRoster.package_type === 'current_team_roster_extracted' && generatedOpponentRoster.package_type === 'opponent_roster_extracted' && (generatedCurrentRoster.records || []).every(row => row.record_type === 'player_card') && (generatedOpponentRoster.records || []).every(row => row.record_type === 'player_card'));
+check('Raw input videos are protected by gitignore', fs.existsSync(path.join(root, 'input_videos', '.gitkeep')) && fs.readFileSync(path.join(root, '.gitignore'), 'utf8').includes('input_videos/*') && fs.readFileSync(path.join(root, '.gitignore'), 'utf8').includes('!input_videos/.gitkeep'));
+
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');
 console.log(report);

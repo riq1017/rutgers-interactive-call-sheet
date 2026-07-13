@@ -1,0 +1,13 @@
+{
+  "coach_abilities": [],
+  "counts": {
+    "coach_abilities": 0,
+    "manual_review_records": 0,
+    "omitted_fields": 0
+  },
+  "package_type": "coach_abilities_extracted",
+  "player_abilities": [],
+  "schema_version": "video_source_truth_first_pass_v1",
+  "separation_rule": "coach abilities are never mixed with player abilities",
+  "source_of_truth": "input_videos"
+}

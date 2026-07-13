@@ -283,3 +283,9 @@
 - Did not copy fake names, ratings, faces, or stats from the mockup.
 - Did not invent unavailable lane, pressure, O-line, last-game, or season metrics.
 - Null fields are hidden in normal UI.
+
+## Permanent Video Source-Of-Truth First Runnable Pass
+- Added `process_week.py` with video discovery, FFmpeg/FFprobe resolution, manifest generation, screen inventory, reference-frame capture, playbook authority separation, evidence-bound generated JSON, and markdown reports.
+- Added standard-library tests for scanning, classification, evidence contracts, deterministic helpers, and raw-video git protection.
+- Extended validation for generated video manifests, screen dispositions, 192-play legacy preservation, playbook separation, evidence completeness, coach/player ability separation, and current-team/opponent separation.
+- Added `.gitignore` protection for raw `input_videos/` captures while preserving `.gitkeep`.

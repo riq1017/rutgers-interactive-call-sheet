@@ -1,0 +1,169 @@
+{
+  "ffmpeg": {
+    "ffmpeg": "C:\\Program Files\\Streamlabs OBS\\resources\\app.asar.unpacked\\node_modules\\obs-studio-node\\ffmpeg.exe",
+    "ffprobe": "C:\\Program Files\\Streamlabs OBS\\resources\\app.asar.unpacked\\node_modules\\obs-studio-node\\ffprobe.exe",
+    "source": "streamlabs_obs"
+  },
+  "generated_at": "2026-07-13T23:34:25.966646Z",
+  "package_type": "video_manifest",
+  "schema_version": "video_source_truth_first_pass_v1",
+  "source_of_truth": "input_videos",
+  "videos": [
+    {
+      "classification": "Playbook",
+      "classification_hints": [
+        "filename:oregon",
+        "filename:playbook"
+      ],
+      "classification_method": [
+        "filename_hint",
+        "screen_inventory_pending"
+      ],
+      "codec": "h264",
+      "created_at": "2026-07-13T22:45:04.206342Z",
+      "duration_seconds": 179.968,
+      "filename": "Oregon PLaybook.mp4",
+      "frame_rate": "60000/1001",
+      "modified_at": "2026-07-13T21:44:24Z",
+      "package": "playbook",
+      "processing_status": "processed",
+      "processing_time_seconds": 1.73,
+      "resolution": {
+        "height": 1080,
+        "width": 1920
+      },
+      "sha256": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+      "size_bytes": 408158208
+    },
+    {
+      "classification": "Opponent Roster",
+      "classification_hints": [
+        "filename:purdue",
+        "filename:roster"
+      ],
+      "classification_method": [
+        "filename_hint",
+        "screen_inventory_pending"
+      ],
+      "codec": "h264",
+      "created_at": "2026-07-13T22:30:02.961732Z",
+      "duration_seconds": 299.983,
+      "filename": "Purdue Roster.mp4",
+      "frame_rate": "60000/1001",
+      "modified_at": "2026-07-13T21:23:14Z",
+      "package": "opponent_roster",
+      "processing_status": "processed",
+      "processing_time_seconds": 1.73,
+      "resolution": {
+        "height": 1080,
+        "width": 1920
+      },
+      "sha256": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+      "size_bytes": 625541120
+    },
+    {
+      "classification": "Opponent Season Stats",
+      "classification_hints": [
+        "filename:purdue",
+        "filename:season"
+      ],
+      "classification_method": [
+        "filename_hint",
+        "screen_inventory_pending"
+      ],
+      "codec": "h264",
+      "created_at": "2026-07-13T22:30:29.711915Z",
+      "duration_seconds": 179.746,
+      "filename": "Purdue Season Stats.mp4",
+      "frame_rate": "60000/1001",
+      "modified_at": "2026-07-13T21:27:30Z",
+      "package": "opponent_season_stats",
+      "processing_status": "processed",
+      "processing_time_seconds": 1.73,
+      "resolution": {
+        "height": 1080,
+        "width": 1920
+      },
+      "sha256": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+      "size_bytes": 403046400
+    },
+    {
+      "classification": "Recruiting",
+      "classification_hints": [
+        "filename:rutgers",
+        "filename:recruit"
+      ],
+      "classification_method": [
+        "filename_hint",
+        "screen_inventory_pending"
+      ],
+      "codec": "h264",
+      "created_at": "2026-07-13T22:30:40.770278Z",
+      "duration_seconds": 899.882,
+      "filename": "rutgers recruitment page.mp4",
+      "frame_rate": "60000/1001",
+      "modified_at": "2026-07-13T21:26:44Z",
+      "package": "recruiting",
+      "processing_status": "processed",
+      "processing_time_seconds": 1.73,
+      "resolution": {
+        "height": 1080,
+        "width": 1920
+      },
+      "sha256": "3e8e5a948beafd695dc6a843e2d2d3ca1f28bd459e9170085b07e177bb139015",
+      "size_bytes": 1992097792
+    },
+    {
+      "classification": "Current Team Roster",
+      "classification_hints": [
+        "filename:rutgers",
+        "filename:roster"
+      ],
+      "classification_method": [
+        "filename_hint",
+        "screen_inventory_pending"
+      ],
+      "codec": "vp9",
+      "created_at": "2026-07-13T22:02:54.677395Z",
+      "duration_seconds": 299.8,
+      "filename": "Rutgers Roster.webm",
+      "frame_rate": "19001/317",
+      "modified_at": "2026-07-13T20:57:10Z",
+      "package": "current_team_roster",
+      "processing_status": "processed",
+      "processing_time_seconds": 1.73,
+      "resolution": {
+        "height": 1088,
+        "width": 1920
+      },
+      "sha256": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+      "size_bytes": 470089728
+    },
+    {
+      "classification": "Current Team Season Stats",
+      "classification_hints": [
+        "filename:rutgers",
+        "filename:season"
+      ],
+      "classification_method": [
+        "filename_hint",
+        "screen_inventory_pending"
+      ],
+      "codec": "h264",
+      "created_at": "2026-07-13T22:30:19.217489Z",
+      "duration_seconds": 179.93,
+      "filename": "Rutgers Season stats.mp4",
+      "frame_rate": "60000/1001",
+      "modified_at": "2026-07-13T21:28:14Z",
+      "package": "current_team_season_stats",
+      "processing_status": "processed",
+      "processing_time_seconds": 1.73,
+      "resolution": {
+        "height": 1080,
+        "width": 1920
+      },
+      "sha256": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+      "size_bytes": 403570688
+    }
+  ]
+}

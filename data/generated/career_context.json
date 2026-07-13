@@ -1,0 +1,10 @@
+{
+  "active_adapter": "cfb27",
+  "active_context": "Rutgers Season 2 Week 6 vs Purdue",
+  "active_playbook_package": "Oregon",
+  "current_opponent": "Purdue",
+  "current_team": "Rutgers",
+  "package_type": "career_context",
+  "schema_version": "video_source_truth_first_pass_v1",
+  "source_of_truth": "input_videos"
+}

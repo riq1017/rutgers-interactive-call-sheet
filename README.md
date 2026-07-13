@@ -62,3 +62,14 @@ Required Phase 1 reports:
 - Opponent offensive roster and some defensive-back attributes are unavailable in the supplied package.
 - Matchups with incomplete evidence display `LIMITED DATA`.
 - Missing values are hidden rather than invented.
+
+## Permanent Video Source-Of-Truth Intake
+Place weekly CFB27 source videos in `input_videos/`. Raw videos are ignored by Git; keep `input_videos/.gitkeep` committed. Run `python process_week.py --dry-run` to classify videos, then `python process_week.py` to generate evidence-bound JSON under `data/generated/`, reference frames under `assets/reference_frames/`, and reports under `reports/`.
+
+Supported commands:
+- `python process_week.py --force`
+- `python process_week.py --video "Purdue Season Stats.mp4"`
+- `python process_week.py --dry-run`
+- `python process_week.py --review`
+
+The first runnable pass inventories screens and marks OCR-dependent values for manual review. Legacy JSON is comparison-only when video-backed evidence exists.

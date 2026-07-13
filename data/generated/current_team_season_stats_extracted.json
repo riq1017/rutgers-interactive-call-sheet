@@ -1,0 +1,262 @@
+{
+  "counts": {
+    "complete_records": 0,
+    "manual_review_records": 6,
+    "omitted_fields": 0,
+    "partial_records": 0,
+    "records": 6
+  },
+  "manual_review_records": [
+    "manual-stat_screen-screen-d705172c5563",
+    "manual-stat_screen-screen-e99f1b169117",
+    "manual-stat_screen-screen-aa438e1b705f",
+    "manual-stat_screen-screen-8eee340e3418",
+    "manual-stat_screen-screen-500fee62e592",
+    "manual-stat_screen-screen-1b29f0112f24"
+  ],
+  "package_type": "current_team_season_stats_extracted",
+  "records": [
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "value": "Current Team Season Stats"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-stat_screen-screen-d705172c5563",
+      "record_type": "stat_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 2034,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:00:33",
+            "verification_status": "manual_review"
+          },
+          "value": "Current Team Season Stats"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 2034,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:00:33",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-stat_screen-screen-e99f1b169117",
+      "record_type": "stat_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 4009,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:01:06",
+            "verification_status": "manual_review"
+          },
+          "value": "Current Team Season Stats"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 4009,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:01:06",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-stat_screen-screen-aa438e1b705f",
+      "record_type": "stat_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 5983,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:01:39",
+            "verification_status": "manual_review"
+          },
+          "value": "Current Team Season Stats"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 5983,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:01:39",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-stat_screen-screen-8eee340e3418",
+      "record_type": "stat_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 7958,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:02:12",
+            "verification_status": "manual_review"
+          },
+          "value": "Current Team Season Stats"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 7958,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:02:12",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-stat_screen-screen-500fee62e592",
+      "record_type": "stat_screen",
+      "verification_status": "manual_review"
+    },
+    {
+      "additional_visible_fields": {},
+      "completeness": {
+        "fields_extracted_successfully": 0,
+        "fields_manual_review": 1,
+        "fields_omitted": 0,
+        "fields_unreadable": 1,
+        "visible_fields_detected": 1
+      },
+      "fields": {
+        "source_screen_type": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 9932,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:02:45",
+            "verification_status": "manual_review"
+          },
+          "value": "Current Team Season Stats"
+        },
+        "visible_text": {
+          "evidence": {
+            "confidence": 0.35,
+            "frame_number": 9932,
+            "manual_review": true,
+            "source_video": "Rutgers Season stats.mp4",
+            "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
+            "timestamp": "00:02:45",
+            "verification_status": "manual_review"
+          },
+          "value": null
+        }
+      },
+      "manual_review": true,
+      "record_id": "manual-stat_screen-screen-1b29f0112f24",
+      "record_type": "stat_screen",
+      "verification_status": "manual_review"
+    }
+  ],
+  "schema_version": "video_source_truth_first_pass_v1",
+  "source_of_truth": "input_videos"
+}

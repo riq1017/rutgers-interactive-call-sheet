@@ -1,0 +1,260 @@
+{
+  "counts": {
+    "legacy_unverified": 192,
+    "manual_review": 6,
+    "omitted_fields": 0,
+    "video_verified": 0
+  },
+  "legacy_unverified_count": 192,
+  "manual_review_plays": [
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 60,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:01",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-b778bc139502",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 60,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:01",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_001_00001s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 60,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:01",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 2035,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:33",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-28e9b22842ee",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 2035,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:33",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_002_00033s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 2035,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:00:33",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 4010,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:06",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-ce1bce3bd04e",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 4010,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:06",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_003_00066s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 4010,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:06",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 5985,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:39",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-c79bfe27b12d",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 5985,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:39",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_004_00099s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 5985,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:01:39",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 7959,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:12",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-e27d0013d10c",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 7959,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:12",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_005_00132s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 7959,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:12",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    },
+    {
+      "formation": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 9934,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:45",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "manual_review_id": "play-screen-screen-e823166dbd37",
+      "play_art_image": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 9934,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:45",
+          "verification_status": "manual_review"
+        },
+        "value": "assets/reference_frames/Oregon_PLaybook/screen_006_00165s.jpg"
+      },
+      "play_name": {
+        "evidence": {
+          "confidence": 0.35,
+          "frame_number": 9934,
+          "manual_review": true,
+          "source_video": "Oregon PLaybook.mp4",
+          "source_video_hash": "3748373b48b10f867eb93289e123a68e7d004b7b63baea65ee4205d5e3914681",
+          "timestamp": "00:02:45",
+          "verification_status": "manual_review"
+        },
+        "value": null
+      },
+      "reason": "Formation and play name need manual review/OCR before binding.",
+      "verification_status": "manual_review"
+    }
+  ],
+  "package_type": "source_truth_plays",
+  "source_of_truth": "input_videos",
+  "video_verified_plays": []
+}

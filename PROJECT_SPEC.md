@@ -28,6 +28,8 @@ Raw object rendering is forbidden. UI must never display `[object Object]`, `und
 
 Player detail screens must surface verified ratings and production before optional bio gaps. Optional fields such as height, weight, jersey, hometown, or archetype may be hidden or grouped as source-missing when no verified source contains them, but verified attributes and stats must not render as `N/A`.
 
+Player detail screens use the sports-profile presentation pattern: larger source-bound fictional portrait treatment, team/position/class/overall identity, profile facts, a scarlet season-stat ribbon, then tabbed Overview, Attributes, Traits, Stats, Matchups, and Plays content. Unknown source fields render as `N/A`; they must not be inferred or silently replaced with guessed data.
+
 Stats views must use structured sports tables or stat strips. Whole JSON objects, schema metadata, source metadata, or semicolon-style object summaries must not be rendered as the visible stat presentation.
 
 Phone detail views should make verified data feel present even when optional profile fields are unavailable. Use compact verified-data summaries, collapsed source-missing notes, short stat tables, and fixed-bottom-nav clearance rather than long stacks of visible `N/A` rows.
@@ -102,6 +104,8 @@ Gameplan owns the compact Rutgers home snapshot, key offensive players, offensiv
 Top Plays owns Random Top 3 generation, the Top 3 selector, all 192 verified visible play combinations, play art, play filters, play search, favorites, run/pass/RPO/play-action/screen groupings, and expanded Play Cards. The default Top Plays action must not claim more than the 192 verified plays currently present in the source inventory.
 
 Personnel owns matchup-first weekly roster comparisons, weekly team roster, weekly opponent roster, player cards, depth chart, O-line, generated roster-vs-roster matchup comparisons, verified player matchup details, defined opponent scouting sections, and compact Rutgers/opponent stat dashboards.
+
+Personnel roster browsing uses Home Team and Away Team roster hubs. Each hub should provide a team header, Players/Team controls, a team-leader strip, position filters, a horizontal-safe roster table, and compact player cards for detail navigation. Matchups should prioritize the top verified player matchup first, then the next two position/roster matchup cards, with remaining matchups in a drill-down list.
 
 Recruiting owns the recruiting board, every prospect card, scheme fit, recruiting value, projected role, player-specific recruiting intelligence, deterministic Team Needs-driven Top 3 recommendations, and recruit detail tab content. Team Needs may use verified senior departures and explicit position-change fields, but must not infer position changes.
 

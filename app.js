@@ -2690,6 +2690,32 @@ function sportsStatStrip(pairs = [], fallback = "N/A") {
   return `<div class="sports-stat-strip">${rows.map(row => `<span><b>${cardValue(row.value, "N/A")}</b><em>${cardValue(row.label, "")}</em></span>`).join("")}</div>`;
 }
 
+function profileSeasonRibbon(player = {}, side = "rutgers") {
+  const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
+  const statPairs = firstStatPairs(seasonRows, 4);
+  const fallbackPairs = playerStatPairs(player, side).slice(0, 4);
+  const pairs = statPairs.length ? statPairs : fallbackPairs;
+  return `<section class="profile-season-ribbon"><h3>2025 Season Stats</h3>${sportsStatStrip(pairs, "N/A")}</section>`;
+}
+
+function playerProfileBioGrid(player = {}, side = "rutgers") {
+  const teamLabel = side === "opponent" ? activeOpponentName() : "Rutgers Scarlet Knights";
+  const jersey = cleanValue(player.jersey_number || player.jersey);
+  const position = cleanValue(player.position);
+  const meta = [teamLabel, jersey ? `#${jersey}` : "#N/A", position || "N/A"].join(" • ");
+  const height = cleanValue(player.height);
+  const weight = cleanValue(player.weight_lbs ? `${player.weight_lbs} lbs` : player.weight);
+  const rows = [
+    ["Class", player.class_year || player.year || player.class],
+    ["HT/WT", height || weight ? `${height || "N/A"}, ${weight || "N/A"}` : ""],
+    ["Hometown", player.hometown],
+    ["Role", player.depthRole || player.depth_role || (player.analysis || player.ui_analysis || {}).role || player.archetype],
+    ["Archetype", player.archetype],
+    ["Jersey", jersey]
+  ];
+  return `<div class="profile-bio-copy"><span class="profile-team-line">${meta}</span>${rows.map(([label, value]) => `<div class="profile-bio-row"><span>${label}</span><strong>${cardValue(value, "N/A")}</strong></div>`).join("")}</div>`;
+}
+
 function verifiedRatingPairs(player = {}, limit = 6) {
   const attrs = player.attributes || {};
   const preferred = [
@@ -3480,14 +3506,81 @@ function rosterGroupFromBucket(bucket = "QB") {
   return ({ RB: "HB", OL: "LT", DL: "EDGE", DB: "CB", ST: "K" }[bucket] || bucket);
 }
 
+function rosterHubStats(side = "team") {
+  return side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats();
+}
+
+function rosterHubPlayers(side = "team", bucket = "all") {
+  const players = weeklyRosterPlayers(side);
+  return bucket === "all" ? players : players.filter(player => playerBucket(player.position) === bucket);
+}
+
+function rosterLeaderCard(title, row, valueKey = "yards", side = "team") {
+  const player = row ? weeklyRosterPlayers(side).find(item => playerId(item) === row.player_id || cleanValue(item.name) === cleanValue(row.name || row.player)) : null;
+  return `<section class="team-leader-card">${player ? portraitImg(player, side === "opponent" ? "opponent" : "rutgers", "player-portrait thumb") : ""}<span>${title}</span><strong>${row ? cardValue(row.name || row.player, "N/A") : "N/A"}</strong><b>${row ? cardValue(row[valueKey], "N/A") : "N/A"}</b></section>`;
+}
+
+function rosterHubLeaderStrip(side = "team") {
+  const stats = rosterHubStats(side);
+  const passing = topStatLeader(flattenedStatEntries(stats.passing), "yards");
+  const rushing = topStatLeader(flattenedStatEntries(stats.rushing), "yards");
+  const receiving = topStatLeader(flattenedStatEntries(stats.receiving), "yards");
+  const defense = topStatLeader(flattenedStatEntries(stats.defense), "tackles");
+  const leaders = [
+    rosterLeaderCard("Passing Yards", passing, "yards", side),
+    rosterLeaderCard("Rushing Yards", rushing, "yards", side),
+    rosterLeaderCard("Receiving Yards", receiving, "yards", side),
+    rosterLeaderCard("Tackles", defense, "tackles", side)
+  ];
+  return `<div class="team-leaders-strip">${leaders.join("")}</div>`;
+}
+
+function rosterHubTable(side = "team", bucket = "all") {
+  const rows = rosterHubPlayers(side, bucket).sort((a, b) => Number(b.overall || b.overall_displayed || 0) - Number(a.overall || a.overall_displayed || 0));
+  const visible = rows.slice(0, bucket === "all" ? 16 : 24);
+  return `<article class="sports-stat-card roster-table-card"><h3>${bucket === "all" ? "Roster" : `${bucket} Roster`}</h3><div class="sports-table-scroll"><table class="sports-stat-table roster-hub-table"><thead><tr><th>Name</th><th>Pos</th><th>Yr</th><th>OVR</th><th>SPD</th><th>AWR</th></tr></thead><tbody>${visible.map(player => `<tr onclick="${side === "opponent" ? `showOpponentPlayerDetail('${player.player_id}')` : `showPlayerDetail('${player.player_id}','rutgers','${rosterGroupFor(player.position)}')`}"><td>${cardValue(player.name, "N/A")}</td><td>${cardValue(player.position, "N/A")}</td><td>${cardValue(player.class_year || player.year || player.class, "N/A")}</td><td>${cardValue(player.overall || player.overall_displayed, "N/A")}</td><td>${cardValue((player.attributes || {}).speed, "N/A")}</td><td>${cardValue((player.attributes || {}).awareness, "N/A")}</td></tr>`).join("")}</tbody></table></div></article>`;
+}
+
+function renderTeamRosterHub(side = "team", activeBucket = "all") {
+  const normalized = playerBucket(activeBucket);
+  const bucket = activeBucket === "all" || activeBucket === "ALL" ? "all" : normalized;
+  const label = side === "opponent" ? activeOpponentName() : weeklyTeamName();
+  const players = weeklyRosterPlayers(side);
+  const filterBuckets = ["all","QB","RB","WR","TE","OL","DL","LB","DB","ST"];
+  const visiblePlayers = rosterHubPlayers(side, bucket);
+  const missing = side === "opponent" ? filterBuckets.filter(filter => filter !== "all" && !players.some(player => opponentPositionBucket(player.position) === filter)) : [];
+  return `<section class="team-roster-hub ${side}" data-roster-hub="${side}">
+    <div class="team-roster-header"><span>${side === "opponent" ? "Away Team" : "Home Team"}</span><strong>${label}</strong><em>${players.length} verified players</em></div>
+    <div class="team-roster-subtabs"><button class="active" type="button">Players</button><button type="button" onclick="renderPersonnelMatchups('stats')">Team</button></div>
+    <div class="pill-row sticky-filter">${filterBuckets.map(item => `<button class="filter-pill ${item === bucket ? "active" : ""}" type="button" onclick="${side === "opponent" ? `renderPersonnelMatchups('opponent');setTimeout(()=>{const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderTeamRosterHub('opponent','${item}')},0)` : `renderPersonnelMatchups('rutgers');setTimeout(()=>{const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderTeamRosterHub('team','${item}')},0)`}">${item === "all" ? "All" : item}</button>`).join("")}</div>
+    <h3>Team Leaders</h3>
+    ${rosterHubLeaderStrip(side)}
+    <div class="roster-hub-tables">${rosterHubTable(side, bucket)}</div>
+    <div class="compact-list roster-hub-card-list" data-roster-card-count="${players.length}" ${side === "opponent" ? `data-opponent-roster-count="${players.length}"` : ""}>${visiblePlayers.length ? visiblePlayers.map(player => side === "opponent" ? opponentPlayerCard(player) : compactPlayerListCard(player, "rutgers", rosterGroupFor(player.position))).join("") : LimitedDataState(`${bucket} not visible in current ${label || "opponent"} evidence`)}</div>
+    ${side === "opponent" && bucket === "all" && missing.length ? `<div class="source-status-card source-missing-groups"><strong>Source-missing ${label} groups</strong><span>${missing.join(", ")} not visible in the current weekly opponent evidence.</span></div>` : ""}
+  </section>`;
+}
+
 function weeklyRosterSummaryCard(side = "team") {
-  const label = side === "opponent" ? `${activeOpponentName()} Roster` : `${weeklyTeamName()} Roster`;
+  const label = side === "opponent" ? `Away Team: ${activeOpponentName()}` : `Home Team: ${weeklyTeamName()}`;
   const total = weeklyRosterPlayers(side).length;
   return `<section class="base-card card-gloss roster-summary-card ${side}">
     ${CardHeader({ eyebrow: "Weekly Roster", title: label, subtitle: `${total} verified players loaded`, badge: Badge(`${total}`, "positive") })}
-    <div class="roster-count-grid">${rosterGroupCounts(side).map(row => `<button type="button" onclick="${side === "opponent" ? `renderPersonnelMatchups('opponent');setTimeout(()=>{const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderOpponent('${row.bucket}')},0)` : `renderPersonnelMatchups('rutgers');setTimeout(()=>showRosterGroup('${rosterGroupFromBucket(row.bucket)}'),0)`}"><strong>${row.bucket}</strong><span>${row.count}</span></button>`).join("")}</div>
+    <div class="roster-count-grid">${rosterGroupCounts(side).map(row => `<button type="button" onclick="${side === "opponent" ? `renderPersonnelMatchups('opponent');setTimeout(()=>{const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderTeamRosterHub('opponent','${row.bucket}')},0)` : `renderPersonnelMatchups('rutgers');setTimeout(()=>{const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderTeamRosterHub('team','${row.bucket}')},0)`}"><strong>${row.bucket}</strong><span>${row.count}</span></button>`).join("")}</div>
     <button class="secondary-action" type="button" onclick="${side === "opponent" ? "renderPersonnelMatchups('opponent')" : "renderPersonnelMatchups('rutgers')"}">Open Full Roster</button>
   </section>`;
+}
+
+function weeklyRosterBrowseCard(side = "team") {
+  const label = side === "opponent" ? activeOpponentName() : weeklyTeamName();
+  const total = weeklyRosterPlayers(side).length;
+  const counts = rosterGroupCounts(side).slice(0, 6);
+  return `<button class="roster-browse-card ${side}" type="button" onclick="${side === "opponent" ? "renderPersonnelMatchups('opponent')" : "renderPersonnelMatchups('rutgers')"}">
+    <span>${side === "opponent" ? "Away Team" : "Home Team"}</span>
+    <strong>${label}</strong>
+    <em>${total} verified players</em>
+    <i>${counts.map(row => `${row.bucket} ${row.count}`).join(" | ")}</i>
+  </button>`;
 }
 
 function primaryPlayerForBuckets(side = "team", buckets = []) {
@@ -3552,10 +3645,10 @@ function renderPersonnelMatchups(active = "matchups") {
 
 function renderPersonnelPanel(active) {
   if (active === "overview") return renderMatchups();
-  if (active === "rutgers") return renderRosterCards();
+  if (active === "rutgers") return renderTeamRosterHub("team", "all");
   if (active === "run") return renderRunDirection();
   if (active === "protection") return renderProtection();
-  if (active === "opponent") return renderOpponent();
+  if (active === "opponent") return renderTeamRosterHub("opponent", window.OPPONENT_POSITION_FILTER || "all");
   if (active === "matchups") return renderMatchups();
   if (active === "oline") return renderOLine();
   if (active === "stats") return renderStatsWorkspace();
@@ -3568,21 +3661,7 @@ function renderPersonnelOverview() {
 }
 
 function renderRosterCards(activeGroup = "QB") {
-  const groups = ROSTER_POSITION_GROUPS.map(group => ({ group, players: groupRosterPlayers(group) }));
-  const selected = ROSTER_POSITION_GROUPS.includes(activeGroup) ? activeGroup : (groups.find(row => row.players.length) || {}).group || "QB";
-  const players = groupRosterPlayers(selected);
-  return `<div class="position-rail">${groups.map(row => {
-    const starter = row.players[0] || {};
-    return `<button type="button" class="position-box ${row.group === selected ? "active" : ""}" onclick="showRosterGroup('${row.group}')">
-      <strong>${row.group}</strong>
-      <span>${cleanValue(starter.name) || "No verified player"}</span>
-      <em>${cleanValue(starter.overall) ? `OVR ${starter.overall}` : ""}</em>
-      <small>${row.players.length} players</small>
-      <b>${positionStatus(row.players)}</b>
-    </button>`;
-  }).join("")}</div>
-  <div class="section-heading compact-heading"><p>Roster Group</p><strong>${selected}</strong></div>
-  <div class="compact-list">${players.length ? players.map(player => compactPlayerListCard(player, "rutgers", selected)).join("") : renderStatPlaceholder(selected, "No verified players were provided for this position group.")}</div>`;
+  return renderTeamRosterHub("team", activeGroup || "all");
 }
 
 function compactPlayerListCard(player, side = "rutgers", group = "") {
@@ -3639,6 +3718,36 @@ function playerDetailHtml(id, side = "rutgers", group = "") {
   </section>`;
 }
 
+function playerDetailHtml(id, side = "rutgers", group = "") {
+  const player = side === "opponent" ? (loadOpponentPlayers() || []).find(row => row.player_id === id) : (loadRutgersRoster().players || []).find(row => row.player_id === id);
+  if (!player) return LimitedDataState("Player Detail");
+  const analysis = player.analysis || player.ui_analysis || {};
+  const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
+  const lastRows = statsForPlayer(player, side === "opponent" ? loadOpponentLastGameStats() : loadRutgersLastGameStats());
+  const matchups = matchupSummaryForPlayer(player, side);
+  const related = relatedPlaysForPlayer(player);
+  const traitRows = playerTraitRows(player);
+  const backAction = side === "opponent"
+    ? "const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderTeamRosterHub('opponent',window.OPPONENT_POSITION_FILTER||'all');restoreDetailScroll('personnel')"
+    : `showRosterGroup('${group || rosterGroupFor(player.position)}');restoreDetailScroll('personnel')`;
+  return `<section class="detail-screen player-detail-screen premium-player-detail" data-player-detail>
+    <button class="back-button" type="button" onclick="${backAction}">Back</button>
+    <header class="sports-profile-hero ${side} premium-player-profile">
+      <div class="profile-art-panel">${portraitImg(player, side, "player-portrait profile-portrait")}<span>${side === "rutgers" ? "R" : activeOpponentName().slice(0, 3).toUpperCase()}</span></div>
+      <div><span class="team-pill">${side === "rutgers" ? "Rutgers" : activeOpponentName()}</span><h2>${cardValue(player.name, "N/A")}${verifiedDevBadge(player)}</h2><p>${cardValue(player.position, "N/A")} &middot; ${cardValue(player.class_year || player.year || player.class, "N/A")} &middot; ${cardValue(player.overall || player.overall_displayed, "N/A")} OVR</p>${playerProfileBioGrid(player, side)}</div>
+      <b>${matchups[0] || readableStatus(analysis.matchup_priority || analysis.role, "Verified")}</b>
+    </header>
+    ${profileSeasonRibbon(player, side)}
+    ${DetailTabStrip(["Overview", "Attributes", "Traits", "Stats", "Matchups", "Plays"])}
+    <section class="detail-panel" data-detail-section="Overview">${playerOverviewRows(player, analysis, side)}</section>
+    <section class="detail-panel" data-detail-section="Attributes"><div class="sports-stat-grid">${lockedAttributeRows(player, 12) || LimitedDataState("Attributes")}</div></section>
+    <section class="detail-panel" data-detail-section="Traits">${traitRows}</section>
+    <section class="detail-panel" data-detail-section="Stats"><div class="sports-stat-card"><h3>Season</h3>${sportsStatStrip(firstStatPairs(seasonRows, 8), "N/A")}</div><div class="sports-stat-card"><h3>Last Game</h3>${sportsStatStrip(firstStatPairs(lastRows, 8), "N/A")}</div></section>
+    <section class="detail-panel" data-detail-section="Matchups">${matchups.length ? chipList(matchups) : LimitedDataState("Matchups")}${detailCallout("Recommendation", analysis.in_game_trigger || analysis.matchup_advantage || analysis.summary, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Plays">${related.length ? `<div class="compact-list">${related.slice(0, 6).map(play => `<button class="play-link-row" type="button" onclick="switchTab('topplays')"><img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt=""><span><strong>${play.name}</strong><em>${play.formation} &middot; ${conceptFamily(play)}</em></span></button>`).join("")}</div>` : LimitedDataState("Related Plays")}</section>
+  </section>`;
+}
+
 function showPlayerDetail(id, side = "rutgers", group = "") {
   saveDetailScroll("personnel");
   const panel = $("personnelPanel");
@@ -3690,18 +3799,7 @@ function renderProtection() {
 
 function renderOpponent(activeFilter = window.OPPONENT_POSITION_FILTER || "all") {
   window.OPPONENT_POSITION_FILTER = activeFilter;
-  const players = loadOpponentPlayers();
-  const groups = loadOpponentGroups();
-  const byGroup = groupOpponentPlayers(players);
-  const filters = ["all","QB","RB","WR","TE","OL","DL","LB","DB","ST"];
-  const filtered = players.filter(player => activeFilter === "all" || opponentPositionBucket(player.position) === activeFilter);
-  const missing = filters.filter(filter => filter !== "all" && !players.some(player => opponentPositionBucket(player.position) === filter));
-  return `<h3>${activeOpponentName()} Full Roster</h3>
-    <div class="section-heading compact-heading"><p>Verified Players</p><strong>${filtered.length} / ${players.length}</strong></div>
-    <div class="pill-row sticky-filter">${filters.map(filter => `<button class="filter-pill ${filter === activeFilter ? "active" : ""}" type="button" onclick="renderPersonnelMatchups('opponent');window.OPPONENT_POSITION_FILTER='${filter}';setTimeout(()=>{const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderOpponent('${filter}')},0)">${filter === "all" ? "All" : filter}</button>`).join("")}</div>
-    <div class="compact-list opponent-roster-list" data-opponent-roster-count="${players.length}">${filtered.length ? filtered.map(player => opponentPlayerCard(player)).join("") : LimitedDataState(`${activeFilter} not visible in current Purdue evidence`)}</div>
-    ${activeFilter === "all" && missing.length ? `<details class="scout-card compact-detail"><summary>Source-missing Purdue groups</summary>${maybeRow("Not visible in current package", missing.join(", "), "N/A")}</details>` : ""}
-    <details class="scout-card compact-detail"><summary>Position-Group Scouting</summary>${groups.map(group => `<div class="scout-slice"><strong>${group.group}</strong>${maybeRow("Key player", group.key_player)}${maybeRow("Weakness", group.weakness)}${maybeRow("Attack plan", group.attack_plan)}<div class="compact-list">${(byGroup[group.group] || []).map(player => `<span class="mini-chip">${player.name}</span>`).join("")}</div></div>`).join("")}</details>`;
+  return renderTeamRosterHub("opponent", activeFilter);
 }
 
 function groupOpponentPlayers(players) {
@@ -3826,20 +3924,28 @@ function renderScoutingReport() {
 
 function renderMatchups() {
   const ordered = keyMatchupRegistryModels();
-  const top = ordered.slice(0, 3);
-  const rest = ordered.slice(3);
-  return `<section class="matchup-card-system" data-valid-count="${ordered.length}">
-    <div class="section-heading compact-heading"><p>Roster Matchups</p><strong>${weeklyTeamName()} vs ${activeOpponentName()}</strong></div>
-    <div class="compact-list roster-matchup-list">${generatedRosterMatchups().map(rosterMatchupCard).join("")}</div>
-    <div class="section-heading compact-heading"><p>Verified Matchups</p><strong>Player Matchups</strong></div>
-    <div class="compact-list matchup-card-list">${top.map(item => MatchupCard(item.row, item.rutgers, item.opponent, item.stats, item.media, { rank: item.sourceIndex + 1, key: true, registryEntry: item.entry })).join("") || renderStatPlaceholder("Key Matchups", "Limited data")}</div>
+  const featured = ordered[0];
+  const restPlayers = ordered.slice(1);
+  const rosterCards = generatedRosterMatchups();
+  const nextRoster = rosterCards.slice(0, 2);
+  const remainingRoster = rosterCards.slice(2);
+  return `<section class="matchup-card-system matchup-priority-layout" data-valid-count="${ordered.length}">
+    <div class="section-heading compact-heading"><p>Verified Matchups</p><strong>Key Player Matchup</strong></div>
+    <div class="featured-matchup-block">${featured ? MatchupCard(featured.row, featured.rutgers, featured.opponent, featured.stats, featured.media, { rank: featured.sourceIndex + 1, key: true, featured: true, registryEntry: featured.entry }) : renderStatPlaceholder("Key Matchup", "Limited data")}</div>
+    <div class="section-heading compact-heading"><p>Next Up</p><strong>Position Matchups</strong></div>
+    <div class="compact-list roster-matchup-list priority-roster-matchups">${nextRoster.map(rosterMatchupCard).join("")}</div>
     <div class="matchup-action-row">
       <button type="button" onclick="const d=document.getElementById('allMatchupsPanel'); if(d)d.open=!d.open;">All Matchups</button>
       <button type="button" onclick="renderPersonnelMatchups('scouting')">Scouting Report</button>
     </div>
-    ${rest.length ? `<details id="allMatchupsPanel" class="breakout compact-detail all-matchups-panel"><summary>View All Matchups</summary><div class="compact-list matchup-card-list">${rest.map(item => MatchupCard(item.row, item.rutgers, item.opponent, item.stats, item.media, { rank: item.sourceIndex + 1, registryEntry: item.entry })).join("")}</div></details>` : ""}
-    <div class="section-heading compact-heading bottom-rosters-heading"><p>Weekly Rosters</p><strong>Tap To Browse</strong></div>
-    <div class="bottom-weekly-rosters">${weeklyRosterSummaryCard("team")}${weeklyRosterSummaryCard("opponent")}</div>
+    <details id="allMatchupsPanel" class="breakout compact-detail all-matchups-panel"><summary>View All Matchups</summary>
+      <div class="section-heading compact-heading"><p>Player Matchups</p><strong>Verified List</strong></div>
+      <div class="compact-list matchup-card-list">${restPlayers.map(item => MatchupCard(item.row, item.rutgers, item.opponent, item.stats, item.media, { rank: item.sourceIndex + 1, registryEntry: item.entry })).join("") || renderStatPlaceholder("Player Matchups", "N/A")}</div>
+      <div class="section-heading compact-heading"><p>Roster Matchups</p><strong>${weeklyTeamName()} vs ${activeOpponentName()}</strong></div>
+      <div class="compact-list roster-matchup-list">${remainingRoster.map(rosterMatchupCard).join("")}</div>
+    </details>
+    <div class="section-heading compact-heading bottom-rosters-heading"><p>Weekly Rosters</p><strong>Browse Home / Away</strong></div>
+    <div class="bottom-weekly-rosters roster-browse-row">${weeklyRosterBrowseCard("team")}${weeklyRosterBrowseCard("opponent")}</div>
   </section>`;
 }
 
@@ -4758,6 +4864,7 @@ if (typeof module !== "undefined") {
     playerDetailHtml,
     opponentPlayerCard,
     renderRosterCards,
+    renderTeamRosterHub,
     renderMatchups,
     MatchupCard,
     BaseCard,

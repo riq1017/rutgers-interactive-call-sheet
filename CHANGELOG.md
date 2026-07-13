@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Personnel roster, matchup, and player-card redesign
+- Rebuilt player detail screens around a premium sports-profile hero with larger fictional portrait framing, team/position/class/overall identity, profile facts, and a scarlet `2025 Season Stats` ribbon before the tabbed details.
+- Converted Team and Purdue Personnel sub-tabs into Home Team and Away Team roster hubs with team headers, Players/Team controls, team leader strips, phone-safe roster tables, position filters, and compact tap-through cards.
+- Reordered Matchups so the top verified player matchup appears first, the next two roster/position matchups sit underneath it, and remaining player/roster matchups move into the All Matchups drill-down.
+- Replaced the old bottom weekly roster grid with cleaner Home Team / Away Team browse cards that route into the roster hubs.
+- Standardized unknown profile fields to `N/A` while keeping verified attributes, stats, traits, and matchup data source-bound.
+- Expanded validation for premium player heroes, Home/Away roster hubs, opponent source-missing groups, matchup priority order, and the new roster-table contract.
+
 ## Verified data presentation recovery and analytics panels
 - Changed Purdue player Traits tabs so source-missing development traits and abilities render as compact verified-source notes instead of stacked `N/A` rows.
 - Added stricter verified-value handling so literal `N/A` source fields are not counted as verified traits.

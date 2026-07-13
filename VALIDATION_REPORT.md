@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T15:57:45.755Z
+Validated: 2026-07-13T17:21:45.662Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -170,8 +170,8 @@ Validated: 2026-07-13T15:57:45.755Z
 - PASS - Run direction map avoids horizontal overflow at phone width
 - PASS - Personnel includes protection map
 - PASS - Protection map avoids horizontal overflow at phone width
-- PASS - Personnel includes expanded current opponent roster browser
-- PASS - Expanded Purdue browser includes verified LB, DB, and specialist identities
+- PASS - Personnel includes current opponent roster hub with sports-table browser
+- PASS - Purdue roster hub includes verified LB, DB, and specialist identities
 - PASS - Unavailable Purdue offensive groups are reported as source-missing instead of invented
 - PASS - Personnel includes matchup cards
 - PASS - Recruiting overview uses real resources
@@ -203,7 +203,7 @@ Validated: 2026-07-13T15:57:45.755Z
 - PASS - Gameplan default is compact with drill-down details
 - PASS - Top Plays uses compact rows and advanced filter drawer
 - PASS - Personnel uses one internal workspace section at a time
-- PASS - Roster uses horizontal position boxes instead of one long expanded report
+- PASS - Roster uses sports-app Home/Away roster hubs instead of one long expanded report
 - PASS - Matchups show player-vs-player cards where position data resolves
 - PASS - Matchups bind to player_matchups.json
 - PASS - Recruiting board starts from active_board when present

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Recruiting and Personnel workspace polish
+- Changed Recruiting Top 3 into a deterministic, horizontally scrollable Team Needs recommendation strip instead of a fixed first-three list.
+- Updated Team Needs scoring to account for verified senior departures and explicit position-change fields only.
+- Made recruit detail tabs usable and constrained Scouting/Fit to the requested field sets.
+- Made Personnel matchup-first, moved weekly roster summaries to the bottom of the matchup view, and rebuilt Scout into defined opponent sections.
+- Replaced the Stats accordion stack with a compact Rutgers/Purdue sports-stat dashboard for Last Game and Season views.
+- Added validation for deterministic recruit Top 3, senior-driven Team Needs, recruit tab content, matchup-first Personnel, defined Scout, and revamped Stats.
+
 ## Random Top 3 and weekly roster matchups
 - Locked Top Plays to the current 192 verified visible play inventory and removed the Best Play control from the Top Plays screen.
 - Made `Generate Top 3` the primary Top Plays action, producing three unique pure-random plays from verified play IDs only.

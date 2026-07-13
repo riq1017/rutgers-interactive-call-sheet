@@ -87,9 +87,9 @@ Gameplan owns offensive executive summary, defensive executive summary, run-game
 
 Top Plays owns Random Top 3 generation, the Top 3 selector, all 192 verified visible play combinations, play art, play filters, play search, favorites, run/pass/RPO/play-action/screen groupings, and expanded Play Cards. The default Top Plays action must not claim more than the 192 verified plays currently present in the source inventory.
 
-Personnel owns weekly team roster, weekly opponent roster, player cards, depth chart, O-line, generated roster-vs-roster matchup comparisons, and verified player matchup details.
+Personnel owns matchup-first weekly roster comparisons, weekly team roster, weekly opponent roster, player cards, depth chart, O-line, generated roster-vs-roster matchup comparisons, verified player matchup details, defined opponent scouting sections, and compact Rutgers/opponent stat dashboards.
 
-Recruiting owns the recruiting board, every prospect card, scheme fit, recruiting value, projected role, and player-specific recruiting intelligence.
+Recruiting owns the recruiting board, every prospect card, scheme fit, recruiting value, projected role, player-specific recruiting intelligence, deterministic Team Needs-driven Top 3 recommendations, and recruit detail tab content. Team Needs may use verified senior departures and explicit position-change fields, but must not infer position changes.
 
 Gameplan must not own the full play library, play filters, play search, Top 3 selector, repeated full play cards, or Rutgers-vs-opponent raw comparison sections.
 

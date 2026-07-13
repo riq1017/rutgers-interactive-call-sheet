@@ -1443,8 +1443,16 @@ function StatBlock(title, rows, className = "") {
 }
 
 function DetailTabStrip(labels = []) {
-  const tabs = labels.map((label, index) => `<span class="${index === 0 ? "active" : ""}">${cardValue(label, "")}</span>`).join("");
+  const tabs = labels.map((label, index) => `<button type="button" class="${index === 0 ? "active" : ""}" onclick="showDetailSection(this,'${cardValue(label, "")}')">${cardValue(label, "")}</button>`).join("");
   return tabs ? `<div class="detail-tab-strip" aria-label="Detail sections">${tabs}</div>` : "";
+}
+
+function showDetailSection(button, sectionName) {
+  const root = button && button.closest ? button.closest(".detail-screen") : null;
+  if (!root) return;
+  root.classList.add("tabs-touched");
+  root.querySelectorAll(".detail-tab-strip button").forEach(item => item.classList.toggle("active", item === button));
+  root.querySelectorAll(".detail-panel").forEach(panel => panel.classList.toggle("active", panel.dataset.detailSection === sectionName));
 }
 
 function Badge(value, variant = "neutral") {
@@ -3331,9 +3339,9 @@ function rosterMatchupWorkspace() {
   </section>`;
 }
 
-function renderPersonnelMatchups(active = "overview") {
+function renderPersonnelMatchups(active = "matchups") {
   if (!$("personnel")) return;
-  const tabs = ["overview","rutgers","opponent","matchups","stats","scouting"];
+  const tabs = ["matchups","rutgers","opponent","stats","scouting"];
   const tabLabel = id => ({ overview: "Roster Matchups", rutgers: weeklyTeamName(), opponent: activeOpponentName(), matchups: "Matchups", scouting: "Scout" }[id] || labelize(id));
   $("personnel").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>Personnel & Matchups</strong></div>
     <div class="segmented sticky-internal compact-tabs">${tabs.map(id => `<button type="button" class="${id === active ? "active" : ""}" onclick="renderPersonnelMatchups('${id}')">${tabLabel(id)}</button>`).join("")}</div>
@@ -3341,7 +3349,7 @@ function renderPersonnelMatchups(active = "overview") {
 }
 
 function renderPersonnelPanel(active) {
-  if (active === "overview") return renderPersonnelOverview();
+  if (active === "overview") return renderMatchups();
   if (active === "rutgers") return renderRosterCards();
   if (active === "run") return renderRunDirection();
   if (active === "protection") return renderProtection();
@@ -3354,7 +3362,7 @@ function renderPersonnelPanel(active) {
 }
 
 function renderPersonnelOverview() {
-  return rosterMatchupWorkspace();
+  return renderMatchups();
 }
 
 function renderRosterCards(activeGroup = "QB") {
@@ -3562,34 +3570,42 @@ function renderScoutingReport() {
   const profile = loadOpponentProfile();
   const groups = loadOpponentGroups();
   const players = loadOpponentPlayers();
-  const byGroup = groupOpponentPlayers(players);
   const increases = players.flatMap(player => (player.ui_analysis || {}).gameplan_increase || []).filter(cleanValue);
   const decreases = players.flatMap(player => (player.ui_analysis || {}).gameplan_decrease || []).filter(cleanValue);
   const triggers = players.map(player => (player.ui_analysis || {}).in_game_trigger).filter(cleanValue);
-  return `<div class="summary-grid compact-grid">
+  const topThreats = players.filter(player => /critical|high/i.test(cleanValue((player.ui_analysis || {}).matchup_priority))).concat(players).filter((player, index, arr) => arr.findIndex(item => item.player_id === player.player_id) === index).slice(0, 4);
+  return `<section class="scout-dashboard" data-scout-dashboard>
+    ${CardHeader({ eyebrow: "Opponent Scout", title: activeOpponentName(), subtitle: "Verified weekly profile", badge: Badge(profile.source ? "Verified" : "Source missing", profile.source ? "positive" : "monitor") })}
+    <div class="summary-grid compact-grid scout-snapshot">
       ${maybeRow("Opponent", `${cleanValue(profile.team)} ${cleanValue(profile.nickname)}`)}
       ${maybeRow("Record", `${cleanValue(profile.record)} ${cleanValue(profile.conference_record) ? `(${profile.conference_record})` : ""}`)}
       ${maybeRow("Overall", profile.overall)}
+      ${maybeRow("Offense", profile.offense_overall)}
       ${maybeRow("Defense", profile.defense_overall)}
     </div>
-    <details class="scout-card compact-detail" open><summary>Strengths & Weaknesses</summary>
+    <article class="scout-card defined-scout-card">
+      <h3>Strengths & Weaknesses</h3>
       ${maybeRow("Strengths", groups.map(group => group.strength))}
       ${maybeRow("Weaknesses", groups.map(group => group.weakness))}
       ${maybeRow("Concepts to increase", [...new Set(increases)].slice(0, 8))}
       ${maybeRow("Concepts to avoid", [...new Set(decreases)].slice(0, 8))}
-    </details>
-    <details class="scout-card compact-detail"><summary>Position-Group Scouting</summary>
+    </article>
+    <article class="scout-card defined-scout-card">
+      <h3>Position-Group Scouting</h3>
       ${groups.map(group => `<div class="scout-slice"><strong>${group.group}</strong>${maybeRow("Key player", group.key_player)}${maybeRow("Strength", group.strength)}${maybeRow("Weakness", group.weakness)}${maybeRow("Attack plan", group.attack_plan)}</div>`).join("")}
-    </details>
-    <details class="scout-card compact-detail"><summary>Key Players & Triggers</summary>
-      <div class="compact-list">${players.slice(0, 6).map(player => opponentPlayerCard(player)).join("")}</div>
+    </article>
+    <article class="scout-card defined-scout-card">
+      <h3>Key Players & Triggers</h3>
+      <div class="compact-list">${topThreats.map(player => opponentPlayerCard(player)).join("")}</div>
       ${maybeRow("In-game triggers", triggers.slice(0, 8))}
-    </details>
-    <details class="scout-card compact-detail"><summary>Front, Pressure, Coverage</summary>
+    </article>
+    <article class="scout-card defined-scout-card">
+      <h3>Front, Pressure, Coverage</h3>
       ${maybeRow("Blitz tendencies", groups.map(group => /edge|linebacker/i.test(group.group) ? group.attack_plan : "").filter(cleanValue))}
       ${maybeRow("Coverage tendencies", groups.map(group => /secondary|linebacker/i.test(group.group) ? group.strength : "").filter(cleanValue))}
       ${maybeRow("Run-front tendencies", groups.map(group => /interior|edge|linebacker/i.test(group.group) ? group.strength : "").filter(cleanValue))}
-    </details>`;
+    </article>
+  </section>`;
 }
 
 function renderMatchups() {
@@ -3605,7 +3621,10 @@ function renderMatchups() {
       <button type="button" onclick="const d=document.getElementById('allMatchupsPanel'); if(d)d.open=!d.open;">All Matchups</button>
       <button type="button" onclick="renderPersonnelMatchups('scouting')">Scouting Report</button>
     </div>
-    ${rest.length ? `<details id="allMatchupsPanel" class="breakout compact-detail all-matchups-panel"><summary>View All Matchups</summary><div class="compact-list matchup-card-list">${rest.map(item => MatchupCard(item.row, item.rutgers, item.opponent, item.stats, item.media, { rank: item.sourceIndex + 1, registryEntry: item.entry })).join("")}</div></details>` : ""}</section>`;
+    ${rest.length ? `<details id="allMatchupsPanel" class="breakout compact-detail all-matchups-panel"><summary>View All Matchups</summary><div class="compact-list matchup-card-list">${rest.map(item => MatchupCard(item.row, item.rutgers, item.opponent, item.stats, item.media, { rank: item.sourceIndex + 1, registryEntry: item.entry })).join("")}</div></details>` : ""}
+    <div class="section-heading compact-heading bottom-rosters-heading"><p>Weekly Rosters</p><strong>Tap To Browse</strong></div>
+    <div class="bottom-weekly-rosters">${weeklyRosterSummaryCard("team")}${weeklyRosterSummaryCard("opponent")}</div>
+  </section>`;
 }
 
 function matchupRow(row) {
@@ -3710,19 +3729,70 @@ function legacyRenderOLine() {
     <div class="summary-grid compact-grid">${maybeRow("Best run lane", summary.best_run_ideas && summary.best_run_ideas[0])}${maybeRow("Avoid lane", summary.avoid && summary.avoid[0])}${maybeRow("Protection direction", summary.best_protection_rule)}${maybeRow("Chip help", firstClean(recs.filter(text => /chip|help|scan/i.test(text))))}${maybeRow("Double team", firstClean(recs.filter(text => /double/i.test(text))))}</div>` : renderStatPlaceholder("O-Line", "No verified offensive-line alignment was provided.");
 }
 
-function renderStatsWorkspace() {
-  const requested = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("stats") : "";
-  const showSeason = requested === "season";
-  const opponentLast = loadOpponentLastGameStats();
-  const opponentSeason = loadOpponentSeasonStats();
-  return `<div class="segmented compact-tabs stat-toggle">
-      <button class="${!showSeason ? "active" : ""}" type="button" onclick="renderPersonnelMatchups('stats')">Last Game</button>
-      <button class="${showSeason ? "active" : ""}" type="button" onclick="history.replaceState(null,'','?tab=personnel&personnel=stats&stats=season');renderPersonnelMatchups('stats')">Season</button>
+function activeStatsMode() {
+  const requested = typeof window !== "undefined" && window.location ? new URLSearchParams(window.location.search || "").get("stats") : "";
+  return requested === "season" ? "season" : "last";
+}
+
+function statsModeData(mode = "last") {
+  return mode === "season"
+    ? { label: "Season", rutgers: loadRutgersSeasonStats(), opponent: loadOpponentSeasonStats() }
+    : { label: "Last Game", rutgers: loadRutgersLastGameStats(), opponent: loadOpponentLastGameStats() };
+}
+
+function flattenedStatEntries(value) {
+  if (Array.isArray(value)) return value.filter(item => item && typeof item === "object");
+  if (value && typeof value === "object") return Object.values(value).filter(item => item && typeof item === "object");
+  return [];
+}
+
+function statLeaderCard(title, rows = [], empty = "N/A") {
+  const leaders = rows.slice(0, 3);
+  return `<article class="sports-stat-card stat-leader-card"><h3>${title}</h3>${leaders.length ? leaders.map(row => statChip(row)).join("") : `<div class="stat-chip empty"><strong>${empty}</strong></div>`}</article>`;
+}
+
+function teamStatCategoryCard(title, rutgersValue, opponentValue) {
+  const rutgersRows = flattenedStatEntries(rutgersValue);
+  const opponentRows = flattenedStatEntries(opponentValue);
+  const rutgersPreview = rutgersRows.length ? sportsStatStrip(firstStatPairs(rutgersRows, 5), "N/A") : (rutgersValue && typeof rutgersValue === "object" ? Object.entries(rutgersValue).slice(0, 5).map(([key, value]) => maybeRow(labelize(key), value)).join("") : maybeRow("Value", rutgersValue, "N/A"));
+  const opponentPreview = opponentRows.length ? sportsStatStrip(firstStatPairs(opponentRows, 5), "N/A") : (opponentValue && typeof opponentValue === "object" ? Object.entries(opponentValue).slice(0, 5).map(([key, value]) => maybeRow(labelize(key), value)).join("") : maybeRow("Value", opponentValue, "N/A"));
+  return `<article class="sports-stat-card comparison-stat-card">
+    <h3>${title}</h3>
+    <div class="team-stat-comparison">
+      <section><span>${weeklyTeamName()}</span>${rutgersPreview || `<strong>N/A</strong>`}</section>
+      <section><span>${activeOpponentName()}</span>${opponentPreview || `<strong>N/A</strong>`}</section>
     </div>
-    <details class="breakout compact-detail" ${!showSeason ? "open" : ""}><summary>Rutgers Last Game Stat Sheet</summary>${renderStatSections("Last Game", loadRutgersLastGameStats())}</details>
-    <details class="breakout compact-detail" ${showSeason ? "open" : ""}><summary>Rutgers Season Stat Sheet</summary>${renderStatSections("Season Stats", loadRutgersSeasonStats())}</details>
-    <details class="breakout compact-detail"><summary>Opponent Last Game</summary>${renderStatSections("Opponent Last Game", opponentLast)}</details>
-    <details class="breakout compact-detail"><summary>Opponent Season</summary>${renderStatSections("Opponent Season", opponentSeason)}</details>`;
+  </article>`;
+}
+
+function renderStatsWorkspace() {
+  const mode = activeStatsMode();
+  const data = statsModeData(mode);
+  const categories = [
+    ["Passing", "passing"],
+    ["Rushing", "rushing"],
+    ["Receiving", "receiving"],
+    ["Defense", "defense"],
+    ["Turnovers", "turnovers"],
+    ["Third Down", "third_down"],
+    ["Red Zone", "red_zone"],
+    ["Kicking", "kicking"]
+  ];
+  return `<section class="stats-dashboard" data-stats-dashboard data-stats-mode="${mode}">
+    <div class="segmented compact-tabs stat-toggle">
+      <button class="${mode === "last" ? "active" : ""}" type="button" onclick="history.replaceState(null,'','?tab=personnel&personnel=stats&stats=last');renderPersonnelMatchups('stats')">Last Game</button>
+      <button class="${mode === "season" ? "active" : ""}" type="button" onclick="history.replaceState(null,'','?tab=personnel&personnel=stats&stats=season');renderPersonnelMatchups('stats')">Season</button>
+    </div>
+    ${CardHeader({ eyebrow: "Stats Hub", title: `${weeklyTeamName()} vs ${activeOpponentName()}`, subtitle: data.label, badge: Badge(data.label, "positive") })}
+    <div class="stats-team-header">${teamStatCategoryCard("Team Snapshot", data.rutgers.team_totals || data.rutgers, data.opponent.team_totals || data.opponent)}</div>
+    <div class="stats-leader-grid">
+      ${statLeaderCard(`${weeklyTeamName()} Passing`, flattenedStatEntries(data.rutgers.passing))}
+      ${statLeaderCard(`${weeklyTeamName()} Rushing`, flattenedStatEntries(data.rutgers.rushing))}
+      ${statLeaderCard(`${activeOpponentName()} Defense`, flattenedStatEntries(data.opponent.defense))}
+      ${statLeaderCard(`${activeOpponentName()} Production`, flattenedStatEntries(data.opponent.passing).concat(flattenedStatEntries(data.opponent.rushing)).concat(flattenedStatEntries(data.opponent.receiving)))}
+    </div>
+    <div class="stat-category-grid">${categories.map(([title, key]) => teamStatCategoryCard(title, data.rutgers[key], data.opponent[key])).join("")}</div>
+  </section>`;
 }
 
 function renderStatSections(title, data) {
@@ -3764,19 +3834,52 @@ function renderRecruiting() {
   renderActionPlan();
 }
 
+function teamNeedPositionMatches(position, target) {
+  const pos = normalizePosition(position);
+  const need = normalizePosition(target);
+  if (need === "T") return ["LT","RT","T"].includes(pos);
+  if (need === "G") return ["LG","RG","G"].includes(pos);
+  if (need === "OL") return ["LT","LG","C","RG","RT","T","G","OL"].includes(pos);
+  if (need === "EDGE") return ["EDGE","LEDG","REDG","LE","RE"].includes(pos);
+  if (need === "DB") return ["CB","FS","SS","S","DB"].includes(pos);
+  if (need === "HB") return ["HB","RB"].includes(pos);
+  return pos === need;
+}
+
+function verifiedPositionChangeDelta(position) {
+  const need = normalizePosition(position);
+  return (loadRutgersRoster().players || []).reduce((delta, player) => {
+    const previous = cleanValue(player.previous_position || player.position_from || (player.position_change || {}).from);
+    const next = cleanValue(player.new_position || player.position_to || (player.position_change || {}).to);
+    if (!previous && !next) return delta;
+    const leaving = previous && teamNeedPositionMatches(previous, need) ? -1 : 0;
+    const arriving = next && teamNeedPositionMatches(next, need) ? 1 : 0;
+    return delta + leaving + arriving;
+  }, 0);
+}
+
+function graduatingPlayersForPosition(position) {
+  return (loadRutgersRoster().players || []).filter(player => teamNeedPositionMatches(player.position, position) && /\bSR\b/i.test(cleanValue(player.class_year || player.year || player.class)));
+}
+
 function priorityScore(positionNeed) {
   const position = positionNeed.position;
-  const rosterCount = (loadRutgersRoster().players || []).filter(p => normalizePosition(p.position) === normalizePosition(position)).length;
-  const prospects = (loadRecruitingClass().prospects || []).filter(p => normalizePosition(p.position) === normalizePosition(position));
+  const rosterPlayers = (loadRutgersRoster().players || []).filter(p => teamNeedPositionMatches(p.position, position));
+  const rosterCount = rosterPlayers.length;
+  const graduating = graduatingPlayersForPosition(position);
+  const positionChangeDelta = verifiedPositionChangeDelta(position);
+  const prospects = (loadRecruitingClass().prospects || []).filter(p => teamNeedPositionMatches(p.position, position));
   const deficit = Number(positionNeed.deficit ?? Math.max(0, (positionNeed.recommended_targets || 0) - (positionNeed.current_targets || 0)));
-  const onField = 50;
+  const onField = 42;
   const depth = rosterCount ? Math.max(0, 24 - rosterCount * 3) : 24;
+  const graduation = Math.min(18, graduating.length * 6);
+  const positionChange = Math.max(0, -positionChangeDelta * 5);
   const future = rosterCount <= 1 ? 12 : 6;
   const scheme = prospects.some(p => p.analysis && p.analysis.scheme_fit) ? 8 : 4;
   const target = Math.min(18, deficit * 5);
   const feasibility = prospects.length ? Math.min(12, prospects.length * 2) : 3;
-  const score = Math.round((onField + depth + future + scheme + target + feasibility) * 10) / 10;
-  return { position, score, tier: score >= 90 ? "Critical" : score >= 80 ? "High" : score >= 70 ? "Medium" : "Monitor", currentTargets: positionNeed.current_targets || 0, recommendedTargets: positionNeed.recommended_targets || 0, targetDeficit: deficit, coverageStatus: deficit > 0 ? "Under-covered" : "Covered" };
+  const score = Math.round((onField + depth + graduation + positionChange + future + scheme + target + feasibility) * 10) / 10;
+  return { position, score, tier: score >= 90 ? "Critical" : score >= 80 ? "High" : score >= 70 ? "Medium" : "Monitor", currentTargets: positionNeed.current_targets || 0, recommendedTargets: positionNeed.recommended_targets || 0, targetDeficit: deficit, graduatingCount: graduating.length, positionChangeDelta, rosterCount, coverageStatus: deficit > 0 ? "Under-covered" : "Covered" };
 }
 
 function priorityBoard() {
@@ -3876,7 +3979,8 @@ function resolveRecruitDisplayModel(row = {}) {
   }
   const analysis = prospect.analysis || {};
   const display = analysis.display_stats || {};
-  const priority = priorityBoard().find(item => item.position === verifiedValue(board.position, prospect.position, row.position)) || {};
+  const recruitPosition = verifiedValue(board.position, prospect.position, row.position);
+  const priority = priorityBoard().find(item => teamNeedPositionMatches(recruitPosition, item.position)) || {};
   const attributes = prospect.attributes && Object.keys(prospect.attributes).length ? prospect.attributes : (board.attributes || {});
   const status = readableStatus(verifiedValue(board.status, prospect.status, row.status, priority.tier), "N/A");
   const action = prospectSpecificText(board.recommended_action, row.recommended_action, analysis.recommended_action, analysis.recommended_action_reason) || verifiedValue(priority.tier, status);
@@ -4074,9 +4178,9 @@ function recruitDetailHtml(id, mode = "board") {
     </header>
     ${DetailTabStrip(["Overview", "Scouting", "Fit", "Activity"])}
     <section class="detail-panel" data-detail-section="Overview">${maybeRow("Board Rank", model.boardRank, "N/A")}${maybeRow("Status", model.status, "N/A")}${maybeRow("Class", model.class, "N/A")}${maybeRow("Position", model.position, "N/A")}${maybeRow("Stars", stars, "N/A")}${maybeRow("National Rank", model.nationalRank, "N/A")}${maybeRow("Position Rank", model.positionRank, "N/A")}${maybeRow("State", model.state, "N/A")}${maybeRow("Hometown", model.hometown, "N/A")}${maybeRow("Height", model.height, "N/A")}${maybeRow("Weight", model.weight, "N/A")}${maybeRow("Archetype", model.archetype, "N/A")}${maybeRow("Scouting", model.scouting === "N/A" ? "N/A" : `${model.scouting}%`, "N/A")}${maybeRow("Gem/Bust", model.gem, "N/A")}</section>
-    <section class="detail-panel" data-detail-section="Scouting">${sportsStatStrip(recruitStatPairs(model), "Attributes N/A")}${recruitAttributeRows({ attributes: model.attributes })}${abilityRows}</section>
-    <section class="detail-panel" data-detail-section="Fit">${maybeRow("Scheme Fit", model.schemeFit)}${maybeRow("Position Need", model.priority.tier, "N/A")}${maybeRow("Roster Competition", model.rosterCompetition, "N/A")}${maybeRow("Projected Role", model.projectedRole, "N/A")}${maybeRow("Recruiting Value", model.recruitingValue, "N/A")}${maybeRow("Recommendation", model.action, "N/A")}</section>
-    <section class="detail-panel" data-detail-section="Activity">${maybeRow("Status", model.status, "N/A")}${maybeRow("Weekly Priority", model.priority.tier, "N/A")}${maybeRow("Interest Movement", "N/A", "N/A")}${maybeRow("Action History", model.reason, "N/A")}${maybeRow("Next Action", model.action, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Scouting">${maybeRow("Attributes", recruitStatPairs(model).length ? "Verified fields below" : "N/A", "N/A")}${recruitAttributeRows({ attributes: model.attributes })}${abilityRows}</section>
+    <section class="detail-panel" data-detail-section="Fit">${maybeRow("Scheme Fit", model.schemeFit)}${maybeRow("Position Need", model.priority.tier, "N/A")}${maybeRow("Roster Competition", model.rosterCompetition, "N/A")}${maybeRow("Projected Role", model.projectedRole, "N/A")}${maybeRow("Recruiting Value", model.recruitingValue, "N/A")}${maybeRow("Recommendation", model.action, "N/A")}${maybeRow("Status", model.status, "N/A")}${maybeRow("Weekly Priority", model.priority.tier, "N/A")}${maybeRow("Interest Movement", "N/A", "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Activity">${maybeRow("Offer", model.board.offer_status, "N/A")}${maybeRow("Visit", model.board.visit_status, "N/A")}${maybeRow("Commit", model.board.commit_status || model.prospect.status, "N/A")}${maybeRow("Action History", model.reason, "N/A")}${maybeRow("Next Action", model.action, "N/A")}${maybeRow("Source", model.board.source_video || model.prospect.source_video, "N/A")}</section>
   </section>`;
   return `<section class="detail-screen recruit-detail-screen" data-recruit-detail>
     <button class="back-button" type="button" onclick="renderRecruitList('${mode}')">Back</button>
@@ -4110,7 +4214,7 @@ function filteredRecruits(mode = "board") {
     if (f.bucket === "scouted" && !cleanValue(row.scouting_percentage || p.scouting_percentage)) return false;
     if (f.bucket === "gems" && !/gem/i.test(cleanValue(row.status || p.dealbreaker))) return false;
     if (f.position !== "all" && recruitPositionBucket(row.position || p.position) !== f.position) return false;
-    const pr = priorityMap.get(p.position);
+    const pr = [...priorityMap.values()].find(item => teamNeedPositionMatches(p.position, item.position));
     if (f.priority !== "all" && (!pr || pr.tier !== f.priority)) return false;
     if (f.stars !== "all" && String(resolveRecruitDisplayModel(row).stars || "") !== f.stars) return false;
     if (f.q && !`${row.name} ${row.position} ${p.hometown || ""}`.toLowerCase().includes(f.q)) return false;
@@ -4142,7 +4246,7 @@ function renderRecruitList(mode = window.ACTIVE_RECRUITING_VIEW || "board") {
   document.querySelectorAll("[data-recruit-tab]").forEach(button => button.classList.toggle("active", button.dataset.recruitTab === mode));
   if (mode === "needs") {
     const rows = priorityBoard();
-    $("recruitList").innerHTML = `<h3>Team Needs</h3><div class="compact-list team-needs-list">${rows.map(row => `<article class="sports-list-card need-card"><span class="rank-dot">${row.position}</span><span><strong>${row.tier}</strong><em>${row.coverageStatus}</em></span><b>${row.score}</b></article>`).join("")}</div>`;
+    $("recruitList").innerHTML = `<h3>Team Needs</h3><div class="compact-list team-needs-list">${rows.map(row => `<article class="sports-list-card need-card"><span class="rank-dot">${row.position}</span><span><strong>${row.tier}</strong><em>${row.coverageStatus}</em><small>${row.graduatingCount} graduating | position changes ${row.positionChangeDelta}</small></span><b>${row.score}</b></article>`).join("")}</div>`;
     return;
   }
   if (mode === "commits") {
@@ -4155,12 +4259,24 @@ function renderRecruitList(mode = window.ACTIVE_RECRUITING_VIEW || "board") {
   $("recruitList").innerHTML = `<h3>${mode === "prospects" ? "Prospect List" : "Recruiting Board"}</h3><div class="recruit-card-list">${rows.slice(0, mode === "prospects" ? 80 : 35).map((row, i) => RecruitCard({ ...row, open: openId && openId === row.prospect_id }, i, mode)).join("")}</div>`;
 }
 
+function recommendedTopRecruits() {
+  const priorityRows = priorityBoard();
+  const classById = new Map((loadRecruitingClass().prospects || []).map(p => [p.prospect_id, p]));
+  return activeBoardRows().map(row => {
+    const model = resolveRecruitDisplayModel({ ...row, prospect: classById.get(row.prospect_id) || row.prospect || {} });
+    const need = priorityRows.find(item => teamNeedPositionMatches(model.position, item.position)) || {};
+    const boardOrder = Number(model.boardRank === "N/A" ? 999 : model.boardRank);
+    const fitBoost = /strong/i.test(model.schemeFit) ? 8 : /moderate/i.test(model.schemeFit) ? 4 : 0;
+    const activeBoost = /active/i.test(model.status) ? 4 : 0;
+    const scoutingBoost = Number(model.scouting) ? Math.min(6, Number(model.scouting) / 20) : 0;
+    return { model: { ...model, priority: need }, score: Number(need.score || 0) + fitBoost + activeBoost + scoutingBoost - boardOrder / 1000 };
+  }).sort((a, b) => b.score - a.score || Number(a.model.boardRank || 999) - Number(b.model.boardRank || 999)).slice(0, 3).map(row => row.model);
+}
+
 function renderActionPlan() {
   if (!$("actionPlanList")) return;
-  const board = loadRecruitingWeekly().active_board || [];
-  const classById = new Map((loadRecruitingClass().prospects || []).map(p => [p.prospect_id, p]));
-  const rows = board.slice(0, 3).map((row, i) => resolveRecruitDisplayModel({ ...row, prospect: classById.get(row.prospect_id) || {} }));
-  $("actionPlanList").innerHTML = `<div class="section-heading compact-heading"><p>Weekly Action Plan</p><strong>Top 3</strong></div><div class="ranked-recruit-list">${rows.map((model, i) => `<button type="button" class="ranked-recruit-row" onclick="showRecruitDetail('${model.prospect_id}','board')"><strong>${i + 1}</strong><span>${model.name}</span><em>${model.position}</em><b>${model.schemeFit}</b><small>${model.action}</small></button>`).join("")}</div>`;
+  const rows = recommendedTopRecruits();
+  $("actionPlanList").innerHTML = `<div class="section-heading compact-heading"><p>Weekly Action Plan</p><strong>Top 3 Needs Fits</strong></div><div class="ranked-recruit-list scrollable-recruit-top3" data-recruit-top-three>${rows.map((model, i) => `<button type="button" class="ranked-recruit-row" onclick="showRecruitDetail('${model.prospect_id}','board')"><strong>${i + 1}</strong><span>${model.name}</span><em>${model.position} | ${recruitStarsText(model)}</em><b>${model.priority.tier || model.schemeFit}</b><small>${model.priority.position ? `${model.priority.position} need ${model.priority.score}` : model.action}</small></button>`).join("")}</div>`;
 }
 
 function renderPackagePanel() {
@@ -4345,6 +4461,7 @@ if (typeof module !== "undefined") {
     RecruitCard,
     resolveRecruitDisplayModel,
     recruitDetailHtml,
+    recommendedTopRecruits,
     recruitStarsText,
     recruitStatPairs,
     sportsStatStrip,
@@ -4358,6 +4475,11 @@ if (typeof module !== "undefined") {
     runLaneBlock,
     renderOLine,
     renderOpponent,
+    renderStatsWorkspace,
+    renderScoutingReport,
+    teamNeedPositionMatches,
+    graduatingPlayersForPosition,
+    verifiedPositionChangeDelta,
     rosterMatchupWorkspace,
     opponentPlayerDetailHtml,
     orderedMatchupRows,

@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T06:31:53.521Z
+Validated: 2026-07-13T07:19:32.299Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -223,7 +223,12 @@ Validated: 2026-07-13T06:31:53.521Z
 - PASS - Nested formatter converts objects to readable labels
 - PASS - Player cards render Last Game and Season as separate sections
 - PASS - Matchup cards use mobile header, comparison, production, and result sections
-- PASS - Personnel overview renders weekly roster summaries and generated roster matchups
+- PASS - Personnel defaults to matchup-first cards with weekly rosters at the bottom
+- PASS - Recruiting Top 3 is deterministic, Team Needs driven, and horizontally scrollable
+- PASS - Team Needs priority uses verified senior departures and explicit position changes only
+- PASS - Recruit detail tabs are usable buttons with image-limited Scouting and Fit sections
+- PASS - Stats workspace renders a sports-stat dashboard instead of stacked stat-sheet accordions
+- PASS - Scout workspace renders defined opponent sections
 - PASS - Repeated generic recruiting descriptions are removed from rendered candidates
 - PASS - Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS
 - PASS - Only one matchup detail accordion is allowed open per list

@@ -258,24 +258,29 @@ p{line-height:1.45}
   background:rgba(8,10,12,.88);
   backdrop-filter:blur(10px);
 }
-.detail-tab-strip span{
+.detail-tab-strip button{
   min-height:34px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
   border-radius:8px;
   border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
   color:var(--muted);
   font-size:.72rem;
   font-weight:800;
   letter-spacing:.02em;
   text-transform:uppercase;
 }
-.detail-tab-strip span.active{
+.detail-tab-strip button.active{
   color:#fff;
   background:linear-gradient(135deg,rgba(204,0,51,.95),rgba(128,0,24,.92));
   border-color:rgba(255,255,255,.18);
 }
+.detail-screen .detail-panel{display:none}
+.detail-screen .detail-panel[data-detail-section="Overview"],
+.detail-screen .detail-panel.active{display:block}
+.detail-screen.tabs-touched .detail-panel[data-detail-section="Overview"]:not(.active){display:none}
 .metric-row,.stat-block{
   min-width:0;
   border:1px solid rgba(255,255,255,.1);
@@ -3096,5 +3101,73 @@ details[open]{
   .ranked-recruit-row b {
     grid-column: 2 / -1;
   }
+}
+
+.bottom-weekly-rosters{
+  display:grid;
+  gap:10px;
+  margin-top:8px;
+}
+.bottom-rosters-heading{margin-top:14px}
+.scrollable-recruit-top3{
+  display:grid;
+  grid-auto-flow:column;
+  grid-auto-columns:minmax(230px,82%);
+  gap:10px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding:2px 2px 8px;
+  scrollbar-width:none;
+}
+.scrollable-recruit-top3::-webkit-scrollbar{display:none}
+.scrollable-recruit-top3 .ranked-recruit-row{
+  scroll-snap-align:start;
+  min-height:116px;
+  align-content:start;
+}
+.scout-dashboard,.stats-dashboard{
+  display:grid;
+  gap:10px;
+  min-width:0;
+}
+.defined-scout-card,.sports-stat-card{
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  padding:10px;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(0,0,0,.26));
+  min-width:0;
+}
+.defined-scout-card h3,.sports-stat-card h3{
+  margin:0 0 8px;
+  font-size:1rem;
+  line-height:1.1;
+}
+.stats-leader-grid,.stat-category-grid{
+  display:grid;
+  gap:10px;
+}
+.team-stat-comparison{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+.team-stat-comparison section{
+  min-width:0;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;
+  padding:8px;
+  background:rgba(0,0,0,.25);
+}
+.team-stat-comparison section>span{
+  display:block;
+  margin-bottom:6px;
+  color:var(--muted);
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.stat-leader-card .stat-chip{margin-top:6px}
+@media(max-width:420px){
+  .team-stat-comparison{grid-template-columns:1fr}
 }
 

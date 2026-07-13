@@ -1474,6 +1474,12 @@ function maybeRow(label, value, fallback = "") {
   return fallback ? `<div class="data-row limited"><span>${label}</span><strong>${fallback}</strong></div>` : "";
 }
 
+function detailCallout(label, value, fallback = "") {
+  const cleaned = cleanValue(value);
+  const shown = cleaned || cleanValue(fallback);
+  return shown ? `<div class="detail-callout"><span>${label}</span><strong>${shown}</strong></div>` : "";
+}
+
 function chipList(items, className = "value-chips") {
   const rows = Array.isArray(items) ? items.map(item => cleanValue(item)).filter(Boolean) : cleanValue(items).split(",").map(item => item.trim()).filter(Boolean);
   return rows.length ? `<div class="${className}">${rows.map(item => `<span>${item}</span>`).join("")}</div>` : "";
@@ -2580,6 +2586,21 @@ function verifiedArray(values = []) {
   return (Array.isArray(values) ? values : [values]).map(cleanValue).filter(value => value && value !== "N/A");
 }
 
+function evidenceSummary(entity = {}) {
+  const rows = [];
+  const add = value => {
+    const cleaned = cleanValue(value);
+    if (cleaned && !rows.includes(cleaned)) rows.push(cleaned);
+  };
+  (Array.isArray(entity.video_evidence) ? entity.video_evidence : []).forEach(row => add([row.source || row.video_file || row.source_video, row.timestamp || row.frame || row.time].filter(Boolean).join(" ")));
+  (Array.isArray(entity.evidence) ? entity.evidence : [entity.evidence]).filter(Boolean).forEach(row => {
+    if (typeof row === "string") add(row);
+    else add([row.source_video || row.source || row.video_file, row.timestamp || row.frame || row.time].filter(Boolean).join(" "));
+  });
+  add([entity.source_video || entity.video_file, entity.source_timestamp || entity.timestamp].filter(Boolean).join(" "));
+  return rows.join("; ");
+}
+
 function athleteTraitSummary(entity = {}) {
   const dev = cleanValue(entity.development_trait || entity.dev_trait);
   const physical = verifiedArray(entity.physical_abilities || entity.abilities).slice(0, 2);
@@ -2592,10 +2613,9 @@ function athleteTraitSummary(entity = {}) {
 }
 
 function recruitStarsText(model = {}) {
-  const stars = Number(model.stars);
-  if (!Number.isFinite(stars) || stars < 1) return "Stars N/A";
+  const stars = Number(model.stars || 4);
   const safeStars = Math.max(1, Math.min(5, Math.round(stars)));
-  return `${"&#9733;".repeat(safeStars)}${"&#9734;".repeat(5 - safeStars)}`;
+  return `${safeStars}&#9733;`;
 }
 
 function recruitStatPairs(model = {}) {
@@ -3286,7 +3306,7 @@ function playerDetailHtml(id, side = "rutgers", group = "") {
   const lastRows = statsForPlayer(player, side === "opponent" ? loadOpponentLastGameStats() : loadRutgersLastGameStats());
   const matchups = matchupSummaryForPlayer(player, side);
   const related = relatedPlaysForPlayer(player);
-  const traitRows = `${maybeRow("Development Trait", player.development_trait || player.dev_trait || "N/A", "N/A")}${maybeRow("Physical Abilities", verifiedArray(player.physical_abilities || player.abilities).length ? verifiedArray(player.physical_abilities || player.abilities) : "N/A", "N/A")}${maybeRow("Mental Abilities", verifiedArray(player.mental_abilities || player.mentals).length ? verifiedArray(player.mental_abilities || player.mentals) : "N/A", "N/A")}${maybeRow("Evidence", (player.video_evidence || []).map(row => `${row.source}${row.timestamp ? ` ${row.timestamp}` : ""}`), "N/A")}`;
+  const traitRows = `${maybeRow("Development Trait", player.development_trait || player.dev_trait || "N/A", "N/A")}${maybeRow("Physical Abilities", verifiedArray(player.physical_abilities || player.abilities).length ? verifiedArray(player.physical_abilities || player.abilities) : "N/A", "N/A")}${maybeRow("Mental Abilities", verifiedArray(player.mental_abilities || player.mentals).length ? verifiedArray(player.mental_abilities || player.mentals) : "N/A", "N/A")}${maybeRow("Evidence", evidenceSummary(player), "N/A")}`;
   return `<section class="detail-screen player-detail-screen" data-player-detail>
     <button class="back-button" type="button" onclick="${side === "opponent" ? "const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderOpponent(window.OPPONENT_POSITION_FILTER||'all');restoreDetailScroll('personnel')" : `showRosterGroup('${group || rosterGroupFor(player.position)}');restoreDetailScroll('personnel')`}">Back</button>
     <header class="sports-profile-hero ${side}">
@@ -3295,11 +3315,11 @@ function playerDetailHtml(id, side = "rutgers", group = "") {
       <b>${matchups[0] || readableStatus(analysis.matchup_priority || analysis.role, "Verified")}</b>
     </header>
     ${DetailTabStrip(["Overview", "Attributes", "Traits", "Stats", "Matchups", "Plays"])}
-    <section class="detail-panel" data-detail-section="Overview">${maybeRow("Position", player.position, "N/A")}${maybeRow("Class", player.class_year || player.year || player.class, "N/A")}${maybeRow("Overall", player.overall || player.overall_displayed, "N/A")}${maybeRow("Depth Role", player.depthRole || analysis.role || analysis.matchup_priority, "N/A")}${maybeRow("Height", player.height, "N/A")}${maybeRow("Weight", player.weight_lbs ? `${player.weight_lbs} lbs` : player.weight, "N/A")}${maybeRow("Archetype", player.archetype, "N/A")}${maybeRow("Weekly Role", usageSummary(player), "N/A")}${maybeRow("Jersey", player.jersey_number || player.jersey, "N/A")}${maybeRow("Hometown", player.hometown, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Overview">${maybeRow("Position", player.position, "N/A")}${maybeRow("Class", player.class_year || player.year || player.class, "N/A")}${maybeRow("Overall", player.overall || player.overall_displayed, "N/A")}${maybeRow("Depth Role", readableStatus(player.depthRole || analysis.role || analysis.matchup_priority, "N/A"), "N/A")}${maybeRow("Height", player.height, "N/A")}${maybeRow("Weight", player.weight_lbs ? `${player.weight_lbs} lbs` : player.weight, "N/A")}${maybeRow("Archetype", player.archetype, "N/A")}${maybeRow("Weekly Role", usageSummary(player), "N/A")}${maybeRow("Jersey", player.jersey_number || player.jersey, "N/A")}${maybeRow("Hometown", player.hometown, "N/A")}</section>
     <section class="detail-panel" data-detail-section="Attributes"><div class="sports-stat-grid">${lockedAttributeRows(player, 12) || LimitedDataState("Attributes")}</div></section>
     <section class="detail-panel" data-detail-section="Traits">${traitRows}</section>
     <section class="detail-panel" data-detail-section="Stats"><div class="sports-stat-card"><h3>Season</h3>${sportsStatStrip(firstStatPairs(seasonRows, 8), "N/A")}</div><div class="sports-stat-card"><h3>Last Game</h3>${sportsStatStrip(firstStatPairs(lastRows, 8), "N/A")}</div></section>
-    <section class="detail-panel" data-detail-section="Matchups">${matchups.length ? chipList(matchups) : LimitedDataState("Matchups")}${maybeRow("Recommendation", analysis.in_game_trigger || analysis.matchup_advantage, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Matchups">${matchups.length ? chipList(matchups) : LimitedDataState("Matchups")}${detailCallout("Recommendation", analysis.in_game_trigger || analysis.matchup_advantage || analysis.summary, "N/A")}</section>
     <section class="detail-panel" data-detail-section="Plays">${related.length ? `<div class="compact-list">${related.slice(0, 6).map(play => `<button class="play-link-row" type="button" onclick="switchTab('topplays')"><img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt=""><span><strong>${play.name}</strong><em>${play.formation} · ${conceptFamily(play)}</em></span></button>`).join("")}</div>` : LimitedDataState("Related Plays")}</section>
   </section>`;
 }
@@ -3769,6 +3789,7 @@ function resolveRecruitDisplayModel(row = {}) {
   const action = prospectSpecificText(board.recommended_action, row.recommended_action, analysis.recommended_action, analysis.recommended_action_reason) || verifiedValue(priority.tier, status);
   const state = verifiedValue(board.state, prospect.state, stateFromLocation(prospect.hometown || board.hometown));
   const gemVerified = prospect.gem === true || prospect.gem_status === "Gem" || analysis.gem_status === "Gem" || board.gem_status === "Gem";
+  const verifiedStars = Number(verifiedValue(board.stars, prospect.stars, display.stars)) || 4;
   return {
     prospect_id: verifiedValue(prospect.prospect_id, linkedId, board.prospect_id, inputId),
     board,
@@ -3778,8 +3799,8 @@ function resolveRecruitDisplayModel(row = {}) {
     position: verifiedValue(board.position, prospect.position, row.position) || "N/A",
     class: verifiedValue(board.class, prospect.class, display.class) || "N/A",
     boardRank: verifiedValue(board.board_order) || "N/A",
-    stars: verifiedValue(board.stars, prospect.stars),
-    rating: starRating(verifiedValue(board.stars, prospect.stars)),
+    stars: verifiedStars,
+    rating: starRating(verifiedStars),
     nationalRank: verifiedValue(board.national_rank, prospect.national_rank, display.national_rank) || "N/A",
     positionRank: verifiedValue(board.position_rank, prospect.position_rank, display.position_rank) || "N/A",
     state: state || "N/A",
@@ -3832,6 +3853,13 @@ function resolvedSchemeFit(value) {
   if (/moderate|medium/.test(text)) return "Moderate fit";
   if (/weak|poor/.test(text)) return "Weak fit";
   return "Insufficient verified data";
+}
+
+function compactRecruitBadge(value) {
+  const text = cleanValue(value);
+  if (!text) return "";
+  if (/insufficient|limited/i.test(text)) return "Limited Data";
+  return text;
 }
 
 function prospectPrimaryAction(row, analysis = {}, priority = {}) {
@@ -3949,7 +3977,7 @@ function recruitDetailHtml(id, mode = "board") {
     <header class="sports-profile-hero recruit">
       ${recruitAvatar(model)}
       <div><span class="team-pill">Recruiting Board #${model.boardRank}</span><h2>${model.name}${model.gemVerified ? " &#128142;" : ""}</h2><p>${model.position} &middot; ${stars} &middot; ${model.class}</p><small>${model.archetype || "Archetype N/A"}${model.scouting !== "N/A" ? ` &middot; ${model.scouting}% scouted` : " &middot; Scouting N/A"}</small></div>
-      <b>${cleanValue(model.schemeFit || model.priority && model.priority.tier) || "Fit N/A"}</b>
+      <b>${compactRecruitBadge(model.schemeFit || model.priority && model.priority.tier) || "Fit N/A"}</b>
     </header>
     ${DetailTabStrip(["Overview", "Scouting", "Fit", "Activity"])}
     <section class="detail-panel" data-detail-section="Overview">${maybeRow("Board Rank", model.boardRank, "N/A")}${maybeRow("Status", model.status, "N/A")}${maybeRow("Class", model.class, "N/A")}${maybeRow("Position", model.position, "N/A")}${maybeRow("Stars", stars, "N/A")}${maybeRow("National Rank", model.nationalRank, "N/A")}${maybeRow("Position Rank", model.positionRank, "N/A")}${maybeRow("State", model.state, "N/A")}${maybeRow("Hometown", model.hometown, "N/A")}${maybeRow("Height", model.height, "N/A")}${maybeRow("Weight", model.weight, "N/A")}${maybeRow("Archetype", model.archetype, "N/A")}${maybeRow("Scouting", model.scouting === "N/A" ? "N/A" : `${model.scouting}%`, "N/A")}${maybeRow("Gem/Bust", model.gem, "N/A")}</section>
@@ -3991,7 +4019,7 @@ function filteredRecruits(mode = "board") {
     if (f.position !== "all" && recruitPositionBucket(row.position || p.position) !== f.position) return false;
     const pr = priorityMap.get(p.position);
     if (f.priority !== "all" && (!pr || pr.tier !== f.priority)) return false;
-    if (f.stars !== "all" && String(p.stars || "") !== f.stars) return false;
+    if (f.stars !== "all" && String(resolveRecruitDisplayModel(row).stars || "") !== f.stars) return false;
     if (f.q && !`${row.name} ${row.position} ${p.hometown || ""}`.toLowerCase().includes(f.q)) return false;
     return true;
   });

@@ -13,8 +13,12 @@ Visible card/detail additions:
 - Verified position-aware attributes.
 - Evidence notes in player detail Traits panel.
 - Source-missing opponent groups are shown explicitly instead of being silently omitted.
+- Recruit compact cards and detail screens now display the user-confirmed four-star class marker as `4★` for every current Rutgers board/class recruit.
+- Purdue player detail screens read evidence from all current verified record shapes and render recommendations as full-width callouts to prevent mobile text collision.
+- Recruit detail hero cards use a compact two-column sports profile layout with the status badge on its own row, preventing one-character-per-line wrapping on iPhone widths.
 
 Protection rules:
 - `needs_review` values are shown as needs-review evidence, not converted into verified football data.
 - `N/A` remains only where source video did not reveal the field or the frame showed question marks.
 - Internal IDs remain hidden in production UI text.
+- The four-star class display does not populate unrelated missing fields such as national rank, height, weight, attributes, abilities, mentals, or development trait.

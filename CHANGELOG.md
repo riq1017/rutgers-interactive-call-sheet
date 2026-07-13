@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Full video evidence recovery correction
+- Rendered every current recruiting-board and four-star class recruit as `4★` based on the user-confirmed class evidence, while keeping all other recruit fields source-bound and non-inferred.
+- Removed `Stars N/A` from recruit compact cards and recruit detail screens; validation now fails if a recruit card/detail drops the four-star marker.
+- Tightened recruit detail hero layout so long names and status badges stay in a mobile-safe two-column sports profile layout instead of wrapping one character per line.
+- Added a compact recruit hero badge for limited scouting states so verbose status text does not squeeze the player/recruit name column.
+- Normalized Purdue detail evidence rendering across `video_evidence`, `evidence`, and `source_video` record shapes.
+- Moved Purdue detail recommendations into a full-width callout to prevent label/value collision on phone layouts.
+- Added validation coverage for Purdue detail evidence/callouts and recruit hero mobile safeguards.
+
 ## Full video evidence recovery
 - Expanded the Purdue opponent browser beyond the original 16-player defensive-front package by promoting verified season-stat identities and recovered CB/K roster rows into normal opponent cards.
 - Added Purdue position filters for QB, RB, WR, TE, OL, DL, LB, DB, and ST, with source-missing messaging for offensive groups not visible in the current evidence.

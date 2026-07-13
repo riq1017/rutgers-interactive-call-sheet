@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T04:10:13.968Z
+Validated: 2026-07-13T04:35:26.573Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -72,6 +72,7 @@ Validated: 2026-07-13T04:10:13.968Z
 - PASS - Rutgers QB video recovery populates verified traits and attributes
 - PASS - Rutgers defensive video recovery populates verified dev traits and abilities
 - PASS - Purdue weekly roster recovery populates verified threat attributes
+- PASS - Purdue detail screens render evidence and recommendation without row collision
 - PASS - Rutgers recruiting board recovery resolves verified detail screens
 - PASS - Recovered video values render instead of N/A on detail screens
 - PASS - Internal IDs are hidden from rendered production card text (visible=)
@@ -81,11 +82,12 @@ Validated: 2026-07-13T04:10:13.968Z
 - PASS - Purdue compact player cards use one sports-app layout
 - PASS - Recruit compact cards use one sports-app layout
 - PASS - Compact cards keep internal IDs out of visible text
-- PASS - Recruit star ratings are video-source driven only
+- PASS - Recruit star ratings render the user-confirmed four-star class
 - PASS - Verified recruit gem badges are source-driven only
 - PASS - Dedicated player detail screens expose sports profile hero and required tabs
 - PASS - Dedicated Purdue detail screens expose sports profile hero and required tabs
 - PASS - Dedicated recruit detail screens expose sports profile hero and required tabs
+- PASS - Recruit detail hero uses mobile-safe two-column layout and compact badge
 - PASS - Back navigation and scroll restoration helpers are wired
 - PASS - Uniform player and recruit card tab contracts render
 - PASS - Pack B registry entries exist
@@ -192,7 +194,7 @@ Validated: 2026-07-13T04:10:13.968Z
 - PASS - Matchups show player-vs-player cards where position data resolves
 - PASS - Matchups bind to player_matchups.json
 - PASS - Recruiting board starts from active_board when present
-- PASS - Prospect rating renderer hides unavailable stars and never prints Star as a value
+- PASS - Prospect rating renderer displays user-confirmed four-star class without raw star text
 - PASS - Roster and prospects default to tap-open detail rows
 - PASS - Run and protection maps use compact tappable cells
 - PASS - More tab uses compact accordions for secondary groups

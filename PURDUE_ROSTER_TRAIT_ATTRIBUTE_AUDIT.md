@@ -2,6 +2,11 @@
 
 Source: `Purdue roster.mp4`.
 
+Correction pass:
+- Purdue detail screens now surface source evidence whether the row stores it as `video_evidence`, `evidence`, or `source_video`.
+- Purdue recommendation text now renders in a full-width coaching callout instead of a compact two-column row, preventing the mobile label/value collision shown in testing.
+- Season-stat-only Purdue identities remain normal opponent browser cards, but fields not visible in source evidence continue to display `N/A`.
+
 Recovered verified rows:
 - Y. Hernandez, K. Webb, J. Lewis from LEDG frame `00:00:01`.
 - Q. Gillians from REDG frame `00:00:14`.

@@ -2689,9 +2689,22 @@ details[open]{
 }
 
 .sports-profile-hero.recruit {
+  grid-template-columns: 88px minmax(0, 1fr);
   background:
     linear-gradient(135deg, rgba(204,0,51,.24), rgba(8,8,10,.76) 45%, rgba(85,217,139,.08)),
     #101014;
+}
+
+.sports-profile-hero.recruit > b {
+  grid-column: 1 / -1;
+  justify-self: start;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+
+.sports-profile-hero > div {
+  min-width: 0;
 }
 
 .sports-profile-hero .profile-portrait,
@@ -2704,6 +2717,8 @@ details[open]{
 .sports-profile-hero h2 {
   font-size: 24px;
   line-height: 1.05;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 .sports-profile-hero p,
@@ -2723,6 +2738,33 @@ details[open]{
   background: rgba(85,217,139,.08);
   font-size: 11px;
   text-transform: uppercase;
+}
+
+.detail-callout {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 10px 11px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,.04);
+}
+
+.detail-callout span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.detail-callout strong {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.35;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .team-pill {
@@ -2800,6 +2842,7 @@ details[open]{
   background: rgba(0,0,0,.28);
   display: grid;
   gap: 12px;
+  margin-bottom: calc(112px + env(safe-area-inset-bottom));
 }
 
 .back-button {
@@ -2883,6 +2926,12 @@ details[open]{
   .sports-profile-hero > b {
     grid-column: 2;
     justify-self: start;
+  }
+  .sports-profile-hero.recruit {
+    grid-template-columns: 74px minmax(0, 1fr);
+  }
+  .sports-profile-hero.recruit > b {
+    grid-column: 1 / -1;
   }
   .sports-list-card .compact-meta {
     grid-column: 2 / 3;

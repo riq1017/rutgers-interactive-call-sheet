@@ -340,11 +340,12 @@ check('Top Plays inventory reaches all 192 verified Oregon play combinations', t
 check('Gameplan no longer renders Top Plays hero, selector, or full play library', !coordinatorHtml.includes('data-top-plays-hero') && !coordinatorHtml.includes('top-three-selector') && !coordinatorHtml.includes('locked-play-card'));
 check('Gameplan removes raw Rutgers Offense vs Opponent Defense comparison wall', !coordinatorHtml.includes('Rutgers Offense vs Opponent Defense') && !coordinatorHtml.includes('offense-comparison-table'));
 check('Gameplan removes raw Rutgers Defense vs Opponent Offense comparison wall', !coordinatorHtml.includes('Rutgers Defense vs Opponent Offense') && !coordinatorHtml.includes('defense-comparison-table'));
-check('Gameplan concise card order resolves', (() => {
-  const orderTokens = ['offensive-gameplan','coordinator-run-card','coordinator-pass-card','coordinator-protection-card','defensive-summary-card','coordinator-threat-card','coordinator-pressure-card','coordinator-coverage-card','coordinator-alerts-card'];
+check('Gameplan main page renders requested coordinator cards in order', (() => {
+  const orderTokens = ['coordinator-summary-card','coordinator-run-card','coordinator-pass-card','coordinator-protection-card','defensive-summary-card','coordinator-pressure-card','coordinator-coverage-card'];
   const positions = orderTokens.map(token => coordinatorHtml.indexOf(token));
-  return positions.every(pos => pos >= 0) && positions.every((pos, i) => i === 0 || pos > positions[i - 1]);
+  return coordinatorHtml.includes('data-gameplan-main') && positions.every(pos => pos >= 0) && positions.every((pos, i) => i === 0 || pos > positions[i - 1]) && !coordinatorHtml.includes('coordinator-threat-card') && !coordinatorHtml.includes('coordinator-alerts-card');
 })());
+check('Coordinator dashboard metrics use mobile-safe stacked rows', css.includes('.coordinator-section .dashboard-metrics') && css.includes('grid-template-columns:1fr') && css.includes('.coordinator-section .metric-row'));
 check('Coordinator dashboard contains no raw nullish/object text', !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(coordinatorHtml));
 check('Weekly matchup summary does not duplicate card registry football data', !JSON.stringify(cardRegistry).includes('offensive_matchup_grade') && !JSON.stringify(cardRegistry).includes('biggest_offensive_advantage'));
 check('Weekly matchup summary static bundle loads before app.js', index.indexOf('data/weekly/weekly_matchup_summary.js') > index.indexOf('data/weekly/run_lane_analysis.js') && index.indexOf('data/weekly/weekly_matchup_summary.js') < index.indexOf('app.js'));

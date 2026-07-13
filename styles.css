@@ -493,7 +493,42 @@ p{line-height:1.45}
   gap:10px;
   margin-bottom:12px;
 }
+.coordinator-dashboard-main{
+  display:grid;
+  gap:12px;
+}
 .coordinator-section>.base-card{padding:11px}
+.coordinator-section .dashboard-metrics{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+}
+.coordinator-section .metric-row{
+  display:grid;
+  grid-template-columns:1fr;
+  align-items:start;
+  gap:5px;
+  min-height:0;
+}
+.coordinator-section .metric-row span{
+  line-height:1.15;
+}
+.coordinator-section .metric-row strong{
+  display:block;
+  color:var(--good);
+  font-size:14px;
+  line-height:1.22;
+  text-align:left;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+.coordinator-section .card-header{
+  min-width:0;
+}
+.coordinator-section .card-header strong,
+.coordinator-section .card-header em{
+  overflow-wrap:anywhere;
+}
 .coordinator-hero-card{
   padding:12px;
   border-color:rgba(204,0,51,.7);

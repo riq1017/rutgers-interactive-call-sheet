@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Gameplan main page coordinator layout
+- Reworked the Gameplan landing page to show Executive Summary, Run Game, Passing Game, Protection, Defensive Gameplan, Pressure, and Coverage as the top-level coordinator flow.
+- Removed Biggest Threat and Concise Alerts from the default Gameplan main-page flow so the requested first-page sections are not buried.
+- Changed coordinator metric rows to a mobile-safe stacked layout to prevent overlapping green value text on iPhone widths.
+- Added validation for the requested main-page card order and mobile-safe coordinator metric styling.
+
 ## Full video evidence recovery correction
 - Rendered every current recruiting-board and four-star class recruit as `4★` based on the user-confirmed class evidence, while keeping all other recruit fields source-bound and non-inferred.
 - Removed `Stars N/A` from recruit compact cards and recruit detail screens; validation now fails if a recruit card/detail drops the four-star marker.

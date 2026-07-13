@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T04:35:26.573Z
+Validated: 2026-07-13T04:50:05.019Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -138,7 +138,8 @@ Validated: 2026-07-13T04:35:26.573Z
 - PASS - Gameplan no longer renders Top Plays hero, selector, or full play library
 - PASS - Gameplan removes raw Rutgers Offense vs Opponent Defense comparison wall
 - PASS - Gameplan removes raw Rutgers Defense vs Opponent Offense comparison wall
-- PASS - Gameplan concise card order resolves
+- PASS - Gameplan main page renders requested coordinator cards in order
+- PASS - Coordinator dashboard metrics use mobile-safe stacked rows
 - PASS - Coordinator dashboard contains no raw nullish/object text
 - PASS - Weekly matchup summary does not duplicate card registry football data
 - PASS - Weekly matchup summary static bundle loads before app.js

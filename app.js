@@ -2390,19 +2390,18 @@ function alertsIntelCard(side = "offense") {
 function defensiveCoordinatorSection() {
   return `<section class="coordinator-section defensive-gameplan"><div class="section-heading"><p>Defensive Gameplan</p><strong>Coordinator Dashboard</strong></div>
     ${defensiveExecutiveCard()}
-    ${biggestThreatCard()}
     ${pressureCard()}
     ${coverageCard()}
   </section>`;
 }
 
 function renderCoordinatorDashboard() {
-  return `<section class="coordinator-section offensive-gameplan"><div class="section-heading"><p>Offensive Gameplan</p><strong>Coordinator Dashboard</strong></div>
+  return `<section class="coordinator-dashboard-main" data-gameplan-main><section class="coordinator-section offensive-gameplan"><div class="section-heading"><p>Offensive Gameplan</p><strong>Coordinator Dashboard</strong></div>
     ${offensiveExecutiveCard()}
     ${runGameIntelCard()}
     ${passingGameIntelCard()}
     ${protectionIntelCard()}
-  </section>${defensiveCoordinatorSection()}<section class="coordinator-section concise-alerts"><div class="section-heading"><p>Concise Alerts</p><strong>Verified Alerts</strong></div>${alertsIntelCard("offense")}${alertsIntelCard("defense")}</section>`;
+  </section>${defensiveCoordinatorSection()}</section>`;
 }
 
 function playerId(player) {

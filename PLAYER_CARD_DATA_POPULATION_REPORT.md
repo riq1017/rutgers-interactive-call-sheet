@@ -3,6 +3,7 @@
 UI binding changes:
 - Rutgers player cards and detail screens merge `VIDEO_VERIFIED_RUTGERS_ROSTER_RECOVERY` by `player_id`.
 - Purdue player cards and detail screens merge `VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY` by `player_id`.
+- Purdue opponent browser also promotes verified season-stat identities so MIKE/WILL/FS/SS/CB players are not hidden just because they were outside the original 16-player roster-card package.
 - Recruit cards and detail screens merge `VIDEO_VERIFIED_RUTGERS_BOARD_SCOUTING_RECOVERY` by `prospect_id` or explicit legacy ID.
 
 Visible card/detail additions:
@@ -11,6 +12,7 @@ Visible card/detail additions:
 - Mental abilities.
 - Verified position-aware attributes.
 - Evidence notes in player detail Traits panel.
+- Source-missing opponent groups are shown explicitly instead of being silently omitted.
 
 Protection rules:
 - `needs_review` values are shown as needs-review evidence, not converted into verified football data.

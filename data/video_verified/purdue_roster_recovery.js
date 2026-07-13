@@ -231,6 +231,34 @@ window.VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY = {
         "zone_coverage": 67
       },
       "evidence": [{ "source": "Purdue roster.mp4", "frame": "frame_0041_00041000ms.png", "timestamp": "00:00:41", "readability": "verified" }]
+    },
+    {
+      "player_id": "pur-k-j-lozano",
+      "name": "J. Lozano",
+      "full_name": "Jacobo Lozano",
+      "position": "K",
+      "year": "JR",
+      "overall": 76,
+      "jersey_number": 35,
+      "height": "5'10\"",
+      "weight_lbs": 173,
+      "hometown": "Somerset, PA",
+      "archetype": "Power",
+      "attributes": {
+        "awareness": 48,
+        "kick_power": 96,
+        "kick_accuracy": 93,
+        "speed": 61,
+        "tackle": 51,
+        "hit_power": 25,
+        "acceleration": 71,
+        "pursuit": 55,
+        "change_of_direction": 64
+      },
+      "physical_abilities": ["Deep Range", "Mega Leg", "Coffin Corner"],
+      "mental_abilities": [],
+      "development_trait": "N/A",
+      "evidence": [{ "source": "Purdue roster.mp4", "frame": "frame_0060_00059733ms.png", "timestamp": "00:00:59", "readability": "verified" }]
     }
   ],
   "counts": {

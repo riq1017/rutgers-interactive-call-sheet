@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## Full video evidence recovery
+- Expanded the Purdue opponent browser beyond the original 16-player defensive-front package by promoting verified season-stat identities and recovered CB/K roster rows into normal opponent cards.
+- Added Purdue position filters for QB, RB, WR, TE, OL, DL, LB, DB, and ST, with source-missing messaging for offensive groups not visible in the current evidence.
 - Added Rutgers roster recovery data for verified development traits, physical abilities, mental abilities, QB attributes, identity fields, and evidence notes from roster frames and user screenshots.
 - Added Purdue weekly opponent roster recovery data for visible LEDG, REDG, and CB attribute rows, including Q. Gillians' verified Workhorse/Hammer ability evidence.
 - Added Rutgers prospect-board scouting recovery data for verified detail-screen recruits, including offensive line, safety, edge/ATH, and partial CB scouting states.

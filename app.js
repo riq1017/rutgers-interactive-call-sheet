@@ -1674,6 +1674,47 @@ function loadPurdueRosterRecovery() {
   return typeof VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY !== "undefined" ? VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY : { players: [] };
 }
 
+function positionFromPurduePlayerId(id = "") {
+  const match = cleanValue(id).match(/^pur-([a-z]+)-/);
+  const code = match ? match[1].toUpperCase() : "";
+  const aliases = { HB: "HB", RB: "HB", MIKE: "MIKE", MLB: "MIKE", WILL: "WILL", SAM: "SAM", LEDG: "LEDG", REDG: "REDG", DT: "DT", CB: "CB", FS: "FS", SS: "SS", QB: "QB", WR: "WR", TE: "TE", LT: "LT", LG: "LG", C: "C", RG: "RG", RT: "RT", K: "K", P: "P" };
+  return aliases[code] || code || "N/A";
+}
+
+function allRowsFromStatCategories(categories = {}) {
+  return Object.values(categories || {}).filter(Array.isArray).flat();
+}
+
+function supplementalOpponentPlayers(existing = []) {
+  const byId = new Map((existing || []).map(player => [player.player_id, player]));
+  const sources = [
+    ...((loadPurdueRosterRecovery().players || []).map(row => ({ ...row, source_status: row.source_status || "video_roster_recovery" }))),
+    ...allRowsFromStatCategories(loadOpponentSeasonStats()).map(row => ({ ...row, source_status: "video_season_stat_identity" })),
+    ...allRowsFromStatCategories(loadOpponentLastGameStats()).map(row => ({ ...row, source_status: "video_last_game_stat_identity" }))
+  ];
+  const additions = [];
+  sources.forEach(row => {
+    const id = cleanValue(row.player_id);
+    if (!id || byId.has(id)) return;
+    const player = {
+      player_id: id,
+      name: cleanValue(row.name) || "N/A",
+      position: cleanValue(row.position) || positionFromPurduePlayerId(id),
+      year: cleanValue(row.year || row.class_year) || "N/A",
+      class_year: cleanValue(row.class_year || row.year) || "N/A",
+      overall: cleanValue(row.overall) || "N/A",
+      source_status: row.source_status,
+      ui_analysis: {
+        matchup_priority: "verified",
+        summary: row.source_status === "video_roster_recovery" ? "Verified roster recovery" : "Verified stat identity; roster-card details not visible in current evidence."
+      }
+    };
+    additions.push(mergeVerifiedOverlay(player, row));
+    byId.set(id, player);
+  });
+  return additions;
+}
+
 function loadRecruitingBoardScoutingRecovery() {
   return typeof VIDEO_VERIFIED_RUTGERS_BOARD_SCOUTING_RECOVERY !== "undefined" ? VIDEO_VERIFIED_RUTGERS_BOARD_SCOUTING_RECOVERY : { prospects: [] };
 }
@@ -1712,7 +1753,11 @@ function loadOpponentProfile() {
 function loadOpponentPlayers() {
   const base = typeof VIDEO_VERIFIED_PURDUE_ROSTER !== "undefined" ? VIDEO_VERIFIED_PURDUE_ROSTER.players || [] : (loadGameplanWeekly().opponent_players) || [];
   const overlays = recoveryById(loadPurdueRosterRecovery(), "players");
-  return base.map(player => mergeVerifiedOverlay(player, overlays.get(player.player_id) || {}));
+  const merged = base.map(player => mergeVerifiedOverlay(player, overlays.get(player.player_id) || {}));
+  return [...merged, ...supplementalOpponentPlayers(merged)].sort((a, b) => {
+    const order = ["QB","HB","RB","WR","TE","LT","LG","C","RG","RT","LEDG","REDG","DT","SAM","MIKE","WILL","CB","FS","SS","K","P"];
+    return (order.indexOf(a.position) === -1 ? 99 : order.indexOf(a.position)) - (order.indexOf(b.position) === -1 ? 99 : order.indexOf(b.position)) || cleanValue(a.name).localeCompare(cleanValue(b.name));
+  });
 }
 
 function loadOpponentGroups() {
@@ -3313,11 +3358,14 @@ function renderOpponent(activeFilter = window.OPPONENT_POSITION_FILTER || "all")
   const players = loadOpponentPlayers();
   const groups = loadOpponentGroups();
   const byGroup = groupOpponentPlayers(players);
-  const filters = ["all","DL","LB","DB"];
+  const filters = ["all","QB","RB","WR","TE","OL","DL","LB","DB","ST"];
   const filtered = players.filter(player => activeFilter === "all" || opponentPositionBucket(player.position) === activeFilter);
+  const missing = filters.filter(filter => filter !== "all" && !players.some(player => opponentPositionBucket(player.position) === filter));
   return `<h3>${activeOpponentName()} Full Roster</h3>
+    <div class="section-heading compact-heading"><p>Verified Players</p><strong>${filtered.length} / ${players.length}</strong></div>
     <div class="pill-row sticky-filter">${filters.map(filter => `<button class="filter-pill ${filter === activeFilter ? "active" : ""}" type="button" onclick="renderPersonnelMatchups('opponent');window.OPPONENT_POSITION_FILTER='${filter}';setTimeout(()=>{const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderOpponent('${filter}')},0)">${filter === "all" ? "All" : filter}</button>`).join("")}</div>
-    <div class="compact-list opponent-roster-list" data-opponent-roster-count="${players.length}">${filtered.map(player => opponentPlayerCard(player)).join("")}</div>
+    <div class="compact-list opponent-roster-list" data-opponent-roster-count="${players.length}">${filtered.length ? filtered.map(player => opponentPlayerCard(player)).join("") : LimitedDataState(`${activeFilter} not visible in current Purdue evidence`)}</div>
+    ${activeFilter === "all" && missing.length ? `<details class="scout-card compact-detail"><summary>Source-missing Purdue groups</summary>${maybeRow("Not visible in current package", missing.join(", "), "N/A")}</details>` : ""}
     <details class="scout-card compact-detail"><summary>Position-Group Scouting</summary>${groups.map(group => `<div class="scout-slice"><strong>${group.group}</strong>${maybeRow("Key player", group.key_player)}${maybeRow("Weakness", group.weakness)}${maybeRow("Attack plan", group.attack_plan)}<div class="compact-list">${(byGroup[group.group] || []).map(player => `<span class="mini-chip">${player.name}</span>`).join("")}</div></div>`).join("")}</details>`;
 }
 
@@ -3335,8 +3383,14 @@ function groupOpponentPlayers(players) {
 
 function opponentPositionBucket(position) {
   const pos = normalizePosition(position);
+  if (["QB"].includes(pos)) return "QB";
+  if (["HB","RB","FB"].includes(pos)) return "RB";
+  if (["WR"].includes(pos)) return "WR";
+  if (["TE"].includes(pos)) return "TE";
+  if (["LT","LG","C","RG","RT","T","G","OL"].includes(pos)) return "OL";
   if (["DT","NT","TCK","EDGE","LEDG","REDG"].includes(pos)) return "DL";
   if (["LB","MIKE","WILL","SAM","OLB","MLB"].includes(pos)) return "LB";
+  if (["K","P"].includes(pos)) return "ST";
   return "DB";
 }
 

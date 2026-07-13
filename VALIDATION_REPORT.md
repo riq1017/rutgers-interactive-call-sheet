@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T03:38:20.345Z
+Validated: 2026-07-13T04:10:13.968Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -155,7 +155,9 @@ Validated: 2026-07-13T03:38:20.345Z
 - PASS - Run direction map avoids horizontal overflow at phone width
 - PASS - Personnel includes protection map
 - PASS - Protection map avoids horizontal overflow at phone width
-- PASS - Personnel includes full current opponent roster browser
+- PASS - Personnel includes expanded current opponent roster browser
+- PASS - Expanded Purdue browser includes verified LB, DB, and specialist identities
+- PASS - Unavailable Purdue offensive groups are reported as source-missing instead of invented
 - PASS - Personnel includes matchup cards
 - PASS - Recruiting overview uses real resources
 - PASS - All recruiting positions are filterable from class data

@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T02:27:41.589Z
+Validated: 2026-07-13T03:38:20.345Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -68,6 +68,12 @@ Validated: 2026-07-13T02:27:41.589Z
 - PASS - Video-only bundles load before app.js
 - PASS - Video-only records carry timestamp evidence and N/A audit fields
 - PASS - App loaders prefer video-only verified bundles when present
+- PASS - Video recovery bundles are loaded before app.js
+- PASS - Rutgers QB video recovery populates verified traits and attributes
+- PASS - Rutgers defensive video recovery populates verified dev traits and abilities
+- PASS - Purdue weekly roster recovery populates verified threat attributes
+- PASS - Rutgers recruiting board recovery resolves verified detail screens
+- PASS - Recovered video values render instead of N/A on detail screens
 - PASS - Internal IDs are hidden from rendered production card text (visible=)
 - PASS - Raw internal production status keys are hidden from rendered card text
 - PASS - Player and recruit detail behavior uses dedicated screens instead of inline default expansion

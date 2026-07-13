@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Full video evidence recovery
+- Added Rutgers roster recovery data for verified development traits, physical abilities, mental abilities, QB attributes, identity fields, and evidence notes from roster frames and user screenshots.
+- Added Purdue weekly opponent roster recovery data for visible LEDG, REDG, and CB attribute rows, including Q. Gillians' verified Workhorse/Hammer ability evidence.
+- Added Rutgers prospect-board scouting recovery data for verified detail-screen recruits, including offensive line, safety, edge/ATH, and partial CB scouting states.
+- Wired recovery overlays into existing player and recruit resolvers by stable `player_id` / `prospect_id` without changing recommendation logic or hardcoding Purdue as a permanent opponent.
+- Added a player-detail Traits panel for development trait, physical abilities, mental abilities, and evidence notes.
+- Added full video extraction, roster, opponent, stats, recruiting, count reconciliation, and card-population reports.
+- Expanded validation to confirm recovered video values render instead of reverting to `N/A`.
+
 ## Sports-app player and recruit card redesign
 - Replaced active Rutgers, Purdue, and recruit list cards with compact sports-app cards using portrait-left, data-center, badge-right, and bottom stat-strip structure.
 - Added dedicated sports profile detail screens for Rutgers players, Purdue players, and recruits with hero sections, sticky detail tabs, separated Season and Last Game stats, and list back-navigation with scroll restoration.

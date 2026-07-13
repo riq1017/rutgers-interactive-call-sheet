@@ -1644,8 +1644,44 @@ function orderedMatchupRows() {
   );
 }
 
+function recoveryById(packageData, key = "players") {
+  return new Map(((packageData || {})[key] || []).map(row => [row.player_id || row.prospect_id, row]));
+}
+
+function mergeVerifiedOverlay(base = {}, overlay = {}) {
+  if (!overlay || !Object.keys(overlay).length) return base;
+  const merged = {
+    ...base,
+    ...Object.fromEntries(Object.entries(overlay).filter(([key]) => !["attributes", "evidence", "legacy_ids"].includes(key))),
+    attributes: {
+      ...(base.attributes || {}),
+      ...(overlay.attributes || {})
+    }
+  };
+  if (overlay.physical_abilities) merged.physical_abilities = overlay.physical_abilities;
+  if (overlay.mental_abilities) merged.mental_abilities = overlay.mental_abilities;
+  if (overlay.abilities) merged.abilities = overlay.abilities;
+  if (overlay.mentals) merged.mentals = overlay.mentals;
+  if (overlay.evidence) merged.video_evidence = overlay.evidence;
+  return merged;
+}
+
+function loadRutgersRosterRecovery() {
+  return typeof VIDEO_VERIFIED_RUTGERS_ROSTER_RECOVERY !== "undefined" ? VIDEO_VERIFIED_RUTGERS_ROSTER_RECOVERY : { players: [] };
+}
+
+function loadPurdueRosterRecovery() {
+  return typeof VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY !== "undefined" ? VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY : { players: [] };
+}
+
+function loadRecruitingBoardScoutingRecovery() {
+  return typeof VIDEO_VERIFIED_RUTGERS_BOARD_SCOUTING_RECOVERY !== "undefined" ? VIDEO_VERIFIED_RUTGERS_BOARD_SCOUTING_RECOVERY : { prospects: [] };
+}
+
 function loadRutgersRoster() {
-  return sharedRosterBase();
+  const base = sharedRosterBase();
+  const overlays = recoveryById(loadRutgersRosterRecovery(), "players");
+  return { ...base, players: (base.players || []).map(player => mergeVerifiedOverlay(player, overlays.get(player.player_id) || {})) };
 }
 
 function loadGameplanWeekly() {
@@ -1674,8 +1710,9 @@ function loadOpponentProfile() {
 }
 
 function loadOpponentPlayers() {
-  if (typeof VIDEO_VERIFIED_PURDUE_ROSTER !== "undefined") return VIDEO_VERIFIED_PURDUE_ROSTER.players || [];
-  return (loadGameplanWeekly().opponent_players) || [];
+  const base = typeof VIDEO_VERIFIED_PURDUE_ROSTER !== "undefined" ? VIDEO_VERIFIED_PURDUE_ROSTER.players || [] : (loadGameplanWeekly().opponent_players) || [];
+  const overlays = recoveryById(loadPurdueRosterRecovery(), "players");
+  return base.map(player => mergeVerifiedOverlay(player, overlays.get(player.player_id) || {}));
 }
 
 function loadOpponentGroups() {
@@ -2341,6 +2378,12 @@ function resolveProspectById(prospect_id) {
 }
 
 function resolveRecruitScoutingById(prospect_id, boardRow = {}) {
+  const recovery = recruitScoutingRecoveryById().get(cleanValue(prospect_id));
+  if (recovery) {
+    const byId = resolveProspectById(prospect_id);
+    const prospect = mergeRecruitScouting(boardRow, byId.prospect || {}, recovery);
+    return { state: recovery.source_state === JOIN_STATES.source_missing ? JOIN_STATES.source_missing : JOIN_STATES.verified, prospect, scouting: prospect, prospect_id: cleanValue(prospect_id), source: "video_recovery" };
+  }
   const byId = resolveProspectById(prospect_id);
   if (byId.prospect) return { ...byId, scouting: byId.prospect, source: "prospect_id" };
   const targetName = normalizeIdentityText(boardRow.name);
@@ -2485,7 +2528,22 @@ function playerStatPairs(player, side = "rutgers") {
 
 function verifiedDevBadge(entity = {}) {
   const dev = cleanValue(entity.development_trait || entity.dev_trait);
-  return dev && dev !== "N/A" ? `<span class="dev-trait-badge" title="${dev}">${dev}</span>` : "";
+  return dev && dev !== "N/A" && dev !== "needs_review" ? `<span class="dev-trait-badge" title="${dev}">${dev}</span>` : "";
+}
+
+function verifiedArray(values = []) {
+  return (Array.isArray(values) ? values : [values]).map(cleanValue).filter(value => value && value !== "N/A");
+}
+
+function athleteTraitSummary(entity = {}) {
+  const dev = cleanValue(entity.development_trait || entity.dev_trait);
+  const physical = verifiedArray(entity.physical_abilities || entity.abilities).slice(0, 2);
+  const mental = verifiedArray(entity.mental_abilities || entity.mentals).slice(0, 2);
+  const parts = [];
+  if (dev && dev !== "N/A") parts.push(`Dev: ${dev}`);
+  if (physical.length) parts.push(`PHY: ${physical.join(", ")}`);
+  if (mental.length) parts.push(`MEN: ${mental.join(", ")}`);
+  return parts.join(" | ");
 }
 
 function recruitStarsText(model = {}) {
@@ -3164,6 +3222,7 @@ function renderRosterCards(activeGroup = "QB") {
 function compactPlayerListCard(player, side = "rutgers", group = "") {
   const seasonRows = statsForPlayer(player, side === "opponent" ? loadOpponentSeasonStats() : loadRutgersSeasonStats());
   const role = cleanValue((player.analysis || player.ui_analysis || {}).role || player.weekly_role || player.depth_role || player.archetype);
+  const traitLine = athleteTraitSummary(player);
   const badge = matchupSummaryForPlayer(player, side)[0] || (side === "opponent" ? readableStatus((player.ui_analysis || {}).matchup_priority, "Threat") : "Fit");
   return `<button class="person-card compact-person sports-list-card player-compact-card sports-athlete-card" type="button" data-player-card data-player-name="${player.name}" onclick="showPlayerDetail('${player.player_id}','${side}','${group}')">
     <span class="sports-card-left">${portraitImg(player, side)}<i>${side === "rutgers" ? "RU" : activeOpponentName().slice(0, 3).toUpperCase()}</i></span>
@@ -3182,6 +3241,7 @@ function playerDetailHtml(id, side = "rutgers", group = "") {
   const lastRows = statsForPlayer(player, side === "opponent" ? loadOpponentLastGameStats() : loadRutgersLastGameStats());
   const matchups = matchupSummaryForPlayer(player, side);
   const related = relatedPlaysForPlayer(player);
+  const traitRows = `${maybeRow("Development Trait", player.development_trait || player.dev_trait || "N/A", "N/A")}${maybeRow("Physical Abilities", verifiedArray(player.physical_abilities || player.abilities).length ? verifiedArray(player.physical_abilities || player.abilities) : "N/A", "N/A")}${maybeRow("Mental Abilities", verifiedArray(player.mental_abilities || player.mentals).length ? verifiedArray(player.mental_abilities || player.mentals) : "N/A", "N/A")}${maybeRow("Evidence", (player.video_evidence || []).map(row => `${row.source}${row.timestamp ? ` ${row.timestamp}` : ""}`), "N/A")}`;
   return `<section class="detail-screen player-detail-screen" data-player-detail>
     <button class="back-button" type="button" onclick="${side === "opponent" ? "const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderOpponent(window.OPPONENT_POSITION_FILTER||'all');restoreDetailScroll('personnel')" : `showRosterGroup('${group || rosterGroupFor(player.position)}');restoreDetailScroll('personnel')`}">Back</button>
     <header class="sports-profile-hero ${side}">
@@ -3189,9 +3249,10 @@ function playerDetailHtml(id, side = "rutgers", group = "") {
       <div><span class="team-pill">${side === "rutgers" ? "Rutgers" : activeOpponentName()}</span><h2>${player.name}${verifiedDevBadge(player)}</h2><p>${player.position} · ${player.class_year || player.year || "N/A"} · ${player.overall || player.overall_displayed || "N/A"} OVR</p></div>
       <b>${matchups[0] || readableStatus(analysis.matchup_priority || analysis.role, "Verified")}</b>
     </header>
-    ${DetailTabStrip(["Overview", "Attributes", "Stats", "Matchups", "Plays"])}
+    ${DetailTabStrip(["Overview", "Attributes", "Traits", "Stats", "Matchups", "Plays"])}
     <section class="detail-panel" data-detail-section="Overview">${maybeRow("Position", player.position, "N/A")}${maybeRow("Class", player.class_year || player.year || player.class, "N/A")}${maybeRow("Overall", player.overall || player.overall_displayed, "N/A")}${maybeRow("Depth Role", player.depthRole || analysis.role || analysis.matchup_priority, "N/A")}${maybeRow("Height", player.height, "N/A")}${maybeRow("Weight", player.weight_lbs ? `${player.weight_lbs} lbs` : player.weight, "N/A")}${maybeRow("Archetype", player.archetype, "N/A")}${maybeRow("Weekly Role", usageSummary(player), "N/A")}${maybeRow("Jersey", player.jersey_number || player.jersey, "N/A")}${maybeRow("Hometown", player.hometown, "N/A")}</section>
     <section class="detail-panel" data-detail-section="Attributes"><div class="sports-stat-grid">${lockedAttributeRows(player, 12) || LimitedDataState("Attributes")}</div></section>
+    <section class="detail-panel" data-detail-section="Traits">${traitRows}</section>
     <section class="detail-panel" data-detail-section="Stats"><div class="sports-stat-card"><h3>Season</h3>${sportsStatStrip(firstStatPairs(seasonRows, 8), "N/A")}</div><div class="sports-stat-card"><h3>Last Game</h3>${sportsStatStrip(firstStatPairs(lastRows, 8), "N/A")}</div></section>
     <section class="detail-panel" data-detail-section="Matchups">${matchups.length ? chipList(matchups) : LimitedDataState("Matchups")}${maybeRow("Recommendation", analysis.in_game_trigger || analysis.matchup_advantage, "N/A")}</section>
     <section class="detail-panel" data-detail-section="Plays">${related.length ? `<div class="compact-list">${related.slice(0, 6).map(play => `<button class="play-link-row" type="button" onclick="switchTab('topplays')"><img src="${play.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt=""><span><strong>${play.name}</strong><em>${play.formation} · ${conceptFamily(play)}</em></span></button>`).join("")}</div>` : LimitedDataState("Related Plays")}</section>
@@ -3601,17 +3662,50 @@ function recruitBoardById() {
   return new Map((loadRecruitingWeekly().active_board || []).map(row => [row.prospect_id, row]));
 }
 
+function recruitScoutingRecoveryById() {
+  const records = (loadRecruitingBoardScoutingRecovery().prospects || []);
+  const map = new Map();
+  records.forEach(row => {
+    if (row.prospect_id) map.set(row.prospect_id, row);
+    (row.legacy_ids || []).forEach(id => map.set(id, row));
+  });
+  return map;
+}
+
+function mergeRecruitScouting(board = {}, prospect = {}, recovery = {}) {
+  const merged = mergeVerifiedOverlay({ ...prospect }, recovery || {});
+  return {
+    ...merged,
+    prospect_id: verifiedValue(recovery.prospect_id, prospect.prospect_id, board.prospect_id),
+    name: verifiedValue(board.name, recovery.name, recovery.full_name, prospect.name),
+    position: verifiedValue(board.position, recovery.position, prospect.position),
+    class: verifiedValue(recovery.class, board.class, prospect.class),
+    height: verifiedValue(recovery.height, board.height, prospect.height),
+    weight_lbs: verifiedValue(recovery.weight_lbs, board.weight_lbs, prospect.weight_lbs),
+    hometown: verifiedValue(recovery.hometown, board.hometown, prospect.hometown),
+    archetype: verifiedValue(recovery.archetype, board.archetype, prospect.archetype),
+    scouting_percentage: verifiedValue(recovery.scouting_percentage, board.scouting_percentage, prospect.scouting_percentage),
+    development_trait: verifiedValue(recovery.development_trait, board.development_trait, prospect.development_trait),
+    gem_status: verifiedValue(recovery.gem_status, board.gem_status, prospect.gem_status),
+    expected_nil: verifiedValue(recovery.expected_nil, board.expected_nil, prospect.expected_nil),
+    source_state: recovery.source_state || prospect.source_state || (recovery.prospect_id ? JOIN_STATES.verified : "")
+  };
+}
+
 function resolveRecruitDisplayModel(row = {}) {
   const classById = recruitClassById();
   const boardById = recruitBoardById();
+  const recoveryById = recruitScoutingRecoveryById();
   const inputId = cleanValue(row.prospect_id || (row.prospect || {}).prospect_id);
   const board = boardById.get(inputId) || (loadRecruitingWeekly().active_board || []).find(item => (item.linked_prospect_ids || []).includes(inputId)) || {};
   const linkedId = cleanValue((board.linked_prospect_ids || [])[0]);
-  let prospect = classById.get(inputId) || classById.get(linkedId) || row.prospect || {};
+  const recovery = recoveryById.get(inputId) || recoveryById.get(linkedId) || {};
+  let prospect = mergeRecruitScouting(board, classById.get(inputId) || classById.get(linkedId) || row.prospect || {}, recovery);
   if (!prospect.prospect_id) {
     const name = normalizeIdentityText(board.name || row.name);
     const pos = normalizePosition(board.position || row.position);
-    prospect = (loadRecruitingClass().prospects || []).find(item => normalizeIdentityText(item.name) === name && normalizePosition(item.position) === pos) || {};
+    const matched = (loadRecruitingClass().prospects || []).find(item => normalizeIdentityText(item.name) === name && normalizePosition(item.position) === pos) || {};
+    prospect = mergeRecruitScouting(board, matched, recovery);
   }
   const analysis = prospect.analysis || {};
   const display = analysis.display_stats || {};

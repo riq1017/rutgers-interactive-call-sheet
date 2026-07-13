@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Rutgers home-team Gameplan dashboard
+- Replaced the Gameplan main page coordinator stack with a Rutgers-first home dashboard.
+- Added Rutgers snapshot, key offensive players, offensive depth chart, roster position groups, and quick-action routing on the Gameplan tab.
+- Removed Run Game, Passing Game, Offensive Gameplan, Defensive Gameplan, Pressure, Coverage, and Protection cards from the Gameplan main page.
+- Replaced the legacy Gameplan tab shell with a single home-dashboard mount so situation controls, Best Call, inline Top 3, quick summary, usage, alerts, opening script, opponent traits, and history panels no longer render on the main page.
+- Preserved the underlying weekly data, recommendation engine, Top Plays, Personnel, Recruiting, and weekly opponent package behavior.
+- Updated validation and project standards so the Gameplan tab is checked as a home-team roster/depth dashboard instead of a coordinator report page.
+
 ## Recruiting and Personnel workspace polish
 - Changed Recruiting Top 3 into a deterministic, horizontally scrollable Team Needs recommendation strip instead of a fixed first-three list.
 - Updated Team Needs scoring to account for verified senior departures and explicit position-change fields only.

@@ -1504,7 +1504,9 @@ function firstClean(items) {
 
 function activeOpponentName() {
   const opp = loadOpponentProfile();
-  return cleanValue(opp.team || (loadGameplanWeekly() || {}).opponent || WEEKLY_PLAN.opponent.name);
+  const weekly = loadGameplanWeekly() || {};
+  const fallbackOpponent = typeof WEEKLY_PLAN !== "undefined" && WEEKLY_PLAN.opponent ? WEEKLY_PLAN.opponent.name : "";
+  return cleanValue(opp.team || weekly.opponent || fallbackOpponent);
 }
 
 const ROSTER_POSITION_GROUPS = ["QB","HB","WR","TE","LT","LG","C","RG","RT","EDGE","DT","LB","CB","FS","SS","K","P"];
@@ -2416,13 +2418,113 @@ function defensiveCoordinatorSection() {
   </section>`;
 }
 
+function homeTeamSnapshotCard() {
+  const weekly = loadGameplanWeekly() || {};
+  const gameday = weekly.gameday || {};
+  const profile = typeof TEAM_PROFILE !== "undefined" ? TEAM_PROFILE : {};
+  const roster = loadRutgersRoster().players || [];
+  const offensivePositions = new Set(["QB","HB","WR","TE","LT","LG","C","RG","RT"]);
+  const offenseCount = roster.filter(player => offensivePositions.has(rosterGroupFor(player.position))).length;
+  const defenseCount = roster.filter(player => ["EDGE","DT","LB","CB","FS","SS"].includes(rosterGroupFor(player.position))).length;
+  return BaseCard({ className: "rutgers-home-card home-team-snapshot", priority: "critical", size: "large", content: `
+    ${CardHeader({ eyebrow: "Rutgers Football", title: "Home Team Dashboard", subtitle: `${cardValue(gameday.currentWeek || profile.week || weekly.week)} vs ${cardValue(activeOpponentName())}`, badge: Badge("Rutgers", "critical") })}
+    <div class="home-snapshot-grid">
+      ${StatBlock("Record", gameday.seasonRecord || profile.record)}
+      ${StatBlock("Rank", gameday.rutgersRank || profile.rutgers_rank)}
+      ${StatBlock("Offense", gameday.offenseRank || profile.offense_rank)}
+      ${StatBlock("Defense", gameday.defenseRank || profile.defense_rank)}
+      ${StatBlock("Roster", roster.length)}
+      ${StatBlock("Off / Def", `${offenseCount} / ${defenseCount}`)}
+    </div>
+    <div class="home-package-pill">${cardValue(activeOpponentName())} package loaded</div>
+  ` });
+}
+
+function gameplanPlayerButton(player, group, label = "") {
+  if (!player) return "";
+  const role = cleanValue(label || (player.analysis || player.ui_analysis || {}).role || player.weekly_role || player.depth_role || player.archetype || "Verified player");
+  return `<button class="home-player-row sports-list-card sports-athlete-card" type="button" data-home-player-card onclick="switchTab('personnel');showRosterGroup('${group}')">
+    <span class="sports-card-left">${portraitImg(player, "rutgers")}<i>RU</i></span>
+    <span class="sports-card-main"><strong>${player.name}${verifiedDevBadge(player)}</strong><em>${player.position} | ${player.class_year || player.year || "N/A"} | ${player.overall || player.overall_displayed || "N/A"} OVR</em><small>${role}</small></span>
+    <span class="sports-card-badge">View</span>
+    <span class="chevron">&rsaquo;</span>
+    ${sportsStatStrip(playerStatPairs(player, "rutgers"))}
+  </button>`;
+}
+
+function keyOffensivePlayersCard() {
+  const groups = [
+    { group: "QB", label: "Quarterback" },
+    { group: "HB", label: "Backfield" },
+    { group: "WR", label: "Receiver" },
+    { group: "TE", label: "Tight end" },
+    { group: "LT", label: "Left tackle" },
+    { group: "RT", label: "Right tackle" }
+  ];
+  const rows = groups.map(row => gameplanPlayerButton(groupRosterPlayers(row.group)[0], row.group, row.label)).filter(Boolean);
+  return BaseCard({ className: "rutgers-home-card key-offense-card", priority: "important", size: "large", content: `
+    ${CardHeader({ eyebrow: "Rutgers Offense", title: "Key Offensive Players", subtitle: "Verified roster cards", badge: Badge(`${rows.length} groups`, "positive") })}
+    <div class="home-player-list">${rows.join("") || LimitedDataState("Key Offensive Players")}</div>
+  ` });
+}
+
+function depthChartHomeCard() {
+  const slots = ["QB","HB","WR","TE","LT","LG","C","RG","RT"];
+  const slotCards = slots.map(slot => {
+    const depthResolved = ["LT","LG","C","RG","RT"].includes(slot) ? resolveDepthSlotByPlayerId(slot) : null;
+    const player = depthResolved ? depthResolved.player : groupRosterPlayers(slot)[0];
+    const groupCount = groupRosterPlayers(slot).length || (player ? 1 : 0);
+    return `<button type="button" class="home-depth-slot ${player ? "verified" : "source-missing"}" onclick="switchTab('personnel');showRosterGroup('${slot}')">
+      <span>${slot}</span>
+      <strong>${player ? shortPlayerName(player.name) : "N/A"}</strong>
+      <em>${player ? `${player.overall || player.overall_displayed || "N/A"} OVR` : "No verified starter"}</em>
+      <small>${groupCount} player${groupCount === 1 ? "" : "s"}</small>
+    </button>`;
+  }).join("");
+  return BaseCard({ className: "rutgers-home-card home-depth-card", priority: "important", size: "large", content: `
+    ${CardHeader({ eyebrow: "Rutgers Depth", title: "Offensive Depth Chart", subtitle: "Tap a slot to open Personnel", badge: Badge("QB-HB-WR-TE-OL", "positive") })}
+    <div class="home-depth-grid">${slotCards}</div>
+  ` });
+}
+
+function rosterOverviewHomeCard() {
+  const rows = ROSTER_POSITION_GROUPS.map(group => {
+    const players = groupRosterPlayers(group);
+    if (!players.length) return "";
+    const starter = players[0];
+    return `<button type="button" class="home-roster-group" onclick="switchTab('personnel');showRosterGroup('${group}')">
+      <strong>${group}</strong>
+      <span>${shortPlayerName(starter.name)}</span>
+      <em>${starter.overall || starter.overall_displayed || "N/A"} OVR</em>
+      <small>${players.length}</small>
+    </button>`;
+  }).filter(Boolean).join("");
+  return BaseCard({ className: "rutgers-home-card home-roster-card", priority: "standard", size: "medium", content: `
+    ${CardHeader({ eyebrow: "Rutgers Roster", title: "Position Groups", subtitle: "Verified shared roster source", badge: Badge(`${(loadRutgersRoster().players || []).length} players`, "positive") })}
+    <div class="home-roster-grid">${rows || LimitedDataState("Roster Overview")}</div>
+  ` });
+}
+
+function homeQuickActionsCard() {
+  return BaseCard({ className: "rutgers-home-card home-actions-card", priority: "standard", size: "medium", content: `
+    ${CardHeader({ eyebrow: "Game Day", title: "Quick Actions", subtitle: "Jump to the detailed workspace" })}
+    <div class="home-action-grid">
+      <button type="button" onclick="switchTab('topplays')"><strong>Top 3 Plays</strong><span>Generate verified calls</span></button>
+      <button type="button" onclick="switchTab('personnel')"><strong>Roster Matchups</strong><span>Rutgers vs ${cardValue(activeOpponentName())}</span></button>
+      <button type="button" onclick="switchTab('personnel');showRosterGroup('QB')"><strong>Team Roster</strong><span>Browse Rutgers cards</span></button>
+      <button type="button" onclick="switchTab('recruiting')"><strong>Recruiting</strong><span>Team needs board</span></button>
+    </div>
+  ` });
+}
+
 function renderCoordinatorDashboard() {
-  return `<section class="coordinator-dashboard-main" data-gameplan-main><section class="coordinator-section offensive-gameplan"><div class="section-heading"><p>Offensive Gameplan</p><strong>Coordinator Dashboard</strong></div>
-    ${offensiveExecutiveCard()}
-    ${runGameIntelCard()}
-    ${passingGameIntelCard()}
-    ${protectionIntelCard()}
-  </section>${defensiveCoordinatorSection()}</section>`;
+  return `<section class="rutgers-home-dashboard" data-gameplan-main data-rutgers-home-dashboard>
+    ${homeTeamSnapshotCard()}
+    ${keyOffensivePlayersCard()}
+    ${depthChartHomeCard()}
+    ${rosterOverviewHomeCard()}
+    ${homeQuickActionsCard()}
+  </section>`;
 }
 
 function playerId(player) {
@@ -3051,6 +3153,10 @@ function renderTopAlternatives(picks) {
 }
 
 function renderGameplanPanels() {
+  if ($("gameplanHome")) {
+    $("gameplanHome").innerHTML = renderCoordinatorDashboard();
+    return;
+  }
   if ($("executiveDashboard")) {
     ["quickSummary","gameDayUsage","gameDayAlerts"].forEach(id => {
       const node = $(id);
@@ -3094,8 +3200,8 @@ function renderGameplanPanels() {
 
 function renderStatic() {
   renderGamedayHeader();
-  if ($("gameplan")) {
-    $("gameplan").innerHTML = renderCoordinatorDashboard();
+  if ($("gameplanHome")) {
+    $("gameplanHome").innerHTML = renderCoordinatorDashboard();
   }
   if ($("scriptList")) $("scriptList").innerHTML = WEEKLY_PLAN.openingScript.map((id, i) => {
     const play = playMap().get(id);

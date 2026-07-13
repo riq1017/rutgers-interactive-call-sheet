@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T07:19:32.299Z
+Validated: 2026-07-13T12:24:13.525Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -93,7 +93,7 @@ Validated: 2026-07-13T07:19:32.299Z
 - PASS - Pack B registry entries exist
 - PASS - Dashboard order resolves from registry
 - PASS - Pack B source refs resolve without duplicated football data
-- PASS - Executive dashboard container exists on Gameplan tab
+- PASS - Gameplan home-dashboard container exists on Gameplan tab
 - PASS - Executive dashboard renders from registry cards
 - PASS - Game Header has both teams and verified ratings
 - PASS - Team Cards render Last Game and Season separately
@@ -130,7 +130,7 @@ Validated: 2026-07-13T07:19:32.299Z
 - PASS - Best Play and Top Three resolve to verified play IDs
 - PASS - Run Game, Passing Game, Protection, Pressure, Coverage, Alerts resolve
 - PASS - Featured Player and Biggest Threat resolve
-- PASS - Gameplan is transformed into offensive and defensive coordinator sections
+- PASS - Gameplan is transformed into Rutgers home-team sections
 - PASS - Top Plays removes Best Play and makes random Top 3 primary
 - PASS - Top Plays owns random Top 3 selector without refresh or navigation
 - PASS - Random Top 3 draws three unique verified plays from locked 192 inventory
@@ -140,9 +140,12 @@ Validated: 2026-07-13T07:19:32.299Z
 - PASS - Gameplan no longer renders Top Plays hero, selector, or full play library
 - PASS - Gameplan removes raw Rutgers Offense vs Opponent Defense comparison wall
 - PASS - Gameplan removes raw Rutgers Defense vs Opponent Offense comparison wall
-- PASS - Gameplan main page renders requested coordinator cards in order
-- PASS - Coordinator dashboard metrics use mobile-safe stacked rows
-- PASS - Coordinator dashboard contains no raw nullish/object text
+- PASS - Gameplan main page is a Rutgers home-team dashboard
+- PASS - Gameplan main page removes run, pass, offensive, defensive, pressure, and coverage cards
+- PASS - Gameplan shell uses one home-dashboard mount and no legacy panels
+- PASS - Gameplan home dashboard renders roster, depth, and key-player cards
+- PASS - Gameplan home dashboard has mobile-safe Rutgers card styles
+- PASS - Gameplan home dashboard contains no raw nullish/object text
 - PASS - Weekly matchup summary does not duplicate card registry football data
 - PASS - Weekly matchup summary static bundle loads before app.js
 - PASS - Card registry hides Best Play and keeps Top Three ownership in Top Plays

@@ -75,15 +75,15 @@ Run-lane recommendations may display a best side only when weekly run-lane analy
 
 ## I.2 Gameplan Intelligence Standards
 
-The Gameplan tab is a coordinator dashboard, not a statistics page. It is organized into Offensive Gameplan and Defensive Gameplan sections.
+The Gameplan tab is a Rutgers home-team dashboard, not a coordinator report wall or statistics page. It is organized around the current Rutgers snapshot, key offensive players, offensive depth chart, roster overview, and quick navigation into the deeper workspaces.
 
-Weekly coordinator recommendations and comparison rows are resolved through `data/weekly/weekly_matchup_summary.json`. The UI renders that intelligence layer and must not fabricate missing comparison values, pressure calls, coverage calls, lane scores, player grades, or play grades.
+Weekly coordinator recommendations and comparison rows remain available to supporting workspaces through `data/weekly/weekly_matchup_summary.json`. The UI must not fabricate missing comparison values, pressure calls, coverage calls, lane scores, player grades, or play grades.
 
 Unsupported defensive or offensive metrics remain `null` in JSON and render as `Limited data`. Top Three references resolve by stable play IDs through the locked Play Card system.
 
 ## I.3 Permanent Tab Responsibility Standard
 
-Gameplan owns offensive executive summary, defensive executive summary, run-game plan, passing-game plan, protection plan, pressure recommendation, coverage recommendation, biggest threat, and concise verified alerts.
+Gameplan owns the compact Rutgers home snapshot, key offensive players, offensive depth chart, roster overview, and quick-action routing into Top Plays, Personnel, and Recruiting.
 
 Top Plays owns Random Top 3 generation, the Top 3 selector, all 192 verified visible play combinations, play art, play filters, play search, favorites, run/pass/RPO/play-action/screen groupings, and expanded Play Cards. The default Top Plays action must not claim more than the 192 verified plays currently present in the source inventory.
 
@@ -91,7 +91,7 @@ Personnel owns matchup-first weekly roster comparisons, weekly team roster, week
 
 Recruiting owns the recruiting board, every prospect card, scheme fit, recruiting value, projected role, player-specific recruiting intelligence, deterministic Team Needs-driven Top 3 recommendations, and recruit detail tab content. Team Needs may use verified senior departures and explicit position-change fields, but must not infer position changes.
 
-Gameplan must not own the full play library, play filters, play search, Top 3 selector, repeated full play cards, or Rutgers-vs-opponent raw comparison sections.
+Gameplan must not own the full play library, play filters, play search, Top 3 selector, repeated full play cards, run-game cards, passing-game cards, offensive/defensive gameplan cards, pressure cards, coverage cards, or Rutgers-vs-opponent raw comparison sections.
 
 ## I.4 Sports-App Card Interaction Standard
 

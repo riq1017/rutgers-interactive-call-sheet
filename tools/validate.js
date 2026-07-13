@@ -278,7 +278,7 @@ const dashboardCards = (cardRegistry.cards || []).filter(card => card.visible !=
 check('Pack B registry entries exist', packBIds.every(id => cardById.has(id)));
 check('Dashboard order resolves from registry', dashboardCards.map(card => card.card_id).join('|') === ['dashboard_game_header','dashboard_featured_player','dashboard_biggest_risk','dashboard_best_run_lane','dashboard_protection_call','dashboard_passing_focus','dashboard_red_zone_plan','dashboard_third_down_plan','dashboard_top_matchups_preview','dashboard_alerts'].join('|'));
 check('Pack B source refs resolve without duplicated football data', packBIds.every(id => cardById.get(id) && cardById.get(id).source_refs && typeof cardById.get(id).source_refs === 'object') && !/"record"\s*:|"overall"\s*:|"offense"\s*:|"defense"\s*:|"recommendation"\s*:|"confidence"\s*:/.test(JSON.stringify(cardRegistry)));
-check('Executive dashboard container exists on Gameplan tab', index.includes('id="executiveDashboard"') && app.includes('function renderExecutiveDashboard') && app.includes('dashboardRegistryCards("dashboard")'));
+check('Gameplan home-dashboard container exists on Gameplan tab', index.includes('id="gameplanHome"') && app.includes('function renderCoordinatorDashboard') && app.includes('homeTeamSnapshotCard'));
 const dashboardHtml = dashboardCards.map(card => engine.renderDashboardCard(card)).join('\n');
 check('Executive dashboard renders from registry cards', dashboardHtml.includes('dashboard_game_header') && dashboardHtml.includes('dashboard_featured_player') && dashboardHtml.includes('dashboard_biggest_risk'));
 check('Game Header has both teams and verified ratings', dashboardHtml.includes('game-header-card') && dashboardHtml.includes('OVR 84') && dashboardHtml.includes('OFF 84') && dashboardHtml.includes('DEF 86') && dashboardHtml.includes('OVR 64') && dashboardHtml.includes('OFF 64') && dashboardHtml.includes('DEF 64'));
@@ -327,7 +327,8 @@ check('Best Play and Top Three resolve to verified play IDs', playIds.has(weekly
 check('Run Game, Passing Game, Protection, Pressure, Coverage, Alerts resolve', weeklyMatchupSummary.run_game && weeklyMatchupSummary.passing_game && Array.isArray(weeklyMatchupSummary.protection.slots) && weeklyMatchupSummary.pressure && weeklyMatchupSummary.coverage && weeklyMatchupSummary.alerts);
 check('Featured Player and Biggest Threat resolve', rosterIds.has(weeklyMatchupSummary.featured_player.player_id) && PURDUE_OPPONENT_PLAYERS.players.some(p => p.player_id === weeklyMatchupSummary.biggest_threat.player_id) && matchupIds.has(weeklyMatchupSummary.biggest_threat.matchup_id));
 const coordinatorHtml = engine.renderCoordinatorDashboard();
-check('Gameplan is transformed into offensive and defensive coordinator sections', coordinatorHtml.includes('Offensive Gameplan') && coordinatorHtml.includes('Defensive Gameplan') && app.includes('renderCoordinatorDashboard()'));
+const gameplanShellHtml = (index.match(/<section id="gameplan"[\s\S]*?<section id="topplays"/) || [''])[0];
+check('Gameplan is transformed into Rutgers home-team sections', coordinatorHtml.includes('Home Team Dashboard') && coordinatorHtml.includes('Key Offensive Players') && coordinatorHtml.includes('Offensive Depth Chart') && app.includes('renderCoordinatorDashboard()'));
 const topPlayInventory = engine.topPlayInventory();
 const productionRanking = engine.productionPlayRanking();
 const topPlayHeroHtml = engine.topPlayHeroCard();
@@ -344,13 +345,12 @@ check('Top Plays inventory reaches all 192 verified Oregon play combinations', t
 check('Gameplan no longer renders Top Plays hero, selector, or full play library', !coordinatorHtml.includes('data-top-plays-hero') && !coordinatorHtml.includes('top-three-selector') && !coordinatorHtml.includes('locked-play-card'));
 check('Gameplan removes raw Rutgers Offense vs Opponent Defense comparison wall', !coordinatorHtml.includes('Rutgers Offense vs Opponent Defense') && !coordinatorHtml.includes('offense-comparison-table'));
 check('Gameplan removes raw Rutgers Defense vs Opponent Offense comparison wall', !coordinatorHtml.includes('Rutgers Defense vs Opponent Offense') && !coordinatorHtml.includes('defense-comparison-table'));
-check('Gameplan main page renders requested coordinator cards in order', (() => {
-  const orderTokens = ['coordinator-summary-card','coordinator-run-card','coordinator-pass-card','coordinator-protection-card','defensive-summary-card','coordinator-pressure-card','coordinator-coverage-card'];
-  const positions = orderTokens.map(token => coordinatorHtml.indexOf(token));
-  return coordinatorHtml.includes('data-gameplan-main') && positions.every(pos => pos >= 0) && positions.every((pos, i) => i === 0 || pos > positions[i - 1]) && !coordinatorHtml.includes('coordinator-threat-card') && !coordinatorHtml.includes('coordinator-alerts-card');
-})());
-check('Coordinator dashboard metrics use mobile-safe stacked rows', css.includes('.coordinator-section .dashboard-metrics') && css.includes('grid-template-columns:1fr') && css.includes('.coordinator-section .metric-row'));
-check('Coordinator dashboard contains no raw nullish/object text', !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(coordinatorHtml));
+check('Gameplan main page is a Rutgers home-team dashboard', coordinatorHtml.includes('data-rutgers-home-dashboard') && coordinatorHtml.includes('Home Team Dashboard') && coordinatorHtml.includes('Key Offensive Players') && coordinatorHtml.includes('Offensive Depth Chart') && coordinatorHtml.includes('Position Groups') && coordinatorHtml.includes('Quick Actions'));
+check('Gameplan main page removes run, pass, offensive, defensive, pressure, and coverage cards', !/Offensive Gameplan|Defensive Gameplan|Run Game|Passing Game|Protection Plan|Pressure Recommendation|Coverage Recommendation|Coordinator Dashboard/i.test(coordinatorHtml) && !coordinatorHtml.includes('coordinator-run-card') && !coordinatorHtml.includes('coordinator-pass-card') && !coordinatorHtml.includes('coordinator-pressure-card') && !coordinatorHtml.includes('coordinator-coverage-card') && !coordinatorHtml.includes('coordinator-protection-card'));
+check('Gameplan shell uses one home-dashboard mount and no legacy panels', gameplanShellHtml.includes('id="gameplanHome"') && !/id="(?:executiveDashboard|recommendation|top3Inline|quickSummary|gameDayUsage|gameDayAlerts|bestBtn|top3Btn|scriptList|gameplanScoutList|historyList)"/.test(gameplanShellHtml) && !/Situation|Call context|Best Call|Show Top 3 Plays|Opening Script|Opponent Traits|History/.test(gameplanShellHtml));
+check('Gameplan home dashboard renders roster, depth, and key-player cards', (coordinatorHtml.match(/data-home-player-card/g) || []).length >= 4 && (coordinatorHtml.match(/home-depth-slot/g) || []).length >= 9 && coordinatorHtml.includes('home-roster-grid'));
+check('Gameplan home dashboard has mobile-safe Rutgers card styles', css.includes('.rutgers-home-dashboard') && css.includes('.home-depth-grid') && css.includes('.home-roster-grid') && css.includes('.home-action-grid'));
+check('Gameplan home dashboard contains no raw nullish/object text', !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(coordinatorHtml));
 check('Weekly matchup summary does not duplicate card registry football data', !JSON.stringify(cardRegistry).includes('offensive_matchup_grade') && !JSON.stringify(cardRegistry).includes('biggest_offensive_advantage'));
 check('Weekly matchup summary static bundle loads before app.js', index.indexOf('data/weekly/weekly_matchup_summary.js') > index.indexOf('data/weekly/run_lane_analysis.js') && index.indexOf('data/weekly/weekly_matchup_summary.js') < index.indexOf('app.js'));
 check('Card registry hides Best Play and keeps Top Three ownership in Top Plays', cardById.get('best_play_hero').tab === 'topplays' && cardById.get('best_play_hero').visible === false && cardById.get('top_three_selector').tab === 'topplays');
@@ -360,7 +360,7 @@ check('Shared roster source has 48 verified players', RUTGERS_ROSTER_BASE.player
 check('No duplicate hardcoded roster is used by the visible Recruiting engine', app.includes('function loadRutgersRoster') && app.includes('return sharedRosterBase()'));
 check('Gameplan engine reads enriched opponent/profile/player/group/matchup data', app.includes('loadOpponentProfile') && app.includes('loadOpponentPlayers') && app.includes('loadOpponentGroups') && app.includes('loadMatchups'));
 check('Recruiting engine reads enriched class, weekly, team needs, and coach modifiers', app.includes('loadRecruitingClass') && app.includes('loadRecruitingWeekly') && app.includes('loadTeamNeeds') && app.includes('COACH_RECRUITING_MODIFIERS'));
-check('Gameplan tab structure is present', app.includes('renderCoordinatorDashboard') && app.includes('offensive-gameplan') && app.includes('defensive-gameplan'));
+check('Gameplan tab structure is present', app.includes('renderCoordinatorDashboard') && app.includes('data-rutgers-home-dashboard') && app.includes('homeTeamSnapshotCard'));
 check('Best Call keeps visible play art', app.includes('large-diagram') && app.includes('play.diagramPath'));
 check('Top Plays supports required filters', ['run','pass','rpo','pa','screen','rankFormation','rankPersonnel','rankSituation','rankRisk','rankZone','rankState'].every(token => app.includes(token)));
 check('Personnel heading and dynamic Rutgers/opponent comparison exist', app.includes('Personnel & Matchups') && app.includes('renderGameMatchupHeader') && app.includes('activeOpponentName()'));

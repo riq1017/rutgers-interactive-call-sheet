@@ -546,11 +546,33 @@ p{line-height:1.45}
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:8px;
 }
-.home-snapshot-grid .stat-block{
-  min-height:58px;
+.home-stat-tile{
+  min-height:66px;
+  display:grid;
+  align-content:center;
+  gap:5px;
+  padding:9px 10px;
   border:1px solid rgba(255,255,255,.1);
   border-radius:12px;
   background:rgba(0,0,0,.22);
+  overflow:hidden;
+}
+.home-stat-tile span{
+  display:block;
+  color:var(--good);
+  font-size:11px;
+  font-weight:950;
+  line-height:1;
+  text-transform:uppercase;
+}
+.home-stat-tile strong{
+  display:block;
+  min-width:0;
+  color:var(--text);
+  font-size:19px;
+  font-weight:950;
+  line-height:1.05;
+  overflow-wrap:normal;
 }
 .home-package-pill{
   margin-top:10px;
@@ -562,11 +584,24 @@ p{line-height:1.45}
   font-weight:950;
 }
 .home-player-list{
-  display:grid;
+  display:flex;
   gap:9px;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;
+  padding:2px 2px 6px;
+  margin:0 -2px;
+  scrollbar-width:none;
+}
+.home-player-list::-webkit-scrollbar{
+  display:none;
 }
 .home-player-row{
+  flex:0 0 min(284px,86vw);
+  scroll-snap-align:start;
   border-color:rgba(204,0,51,.24);
+  min-height:0;
+  align-self:stretch;
 }
 .home-depth-grid{
   display:grid;
@@ -587,7 +622,7 @@ p{line-height:1.45}
 .home-depth-slot{
   display:grid;
   gap:3px;
-  min-height:82px;
+  min-height:94px;
   padding:9px;
 }
 .home-depth-slot span,
@@ -601,8 +636,17 @@ p{line-height:1.45}
 .home-action-grid strong{
   display:block;
   min-width:0;
-  overflow-wrap:anywhere;
-  line-height:1.1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  line-height:1.08;
+  word-break:normal;
+}
+.home-depth-slot strong{
+  white-space:normal;
+  font-size:17px;
+}
+.home-roster-group span{
+  white-space:nowrap;
 }
 .home-depth-slot em,
 .home-depth-slot small,
@@ -643,6 +687,30 @@ p{line-height:1.45}
 }
 .home-action-grid button{
   padding:12px;
+}
+.home-bottom-spacer{
+  min-height:calc(132px + env(safe-area-inset-bottom));
+}
+@media(max-width:430px){
+  .home-snapshot-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .home-stat-tile{
+    min-height:58px;
+    padding:8px 9px;
+  }
+  .home-stat-tile strong{
+    font-size:18px;
+  }
+  .home-depth-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .home-depth-slot{
+    min-height:86px;
+  }
+  .home-roster-grid{
+    grid-template-columns:1fr;
+  }
 }
 .roster-matchup-workspace{
   display:grid;

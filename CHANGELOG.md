@@ -5,6 +5,7 @@
 - Added Rutgers snapshot, key offensive players, offensive depth chart, roster position groups, and quick-action routing on the Gameplan tab.
 - Removed Run Game, Passing Game, Offensive Gameplan, Defensive Gameplan, Pressure, Coverage, and Protection cards from the Gameplan main page.
 - Replaced the legacy Gameplan tab shell with a single home-dashboard mount so situation controls, Best Call, inline Top 3, quick summary, usage, alerts, opening script, opponent traits, and history panels no longer render on the main page.
+- Polished the home dashboard for iPhone by separating snapshot labels/values, converting key offensive players into a horizontal swipe strip, tightening depth/roster text wrapping, and adding bottom-navigation clearance.
 - Preserved the underlying weekly data, recommendation engine, Top Plays, Personnel, Recruiting, and weekly opponent package behavior.
 - Updated validation and project standards so the Gameplan tab is checked as a home-team roster/depth dashboard instead of a coordinator report page.
 

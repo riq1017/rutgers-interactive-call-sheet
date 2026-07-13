@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T12:24:13.525Z
+Validated: 2026-07-13T12:49:10.011Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -145,6 +145,10 @@ Validated: 2026-07-13T12:24:13.525Z
 - PASS - Gameplan shell uses one home-dashboard mount and no legacy panels
 - PASS - Gameplan home dashboard renders roster, depth, and key-player cards
 - PASS - Gameplan home dashboard has mobile-safe Rutgers card styles
+- PASS - Gameplan snapshot uses separated label-value stat tiles
+- PASS - Gameplan key offensive players use compact horizontal strip
+- PASS - Gameplan key-player heading stays Rutgers Offense only
+- PASS - Gameplan home cards clear fixed bottom navigation
 - PASS - Gameplan home dashboard contains no raw nullish/object text
 - PASS - Weekly matchup summary does not duplicate card registry football data
 - PASS - Weekly matchup summary static bundle loads before app.js

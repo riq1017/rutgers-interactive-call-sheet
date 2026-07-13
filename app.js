@@ -2426,15 +2426,16 @@ function homeTeamSnapshotCard() {
   const offensivePositions = new Set(["QB","HB","WR","TE","LT","LG","C","RG","RT"]);
   const offenseCount = roster.filter(player => offensivePositions.has(rosterGroupFor(player.position))).length;
   const defenseCount = roster.filter(player => ["EDGE","DT","LB","CB","FS","SS"].includes(rosterGroupFor(player.position))).length;
+  const tile = (label, value) => `<div class="home-stat-tile"><span>${cardValue(label, "")}</span><strong>${cardValue(value)}</strong></div>`;
   return BaseCard({ className: "rutgers-home-card home-team-snapshot", priority: "critical", size: "large", content: `
     ${CardHeader({ eyebrow: "Rutgers Football", title: "Home Team Dashboard", subtitle: `${cardValue(gameday.currentWeek || profile.week || weekly.week)} vs ${cardValue(activeOpponentName())}`, badge: Badge("Rutgers", "critical") })}
     <div class="home-snapshot-grid">
-      ${StatBlock("Record", gameday.seasonRecord || profile.record)}
-      ${StatBlock("Rank", gameday.rutgersRank || profile.rutgers_rank)}
-      ${StatBlock("Offense", gameday.offenseRank || profile.offense_rank)}
-      ${StatBlock("Defense", gameday.defenseRank || profile.defense_rank)}
-      ${StatBlock("Roster", roster.length)}
-      ${StatBlock("Off / Def", `${offenseCount} / ${defenseCount}`)}
+      ${tile("Record", gameday.seasonRecord || profile.record)}
+      ${tile("Rank", gameday.rutgersRank || profile.rutgers_rank)}
+      ${tile("Offense", gameday.offenseRank || profile.offense_rank)}
+      ${tile("Defense", gameday.defenseRank || profile.defense_rank)}
+      ${tile("Roster", roster.length)}
+      ${tile("Off / Def", `${offenseCount} / ${defenseCount}`)}
     </div>
     <div class="home-package-pill">${cardValue(activeOpponentName())} package loaded</div>
   ` });
@@ -2463,7 +2464,7 @@ function keyOffensivePlayersCard() {
   ];
   const rows = groups.map(row => gameplanPlayerButton(groupRosterPlayers(row.group)[0], row.group, row.label)).filter(Boolean);
   return BaseCard({ className: "rutgers-home-card key-offense-card", priority: "important", size: "large", content: `
-    ${CardHeader({ eyebrow: "Rutgers Offense", title: "Key Offensive Players", subtitle: "Verified roster cards", badge: Badge(`${rows.length} groups`, "positive") })}
+    ${CardHeader({ eyebrow: "Rutgers Offense", title: "Key Offensive Players", subtitle: "Swipe for verified roster cards", badge: Badge(`${rows.length} groups`, "positive") })}
     <div class="home-player-list">${rows.join("") || LimitedDataState("Key Offensive Players")}</div>
   ` });
 }
@@ -2524,6 +2525,7 @@ function renderCoordinatorDashboard() {
     ${depthChartHomeCard()}
     ${rosterOverviewHomeCard()}
     ${homeQuickActionsCard()}
+    <div class="home-bottom-spacer" aria-hidden="true"></div>
   </section>`;
 }
 

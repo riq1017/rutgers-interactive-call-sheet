@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T12:49:10.011Z
+Validated: 2026-07-13T14:09:01.994Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -46,6 +46,7 @@ Validated: 2026-07-13T12:49:10.011Z
 - PASS - Rutgers LT/LG/C/RG/RT depth slots resolve through canonical player IDs
 - PASS - Rutgers O-line card no longer masks resolved slots as No starter
 - PASS - Rutgers player detail joins resolve attributes, media, stats, and depth role by player_id
+- PASS - Verified Rutgers player attributes surface on player detail overview and attributes tabs
 - PASS - Depth chart seed owns explicit canonical O-line player IDs
 - PASS - join_failed is never rendered as ordinary Limited data in recruit or O-line cards
 - PASS - Every verified playbook record is preserved as one canonical play identity
@@ -66,6 +67,7 @@ Validated: 2026-07-13T12:49:10.011Z
 - PASS - Video-only unresolved identity count is zero
 - PASS - Video-only JSON card population counts are stable
 - PASS - Video-only bundles load before app.js
+- PASS - Stats Hub renders structured sports stat tables without raw object previews
 - PASS - Video-only records carry timestamp evidence and N/A audit fields
 - PASS - App loaders prefer video-only verified bundles when present
 - PASS - Video recovery bundles are loaded before app.js

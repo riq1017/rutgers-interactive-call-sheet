@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Verified player detail and Stats Hub repair
+- Surfaced verified player ratings immediately on player detail Overview screens so players like J. Elijah show verified attributes instead of appearing data-empty.
+- Grouped optional profile fields that are not visible in verified source evidence into a source-missing note instead of repeating `N/A` rows for every absent bio field.
+- Replaced the Stats Hub `Team Snapshot` raw object preview with sports-app style leader strips and Passing, Rushing, Receiving, Defense, Turnovers, Third Down, Red Zone, and Kicking tables.
+- Added validation that fails if verified player attributes render as missing or if the Stats Hub falls back to raw object/schema preview text.
+
 ## Rutgers home-team Gameplan dashboard
 - Replaced the Gameplan main page coordinator stack with a Rutgers-first home dashboard.
 - Added Rutgers snapshot, key offensive players, offensive depth chart, roster position groups, and quick-action routing on the Gameplan tab.

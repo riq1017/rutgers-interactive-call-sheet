@@ -2685,6 +2685,38 @@ function sportsStatStrip(pairs = [], fallback = "N/A") {
   return `<div class="sports-stat-strip">${rows.map(row => `<span><b>${cardValue(row.value, "N/A")}</b><em>${cardValue(row.label, "")}</em></span>`).join("")}</div>`;
 }
 
+function verifiedProfileRow(label, value) {
+  const cleaned = cleanValue(value);
+  return cleaned ? maybeRow(label, cleaned) : "";
+}
+
+function sourceMissingFieldsCard(labels = []) {
+  const rows = labels.filter(Boolean);
+  if (!rows.length) return "";
+  return `<div class="source-missing-note"><span>Not visible in verified source</span><strong>${rows.join(", ")}</strong></div>`;
+}
+
+function playerOverviewRows(player = {}, analysis = {}) {
+  const requiredRows = [
+    maybeRow("Position", player.position, "N/A"),
+    maybeRow("Class", player.class_year || player.year || player.class, "N/A"),
+    maybeRow("Overall", player.overall || player.overall_displayed, "N/A"),
+    maybeRow("Depth Role", readableStatus(player.depthRole || player.depth_role || analysis.role || analysis.matchup_priority, "N/A"), "N/A")
+  ];
+  const optionalFields = [
+    ["Height", player.height],
+    ["Weight", player.weight_lbs ? `${player.weight_lbs} lbs` : player.weight],
+    ["Archetype", player.archetype],
+    ["Weekly Role", usageSummary(player)],
+    ["Jersey", player.jersey_number || player.jersey],
+    ["Hometown", player.hometown]
+  ];
+  const optionalRows = optionalFields.map(([label, value]) => verifiedProfileRow(label, value)).filter(Boolean);
+  const missing = optionalFields.filter(([, value]) => !cleanValue(value)).map(([label]) => label);
+  const ratingStrip = sportsStatStrip(playerStatPairs(player).filter(row => !/^LG /.test(row.label)), "Ratings N/A");
+  return `${requiredRows.join("")}<div class="overview-rating-strip">${ratingStrip}</div>${optionalRows.join("")}${sourceMissingFieldsCard(missing)}`;
+}
+
 function playerStatPairs(player, side = "rutgers") {
   const attrs = player.attributes || player || {};
   const pos = normalizePosition(player.position);
@@ -3522,7 +3554,7 @@ function playerDetailHtml(id, side = "rutgers", group = "") {
       <b>${matchups[0] || readableStatus(analysis.matchup_priority || analysis.role, "Verified")}</b>
     </header>
     ${DetailTabStrip(["Overview", "Attributes", "Traits", "Stats", "Matchups", "Plays"])}
-    <section class="detail-panel" data-detail-section="Overview">${maybeRow("Position", player.position, "N/A")}${maybeRow("Class", player.class_year || player.year || player.class, "N/A")}${maybeRow("Overall", player.overall || player.overall_displayed, "N/A")}${maybeRow("Depth Role", readableStatus(player.depthRole || analysis.role || analysis.matchup_priority, "N/A"), "N/A")}${maybeRow("Height", player.height, "N/A")}${maybeRow("Weight", player.weight_lbs ? `${player.weight_lbs} lbs` : player.weight, "N/A")}${maybeRow("Archetype", player.archetype, "N/A")}${maybeRow("Weekly Role", usageSummary(player), "N/A")}${maybeRow("Jersey", player.jersey_number || player.jersey, "N/A")}${maybeRow("Hometown", player.hometown, "N/A")}</section>
+    <section class="detail-panel" data-detail-section="Overview">${playerOverviewRows(player, analysis)}</section>
     <section class="detail-panel" data-detail-section="Attributes"><div class="sports-stat-grid">${lockedAttributeRows(player, 12) || LimitedDataState("Attributes")}</div></section>
     <section class="detail-panel" data-detail-section="Traits">${traitRows}</section>
     <section class="detail-panel" data-detail-section="Stats"><div class="sports-stat-card"><h3>Season</h3>${sportsStatStrip(firstStatPairs(seasonRows, 8), "N/A")}</div><div class="sports-stat-card"><h3>Last Game</h3>${sportsStatStrip(firstStatPairs(lastRows, 8), "N/A")}</div></section>
@@ -3859,18 +3891,48 @@ function statLeaderCard(title, rows = [], empty = "N/A") {
   return `<article class="sports-stat-card stat-leader-card"><h3>${title}</h3>${leaders.length ? leaders.map(row => statChip(row)).join("") : `<div class="stat-chip empty"><strong>${empty}</strong></div>`}</article>`;
 }
 
-function teamStatCategoryCard(title, rutgersValue, opponentValue) {
-  const rutgersRows = flattenedStatEntries(rutgersValue);
-  const opponentRows = flattenedStatEntries(opponentValue);
-  const rutgersPreview = rutgersRows.length ? sportsStatStrip(firstStatPairs(rutgersRows, 5), "N/A") : (rutgersValue && typeof rutgersValue === "object" ? Object.entries(rutgersValue).slice(0, 5).map(([key, value]) => maybeRow(labelize(key), value)).join("") : maybeRow("Value", rutgersValue, "N/A"));
-  const opponentPreview = opponentRows.length ? sportsStatStrip(firstStatPairs(opponentRows, 5), "N/A") : (opponentValue && typeof opponentValue === "object" ? Object.entries(opponentValue).slice(0, 5).map(([key, value]) => maybeRow(labelize(key), value)).join("") : maybeRow("Value", opponentValue, "N/A"));
-  return `<article class="sports-stat-card comparison-stat-card">
+function statColumnsForCategory(key) {
+  const map = {
+    passing: ["games","completions","attempts","completion_pct","yards","td","int","sacks","long"],
+    rushing: ["games","carries","yards","avg","td","fumbles","long","yac"],
+    receiving: ["games","receptions","yards","avg","td","long","yac","drops"],
+    defense: ["games","solo","assists","tackles","tfl","sacks","interceptions","deflections"],
+    special_teams: ["games","fg_made","fg_attempts","xp_made","xp_attempts","long"],
+    kicking: ["games","fg_made","fg_attempts","xp_made","xp_attempts","long"],
+    turnovers: ["turnovers","interceptions","fumbles","takeaways"],
+    third_down: ["attempts","conversions","percentage"],
+    red_zone: ["attempts","touchdowns","field_goals","percentage"]
+  };
+  return map[key] || ["games","yards","td","tackles","sacks"];
+}
+
+function statTable(title, rows = [], key = "") {
+  const cleanRows = (rows || []).filter(row => row && typeof row === "object");
+  if (!cleanRows.length) return `<article class="sports-stat-card stat-table-card empty"><h3>${title}</h3><div class="stat-table-empty">N/A</div></article>`;
+  const baseColumns = ["name", ...statColumnsForCategory(key)];
+  const columns = baseColumns.filter(column => column === "name" || cleanRows.some(row => cleanValue(row[column])));
+  const visibleColumns = columns.length > 1 ? columns.slice(0, 8) : ["name", ...Object.keys(cleanRows[0]).filter(column => !isInternalDisplayKey(column) && column !== "name" && cleanValue(cleanRows[0][column])).slice(0, 6)];
+  return `<article class="sports-stat-card stat-table-card">
     <h3>${title}</h3>
-    <div class="team-stat-comparison">
-      <section><span>${weeklyTeamName()}</span>${rutgersPreview || `<strong>N/A</strong>`}</section>
-      <section><span>${activeOpponentName()}</span>${opponentPreview || `<strong>N/A</strong>`}</section>
-    </div>
+    <div class="sports-table-scroll"><table class="sports-stat-table">
+      <thead><tr>${visibleColumns.map(column => `<th>${column === "name" ? "Name" : abbrevLabel(column)}</th>`).join("")}</tr></thead>
+      <tbody>${cleanRows.map(row => `<tr>${visibleColumns.map(column => `<td>${cardValue(column === "name" ? row.name || row.player || row.team : row[column], column === "name" ? "Team" : "N/A")}</td>`).join("")}</tr>`).join("")}</tbody>
+    </table></div>
   </article>`;
+}
+
+function topStatLeader(rows = [], valueKey = "yards") {
+  return (rows || []).filter(row => cleanValue(row && row[valueKey])).sort((a, b) => Number(b[valueKey]) - Number(a[valueKey]))[0] || null;
+}
+
+function statLeaderStrip(data = {}, opponent = {}) {
+  const leaders = [
+    ["Pass Yds", topStatLeader(flattenedStatEntries(data.passing), "yards")],
+    ["Rush Yds", topStatLeader(flattenedStatEntries(data.rushing), "yards")],
+    ["Rec Yds", topStatLeader(flattenedStatEntries(data.receiving), "yards")],
+    ["Opp Tkl", topStatLeader(flattenedStatEntries(opponent.defense), "tackles")]
+  ];
+  return `<div class="stats-leader-strip">${leaders.map(([label, row]) => `<section><span>${label}</span><strong>${row ? cardValue(row.name || row.player, "N/A") : "N/A"}</strong><em>${row ? cardValue(row.yards || row.tackles || row.sacks, "N/A") : "N/A"}</em></section>`).join("")}</div>`;
 }
 
 function renderStatsWorkspace() {
@@ -3892,14 +3954,8 @@ function renderStatsWorkspace() {
       <button class="${mode === "season" ? "active" : ""}" type="button" onclick="history.replaceState(null,'','?tab=personnel&personnel=stats&stats=season');renderPersonnelMatchups('stats')">Season</button>
     </div>
     ${CardHeader({ eyebrow: "Stats Hub", title: `${weeklyTeamName()} vs ${activeOpponentName()}`, subtitle: data.label, badge: Badge(data.label, "positive") })}
-    <div class="stats-team-header">${teamStatCategoryCard("Team Snapshot", data.rutgers.team_totals || data.rutgers, data.opponent.team_totals || data.opponent)}</div>
-    <div class="stats-leader-grid">
-      ${statLeaderCard(`${weeklyTeamName()} Passing`, flattenedStatEntries(data.rutgers.passing))}
-      ${statLeaderCard(`${weeklyTeamName()} Rushing`, flattenedStatEntries(data.rutgers.rushing))}
-      ${statLeaderCard(`${activeOpponentName()} Defense`, flattenedStatEntries(data.opponent.defense))}
-      ${statLeaderCard(`${activeOpponentName()} Production`, flattenedStatEntries(data.opponent.passing).concat(flattenedStatEntries(data.opponent.rushing)).concat(flattenedStatEntries(data.opponent.receiving)))}
-    </div>
-    <div class="stat-category-grid">${categories.map(([title, key]) => teamStatCategoryCard(title, data.rutgers[key], data.opponent[key])).join("")}</div>
+    ${statLeaderStrip(data.rutgers, data.opponent)}
+    <div class="stat-category-grid">${categories.map(([title, key]) => `${statTable(`${weeklyTeamName()} ${title}`, flattenedStatEntries(data.rutgers[key]), key)}${statTable(`${activeOpponentName()} ${title}`, flattenedStatEntries(data.opponent[key]), key)}`).join("")}</div>
   </section>`;
 }
 

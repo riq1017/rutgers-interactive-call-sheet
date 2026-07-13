@@ -26,6 +26,10 @@ The approved design language is glossy black with Rutgers scarlet and opponent g
 
 Raw object rendering is forbidden. UI must never display `[object Object]`, `undefined`, or literal `null`. Missing data displays as `Limited data`.
 
+Player detail screens must surface verified ratings and production before optional bio gaps. Optional fields such as height, weight, jersey, hometown, or archetype may be hidden or grouped as source-missing when no verified source contains them, but verified attributes and stats must not render as `N/A`.
+
+Stats views must use structured sports tables or stat strips. Whole JSON objects, schema metadata, source metadata, or semicolon-style object summaries must not be rendered as the visible stat presentation.
+
 ## D. UI Standards
 
 The base theme is Rutgers scarlet, black, and white, with opponent accent treatment used only as supporting context. The top header is sticky and compacts after scroll. Bottom navigation is fixed and must remain visible.

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Random Top 3 and weekly roster matchups
+- Locked Top Plays to the current 192 verified visible play inventory and removed the Best Play control from the Top Plays screen.
+- Made `Generate Top 3` the primary Top Plays action, producing three unique pure-random plays from verified play IDs only.
+- Rebuilt the Personnel overview around the weekly team roster and weekly opponent roster so future imported opponents can replace Purdue without hardcoded opponent assumptions.
+- Added roster-vs-roster matchup cards for WR/CB, RB/MLB, OL/DT, TE/LB-S, QB/pressure, and opponent offensive groups when source data exists.
+- Kept source-missing opponent position groups explicit instead of inventing QB/RB/WR/TE/OL rows for the current Purdue package.
+- Added validation for locked 192-play random Top 3 generation and weekly roster matchup rendering.
+
 ## Gameplan main page coordinator layout
 - Reworked the Gameplan landing page to show Executive Summary, Run Game, Passing Game, Protection, Defensive Gameplan, Pressure, and Coverage as the top-level coordinator flow.
 - Removed Biggest Threat and Concise Alerts from the default Gameplan main-page flow so the requested first-page sections are not buried.

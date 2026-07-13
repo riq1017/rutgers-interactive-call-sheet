@@ -330,11 +330,15 @@ const coordinatorHtml = engine.renderCoordinatorDashboard();
 check('Gameplan is transformed into offensive and defensive coordinator sections', coordinatorHtml.includes('Offensive Gameplan') && coordinatorHtml.includes('Defensive Gameplan') && app.includes('renderCoordinatorDashboard()'));
 const topPlayInventory = engine.topPlayInventory();
 const productionRanking = engine.productionPlayRanking();
-const topPlayHeroHtml = engine.topPlayHeroCard('best');
-const topThreeHeroHtml = engine.topPlayHeroCard('top3');
+const topPlayHeroHtml = engine.topPlayHeroCard();
 const topPlayModeSource = (app.match(/function setTopPlaysMode[\s\S]*?\n}/) || [''])[0];
-check('Top Plays owns Best Play hero with play art and mode controls', topPlayHeroHtml.includes('data-top-plays-hero') && topPlayHeroHtml.includes('top-play-hero-art') && topPlayHeroHtml.includes('class="active" data-top-play-control="best"') && topPlayHeroHtml.includes('data-top-play-control="top3"') && topPlayHeroHtml.includes(topPlayInventory[0].id));
-check('Top Plays owns Top 3 selector without refresh or navigation', topThreeHeroHtml.includes('data-top-three-selector') && (topThreeHeroHtml.match(/data-top-three-row=/g) || []).length === 3 && app.includes('function setTopPlaysMode') && !/location\.href|window\.location/.test(topPlayModeSource));
+const generatedTopThree = engine.generateRandomTopThree();
+global.TOP_THREE_RANDOM_IDS = generatedTopThree.map(play => play.id);
+const rotatedTopThree = engine.generateRandomTopThree();
+check('Top Plays removes Best Play and makes random Top 3 primary', topPlayHeroHtml.includes('data-random-top-three') && topPlayHeroHtml.includes('data-generate-top-three') && topPlayHeroHtml.includes('Generate Top 3') && !topPlayHeroHtml.includes('data-top-play-control="best"') && !topPlayHeroHtml.includes('Best Play'));
+check('Top Plays owns random Top 3 selector without refresh or navigation', topPlayHeroHtml.includes('data-top-three-selector') && (topPlayHeroHtml.match(/data-top-three-row=/g) || []).length === 3 && app.includes('function setTopPlaysMode') && !/location\.href|window\.location/.test(topPlayModeSource));
+check('Random Top 3 draws three unique verified plays from locked 192 inventory', generatedTopThree.length === 3 && new Set(generatedTopThree.map(play => play.id)).size === 3 && generatedTopThree.every(play => playIds.has(play.id)) && engine.verifiedPlayInventoryCount() === 192);
+check('Random Top 3 rotates away from the immediate previous three-play set', rotatedTopThree.length === 3 && rotatedTopThree.map(play => play.id).sort().join('|') !== generatedTopThree.map(play => play.id).sort().join('|'));
 check('Production ranking returns one Best Play and three unique Top 3 play IDs', playIds.has(productionRanking.best_play_id) && productionRanking.top_three_play_ids.length === 3 && new Set(productionRanking.top_three_play_ids).size === 3 && productionRanking.top_three_play_ids.every(id => playIds.has(id)) && productionRanking.candidate_count === 192);
 check('Top Plays inventory reaches all 192 verified Oregon play combinations', topPlayInventory.length === 192 && new Set(topPlayInventory.map(play => play.id)).size === 192);
 check('Gameplan no longer renders Top Plays hero, selector, or full play library', !coordinatorHtml.includes('data-top-plays-hero') && !coordinatorHtml.includes('top-three-selector') && !coordinatorHtml.includes('locked-play-card'));
@@ -349,7 +353,7 @@ check('Coordinator dashboard metrics use mobile-safe stacked rows', css.includes
 check('Coordinator dashboard contains no raw nullish/object text', !/\[object Object\]|undefined|(^|[>\s])null([<\s]|$)/i.test(coordinatorHtml));
 check('Weekly matchup summary does not duplicate card registry football data', !JSON.stringify(cardRegistry).includes('offensive_matchup_grade') && !JSON.stringify(cardRegistry).includes('biggest_offensive_advantage'));
 check('Weekly matchup summary static bundle loads before app.js', index.indexOf('data/weekly/weekly_matchup_summary.js') > index.indexOf('data/weekly/run_lane_analysis.js') && index.indexOf('data/weekly/weekly_matchup_summary.js') < index.indexOf('app.js'));
-check('Card registry moves Best Play and Top Three ownership to Top Plays', cardById.get('best_play_hero').tab === 'topplays' && cardById.get('top_three_selector').tab === 'topplays');
+check('Card registry hides Best Play and keeps Top Three ownership in Top Plays', cardById.get('best_play_hero').tab === 'topplays' && cardById.get('best_play_hero').visible === false && cardById.get('top_three_selector').tab === 'topplays');
 check('Card registry hides raw comparison walls from Gameplan', cardById.get('offensive_comparison_table').visible === false && cardById.get('defensive_comparison_table').visible === false);
 check('Card registry registers reusable RecruitCard collection', cardById.get('recruit_card_collection') && cardById.get('recruit_card_collection').tab === 'recruiting' && cardById.get('recruit_card_collection').display_variant === 'recruit_card_collection');
 check('Shared roster source has 48 verified players', RUTGERS_ROSTER_BASE.players.length === 48 && RUTGERS_ROSTER_BASE.package_type === 'rutgers_roster_base');
@@ -440,7 +444,7 @@ check('Rendered fixtures never leak raw object coercion', !/\[object Object\]|un
 check('Nested formatter converts objects to readable labels', engine.cleanValue({ player: 'Q. Gillians', threat_type: 'Power rush', lane: 'right edge' }).includes('Player: Q. Gillians') && !engine.cleanValue({ a: { b: 1 } }).includes('[object Object]'));
 check('Player cards render Last Game and Season as separate sections', fixtureHtml.includes('Last Game') && fixtureHtml.includes('Season') && fixtureHtml.includes('mini-stat-block'));
 check('Matchup cards use mobile header, comparison, production, and result sections', fixtureHtml.includes('broadcast-matchup-grid') && fixtureHtml.includes('comparison-table') && fixtureHtml.includes('match-production') && fixtureHtml.includes('tactical-callout'));
-check('Featured Player and Biggest Risk render as actionable summaries', fixtureHtml.includes('summary-player-card') && fixtureHtml.includes('risk-link') && !fixtureHtml.includes('[object Object]'));
+check('Personnel overview renders weekly roster summaries and generated roster matchups', fixtureHtml.includes('roster-matchup-workspace') && fixtureHtml.includes('roster-summary-card') && fixtureHtml.includes('data-roster-matchup="WR / CB"') && fixtureHtml.includes('data-roster-matchup="RB / MLB"') && fixtureHtml.includes('data-roster-matchup="OL / DT"') && !fixtureHtml.includes('[object Object]'));
 const renderedRecruitDescriptions = (RECRUITING_WEEKLY.active_board || []).map(row => {
   const prospect = (RECRUITING_CLASS.prospects || []).find(p => p.prospect_id === row.prospect_id) || {};
   const a = prospect.analysis || {};

@@ -2229,51 +2229,64 @@ function productionPlayRanking() {
   };
 }
 
+function verifiedPlayInventoryCount() {
+  return topPlayInventory().length;
+}
+
+function currentRandomTopThreeIds() {
+  if (Array.isArray(window.TOP_THREE_RANDOM_IDS) && window.TOP_THREE_RANDOM_IDS.length === 3) return window.TOP_THREE_RANDOM_IDS;
+  window.TOP_THREE_RANDOM_IDS = generateRandomTopThree().map(play => play.id);
+  return window.TOP_THREE_RANDOM_IDS;
+}
+
+function shufflePlayRows(rows = []) {
+  const copy = rows.slice();
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function generateRandomTopThree() {
+  const rows = topPlayInventory();
+  const previous = (window.TOP_THREE_RANDOM_IDS || []).slice().sort().join("|");
+  let selected = [];
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    selected = shufflePlayRows(rows).slice(0, 3);
+    if (rows.length <= 3 || selected.map(play => play.id).sort().join("|") !== previous) break;
+  }
+  if (rows.length > 3 && selected.map(play => play.id).sort().join("|") === previous) {
+    selected = rows.filter(play => !(window.TOP_THREE_RANDOM_IDS || []).includes(play.id)).slice(0, 3);
+  }
+  window.TOP_THREE_RANDOM_IDS = selected.map(play => play.id);
+  return selected;
+}
+
 function topPlayRecommendedPerson(play) {
   const decision = runPersonnelDecision(play) || {};
   const carrier = decision.primary;
   return cleanValue(carrier && carrier.name) || cleanValue(play.primaryPlayerName) || "Limited data";
 }
 
-function topPlayHeroCard(mode = window.TOP_PLAYS_VIEW || "best", selectedId = window.TOP_PLAYS_SELECTED_ID || "") {
+function topPlayHeroCard() {
   const rows = topPlayInventory();
-  const ranking = productionPlayRanking();
-  const topThree = ranking.top_three_play_ids.map(id => rows.find(play => play.id === id)).filter(Boolean);
-  const selected = rows.find(play => play.id === selectedId) || rows.find(play => play.id === ranking.best_play_id) || topThree[0];
-  if (!selected) return LimitedDataState("Top Plays Hero");
-  const lane = bestVerifiedRunLane(selected);
-  const summary = loadWeeklyMatchupSummary().best_play || {};
-  const callType = conceptFamily(selected);
-  return `<article class="base-card card-gloss top-plays-hero-card" data-top-plays-hero data-selected-play-id="${selected.id}">
-    <div class="top-play-mode-control" role="group" aria-label="Top Plays mode">
-      <button type="button" class="${mode !== "top3" ? "active" : ""}" data-top-play-control="best" onclick="setTopPlaysMode('best')">Best Play</button>
-      <button type="button" class="${mode === "top3" ? "active" : ""}" data-top-play-control="top3" onclick="setTopPlaysMode('top3')">Top 3</button>
+  const selectedIds = currentRandomTopThreeIds();
+  const selected = selectedIds.map(id => rows.find(play => play.id === id)).filter(Boolean);
+  if (!selected.length) return LimitedDataState("Random Top 3");
+  return `<article class="base-card card-gloss top-plays-hero-card random-top-three-card" data-top-plays-hero data-random-top-three>
+    ${CardHeader({ eyebrow: "Random Top 3", title: "Generate Top 3", subtitle: `${verifiedPlayInventoryCount()} verified plays locked`, badge: Badge("Pure Random", "positive") })}
+    <button class="primary-action top-three-generate" type="button" data-generate-top-three onclick="generateRandomTopThree();setTopPlaysMode()">Generate Top 3</button>
+    <div class="top-three-selector ranked-top-three is-visible" data-top-three-selector>
+      ${selected.map((play, i) => `<button type="button" data-top-three-row="${play.id}" onclick="document.getElementById('rankList')?.scrollIntoView({behavior:'smooth',block:'start'})"><strong>${i + 1}</strong><span>${play.name}<em>${play.formation} | ${scoreLetter(play.score)} | ${conceptFamily(play)}</em></span></button>`).join("")}
     </div>
-    <div class="top-play-hero-layout">
-      <figure class="play-diagram top-play-hero-art"><img src="${selected.diagramPath || 'assets/play-diagrams/formation-fallback.svg'}" alt="${selected.name}" loading="lazy" onerror="this.src='assets/play-diagrams/formation-fallback.svg'"></figure>
-      ${CardHeader({ eyebrow: mode === "top3" ? "Top 3 Selection" : "Best Play", title: selected.name, subtitle: `${selected.formation} | ${playPersonnel(selected) || "Personnel limited"} | ${callType}`, badge: Badge(`${scoreLetter(selected.score)} ${selected.score}`, selected.risk === "high" ? "critical" : selected.risk === "medium" ? "important" : "positive") })}
-      <div class="card-metrics dashboard-metrics top-play-hero-metrics">
-        ${MetricRow("Rank", `#${rows.findIndex(play => play.id === selected.id) + 1}`)}
-        ${MetricRow("Grade", scoreLetter(selected.score))}
-        ${MetricRow("Confidence", selected.score >= 82 ? "High" : selected.score >= 72 ? "Medium" : "Caution")}
-        ${MetricRow("Best Situation", cleanValue(summary.best_down_distance) || selected.objective)}
-        ${MetricRow("Recommended Side", lane && lane.label)}
-        ${MetricRow("Carrier / Target", topPlayRecommendedPerson(selected))}
-      </div>
-      ${CardSection("Why It Works", `<p>${cardValue(summary.why_it_works && selected.id === summary.play_id ? summary.why_it_works : explanationText(selected))}</p>`)}
-      ${CardSection("Coaching Action", `<p>${cardValue(summary.tactical_notes && selected.id === summary.play_id ? summary.tactical_notes : selected.targetAssignment)}</p>`)}
-    </div>
-    <div class="top-three-selector ranked-top-three ${mode === "top3" ? "is-visible" : ""}" data-top-three-selector>
-      ${topThree.map((play, i) => `<button type="button" class="${selected.id === play.id ? "active" : ""}" data-top-three-row="${play.id}" onclick="setTopPlaysMode('top3','${play.id}')"><strong>${i + 1}</strong><span>${play.name}<em>${play.formation} | ${scoreLetter(play.score)} | ${conceptFamily(play)}</em></span></button>`).join("")}
-    </div>
+    <div class="compact-list generated-top-three-list">${selected.map((play, i) => lockedPlayCard(play, i + 1, "Random Top 3", "top-three-random-play")).join("")}</div>
   </article>`;
 }
 
-function setTopPlaysMode(mode = "best", playId = "") {
-  window.TOP_PLAYS_VIEW = mode;
-  window.TOP_PLAYS_SELECTED_ID = playId;
+function setTopPlaysMode() {
   const slot = $("topPlaysHeroSlot");
-  if (slot) slot.innerHTML = topPlayHeroCard(mode, playId);
+  if (slot) slot.innerHTML = topPlayHeroCard();
 }
 
 function topThreePlaysCard() {
@@ -2281,7 +2294,7 @@ function topThreePlaysCard() {
   const rows = summary.top_three || [];
   const first = rows[0] && rows[0].play_id;
   return BaseCard({ className: "coordinator-top-three-card", priority: "important", size: "large", content: `
-    ${CardHeader({ eyebrow: "Top Three Plays", title: "Best Play Selector", subtitle: "Tap 1, 2, or 3 to update the hero", badge: Badge("No refresh", "positive") })}
+    ${CardHeader({ eyebrow: "Top Three Plays", title: "Top 3 Selector", subtitle: "Tap 1, 2, or 3 to review a verified call", badge: Badge("No refresh", "positive") })}
     <div id="bestPlayHeroSlot">${renderBestPlayHero(first)}</div>
     <div class="hero-selector-row">${rows.map(row => {
       const play = playMap().get(row.play_id);
@@ -3116,7 +3129,7 @@ function renderRanks() {
   });
   if (!$("topFilterBar")) {
     $("topplays").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>Top Plays</strong></div>
-      <div id="topPlaysHeroSlot">${topPlayHeroCard("best")}</div>
+      <div id="topPlaysHeroSlot">${topPlayHeroCard()}</div>
       <div id="topFilterBar" class="pill-row sticky-filter">
         ${["all","favorites","run","pass","rpo","pa","screen"].map(v => `<button class="filter-pill" data-filter="${v}" type="button">${v === "pa" ? "PA" : labelize(v)}</button>`).join("")}
       </div>
@@ -3134,7 +3147,7 @@ function renderRanks() {
     ["rankFormation","rankPersonnel","rankSituation","rankRisk"].forEach(id => $(id).addEventListener("change", renderRanks));
     document.querySelectorAll(".filter-pill").forEach(btn => btn.addEventListener("click", () => { $("rankFamily").value = btn.dataset.filter; renderRanks(); }));
   } else if ($("topPlaysHeroSlot")) {
-    $("topPlaysHeroSlot").innerHTML = topPlayHeroCard(window.TOP_PLAYS_VIEW || "best", window.TOP_PLAYS_SELECTED_ID || "");
+    $("topPlaysHeroSlot").innerHTML = topPlayHeroCard();
   }
   const target = $("rankList");
   if (target) target.innerHTML = `<div class="section-heading compact-heading"><p>Verified Play Library</p><strong>${list.length} plays</strong></div>` + (list.length ? list.map((play, i) => callCard(play, i + 1)).join("") : LimitedDataState("Play Library"));
@@ -3223,10 +3236,105 @@ function legacyCallCard(play, rankNumber) {
   </details>`;
 }
 
+function weeklyTeamName() {
+  return cleanValue((loadRutgersRoster().team || {}).team) || "Team";
+}
+
+function playerBucket(position) {
+  const pos = normalizePosition(position);
+  if (["QB"].includes(pos)) return "QB";
+  if (["HB","RB","FB"].includes(pos)) return "RB";
+  if (["WR"].includes(pos)) return "WR";
+  if (["TE"].includes(pos)) return "TE";
+  if (["LT","LG","C","RG","RT","T","G","OL"].includes(pos)) return "OL";
+  if (["DT","NT","TCK","EDGE","LEDG","REDG"].includes(pos)) return "DL";
+  if (["LB","MIKE","WILL","SAM","OLB","MLB"].includes(pos)) return "LB";
+  if (["K","P"].includes(pos)) return "ST";
+  return "DB";
+}
+
+function weeklyRosterPlayers(side = "team") {
+  return side === "opponent" ? loadOpponentPlayers() : (loadRutgersRoster().players || []);
+}
+
+function weeklyPlayersByBucket(side = "team", bucket = "QB") {
+  return weeklyRosterPlayers(side).filter(player => playerBucket(player.position) === bucket)
+    .sort((a, b) => Number(b.overall || b.overall_displayed || 0) - Number(a.overall || a.overall_displayed || 0));
+}
+
+function rosterGroupCounts(side = "team") {
+  return ["QB","RB","WR","TE","OL","DL","LB","DB","ST"].map(bucket => ({ bucket, count: weeklyPlayersByBucket(side, bucket).length }));
+}
+
+function rosterGroupFromBucket(bucket = "QB") {
+  return ({ RB: "HB", OL: "LT", DL: "EDGE", DB: "CB", ST: "K" }[bucket] || bucket);
+}
+
+function weeklyRosterSummaryCard(side = "team") {
+  const label = side === "opponent" ? `${activeOpponentName()} Roster` : `${weeklyTeamName()} Roster`;
+  const total = weeklyRosterPlayers(side).length;
+  return `<section class="base-card card-gloss roster-summary-card ${side}">
+    ${CardHeader({ eyebrow: "Weekly Roster", title: label, subtitle: `${total} verified players loaded`, badge: Badge(`${total}`, "positive") })}
+    <div class="roster-count-grid">${rosterGroupCounts(side).map(row => `<button type="button" onclick="${side === "opponent" ? `renderPersonnelMatchups('opponent');setTimeout(()=>{const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderOpponent('${row.bucket}')},0)` : `renderPersonnelMatchups('rutgers');setTimeout(()=>showRosterGroup('${rosterGroupFromBucket(row.bucket)}'),0)`}"><strong>${row.bucket}</strong><span>${row.count}</span></button>`).join("")}</div>
+    <button class="secondary-action" type="button" onclick="${side === "opponent" ? "renderPersonnelMatchups('opponent')" : "renderPersonnelMatchups('rutgers')"}">Open Full Roster</button>
+  </section>`;
+}
+
+function primaryPlayerForBuckets(side = "team", buckets = []) {
+  return buckets.flatMap(bucket => weeklyPlayersByBucket(side, bucket))
+    .sort((a, b) => Number(b.overall || b.overall_displayed || 0) - Number(a.overall || a.overall_displayed || 0))[0] || null;
+}
+
+function matchupPersonPanel(player, side = "team") {
+  if (!player) return `<div class="matchup-person-panel source-missing"><strong>Source missing</strong><span>Current weekly import does not include this position group.</span></div>`;
+  return `<button class="matchup-person-panel" type="button" onclick="${side === "opponent" ? `showOpponentPlayerDetail('${player.player_id}')` : `showPlayerDetail('${player.player_id}','rutgers','${rosterGroupFor(player.position)}')`}">
+    ${portraitImg(player, side === "opponent" ? "opponent" : "rutgers")}
+    <span><strong>${cardValue(player.name)}</strong><em>${cardValue(player.position)} | ${cardValue(player.overall || player.overall_displayed, "N/A")} OVR</em></span>
+    ${sportsStatStrip(playerStatPairs(player, side === "opponent" ? "opponent" : "rutgers").slice(0, 4), "Stats N/A")}
+  </button>`;
+}
+
+function generatedRosterMatchups() {
+  return [
+    { label: "WR / CB", teamBuckets: ["WR"], opponentBuckets: ["DB"], note: "Receiver separation versus corner/safety coverage." },
+    { label: "RB / MLB", teamBuckets: ["RB"], opponentBuckets: ["LB"], note: "Backfield run game versus second-level defenders." },
+    { label: "OL / DT", teamBuckets: ["OL"], opponentBuckets: ["DL"], note: "Protection and interior run leverage." },
+    { label: "TE / LB-S", teamBuckets: ["TE"], opponentBuckets: ["LB","DB"], note: "Middle-field and red-zone stress." },
+    { label: "QB / Pressure", teamBuckets: ["QB"], opponentBuckets: ["DL","LB"], note: "Quarterback versus verified pressure threats." },
+    { label: "Opp WR / DB", teamBuckets: ["DB"], opponentBuckets: ["WR"], note: "Opponent pass-catcher data appears when imported." },
+    { label: "Opp RB / LB", teamBuckets: ["LB"], opponentBuckets: ["RB"], note: "Opponent run-game data appears when imported." }
+  ];
+}
+
+function rosterMatchupCard(config = {}) {
+  const teamPlayer = primaryPlayerForBuckets("team", config.teamBuckets || []);
+  const opponentPlayer = primaryPlayerForBuckets("opponent", config.opponentBuckets || []);
+  const teamOvr = Number(teamPlayer && (teamPlayer.overall || teamPlayer.overall_displayed));
+  const oppOvr = Number(opponentPlayer && (opponentPlayer.overall || opponentPlayer.overall_displayed));
+  const edge = Number.isFinite(teamOvr) && Number.isFinite(oppOvr) ? `${teamOvr - oppOvr > 0 ? "+" : ""}${teamOvr - oppOvr}` : "Limited";
+  return `<article class="base-card card-gloss roster-matchup-card" data-roster-matchup="${cardValue(config.label, "")}">
+    ${CardHeader({ eyebrow: "Roster Matchup", title: config.label, subtitle: config.note, badge: Badge(edge === "Limited" ? "Limited" : `Edge ${edge}`, edge === "Limited" ? "monitor" : Number(edge) >= 0 ? "positive" : "important") })}
+    <div class="weekly-matchup-grid">
+      ${matchupPersonPanel(teamPlayer, "team")}
+      <div class="versus">VS</div>
+      ${matchupPersonPanel(opponentPlayer, "opponent")}
+    </div>
+  </article>`;
+}
+
+function rosterMatchupWorkspace() {
+  return `<section class="roster-matchup-workspace">
+    ${renderGameMatchupHeader().replace('<section class="panel matchup-hero">','<section class="panel matchup-hero compact overview-matchup">')}
+    <div class="roster-summary-grid">${weeklyRosterSummaryCard("team")}${weeklyRosterSummaryCard("opponent")}</div>
+    <div class="section-heading compact-heading"><p>Weekly Matchups</p><strong>Roster vs Roster</strong></div>
+    <div class="compact-list roster-matchup-list">${generatedRosterMatchups().map(rosterMatchupCard).join("")}</div>
+  </section>`;
+}
+
 function renderPersonnelMatchups(active = "overview") {
   if (!$("personnel")) return;
-  const tabs = ["overview","rutgers","oline","run","protection","opponent","matchups","stats","scouting"];
-  const tabLabel = id => ({ overview: "Home", rutgers: "Roster", oline: "O-Line", protection: "Protect", opponent: "Opp", matchups: "Match", scouting: "Scout" }[id] || labelize(id));
+  const tabs = ["overview","rutgers","opponent","matchups","stats","scouting"];
+  const tabLabel = id => ({ overview: "Roster Matchups", rutgers: weeklyTeamName(), opponent: activeOpponentName(), matchups: "Matchups", scouting: "Scout" }[id] || labelize(id));
   $("personnel").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>Personnel & Matchups</strong></div>
     <div class="segmented sticky-internal compact-tabs">${tabs.map(id => `<button type="button" class="${id === active ? "active" : ""}" onclick="renderPersonnelMatchups('${id}')">${tabLabel(id)}</button>`).join("")}</div>
     <div id="personnelPanel">${renderPersonnelPanel(active)}</div>`;
@@ -3246,23 +3354,7 @@ function renderPersonnelPanel(active) {
 }
 
 function renderPersonnelOverview() {
-  const lanes = runLaneModel();
-  const bestLane = (lanes.find(row => row.status === "feature") || lanes[0] || {}).lane;
-  const risk = highestRiskMatchup();
-  const featured = (loadRutgersRoster().players || []).find(p => /QB|HB|WR|TE/.test(p.position)) || {};
-  const featuredSummary = featured.player_id ? `<button class="summary-player-card" type="button" onclick="renderPersonnelMatchups('rutgers');setTimeout(()=>showRosterGroup('${rosterGroupFor(featured.position)}'),0)">${portraitImg(featured, "rutgers")}<span><strong>${featured.name}</strong><em>${featured.position} | OVR ${featured.overall}</em></span></button>` : "";
-  const riskText = riskSummary(risk);
-  return `${renderGameMatchupHeader().replace('<section class="panel matchup-hero">','<section class="panel matchup-hero compact overview-matchup">')}
-    <div class="summary-grid compact-grid">
-      ${maybeRow("Best run lane", bestLane)}
-      ${maybeRow("Protection call", (loadGameplanWeekly().quick_tactical_summary || {}).best_protection_rule)}
-    </div>
-    <div class="featured-risk-grid">
-      <section><h3>Featured Player</h3>${featuredSummary || renderStatPlaceholder("Featured Player", "Limited data")}</section>
-      <section><h3>Biggest Risk</h3><button class="risk-link" type="button" onclick="renderPersonnelMatchups('matchups')"><strong>${riskText || "Limited data"}</strong><span>Tap to view matchup detail</span></button></section>
-    </div>
-    <h3>Key Matchups</h3>
-    <div class="compact-list">${(loadMatchups() || []).slice(0, 3).map(row => matchupRow(row)).join("")}</div>`;
+  return rosterMatchupWorkspace();
 }
 
 function renderRosterCards(activeGroup = "QB") {
@@ -3505,7 +3597,9 @@ function renderMatchups() {
   const top = ordered.slice(0, 3);
   const rest = ordered.slice(3);
   return `<section class="matchup-card-system" data-valid-count="${ordered.length}">
-    <div class="section-heading compact-heading"><p>Personnel Match</p><strong>Key Matchups</strong></div>
+    <div class="section-heading compact-heading"><p>Roster Matchups</p><strong>${weeklyTeamName()} vs ${activeOpponentName()}</strong></div>
+    <div class="compact-list roster-matchup-list">${generatedRosterMatchups().map(rosterMatchupCard).join("")}</div>
+    <div class="section-heading compact-heading"><p>Verified Matchups</p><strong>Player Matchups</strong></div>
     <div class="compact-list matchup-card-list">${top.map(item => MatchupCard(item.row, item.rutgers, item.opponent, item.stats, item.media, { rank: item.sourceIndex + 1, key: true, registryEntry: item.entry })).join("") || renderStatPlaceholder("Key Matchups", "Limited data")}</div>
     <div class="matchup-action-row">
       <button type="button" onclick="const d=document.getElementById('allMatchupsPanel'); if(d)d.open=!d.open;">All Matchups</button>
@@ -4245,6 +4339,8 @@ if (typeof module !== "undefined") {
     topThreePlaysCard,
     topPlayHeroCard,
     topPlayInventory,
+    verifiedPlayInventoryCount,
+    generateRandomTopThree,
     productionPlayRanking,
     RecruitCard,
     resolveRecruitDisplayModel,
@@ -4262,6 +4358,7 @@ if (typeof module !== "undefined") {
     runLaneBlock,
     renderOLine,
     renderOpponent,
+    rosterMatchupWorkspace,
     opponentPlayerDetailHtml,
     orderedMatchupRows,
     validMatchupRows,

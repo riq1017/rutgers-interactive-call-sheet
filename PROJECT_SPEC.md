@@ -79,15 +79,15 @@ The Gameplan tab is a coordinator dashboard, not a statistics page. It is organi
 
 Weekly coordinator recommendations and comparison rows are resolved through `data/weekly/weekly_matchup_summary.json`. The UI renders that intelligence layer and must not fabricate missing comparison values, pressure calls, coverage calls, lane scores, player grades, or play grades.
 
-Unsupported defensive or offensive metrics remain `null` in JSON and render as `Limited data`. Best Play and Top Three references resolve by stable play IDs through the locked Play Card system.
+Unsupported defensive or offensive metrics remain `null` in JSON and render as `Limited data`. Top Three references resolve by stable play IDs through the locked Play Card system.
 
 ## I.3 Permanent Tab Responsibility Standard
 
 Gameplan owns offensive executive summary, defensive executive summary, run-game plan, passing-game plan, protection plan, pressure recommendation, coverage recommendation, biggest threat, and concise verified alerts.
 
-Top Plays owns Best Play, Top 3, the Best Play hero, Top 3 selector, all 192 verified visible play combinations, play art, play filters, play search, favorites, run/pass/RPO/play-action/screen groupings, and expanded Play Cards.
+Top Plays owns Random Top 3 generation, the Top 3 selector, all 192 verified visible play combinations, play art, play filters, play search, favorites, run/pass/RPO/play-action/screen groupings, and expanded Play Cards. The default Top Plays action must not claim more than the 192 verified plays currently present in the source inventory.
 
-Personnel owns roster, player cards, depth chart, O-line, and player matchup details.
+Personnel owns weekly team roster, weekly opponent roster, player cards, depth chart, O-line, generated roster-vs-roster matchup comparisons, and verified player matchup details.
 
 Recruiting owns the recruiting board, every prospect card, scheme fit, recruiting value, projected role, and player-specific recruiting intelligence.
 

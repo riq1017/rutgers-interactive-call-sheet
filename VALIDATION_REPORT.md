@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T04:50:05.019Z
+Validated: 2026-07-13T06:31:53.521Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -131,8 +131,10 @@ Validated: 2026-07-13T04:50:05.019Z
 - PASS - Run Game, Passing Game, Protection, Pressure, Coverage, Alerts resolve
 - PASS - Featured Player and Biggest Threat resolve
 - PASS - Gameplan is transformed into offensive and defensive coordinator sections
-- PASS - Top Plays owns Best Play hero with play art and mode controls
-- PASS - Top Plays owns Top 3 selector without refresh or navigation
+- PASS - Top Plays removes Best Play and makes random Top 3 primary
+- PASS - Top Plays owns random Top 3 selector without refresh or navigation
+- PASS - Random Top 3 draws three unique verified plays from locked 192 inventory
+- PASS - Random Top 3 rotates away from the immediate previous three-play set
 - PASS - Production ranking returns one Best Play and three unique Top 3 play IDs
 - PASS - Top Plays inventory reaches all 192 verified Oregon play combinations
 - PASS - Gameplan no longer renders Top Plays hero, selector, or full play library
@@ -143,7 +145,7 @@ Validated: 2026-07-13T04:50:05.019Z
 - PASS - Coordinator dashboard contains no raw nullish/object text
 - PASS - Weekly matchup summary does not duplicate card registry football data
 - PASS - Weekly matchup summary static bundle loads before app.js
-- PASS - Card registry moves Best Play and Top Three ownership to Top Plays
+- PASS - Card registry hides Best Play and keeps Top Three ownership in Top Plays
 - PASS - Card registry hides raw comparison walls from Gameplan
 - PASS - Card registry registers reusable RecruitCard collection
 - PASS - Shared roster source has 48 verified players
@@ -221,7 +223,7 @@ Validated: 2026-07-13T04:50:05.019Z
 - PASS - Nested formatter converts objects to readable labels
 - PASS - Player cards render Last Game and Season as separate sections
 - PASS - Matchup cards use mobile header, comparison, production, and result sections
-- PASS - Featured Player and Biggest Risk render as actionable summaries
+- PASS - Personnel overview renders weekly roster summaries and generated roster matchups
 - PASS - Repeated generic recruiting descriptions are removed from rendered candidates
 - PASS - Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS
 - PASS - Only one matchup detail accordion is allowed open per list

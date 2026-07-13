@@ -503,7 +503,7 @@ window.CARD_REGISTRY = {
       "priority": "critical",
       "size": "large",
       "expandable": true,
-      "visible": true,
+      "visible": false,
       "display_variant": "top_plays_best_play",
       "source_refs": {
         "weekly_matchup_summary": "data/weekly/weekly_matchup_summary.json"

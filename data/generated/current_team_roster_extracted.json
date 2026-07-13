@@ -4,7 +4,9 @@
     "manual_review_records": 8,
     "omitted_fields": 0,
     "partial_records": 0,
-    "records": 8
+    "promoted_fields": 0,
+    "records": 8,
+    "review_crops": 24
   },
   "manual_review_records": [
     "manual-player_card-screen-9910e28bddf2",
@@ -17,6 +19,7 @@
     "manual-player_card-screen-41eadd8e75a1"
   ],
   "package_type": "current_team_roster_extracted",
+  "promotion_policy": "Only reviewed/confirmed fields or OCR-confident draft fields may be promoted.",
   "records": [
     {
       "additional_visible_fields": {},
@@ -339,6 +342,8 @@
       "verification_status": "manual_review"
     }
   ],
+  "review_csv": "data/generated/review/current_team_roster_review.csv",
+  "review_package": "data/generated/review/current_team_roster_review.json",
   "schema_version": "video_source_truth_first_pass_v1",
   "source_of_truth": "input_videos"
 }

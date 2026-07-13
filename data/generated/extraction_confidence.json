@@ -82,5 +82,13 @@
       "video": "Rutgers Season stats.mp4"
     }
   ],
+  "roster_stats_review": {
+    "crop_count": 84,
+    "ocr": {
+      "available": false,
+      "mode": "manual_review_only",
+      "path": null
+    }
+  },
   "source_of_truth": "input_videos"
 }

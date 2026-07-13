@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T23:35:19.280Z
+Validated: 2026-07-13T23:49:40.887Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -303,5 +303,10 @@ Validated: 2026-07-13T23:35:19.280Z
 - PASS - Coach abilities remain separated from player abilities
 - PASS - Current-team and opponent video outputs remain separated
 - PASS - Raw input videos are protected by gitignore
+- PASS - Roster/stats review packages exist for current team and opponent
+- PASS - Roster/stats review crops exist for roster/stat videos
+- PASS - Roster/stats review fields preserve crop-level evidence
+- PASS - Roster/stats review pass promotes no unconfirmed values
+- PASS - Roster/stats extracted packages link back to review packages
 
 Overall: PASS

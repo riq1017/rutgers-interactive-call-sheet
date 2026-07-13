@@ -1,0 +1,789 @@
+{
+  "counts": {
+    "crops": 24,
+    "manual_review_fields": 24,
+    "ocr_draft_fields": 0,
+    "omitted_fields": 0,
+    "promoted_fields": 0
+  },
+  "crops": [
+    {
+      "box_percent": [
+        0.04,
+        0.1,
+        0.75,
+        0.3
+      ],
+      "crop_id": "screen-9910e28bddf2-roster_header",
+      "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_header.jpg",
+      "crop_type": "roster_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_header.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-9910e28bddf2",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.3,
+        0.78,
+        0.91
+      ],
+      "crop_id": "screen-9910e28bddf2-roster_table",
+      "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_table.jpg",
+      "crop_type": "roster_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_table.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-9910e28bddf2",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.78,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-9910e28bddf2-player_side_card",
+      "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-9910e28bddf2",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.04,
+        0.1,
+        0.75,
+        0.3
+      ],
+      "crop_id": "screen-c497a08c8ee6-roster_header",
+      "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_header.jpg",
+      "crop_type": "roster_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_header.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-c497a08c8ee6",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.3,
+        0.78,
+        0.91
+      ],
+      "crop_id": "screen-c497a08c8ee6-roster_table",
+      "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_table.jpg",
+      "crop_type": "roster_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_table.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-c497a08c8ee6",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.78,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-c497a08c8ee6-player_side_card",
+      "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-c497a08c8ee6",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.04,
+        0.1,
+        0.75,
+        0.3
+      ],
+      "crop_id": "screen-50cb1100e799-roster_header",
+      "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_header.jpg",
+      "crop_type": "roster_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_header.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-50cb1100e799",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.3,
+        0.78,
+        0.91
+      ],
+      "crop_id": "screen-50cb1100e799-roster_table",
+      "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+      "crop_type": "roster_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-50cb1100e799",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.78,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-50cb1100e799-player_side_card",
+      "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-50cb1100e799",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.04,
+        0.1,
+        0.75,
+        0.3
+      ],
+      "crop_id": "screen-0aee58db86ab-roster_header",
+      "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_header.jpg",
+      "crop_type": "roster_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_header.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-0aee58db86ab",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.3,
+        0.78,
+        0.91
+      ],
+      "crop_id": "screen-0aee58db86ab-roster_table",
+      "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_table.jpg",
+      "crop_type": "roster_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_table.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-0aee58db86ab",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.78,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-0aee58db86ab-player_side_card",
+      "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-0aee58db86ab",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.04,
+        0.1,
+        0.75,
+        0.3
+      ],
+      "crop_id": "screen-73b15d4f3433-roster_header",
+      "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_header.jpg",
+      "crop_type": "roster_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_header.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-73b15d4f3433",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.3,
+        0.78,
+        0.91
+      ],
+      "crop_id": "screen-73b15d4f3433-roster_table",
+      "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_table.jpg",
+      "crop_type": "roster_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_table.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-73b15d4f3433",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.78,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-73b15d4f3433-player_side_card",
+      "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-73b15d4f3433",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.04,
+        0.1,
+        0.75,
+        0.3
+      ],
+      "crop_id": "screen-39419b88dbfa-roster_header",
+      "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_header.jpg",
+      "crop_type": "roster_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_header.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-39419b88dbfa",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.3,
+        0.78,
+        0.91
+      ],
+      "crop_id": "screen-39419b88dbfa-roster_table",
+      "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+      "crop_type": "roster_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-39419b88dbfa",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.78,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-39419b88dbfa-player_side_card",
+      "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-39419b88dbfa",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.04,
+        0.1,
+        0.75,
+        0.3
+      ],
+      "crop_id": "screen-19a6a103623d-roster_header",
+      "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-roster_header.jpg",
+      "crop_type": "roster_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-roster_header.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-19a6a103623d",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.3,
+        0.78,
+        0.91
+      ],
+      "crop_id": "screen-19a6a103623d-roster_table",
+      "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-roster_table.jpg",
+      "crop_type": "roster_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-roster_table.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-19a6a103623d",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.78,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-19a6a103623d-player_side_card",
+      "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-19a6a103623d",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.04,
+        0.1,
+        0.75,
+        0.3
+      ],
+      "crop_id": "screen-41eadd8e75a1-roster_header",
+      "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_header.jpg",
+      "crop_type": "roster_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_header.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-41eadd8e75a1",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.3,
+        0.78,
+        0.91
+      ],
+      "crop_id": "screen-41eadd8e75a1-roster_table",
+      "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+      "crop_type": "roster_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "manual_review"
+          },
+          "field_name": "roster_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-41eadd8e75a1",
+      "source_video": "Rutgers Roster.webm"
+    },
+    {
+      "box_percent": [
+        0.78,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-41eadd8e75a1-player_side_card",
+      "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-41eadd8e75a1",
+      "source_video": "Rutgers Roster.webm"
+    }
+  ],
+  "field_group": "current_team_roster_fields",
+  "ocr": {
+    "available": false,
+    "mode": "manual_review_only",
+    "path": null
+  },
+  "package_type": "current_team_roster_review",
+  "promoted_fields": [],
+  "schema_version": "video_source_truth_review_v1",
+  "source_of_truth": "input_videos"
+}

@@ -1,0 +1,597 @@
+{
+  "counts": {
+    "crops": 18,
+    "manual_review_fields": 18,
+    "ocr_draft_fields": 0,
+    "omitted_fields": 0,
+    "promoted_fields": 0
+  },
+  "crops": [
+    {
+      "box_percent": [
+        0.03,
+        0.09,
+        0.82,
+        0.24
+      ],
+      "crop_id": "screen-1bbdf190fb89-stats_header",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-stats_header.jpg",
+      "crop_type": "stats_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-stats_header.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-1bbdf190fb89",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.23,
+        0.8,
+        0.88
+      ],
+      "crop_id": "screen-1bbdf190fb89-stats_table",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-stats_table.jpg",
+      "crop_type": "stats_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-stats_table.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-1bbdf190fb89",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.8,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-1bbdf190fb89-player_side_card",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:00:01",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-1bbdf190fb89",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.09,
+        0.82,
+        0.24
+      ],
+      "crop_id": "screen-36e717d3d321-stats_header",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-36e717d3d321-stats_header.jpg",
+      "crop_type": "stats_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-36e717d3d321-stats_header.jpg",
+            "frame_number": 2032,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:00:33",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-36e717d3d321",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.23,
+        0.8,
+        0.88
+      ],
+      "crop_id": "screen-36e717d3d321-stats_table",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-36e717d3d321-stats_table.jpg",
+      "crop_type": "stats_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-36e717d3d321-stats_table.jpg",
+            "frame_number": 2032,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:00:33",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-36e717d3d321",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.8,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-36e717d3d321-player_side_card",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-36e717d3d321-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-36e717d3d321-player_side_card.jpg",
+            "frame_number": 2032,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:00:33",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-36e717d3d321",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.09,
+        0.82,
+        0.24
+      ],
+      "crop_id": "screen-8543874ba3e0-stats_header",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-8543874ba3e0-stats_header.jpg",
+      "crop_type": "stats_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-8543874ba3e0-stats_header.jpg",
+            "frame_number": 4005,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:01:06",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-8543874ba3e0",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.23,
+        0.8,
+        0.88
+      ],
+      "crop_id": "screen-8543874ba3e0-stats_table",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-8543874ba3e0-stats_table.jpg",
+      "crop_type": "stats_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-8543874ba3e0-stats_table.jpg",
+            "frame_number": 4005,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:01:06",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-8543874ba3e0",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.8,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-8543874ba3e0-player_side_card",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-8543874ba3e0-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-8543874ba3e0-player_side_card.jpg",
+            "frame_number": 4005,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:01:06",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-8543874ba3e0",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.09,
+        0.82,
+        0.24
+      ],
+      "crop_id": "screen-bbb55930f04b-stats_header",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-bbb55930f04b-stats_header.jpg",
+      "crop_type": "stats_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-bbb55930f04b-stats_header.jpg",
+            "frame_number": 5977,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:01:39",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-bbb55930f04b",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.23,
+        0.8,
+        0.88
+      ],
+      "crop_id": "screen-bbb55930f04b-stats_table",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-bbb55930f04b-stats_table.jpg",
+      "crop_type": "stats_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-bbb55930f04b-stats_table.jpg",
+            "frame_number": 5977,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:01:39",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-bbb55930f04b",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.8,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-bbb55930f04b-player_side_card",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-bbb55930f04b-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-bbb55930f04b-player_side_card.jpg",
+            "frame_number": 5977,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:01:39",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-bbb55930f04b",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.09,
+        0.82,
+        0.24
+      ],
+      "crop_id": "screen-9e0d6cea9e70-stats_header",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-stats_header.jpg",
+      "crop_type": "stats_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-stats_header.jpg",
+            "frame_number": 7950,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:02:12",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-9e0d6cea9e70",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.23,
+        0.8,
+        0.88
+      ],
+      "crop_id": "screen-9e0d6cea9e70-stats_table",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-stats_table.jpg",
+      "crop_type": "stats_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-stats_table.jpg",
+            "frame_number": 7950,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:02:12",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-9e0d6cea9e70",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.8,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-9e0d6cea9e70-player_side_card",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-player_side_card.jpg",
+            "frame_number": 7950,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:02:12",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-9e0d6cea9e70",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.09,
+        0.82,
+        0.24
+      ],
+      "crop_id": "screen-5d64ab9af1ce-stats_header",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-stats_header.jpg",
+      "crop_type": "stats_header",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-stats_header.jpg",
+            "frame_number": 9922,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:02:45",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_header",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-5d64ab9af1ce",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.03,
+        0.23,
+        0.8,
+        0.88
+      ],
+      "crop_id": "screen-5d64ab9af1ce-stats_table",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-stats_table.jpg",
+      "crop_type": "stats_table",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-stats_table.jpg",
+            "frame_number": 9922,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:02:45",
+            "verification_status": "manual_review"
+          },
+          "field_name": "stats_table",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-5d64ab9af1ce",
+      "source_video": "Purdue Season Stats.mp4"
+    },
+    {
+      "box_percent": [
+        0.8,
+        0.12,
+        0.98,
+        0.95
+      ],
+      "crop_id": "screen-5d64ab9af1ce-player_side_card",
+      "crop_path": "assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-player_side_card.jpg",
+      "crop_type": "player_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.0,
+            "crop_path": "assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-player_side_card.jpg",
+            "frame_number": 9922,
+            "manual_review": true,
+            "source_video": "Purdue Season Stats.mp4",
+            "source_video_hash": "97806da140cade0aa98dcd571826936a63b9cc74ea1eb53f6b311cc2a0746765",
+            "timestamp": "00:02:45",
+            "verification_status": "manual_review"
+          },
+          "field_name": "player_side_card",
+          "review_status": "needs_manual_review",
+          "value": null
+        }
+      ],
+      "manual_review": true,
+      "promotion_status": "not_promoted",
+      "screen_id": "screen-5d64ab9af1ce",
+      "source_video": "Purdue Season Stats.mp4"
+    }
+  ],
+  "field_group": "opponent_season_stats",
+  "ocr": {
+    "available": false,
+    "mode": "manual_review_only",
+    "path": null
+  },
+  "package_type": "opponent_season_stats_review",
+  "promoted_fields": [],
+  "schema_version": "video_source_truth_review_v1",
+  "source_of_truth": "input_videos"
+}

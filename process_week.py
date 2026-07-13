@@ -1,7 +1,7 @@
 ﻿#!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse, hashlib, json, shutil, subprocess, sys, time
+import argparse, csv, hashlib, json, shutil, subprocess, sys, time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -17,6 +17,37 @@ GENERATED_FILES = [
   "source_truth_recruits.json","extraction_confidence.json","screen_inventory.json"
 ]
 STREAMLABS = Path(r"C:\Program Files\Streamlabs OBS\resources\app.asar.unpacked\node_modules\obs-studio-node")
+
+
+REVIEW_PACKAGES = {
+  "current_team_roster": ("current_team_roster_review", "current_team_roster_fields"),
+  "opponent_roster": ("opponent_roster_review", "opponent_roster_fields"),
+  "current_team_season_stats": ("current_team_season_stats_review", "current_team_season_stats"),
+  "opponent_season_stats": ("opponent_season_stats_review", "opponent_season_stats"),
+}
+
+CROP_ZONES = {
+  "current_team_roster": [
+    {"crop_type": "roster_header", "box": [0.04, 0.10, 0.75, 0.30]},
+    {"crop_type": "roster_table", "box": [0.03, 0.30, 0.78, 0.91]},
+    {"crop_type": "player_side_card", "box": [0.78, 0.12, 0.98, 0.95]},
+  ],
+  "opponent_roster": [
+    {"crop_type": "roster_header", "box": [0.04, 0.10, 0.75, 0.30]},
+    {"crop_type": "roster_table", "box": [0.03, 0.30, 0.78, 0.91]},
+    {"crop_type": "player_side_card", "box": [0.78, 0.12, 0.98, 0.95]},
+  ],
+  "current_team_season_stats": [
+    {"crop_type": "stats_header", "box": [0.03, 0.09, 0.82, 0.24]},
+    {"crop_type": "stats_table", "box": [0.03, 0.23, 0.80, 0.88]},
+    {"crop_type": "player_side_card", "box": [0.80, 0.12, 0.98, 0.95]},
+  ],
+  "opponent_season_stats": [
+    {"crop_type": "stats_header", "box": [0.03, 0.09, 0.82, 0.24]},
+    {"crop_type": "stats_table", "box": [0.03, 0.23, 0.80, 0.88]},
+    {"crop_type": "player_side_card", "box": [0.80, 0.12, 0.98, 0.95]},
+  ],
+}
 
 def root() -> Path:
   return Path(__file__).resolve().parent
@@ -125,6 +156,162 @@ def evidence(video: Dict[str, Any], screen: Dict[str, Any], confidence: float = 
 
 def field(value: Any, ev: Dict[str, Any]) -> Dict[str, Any]:
   return {"value": value, "evidence": dict(ev)}
+
+
+def tesseract_adapter() -> Dict[str, Any]:
+  path = shutil.which("tesseract")
+  return {
+    "available": bool(path),
+    "path": path,
+    "mode": "optional_tesseract_stdout" if path else "manual_review_only",
+  }
+
+def crop_box(width: int, height: int, box: List[float]) -> tuple:
+  left = max(0, min(width - 1, int(width * box[0])))
+  top = max(0, min(height - 1, int(height * box[1])))
+  right = max(left + 1, min(width, int(width * box[2])))
+  bottom = max(top + 1, min(height, int(height * box[3])))
+  return (left, top, right, bottom)
+
+def ocr_crop(crop_path: Path, adapter: Dict[str, Any]) -> Dict[str, Any]:
+  if not adapter.get("available"):
+    return {"value": None, "confidence": 0.0, "status": "manual_review"}
+  try:
+    result = subprocess.run([adapter["path"], str(crop_path), "stdout", "--psm", "6"], capture_output=True, text=True, timeout=20)
+    value = (result.stdout or "").strip()
+    return {"value": value or None, "confidence": 0.55 if value else 0.0, "status": "ocr_draft" if value else "manual_review"}
+  except Exception:
+    return {"value": None, "confidence": 0.0, "status": "manual_review"}
+
+def crop_evidence(video: Dict[str, Any], screen: Dict[str, Any], crop_rel: str, confidence: float, status: str) -> Dict[str, Any]:
+  return {
+    "source_video": video["filename"],
+    "source_video_hash": video["sha256"],
+    "timestamp": screen.get("timestamp"),
+    "frame_number": screen.get("frame_number"),
+    "crop_path": crop_rel,
+    "confidence": confidence,
+    "verification_status": status,
+    "manual_review": status != "video_verified",
+  }
+
+def review_field(value: Any, ev: Dict[str, Any], field_name: str, review_status: str) -> Dict[str, Any]:
+  return {
+    "field_name": field_name,
+    "value": value,
+    "evidence": ev,
+    "review_status": review_status,
+  }
+
+def generate_roster_stats_review(repo: Path, videos: List[Dict[str, Any]], screens: List[Dict[str, Any]], extract_mode: Optional[str]) -> Dict[str, Any]:
+  if extract_mode != "roster_stats":
+    return {"review_packages": {}, "csv_files": [], "crop_count": 0, "ocr": tesseract_adapter()}
+  try:
+    from PIL import Image
+  except Exception as exc:
+    raise RuntimeError(f"PIL is required for roster_stats review crops: {exc}")
+  adapter = tesseract_adapter()
+  by_video = {v["filename"]: v for v in videos}
+  review_root = repo / "data" / "generated" / "review"
+  crop_root = repo / "assets" / "review_crops"
+  review_root.mkdir(parents=True, exist_ok=True)
+  crop_root.mkdir(parents=True, exist_ok=True)
+  packages: Dict[str, Dict[str, Any]] = {}
+  csv_rows_by_package: Dict[str, List[Dict[str, Any]]] = {}
+  crop_count = 0
+  for package, (package_type, field_group) in REVIEW_PACKAGES.items():
+    packages[package] = {
+      "package_type": package_type,
+      "schema_version": "video_source_truth_review_v1",
+      "source_of_truth": "input_videos",
+      "ocr": adapter,
+      "field_group": field_group,
+      "crops": [],
+      "promoted_fields": [],
+      "counts": {"crops": 0, "ocr_draft_fields": 0, "manual_review_fields": 0, "promoted_fields": 0, "omitted_fields": 0},
+    }
+    csv_rows_by_package[package] = []
+  for screen in screens:
+    package = screen.get("detected_entity")
+    if package not in CROP_ZONES or screen.get("duplicate_screen_status") == "duplicate" or not screen.get("reference_frame"):
+      continue
+    video = by_video[screen["source_video"]]
+    source_frame = repo / screen["reference_frame"]
+    if not source_frame.exists():
+      continue
+    with Image.open(source_frame) as img:
+      width, height = img.size
+      for zone in CROP_ZONES[package]:
+        crop_id = f"{screen['screen_id']}-{zone['crop_type']}"
+        rel = Path("assets") / "review_crops" / package / f"{crop_id}.jpg"
+        crop_path_abs = repo / rel
+        crop_path_abs.parent.mkdir(parents=True, exist_ok=True)
+        cropped = img.crop(crop_box(width, height, zone["box"]))
+        cropped.save(crop_path_abs, "JPEG", quality=92)
+        ocr = ocr_crop(crop_path_abs, adapter)
+        status = "ocr_draft" if ocr["status"] == "ocr_draft" else "manual_review"
+        confidence = ocr["confidence"] if status == "ocr_draft" else 0.0
+        rel_s = str(rel).replace("\\", "/")
+        ev = crop_evidence(video, screen, rel_s, confidence, status)
+        value = ocr["value"] if status == "ocr_draft" else None
+        rf = review_field(value, ev, zone["crop_type"], "needs_confirmation" if status == "ocr_draft" else "needs_manual_review")
+        crop_record = {
+          "crop_id": crop_id,
+          "screen_id": screen["screen_id"],
+          "source_video": screen["source_video"],
+          "crop_type": zone["crop_type"],
+          "crop_path": rel_s,
+          "box_percent": zone["box"],
+          "fields": [rf],
+          "manual_review": True,
+          "promotion_status": "not_promoted",
+        }
+        packages[package]["crops"].append(crop_record)
+        packages[package]["counts"]["crops"] += 1
+        packages[package]["counts"]["ocr_draft_fields" if status == "ocr_draft" else "manual_review_fields"] += 1
+        csv_rows_by_package[package].append({
+          "package": package,
+          "crop_id": crop_id,
+          "crop_type": zone["crop_type"],
+          "source_video": screen["source_video"],
+          "timestamp": screen.get("timestamp"),
+          "frame_number": screen.get("frame_number"),
+          "crop_path": rel_s,
+          "field_name": zone["crop_type"],
+          "value": value if value is not None else "",
+          "review_status": rf["review_status"],
+          "confidence": confidence,
+        })
+        crop_count += 1
+  csv_files = []
+  for package, payload in packages.items():
+    json_name = f"{package}_review.json"
+    write_json(review_root / json_name, payload)
+    csv_name = f"{package}_review.csv"
+    csv_files.append(f"data/generated/review/{csv_name}")
+    with (review_root / csv_name).open("w", encoding="utf-8", newline="") as handle:
+      fieldnames = ["package","crop_id","crop_type","source_video","timestamp","frame_number","crop_path","field_name","value","review_status","confidence"]
+      writer = csv.DictWriter(handle, fieldnames=fieldnames)
+      writer.writeheader()
+      writer.writerows(csv_rows_by_package[package])
+  return {"review_packages": packages, "csv_files": csv_files, "crop_count": crop_count, "ocr": adapter}
+
+def merge_review_promotions(outputs: Dict[str, Any], review_result: Dict[str, Any]) -> None:
+  # This pass intentionally promotes nothing automatically. Values become
+  # video-backed only after OCR confidence or manual review confirmation.
+  mapping = {
+    "current_team_roster": "current_team_roster_extracted.json",
+    "opponent_roster": "opponent_roster_extracted.json",
+    "current_team_season_stats": "current_team_season_stats_extracted.json",
+    "opponent_season_stats": "opponent_season_stats_extracted.json",
+  }
+  for package, filename in mapping.items():
+    if filename in outputs and package in review_result.get("review_packages", {}):
+      outputs[filename]["review_package"] = f"data/generated/review/{package}_review.json"
+      outputs[filename]["review_csv"] = f"data/generated/review/{package}_review.csv"
+      outputs[filename]["promotion_policy"] = "Only reviewed/confirmed fields or OCR-confident draft fields may be promoted."
+      outputs[filename]["counts"]["promoted_fields"] = 0
+      outputs[filename]["counts"]["review_crops"] = review_result["review_packages"][package]["counts"]["crops"]
 
 def build_manifest(repo: Path, tools: Dict[str,str], selected: Optional[str], force: bool) -> Dict[str, Any]:
   files = discover_videos(repo / "input_videos")
@@ -255,7 +442,7 @@ def validate_generated(repo: Path) -> List[str]:
 def table(headers, rows) -> str:
   return "| " + " | ".join(headers) + " |\n| " + " | ".join(["---"] * len(headers)) + " |\n" + "\n".join("| " + " | ".join(str(v) for v in row) + " |" for row in rows) + "\n"
 
-def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapsed: float) -> None:
+def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapsed: float, review_result: Optional[Dict[str, Any]] = None) -> None:
   reports = repo / "reports"; reports.mkdir(exist_ok=True)
   rows = outputs["source_truth_summary.json"]["per_video_counts"]
   count_table = table(["Video","Type","Players","Complete Cards","Partial Cards","Plays","Recruits","Duplicates Removed","Unreadable Records","Confidence"], [[r["video"],r["type"],r["players"],r["complete_cards"],r["partial_cards"],r["plays"],r["recruits"],r["duplicates_removed"],r["unreadable_records"],r["confidence"]] for r in rows])
@@ -265,6 +452,11 @@ def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapse
   (reports / "screen_inventory_report.md").write_text("# Screen Inventory Report\n\n" + screen_table, encoding="utf-8")
   manual = [s for s in screens if s["manual_review"]]
   (reports / "manual_review_required.md").write_text("# Manual Review Required\n\n" + table(["Video","Timestamp","Entity","Reason"], [[s["source_video"],s["timestamp"],s["detected_entity"],s["extraction_status"]] for s in manual]), encoding="utf-8")
+  review_result = review_result or {}
+  review_lines = []
+  for package, payload in (review_result.get("review_packages") or {}).items():
+    review_lines.append(f"- {package}: {payload['counts']['crops']} crops, {payload['counts']['manual_review_fields']} manual-review fields, {payload['counts']['ocr_draft_fields']} OCR draft fields")
+  (reports / "roster_stats_review_report.md").write_text("# Roster + Stats Review Report\n\n" + ("\n".join(review_lines) if review_lines else "Roster/stats extraction was not requested for this run.") + "\n", encoding="utf-8")
   basic = {
     "video_extraction_report.md": f"# Video Extraction Report\n\nDetected videos: {len(outputs['video_manifest.json']['videos'])}\n\n{count_table}",
     "processing_performance.md": f"# Processing Performance\n\nElapsed seconds: {elapsed:.2f}\n\nFFmpeg source: {outputs['video_manifest.json']['ffmpeg']['source']}\n",
@@ -291,13 +483,16 @@ def run(args) -> int:
   for v in manifest["videos"]:
     v["processing_time_seconds"] = round(elapsed / max(1, len(manifest["videos"])), 3)
   outputs = build_outputs(repo, manifest, screens)
+  review_result = generate_roster_stats_review(repo, manifest["videos"], screens, args.extract)
+  merge_review_promotions(outputs, review_result)
+  outputs["extraction_confidence.json"]["roster_stats_review"] = {"crop_count": review_result.get("crop_count", 0), "ocr": review_result.get("ocr", {})}
   gen = repo / "data" / "generated"; gen.mkdir(parents=True, exist_ok=True)
   for name, payload in outputs.items():
     write_json(gen / name, payload)
   write_json(gen / ".video_cache.json", manifest.get("_cache", {}))
   errors = validate_generated(repo)
-  write_reports(repo, outputs, errors, elapsed)
-  print(json.dumps({"status": "PASS" if not errors else "FAIL", "videos": [{"filename": v["filename"], "classification": v["classification"]} for v in manifest["videos"]], "screen_count": len(screens), "legacy_play_baseline": len(legacy_playbook(repo)), "video_verified_plays": 0, "manual_review_screens": sum(1 for s in screens if s["manual_review"]), "elapsed_seconds": round(elapsed, 2), "errors": errors}, indent=2))
+  write_reports(repo, outputs, errors, elapsed, review_result)
+  print(json.dumps({"status": "PASS" if not errors else "FAIL", "videos": [{"filename": v["filename"], "classification": v["classification"]} for v in manifest["videos"]], "screen_count": len(screens), "legacy_play_baseline": len(legacy_playbook(repo)), "video_verified_plays": 0, "manual_review_screens": sum(1 for s in screens if s["manual_review"]), "review_crop_count": review_result.get("crop_count", 0), "elapsed_seconds": round(elapsed, 2), "errors": errors}, indent=2))
   return 0 if not errors else 1
 
 def parse_args(argv=None):
@@ -306,6 +501,7 @@ def parse_args(argv=None):
   p.add_argument("--video")
   p.add_argument("--dry-run", action="store_true")
   p.add_argument("--review", action="store_true")
+  p.add_argument("--extract", choices=["roster_stats"], help="Generate OCR-ready review crops and import files for roster/stat videos.")
   return p.parse_args(argv)
 
 def main(argv=None) -> int:

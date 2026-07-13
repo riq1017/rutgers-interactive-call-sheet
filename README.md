@@ -73,3 +73,6 @@ Supported commands:
 - `python process_week.py --review`
 
 The first runnable pass inventories screens and marks OCR-dependent values for manual review. Legacy JSON is comparison-only when video-backed evidence exists.
+
+## Roster + Stats Review Extraction
+Run `python process_week.py --extract roster_stats` to generate OCR-ready crops for Rutgers/Purdue roster and season-stat videos. Crops are written to `assets/review_crops/`; review JSON/CSV files are written to `data/generated/review/`. If Tesseract is unavailable, values remain `null` and `manual_review: true`.

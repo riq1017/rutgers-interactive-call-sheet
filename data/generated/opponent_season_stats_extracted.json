@@ -4,7 +4,9 @@
     "manual_review_records": 6,
     "omitted_fields": 0,
     "partial_records": 0,
-    "records": 6
+    "promoted_fields": 0,
+    "records": 6,
+    "review_crops": 18
   },
   "manual_review_records": [
     "manual-stat_screen-screen-1bbdf190fb89",
@@ -15,6 +17,7 @@
     "manual-stat_screen-screen-5d64ab9af1ce"
   ],
   "package_type": "opponent_season_stats_extracted",
+  "promotion_policy": "Only reviewed/confirmed fields or OCR-confident draft fields may be promoted.",
   "records": [
     {
       "additional_visible_fields": {},
@@ -257,6 +260,8 @@
       "verification_status": "manual_review"
     }
   ],
+  "review_csv": "data/generated/review/opponent_season_stats_review.csv",
+  "review_package": "data/generated/review/opponent_season_stats_review.json",
   "schema_version": "video_source_truth_first_pass_v1",
   "source_of_truth": "input_videos"
 }

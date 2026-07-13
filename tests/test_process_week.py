@@ -53,5 +53,26 @@ class VideoSourceTruthTests(unittest.TestCase):
     def test_sample_timestamps_deterministic(self):
         self.assertEqual(process_week.sample_timestamps(180.0), process_week.sample_timestamps(180.0))
 
+
+    def test_roster_stats_crop_zones_exist(self):
+        for package in ["current_team_roster", "opponent_roster", "current_team_season_stats", "opponent_season_stats"]:
+            self.assertIn(package, process_week.CROP_ZONES)
+            self.assertGreaterEqual(len(process_week.CROP_ZONES[package]), 3)
+
+    def test_review_packages_cover_roster_and_stats(self):
+        self.assertIn("current_team_roster", process_week.REVIEW_PACKAGES)
+        self.assertIn("opponent_season_stats", process_week.REVIEW_PACKAGES)
+
+    def test_crop_evidence_has_crop_path(self):
+        ev = process_week.crop_evidence(
+            {"filename": "x.mp4", "sha256": "abc"},
+            {"timestamp": "00:00:01", "frame_number": 60},
+            "assets/review_crops/x.jpg",
+            0.0,
+            "manual_review",
+        )
+        self.assertEqual(ev["crop_path"], "assets/review_crops/x.jpg")
+        self.assertTrue(ev["manual_review"])
+
 if __name__ == "__main__":
     unittest.main()

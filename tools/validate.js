@@ -624,6 +624,18 @@ const generatedCurrentRoster = readGeneratedJson('current_team_roster_extracted.
 const generatedOpponentRoster = readGeneratedJson('opponent_roster_extracted.json');
 check('Current-team and opponent video outputs remain separated', generatedCurrentRoster.package_type === 'current_team_roster_extracted' && generatedOpponentRoster.package_type === 'opponent_roster_extracted' && (generatedCurrentRoster.records || []).every(row => row.record_type === 'player_card') && (generatedOpponentRoster.records || []).every(row => row.record_type === 'player_card'));
 check('Raw input videos are protected by gitignore', fs.existsSync(path.join(root, 'input_videos', '.gitkeep')) && fs.readFileSync(path.join(root, '.gitignore'), 'utf8').includes('input_videos/*') && fs.readFileSync(path.join(root, '.gitignore'), 'utf8').includes('!input_videos/.gitkeep'));
+const reviewDir = path.join(generatedDir, 'review');
+const reviewNames = ['current_team_roster','opponent_roster','current_team_season_stats','opponent_season_stats'];
+const reviewPackages = reviewNames.map(name => readGeneratedJson(path.join('review', `${name}_review.json`)));
+check('Roster/stats review packages exist for current team and opponent', reviewNames.every(name => fs.existsSync(path.join(reviewDir, `${name}_review.json`)) && fs.existsSync(path.join(reviewDir, `${name}_review.csv`))));
+check('Roster/stats review crops exist for roster/stat videos', reviewPackages.every(pkg => pkg.counts && pkg.counts.crops >= 0) && reviewPackages.some(pkg => pkg.counts.crops > 0) && fs.existsSync(path.join(root, 'assets', 'review_crops')));
+const reviewEvidenceProblems = reviewPackages.flatMap((pkg, pkgIndex) => evidenceFieldProblems(pkg, `reviewPackages[${pkgIndex}]`));
+check('Roster/stats review fields preserve crop-level evidence', reviewEvidenceProblems.length === 0, reviewEvidenceProblems.slice(0, 5).join(', '));
+check('Roster/stats review pass promotes no unconfirmed values', reviewPackages.every(pkg => (pkg.promoted_fields || []).length === 0 && pkg.counts.promoted_fields === 0));
+check('Roster/stats extracted packages link back to review packages', ['current_team_roster_extracted.json','opponent_roster_extracted.json','current_team_season_stats_extracted.json','opponent_season_stats_extracted.json'].every(name => {
+  const payload = readGeneratedJson(name);
+  return payload.review_package && payload.review_csv && payload.counts.review_crops >= 0;
+}));
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');

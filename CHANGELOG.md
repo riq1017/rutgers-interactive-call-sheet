@@ -289,3 +289,8 @@
 - Added standard-library tests for scanning, classification, evidence contracts, deterministic helpers, and raw-video git protection.
 - Extended validation for generated video manifests, screen dispositions, 192-play legacy preservation, playbook separation, evidence completeness, coach/player ability separation, and current-team/opponent separation.
 - Added `.gitignore` protection for raw `input_videos/` captures while preserving `.gitkeep`.
+
+## Roster + Stats Hybrid Review Extraction
+- Added `--extract roster_stats` to generate review crops, review JSON, and CSV import files for Rutgers/Purdue roster and season-stat videos.
+- Added optional Tesseract detection while keeping manual-review behavior when OCR is unavailable.
+- Added validation for review package presence, crop evidence, and no unconfirmed value promotion.

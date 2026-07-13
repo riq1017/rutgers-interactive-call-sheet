@@ -3348,23 +3348,66 @@ details[open]{
 .overview-rating-strip{
   margin:4px 0 2px;
 }
+.verified-data-card{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:4px;
+  padding:10px;
+  border:1px solid rgba(85,217,139,.24);
+  border-radius:9px;
+  background:linear-gradient(135deg,rgba(85,217,139,.12),rgba(0,0,0,.24));
+}
+.verified-data-card span{
+  color:var(--good);
+  font-size:.68rem;
+  font-weight:950;
+  text-transform:uppercase;
+}
+.verified-data-card strong{
+  color:#fff;
+  font-size:.82rem;
+  line-height:1.25;
+}
 .source-missing-note{
   display:grid;
   gap:4px;
-  padding:10px;
+  padding:0;
   border:1px dashed rgba(255,255,255,.16);
   border-radius:8px;
   background:rgba(0,0,0,.18);
+  overflow:hidden;
 }
-.source-missing-note span{
+.source-missing-note summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-height:38px;
+  padding:8px 10px;
+  cursor:pointer;
+}
+.source-missing-note span,
+.stat-table-count{
   color:var(--muted);
   font-size:.68rem;
   font-weight:900;
   text-transform:uppercase;
 }
 .source-missing-note strong{
-  color:rgba(255,255,255,.78);
+  display:grid;
+  place-items:center;
+  width:24px;
+  height:24px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
   font-size:.82rem;
+  color:rgba(255,255,255,.86);
+}
+.source-missing-note p{
+  margin:0;
+  padding:0 10px 10px;
+  color:rgba(255,255,255,.74);
+  font-size:.78rem;
   line-height:1.25;
 }
 .stats-leader-strip{
@@ -3404,16 +3447,19 @@ details[open]{
 .sports-table-scroll{
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  background:rgba(0,0,0,.18);
 }
 .sports-stat-table{
   width:100%;
-  min-width:360px;
+  min-width:328px;
   border-collapse:collapse;
   table-layout:auto;
 }
 .sports-stat-table th,
 .sports-stat-table td{
-  padding:7px 8px;
+  padding:7px 6px;
   border-bottom:1px solid rgba(255,255,255,.09);
   text-align:right;
   white-space:nowrap;
@@ -3423,7 +3469,7 @@ details[open]{
   position:sticky;
   left:0;
   z-index:1;
-  max-width:138px;
+  max-width:128px;
   text-align:left;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -3443,9 +3489,18 @@ details[open]{
   color:var(--muted);
   font-weight:900;
 }
+.stats-dashboard{
+  padding-bottom:calc(94px + env(safe-area-inset-bottom));
+}
 @media(max-width:420px){
   .team-stat-comparison{grid-template-columns:1fr}
   .stat-category-grid{grid-template-columns:1fr}
   .stats-leader-strip{grid-template-columns:1fr 1fr}
+  .sports-stat-card{padding:9px}
+  .sports-stat-table{min-width:312px}
+  .sports-stat-table th:first-child,
+  .sports-stat-table td:first-child{max-width:104px}
+  .sports-stat-table th,
+  .sports-stat-table td{padding:7px 5px}
 }
 

@@ -30,6 +30,8 @@ Player detail screens must surface verified ratings and production before option
 
 Stats views must use structured sports tables or stat strips. Whole JSON objects, schema metadata, source metadata, or semicolon-style object summaries must not be rendered as the visible stat presentation.
 
+Phone detail views should make verified data feel present even when optional profile fields are unavailable. Use compact verified-data summaries, collapsed source-missing notes, short stat tables, and fixed-bottom-nav clearance rather than long stacks of visible `N/A` rows.
+
 ## D. UI Standards
 
 The base theme is Rutgers scarlet, black, and white, with opponent accent treatment used only as supporting context. The top header is sticky and compacts after scroll. Bottom navigation is fixed and must remain visible.

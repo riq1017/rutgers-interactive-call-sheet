@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T14:09:01.994Z
+Validated: 2026-07-13T15:03:39.593Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -47,6 +47,7 @@ Validated: 2026-07-13T14:09:01.994Z
 - PASS - Rutgers O-line card no longer masks resolved slots as No starter
 - PASS - Rutgers player detail joins resolve attributes, media, stats, and depth role by player_id
 - PASS - Verified Rutgers player attributes surface on player detail overview and attributes tabs
+- PASS - Player detail highlights verified data and collapses optional source-missing profile fields
 - PASS - Depth chart seed owns explicit canonical O-line player IDs
 - PASS - join_failed is never rendered as ordinary Limited data in recruit or O-line cards
 - PASS - Every verified playbook record is preserved as one canonical play identity
@@ -237,6 +238,7 @@ Validated: 2026-07-13T14:09:01.994Z
 - PASS - Team Needs priority uses verified senior departures and explicit position changes only
 - PASS - Recruit detail tabs are usable buttons with image-limited Scouting and Fit sections
 - PASS - Stats workspace renders a sports-stat dashboard instead of stacked stat-sheet accordions
+- PASS - Stats workspace has phone-safe table metadata and bottom-nav clearance
 - PASS - Scout workspace renders defined opponent sections
 - PASS - Repeated generic recruiting descriptions are removed from rendered candidates
 - PASS - Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS

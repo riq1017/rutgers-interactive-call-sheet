@@ -2685,6 +2685,63 @@ function sportsStatStrip(pairs = [], fallback = "N/A") {
   return `<div class="sports-stat-strip">${rows.map(row => `<span><b>${cardValue(row.value, "N/A")}</b><em>${cardValue(row.label, "")}</em></span>`).join("")}</div>`;
 }
 
+function verifiedRatingPairs(player = {}, limit = 6) {
+  const attrs = player.attributes || {};
+  const preferred = [
+    "overall",
+    "speed",
+    "acceleration",
+    "agility",
+    "change_of_direction",
+    "strength",
+    "awareness",
+    "throw_power",
+    "short_accuracy",
+    "medium_accuracy",
+    "deep_accuracy",
+    "run_block",
+    "pass_block",
+    "power_moves",
+    "finesse_moves",
+    "play_recognition",
+    "zone_coverage",
+    "man_coverage",
+    "tackle",
+    "catching"
+  ];
+  const source = { ...attrs, overall: player.overall || player.overall_displayed || attrs.overall };
+  const seen = new Set();
+  const pairs = [];
+  preferred.forEach(key => {
+    const value = cleanValue(source[key]);
+    if (value && !seen.has(key)) {
+      pairs.push({ label: abbrevLabel(key), value });
+      seen.add(key);
+    }
+  });
+  Object.entries(attrs).forEach(([key, value]) => {
+    if (pairs.length >= limit || seen.has(key) || !cleanValue(value)) return;
+    pairs.push({ label: abbrevLabel(key), value: cleanValue(value) });
+    seen.add(key);
+  });
+  return pairs.slice(0, limit);
+}
+
+function verifiedDataSummary(player = {}, side = "rutgers") {
+  const ratings = verifiedRatingPairs(player, 12).filter(row => row.label !== "OVR").length;
+  const stats = resolvePlayerStatsById(playerId(player), side);
+  const season = stats.season.length;
+  const last = stats.last.length;
+  const traitCount = verifiedArray(player.physical_abilities || player.abilities).length + verifiedArray(player.mental_abilities || player.mentals).length + (cleanValue(player.development_trait || player.dev_trait) ? 1 : 0);
+  const chips = [
+    ratings ? `${ratings} ratings` : "",
+    season ? "Season stats" : "",
+    last ? "Last game stats" : "",
+    traitCount ? `${traitCount} traits` : ""
+  ].filter(Boolean);
+  return chips.length ? `<div class="verified-data-card"><span>Verified data available</span><strong>${chips.join(" | ")}</strong></div>` : "";
+}
+
 function verifiedProfileRow(label, value) {
   const cleaned = cleanValue(value);
   return cleaned ? maybeRow(label, cleaned) : "";
@@ -2693,10 +2750,10 @@ function verifiedProfileRow(label, value) {
 function sourceMissingFieldsCard(labels = []) {
   const rows = labels.filter(Boolean);
   if (!rows.length) return "";
-  return `<div class="source-missing-note"><span>Not visible in verified source</span><strong>${rows.join(", ")}</strong></div>`;
+  return `<details class="source-missing-note"><summary><span>Source fields not shown</span><strong>${rows.length}</strong></summary><p>${rows.join(", ")}</p></details>`;
 }
 
-function playerOverviewRows(player = {}, analysis = {}) {
+function playerOverviewRows(player = {}, analysis = {}, side = "rutgers") {
   const requiredRows = [
     maybeRow("Position", player.position, "N/A"),
     maybeRow("Class", player.class_year || player.year || player.class, "N/A"),
@@ -2713,8 +2770,8 @@ function playerOverviewRows(player = {}, analysis = {}) {
   ];
   const optionalRows = optionalFields.map(([label, value]) => verifiedProfileRow(label, value)).filter(Boolean);
   const missing = optionalFields.filter(([, value]) => !cleanValue(value)).map(([label]) => label);
-  const ratingStrip = sportsStatStrip(playerStatPairs(player).filter(row => !/^LG /.test(row.label)), "Ratings N/A");
-  return `${requiredRows.join("")}<div class="overview-rating-strip">${ratingStrip}</div>${optionalRows.join("")}${sourceMissingFieldsCard(missing)}`;
+  const ratingStrip = sportsStatStrip(verifiedRatingPairs(player, 6), "Ratings N/A");
+  return `${verifiedDataSummary(player, side)}${requiredRows.join("")}<div class="overview-rating-strip">${ratingStrip}</div>${optionalRows.join("")}${sourceMissingFieldsCard(missing)}`;
 }
 
 function playerStatPairs(player, side = "rutgers") {
@@ -3554,7 +3611,7 @@ function playerDetailHtml(id, side = "rutgers", group = "") {
       <b>${matchups[0] || readableStatus(analysis.matchup_priority || analysis.role, "Verified")}</b>
     </header>
     ${DetailTabStrip(["Overview", "Attributes", "Traits", "Stats", "Matchups", "Plays"])}
-    <section class="detail-panel" data-detail-section="Overview">${playerOverviewRows(player, analysis)}</section>
+    <section class="detail-panel" data-detail-section="Overview">${playerOverviewRows(player, analysis, side)}</section>
     <section class="detail-panel" data-detail-section="Attributes"><div class="sports-stat-grid">${lockedAttributeRows(player, 12) || LimitedDataState("Attributes")}</div></section>
     <section class="detail-panel" data-detail-section="Traits">${traitRows}</section>
     <section class="detail-panel" data-detail-section="Stats"><div class="sports-stat-card"><h3>Season</h3>${sportsStatStrip(firstStatPairs(seasonRows, 8), "N/A")}</div><div class="sports-stat-card"><h3>Last Game</h3>${sportsStatStrip(firstStatPairs(lastRows, 8), "N/A")}</div></section>
@@ -3911,9 +3968,10 @@ function statTable(title, rows = [], key = "") {
   if (!cleanRows.length) return `<article class="sports-stat-card stat-table-card empty"><h3>${title}</h3><div class="stat-table-empty">N/A</div></article>`;
   const baseColumns = ["name", ...statColumnsForCategory(key)];
   const columns = baseColumns.filter(column => column === "name" || cleanRows.some(row => cleanValue(row[column])));
-  const visibleColumns = columns.length > 1 ? columns.slice(0, 8) : ["name", ...Object.keys(cleanRows[0]).filter(column => !isInternalDisplayKey(column) && column !== "name" && cleanValue(cleanRows[0][column])).slice(0, 6)];
+  const visibleColumns = columns.length > 1 ? columns.slice(0, 7) : ["name", ...Object.keys(cleanRows[0]).filter(column => !isInternalDisplayKey(column) && column !== "name" && cleanValue(cleanRows[0][column])).slice(0, 5)];
   return `<article class="sports-stat-card stat-table-card">
     <h3>${title}</h3>
+    <div class="stat-table-count">${cleanRows.length} verified ${cleanRows.length === 1 ? "row" : "rows"}</div>
     <div class="sports-table-scroll"><table class="sports-stat-table">
       <thead><tr>${visibleColumns.map(column => `<th>${column === "name" ? "Name" : abbrevLabel(column)}</th>`).join("")}</tr></thead>
       <tbody>${cleanRows.map(row => `<tr>${visibleColumns.map(column => `<td>${cardValue(column === "name" ? row.name || row.player || row.team : row[column], column === "name" ? "Team" : "N/A")}</td>`).join("")}</tr>`).join("")}</tbody>

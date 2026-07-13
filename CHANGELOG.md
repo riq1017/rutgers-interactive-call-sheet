@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Phone UX and verified data presentation polish
+- Added a verified-data summary to player detail Overview screens so source-backed ratings, traits, and stats are visibly acknowledged before optional profile gaps.
+- Changed optional source-missing bio fields into a collapsed "Source fields not shown" note to reduce repeated `N/A` clutter on phone screens.
+- Improved player Overview rating strips to use the best verified ratings available for each player instead of omitting visible attributes on some position groups.
+- Tightened Stats Hub tables with verified-row counts, fewer default columns, smaller phone table widths, and extra bottom-navigation clearance.
+- Added validation for verified-data summaries, collapsed source-missing profile fields, and phone-safe stat-table metadata.
+
 ## Verified player detail and Stats Hub repair
 - Surfaced verified player ratings immediately on player detail Overview screens so players like J. Elijah show verified attributes instead of appearing data-empty.
 - Grouped optional profile fields that are not visible in verified source evidence into a source-missing note instead of repeating `N/A` rows for every absent bio field.

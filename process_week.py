@@ -216,15 +216,88 @@ def crop_box(width: int, height: int, box: List[float]) -> tuple:
   bottom = max(top + 1, min(height, int(height * box[3])))
   return (left, top, right, bottom)
 
-def ocr_crop(crop_path: Path, adapter: Dict[str, Any]) -> Dict[str, Any]:
+def _ocr_text_with_confidence(image_path: Path, adapter: Dict[str, Any], psm: str = "6") -> Dict[str, Any]:
   if not adapter.get("available"):
     return {"value": None, "confidence": 0.0, "status": "manual_review"}
   try:
-    result = subprocess.run([adapter["path"], str(crop_path), "stdout", "--psm", "6"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=20)
+    result = subprocess.run([adapter["path"], str(image_path), "stdout", "--psm", psm], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=15)
     value = (result.stdout or "").strip()
-    return {"value": value or None, "confidence": 0.55 if value else 0.0, "status": "ocr_draft" if value else "manual_review"}
+    if not value:
+      return {"value": None, "confidence": 0.0, "status": "manual_review"}
+    tokens = re.findall(r"[A-Za-z0-9#'().-]+", value)
+    confidence = min(0.82, 0.38 + min(0.28, len(tokens) * 0.025))
+    return {"value": value, "confidence": round(confidence, 3), "status": "ocr_draft"}
   except Exception:
     return {"value": None, "confidence": 0.0, "status": "manual_review"}
+
+def _ocr_variant_images(crop_path: Path, expected: str = "generic") -> List[Path]:
+  if expected != "highlight_row":
+    return [crop_path]
+  try:
+    from PIL import Image, ImageFilter, ImageOps
+  except Exception:
+    return [crop_path]
+  variants = [crop_path]
+  variant_dir = crop_path.parent / ".ocr_variants"
+  variant_dir.mkdir(parents=True, exist_ok=True)
+  try:
+    with Image.open(crop_path) as image:
+      base = image.convert("L")
+      scale = 4 if max(base.size) < 1400 else 3
+      up = base.resize((base.width * scale, base.height * scale))
+      contrast = ImageOps.autocontrast(up)
+      processed = {
+        "sharp": contrast.filter(ImageFilter.SHARPEN),
+        "threshold": contrast.point(lambda px: 255 if px > 165 else 0),
+      }
+      for name, img in processed.items():
+        out = variant_dir / f"{crop_path.stem}_{name}.png"
+        img.save(out)
+        variants.append(out)
+  except Exception:
+    return [crop_path]
+  return variants
+
+def _ocr_result_score(result: Dict[str, Any], expected: str = "generic") -> float:
+  text = result.get("value") or ""
+  score = float(result.get("confidence") or 0)
+  if expected == "highlight_row":
+    positions = r"QB|HB|RB|FB|WR|TE|LT|LG|C|RG|RT|LE|RE|LEDG|REDG|DT|MLB|OLB|SAM|CB|FS|SS|K|P"
+    if re.search(r"\b(FR|SO|JR|SR)\b", text, re.I):
+      score += 0.12
+    if re.search(r"\b(" + positions + r")\b", text, re.I):
+      score += 0.12
+    if re.search(r"\b\d{2,3}\b", text):
+      score += 0.05
+    if parse_highlight_row_identity(text, "score_only", "score", {}):
+      score += 0.25
+  return score
+
+def ocr_crop(crop_path: Path, adapter: Dict[str, Any], expected: str = "generic") -> Dict[str, Any]:
+  if not adapter.get("available"):
+    return {"value": None, "confidence": 0.0, "status": "manual_review"}
+  psm_values = ["7", "6"] if expected == "highlight_row" else ["6"]
+  best = {"value": None, "confidence": 0.0, "status": "manual_review"}
+  variants = _ocr_variant_images(crop_path, expected)
+  try:
+    for variant in variants:
+      for psm in psm_values:
+        result = _ocr_text_with_confidence(variant, adapter, psm)
+        if _ocr_result_score(result, expected) > _ocr_result_score(best, expected):
+          best = result
+  finally:
+    for variant in variants:
+      if variant != crop_path:
+        try:
+          variant.unlink()
+        except Exception:
+          pass
+    variant_dir = crop_path.parent / ".ocr_variants"
+    try:
+      variant_dir.rmdir()
+    except Exception:
+      pass
+  return best
 
 def crop_evidence(video: Dict[str, Any], screen: Dict[str, Any], crop_rel: str, confidence: float, status: str) -> Dict[str, Any]:
   return {
@@ -434,37 +507,71 @@ def valid_player_name(value: Any) -> bool:
       return False
   return any(len(token) >= 4 for token in tokens)
 
+def normalize_roster_row_text(line: str) -> str:
+  text = re.sub(r"[|_]+", " ", str(line or ""))
+  text = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", text)
+  text = re.sub(r"(?<=[A-Za-z])(?=\d)", " ", text)
+  text = re.sub(r"(?<=\d)(?=[A-Za-z])", " ", text)
+  text = text.replace("0B", "QB").replace("O B", "QB").replace("H B", "HB")
+  text = re.sub(r"\bS0\b", "SO", text, flags=re.I)
+  text = re.sub(r"\b1T\b", "LT", text, flags=re.I)
+  return re.sub(r"\s+", " ", text).strip()
+
 def parse_highlight_row_identity(text: Any, package: str, crop_id: str, ev: Dict[str, Any]) -> List[Dict[str, Any]]:
-  lines = meaningful_ocr_lines(text)
+  raw_lines = meaningful_ocr_lines(text)
   positions = "QB|HB|RB|FB|WR|TE|LT|LG|C|RG|RT|LE|RE|LEDG|REDG|DT|MLB|OLB|SAM|CB|FS|SS|K|P"
-  fields: List[Dict[str, Any]] = []
-  for raw in lines:
-    line = re.sub(r"\s+", " ", raw).strip()
-    if not line or any(label in line.upper().split() for label in ("NAME", "YEAR", "POS", "OVR")):
+  best_fields: List[Dict[str, Any]] = []
+  best_score = -1.0
+  for raw in raw_lines:
+    line = normalize_roster_row_text(raw)
+    if not line or any(label in line.upper().split() for label in ("NAME", "YEAR", "POS", "OVR", "NIL", "DEV", "SPD")):
       continue
-    match = re.search(r"(?:^|\s)(?P<name>[A-Z][A-Za-z.'-]{1,24}(?:\s+[A-Z][A-Za-z.'-]{1,24}){0,2})\s+(?P<class>FR|SO|JR|SR)(?:\s*\(RS\))?\s+(?P<position>" + positions + r")\s+(?P<overall>\d{2,3})?", line, re.I)
-    if not match:
-      continue
-    name = match.group("name").strip()
-    if not valid_player_name(name):
-      continue
-    fields.append(candidate_field("name", name.title(), ev, 0.72))
-    fields.append(candidate_field("visible_name_text", name.title(), ev, 0.72))
-    fields.append(candidate_field("class", match.group("class").upper(), ev, 0.68))
-    fields.append(candidate_field("position", match.group("position").upper(), ev, 0.70))
-    if match.group("overall"):
-      fields.append(candidate_field("overall", match.group("overall"), ev, 0.68))
-    break
-  if not fields:
+    patterns = [
+      r"(?P<name>[A-Z][A-Za-z.'-]{0,24}(?:\s+[A-Z][A-Za-z.'-]{1,24}){0,2})\s+(?P<class>FR|SO|JR|SR)(?:\s*\(RS\))?\s+(?P<position>" + positions + r")\s+(?P<overall>\d{2,3})?",
+      r"(?P<name>[A-Z]\.?\s*[A-Za-z][A-Za-z.'-]{2,24})\s+(?P<class>FR|SO|JR|SR)\s+(?P<position>" + positions + r")\s+(?P<overall>\d{2,3})?",
+      r"(?P<name>[A-Z][A-Za-z.'-]{1,24}(?:\s+[A-Z][A-Za-z.'-]{1,24}){0,2})\s+(?P<position>" + positions + r")\s+(?P<class>FR|SO|JR|SR)(?:\s*\(RS\))?\s+(?P<overall>\d{2,3})?",
+    ]
+    for pattern in patterns:
+      match = re.search(pattern, line, re.I)
+      if not match:
+        continue
+      name = re.sub(r"\s+", " ", match.group("name").replace(" .", ".")).strip()
+      if len(name) == 2 and name[1] == ".":
+        continue
+      # Convert compact initial+surname OCR such as M.York into M. York.
+      name = re.sub(r"^([A-Z])\.?\s*([A-Z][a-z])", r"\1. \2", name)
+      if not valid_player_name(name) or not table_owned_name_is_complete(name):
+        continue
+      confidence = 0.70
+      if match.groupdict().get("overall"):
+        confidence += 0.06
+      if len(name.split()) >= 2:
+        confidence += 0.04
+      fields = [
+        candidate_field("name", name.title(), ev, confidence),
+        candidate_field("visible_name_text", name.title(), ev, confidence),
+        candidate_field("class", match.group("class").upper(), ev, min(0.78, confidence - 0.02)),
+        candidate_field("position", match.group("position").upper(), ev, min(0.80, confidence)),
+      ]
+      if match.groupdict().get("overall"):
+        overall = normalized_rating_value(match.group("overall"))
+        if not overall:
+          continue
+        fields.append(candidate_field("overall", overall, ev, min(0.76, confidence - 0.02)))
+      score = confidence + (0.1 if len(fields) >= 5 else 0)
+      if score > best_score:
+        best_fields = fields
+        best_score = score
+  if not best_fields:
     return []
   return [{
     "candidate_id": f"{crop_id}-highlight-identity-001",
     "candidate_type": "highlighted_roster_row_identity",
     "source_crop_id": crop_id,
     "package": package,
-    "fields": fields,
+    "fields": best_fields,
     "review_status": "ocr_draft_needs_confirmation",
-    "raw_ocr_excerpt": "\n".join(lines)[:500],
+    "raw_ocr_excerpt": "\n".join(raw_lines)[:500],
   }]
 
 def player_identity_key(team_scope: str, fields: Dict[str, Dict[str, Any]], fallback_hash: str) -> str:
@@ -478,12 +585,84 @@ def player_identity_key(team_scope: str, fields: Dict[str, Dict[str, Any]], fall
     parts.append(normalized_identity_part(jersey))
   return "|".join(parts)
 
+def match_existing_table_identity(player_map: Dict[str, Any], fields: Dict[str, Dict[str, Any]]) -> Optional[str]:
+  name = fields.get("visible_name_text", {}).get("value") or fields.get("name", {}).get("value")
+  position = fields.get("position", {}).get("value")
+  if not name or not position:
+    return None
+  pos_key = normalized_identity_part(position)
+  matches = []
+  for record_id, player in player_map.items():
+    if "|unknown-card|" in record_id:
+      continue
+    existing = player.get("fields", {})
+    existing_name = existing.get("visible_name_text", {}).get("value") or existing.get("name", {}).get("value")
+    existing_pos = existing.get("position", {}).get("value")
+    if normalized_identity_part(existing_pos) != pos_key:
+      continue
+    if table_name_matches_side_name(existing_name, name):
+      matches.append(record_id)
+  return matches[0] if len(matches) == 1 else None
+
+def parse_first_highlight_identity(text: Any, package: str, crop_id: str, ev: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+  identity_fields: Dict[str, Dict[str, Any]] = {}
+  for candidate in parse_highlight_row_identity(text, package, crop_id, ev):
+    identity_fields.update(accepted_candidate_fields(candidate))
+  return identity_fields
+
 def average_crop_hash(image: Any) -> str:
   small = image.convert("L").resize((16, 16))
   data = list(small.getdata())
   avg = sum(data) / max(1, len(data))
   bits = ''.join('1' if pixel >= avg else '0' for pixel in data)
   return hashlib.sha1(bits.encode("ascii")).hexdigest()
+
+def highlighted_row_crop_from_table(image: Any) -> Tuple[Any, Dict[str, Any]]:
+  width, height = image.size
+  table = image.crop(crop_box(width, height, ROSTER_SWEEP_ZONES["roster_table"]))
+  gray = table.convert("L")
+  tw, th = gray.size
+  fallback = image.crop(crop_box(width, height, [0.03, 0.38, 0.52, 0.50]))
+  if th < 20:
+    return fallback, {"method": "fallback_static", "confidence": 0.0}
+  pixels = gray.load()
+  left = int(tw * 0.02)
+  right = max(left + 1, int(tw * 0.54))
+  min_y = int(th * 0.16)
+  max_y = int(th * 0.94)
+  window = max(18, int(th * 0.045))
+  candidates = []
+  for y in range(min_y, max_y - window):
+    scores = []
+    for yy in range(y, y + window, max(1, window // 6)):
+      samples = [pixels[x, yy] for x in range(left, right, max(1, (right-left)//120))]
+      bright = sum(1 for v in samples if v >= 178) / max(1, len(samples))
+      avg = sum(samples) / max(1, len(samples)) / 255.0
+      scores.append(bright * 1.7 + avg)
+    candidates.append((sum(scores) / len(scores), y))
+  if not candidates:
+    return fallback, {"method": "fallback_static", "confidence": 0.0}
+  candidates.sort(reverse=True)
+  best_score, best_top = candidates[0]
+  top = max(0, best_top - 3)
+  bottom = min(th, best_top + window + 5)
+  if best_score < 0.75 or bottom - top < 16:
+    return fallback, {"method": "fallback_static_low_score", "confidence": round(best_score, 3)}
+  crop = table.crop((0, top, int(tw * 0.56), bottom))
+  confidence = round(min(1.0, best_score / 2.0), 3)
+  return crop, {"method": "detected_highlight_identity_band", "crop_top": top, "crop_bottom": bottom, "confidence": confidence}
+
+def save_useful_crop(repo: Path, crop_root: Path, package: str, zone_name: str, crop_image: Any, unique_key: str, seen: Dict[str, str]) -> Tuple[str, bool, str]:
+  h = average_crop_hash(crop_image)
+  key = f"{package}:{zone_name}:{h}:{unique_key}"
+  duplicate = key in seen
+  if not duplicate:
+    crop_rel_path = Path("assets") / "review_crops" / "roster_sweep" / package / zone_name / f"{short_hash(key)}.jpg"
+    crop_abs = repo / crop_rel_path
+    crop_abs.parent.mkdir(parents=True, exist_ok=True)
+    crop_image.save(crop_abs, "JPEG", quality=92)
+    seen[key] = str(crop_rel_path).replace("\\", "/")
+  return h, duplicate, seen[key]
 
 def evidence_from_sweep(video: Dict[str, Any], frame_record: Dict[str, Any], crop_rel: str, confidence: float, verified: bool) -> Dict[str, Any]:
   return {
@@ -510,6 +689,11 @@ def accepted_candidate_fields(candidate: Dict[str, Any]) -> Dict[str, Dict[str, 
     min_confidence = 0.55 if name == "visible_name_text" else 0.35
     if name == "visible_name_text" and not valid_player_name(value):
       continue
+    if name == "overall":
+      normalized = normalized_rating_value(value)
+      if not normalized:
+        continue
+      value = normalized
     if auto_safe and confidence >= min_confidence:
       ev["verification_status"] = "video_verified"
       ev["manual_review"] = False
@@ -519,6 +703,12 @@ def accepted_candidate_fields(candidate: Dict[str, Any]) -> Dict[str, Dict[str, 
 def merge_player_fields(existing: Dict[str, Any], incoming: Dict[str, Dict[str, Any]]) -> None:
   fields = existing.setdefault("fields", {})
   for key, item in incoming.items():
+    if key == "overall":
+      normalized = normalized_rating_value(item.get("value"))
+      if not normalized:
+        continue
+      item = dict(item)
+      item["value"] = normalized
     current = fields.get(key)
     if not current or float(item["evidence"].get("confidence") or 0) >= float(current.get("evidence", {}).get("confidence") or 0):
       fields[key] = item
@@ -654,38 +844,46 @@ def generate_roster_sweep(repo: Path, tools: Dict[str, str], videos: List[Dict[s
         width, height = img.size
         zone_records = {}
         for zone_name, box in ROSTER_SWEEP_ZONES.items():
-          cropped = img.crop(crop_box(width, height, box))
+          if zone_name == "highlight_area":
+            cropped, meta = highlighted_row_crop_from_table(img)
+          else:
+            cropped = img.crop(crop_box(width, height, box))
+            meta = {"method": "static_zone"}
           h = average_crop_hash(cropped)
           unique_key = f"{package}:{zone_name}:{h}"
           duplicate = unique_key in seen_zone_hashes
           crop_rel = None
-          if not duplicate:
-            crop_rel_path = Path("assets") / "review_crops" / "roster_sweep" / package / zone_name / f"{short_hash(unique_key)}.jpg"
-            crop_abs = repo / crop_rel_path
-            crop_abs.parent.mkdir(parents=True, exist_ok=True)
-            cropped.save(crop_abs, "JPEG", quality=92)
-            seen_zone_hashes[unique_key] = str(crop_rel_path).replace("\\", "/")
-            crop_rel = seen_zone_hashes[unique_key]
+          if zone_name in {"highlight_area", "player_side_card"}:
+            h, duplicate, crop_rel = save_useful_crop(repo, crop_root, package, zone_name, cropped, "", seen_zone_hashes)
           else:
-            crop_rel = seen_zone_hashes[unique_key]
-          zone_records[zone_name] = {"hash": h, "duplicate": duplicate, "crop_path": crop_rel}
+            if not duplicate:
+              seen_zone_hashes[unique_key] = ""
+          zone_records[zone_name] = {"hash": h, "duplicate": duplicate, "crop_path": crop_rel, "crop_meta": meta}
         is_unique_screen = not zone_records["roster_table"]["duplicate"] or not zone_records["highlight_area"]["duplicate"] or not zone_records["attribute_table"]["duplicate"]
         is_unique_card = not zone_records["player_side_card"]["duplicate"]
+        should_process_card = is_unique_card or not zone_records["highlight_area"]["duplicate"]
         if is_unique_screen:
           video_summary["unique_roster_screens"] += 1
-        if is_unique_card:
-          video_summary["unique_player_cards"] += 1
+        if should_process_card:
+          if is_unique_card:
+            video_summary["unique_player_cards"] += 1
           highlight_crop = repo / zone_records["highlight_area"]["crop_path"]
-          highlight_ocr = ocr_crop(highlight_crop, adapter)
+          highlight_ocr = ocr_crop(highlight_crop, adapter, "highlight_row")
           highlight_ev = evidence_from_sweep(video, frame_record, zone_records["highlight_area"]["crop_path"], highlight_ocr.get("confidence", 0.0), False)
-          highlight_candidate_crop = {
-            "crop_id": f"roster-sweep-{package}-{short_hash(zone_records['highlight_area']['hash'])}",
-            "crop_type": "highlight_area",
-            "fields": [review_field(highlight_ocr.get("value"), highlight_ev, "highlight_area", "ocr_draft_needs_confirmation" if highlight_ocr.get("value") else "needs_manual_review")],
-          }
-          identity_fields: Dict[str, Dict[str, Any]] = {}
-          for candidate in parse_highlight_row_identity(highlight_ocr.get("value"), package, highlight_candidate_crop["crop_id"], highlight_ev):
-            identity_fields.update(accepted_candidate_fields(candidate))
+          highlight_crop_id = f"roster-sweep-{package}-{short_hash(zone_records['highlight_area']['hash'])}"
+          identity_fields = parse_first_highlight_identity(highlight_ocr.get("value"), package, highlight_crop_id, highlight_ev)
+          if not identity_fields:
+            static_crop = img.crop(crop_box(width, height, [0.03, 0.38, 0.78, 0.50]))
+            static_hash, static_duplicate, static_rel = save_useful_crop(repo, crop_root, package, "highlight_area_static", static_crop, "", seen_zone_hashes)
+            static_ocr = ocr_crop(repo / static_rel, adapter, "highlight_row")
+            static_ev = evidence_from_sweep(video, frame_record, static_rel, static_ocr.get("confidence", 0.0), False)
+            static_fields = parse_first_highlight_identity(static_ocr.get("value"), package, f"roster-sweep-{package}-{short_hash(static_hash)}", static_ev)
+            if static_fields:
+              identity_fields = static_fields
+              highlight_ev = static_ev
+          player_map = result["players_by_package"][package]
+          accepted: Dict[str, Dict[str, Any]] = dict(identity_fields)
+          matched_existing_identity = None
           side_crop = repo / zone_records["player_side_card"]["crop_path"]
           ocr = ocr_crop(side_crop, adapter)
           ev = evidence_from_sweep(video, frame_record, zone_records["player_side_card"]["crop_path"], ocr.get("confidence", 0.0), False)
@@ -695,14 +893,33 @@ def generate_roster_sweep(repo: Path, tools: Dict[str, str], videos: List[Dict[s
             "fields": [review_field(ocr.get("value"), ev, "player_side_card", "ocr_draft_needs_confirmation" if ocr.get("value") else "needs_manual_review")],
           }
           candidates = structured_candidates_from_crop(package, candidate_crop)
-          accepted: Dict[str, Dict[str, Any]] = dict(identity_fields)
+          side_fields_for_match: Dict[str, Dict[str, Any]] = {}
           for candidate in candidates:
-            for key, value in accepted_candidate_fields(candidate).items():
+            candidate_accepted = accepted_candidate_fields(candidate)
+            side_fields_for_match.update(candidate_accepted)
+            for key, value in candidate_accepted.items():
               if key in {"name", "visible_name_text", "position", "overall"}:
                 continue
-              accepted[key] = value
-          identity = player_identity_key(team_scope, identity_fields, zone_records["player_side_card"]["hash"])
-          player_map = result["players_by_package"][package]
+              if identity_fields:
+                accepted[key] = value
+          if not identity_fields:
+            matched_existing_identity = match_existing_table_identity(player_map, side_fields_for_match)
+            if matched_existing_identity:
+              identity = matched_existing_identity
+            else:
+              unreadable = {
+                "player_identity_key": None,
+                "team_scope": team_scope,
+                "source_video": video["filename"],
+                "timestamp": frame_record["timestamp"],
+                "frame_number": frame_record["frame_number"],
+                "crop_path": zone_records["player_side_card"]["crop_path"],
+                "reason": "side card could not be matched to a table-owned identity",
+              }
+              result["manual_review_fields"].append(unreadable)
+              continue
+          else:
+            identity = player_identity_key(team_scope, identity_fields, zone_records["player_side_card"]["hash"])
           if identity not in player_map:
             player_map[identity] = {
               "record_id": identity,
@@ -726,7 +943,7 @@ def generate_roster_sweep(repo: Path, tools: Dict[str, str], videos: List[Dict[s
             "crop_path": zone_records["player_side_card"]["crop_path"],
           })
           merge_player_fields(player, accepted)
-          if not identity_fields or "|unknown-card|" in identity:
+          if (not identity_fields and not matched_existing_identity) or "|unknown-card|" in identity:
             unreadable = {
               "player_identity_key": identity,
               "team_scope": team_scope,
@@ -737,17 +954,18 @@ def generate_roster_sweep(repo: Path, tools: Dict[str, str], videos: List[Dict[s
             }
             player["unreadable_fields"].append(unreadable)
             result["manual_review_fields"].append(unreadable)
-          result["player_card_inventory"].append({
-            "card_hash": zone_records["player_side_card"]["hash"],
-            "player_identity_key": identity,
-            "package": package,
-            "team_scope": team_scope,
-            "source_video": video["filename"],
-            "timestamp": frame_record["timestamp"],
-            "frame_number": frame_record["frame_number"],
-            "crop_path": zone_records["player_side_card"]["crop_path"],
-            "duplicate": False,
-          })
+          if is_unique_card:
+            result["player_card_inventory"].append({
+              "card_hash": zone_records["player_side_card"]["hash"],
+              "player_identity_key": identity,
+              "package": package,
+              "team_scope": team_scope,
+              "source_video": video["filename"],
+              "timestamp": frame_record["timestamp"],
+              "frame_number": frame_record["frame_number"],
+              "crop_path": zone_records["player_side_card"]["crop_path"],
+              "duplicate": False,
+            })
         else:
           video_summary["duplicate_appearances_removed"] += 1
         result["screen_inventory"].append({
@@ -1270,6 +1488,7 @@ def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapse
   }
   for name, text in basic.items():
     (reports / name).write_text(text, encoding="utf-8")
+
 
 
 def write_roster_sweep_reports(repo: Path, sweep: Dict[str, Any]) -> None:

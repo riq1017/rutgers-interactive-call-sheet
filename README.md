@@ -84,3 +84,7 @@ Tesseract OCR is optional but now supported by `process_week.py`. Detection orde
 ### Structured OCR Draft Review
 
 `python process_week.py --extract roster_stats` now keeps raw OCR crop text and also writes structured draft rows to `data/generated/review/*_structured_review.csv`. These rows are easier to confirm because each candidate field carries crop evidence and starts as `ocr_draft_needs_confirmation`.
+
+### Full Roster Sweep
+
+Run `python process_week.py --extract roster_sweep --force` to scan the complete Rutgers and Purdue roster videos at 4 fps, add burst samples around roster/card/table changes, dedupe unique roster/player-card appearances, and write merged player records with crop-level evidence. The highlighted roster table row is the primary identity source; side-card OCR may enrich that player record, but it cannot create a new player identity. The approved UI is not modified by this command.

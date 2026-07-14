@@ -32,6 +32,15 @@ REVIEW_PACKAGES = {
   "opponent_season_stats": ("opponent_season_stats_review", "opponent_season_stats"),
 }
 
+ROSTER_SWEEP_FPS = 4.0
+ROSTER_SWEEP_PACKAGES = {"current_team_roster", "opponent_roster"}
+ROSTER_SWEEP_ZONES = {
+  "roster_table": [0.03, 0.30, 0.78, 0.91],
+  "highlight_area": [0.03, 0.38, 0.78, 0.50],
+  "attribute_table": [0.03, 0.34, 0.78, 0.72],
+  "player_side_card": [0.78, 0.12, 0.98, 0.95],
+}
+
 CROP_ZONES = {
   "current_team_roster": [
     {"crop_type": "roster_header", "box": [0.04, 0.10, 0.75, 0.30]},
@@ -263,10 +272,29 @@ def parse_side_card_text(text: Any, package: str, crop_id: str, ev: Dict[str, An
   joined = "\n".join(lines)
   candidates: List[Dict[str, Any]] = []
   fields: List[Dict[str, Any]] = []
-  # Names are often split across lines in the side card. Keep the OCR value as draft.
-  upper_words = [line for line in lines if re.fullmatch(r"[A-Z][A-Z .'-]{2,}", line)]
-  if upper_words:
-    fields.append(candidate_field("visible_name_text", " ".join(upper_words[:3]).title(), ev, 0.35))
+  # Names are often stacked above the POSITION/ARCHETYPE block. Only accept clean
+  # name lines from that header area so UI labels do not become fake players.
+  label_words = {
+    "POSITION", "ARCHETYPE", "CLASS", "NIL", "HEIGHT", "WEIGHT", "HOMETOWN",
+    "PHYSICAL", "MENTAL", "DEV", "TRAIT", "RUTGERS", "PURDUE", "OVR",
+  }
+  profile_start = next((i for i, line in enumerate(lines) if "POSITION" in line.upper() or "ARCHETYPE" in line.upper()), min(len(lines), 8))
+  header_lines = lines[:profile_start]
+  name_lines: List[str] = []
+  for line in header_lines:
+    clean = re.sub(r"[^A-Za-z .'-]", "", line).strip()
+    if not clean or len(clean) < 2:
+      continue
+    tokens = [token for token in clean.split() if token.upper() not in label_words]
+    if not tokens:
+      continue
+    candidate = " ".join(tokens)
+    if re.fullmatch(r"[A-Za-z][A-Za-z .'-]{1,20}", candidate):
+      name_lines.append(candidate)
+  if name_lines:
+    selected = name_lines[-2:] if len(name_lines) >= 2 else name_lines[-1:]
+    confidence = 0.65 if len(selected) >= 2 else 0.45
+    fields.append(candidate_field("visible_name_text", " ".join(selected).title(), ev, confidence))
   pos = re.search(r"\b(QB|HB|RB|WR|TE|LT|LG|C|RG|RT|LE|RE|LEDG|REDG|DT|MLB|OLB|SAM|CB|FS|SS|K|P)\b(?:\s*\([LR]\))?\s*\|?\s*#?(\d+)?", joined, re.I)
   if pos:
     fields.append(candidate_field("position", pos.group(1).upper(), ev, 0.55))
@@ -360,6 +388,414 @@ def structured_candidates_from_crop(package: str, crop_record: Dict[str, Any]) -
   if crop_type == "stats_table":
     return parse_table_lines(text, package, crop_id, ev, "season_stats_row")
   return []
+
+
+def roster_sweep_timestamps(duration: float, fps: float = ROSTER_SWEEP_FPS) -> List[float]:
+  if not duration or duration <= 0:
+    return [0.0]
+  step = 1.0 / fps
+  count = int(duration * fps) + 1
+  values = [round(i * step, 3) for i in range(count) if i * step < duration]
+  last = max(0.0, round(duration - min(0.1, step / 2), 3))
+  if not values or values[-1] < last:
+    values.append(last)
+  if values[0] != 0.0:
+    values.insert(0, 0.0)
+  return values
+
+def normalized_identity_part(value: Any) -> str:
+  clean = re.sub(r"[^a-z0-9]+", "-", str(value or "").lower()).strip("-")
+  return clean or "unknown"
+
+def valid_player_name(value: Any) -> bool:
+  text = str(value or "").strip()
+  if not text:
+    return False
+  if re.fullmatch(r"[A-Z]\.?[A-Za-z][A-Za-z.'-]{2,}", text):
+    return True
+  tokens = [token.strip(".") for token in text.split() if token.strip(".")]
+  if len(tokens) < 2 or len(tokens) > 4:
+    return False
+  blocked = {
+    "position", "archetype", "hometown", "physical", "mental", "trait", "normal",
+    "recoup", "clearheaded", "winning", "time", "backfield", "threat", "height",
+    "weight", "pocket", "shield", "pull", "down", "mobile", "deadeye", "fan",
+    "favorite", "press", "pro", "rns", "any", "unknown", "card",
+  }
+  for token in tokens:
+    low = token.lower()
+    if low in blocked:
+      return False
+    if re.search(r"([a-z])\1\1", low):
+      return False
+    if len(token) == 1 and not re.fullmatch(r"[A-Z]", token):
+      return False
+    if len(token) == 2 and low in {"ww", "lo", "ud", "qn", "ae", "om", "pg", "ss"}:
+      return False
+  return any(len(token) >= 4 for token in tokens)
+
+def parse_highlight_row_identity(text: Any, package: str, crop_id: str, ev: Dict[str, Any]) -> List[Dict[str, Any]]:
+  lines = meaningful_ocr_lines(text)
+  positions = "QB|HB|RB|FB|WR|TE|LT|LG|C|RG|RT|LE|RE|LEDG|REDG|DT|MLB|OLB|SAM|CB|FS|SS|K|P"
+  fields: List[Dict[str, Any]] = []
+  for raw in lines:
+    line = re.sub(r"\s+", " ", raw).strip()
+    if not line or any(label in line.upper().split() for label in ("NAME", "YEAR", "POS", "OVR")):
+      continue
+    match = re.search(r"(?:^|\s)(?P<name>[A-Z][A-Za-z.'-]{1,24}(?:\s+[A-Z][A-Za-z.'-]{1,24}){0,2})\s+(?P<class>FR|SO|JR|SR)(?:\s*\(RS\))?\s+(?P<position>" + positions + r")\s+(?P<overall>\d{2,3})?", line, re.I)
+    if not match:
+      continue
+    name = match.group("name").strip()
+    if not valid_player_name(name):
+      continue
+    fields.append(candidate_field("name", name.title(), ev, 0.72))
+    fields.append(candidate_field("visible_name_text", name.title(), ev, 0.72))
+    fields.append(candidate_field("class", match.group("class").upper(), ev, 0.68))
+    fields.append(candidate_field("position", match.group("position").upper(), ev, 0.70))
+    if match.group("overall"):
+      fields.append(candidate_field("overall", match.group("overall"), ev, 0.68))
+    break
+  if not fields:
+    return []
+  return [{
+    "candidate_id": f"{crop_id}-highlight-identity-001",
+    "candidate_type": "highlighted_roster_row_identity",
+    "source_crop_id": crop_id,
+    "package": package,
+    "fields": fields,
+    "review_status": "ocr_draft_needs_confirmation",
+    "raw_ocr_excerpt": "\n".join(lines)[:500],
+  }]
+
+def player_identity_key(team_scope: str, fields: Dict[str, Dict[str, Any]], fallback_hash: str) -> str:
+  name = fields.get("visible_name_text", {}).get("value") or fields.get("name", {}).get("value")
+  position = fields.get("position", {}).get("value")
+  jersey = fields.get("jersey", {}).get("value")
+  if not name or not valid_player_name(name) or not position:
+    return f"{team_scope}|unknown-card|{fallback_hash[:12]}"
+  parts = [team_scope, normalized_identity_part(name), normalized_identity_part(position)]
+  if jersey:
+    parts.append(normalized_identity_part(jersey))
+  return "|".join(parts)
+
+def average_crop_hash(image: Any) -> str:
+  small = image.convert("L").resize((16, 16))
+  data = list(small.getdata())
+  avg = sum(data) / max(1, len(data))
+  bits = ''.join('1' if pixel >= avg else '0' for pixel in data)
+  return hashlib.sha1(bits.encode("ascii")).hexdigest()
+
+def evidence_from_sweep(video: Dict[str, Any], frame_record: Dict[str, Any], crop_rel: str, confidence: float, verified: bool) -> Dict[str, Any]:
+  return {
+    "source_video": video["filename"],
+    "source_video_hash": video["sha256"],
+    "timestamp": frame_record["timestamp"],
+    "frame_number": frame_record["frame_number"],
+    "crop_path": crop_rel,
+    "confidence": confidence,
+    "verification_status": "video_verified" if verified else "manual_review",
+    "manual_review": not verified,
+  }
+
+def accepted_candidate_fields(candidate: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+  accepted: Dict[str, Dict[str, Any]] = {}
+  for item in candidate.get("fields", []):
+    name = item.get("field_name")
+    value = item.get("value")
+    if value in (None, "") or not name:
+      continue
+    ev = dict(item.get("evidence") or {})
+    confidence = float(ev.get("confidence") or 0)
+    auto_safe = name in {"name", "visible_name_text", "position", "jersey", "class", "overall", "height", "weight", "archetype", "hometown", "development_trait"}
+    min_confidence = 0.55 if name == "visible_name_text" else 0.35
+    if name == "visible_name_text" and not valid_player_name(value):
+      continue
+    if auto_safe and confidence >= min_confidence:
+      ev["verification_status"] = "video_verified"
+      ev["manual_review"] = False
+      accepted[name] = {"value": value, "evidence": ev}
+  return accepted
+
+def merge_player_fields(existing: Dict[str, Any], incoming: Dict[str, Dict[str, Any]]) -> None:
+  fields = existing.setdefault("fields", {})
+  for key, item in incoming.items():
+    current = fields.get(key)
+    if not current or float(item["evidence"].get("confidence") or 0) >= float(current.get("evidence", {}).get("confidence") or 0):
+      fields[key] = item
+
+def run_ffmpeg_frame_sweep(ffmpeg: str, video_path: Path, out_dir: Path, fps: float) -> List[Path]:
+  if out_dir.exists():
+    shutil.rmtree(out_dir)
+  out_dir.mkdir(parents=True, exist_ok=True)
+  pattern = out_dir / "frame_%06d.jpg"
+  cmd = [ffmpeg, "-y", "-i", str(video_path), "-vf", f"fps={fps}", "-q:v", "4", "-loglevel", "error", str(pattern)]
+  subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", check=True)
+  return sorted(out_dir.glob("frame_*.jpg"))
+
+def extract_single_frame_at(ffmpeg: str, video_path: Path, out_path: Path, timestamp: float) -> Optional[Path]:
+  out_path.parent.mkdir(parents=True, exist_ok=True)
+  cmd = [ffmpeg, "-y", "-ss", f"{timestamp:.3f}", "-i", str(video_path), "-frames:v", "1", "-q:v", "4", "-loglevel", "error", str(out_path)]
+  result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
+  return out_path if result.returncode == 0 and out_path.exists() and out_path.stat().st_size > 0 else None
+
+def changed_frame_indices(frame_paths: List[Path]) -> List[int]:
+  changed: List[int] = []
+  previous = None
+  last_change = -999
+  for index, frame_path in enumerate(frame_paths):
+    sig = roster_change_signature(frame_path)
+    if previous is not None and sig != previous and index - last_change >= 2:
+      changed.append(index)
+      last_change = index
+    previous = sig
+  return changed
+
+def roster_change_signature(frame_path: Path) -> str:
+  try:
+    from PIL import Image
+    with Image.open(frame_path) as image:
+      width, height = image.size
+      pieces = []
+      for zone_name in ("roster_table", "highlight_area", "attribute_table", "player_side_card"):
+        pieces.append(average_crop_hash(image.crop(crop_box(width, height, ROSTER_SWEEP_ZONES[zone_name]))))
+      return "|".join(pieces)
+  except Exception:
+    return frame_signature(frame_path)
+
+def dynamic_roster_frame_set(ffmpeg: str, video_path: Path, frame_dir: Path, fps: float, duration: float) -> List[Dict[str, Any]]:
+  if frame_dir.exists():
+    shutil.rmtree(frame_dir)
+  frame_dir.mkdir(parents=True, exist_ok=True)
+  base_paths = run_ffmpeg_frame_sweep(ffmpeg, video_path, frame_dir / "base", fps)
+  frames: Dict[float, Path] = {}
+  for index, frame_path in enumerate(base_paths):
+    frames[round(index / fps, 3)] = frame_path
+  burst_offsets = [-0.18, -0.09, 0.09, 0.18]
+  burst_dir = frame_dir / "burst"
+  burst_count = 0
+  for index in changed_frame_indices(base_paths):
+    base_ts = round(index / fps, 3)
+    for offset in burst_offsets:
+      ts = round(max(0.0, min(duration - 0.05, base_ts + offset)), 3)
+      if ts in frames:
+        continue
+      out = burst_dir / f"burst_{burst_count:06d}_{int(ts*1000):09d}ms.jpg"
+      extracted = extract_single_frame_at(ffmpeg, video_path, out, ts)
+      if extracted:
+        frames[ts] = extracted
+        burst_count += 1
+  return [{"timestamp_seconds": ts, "path": path, "source": "burst" if "burst" in path.parts else "base"} for ts, path in sorted(frames.items())]
+
+def generate_roster_sweep(repo: Path, tools: Dict[str, str], videos: List[Dict[str, Any]], force: bool) -> Dict[str, Any]:
+  try:
+    from PIL import Image
+  except Exception as exc:
+    raise RuntimeError(f"PIL is required for roster_sweep: {exc}")
+  adapter = tesseract_adapter(repo)
+  generated = repo / "data" / "generated"
+  tmp_root = generated / ".roster_sweep_frames"
+  crop_root = repo / "assets" / "review_crops" / "roster_sweep"
+  if crop_root.exists():
+    shutil.rmtree(crop_root)
+  crop_root.mkdir(parents=True, exist_ok=True)
+  sweep_videos = [v for v in videos if v.get("package") in ROSTER_SWEEP_PACKAGES]
+  result = {
+    "package_type": "roster_sweep",
+    "schema_version": "video_source_truth_roster_sweep_v1",
+    "generated_at": now(),
+    "source_of_truth": "input_videos",
+    "fps": ROSTER_SWEEP_FPS,
+    "videos": [],
+    "screen_inventory": [],
+    "player_card_inventory": [],
+    "players_by_package": {"current_team_roster": {}, "opponent_roster": {}},
+    "manual_review_fields": [],
+    "ocr": adapter,
+  }
+  for video in sweep_videos:
+    package = video["package"]
+    team_scope = "rutgers" if package == "current_team_roster" else "purdue"
+    src = repo / "input_videos" / video["filename"]
+    frame_dir = tmp_root / Path(video["filename"]).stem.replace(" ", "_")
+    duration = float(video.get("duration_seconds") or 0)
+    frame_records = dynamic_roster_frame_set(tools["ffmpeg"], src, frame_dir, ROSTER_SWEEP_FPS, duration)
+    frame_paths = [record["path"] for record in frame_records]
+    expected_min = max(1, int(duration * ROSTER_SWEEP_FPS * 0.95))
+    video_summary = {
+      "filename": video["filename"],
+      "package": package,
+      "duration_seconds": duration,
+      "fps": ROSTER_SWEEP_FPS,
+      "frames_inspected": len(frame_paths),
+      "base_frames": sum(1 for record in frame_records if record["source"] == "base"),
+      "burst_frames": sum(1 for record in frame_records if record["source"] == "burst"),
+      "expected_minimum_frames": expected_min,
+      "coverage_start_seconds": frame_records[0]["timestamp_seconds"] if frame_records else None,
+      "coverage_end_seconds": frame_records[-1]["timestamp_seconds"] if frame_records else None,
+      "full_duration_processed": bool(frame_records) and len([r for r in frame_records if r["source"] == "base"]) >= expected_min and frame_records[-1]["timestamp_seconds"] >= max(0, duration - (1.0 / ROSTER_SWEEP_FPS) - 0.1),
+      "unique_roster_screens": 0,
+      "unique_player_cards": 0,
+      "duplicate_appearances_removed": 0,
+    }
+    seen_zone_hashes: Dict[str, str] = {}
+    seen_player_card_hashes: Dict[str, str] = {}
+    for index, frame_info in enumerate(frame_records):
+      frame_path = frame_info["path"]
+      ts = frame_info["timestamp_seconds"]
+      frame_record = {
+        "source_video": video["filename"],
+        "timestamp": f"00:{int(ts//60):02d}:{int(ts%60):02d}",
+        "timestamp_seconds": ts,
+        "frame_number": int(round(ts * 60)),
+        "package": package,
+        "sweep_frame_source": frame_info["source"],
+      }
+      with Image.open(frame_path) as img:
+        width, height = img.size
+        zone_records = {}
+        for zone_name, box in ROSTER_SWEEP_ZONES.items():
+          cropped = img.crop(crop_box(width, height, box))
+          h = average_crop_hash(cropped)
+          unique_key = f"{package}:{zone_name}:{h}"
+          duplicate = unique_key in seen_zone_hashes
+          crop_rel = None
+          if not duplicate:
+            crop_rel_path = Path("assets") / "review_crops" / "roster_sweep" / package / zone_name / f"{short_hash(unique_key)}.jpg"
+            crop_abs = repo / crop_rel_path
+            crop_abs.parent.mkdir(parents=True, exist_ok=True)
+            cropped.save(crop_abs, "JPEG", quality=92)
+            seen_zone_hashes[unique_key] = str(crop_rel_path).replace("\\", "/")
+            crop_rel = seen_zone_hashes[unique_key]
+          else:
+            crop_rel = seen_zone_hashes[unique_key]
+          zone_records[zone_name] = {"hash": h, "duplicate": duplicate, "crop_path": crop_rel}
+        is_unique_screen = not zone_records["roster_table"]["duplicate"] or not zone_records["highlight_area"]["duplicate"] or not zone_records["attribute_table"]["duplicate"]
+        is_unique_card = not zone_records["player_side_card"]["duplicate"]
+        if is_unique_screen:
+          video_summary["unique_roster_screens"] += 1
+        if is_unique_card:
+          video_summary["unique_player_cards"] += 1
+          highlight_crop = repo / zone_records["highlight_area"]["crop_path"]
+          highlight_ocr = ocr_crop(highlight_crop, adapter)
+          highlight_ev = evidence_from_sweep(video, frame_record, zone_records["highlight_area"]["crop_path"], highlight_ocr.get("confidence", 0.0), False)
+          highlight_candidate_crop = {
+            "crop_id": f"roster-sweep-{package}-{short_hash(zone_records['highlight_area']['hash'])}",
+            "crop_type": "highlight_area",
+            "fields": [review_field(highlight_ocr.get("value"), highlight_ev, "highlight_area", "ocr_draft_needs_confirmation" if highlight_ocr.get("value") else "needs_manual_review")],
+          }
+          identity_fields: Dict[str, Dict[str, Any]] = {}
+          for candidate in parse_highlight_row_identity(highlight_ocr.get("value"), package, highlight_candidate_crop["crop_id"], highlight_ev):
+            identity_fields.update(accepted_candidate_fields(candidate))
+          side_crop = repo / zone_records["player_side_card"]["crop_path"]
+          ocr = ocr_crop(side_crop, adapter)
+          ev = evidence_from_sweep(video, frame_record, zone_records["player_side_card"]["crop_path"], ocr.get("confidence", 0.0), False)
+          candidate_crop = {
+            "crop_id": f"roster-sweep-{package}-{short_hash(zone_records['player_side_card']['hash'])}",
+            "crop_type": "player_side_card",
+            "fields": [review_field(ocr.get("value"), ev, "player_side_card", "ocr_draft_needs_confirmation" if ocr.get("value") else "needs_manual_review")],
+          }
+          candidates = structured_candidates_from_crop(package, candidate_crop)
+          accepted: Dict[str, Dict[str, Any]] = dict(identity_fields)
+          for candidate in candidates:
+            for key, value in accepted_candidate_fields(candidate).items():
+              if key in {"name", "visible_name_text", "position", "overall"}:
+                continue
+              accepted[key] = value
+          identity = player_identity_key(team_scope, identity_fields, zone_records["player_side_card"]["hash"])
+          player_map = result["players_by_package"][package]
+          if identity not in player_map:
+            player_map[identity] = {
+              "record_id": identity,
+              "record_type": "player_card",
+              "team_scope": team_scope,
+              "player_identity_key": identity,
+              "source_card_hashes": [],
+              "appearances": [],
+              "fields": {},
+              "unreadable_fields": [],
+              "manual_review": False,
+              "verification_status": "video_sweep_draft",
+            }
+          player = player_map[identity]
+          if zone_records["player_side_card"]["hash"] not in player["source_card_hashes"]:
+            player["source_card_hashes"].append(zone_records["player_side_card"]["hash"])
+          player["appearances"].append({
+            "source_video": video["filename"],
+            "timestamp": frame_record["timestamp"],
+            "frame_number": frame_record["frame_number"],
+            "crop_path": zone_records["player_side_card"]["crop_path"],
+          })
+          merge_player_fields(player, accepted)
+          if not identity_fields or "|unknown-card|" in identity:
+            unreadable = {
+              "player_identity_key": identity,
+              "team_scope": team_scope,
+              "field": "player_identity",
+              "value": None,
+              "evidence": highlight_ev,
+              "reason": "OCR could not confidently read complete player identity from the highlighted roster row.",
+            }
+            player["unreadable_fields"].append(unreadable)
+            result["manual_review_fields"].append(unreadable)
+          result["player_card_inventory"].append({
+            "card_hash": zone_records["player_side_card"]["hash"],
+            "player_identity_key": identity,
+            "package": package,
+            "team_scope": team_scope,
+            "source_video": video["filename"],
+            "timestamp": frame_record["timestamp"],
+            "frame_number": frame_record["frame_number"],
+            "crop_path": zone_records["player_side_card"]["crop_path"],
+            "duplicate": False,
+          })
+        else:
+          video_summary["duplicate_appearances_removed"] += 1
+        result["screen_inventory"].append({
+          **frame_record,
+          "zones": zone_records,
+          "unique_roster_screen": is_unique_screen,
+          "unique_player_card": is_unique_card,
+          "disposition": "fully_extracted" if is_unique_screen or is_unique_card else "duplicate",
+        })
+    result["videos"].append(video_summary)
+  for package, players in result["players_by_package"].items():
+    for player in players.values():
+      player["manual_review"] = bool(player.get("unreadable_fields"))
+      player["field_count"] = len(player.get("fields", {}))
+  return result
+
+def apply_roster_sweep_outputs(repo: Path, outputs: Dict[str, Any], sweep: Dict[str, Any]) -> None:
+  mapping = {
+    "current_team_roster": "current_team_roster_extracted.json",
+    "opponent_roster": "opponent_roster_extracted.json",
+  }
+  for package, filename in mapping.items():
+    players = list((sweep.get("players_by_package", {}).get(package) or {}).values())
+    identified_players = [p for p in players if "|unknown-card|" not in p.get("record_id", "")]
+    output = outputs.get(filename)
+    if not output:
+      continue
+    output["schema_version"] = "video_source_truth_roster_sweep_v1"
+    output["extraction_method"] = "full_duration_roster_sweep"
+    output["review_package"] = f"data/generated/review/{package}_review.json"
+    output["review_csv"] = f"data/generated/review/{package}_review.csv"
+    output["records"] = players
+    output["manual_review_records"] = [p["record_id"] for p in players if p.get("manual_review")]
+    output.setdefault("counts", {})
+    review_path = repo / "data" / "generated" / "review" / f"{package}_review.json"
+    review_crops = 0
+    if review_path.exists():
+      review_crops = int((read_json(review_path, {}).get("counts") or {}).get("crops") or 0)
+    output["counts"].update({
+      "records": len(players),
+      "identified_records": len(identified_players),
+      "complete_records": sum(1 for p in identified_players if not p.get("manual_review")),
+      "partial_records": sum(1 for p in players if p.get("manual_review")),
+      "manual_review_records": sum(1 for p in players if p.get("manual_review")),
+      "omitted_fields": 0,
+      "review_crops": review_crops,
+      "unique_player_cards": sum(1 for c in sweep.get("player_card_inventory", []) if c.get("package") == package),
+    })
 
 def generate_roster_stats_review(repo: Path, videos: List[Dict[str, Any]], screens: List[Dict[str, Any]], extract_mode: Optional[str]) -> Dict[str, Any]:
   if extract_mode != "roster_stats":
@@ -501,6 +937,24 @@ def merge_review_promotions(outputs: Dict[str, Any], review_result: Dict[str, An
       outputs[filename]["promotion_policy"] = "Only reviewed/confirmed fields or OCR-confident draft fields may be promoted."
       outputs[filename]["counts"]["promoted_fields"] = 0
       outputs[filename]["counts"]["review_crops"] = review_result["review_packages"][package]["counts"]["crops"]
+
+def preserve_review_package_links(repo: Path, outputs: Dict[str, Any]) -> None:
+  mapping = {
+    "current_team_roster": "current_team_roster_extracted.json",
+    "opponent_roster": "opponent_roster_extracted.json",
+    "current_team_season_stats": "current_team_season_stats_extracted.json",
+    "opponent_season_stats": "opponent_season_stats_extracted.json",
+  }
+  for package, filename in mapping.items():
+    payload = outputs.get(filename)
+    if not payload:
+      continue
+    review_path = repo / "data" / "generated" / "review" / f"{package}_review.json"
+    payload.setdefault("counts", {})
+    payload["review_package"] = f"data/generated/review/{package}_review.json"
+    payload["review_csv"] = f"data/generated/review/{package}_review.csv"
+    if "review_crops" not in payload["counts"]:
+      payload["counts"]["review_crops"] = int((read_json(review_path, {}).get("counts") or {}).get("crops") or 0)
 
 
 def normalize_review_status(status: Any) -> str:
@@ -817,6 +1271,35 @@ def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapse
   for name, text in basic.items():
     (reports / name).write_text(text, encoding="utf-8")
 
+
+def write_roster_sweep_reports(repo: Path, sweep: Dict[str, Any]) -> None:
+  reports = repo / "reports"
+  reports.mkdir(exist_ok=True)
+  rows = []
+  for v in sweep.get("videos", []):
+    rows.append([v["filename"], v["duration_seconds"], v["frames_inspected"], v["unique_roster_screens"], v["unique_player_cards"], v["duplicate_appearances_removed"], v["full_duration_processed"]])
+  body = "# Roster Sweep Report\n\n"
+  body += table(["Video","Duration","Frames Inspected","Unique Screens","Unique Cards","Duplicates Removed","Full Duration"], rows)
+  body += "\nBaseline FPS: 4.0. Additional burst frames are sampled around detected screen changes.\n"
+  body += "\n## Totals\n\n"
+  rutgers_identified = [p for p in sweep['players_by_package'].get('current_team_roster', {}).values() if "|unknown-card|" not in p.get("record_id", "")]
+  purdue_identified = [p for p in sweep['players_by_package'].get('opponent_roster', {}).values() if "|unknown-card|" not in p.get("record_id", "")]
+  body += f"- Unique Rutgers players auto-identified: {len(rutgers_identified)}\n"
+  body += f"- Unique Purdue players auto-identified: {len(purdue_identified)}\n"
+  body += f"- Unique player cards detected: {len(sweep.get('player_card_inventory', []))}\n"
+  body += f"- Unreadable fields: {len(sweep.get('manual_review_fields', []))}\n"
+  confidence_values = [float((field.get('evidence') or {}).get('confidence') or 0) for players in sweep.get('players_by_package', {}).values() for player in players.values() for field in player.get('fields', {}).values()]
+  avg_conf = round(sum(confidence_values) / max(1, len(confidence_values)), 3)
+  body += f"- Extraction confidence: {avg_conf}\n"
+  (reports / "roster_sweep_report.md").write_text(body, encoding="utf-8")
+  manual_rows = []
+  for item in sweep.get("manual_review_fields", []):
+    ev = item.get("evidence", {})
+    manual_rows.append([item.get("team_scope"), item.get("player_identity_key"), item.get("field"), ev.get("source_video"), ev.get("timestamp"), ev.get("crop_path"), item.get("reason")])
+  manual_body = "# Manual Review Required\n\n"
+  manual_body += table(["Team","Player Key","Field","Video","Timestamp","Crop","Reason"], manual_rows) if manual_rows else "No unreadable roster sweep fields.\n"
+  (reports / "manual_review_required.md").write_text(manual_body, encoding="utf-8")
+
 def run(args) -> int:
   repo, start = root(), time.perf_counter()
   tools = resolve_ffmpeg(repo)
@@ -831,19 +1314,61 @@ def run(args) -> int:
   outputs = build_outputs(repo, manifest, screens)
   review_result = generate_roster_stats_review(repo, manifest["videos"], screens, args.extract)
   merge_review_promotions(outputs, review_result)
+  preserve_review_package_links(repo, outputs)
+  roster_sweep = generate_roster_sweep(repo, tools, manifest["videos"], args.force) if args.extract == "roster_sweep" else None
+  if roster_sweep:
+    apply_roster_sweep_outputs(repo, outputs, roster_sweep)
+    outputs["extraction_confidence.json"]["roster_sweep"] = {
+      "videos": roster_sweep["videos"],
+      "unique_player_cards": len(roster_sweep["player_card_inventory"]),
+      "manual_review_fields": len(roster_sweep["manual_review_fields"]),
+      "ocr": roster_sweep.get("ocr", {}),
+    }
   outputs["extraction_confidence.json"]["roster_stats_review"] = {"crop_count": review_result.get("crop_count", 0), "ocr": review_result.get("ocr", {})}
   gen = repo / "data" / "generated"; gen.mkdir(parents=True, exist_ok=True)
   write_json(gen / ".video_cache.json", manifest.get("_cache", {}))
   review_import_report = apply_review_import(repo, outputs) if args.apply_review else None
   if review_import_report:
     outputs["extraction_confidence.json"]["review_import"] = {"promoted_total": review_import_report["promoted_total"], "errors": review_import_report["errors"]}
+  if roster_sweep:
+    write_json(gen / "roster_screen_inventory.json", {
+      "package_type": "roster_screen_inventory",
+      "schema_version": "video_source_truth_roster_sweep_v1",
+      "generated_at": now(),
+      "fps": ROSTER_SWEEP_FPS,
+      "screens": roster_sweep["screen_inventory"],
+      "videos": roster_sweep["videos"],
+    })
+    write_json(gen / "player_card_inventory.json", {
+      "package_type": "player_card_inventory",
+      "schema_version": "video_source_truth_roster_sweep_v1",
+      "generated_at": now(),
+      "cards": roster_sweep["player_card_inventory"],
+      "counts": {
+        "unique_player_cards": len(roster_sweep["player_card_inventory"]),
+        "rutgers_players": len(roster_sweep["players_by_package"].get("current_team_roster", {})),
+        "purdue_players": len(roster_sweep["players_by_package"].get("opponent_roster", {})),
+      },
+    })
   for name, payload in outputs.items():
     write_json(gen / name, payload)
   errors = validate_generated(repo) + validate_review_promotions(repo, outputs)
   if review_import_report:
     errors.extend(review_import_report["errors"])
   write_reports(repo, outputs, errors, elapsed, review_result, review_import_report)
-  print(json.dumps({"status": "PASS" if not errors else "FAIL", "videos": [{"filename": v["filename"], "classification": v["classification"]} for v in manifest["videos"]], "screen_count": len(screens), "legacy_play_baseline": len(legacy_playbook(repo)), "video_verified_plays": 0, "manual_review_screens": sum(1 for s in screens if s["manual_review"]), "review_crop_count": review_result.get("crop_count", 0), "review_promoted_fields": review_import_report["promoted_total"] if review_import_report else 0, "ocr": review_result.get("ocr", {}), "elapsed_seconds": round(elapsed, 2), "errors": errors}, indent=2))
+  if roster_sweep:
+    write_roster_sweep_reports(repo, roster_sweep)
+  roster_payload = None
+  if roster_sweep:
+    rutgers_players = [p for p in roster_sweep["players_by_package"].get("current_team_roster", {}).values() if "|unknown-card|" not in p.get("record_id", "")]
+    purdue_players = [p for p in roster_sweep["players_by_package"].get("opponent_roster", {}).values() if "|unknown-card|" not in p.get("record_id", "")]
+    roster_payload = {
+      "rutgers_players_auto_identified": len(rutgers_players),
+      "purdue_players_auto_identified": len(purdue_players),
+      "unique_player_cards": len(roster_sweep["player_card_inventory"]),
+      "manual_review_fields": len(roster_sweep["manual_review_fields"]),
+    }
+  print(json.dumps({"status": "PASS" if not errors else "FAIL", "videos": [{"filename": v["filename"], "classification": v["classification"]} for v in manifest["videos"]], "screen_count": len(screens), "legacy_play_baseline": len(legacy_playbook(repo)), "video_verified_plays": 0, "manual_review_screens": sum(1 for s in screens if s["manual_review"]), "review_crop_count": review_result.get("crop_count", 0), "review_promoted_fields": review_import_report["promoted_total"] if review_import_report else 0, "roster_sweep": roster_payload, "ocr": review_result.get("ocr", {}), "elapsed_seconds": round(elapsed, 2), "errors": errors}, indent=2))
   return 0 if not errors else 1
 
 def parse_args(argv=None):
@@ -852,7 +1377,7 @@ def parse_args(argv=None):
   p.add_argument("--video")
   p.add_argument("--dry-run", action="store_true")
   p.add_argument("--review", action="store_true")
-  p.add_argument("--extract", choices=["roster_stats"], help="Generate OCR-ready review crops and import files for roster/stat videos.")
+  p.add_argument("--extract", choices=["roster_stats", "roster_sweep"], help="Generate OCR-ready review crops, structured imports, or full roster sweep outputs.")
   p.add_argument("--apply-review", action="store_true", help="Promote only review rows explicitly marked confirmed into generated extracted data.")
   return p.parse_args(argv)
 

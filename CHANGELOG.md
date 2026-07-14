@@ -307,3 +307,11 @@
 - Added roster/stat OCR draft parsing into structured review rows.
 - Added structured review CSV outputs beside raw OCR crop review files.
 - Kept confirmed-only promotion and field-level evidence requirements intact.
+
+## Full Roster Sweep
+
+- Added `process_week.py --extract roster_sweep` for end-to-end Rutgers/Purdue roster video scanning.
+- Added roster/player-card inventories and sweep report outputs.
+- Added validation for full-duration coverage, deduped player records, team separation, and field-level evidence.
+- Updated roster sweep to default to 4 fps and add dynamic burst frames around detected changes.
+- Changed roster sweep identity ownership so the highlighted roster table row creates the player identity and side-card OCR can only enrich that roster-owned record.

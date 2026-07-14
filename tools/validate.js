@@ -646,6 +646,31 @@ check('Roster/stats extracted packages link back to review packages', ['current_
 function validateReviewImports() {
   const reportPath = path.join(root, 'reports', 'review_import_report.md');
   check('Review import report exists', fs.existsSync(reportPath));
+  const rosterScreenPath = path.join(generatedDir, 'roster_screen_inventory.json');
+  const playerCardPath = path.join(generatedDir, 'player_card_inventory.json');
+  check('Roster sweep generated inventories exist', fs.existsSync(rosterScreenPath) && fs.existsSync(playerCardPath));
+  if (fs.existsSync(rosterScreenPath) && fs.existsSync(playerCardPath)) {
+    const rosterSweep = JSON.parse(fs.readFileSync(rosterScreenPath, 'utf8'));
+    const cardInventory = JSON.parse(fs.readFileSync(playerCardPath, 'utf8'));
+    const rosterVideos = rosterSweep.videos || [];
+    check('Roster sweep covers both full roster videos', rosterVideos.length === 2 && rosterVideos.every(video => video.full_duration_processed && video.frames_inspected >= video.expected_minimum_frames));
+    check('Roster sweep detected unique player cards and screens', (cardInventory.cards || []).length > 0 && rosterVideos.every(video => video.unique_roster_screens > 0 && video.unique_player_cards > 0));
+    const cardKeys = (cardInventory.cards || []).map(card => card.player_identity_key);
+    const currentRosterSweep = readGeneratedJson('current_team_roster_extracted.json');
+    const opponentRosterSweep = readGeneratedJson('opponent_roster_extracted.json');
+    const playerRecordKeys = new Set([...(currentRosterSweep.records || []), ...(opponentRosterSweep.records || [])].map(row => row.player_identity_key));
+    check('Every detected roster sweep card has a merged player record', cardKeys.every(key => playerRecordKeys.has(key)));
+    check('Roster sweep does not mix Rutgers and Purdue records', (currentRosterSweep.records || []).every(row => row.team_scope === 'rutgers') && (opponentRosterSweep.records || []).every(row => row.team_scope === 'purdue'));
+    check('Roster sweep player identity keys are unique per team output', [currentRosterSweep, opponentRosterSweep].every(payload => {
+      const ids = (payload.records || []).map(row => row.player_identity_key);
+      return ids.length === new Set(ids).size;
+    }));
+    check('Roster sweep accepted fields carry source evidence', [currentRosterSweep, opponentRosterSweep].every(payload => (payload.records || []).every(row => Object.values(row.fields || {}).every(field => {
+      const ev = field.evidence || {};
+      return ev.source_video && ev.source_video_hash && ev.timestamp && ev.frame_number !== undefined && ev.crop_path && ev.confidence !== undefined;
+    }))));
+  }
+
   for (const file of ['current_team_roster_extracted.json','opponent_roster_extracted.json','current_team_season_stats_extracted.json','opponent_season_stats_extracted.json']) {
     const payload = readGeneratedJson(file);
     const promoted = payload.promoted_fields || [];

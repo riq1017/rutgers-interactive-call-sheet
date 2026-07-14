@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-14T00:31:20.709Z
+Validated: 2026-07-14T02:18:14.818Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -312,6 +312,13 @@ Validated: 2026-07-14T00:31:20.709Z
 - PASS - Structured review CSV files exist for all roster/stat packages
 - PASS - Roster/stats extracted packages link back to review packages
 - PASS - Review import report exists
+- PASS - Roster sweep generated inventories exist
+- PASS - Roster sweep covers both full roster videos
+- PASS - Roster sweep detected unique player cards and screens
+- PASS - Every detected roster sweep card has a merged player record
+- PASS - Roster sweep does not mix Rutgers and Purdue records
+- PASS - Roster sweep player identity keys are unique per team output
+- PASS - Roster sweep accepted fields carry source evidence
 - PASS - current_team_roster_extracted.json promoted review fields have confirmed crop evidence
 - PASS - opponent_roster_extracted.json promoted review fields have confirmed crop evidence
 - PASS - current_team_season_stats_extracted.json promoted review fields have confirmed crop evidence

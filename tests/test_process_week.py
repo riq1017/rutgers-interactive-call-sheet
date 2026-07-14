@@ -127,6 +127,51 @@ class VideoSourceTruthTests(unittest.TestCase):
         self.assertEqual(values["height"], "6'0\"")
         self.assertEqual(values["weight"], "195 lbs")
 
+    def test_roster_sweep_timestamps_cover_duration(self):
+        stamps = process_week.roster_sweep_timestamps(10.0, 4.0)
+        self.assertEqual(stamps[0], 0.0)
+        self.assertGreaterEqual(stamps[-1], 9.8)
+        self.assertGreaterEqual(len(stamps), 40)
+
+    def test_changed_frame_indices_detects_changes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            a = root / "a.jpg"
+            b = root / "b.jpg"
+            c = root / "c.jpg"
+            a.write_bytes(b"a" * 5000)
+            b.write_bytes(b"a" * 5000)
+            c.write_bytes(b"b" * 5000)
+            self.assertEqual(process_week.changed_frame_indices([a, b, c]), [2])
+
+    def test_player_identity_key_uses_name_position_jersey(self):
+        fields = {
+            "visible_name_text": {"value": "Mick York"},
+            "position": {"value": "QB"},
+            "jersey": {"value": "15"},
+        }
+        self.assertEqual(process_week.player_identity_key("rutgers", fields, "abcdef"), "rutgers|mick-york|qb|15")
+
+    def test_player_identity_key_falls_back_to_card_hash(self):
+        self.assertEqual(process_week.player_identity_key("purdue", {}, "abcdef123456"), "purdue|unknown-card|abcdef123456")
+
+    def test_merge_player_fields_keeps_best_confidence(self):
+        player = {"fields": {"position": {"value": "QB", "evidence": {"confidence": 0.3}}}}
+        process_week.merge_player_fields(player, {"position": {"value": "HB", "evidence": {"confidence": 0.2}}})
+        self.assertEqual(player["fields"]["position"]["value"], "QB")
+        process_week.merge_player_fields(player, {"position": {"value": "QB", "evidence": {"confidence": 0.8}}})
+        self.assertEqual(player["fields"]["position"]["evidence"]["confidence"], 0.8)
+
+    def test_accepted_candidate_fields_require_safe_names(self):
+        candidate = {"fields": [
+            {"field_name": "position", "value": "QB", "evidence": {"confidence": 0.55}},
+            {"field_name": "stat_1", "value": "99", "evidence": {"confidence": 0.99}},
+        ]}
+        accepted = process_week.accepted_candidate_fields(candidate)
+        self.assertIn("position", accepted)
+        self.assertNotIn("stat_1", accepted)
+        self.assertFalse(accepted["position"]["evidence"]["manual_review"])
+
     def test_crop_evidence_has_crop_path(self):
         ev = process_week.crop_evidence(
             {"filename": "x.mp4", "sha256": "abc"},

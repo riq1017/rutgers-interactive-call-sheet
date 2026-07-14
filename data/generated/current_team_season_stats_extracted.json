@@ -4,7 +4,6 @@
     "manual_review_records": 6,
     "omitted_fields": 0,
     "partial_records": 0,
-    "promoted_fields": 0,
     "records": 6,
     "review_crops": 18
   },
@@ -17,8 +16,6 @@
     "manual-stat_screen-screen-1b29f0112f24"
   ],
   "package_type": "current_team_season_stats_extracted",
-  "promoted_fields": [],
-  "promotion_policy": "Only fields explicitly marked confirmed are promoted.",
   "records": [
     {
       "additional_visible_fields": {},

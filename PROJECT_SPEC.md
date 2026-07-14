@@ -209,3 +209,7 @@ Roster and season-stat videos use a hybrid review flow. The pipeline may create 
 ### Structured OCR Drafts
 
 The video source-of-truth pipeline may parse OCR crop text into structured candidate rows, but those rows are not authoritative until a reviewer marks fields `confirmed`. Raw OCR remains evidence, not source-truth data.
+
+### Roster Sweep Source Truth
+
+Roster videos use a full-duration sweep path for player-card extraction. The sweep scans at a 4 fps baseline, adds burst frames around detected roster/card/table changes, and records unique roster screens plus side-card appearances. The highlighted roster table row is the primary source for player identity. Side-card OCR may enrich the roster-owned player record with visible profile fields, traits, and attributes, but it must not create a new player identity. Unreadable table identities and fields remain manual-review evidence instead of guesses.

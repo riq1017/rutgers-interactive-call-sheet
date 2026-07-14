@@ -82,10 +82,6 @@
       "video": "Rutgers Season stats.mp4"
     }
   ],
-  "review_import": {
-    "errors": [],
-    "promoted_total": 0
-  },
   "roster_stats_review": {
     "crop_count": 0,
     "ocr": {
@@ -95,6 +91,51 @@
       "source": "common_install",
       "version": "tesseract v5.4.0.20240606"
     }
+  },
+  "roster_sweep": {
+    "manual_review_fields": 285,
+    "ocr": {
+      "available": true,
+      "mode": "optional_tesseract_stdout",
+      "path": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+      "source": "common_install",
+      "version": "tesseract v5.4.0.20240606"
+    },
+    "unique_player_cards": 338,
+    "videos": [
+      {
+        "base_frames": 1200,
+        "burst_frames": 1196,
+        "coverage_end_seconds": 299.75,
+        "coverage_start_seconds": 0.0,
+        "duplicate_appearances_removed": 2233,
+        "duration_seconds": 299.983,
+        "expected_minimum_frames": 1139,
+        "filename": "Purdue Roster.mp4",
+        "fps": 4.0,
+        "frames_inspected": 2396,
+        "full_duration_processed": true,
+        "package": "opponent_roster",
+        "unique_player_cards": 163,
+        "unique_roster_screens": 341
+      },
+      {
+        "base_frames": 1199,
+        "burst_frames": 1528,
+        "coverage_end_seconds": 299.5,
+        "coverage_start_seconds": 0.0,
+        "duplicate_appearances_removed": 2552,
+        "duration_seconds": 299.8,
+        "expected_minimum_frames": 1139,
+        "filename": "Rutgers Roster.webm",
+        "fps": 4.0,
+        "frames_inspected": 2727,
+        "full_duration_processed": true,
+        "package": "current_team_roster",
+        "unique_player_cards": 175,
+        "unique_roster_screens": 493
+      }
+    ]
   },
   "source_of_truth": "input_videos"
 }

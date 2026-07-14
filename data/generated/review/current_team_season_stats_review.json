@@ -1,8 +1,8 @@
 {
   "counts": {
     "crops": 18,
-    "manual_review_fields": 18,
-    "ocr_draft_fields": 0,
+    "manual_review_fields": 0,
+    "ocr_draft_fields": 18,
     "omitted_fields": 0,
     "promoted_fields": 0
   },
@@ -20,18 +20,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-d705172c5563-stats_header.jpg",
             "frame_number": 60,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:00:01",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "A ae\n\u00a9 Actions Members CFB Coach Team stats 6 Records OE\nWEEK 7, 2028 :\n[==] SEASON STATS"
         }
       ],
       "manual_review": true,
@@ -52,18 +52,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-d705172c5563-stats_table.jpg",
             "frame_number": 60,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:00:01",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "We eee Sees SS aeQ8bt es YS\n= Check out the Season Stats here.\nI \u201d\n( yr \u2019\nyy \u2014 m\u2014 ~~ -\n\u2014o \u2122\nss S >"
         }
       ],
       "manual_review": true,
@@ -84,18 +84,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-d705172c5563-player_side_card.jpg",
             "frame_number": 60,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:00:01",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "_.\u2014\n,"
         }
       ],
       "manual_review": true,
@@ -116,18 +116,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-e99f1b169117-stats_header.jpg",
             "frame_number": 2034,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:00:33",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": ", \u2018s\nPY wives =e amma |\nNAME nne PAD - VADNG AUC. Th nucer On. pTu var Tone"
         }
       ],
       "manual_review": true,
@@ -148,18 +148,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-e99f1b169117-stats_table.jpg",
             "frame_number": 2034,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:00:33",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "NAME POS CAR vYARDS = AVG 1D AVG G 20+ BIK YAC LONG CL\nT.simonson HB 103 469 46 4 93.8 2 8 137 38 \u2018 \u2018a\nJ.Haskins HB hh 279 63 3 55.8 3 2 40 B B 4\nMyork 0B 38 60 16 1 12.0 0 0 18 19 \u00ae\nR.Bieniemy 0B 4 7 12 1 3.4 0 0 5 7 | so\nK.Evans WR 1 18 16.0 0 3.2 0 1 1 18 fo | a\n\u201cJ His\n\nG.0luwatimi FB 2 5 25 0 13 0 0 3 5 SONNY\nS.Degraffenreidt wr 2 1 05 0 0.2 0 2 0 1 |\nB.DeMarco WR 1 1 10 0 0.2 0 0 1 1\nFloure WR 0 0 0.0 0 0.0 0 1 0 0 |\n\n_ J.Houston WR 0 0 i) 0 0.0 0 0 0 0\nE.Coke WR 0 0 0.0 0 0.0 0 0 0 0\nMW Starv Te 0 0 non 0 nn 0 4q 0 nN *."
         }
       ],
       "manual_review": true,
@@ -180,18 +180,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-e99f1b169117-player_side_card.jpg",
             "frame_number": 2034,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:00:33",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "he\n~ 2A =\n=. \u00a20\n1EEM\nENIEMY\nTION ARCHETYPE\n(R) | #9 | Backfield Creator\n$ HEIGHT & WEIGHT\n6'4\" | 198 Ibs\nETOWN\nenville, MS\nDEALBREAKER h\nProximity To Home\nHave: B | Need: B-\nOm\n\u201ca"
         }
       ],
       "manual_review": true,
@@ -212,18 +212,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-aa438e1b705f-stats_header.jpg",
             "frame_number": 4009,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:01:06",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": ", 4 \u2122\nPz RUTGERS b_ DEFENSE re) R\n\u2014 mE IO my aT a AROS FSS SES"
         }
       ],
       "manual_review": true,
@@ -244,18 +244,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-aa438e1b705f-stats_table.jpg",
             "frame_number": 4009,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:01:06",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "NAME Pos. =\u2014s SOLO ASSISTS = w TAK TFL SACK INT INTYDS = =\u2014sINTAVG = INTLG\u2014( ts C\nS.Murray cB 9 3 12 1 05 0 0 0.0 0 0 | #2.\nA.Anelli oT 4 3 7 0 0.0 0 0 i) 0 a | v :\nTNash ss 3 1 4 0 0.0 0 0 i) 0 0 | (Ay\nJ.Simon REG 63 0 3 0 i) 0 0 0.0 0 0 | ry\nG.Nix MIKE = 3. 0 3 0 0.0 0 0 0.0 0 o | \u2018| Hom\nuses\n\nTega cB 1 1 2 0 0.0 0 0 0.0 0 0 ene\nTHitchens lpg =O 0 0 0 0.0 0 0 0.0 ) 0 |\nExing ROG \u00ab=O 0 0 0 0.0 0 0 i) 0 0\nA.Friend REG =O 0 0 0 0.0 0 0 i) 0 0 hs\n\n\u2019 \u2014 PCook oT 0 0 0 0 0.0 0 0 0.0 0 0\nJStrong OT 0 0 0 0 i) 0 0 i) 0 0\nTNewenn MIKE nN n n n no n n no n n ee"
         }
       ],
       "manual_review": true,
@@ -276,18 +276,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-aa438e1b705f-player_side_card.jpg",
             "frame_number": 4009,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:01:06",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "fs\nR\nOVR\ni>\n=. \u00a290\n4\nGA\nTION ARCHETYPE\n| #17 Tone\n$ HEIGHT & WEIGHT\nRS) | 6'3\" | 182 Ibs\nETOWN ~\niLocka, FL\nDEALBREAKER h\nPro Potential\nHave: B | Need: C+\n(Om\n\u201ca2"
         }
       ],
       "manual_review": true,
@@ -308,18 +308,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-8eee340e3418-stats_header.jpg",
             "frame_number": 5983,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:01:39",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": ", 4 ae\nSnap count GEE)\nfz) PPURDUE, [Heteltlal -\nNAME nne J Th nuern On. pTuU var Inne cIUMD CHM Of ecnnane"
         }
       ],
       "manual_review": true,
@@ -340,18 +340,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-8eee340e3418-stats_table.jpg",
             "frame_number": 5983,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:01:39",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "NAME Pos \u00ab4G 1D AVG G 20+ BIK YAC LONG FUMB FUM% \u2014 SNAPS \u2014\nE.chuba 0B 3 2 26.2 3 10 135 5 0 0.0 333 =\nLUC\nQ.Toppins HBO 2 4.8 1 12 98 26 1 2.0 283 PU\nPkey HBOS ) 3.2 0 1 4 5 i) 0.0 61 TE\nJ.Hornsby WR 0 0 0.0 0 0 0 0 0 0.0 81 ay\nL.Puccinelli TE 0 0 0.0 0 4 0 0 0 0.0 236 An\nD.Bouye we 0 0 0.0 0 0 0 0 0 0.0 92\nM.Bober we 0 0 i) 0 0 0 0 0 0.0 328 pas\nA.Marks we 0 0 0.0 0 0 0 0 0 0.0 342\nTBettis wer oO 0 0.0 0 0 0 0 ) 0.0 263 = \u201c\n \\.Mangen T 0 0 0.0 0 4 0 0 0 0.0 109\nJFartior HBO 0 0.0 0 0 0 0 0 0.0 7 :\nHM Dhattioan nR fq o non 0 0 0 il 0 non 0 iid"
         }
       ],
       "manual_review": true,
@@ -372,18 +372,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-8eee340e3418-player_side_card.jpg",
             "frame_number": 5983,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:01:39",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Pg\nOVR\n\u2014n\niw\"\nA\nCCINELLI\nTON ARCHETYPE\n#85 Physical Route Runner\nS | HEIGHT & WEIGHT\n(RS) 6'6\" | 269 Ibs\nETOWN\nn Allen, VA\nCAL MENTAL\nOm"
         }
       ],
       "manual_review": true,
@@ -404,18 +404,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-500fee62e592-stats_header.jpg",
             "frame_number": 7958,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:02:12",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": ", 4 4 a\nPe pune , BLOCKING Mrz) iE\nNAME nne en , CArU enane"
         }
       ],
       "manual_review": true,
@@ -436,18 +436,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-500fee62e592-stats_table.jpg",
             "frame_number": 7958,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:02:12",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "NAME POS GP SACK SNAPS =\nV.Palelei RG 0 0 0\nK.Knott RG 0 0 0 HR\nJ.Culliver RT 0 0 0 Posi\n| |\nLPayne WT 0 0 0 ons\n|i\nL.Newton c 0 0 0 HOM\nCol\nFClear RG 5 0 7\nC.Hillhouse RG 0 0 0 ae\nC.Afalava RT 1 0 6 ON\nJ.Holcombe i 5 2 350 -\nH.Cashman 1G 5 2 347 e\nJFree c 5 3 372 S\nM"
         }
       ],
       "manual_review": true,
@@ -468,18 +468,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-500fee62e592-player_side_card.jpg",
             "frame_number": 7958,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:02:12",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "\u2014\n\nae)\n\u2014\nww\"\na\nCH\n.RRIS\nTION ARCHETYPE\n#79 Raw Strength\nS$ HEIGHT & WEIGHT\n6'7\" | 280 Ibs\nETOWN\numbus, IN 9\nCAL MENTAL\norkhorse \u00a9 Adrenaline\n2 \u00ae winning Time\nOm"
         }
       ],
       "manual_review": true,
@@ -500,18 +500,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-1b29f0112f24-stats_header.jpg",
             "frame_number": 9932,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:02:45",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": ", A \u2014\nPe pune Tackles foros erence ey Se\n=\n\nNAME nne TCL Crary INT INT VWNe WT AU INTIC TH NEC PTUA CCUM! \u2014"
         }
       ],
       "manual_review": true,
@@ -532,18 +532,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-1b29f0112f24-stats_table.jpg",
             "frame_number": 9932,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:02:45",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "stats_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "NAME POS) TFL SACK INT INTYDS = INTAVG = INT LG. 1D DEFL CTHA FFUMI =\nJGoldsberry FS 1 i) 0 0 i) 0 0 0 10 0 Le\nQUA\nE.Sawyer ss 1 0.0 0 0 0.0 0 0 0 9 0 GI\nR.Ogden MIKE ft) 0.0 i) ft) 0.0 ft) tt) 1 7 ft) fe\nD.Lincoln cB 0 0.0 1 7 70 7 0 3 12 0 an\nB.Hanson oT 2 0.0 0 0 0.0 0 0 0 0 0 Ta\n\nQ.Gillians REDG \u00ab8 0.0 0 0 0.0 0 0 0 0 1\nY.Hernandez LEDG 3 0.0 0 0 0.0 0 0 0 0 0 PHYS!\nD.Gamer oT 3 15 0 0 0.0 0 0 0 0 0 OM\n\u2014~ x\n\nP.Jerry cB 0 0.0 0 0 0.0 0 0 1 4 0\n\n\u2014 KiWebb 0G A 15 0 0 i) 0 0 0 0 0\nT.McMillian oT 1 0.0 0 0 0.0 0 0 0 0 0 :\n\nMWimhuech es n no n n no n n n q n a"
         }
       ],
       "manual_review": true,
@@ -564,18 +564,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_season_stats/screen-1b29f0112f24-player_side_card.jpg",
             "frame_number": 9932,
             "manual_review": true,
             "source_video": "Rutgers Season stats.mp4",
             "source_video_hash": "0d310d0801ad5058a3c8150f341a8b02928097b0fc4749b8621a1d19fbfa5e5f",
             "timestamp": "00:02:45",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Py\n4 OVR\n\u201cati\nro my\n.NTE\nLLIANS\nTION ARCHETYPE\nG | #94 Pure Power\nS$ HEIGHT & WEIGHT\nC1) 6'3\" | 295 Ibs\nETOWN\nhester, NY 9\nCAL MENTAL\norkhorse ee\nammer a\nOm"
         }
       ],
       "manual_review": true,
@@ -586,9 +586,11 @@
   ],
   "field_group": "current_team_season_stats",
   "ocr": {
-    "available": false,
-    "mode": "manual_review_only",
-    "path": null
+    "available": true,
+    "mode": "optional_tesseract_stdout",
+    "path": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+    "source": "common_install",
+    "version": "tesseract v5.4.0.20240606"
   },
   "package_type": "current_team_season_stats_review",
   "promoted_fields": [],

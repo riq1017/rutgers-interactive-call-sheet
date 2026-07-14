@@ -1,25 +1,280 @@
 package,crop_id,crop_type,source_video,timestamp,frame_number,crop_path,field_name,value,review_status,confidence
-opponent_roster,screen-5fd57a3616a0-roster_header,roster_header,Purdue Roster.mp4,00:00:01,60,assets/review_crops/opponent_roster/screen-5fd57a3616a0-roster_header.jpg,roster_header,,needs_manual_review,0.0
-opponent_roster,screen-5fd57a3616a0-roster_table,roster_table,Purdue Roster.mp4,00:00:01,60,assets/review_crops/opponent_roster/screen-5fd57a3616a0-roster_table.jpg,roster_table,,needs_manual_review,0.0
-opponent_roster,screen-5fd57a3616a0-player_side_card,player_side_card,Purdue Roster.mp4,00:00:01,60,assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_roster,screen-6efb6a537ed1-roster_header,roster_header,Purdue Roster.mp4,00:00:40,2417,assets/review_crops/opponent_roster/screen-6efb6a537ed1-roster_header.jpg,roster_header,,needs_manual_review,0.0
-opponent_roster,screen-6efb6a537ed1-roster_table,roster_table,Purdue Roster.mp4,00:00:40,2417,assets/review_crops/opponent_roster/screen-6efb6a537ed1-roster_table.jpg,roster_table,,needs_manual_review,0.0
-opponent_roster,screen-6efb6a537ed1-player_side_card,player_side_card,Purdue Roster.mp4,00:00:40,2417,assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_roster,screen-33427cb143c2-roster_header,roster_header,Purdue Roster.mp4,00:01:19,4774,assets/review_crops/opponent_roster/screen-33427cb143c2-roster_header.jpg,roster_header,,needs_manual_review,0.0
-opponent_roster,screen-33427cb143c2-roster_table,roster_table,Purdue Roster.mp4,00:01:19,4774,assets/review_crops/opponent_roster/screen-33427cb143c2-roster_table.jpg,roster_table,,needs_manual_review,0.0
-opponent_roster,screen-33427cb143c2-player_side_card,player_side_card,Purdue Roster.mp4,00:01:19,4774,assets/review_crops/opponent_roster/screen-33427cb143c2-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_roster,screen-127ef65e04fd-roster_header,roster_header,Purdue Roster.mp4,00:01:58,7131,assets/review_crops/opponent_roster/screen-127ef65e04fd-roster_header.jpg,roster_header,,needs_manual_review,0.0
-opponent_roster,screen-127ef65e04fd-roster_table,roster_table,Purdue Roster.mp4,00:01:58,7131,assets/review_crops/opponent_roster/screen-127ef65e04fd-roster_table.jpg,roster_table,,needs_manual_review,0.0
-opponent_roster,screen-127ef65e04fd-player_side_card,player_side_card,Purdue Roster.mp4,00:01:58,7131,assets/review_crops/opponent_roster/screen-127ef65e04fd-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_roster,screen-bbd9f47c64ee-roster_header,roster_header,Purdue Roster.mp4,00:02:38,9488,assets/review_crops/opponent_roster/screen-bbd9f47c64ee-roster_header.jpg,roster_header,,needs_manual_review,0.0
-opponent_roster,screen-bbd9f47c64ee-roster_table,roster_table,Purdue Roster.mp4,00:02:38,9488,assets/review_crops/opponent_roster/screen-bbd9f47c64ee-roster_table.jpg,roster_table,,needs_manual_review,0.0
-opponent_roster,screen-bbd9f47c64ee-player_side_card,player_side_card,Purdue Roster.mp4,00:02:38,9488,assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_roster,screen-b7be8a8986f9-roster_header,roster_header,Purdue Roster.mp4,00:03:17,11845,assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_header.jpg,roster_header,,needs_manual_review,0.0
-opponent_roster,screen-b7be8a8986f9-roster_table,roster_table,Purdue Roster.mp4,00:03:17,11845,assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg,roster_table,,needs_manual_review,0.0
-opponent_roster,screen-b7be8a8986f9-player_side_card,player_side_card,Purdue Roster.mp4,00:03:17,11845,assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_roster,screen-6f9a9910be4e-roster_header,roster_header,Purdue Roster.mp4,00:03:56,14202,assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_header.jpg,roster_header,,needs_manual_review,0.0
-opponent_roster,screen-6f9a9910be4e-roster_table,roster_table,Purdue Roster.mp4,00:03:56,14202,assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg,roster_table,,needs_manual_review,0.0
-opponent_roster,screen-6f9a9910be4e-player_side_card,player_side_card,Purdue Roster.mp4,00:03:56,14202,assets/review_crops/opponent_roster/screen-6f9a9910be4e-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_roster,screen-ceef10b22db3-roster_header,roster_header,Purdue Roster.mp4,00:04:35,16559,assets/review_crops/opponent_roster/screen-ceef10b22db3-roster_header.jpg,roster_header,,needs_manual_review,0.0
-opponent_roster,screen-ceef10b22db3-roster_table,roster_table,Purdue Roster.mp4,00:04:35,16559,assets/review_crops/opponent_roster/screen-ceef10b22db3-roster_table.jpg,roster_table,,needs_manual_review,0.0
-opponent_roster,screen-ceef10b22db3-player_side_card,player_side_card,Purdue Roster.mp4,00:04:35,16559,assets/review_crops/opponent_roster/screen-ceef10b22db3-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
+opponent_roster,screen-5fd57a3616a0-roster_header,roster_header,Purdue Roster.mp4,00:00:01,60,assets/review_crops/opponent_roster/screen-5fd57a3616a0-roster_header.jpg,roster_header,"g PURDUE 64
+
+Z BOILERMAKERS BiG
+\ OVR
+
+N kk
+
+\ 1-4 (0-4) | 18TH IN BIG TEN
+
+NW",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-5fd57a3616a0-roster_table,roster_table,Purdue Roster.mp4,00:00:01,60,assets/review_crops/opponent_roster/screen-5fd57a3616a0-roster_table.jpg,roster_table,"6 Te . |
+AWR THP SAC MAC DAC RUN TUP BSK PAC CAR BCV JKM SPM BTK SFA TRK |
+80 87 79 76 75 82 78 69 60 91 89 78 Th 76 66 59 |
+67 n 59 85+ 66+ 80+ 53 76 83 82 76 vi) 61 58 |
+79 71 70 70 72 The 60 63 52 42 39 40 38 27
+P i ~ ee - bes",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-5fd57a3616a0-player_side_card,player_side_card,Purdue Roster.mp4,00:00:01,60,assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg,player_side_card,"Py
+4 . OVR
+—
+ke § ne
+SVANS
+CHUBA
+POSITION ARCHETYPE
+QB (R)| #1 Pure Runner
+CLASS & NIL HEIGHT & WEIGHT
+SR(RS)|<@>85 | 6'4""| 224 Ibs
+HOMETOWN
+Montreal, international
+PHYSICAL MENTAL
+© m-:",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-6efb6a537ed1-roster_header,roster_header,Purdue Roster.mp4,00:00:40,2417,assets/review_crops/opponent_roster/screen-6efb6a537ed1-roster_header.jpg,roster_header,"j
+
+g PURDUE 64
+
+Z BOILERMAKERS BiG
+\ OVR
+
+N **
+
+\ 1-4 (0-4) | 18TH IN BIG TEN
+
+NW",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-6efb6a537ed1-roster_table,roster_table,Purdue Roster.mp4,00:00:40,2417,assets/review_crops/opponent_roster/screen-6efb6a537ed1-roster_table.jpg,roster_table,"6 Cs ) & —
+BIK TRK SFA CTH SRR cit SPM JKM PBK PBP PBF RBK RBP RBF LBK IBL |
+4 57 58 62 62 1) 66 60 64 56 1 66 70 14 67 61 |
+54 53 54 67 63 72 62 62 59 45 43 62 48 40 63 55 |
+67 vi) 61 66 47 65 63 63 53 55 58 43 38 36 32 35
+
+gt — — x “> aN — i",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-6efb6a537ed1-player_side_card,player_side_card,Purdue Roster.mp4,00:00:40,2417,assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg,player_side_card,"— f
+aw""
+eee EEE
+TRENT
+FORSETT
+POSITION ARCHETYPE
+TE| #81 Pure Blocker
+CLASS & NIL HEIGHT & WEIGHT
+FR|@10 6'3"" | 216 Ibs
+HOMETOWN
+Okemos, Mi 9
+PHYSICAL MENTAL
+Om",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-33427cb143c2-roster_header,roster_header,Purdue Roster.mp4,00:01:19,4774,assets/review_crops/opponent_roster/screen-33427cb143c2-roster_header.jpg,roster_header,"G
+
+g PURDUE 64
+
+Q BOILERMAKERS BiG
+\ k* OVR
+
+\ 1-4 (0-4) | 18TH IN BIG TEN
+
+a",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-33427cb143c2-roster_table,roster_table,Purdue Roster.mp4,00:01:19,4774,assets/review_crops/opponent_roster/screen-33427cb143c2-roster_table.jpg,roster_table,":
+
+at RS NAME YEAR pos OvR NIL SPD ACC AGI cop STR AWR CTH |
+
+1 V.Mangen JR (RS) TE 66 ° 5 71 81 79 72 61 55 67 |
+EE ee",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-33427cb143c2-player_side_card,player_side_card,Purdue Roster.mp4,00:01:19,4774,assets/review_crops/opponent_roster/screen-33427cb143c2-player_side_card.jpg,player_side_card,"|
+Po
+4 OVR
+_
+aw""
+eee EEE
+VINCE
+MANGEN
+POSITION ARCHETYPE
+TE| #89 Vertical Threat
+CLASS & NIL HEIGHT & WEIGHT
+JR(RS)|@>5 | 61"" | 224 Ibs
+HOMETOWN
+Jackson, OH 9
+PHYSICAL MENTAL
+Om:",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-127ef65e04fd-roster_header,roster_header,Purdue Roster.mp4,00:01:58,7131,assets/review_crops/opponent_roster/screen-127ef65e04fd-roster_header.jpg,roster_header,"j
+
+g PURDUE 64
+
+Z BOILERMAKERS BiG
+\ OVR
+
+N k*
+
+\ 1-4 (0-4) | 18TH IN BIG TEN
+
+J",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-127ef65e04fd-roster_table,roster_table,Purdue Roster.mp4,00:01:58,7131,assets/review_crops/opponent_roster/screen-127ef65e04fd-roster_table.jpg,roster_table,"6 Ts I
+at RS NAME YEAR Pos OUR NIL SPD Acc AGI cop STR AWR PBK |
+3 H.Cashman so LG 71 10 66 n 79 70 94 1) 14 |
+—————_—_—_—_—_——_ — - —— = —""""_ —— = ti‘?",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-127ef65e04fd-player_side_card,player_side_card,Purdue Roster.mp4,00:01:58,7131,assets/review_crops/opponent_roster/screen-127ef65e04fd-player_side_card.jpg,player_side_card,"Pe
+OVR
+
+—
+
+s $ ae
+
+HOWIE
+
+CASHMAN
+
+POSITION ARCHETYPE
+
+1G | #57 Raw Strength
+
+CLASS & NIL HEIGHT & WEIGHT
+
+$0|@10 6'3"" | 323 Ibs
+
+HOMETOWN
+
+Fort Collins, CO
+
+PHYSICAL MENTAL
+
+Workhorse © Road Dog
+
+Om",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-bbd9f47c64ee-roster_header,roster_header,Purdue Roster.mp4,00:02:38,9488,assets/review_crops/opponent_roster/screen-bbd9f47c64ee-roster_header.jpg,roster_header,"i,
+
+g PURDUE 64
+
+j BOILERMAKERS BiG
+\ kk OVR
+
+\ 1-4 (0-4) | 18TH IN BIG TEN
+
+J",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-bbd9f47c64ee-roster_table,roster_table,Purdue Roster.mp4,00:02:38,9488,assets/review_crops/opponent_roster/screen-bbd9f47c64ee-roster_table.jpg,roster_table,"6 Cs Go ~
+cob STR AWR PRC PMV FM BSH TAK POW PUR 7c Mcy CTH JMP IBL STA |
+67 85 71 14 83 79 82 80 7h 73 34 23 49 71 79 89 |
+70 a 81 85+ 63+ The 70 85+ 35 25 30 v3) 61 TI |
+69~ ~ 5 79 56+ 85~ 86+ 87~ 4h 31 34 71 63 85~
+
+7 oe —y = — = - === — lle",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-bbd9f47c64ee-player_side_card,player_side_card,Purdue Roster.mp4,00:02:38,9488,assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg,player_side_card,"IP a
+—
+s $ ae
+YAMDRY
+HERNANDEZ
+POSITION ARCHETYPE
+LEDG | #49 Power Rusher
+CLASS & NIL HEIGHT & WEIGHT
+JR(RS)|<@>20 | 6'3""| 221 lbs
+HOMETOWN
+Atlantic city, Ny Q
+PHYSICAL MENTAL
+Om:",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-b7be8a8986f9-roster_header,roster_header,Purdue Roster.mp4,00:03:17,11845,assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_header.jpg,roster_header,"j PURDUE 64
+
+Z BOILERMAKERS BiG
+\ OVR
+
+\ kk
+
+\ 1-4 (0-4) | 18TH IN BIG TEN
+
+NW",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-b7be8a8986f9-roster_table,roster_table,Purdue Roster.mp4,00:03:17,11845,assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg,roster_table,"J
+
+6 Cl a
+
+RS NAME YEAR Pos OUR NIL SPD ACC AGI cop STR AWR PRC PMI |
+B.Hanson FR (RS) oT 73 Os 70 vi) 70 61 84 82 78 234 |",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-b7be8a8986f9-player_side_card,player_side_card,Purdue Roster.mp4,00:03:17,11845,assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg,player_side_card,"_§
+
+aw""
+
+ee
+
+30
+
+HANSON
+
+POSITION ARCHETYPE
+
+DT| #93 Power Rusher
+
+CLASS & NIL HEIGHT & WEIGHT
+
+FR (RS) |@5 6'3"" | 306 Ibs
+
+HOMETOWN
+
+Lafayette, In Q
+
+PHYSICAL MENTAL
+
+)> Grip Breaker © Team Player
+Om",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-6f9a9910be4e-roster_header,roster_header,Purdue Roster.mp4,00:03:56,14202,assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_header.jpg,roster_header,"g PURDUE 64
+
+Z BOILERMAKERS BiG
+\ OVR
+
+\ k*
+
+\ 1-4 (0-4) | 18TH IN BIG TEN
+
+i",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-6f9a9910be4e-roster_table,roster_table,Purdue Roster.mp4,00:03:56,14202,assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg,roster_table,"o CD nae I. |
+NAME YEAR Pos OUR NIL SPD ACC AGI cop STR AWR PRC TAK Pow |
+A.Warren JR (RS) MIKE 73 Oo 71 84 79 73 82 72 70 89 71 |
+M.Elway FR MIKE 70 © 10 82 71 81 69 87 ia cs = |
+R.Ogden JR (RS) MIKE 67~ © 20 78 86 79 76 71 - he i
+Dell FR MIKE 67 © 10 71 84 7 n 80 ie fos “ 2
+
+ee ee eer. ae",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-6f9a9910be4e-player_side_card,player_side_card,Purdue Roster.mp4,00:03:56,14202,assets/review_crops/opponent_roster/screen-6f9a9910be4e-player_side_card.jpg,player_side_card,"aw""
+
+a EE
+ALPHONZO
+WARREN
+
+POSITION ARCHETYPE
+
+MIKE | #28 Lurker
+
+CLASS & NIL HEIGHT & WEIGHT
+JR(RS)|<@>o | 6'1""| 238 Ibs
+HOMETOWN
+
+Carmel, IN 9
+
+PHYSICAL MENTAL
+
+*p Queen (=)
+\ Sports College Footb",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-ceef10b22db3-roster_header,roster_header,Purdue Roster.mp4,00:04:35,16559,assets/review_crops/opponent_roster/screen-ceef10b22db3-roster_header.jpg,roster_header,"j PURDUE 64
+
+Z BOILERMAKERS BiG
+\ OVR
+
+N kk
+
+\ 1-4 (0-4) | 18TH IN BIG TEN
+
+NJ",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-ceef10b22db3-roster_table,roster_table,Purdue Roster.mp4,00:04:35,16559,assets/review_crops/opponent_roster/screen-ceef10b22db3-roster_table.jpg,roster_table,"6 Ci So
+
+at RS NAME YEAR Pos OuR NIL spp ACC AGI cop STR AWR PRC |
+
+3 JGoldsberry SO (RS) FS 70 0 85 87 84 82 63 76 79
+0009898 ee Eee ((UlUlUlUlltt—é«~sk",ocr_draft_needs_confirmation,0.55
+opponent_roster,screen-ceef10b22db3-player_side_card,player_side_card,Purdue Roster.mp4,00:04:35,16559,assets/review_crops/opponent_roster/screen-ceef10b22db3-player_side_card.jpg,player_side_card,"B
+OVR
+—
+aw"":
+i
+JETT
+SOLDSBERRY
+POSITION ARCHETYPE
+FS| #3 Box Specialist
+CLASS & NIL HEIGHT & WEIGHT
+$0(RS)|@o | 6'0""|213 lbs
+HOMETOWN
+Huntington, IN 9
+PHYSICAL MENTAL
+Om",ocr_draft_needs_confirmation,0.55

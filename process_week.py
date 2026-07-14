@@ -1,10 +1,10 @@
 ﻿#!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse, csv, hashlib, json, shutil, subprocess, sys, time
+import argparse, csv, hashlib, json, os, shutil, subprocess, sys, time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 VIDEO_EXTENSIONS = {".mp4", ".mov", ".webm", ".mkv"}
 FINAL_DISPOSITIONS = {"fully_extracted","partially_extracted","duplicate","irrelevant_transition","unreadable_manual_review"}
@@ -17,6 +17,12 @@ GENERATED_FILES = [
   "source_truth_recruits.json","extraction_confidence.json","screen_inventory.json"
 ]
 STREAMLABS = Path(r"C:\Program Files\Streamlabs OBS\resources\app.asar.unpacked\node_modules\obs-studio-node")
+COMMON_TESSERACT_PATHS = [
+  Path(r"C:\Program Files\Tesseract-OCR\tesseract.exe"),
+  Path(r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe"),
+]
+REVIEW_STATUSES = {"needs_manual_review", "confirmed", "rejected", "ocr_draft_needs_confirmation"}
+PROMOTION_EVIDENCE_KEYS = ("source_video", "source_video_hash", "timestamp", "frame_number", "crop_path")
 
 
 REVIEW_PACKAGES = {
@@ -158,13 +164,41 @@ def field(value: Any, ev: Dict[str, Any]) -> Dict[str, Any]:
   return {"value": value, "evidence": dict(ev)}
 
 
-def tesseract_adapter() -> Dict[str, Any]:
-  path = shutil.which("tesseract")
-  return {
-    "available": bool(path),
-    "path": path,
-    "mode": "optional_tesseract_stdout" if path else "manual_review_only",
-  }
+def resolve_tesseract(repo: Optional[Path] = None) -> Dict[str, Any]:
+  repo = repo or root()
+  candidates: List[Tuple[str, Optional[str]]] = []
+  env_path = os.environ.get("TESSERACT_EXE")
+  if env_path:
+    candidates.append(("env:TESSERACT_EXE", env_path))
+  cfg = repo / "video_tools.local.json"
+  if cfg.exists():
+    data = read_json(cfg, {})
+    candidates.append(("local_config:tesseract", data.get("tesseract")))
+    candidates.append(("local_config:tesseract_exe", data.get("tesseract_exe")))
+  candidates.append(("system_path", shutil.which("tesseract")))
+  for common in COMMON_TESSERACT_PATHS:
+    candidates.append(("common_install", str(common)))
+  portable_root = repo / "tools" / "portable" / "tesseract"
+  candidates.extend([
+    ("repo_portable", str(portable_root / "tesseract.exe")),
+    ("repo_portable_bin", str(portable_root / "bin" / "tesseract.exe")),
+  ])
+  for source, candidate in candidates:
+    if candidate and Path(candidate).exists():
+      return {"available": True, "path": str(Path(candidate)), "source": source, "mode": "optional_tesseract_stdout"}
+  return {"available": False, "path": None, "source": "not_found", "mode": "manual_review_only"}
+
+def tesseract_adapter(repo: Optional[Path] = None) -> Dict[str, Any]:
+  adapter = resolve_tesseract(repo)
+  if not adapter["available"]:
+    return adapter
+  try:
+    result = subprocess.run([adapter["path"], "--version"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=10)
+    first = (result.stdout or result.stderr or "").splitlines()[0] if (result.stdout or result.stderr) else "unknown"
+    adapter["version"] = first.strip()
+  except Exception:
+    adapter["version"] = "unknown"
+  return adapter
 
 def crop_box(width: int, height: int, box: List[float]) -> tuple:
   left = max(0, min(width - 1, int(width * box[0])))
@@ -177,7 +211,7 @@ def ocr_crop(crop_path: Path, adapter: Dict[str, Any]) -> Dict[str, Any]:
   if not adapter.get("available"):
     return {"value": None, "confidence": 0.0, "status": "manual_review"}
   try:
-    result = subprocess.run([adapter["path"], str(crop_path), "stdout", "--psm", "6"], capture_output=True, text=True, timeout=20)
+    result = subprocess.run([adapter["path"], str(crop_path), "stdout", "--psm", "6"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=20)
     value = (result.stdout or "").strip()
     return {"value": value or None, "confidence": 0.55 if value else 0.0, "status": "ocr_draft" if value else "manual_review"}
   except Exception:
@@ -205,12 +239,12 @@ def review_field(value: Any, ev: Dict[str, Any], field_name: str, review_status:
 
 def generate_roster_stats_review(repo: Path, videos: List[Dict[str, Any]], screens: List[Dict[str, Any]], extract_mode: Optional[str]) -> Dict[str, Any]:
   if extract_mode != "roster_stats":
-    return {"review_packages": {}, "csv_files": [], "crop_count": 0, "ocr": tesseract_adapter()}
+    return {"review_packages": {}, "csv_files": [], "crop_count": 0, "ocr": tesseract_adapter(repo)}
   try:
     from PIL import Image
   except Exception as exc:
     raise RuntimeError(f"PIL is required for roster_stats review crops: {exc}")
-  adapter = tesseract_adapter()
+  adapter = tesseract_adapter(repo)
   by_video = {v["filename"]: v for v in videos}
   review_root = repo / "data" / "generated" / "review"
   crop_root = repo / "assets" / "review_crops"
@@ -254,7 +288,7 @@ def generate_roster_stats_review(repo: Path, videos: List[Dict[str, Any]], scree
         rel_s = str(rel).replace("\\", "/")
         ev = crop_evidence(video, screen, rel_s, confidence, status)
         value = ocr["value"] if status == "ocr_draft" else None
-        rf = review_field(value, ev, zone["crop_type"], "needs_confirmation" if status == "ocr_draft" else "needs_manual_review")
+        rf = review_field(value, ev, zone["crop_type"], "ocr_draft_needs_confirmation" if status == "ocr_draft" else "needs_manual_review")
         crop_record = {
           "crop_id": crop_id,
           "screen_id": screen["screen_id"],
@@ -312,6 +346,125 @@ def merge_review_promotions(outputs: Dict[str, Any], review_result: Dict[str, An
       outputs[filename]["promotion_policy"] = "Only reviewed/confirmed fields or OCR-confident draft fields may be promoted."
       outputs[filename]["counts"]["promoted_fields"] = 0
       outputs[filename]["counts"]["review_crops"] = review_result["review_packages"][package]["counts"]["crops"]
+
+
+def normalize_review_status(status: Any) -> str:
+  status = str(status or "needs_manual_review").strip()
+  if status == "needs_confirmation":
+    return "ocr_draft_needs_confirmation"
+  return status if status in REVIEW_STATUSES else "needs_manual_review"
+
+def review_package_paths(repo: Path, package: str) -> Tuple[Path, Path]:
+  return (
+    repo / "data" / "generated" / "review" / f"{package}_review.json",
+    repo / "data" / "generated" / "review" / f"{package}_review.csv",
+  )
+
+def overlay_review_csv(repo: Path, package: str, payload: Dict[str, Any]) -> None:
+  _, csv_path = review_package_paths(repo, package)
+  if not csv_path.exists():
+    return
+  rows = {}
+  with csv_path.open("r", encoding="utf-8", newline="") as handle:
+    for row in csv.DictReader(handle):
+      rows[(row.get("crop_id"), row.get("field_name"))] = row
+  for crop in payload.get("crops", []):
+    for item in crop.get("fields", []):
+      row = rows.get((crop.get("crop_id"), item.get("field_name")))
+      if not row:
+        continue
+      item["value"] = row.get("value") if row.get("value") != "" else None
+      item["review_status"] = normalize_review_status(row.get("review_status"))
+      try:
+        item.setdefault("evidence", {})["confidence"] = float(row.get("confidence") or item.get("evidence", {}).get("confidence") or 0)
+      except ValueError:
+        pass
+
+def confirmed_value_is_blank(value: Any) -> bool:
+  return value is None or (isinstance(value, str) and not value.strip())
+
+def promoted_field_record(package: str, crop: Dict[str, Any], item: Dict[str, Any], errors: List[str]) -> Optional[Dict[str, Any]]:
+  status = normalize_review_status(item.get("review_status"))
+  item["review_status"] = status
+  if status != "confirmed":
+    return None
+  if confirmed_value_is_blank(item.get("value")):
+    errors.append(f"{package}:{crop.get('crop_id')}:{item.get('field_name')} confirmed blank value")
+    return None
+  evidence_obj = dict(item.get("evidence") or {})
+  for key in PROMOTION_EVIDENCE_KEYS:
+    if evidence_obj.get(key) in (None, ""):
+      errors.append(f"{package}:{crop.get('crop_id')}:{item.get('field_name')} missing evidence {key}")
+  evidence_obj["review_status"] = "confirmed"
+  evidence_obj["verification_status"] = "video_review_confirmed"
+  evidence_obj["manual_review"] = False
+  return {
+    "package": package,
+    "crop_id": crop.get("crop_id"),
+    "field_name": item.get("field_name"),
+    "value": item.get("value"),
+    "evidence": evidence_obj,
+  }
+
+def apply_review_import(repo: Path, outputs: Dict[str, Any]) -> Dict[str, Any]:
+  mapping = {
+    "current_team_roster": "current_team_roster_extracted.json",
+    "opponent_roster": "opponent_roster_extracted.json",
+    "current_team_season_stats": "current_team_season_stats_extracted.json",
+    "opponent_season_stats": "opponent_season_stats_extracted.json",
+  }
+  report = {"package_type": "review_import_report", "generated_at": now(), "source_of_truth": "input_videos", "packages": {}, "errors": [], "promoted_total": 0}
+  for package, filename in mapping.items():
+    json_path, csv_path = review_package_paths(repo, package)
+    payload = read_json(json_path, {"crops": [], "counts": {}})
+    overlay_review_csv(repo, package, payload)
+    promoted: List[Dict[str, Any]] = []
+    package_errors: List[str] = []
+    status_counts = {status: 0 for status in REVIEW_STATUSES}
+    for crop in payload.get("crops", []):
+      for item in crop.get("fields", []):
+        status = normalize_review_status(item.get("review_status"))
+        status_counts[status] = status_counts.get(status, 0) + 1
+        record = promoted_field_record(package, crop, item, package_errors)
+        if record:
+          crop_path = repo / record["evidence"]["crop_path"]
+          if not crop_path.exists():
+            package_errors.append(f"{package}:{record['crop_id']} crop path does not exist")
+          promoted.append(record)
+    if filename in outputs:
+      outputs[filename]["review_package"] = f"data/generated/review/{package}_review.json"
+      outputs[filename]["review_csv"] = f"data/generated/review/{package}_review.csv"
+      outputs[filename]["promotion_policy"] = "Only fields explicitly marked confirmed are promoted."
+      outputs[filename]["promoted_fields"] = promoted
+      outputs[filename].setdefault("counts", {})["promoted_fields"] = len(promoted)
+      outputs[filename].setdefault("counts", {})["review_crops"] = len(payload.get("crops", []))
+    report["packages"][package] = {
+      "review_json": f"data/generated/review/{package}_review.json",
+      "review_csv": f"data/generated/review/{package}_review.csv",
+      "review_json_exists": json_path.exists(),
+      "review_csv_exists": csv_path.exists(),
+      "status_counts": status_counts,
+      "promoted_fields": len(promoted),
+      "errors": package_errors,
+    }
+    report["errors"].extend(package_errors)
+    report["promoted_total"] += len(promoted)
+  return report
+
+def validate_review_promotions(repo: Path, outputs: Dict[str, Any]) -> List[str]:
+  errors: List[str] = []
+  for filename in ("current_team_roster_extracted.json", "opponent_roster_extracted.json", "current_team_season_stats_extracted.json", "opponent_season_stats_extracted.json"):
+    for idx, item in enumerate(outputs.get(filename, {}).get("promoted_fields", [])):
+      ev = item.get("evidence") or {}
+      if ev.get("review_status") != "confirmed":
+        errors.append(f"{filename}.promoted_fields[{idx}] not confirmed")
+      for key in PROMOTION_EVIDENCE_KEYS:
+        if ev.get(key) in (None, ""):
+          errors.append(f"{filename}.promoted_fields[{idx}] missing {key}")
+      crop = repo / str(ev.get("crop_path", ""))
+      if ev.get("crop_path") and not crop.exists():
+        errors.append(f"{filename}.promoted_fields[{idx}] missing crop file")
+  return errors
 
 def build_manifest(repo: Path, tools: Dict[str,str], selected: Optional[str], force: bool) -> Dict[str, Any]:
   files = discover_videos(repo / "input_videos")
@@ -442,7 +595,7 @@ def validate_generated(repo: Path) -> List[str]:
 def table(headers, rows) -> str:
   return "| " + " | ".join(headers) + " |\n| " + " | ".join(["---"] * len(headers)) + " |\n" + "\n".join("| " + " | ".join(str(v) for v in row) + " |" for row in rows) + "\n"
 
-def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapsed: float, review_result: Optional[Dict[str, Any]] = None) -> None:
+def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapsed: float, review_result: Optional[Dict[str, Any]] = None, review_import_report: Optional[Dict[str, Any]] = None) -> None:
   reports = repo / "reports"; reports.mkdir(exist_ok=True)
   rows = outputs["source_truth_summary.json"]["per_video_counts"]
   count_table = table(["Video","Type","Players","Complete Cards","Partial Cards","Plays","Recruits","Duplicates Removed","Unreadable Records","Confidence"], [[r["video"],r["type"],r["players"],r["complete_cards"],r["partial_cards"],r["plays"],r["recruits"],r["duplicates_removed"],r["unreadable_records"],r["confidence"]] for r in rows])
@@ -457,6 +610,13 @@ def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapse
   for package, payload in (review_result.get("review_packages") or {}).items():
     review_lines.append(f"- {package}: {payload['counts']['crops']} crops, {payload['counts']['manual_review_fields']} manual-review fields, {payload['counts']['ocr_draft_fields']} OCR draft fields")
   (reports / "roster_stats_review_report.md").write_text("# Roster + Stats Review Report\n\n" + ("\n".join(review_lines) if review_lines else "Roster/stats extraction was not requested for this run.") + "\n", encoding="utf-8")
+  import_report = review_import_report or {"promoted_total": 0, "packages": {}, "errors": []}
+  import_lines = [f"# Review Import Report\n\nPromoted fields: {import_report.get('promoted_total', 0)}\n"]
+  for package, payload in import_report.get("packages", {}).items():
+    import_lines.append(f"- {package}: {payload.get('promoted_fields', 0)} promoted, statuses {payload.get('status_counts', {})}")
+  if import_report.get("errors"):
+    import_lines.append("\n## Errors\n" + "\n".join(f"- {e}" for e in import_report["errors"]))
+  (reports / "review_import_report.md").write_text("\n".join(import_lines) + "\n", encoding="utf-8")
   basic = {
     "video_extraction_report.md": f"# Video Extraction Report\n\nDetected videos: {len(outputs['video_manifest.json']['videos'])}\n\n{count_table}",
     "processing_performance.md": f"# Processing Performance\n\nElapsed seconds: {elapsed:.2f}\n\nFFmpeg source: {outputs['video_manifest.json']['ffmpeg']['source']}\n",
@@ -487,12 +647,17 @@ def run(args) -> int:
   merge_review_promotions(outputs, review_result)
   outputs["extraction_confidence.json"]["roster_stats_review"] = {"crop_count": review_result.get("crop_count", 0), "ocr": review_result.get("ocr", {})}
   gen = repo / "data" / "generated"; gen.mkdir(parents=True, exist_ok=True)
+  write_json(gen / ".video_cache.json", manifest.get("_cache", {}))
+  review_import_report = apply_review_import(repo, outputs) if args.apply_review else None
+  if review_import_report:
+    outputs["extraction_confidence.json"]["review_import"] = {"promoted_total": review_import_report["promoted_total"], "errors": review_import_report["errors"]}
   for name, payload in outputs.items():
     write_json(gen / name, payload)
-  write_json(gen / ".video_cache.json", manifest.get("_cache", {}))
-  errors = validate_generated(repo)
-  write_reports(repo, outputs, errors, elapsed, review_result)
-  print(json.dumps({"status": "PASS" if not errors else "FAIL", "videos": [{"filename": v["filename"], "classification": v["classification"]} for v in manifest["videos"]], "screen_count": len(screens), "legacy_play_baseline": len(legacy_playbook(repo)), "video_verified_plays": 0, "manual_review_screens": sum(1 for s in screens if s["manual_review"]), "review_crop_count": review_result.get("crop_count", 0), "elapsed_seconds": round(elapsed, 2), "errors": errors}, indent=2))
+  errors = validate_generated(repo) + validate_review_promotions(repo, outputs)
+  if review_import_report:
+    errors.extend(review_import_report["errors"])
+  write_reports(repo, outputs, errors, elapsed, review_result, review_import_report)
+  print(json.dumps({"status": "PASS" if not errors else "FAIL", "videos": [{"filename": v["filename"], "classification": v["classification"]} for v in manifest["videos"]], "screen_count": len(screens), "legacy_play_baseline": len(legacy_playbook(repo)), "video_verified_plays": 0, "manual_review_screens": sum(1 for s in screens if s["manual_review"]), "review_crop_count": review_result.get("crop_count", 0), "review_promoted_fields": review_import_report["promoted_total"] if review_import_report else 0, "ocr": review_result.get("ocr", {}), "elapsed_seconds": round(elapsed, 2), "errors": errors}, indent=2))
   return 0 if not errors else 1
 
 def parse_args(argv=None):
@@ -502,6 +667,7 @@ def parse_args(argv=None):
   p.add_argument("--dry-run", action="store_true")
   p.add_argument("--review", action="store_true")
   p.add_argument("--extract", choices=["roster_stats"], help="Generate OCR-ready review crops and import files for roster/stat videos.")
+  p.add_argument("--apply-review", action="store_true", help="Promote only review rows explicitly marked confirmed into generated extracted data.")
   return p.parse_args(argv)
 
 def main(argv=None) -> int:

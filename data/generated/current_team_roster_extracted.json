@@ -19,7 +19,8 @@
     "manual-player_card-screen-41eadd8e75a1"
   ],
   "package_type": "current_team_roster_extracted",
-  "promotion_policy": "Only reviewed/confirmed fields or OCR-confident draft fields may be promoted.",
+  "promoted_fields": [],
+  "promotion_policy": "Only fields explicitly marked confirmed are promoted.",
   "records": [
     {
       "additional_visible_fields": {},

@@ -82,12 +82,18 @@
       "video": "Rutgers Season stats.mp4"
     }
   ],
+  "review_import": {
+    "errors": [],
+    "promoted_total": 0
+  },
   "roster_stats_review": {
-    "crop_count": 84,
+    "crop_count": 0,
     "ocr": {
-      "available": false,
-      "mode": "manual_review_only",
-      "path": null
+      "available": true,
+      "mode": "optional_tesseract_stdout",
+      "path": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+      "source": "common_install",
+      "version": "tesseract v5.4.0.20240606"
     }
   },
   "source_of_truth": "input_videos"

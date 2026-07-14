@@ -1,25 +1,301 @@
 package,crop_id,crop_type,source_video,timestamp,frame_number,crop_path,field_name,value,review_status,confidence
-current_team_roster,screen-9910e28bddf2-roster_header,roster_header,Rutgers Roster.webm,00:00:01,60,assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_header.jpg,roster_header,,needs_manual_review,0.0
-current_team_roster,screen-9910e28bddf2-roster_table,roster_table,Rutgers Roster.webm,00:00:01,60,assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_table.jpg,roster_table,,needs_manual_review,0.0
-current_team_roster,screen-9910e28bddf2-player_side_card,player_side_card,Rutgers Roster.webm,00:00:01,60,assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_roster,screen-c497a08c8ee6-roster_header,roster_header,Rutgers Roster.webm,00:00:40,2416,assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_header.jpg,roster_header,,needs_manual_review,0.0
-current_team_roster,screen-c497a08c8ee6-roster_table,roster_table,Rutgers Roster.webm,00:00:40,2416,assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_table.jpg,roster_table,,needs_manual_review,0.0
-current_team_roster,screen-c497a08c8ee6-player_side_card,player_side_card,Rutgers Roster.webm,00:00:40,2416,assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_roster,screen-50cb1100e799-roster_header,roster_header,Rutgers Roster.webm,00:01:19,4771,assets/review_crops/current_team_roster/screen-50cb1100e799-roster_header.jpg,roster_header,,needs_manual_review,0.0
-current_team_roster,screen-50cb1100e799-roster_table,roster_table,Rutgers Roster.webm,00:01:19,4771,assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg,roster_table,,needs_manual_review,0.0
-current_team_roster,screen-50cb1100e799-player_side_card,player_side_card,Rutgers Roster.webm,00:01:19,4771,assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_roster,screen-0aee58db86ab-roster_header,roster_header,Rutgers Roster.webm,00:01:58,7127,assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_header.jpg,roster_header,,needs_manual_review,0.0
-current_team_roster,screen-0aee58db86ab-roster_table,roster_table,Rutgers Roster.webm,00:01:58,7127,assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_table.jpg,roster_table,,needs_manual_review,0.0
-current_team_roster,screen-0aee58db86ab-player_side_card,player_side_card,Rutgers Roster.webm,00:01:58,7127,assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_roster,screen-73b15d4f3433-roster_header,roster_header,Rutgers Roster.webm,00:02:38,9482,assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_header.jpg,roster_header,,needs_manual_review,0.0
-current_team_roster,screen-73b15d4f3433-roster_table,roster_table,Rutgers Roster.webm,00:02:38,9482,assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_table.jpg,roster_table,,needs_manual_review,0.0
-current_team_roster,screen-73b15d4f3433-player_side_card,player_side_card,Rutgers Roster.webm,00:02:38,9482,assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_roster,screen-39419b88dbfa-roster_header,roster_header,Rutgers Roster.webm,00:03:17,11838,assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_header.jpg,roster_header,,needs_manual_review,0.0
-current_team_roster,screen-39419b88dbfa-roster_table,roster_table,Rutgers Roster.webm,00:03:17,11838,assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg,roster_table,,needs_manual_review,0.0
-current_team_roster,screen-39419b88dbfa-player_side_card,player_side_card,Rutgers Roster.webm,00:03:17,11838,assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_roster,screen-19a6a103623d-roster_header,roster_header,Rutgers Roster.webm,00:03:56,14193,assets/review_crops/current_team_roster/screen-19a6a103623d-roster_header.jpg,roster_header,,needs_manual_review,0.0
-current_team_roster,screen-19a6a103623d-roster_table,roster_table,Rutgers Roster.webm,00:03:56,14193,assets/review_crops/current_team_roster/screen-19a6a103623d-roster_table.jpg,roster_table,,needs_manual_review,0.0
-current_team_roster,screen-19a6a103623d-player_side_card,player_side_card,Rutgers Roster.webm,00:03:56,14193,assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_roster,screen-41eadd8e75a1-roster_header,roster_header,Rutgers Roster.webm,00:04:35,16549,assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_header.jpg,roster_header,,needs_manual_review,0.0
-current_team_roster,screen-41eadd8e75a1-roster_table,roster_table,Rutgers Roster.webm,00:04:35,16549,assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg,roster_table,,needs_manual_review,0.0
-current_team_roster,screen-41eadd8e75a1-player_side_card,player_side_card,Rutgers Roster.webm,00:04:35,16549,assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
+current_team_roster,screen-9910e28bddf2-roster_header,roster_header,Rutgers Roster.webm,00:00:01,60,assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_header.jpg,roster_header,"ee
+j
+/ (a) RUTGERS
+y
+Z SCARLET KNIGHTS 84 84 86 B
+\ KY OVR OFF DEF
+\ 5-0 (2-0) | 3RD IN BIG TEN
+~~",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-9910e28bddf2-roster_table,roster_table,Rutgers Roster.webm,00:00:01,60,assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_table.jpg,roster_table,"SFA sPM ss JKM_—sCTH cit RLS SRR MRR RR spc PBK [BL RET STA 1GH INJ
+61 7h 73 79 78 57 79 61 61 5 45 45 84 99 88 92 |
+62 5B~ 68 —ssBB~ CT 50 TH «2 4h 61 6e- «65 55 s7- —t+ 96~ if
+0 ) 0 0 0 0 0 ) ) 0 0 ) 0 0 ) 0 e
+<
+|",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-9910e28bddf2-player_side_card,player_side_card,Rutgers Roster.webm,00:00:01,60,assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg,player_side_card,"Wee
+a ~
+>) Loo
+JOSH
+HASKINS
+POSITION ARCHETYPE
+HB | #11 Backfield Threat
+CLASS § NIL HEIGHT & WEIGHT
+FR|@ 140 5°10"" | 170 Ibs
+HOMETOWN
+Asheville, NC
+A ANMNHNMNMOMHHNHW™
+PHYSICAL MENTAL
+® Recoup ® Clearheaded
+a (Fan Favorite
+a @® winning time le
+He DEV TRAIT
+%& Normal
+Om
+“a",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-c497a08c8ee6-roster_header,roster_header,Rutgers Roster.webm,00:00:40,2416,assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_header.jpg,roster_header,"ai A
+ @) RUTGERS
+Zao
+q SCARLET KNIGHTS 84 84 86 B
+N KY OVR OFF DEF
+\ 5-0 (2-0) | 3RD IN BIG TEN
+sos",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-c497a08c8ee6-roster_table,roster_table,Rutgers Roster.webm,00:00:40,2416,assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_table.jpg,roster_table,"a I) o
+RLS JMP CAR SFA JKM SPM TRK BCV RBK IBL RET STA TGH INJ BIK RBF
+79 92 84 67 86 84 62 80 57 54 84 83 91 99 80 54 :
+|
+
+76 87 67 47 81- 80+ 49 70 43 43 91 97+ 93 90 72 36+ | i
+94 88 ri) 52 80 80~ B 83 53 4h 73 86+ 88 92+ 76 Ai | &
+52 vi) 80 62 82+ 75* 55 89 39 30 4 95~ 88+ 95+ v) 37+
+87 85 69 53 83+ 75 59 1 43 42 86 99* 89~ 89~ n 39
+
+f 81 99 80 48 84~ 8h 43 90 40 36 rh) 92 82 99 82 35+ {
+
+| 56 92 78 34 86 83 42 81 4h 39 83 80+ 83~ 90 71 35
+51 78 1h 64 63+ 56+ 70 71 65 54 48 99~ 90 87+ 70 62",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-c497a08c8ee6-player_side_card,player_side_card,Rutgers Roster.webm,00:00:40,2416,assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg,player_side_card,"L
+= 80
+Rs @
+wt ‘
+Ko an © 2
+SAH'NYE
+DEGRAFFENREIDT
+POSITION ARCHETYPE
+WR| #14 Gadget
+CLASS & NIL HEIGHT & WEIGHT
+JR(RS)|@o | 6'1""| 213 Ibs
+HOMETOWN
+Atlantic city, NJ
+PHYSICAL MENTAL
+say DEV TRAIT
+4% Normal
+Om
+“a",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-50cb1100e799-roster_header,roster_header,Rutgers Roster.webm,00:01:19,4771,assets/review_crops/current_team_roster/screen-50cb1100e799-roster_header.jpg,roster_header,"ss hLUL™Y,,.,LUCUOF
+Z (21)
+ey) RUTGERS
+q SCARLET KNIGHTS 84 84 86 B
+N KY OVR OFF DEF
+\ 5-0 (2-0) | 3RD IN BIG TEN",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-50cb1100e799-roster_table,roster_table,Rutgers Roster.webm,00:01:19,4771,assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg,roster_table,"ACC AGI cop STR AWR PBK PBP PBF RBK RBP RBF LBK IBL STA TGH INJ
+|
+79 76 62 89 75 80 81 81 86 84 80. 88 84 85. 92 89 |
+|
+7
+50 59 52 54 51 59 70 99* 87+ o1~ ;
+SAN
+is 87+ 85+ 81+ 78+ 83+ 97+ 82+ 82« 89+ 92+ | &
+i 89+ 85+ 78+ The 70+ 86+ 81+ 99+ 88+ 90+
+- 82* 85+ 81+ 83+ 82« 89~ 81+ 88~ 88~ 92«
+, 2 80+ 78+ ne 66+ The 83~ 79~ 99~ 93 80+ |
+,
+« 79+ The 68+ 124 68~ 75+ 81+ 88~ 87+ 86+
+53 58 55 68 55 55 3 99~ 90+ 80«
+a [=< se; ay = 7 —,",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-50cb1100e799-player_side_card,player_side_card,Rutgers Roster.webm,00:01:19,4771,assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg,player_side_card,"i
+R 4
+“A - ~
+2) ue ©1
+JON
+FELTON
+POSITION ARCHETYPE
+RG | #73 Well Rounded
+CLASS § NIL HEIGHT & WEIGHT
+FR|@>180 6'2"" | 321 Ibs
+HOMETOWN
+Kahuku, HI
+PHYSICAL MENTAL
+es DEV TRAIT
+SP star
+Om
+“a",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-0aee58db86ab-roster_header,roster_header,Rutgers Roster.webm,00:01:58,7127,assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_header.jpg,roster_header,"ee
+Lage
+i (21) RUTGERS
+Z SCARLET KNIGHTS 84 84 86 B
+N KK OVR OFF DEF
+\ 5-0 (2-0) | 3RD IN BIG TEN",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-0aee58db86ab-roster_table,roster_table,Rutgers Roster.webm,00:01:58,7127,assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_table.jpg,roster_table,"“#  RS-—NAME YEAR pos OWRSséWNIL spp ACC.«C:*«CGT:C‘<‘<«é‘éirSSOSTR: «SOAR SOBK
+1 C.lantz so(RS) 1G nm @o 57 61 79 62 «90 8077 |
+© ,
+3 Raines sR c 7~ ©o 63 “ | ae
+SSS
+é Elijah JR (RS) i s0- ©o B “ | a
+: D.Sturgis FR c 73- ao 67 “
+: R.callow FR(RS) LT m- ©20 72 “ |
+a JFelton FR rq 8~ O07 ~ |
+. A.Anelli FR oT 53 «© 105 n
+‘ Pook so oT 52 ©120 ~~ a0
+Zz E ome —e 7 “ay ;",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-0aee58db86ab-player_side_card,player_side_card,Rutgers Roster.webm,00:01:58,7127,assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg,player_side_card,"R 8
+OVR
+2) ud ©2
+SHASE
+LANTZ
+POSITION ARCHETYPE
+LG | #78 Raw Strength
+CLASS & NIL HEIGHT & WEIGHT
+$0(RS)|@>o | 6'4""|315 Ibs
+HOMETOWN
+Montvale, NJ 9
+AQQQONOWMMNINMHNHNNMOO’NAWHNHNHNWWL
+PHYSICAL MENTAL
+a DEV TRAIT
+®& Normal
+Om",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-73b15d4f3433-roster_header,roster_header,Rutgers Roster.webm,00:02:38,9482,assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_header.jpg,roster_header,"Se
+a RUTGERS
+Z SCARLET KNIGHTS 84 84 86 B
+\ kK OVR OFF DEF
+\ 5-0 (2-0) | 3RD IN BIG TEN
+oe",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-73b15d4f3433-roster_table,roster_table,Rutgers Roster.webm,00:02:38,9482,assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_table.jpg,roster_table,"a EE)
+AWR PRC PMY FMV BSH TAK POW PUR zc MCy CTH JMP IBL STA TGH INJ
+81 80 83 91 72 85 85 94 42 34 55 88 65 81 86 89 :
+|
+76 54 72 84 78 80 26 24 31 73 63 81+ 82+ 86 |
+SSS
+94 81 84 85 87 86 42 36 46 84 83 vi 90 93 e
+83 69 82 84 78 88 45 42 45 Th 5 81+ 93 94~ |
+85 76 68 82 81 81 78 Th 73 84 67 80+ a1 93 l
+, 70 7h 83 71 80 84 60 34 62 EK} 82 87 91+ 90+ {
+n 70 76 79 87 81 48 46 48 81 70 99~ 87+ 91
+71 85 66 72 81 84 31 47 30 71 Th 83 8h~ 81+",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-73b15d4f3433-player_side_card,player_side_card,Rutgers Roster.webm,00:02:38,9482,assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg,player_side_card,"b&
+sy, OVR
+/ ~
+5@ Loo
+ZAHIR
+MATHIS
+POSITION ARCHETYPE
+REDG | #9 Speed Rusher
+CLASS & NIL HEIGHT & WEIGHT
+JR (RS) |<@>165 | 6'6""| 226 Ibs
+HOMETOWN
+Philadelphia, pA @
+QQ QONWMMNNONMHOMMMMOAB®W®HNNMNHNWNWL
+PHYSICAL MENTAL
+aa Quick Jump ote
+‘T/> Pocket Disruptor -
+eo DEV TRAIT
+‘Impact
+Om
+“a",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-39419b88dbfa-roster_header,roster_header,Rutgers Roster.webm,00:03:17,11838,assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_header.jpg,roster_header,"SS, Oe eee
+a RUTGERS
+U Notes
+Z SCARLET KNIGHTS 84 84 86 B
+N KK OVR OFF DEF
+\ 5-0 (2-0) | 3RD IN BIG TEN
+a",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-39419b88dbfa-roster_table,roster_table,Rutgers Roster.webm,00:03:17,11838,assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg,roster_table,"R pos =oOVR Ss spp sACC'-«<O;*«CG'=C“‘<‘é‘ir:SSCSTR «SCAR SSCORSC«*AK':«C*é‘«é OW SSCBSH SMSC
+© 8 ot e020
+RT |
+© a a
+LEDG |
+mE 86 720=C«CO TS it (iti CCU lCC<CirtitiatC(iaSC‘<“ OH!)CWTCt;‘éS 7
+ms) ese Os tt 85, : : . ; | g
+ms) nec 78ssCS@ Gh“ ‘<é‘éi:SCOCCOCBt*‘«éA 85 at
+ns) 6s MIKE (Cia (sw SHS =S isi? (isis (itiCOC«CS 8840 88—Ci(itéiSC«i;C:é«B
+a nea (ia / SOS @O RM re a) a 78) ee se
+' wn 7m @o 8208 Te 70 73 78 1 i eae 79 |
+. » < = = ~- ” ss |
+fi ta y",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-39419b88dbfa-player_side_card,player_side_card,Rutgers Roster.webm,00:03:17,11838,assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg,player_side_card,"t=
+R &
+5) Loo
+(OSEFA
+SMOKER
+POSITION ARCHETYPE
+MIKE | #51 Lurker
+CLASS § NIL HEIGHT & WEIGHT
+FR|@>175 6'2""| 216 Ibs
+HOMETOWN
+Forty Fort, PA @
+AOA HNOMHNMHKNMMOMBW™\!NHNW
+PHYSICAL MENTAL
+‘House Call © Road Dog
+sue @ rallercoaster
+a DEV TRAIT
+®& Normal
+Om
+“a",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-19a6a103623d-roster_header,roster_header,Rutgers Roster.webm,00:03:56,14193,assets/review_crops/current_team_roster/screen-19a6a103623d-roster_header.jpg,roster_header,"ee
+ages
+i (21) RUTGERS
+Z SCARLET KNIGHTS 84 84 86 B
+N KK OVR OFF DEF
+\ 5-0 (2-0) | 3RD IN BIG TEN",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-19a6a103623d-roster_table,roster_table,Rutgers Roster.webm,00:03:56,14193,assets/review_crops/current_team_roster/screen-19a6a103623d-roster_table.jpg,roster_table,"a# RS NAME YEAR Pos OUR NIL SPD ACC AGI cop STR AWR PRC
+1 B.Gordon Jr. SR cB 89 > 250 89 93 92 92 63 85 87 |
+©
+© | ie
+Ss
+©
+|
+© ‘ <
+Co 1 <
+(
+1 .
+7 a ""Ar
+ND -,",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-19a6a103623d-player_side_card,player_side_card,Rutgers Roster.webm,00:03:56,14193,assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg,player_side_card,". L
+Ro @
+¥) OVR
+AS my, © 0
+3RENT
+SORDON JR.
+POSITION ARCHETYPE
+cB] #5 Field
+CLASS § NIL HEIGHT & WEIGHT
+SR|<@>250 5°11"" | 205 Ibs
+HOMETOWN
+New Orleans, LA
+AQQQONWMMAMNNNMOMMAXQN\NHNHNWL
+PHYSICAL MENTAL
+® Robber shh:
+6) Knockout cs
+© Blanket Coverage ae L
+ie DEV TRAIT
+oa Impact
+ichors Aweigh - Navy (=)
+\ Sports College Footb z
+:",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-41eadd8e75a1-roster_header,roster_header,Rutgers Roster.webm,00:04:35,16549,assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_header.jpg,roster_header,"ee
+yy
+ea
+(21) RUTGERS
+Z SCARLET KNIGHTS 84 84 86 B
+N aa OVR OFF DEF
+\ 5-0 (2-0) | 3RD IN BIG TEN",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-41eadd8e75a1-roster_table,roster_table,Rutgers Roster.webm,00:04:35,16549,assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg,roster_table,"YEAR POs ovR NIL SPD Acc AGI cob STR AWR PRC McY 7c PRS CTH T
+FR SS 76 > 190 92 89 84 92 61 69 80 71 76 70 65 i :
+$0 (RS) cB rh) 0 90 93 88
+FR (RS) cB 70 5 94 EK} 81 it
+AN
+SR cB 89 © 250 89 93 92 92 63 85 87 88 90 85 91 { e
+JR (RS) cB 71 @o 92 93 90 95 47 70 78 76 87 61 84 H
+$0 (RS) Ss 3 @o 91 94 92 92 63 n 70 70 70 66 80 (
+( FR cB 72 ® 200 89 92 89 EK} 58 65 69 62 79 63 79 (
+| so FS 66 Os 84 15 78 79 69 73 80 65 59 58 68 (
+ee ES Bane BS",ocr_draft_needs_confirmation,0.55
+current_team_roster,screen-41eadd8e75a1-player_side_card,player_side_card,Rutgers Roster.webm,00:04:35,16549,assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg,player_side_card,"ig
+R
+“A ~
+2) uy 1
+LARRY
+THOMPSON
+POSITION ARCHETYPE
+SS | #11 Hybrid
+CLASS & NIL | HEIGHT & WEIGHT
+FR|@>190 6'1"" | 201 Ibs
+HOMETOWN &
+Hollywood, FL ‘<
+AM WNONN™MMMANNNHNHNWNL
+PHYSICAL MENTAL
+as DEV TRAIT
+Petar
+ape Of You (=)
+ge Football Marching z
+=",ocr_draft_needs_confirmation,0.55

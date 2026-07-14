@@ -637,6 +637,22 @@ check('Roster/stats extracted packages link back to review packages', ['current_
   return payload.review_package && payload.review_csv && payload.counts.review_crops >= 0;
 }));
 
+
+
+function validateReviewImports() {
+  const reportPath = path.join(root, 'reports', 'review_import_report.md');
+  check('Review import report exists', fs.existsSync(reportPath));
+  for (const file of ['current_team_roster_extracted.json','opponent_roster_extracted.json','current_team_season_stats_extracted.json','opponent_season_stats_extracted.json']) {
+    const payload = readGeneratedJson(file);
+    const promoted = payload.promoted_fields || [];
+    check(`${file} promoted review fields have confirmed crop evidence`, promoted.every(item => {
+      const ev = item.evidence || {};
+      return ev.review_status === 'confirmed' && ev.source_video && ev.source_video_hash && ev.timestamp && ev.frame_number !== undefined && ev.crop_path && fs.existsSync(path.join(root, ev.crop_path));
+    }));
+  }
+}
+validateReviewImports();
+
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');
 console.log(report);

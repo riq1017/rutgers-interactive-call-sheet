@@ -1,5 +1,5 @@
 # Processing Performance
 
-Elapsed seconds: 10.33
+Elapsed seconds: 3.33
 
 FFmpeg source: streamlabs_obs

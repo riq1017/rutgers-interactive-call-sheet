@@ -1,8 +1,8 @@
 {
   "counts": {
     "crops": 24,
-    "manual_review_fields": 24,
-    "ocr_draft_fields": 0,
+    "manual_review_fields": 0,
+    "ocr_draft_fields": 24,
     "omitted_fields": 0,
     "promoted_fields": 0
   },
@@ -20,18 +20,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-roster_header.jpg",
             "frame_number": 60,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:00:01",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "g PURDUE 64\n\nZ BOILERMAKERS BiG\n\\ OVR\n\nN kk\n\n\\ 1-4 (0-4) | 18TH IN BIG TEN\n\nNW"
         }
       ],
       "manual_review": true,
@@ -52,18 +52,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-roster_table.jpg",
             "frame_number": 60,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:00:01",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6 Te . |\nAWR THP SAC MAC DAC RUN TUP BSK PAC CAR BCV JKM SPM BTK SFA TRK |\n80 87 79 76 75 82 78 69 60 91 89 78 Th 76 66 59 |\n67 n 59 85+ 66+ 80+ 53 76 83 82 76 vi) 61 58 |\n79 71 70 70 72 The 60 63 52 42 39 40 38 27\nP i ~ ee - bes"
         }
       ],
       "manual_review": true,
@@ -84,18 +84,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg",
             "frame_number": 60,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:00:01",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Py\n4 . OVR\n\u2014\nke \u00a7 ne\nSVANS\nCHUBA\nPOSITION ARCHETYPE\nQB (R)| #1 Pure Runner\nCLASS & NIL HEIGHT & WEIGHT\nSR(RS)|<@>85 | 6'4\"| 224 Ibs\nHOMETOWN\nMontreal, international\nPHYSICAL MENTAL\n\u00a9 m-:"
         }
       ],
       "manual_review": true,
@@ -116,18 +116,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-roster_header.jpg",
             "frame_number": 2417,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:00:40",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "j\n\ng PURDUE 64\n\nZ BOILERMAKERS BiG\n\\ OVR\n\nN **\n\n\\ 1-4 (0-4) | 18TH IN BIG TEN\n\nNW"
         }
       ],
       "manual_review": true,
@@ -148,18 +148,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-roster_table.jpg",
             "frame_number": 2417,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:00:40",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6 Cs ) & \u2014\nBIK TRK SFA CTH SRR cit SPM JKM PBK PBP PBF RBK RBP RBF LBK IBL |\n4 57 58 62 62 1) 66 60 64 56 1 66 70 14 67 61 |\n54 53 54 67 63 72 62 62 59 45 43 62 48 40 63 55 |\n67 vi) 61 66 47 65 63 63 53 55 58 43 38 36 32 35\n\ngt \u2014 \u2014 x \u201c> aN \u2014 i"
         }
       ],
       "manual_review": true,
@@ -180,18 +180,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg",
             "frame_number": 2417,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:00:40",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "\u2014 f\naw\"\neee EEE\nTRENT\nFORSETT\nPOSITION ARCHETYPE\nTE| #81 Pure Blocker\nCLASS & NIL HEIGHT & WEIGHT\nFR|@10 6'3\" | 216 Ibs\nHOMETOWN\nOkemos, Mi 9\nPHYSICAL MENTAL\nOm"
         }
       ],
       "manual_review": true,
@@ -212,18 +212,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-33427cb143c2-roster_header.jpg",
             "frame_number": 4774,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:01:19",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "G\n\ng PURDUE 64\n\nQ BOILERMAKERS BiG\n\\ k* OVR\n\n\\ 1-4 (0-4) | 18TH IN BIG TEN\n\na"
         }
       ],
       "manual_review": true,
@@ -244,18 +244,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-33427cb143c2-roster_table.jpg",
             "frame_number": 4774,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:01:19",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": ":\n\nat RS NAME YEAR pos OvR NIL SPD ACC AGI cop STR AWR CTH |\n\n1 V.Mangen JR (RS) TE 66 \u00b0 5 71 81 79 72 61 55 67 |\nEE ee"
         }
       ],
       "manual_review": true,
@@ -276,18 +276,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-33427cb143c2-player_side_card.jpg",
             "frame_number": 4774,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:01:19",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "|\nPo\n4 OVR\n_\naw\"\neee EEE\nVINCE\nMANGEN\nPOSITION ARCHETYPE\nTE| #89 Vertical Threat\nCLASS & NIL HEIGHT & WEIGHT\nJR(RS)|@>5 | 61\" | 224 Ibs\nHOMETOWN\nJackson, OH 9\nPHYSICAL MENTAL\nOm:"
         }
       ],
       "manual_review": true,
@@ -308,18 +308,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-127ef65e04fd-roster_header.jpg",
             "frame_number": 7131,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:01:58",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "j\n\ng PURDUE 64\n\nZ BOILERMAKERS BiG\n\\ OVR\n\nN k*\n\n\\ 1-4 (0-4) | 18TH IN BIG TEN\n\nJ"
         }
       ],
       "manual_review": true,
@@ -340,18 +340,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-127ef65e04fd-roster_table.jpg",
             "frame_number": 7131,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:01:58",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6 Ts I\nat RS NAME YEAR Pos OUR NIL SPD Acc AGI cop STR AWR PBK |\n3 H.Cashman so LG 71 10 66 n 79 70 94 1) 14 |\n\u2014\u2014\u2014\u2014\u2014_\u2014_\u2014_\u2014_\u2014_\u2014\u2014_ \u2014 - \u2014\u2014 = \u2014\"\"_ \u2014\u2014 = ti\u2018?"
         }
       ],
       "manual_review": true,
@@ -372,18 +372,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-127ef65e04fd-player_side_card.jpg",
             "frame_number": 7131,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:01:58",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Pe\nOVR\n\n\u2014\n\ns $ ae\n\nHOWIE\n\nCASHMAN\n\nPOSITION ARCHETYPE\n\n1G | #57 Raw Strength\n\nCLASS & NIL HEIGHT & WEIGHT\n\n$0|@10 6'3\" | 323 Ibs\n\nHOMETOWN\n\nFort Collins, CO\n\nPHYSICAL MENTAL\n\nWorkhorse \u00a9 Road Dog\n\nOm"
         }
       ],
       "manual_review": true,
@@ -404,18 +404,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-roster_header.jpg",
             "frame_number": 9488,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:02:38",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "i,\n\ng PURDUE 64\n\nj BOILERMAKERS BiG\n\\ kk OVR\n\n\\ 1-4 (0-4) | 18TH IN BIG TEN\n\nJ"
         }
       ],
       "manual_review": true,
@@ -436,18 +436,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-roster_table.jpg",
             "frame_number": 9488,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:02:38",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6 Cs Go ~\ncob STR AWR PRC PMV FM BSH TAK POW PUR 7c Mcy CTH JMP IBL STA |\n67 85 71 14 83 79 82 80 7h 73 34 23 49 71 79 89 |\n70 a 81 85+ 63+ The 70 85+ 35 25 30 v3) 61 TI |\n69~ ~ 5 79 56+ 85~ 86+ 87~ 4h 31 34 71 63 85~\n\n7 oe \u2014y = \u2014 = - === \u2014 lle"
         }
       ],
       "manual_review": true,
@@ -468,18 +468,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg",
             "frame_number": 9488,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:02:38",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "IP a\n\u2014\ns $ ae\nYAMDRY\nHERNANDEZ\nPOSITION ARCHETYPE\nLEDG | #49 Power Rusher\nCLASS & NIL HEIGHT & WEIGHT\nJR(RS)|<@>20 | 6'3\"| 221 lbs\nHOMETOWN\nAtlantic city, Ny Q\nPHYSICAL MENTAL\nOm:"
         }
       ],
       "manual_review": true,
@@ -500,18 +500,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_header.jpg",
             "frame_number": 11845,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:03:17",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "j PURDUE 64\n\nZ BOILERMAKERS BiG\n\\ OVR\n\n\\ kk\n\n\\ 1-4 (0-4) | 18TH IN BIG TEN\n\nNW"
         }
       ],
       "manual_review": true,
@@ -532,18 +532,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
             "frame_number": 11845,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:03:17",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "J\n\n6 Cl a\n\nRS NAME YEAR Pos OUR NIL SPD ACC AGI cop STR AWR PRC PMI |\nB.Hanson FR (RS) oT 73 Os 70 vi) 70 61 84 82 78 234 |"
         }
       ],
       "manual_review": true,
@@ -564,18 +564,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg",
             "frame_number": 11845,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:03:17",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "_\u00a7\n\naw\"\n\nee\n\n30\n\nHANSON\n\nPOSITION ARCHETYPE\n\nDT| #93 Power Rusher\n\nCLASS & NIL HEIGHT & WEIGHT\n\nFR (RS) |@5 6'3\" | 306 Ibs\n\nHOMETOWN\n\nLafayette, In Q\n\nPHYSICAL MENTAL\n\n)> Grip Breaker \u00a9 Team Player\nOm"
         }
       ],
       "manual_review": true,
@@ -596,18 +596,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_header.jpg",
             "frame_number": 14202,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:03:56",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "g PURDUE 64\n\nZ BOILERMAKERS BiG\n\\ OVR\n\n\\ k*\n\n\\ 1-4 (0-4) | 18TH IN BIG TEN\n\ni"
         }
       ],
       "manual_review": true,
@@ -628,18 +628,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
             "frame_number": 14202,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:03:56",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "o CD nae I. |\nNAME YEAR Pos OUR NIL SPD ACC AGI cop STR AWR PRC TAK Pow |\nA.Warren JR (RS) MIKE 73 Oo 71 84 79 73 82 72 70 89 71 |\nM.Elway FR MIKE 70 \u00a9 10 82 71 81 69 87 ia cs = |\nR.Ogden JR (RS) MIKE 67~ \u00a9 20 78 86 79 76 71 - he i\nDell FR MIKE 67 \u00a9 10 71 84 7 n 80 ie fos \u201c 2\n\nee ee eer. ae"
         }
       ],
       "manual_review": true,
@@ -660,18 +660,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-player_side_card.jpg",
             "frame_number": 14202,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:03:56",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "aw\"\n\na EE\nALPHONZO\nWARREN\n\nPOSITION ARCHETYPE\n\nMIKE | #28 Lurker\n\nCLASS & NIL HEIGHT & WEIGHT\nJR(RS)|<@>o | 6'1\"| 238 Ibs\nHOMETOWN\n\nCarmel, IN 9\n\nPHYSICAL MENTAL\n\n*p Queen (=)\n\\ Sports College Footb"
         }
       ],
       "manual_review": true,
@@ -692,18 +692,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-ceef10b22db3-roster_header.jpg",
             "frame_number": 16559,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:04:35",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "j PURDUE 64\n\nZ BOILERMAKERS BiG\n\\ OVR\n\nN kk\n\n\\ 1-4 (0-4) | 18TH IN BIG TEN\n\nNJ"
         }
       ],
       "manual_review": true,
@@ -724,18 +724,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-ceef10b22db3-roster_table.jpg",
             "frame_number": 16559,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:04:35",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6 Ci So\n\nat RS NAME YEAR Pos OuR NIL spp ACC AGI cop STR AWR PRC |\n\n3 JGoldsberry SO (RS) FS 70 0 85 87 84 82 63 76 79\n0009898 ee Eee ((UlUlUlUlltt\u2014\u00e9\u00ab~sk"
         }
       ],
       "manual_review": true,
@@ -756,18 +756,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/opponent_roster/screen-ceef10b22db3-player_side_card.jpg",
             "frame_number": 16559,
             "manual_review": true,
             "source_video": "Purdue Roster.mp4",
             "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
             "timestamp": "00:04:35",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "B\nOVR\n\u2014\naw\":\ni\nJETT\nSOLDSBERRY\nPOSITION ARCHETYPE\nFS| #3 Box Specialist\nCLASS & NIL HEIGHT & WEIGHT\n$0(RS)|@o | 6'0\"|213 lbs\nHOMETOWN\nHuntington, IN 9\nPHYSICAL MENTAL\nOm"
         }
       ],
       "manual_review": true,
@@ -778,9 +778,11 @@
   ],
   "field_group": "opponent_roster_fields",
   "ocr": {
-    "available": false,
-    "mode": "manual_review_only",
-    "path": null
+    "available": true,
+    "mode": "optional_tesseract_stdout",
+    "path": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+    "source": "common_install",
+    "version": "tesseract v5.4.0.20240606"
   },
   "package_type": "opponent_roster_review",
   "promoted_fields": [],

@@ -76,3 +76,7 @@ The first runnable pass inventories screens and marks OCR-dependent values for m
 
 ## Roster + Stats Review Extraction
 Run `python process_week.py --extract roster_stats` to generate OCR-ready crops for Rutgers/Purdue roster and season-stat videos. Crops are written to `assets/review_crops/`; review JSON/CSV files are written to `data/generated/review/`. If Tesseract is unavailable, values remain `null` and `manual_review: true`.
+
+## OCR Review Import Workflow
+
+Tesseract OCR is optional but now supported by `process_week.py`. Detection order is `TESSERACT_EXE`, `video_tools.local.json`, PATH, common Windows installs, then `tools/portable/tesseract/`. Run `python process_week.py --extract roster_stats` to create review crops and OCR drafts. Only rows marked `confirmed` are promoted by `python process_week.py --apply-review`; unknown or unconfirmed values remain out of source-truth JSON and display as `N/A`.

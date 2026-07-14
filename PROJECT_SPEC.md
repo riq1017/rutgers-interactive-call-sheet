@@ -201,3 +201,7 @@ The 192-play Oregon play inventory remains a legacy comparison baseline. Active 
 
 ## Roster + Stats Hybrid Review Extraction
 Roster and season-stat videos use a hybrid review flow. The pipeline may create OCR-ready crops and draft values, but no roster/stat value becomes video-backed unless it carries field-level evidence and is either confirmed by review or supported by OCR confidence. Unknown values stay `null` in generated JSON and render as `N/A` in the app.
+
+## Video OCR And Review Import
+
+`input_videos/` remains the permanent source-of-truth intake folder. OCR output is treated as a draft only. Generated roster/stat values become video-backed data only when the review JSON/CSV row is marked `confirmed` and includes field-level crop evidence.

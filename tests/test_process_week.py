@@ -63,6 +63,49 @@ class VideoSourceTruthTests(unittest.TestCase):
         self.assertIn("current_team_roster", process_week.REVIEW_PACKAGES)
         self.assertIn("opponent_season_stats", process_week.REVIEW_PACKAGES)
 
+    def test_tesseract_resolver_shape(self):
+        adapter = process_week.resolve_tesseract(process_week.root())
+        self.assertIn("available", adapter)
+        self.assertIn("source", adapter)
+
+    def test_review_status_normalization(self):
+        self.assertEqual(process_week.normalize_review_status("needs_confirmation"), "ocr_draft_needs_confirmation")
+        self.assertEqual(process_week.normalize_review_status("confirmed"), "confirmed")
+        self.assertEqual(process_week.normalize_review_status("bad-status"), "needs_manual_review")
+
+    def test_confirmed_blank_review_field_fails(self):
+        errors = []
+        record = process_week.promoted_field_record(
+            "current_team_roster",
+            {"crop_id": "crop-1"},
+            {"field_name": "name", "value": "", "review_status": "confirmed", "evidence": {}},
+            errors,
+        )
+        self.assertIsNone(record)
+        self.assertTrue(errors)
+
+    def test_unconfirmed_review_field_does_not_promote(self):
+        errors = []
+        record = process_week.promoted_field_record(
+            "current_team_roster",
+            {"crop_id": "crop-1"},
+            {"field_name": "name", "value": "M. York", "review_status": "needs_manual_review", "evidence": {}},
+            errors,
+        )
+        self.assertIsNone(record)
+        self.assertEqual(errors, [])
+
+    def test_confirmed_review_field_requires_crop_evidence(self):
+        errors = []
+        record = process_week.promoted_field_record(
+            "current_team_roster",
+            {"crop_id": "crop-1"},
+            {"field_name": "name", "value": "M. York", "review_status": "confirmed", "evidence": {"source_video": "x.mp4"}},
+            errors,
+        )
+        self.assertIsNotNone(record)
+        self.assertTrue(any("missing evidence" in e for e in errors))
+
     def test_crop_evidence_has_crop_path(self):
         ev = process_week.crop_evidence(
             {"filename": "x.mp4", "sha256": "abc"},

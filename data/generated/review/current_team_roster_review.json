@@ -1,8 +1,8 @@
 {
   "counts": {
     "crops": 24,
-    "manual_review_fields": 24,
-    "ocr_draft_fields": 0,
+    "manual_review_fields": 0,
+    "ocr_draft_fields": 24,
     "omitted_fields": 0,
     "promoted_fields": 0
   },
@@ -20,18 +20,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_header.jpg",
             "frame_number": 60,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:00:01",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ee\nj\n/ (a) RUTGERS\ny\nZ SCARLET KNIGHTS 84 84 86 B\n\\ KY OVR OFF DEF\n\\ 5-0 (2-0) | 3RD IN BIG TEN\n~~"
         }
       ],
       "manual_review": true,
@@ -52,18 +52,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_table.jpg",
             "frame_number": 60,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:00:01",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "SFA sPM ss JKM_\u2014sCTH cit RLS SRR MRR RR spc PBK [BL RET STA 1GH INJ\n61 7h 73 79 78 57 79 61 61 5 45 45 84 99 88 92 |\n62 5B~ 68 \u2014ssBB~ CT 50 TH \u00ab2 4h 61 6e- \u00ab65 55 s7- \u2014t+ 96~ if\n0 ) 0 0 0 0 0 ) ) 0 0 ) 0 0 ) 0 e\n<\n|"
         }
       ],
       "manual_review": true,
@@ -84,18 +84,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg",
             "frame_number": 60,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:00:01",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Wee\na ~\n>) Loo\nJOSH\nHASKINS\nPOSITION ARCHETYPE\nHB | #11 Backfield Threat\nCLASS \u00a7 NIL HEIGHT & WEIGHT\nFR|@ 140 5\u00b010\" | 170 Ibs\nHOMETOWN\nAsheville, NC\nA ANMNHNMNMOMHHNHW\u2122\nPHYSICAL MENTAL\n\u00ae Recoup \u00ae Clearheaded\na (Fan Favorite\na @\u00ae winning time le\nHe DEV TRAIT\n%& Normal\nOm\n\u201ca"
         }
       ],
       "manual_review": true,
@@ -116,18 +116,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_header.jpg",
             "frame_number": 2416,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:00:40",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ai A\n @) RUTGERS\nZao\nq SCARLET KNIGHTS 84 84 86 B\nN KY OVR OFF DEF\n\\ 5-0 (2-0) | 3RD IN BIG TEN\nsos"
         }
       ],
       "manual_review": true,
@@ -148,18 +148,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-roster_table.jpg",
             "frame_number": 2416,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:00:40",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "a I) o\nRLS JMP CAR SFA JKM SPM TRK BCV RBK IBL RET STA TGH INJ BIK RBF\n79 92 84 67 86 84 62 80 57 54 84 83 91 99 80 54 :\n|\n\n76 87 67 47 81- 80+ 49 70 43 43 91 97+ 93 90 72 36+ | i\n94 88 ri) 52 80 80~ B 83 53 4h 73 86+ 88 92+ 76 Ai | &\n52 vi) 80 62 82+ 75* 55 89 39 30 4 95~ 88+ 95+ v) 37+\n87 85 69 53 83+ 75 59 1 43 42 86 99* 89~ 89~ n 39\n\nf 81 99 80 48 84~ 8h 43 90 40 36 rh) 92 82 99 82 35+ {\n\n| 56 92 78 34 86 83 42 81 4h 39 83 80+ 83~ 90 71 35\n51 78 1h 64 63+ 56+ 70 71 65 54 48 99~ 90 87+ 70 62"
         }
       ],
       "manual_review": true,
@@ -180,18 +180,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
             "frame_number": 2416,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:00:40",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "L\n= 80\nRs @\nwt \u2018\nKo an \u00a9 2\nSAH'NYE\nDEGRAFFENREIDT\nPOSITION ARCHETYPE\nWR| #14 Gadget\nCLASS & NIL HEIGHT & WEIGHT\nJR(RS)|@o | 6'1\"| 213 Ibs\nHOMETOWN\nAtlantic city, NJ\nPHYSICAL MENTAL\nsay DEV TRAIT\n4% Normal\nOm\n\u201ca"
         }
       ],
       "manual_review": true,
@@ -212,18 +212,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_header.jpg",
             "frame_number": 4771,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:01:19",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ss hLUL\u2122Y,,.,LUCUOF\nZ (21)\ney) RUTGERS\nq SCARLET KNIGHTS 84 84 86 B\nN KY OVR OFF DEF\n\\ 5-0 (2-0) | 3RD IN BIG TEN"
         }
       ],
       "manual_review": true,
@@ -244,18 +244,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
             "frame_number": 4771,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:01:19",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ACC AGI cop STR AWR PBK PBP PBF RBK RBP RBF LBK IBL STA TGH INJ\n|\n79 76 62 89 75 80 81 81 86 84 80. 88 84 85. 92 89 |\n|\n7\n50 59 52 54 51 59 70 99* 87+ o1~ ;\nSAN\nis 87+ 85+ 81+ 78+ 83+ 97+ 82+ 82\u00ab 89+ 92+ | &\ni 89+ 85+ 78+ The 70+ 86+ 81+ 99+ 88+ 90+\n- 82* 85+ 81+ 83+ 82\u00ab 89~ 81+ 88~ 88~ 92\u00ab\n, 2 80+ 78+ ne 66+ The 83~ 79~ 99~ 93 80+ |\n,\n\u00ab 79+ The 68+ 124 68~ 75+ 81+ 88~ 87+ 86+\n53 58 55 68 55 55 3 99~ 90+ 80\u00ab\na [=< se; ay = 7 \u2014,"
         }
       ],
       "manual_review": true,
@@ -276,18 +276,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
             "frame_number": 4771,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:01:19",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "i\nR 4\n\u201cA - ~\n2) ue \u00a91\nJON\nFELTON\nPOSITION ARCHETYPE\nRG | #73 Well Rounded\nCLASS \u00a7 NIL HEIGHT & WEIGHT\nFR|@>180 6'2\" | 321 Ibs\nHOMETOWN\nKahuku, HI\nPHYSICAL MENTAL\nes DEV TRAIT\nSP star\nOm\n\u201ca"
         }
       ],
       "manual_review": true,
@@ -308,18 +308,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_header.jpg",
             "frame_number": 7127,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:01:58",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ee\nLage\ni (21) RUTGERS\nZ SCARLET KNIGHTS 84 84 86 B\nN KK OVR OFF DEF\n\\ 5-0 (2-0) | 3RD IN BIG TEN"
         }
       ],
       "manual_review": true,
@@ -340,18 +340,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_table.jpg",
             "frame_number": 7127,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:01:58",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "\u201c#  RS-\u2014NAME YEAR pos OWRSs\u00e9WNIL spp ACC.\u00abC:*\u00abCGT:C\u2018<\u2018<\u00ab\u00e9\u2018\u00e9irSSOSTR: \u00abSOAR SOBK\n1 C.lantz so(RS) 1G nm @o 57 61 79 62 \u00ab90 8077 |\n\u00a9 ,\n3 Raines sR c 7~ \u00a9o 63 \u201c | ae\nSSS\n\u00e9 Elijah JR (RS) i s0- \u00a9o B \u201c | a\n: D.Sturgis FR c 73- ao 67 \u201c\n: R.callow FR(RS) LT m- \u00a920 72 \u201c |\na JFelton FR rq 8~ O07 ~ |\n. A.Anelli FR oT 53 \u00ab\u00a9 105 n\n\u2018 Pook so oT 52 \u00a9120 ~~ a0\nZz E ome \u2014e 7 \u201cay ;"
         }
       ],
       "manual_review": true,
@@ -372,18 +372,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg",
             "frame_number": 7127,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:01:58",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "R 8\nOVR\n2) ud \u00a92\nSHASE\nLANTZ\nPOSITION ARCHETYPE\nLG | #78 Raw Strength\nCLASS & NIL HEIGHT & WEIGHT\n$0(RS)|@>o | 6'4\"|315 Ibs\nHOMETOWN\nMontvale, NJ 9\nAQQQONOWMMNINMHNHNNMOO\u2019NAWHNHNHNWWL\nPHYSICAL MENTAL\na DEV TRAIT\n\u00ae& Normal\nOm"
         }
       ],
       "manual_review": true,
@@ -404,18 +404,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_header.jpg",
             "frame_number": 9482,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:02:38",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Se\na RUTGERS\nZ SCARLET KNIGHTS 84 84 86 B\n\\ kK OVR OFF DEF\n\\ 5-0 (2-0) | 3RD IN BIG TEN\noe"
         }
       ],
       "manual_review": true,
@@ -436,18 +436,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-roster_table.jpg",
             "frame_number": 9482,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:02:38",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "a EE)\nAWR PRC PMY FMV BSH TAK POW PUR zc MCy CTH JMP IBL STA TGH INJ\n81 80 83 91 72 85 85 94 42 34 55 88 65 81 86 89 :\n|\n76 54 72 84 78 80 26 24 31 73 63 81+ 82+ 86 |\nSSS\n94 81 84 85 87 86 42 36 46 84 83 vi 90 93 e\n83 69 82 84 78 88 45 42 45 Th 5 81+ 93 94~ |\n85 76 68 82 81 81 78 Th 73 84 67 80+ a1 93 l\n, 70 7h 83 71 80 84 60 34 62 EK} 82 87 91+ 90+ {\nn 70 76 79 87 81 48 46 48 81 70 99~ 87+ 91\n71 85 66 72 81 84 31 47 30 71 Th 83 8h~ 81+"
         }
       ],
       "manual_review": true,
@@ -468,18 +468,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
             "frame_number": 9482,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:02:38",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "b&\nsy, OVR\n/ ~\n5@ Loo\nZAHIR\nMATHIS\nPOSITION ARCHETYPE\nREDG | #9 Speed Rusher\nCLASS & NIL HEIGHT & WEIGHT\nJR (RS) |<@>165 | 6'6\"| 226 Ibs\nHOMETOWN\nPhiladelphia, pA @\nQQ QONWMMNNONMHOMMMMOAB\u00aeW\u00aeHNNMNHNWNWL\nPHYSICAL MENTAL\naa Quick Jump ote\n\u2018T/> Pocket Disruptor -\neo DEV TRAIT\n\u2018Impact\nOm\n\u201ca"
         }
       ],
       "manual_review": true,
@@ -500,18 +500,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_header.jpg",
             "frame_number": 11838,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:03:17",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "SS, Oe eee\na RUTGERS\nU Notes\nZ SCARLET KNIGHTS 84 84 86 B\nN KK OVR OFF DEF\n\\ 5-0 (2-0) | 3RD IN BIG TEN\na"
         }
       ],
       "manual_review": true,
@@ -532,18 +532,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
             "frame_number": 11838,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:03:17",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "R pos =oOVR Ss spp sACC'-\u00ab<O;*\u00abCG'=C\u201c\u2018<\u2018\u00e9\u2018ir:SSCSTR \u00abSCAR SSCORSC\u00ab*AK':\u00abC*\u00e9\u2018\u00ab\u00e9 OW SSCBSH SMSC\n\u00a9 8 ot e020\nRT |\n\u00a9 a a\nLEDG |\nmE 86 720=C\u00abCO TS it (iti CCU lCC<CirtitiatC(iaSC\u2018<\u201c OH!)CWTCt;\u2018\u00e9S 7\nms) ese Os tt 85, : : . ; | g\nms) nec 78ssCS@ Gh\u201c \u2018<\u00e9\u2018\u00e9i:SCOCCOCBt*\u2018\u00ab\u00e9A 85 at\nns) 6s MIKE (Cia (sw SHS =S isi? (isis (itiCOC\u00abCS 8840 88\u2014Ci(it\u00e9iSC\u00abi;C:\u00e9\u00abB\na nea (ia / SOS @O RM re a) a 78) ee se\n' wn 7m @o 8208 Te 70 73 78 1 i eae 79 |\n. \u00bb < = = ~- \u201d ss |\nfi ta y"
         }
       ],
       "manual_review": true,
@@ -564,18 +564,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg",
             "frame_number": 11838,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:03:17",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "t=\nR &\n5) Loo\n(OSEFA\nSMOKER\nPOSITION ARCHETYPE\nMIKE | #51 Lurker\nCLASS \u00a7 NIL HEIGHT & WEIGHT\nFR|@>175 6'2\"| 216 Ibs\nHOMETOWN\nForty Fort, PA @\nAOA HNOMHNMHKNMMOMBW\u2122\\!NHNW\nPHYSICAL MENTAL\n\u2018House Call \u00a9 Road Dog\nsue @ rallercoaster\na DEV TRAIT\n\u00ae& Normal\nOm\n\u201ca"
         }
       ],
       "manual_review": true,
@@ -596,18 +596,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-roster_header.jpg",
             "frame_number": 14193,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:03:56",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ee\nages\ni (21) RUTGERS\nZ SCARLET KNIGHTS 84 84 86 B\nN KK OVR OFF DEF\n\\ 5-0 (2-0) | 3RD IN BIG TEN"
         }
       ],
       "manual_review": true,
@@ -628,18 +628,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-roster_table.jpg",
             "frame_number": 14193,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:03:56",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "a# RS NAME YEAR Pos OUR NIL SPD ACC AGI cop STR AWR PRC\n1 B.Gordon Jr. SR cB 89 > 250 89 93 92 92 63 85 87 |\n\u00a9\n\u00a9 | ie\nSs\n\u00a9\n|\n\u00a9 \u2018 <\nCo 1 <\n(\n1 .\n7 a \"Ar\nND -,"
         }
       ],
       "manual_review": true,
@@ -660,18 +660,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg",
             "frame_number": 14193,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:03:56",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": ". L\nRo @\n\u00a5) OVR\nAS my, \u00a9 0\n3RENT\nSORDON JR.\nPOSITION ARCHETYPE\ncB] #5 Field\nCLASS \u00a7 NIL HEIGHT & WEIGHT\nSR|<@>250 5\u00b011\" | 205 Ibs\nHOMETOWN\nNew Orleans, LA\nAQQQONWMMAMNNNMOMMAXQN\\NHNHNWL\nPHYSICAL MENTAL\n\u00ae Robber shh:\n6) Knockout cs\n\u00a9 Blanket Coverage ae L\nie DEV TRAIT\noa Impact\nichors Aweigh - Navy (=)\n\\ Sports College Footb z\n:"
         }
       ],
       "manual_review": true,
@@ -692,18 +692,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_header.jpg",
             "frame_number": 16549,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:04:35",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_header",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ee\nyy\nea\n(21) RUTGERS\nZ SCARLET KNIGHTS 84 84 86 B\nN aa OVR OFF DEF\n\\ 5-0 (2-0) | 3RD IN BIG TEN"
         }
       ],
       "manual_review": true,
@@ -724,18 +724,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
             "frame_number": 16549,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:04:35",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "roster_table",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "YEAR POs ovR NIL SPD Acc AGI cob STR AWR PRC McY 7c PRS CTH T\nFR SS 76 > 190 92 89 84 92 61 69 80 71 76 70 65 i :\n$0 (RS) cB rh) 0 90 93 88\nFR (RS) cB 70 5 94 EK} 81 it\nAN\nSR cB 89 \u00a9 250 89 93 92 92 63 85 87 88 90 85 91 { e\nJR (RS) cB 71 @o 92 93 90 95 47 70 78 76 87 61 84 H\n$0 (RS) Ss 3 @o 91 94 92 92 63 n 70 70 70 66 80 (\n( FR cB 72 \u00ae 200 89 92 89 EK} 58 65 69 62 79 63 79 (\n| so FS 66 Os 84 15 78 79 69 73 80 65 59 58 68 (\nee ES Bane BS"
         }
       ],
       "manual_review": true,
@@ -756,18 +756,18 @@
       "fields": [
         {
           "evidence": {
-            "confidence": 0.0,
+            "confidence": 0.55,
             "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
             "frame_number": 16549,
             "manual_review": true,
             "source_video": "Rutgers Roster.webm",
             "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
             "timestamp": "00:04:35",
-            "verification_status": "manual_review"
+            "verification_status": "ocr_draft"
           },
           "field_name": "player_side_card",
-          "review_status": "needs_manual_review",
-          "value": null
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ig\nR\n\u201cA ~\n2) uy 1\nLARRY\nTHOMPSON\nPOSITION ARCHETYPE\nSS | #11 Hybrid\nCLASS & NIL | HEIGHT & WEIGHT\nFR|@>190 6'1\" | 201 Ibs\nHOMETOWN &\nHollywood, FL \u2018<\nAM WNONN\u2122MMMANNNHNHNWNL\nPHYSICAL MENTAL\nas DEV TRAIT\nPetar\nape Of You (=)\nge Football Marching z\n="
         }
       ],
       "manual_review": true,
@@ -778,9 +778,11 @@
   ],
   "field_group": "current_team_roster_fields",
   "ocr": {
-    "available": false,
-    "mode": "manual_review_only",
-    "path": null
+    "available": true,
+    "mode": "optional_tesseract_stdout",
+    "path": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+    "source": "common_install",
+    "version": "tesseract v5.4.0.20240606"
   },
   "package_type": "current_team_roster_review",
   "promoted_fields": [],

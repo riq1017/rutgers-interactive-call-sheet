@@ -17,7 +17,8 @@
     "manual-stat_screen-screen-5d64ab9af1ce"
   ],
   "package_type": "opponent_season_stats_extracted",
-  "promotion_policy": "Only reviewed/confirmed fields or OCR-confident draft fields may be promoted.",
+  "promoted_fields": [],
+  "promotion_policy": "Only fields explicitly marked confirmed are promoted.",
   "records": [
     {
       "additional_visible_fields": {},

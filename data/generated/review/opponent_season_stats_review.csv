@@ -1,19 +1,220 @@
 package,crop_id,crop_type,source_video,timestamp,frame_number,crop_path,field_name,value,review_status,confidence
-opponent_season_stats,screen-1bbdf190fb89-stats_header,stats_header,Purdue Season Stats.mp4,00:00:01,60,assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-stats_header.jpg,stats_header,,needs_manual_review,0.0
-opponent_season_stats,screen-1bbdf190fb89-stats_table,stats_table,Purdue Season Stats.mp4,00:00:01,60,assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-stats_table.jpg,stats_table,,needs_manual_review,0.0
-opponent_season_stats,screen-1bbdf190fb89-player_side_card,player_side_card,Purdue Season Stats.mp4,00:00:01,60,assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_season_stats,screen-36e717d3d321-stats_header,stats_header,Purdue Season Stats.mp4,00:00:33,2032,assets/review_crops/opponent_season_stats/screen-36e717d3d321-stats_header.jpg,stats_header,,needs_manual_review,0.0
-opponent_season_stats,screen-36e717d3d321-stats_table,stats_table,Purdue Season Stats.mp4,00:00:33,2032,assets/review_crops/opponent_season_stats/screen-36e717d3d321-stats_table.jpg,stats_table,,needs_manual_review,0.0
-opponent_season_stats,screen-36e717d3d321-player_side_card,player_side_card,Purdue Season Stats.mp4,00:00:33,2032,assets/review_crops/opponent_season_stats/screen-36e717d3d321-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_season_stats,screen-8543874ba3e0-stats_header,stats_header,Purdue Season Stats.mp4,00:01:06,4005,assets/review_crops/opponent_season_stats/screen-8543874ba3e0-stats_header.jpg,stats_header,,needs_manual_review,0.0
-opponent_season_stats,screen-8543874ba3e0-stats_table,stats_table,Purdue Season Stats.mp4,00:01:06,4005,assets/review_crops/opponent_season_stats/screen-8543874ba3e0-stats_table.jpg,stats_table,,needs_manual_review,0.0
-opponent_season_stats,screen-8543874ba3e0-player_side_card,player_side_card,Purdue Season Stats.mp4,00:01:06,4005,assets/review_crops/opponent_season_stats/screen-8543874ba3e0-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_season_stats,screen-bbb55930f04b-stats_header,stats_header,Purdue Season Stats.mp4,00:01:39,5977,assets/review_crops/opponent_season_stats/screen-bbb55930f04b-stats_header.jpg,stats_header,,needs_manual_review,0.0
-opponent_season_stats,screen-bbb55930f04b-stats_table,stats_table,Purdue Season Stats.mp4,00:01:39,5977,assets/review_crops/opponent_season_stats/screen-bbb55930f04b-stats_table.jpg,stats_table,,needs_manual_review,0.0
-opponent_season_stats,screen-bbb55930f04b-player_side_card,player_side_card,Purdue Season Stats.mp4,00:01:39,5977,assets/review_crops/opponent_season_stats/screen-bbb55930f04b-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_season_stats,screen-9e0d6cea9e70-stats_header,stats_header,Purdue Season Stats.mp4,00:02:12,7950,assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-stats_header.jpg,stats_header,,needs_manual_review,0.0
-opponent_season_stats,screen-9e0d6cea9e70-stats_table,stats_table,Purdue Season Stats.mp4,00:02:12,7950,assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-stats_table.jpg,stats_table,,needs_manual_review,0.0
-opponent_season_stats,screen-9e0d6cea9e70-player_side_card,player_side_card,Purdue Season Stats.mp4,00:02:12,7950,assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-opponent_season_stats,screen-5d64ab9af1ce-stats_header,stats_header,Purdue Season Stats.mp4,00:02:45,9922,assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-stats_header.jpg,stats_header,,needs_manual_review,0.0
-opponent_season_stats,screen-5d64ab9af1ce-stats_table,stats_table,Purdue Season Stats.mp4,00:02:45,9922,assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-stats_table.jpg,stats_table,,needs_manual_review,0.0
-opponent_season_stats,screen-5d64ab9af1ce-player_side_card,player_side_card,Purdue Season Stats.mp4,00:02:45,9922,assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
+opponent_season_stats,screen-1bbdf190fb89-stats_header,stats_header,Purdue Season Stats.mp4,00:00:01,60,assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-stats_header.jpg,stats_header,"y 4 —
+6 Ci GE o =",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-1bbdf190fb89-stats_table,stats_table,Purdue Season Stats.mp4,00:00:01,60,assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-stats_table.jpg,stats_table,"NAME POS sa SOLO ASSISTS = w TAK TFL SACK —s INT. INTYDS = =—sINTAVG = INTLE =
+G.Atwood REGO 0 0 0 0 0.0 0 0 0.0 0
+D.parker wi oo 0 0 0 0 0.0 0 0 0.0 0 EB
+S.Draft ni 2 0 0 0 0 0.0 0 0 0.0 0 os
+| wi
+Fankrah FS 0 0 0 0 0 0.0 0 0 0.0 0 | a
+FRI
+Justin cB 0 0 0 0 0.0 0 0 0.0 0 vow
+Dar
+Q.Maybin MIKE 1 0 0 0 0 0.0 0 0 00 0
+JWooleyhand MKE 0 0 0 0 0 0.0 0 0 0.0 0 a
+TEbron wil =O 0 0 0 0 0.0 0 0 0.0 0
+K.Witherspoon SAM 1 0 0 0 0 0.0 0 0 0.0 0 J :
+J.lewis lps «oo 0 0 0 0 0.0 0 0 0.0 0 | :
+B.Sweeney MIKE =O 0 0 0 0 0.0 0 0 0.0 0 =
+TBaxter FS 5 0 0 0 0 0.0 0 0 0.0 0
+a",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-1bbdf190fb89-player_side_card,player_side_card,Purdue Season Stats.mp4,00:00:01,60,assets/review_crops/opponent_season_stats/screen-1bbdf190fb89-player_side_card.jpg,player_side_card,"= .
+—
+iw"")
+—— eng
+:0
+RON
+TION | ARCHETYPE
+L| #4 Signal Caller
+S | HEIGHT S WEIGHT
+RS) 64"" | 218 Ibs
+ETOWN
+ville, KY Q
+CAL MENTAL
+‘ © Road Dog
+‘y
+orts College Footbe @",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-36e717d3d321-stats_header,stats_header,Purdue Season Stats.mp4,00:00:33,2032,assets/review_crops/opponent_season_stats/screen-36e717d3d321-stats_header.jpg,stats_header,"Py 4 —
+6 Ci _CEFENSE RY | iE
+NAME none en enn necero . TAU TCL eCnry INT INT VNe INT AU INTIC",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-36e717d3d321-stats_table,stats_table,Purdue Season Stats.mp4,00:00:33,2032,assets/review_crops/opponent_season_stats/screen-36e717d3d321-stats_table.jpg,stats_table,"NAME POS —sG@P SOLO ASSISTS = w TAK TFL SACK INT INTYDS = =—sINTAVG = INTLE —
+AWarren MIKE = 5 40 4 hh 3 05 0 0 0.0 0 =
+KEC
+B.leal Wi 5 i 9 25 1 0.0 0 0 0.0 0 SM
+R.Daniels cB 5 16 8 24 1 0.5 ) ) 0.0 ) FS
+TScales Wk 5 12 8 20 4 i) 0 0 0.0 0 an
+K.Smallwood FS 5 4 6 20 1 0.0 0 0 0.0 0 oe
+JGoldsberry FS 5 v 3 20 1 0.0 0 0 0.0 0
+E.Sawyer $s 5 12 5 i 1 0.0 0 0 0.0 0 pas
+R.Ogden MIKE 5 1h 3 0 0 0.0 0 0 0.0 0 =
+D.tincoin cB 3 13 4 7 0 0.0 1 7 i) a . <
+- B.Hanson oT 5 1 4 15 2 0.0 0 0 0.0 0 g
+Q.Gillians REG 4 12 1 13 3 0.0 0 0 0.0 0 :
+VHernande? 1EnR 5 1 4q 49 q no n n no n aa",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-36e717d3d321-player_side_card,player_side_card,Purdue Season Stats.mp4,00:00:33,2032,assets/review_crops/opponent_season_stats/screen-36e717d3d321-player_side_card.jpg,player_side_card,"=
+= oa OVR
+-_
+
+Iw""
+a es
+IN
+[ALLWOO0D
+TION ARCHETYPE
+#32 Box Specialist
+S$ HEIGHT & WEIGHT
+(RS) 6'0"" | 204 Ibs
+ETOWN
+asville, IN 9
+CAL MENTAL
+
+Om",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-8543874ba3e0-stats_header,stats_header,Purdue Season Stats.mp4,00:01:06,4005,assets/review_crops/opponent_season_stats/screen-8543874ba3e0-stats_header.jpg,stats_header,"y —
+© Box Score [Piayer Stats [Rt] ,
+Piz] RUTGERS GEES) & R",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-8543874ba3e0-stats_table,stats_table,Purdue Season Stats.mp4,00:01:06,4005,assets/review_crops/opponent_season_stats/screen-8543874ba3e0-stats_table.jpg,stats_table,"i «=
+NAME y RATING YARDS ™ INT LONG SACKS comp AIT COMP% YPC
+MYork 139.7 281 3 “4 25 2 25 39 64% 1.2 M
+R.Bieniemy 13.3 23 0 2 4 1 3 7 42% 17 is
+| RR
+HOM
+| Me
+Be ee,
+PHYS!
+@o
+a ae re",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-8543874ba3e0-player_side_card,player_side_card,Purdue Season Stats.mp4,00:01:06,4005,assets/review_crops/opponent_season_stats/screen-8543874ba3e0-player_side_card.jpg,player_side_card,"an. L.
+
+R 3
+
+gti >
+mV
+K
+RK
+TION ARCHETYPE
+(R) | #15 Backfield Creator
+S § NIL HEIGHT & WEIGHT
+m0 | 6'0"" | 195 Ibs
+ETOWN
+squite, TX
+AWWRQHOWMMOB®\NHNHNHNHNHNWWL
+CAL MENTAL
+f Platform @ Cleatheaded
+- A The Natural
+- ® winning time le
+ne Shuffle Q
+orts College Footb z
+
+:",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-bbb55930f04b-stats_header,stats_header,Purdue Season Stats.mp4,00:01:39,5977,assets/review_crops/opponent_season_stats/screen-bbb55930f04b-stats_header.jpg,stats_header,"y —
+© Box Score [Player Stats [Rt] , a ’
+PY evs ae ee NE",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-bbb55930f04b-stats_table,stats_table,Purdue Season Stats.mp4,00:01:39,5977,assets/review_crops/opponent_season_stats/screen-bbb55930f04b-stats_table.jpg,stats_table,"NAME SOLO ASSISTS» TAK TFL SACK INT INTYDS —INTAVG = INTLG.«=—CDEFL 7
+D.Anderson 8 2 8 0 0.0 0 0 0.0 0 0 = :
+Deloatch 4 2 8 1 0.0 0 0 0.0 0 1 MI
+B.Gordon Jr. 6 1 6 0 0.0 0 0 0.0 0 0 cl J
+Lthompson 5 1 8 0 00 0 0 0.0 0 0 i)
+Mathis 4 1 5 3 15 0 0 0.0 0 1 | oh
+S.Murray 2 2 4 1 05 0 0 0.0 0 2 WON
+Axrull 2 1 3 0 0.0 0 0 0.0 0 0 ! me
+W.Nwaneri 2 1 3 1 10 0 0 0.0 0 0 or
+G.Nix 2 0 2 0 0.0 0 0 0.0 0 0 :
+simon 1 0 1 0 0.0 0 0 0.0 0 0 :
+JNerrett 1 0 1 0 00 0 0 0.0 0 0 ’
+teem jo ff #7 000 |",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-bbb55930f04b-player_side_card,player_side_card,Purdue Season Stats.mp4,00:01:39,5977,assets/review_crops/opponent_season_stats/screen-bbb55930f04b-player_side_card.jpg,player_side_card,"x
+
+Rk 4
+
+""a ~
+3) e
+VEN
+JRRAY
+TON ARCHETYPE
+| #24 Field
+S & NIL HEIGHT & WEIGHT
+(Rs)|@>o | 6'0""| 192 Ibs
+ETOWN
+sonville, NC
+QONOMOMKMNNBKONNMHMHMNW’
+CAL MENTAL
+abber co
+
+Om
+“a",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-9e0d6cea9e70-stats_header,stats_header,Purdue Season Stats.mp4,00:02:12,7950,assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-stats_header.jpg,stats_header,"y —_
+© stoxscoe PEGs OD , a °",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-9e0d6cea9e70-stats_table,stats_table,Purdue Season Stats.mp4,00:02:12,7950,assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-stats_table.jpg,stats_table,"ne fe.
+NAME REC =~ YARDS. 1D RAC RAC AVG LONG DROPS
+A.Marks 8 114 14.3 0 21 3.4 29 0 ie
+\V.Mangen 4 1 19.3 0 18 40 21 0 Ml
+Pos!
+TBettis 4 60 15.0 0 6 15 28 1 | wR
+CLAS
+M.Bober 2 2h 12.0 0 4 20 13 0 |
+HOM
+D.Bouye 2 16 80 0 2 10 12 0 | Fal
+QToppins 1 15 15.0 0 14 14.0 15 0
+J.Hornsby 0 0 0.0 0 0 0.0 0 0 ‘ pile
+ese Rt
+L.Puccinelli 0 0 0.0 0 0 0.0 0 0
+J.Farrior 0 0 0.0 0 0 0.0 0 0
+Tutt 0 0 0.0 0 0 0.0 0 0 |
+TForsett 0 0 0.0 0 0 0.0 0 0 :
+S247 ey Aw! a, SEF ik ”llOOl—Ee—EEelO—“‘“OCEFSOC#CNYCC;C;#.}n}Ny|j",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-9e0d6cea9e70-player_side_card,player_side_card,Purdue Season Stats.mp4,00:02:12,7950,assets/review_crops/opponent_season_stats/screen-9e0d6cea9e70-player_side_card.jpg,player_side_card,"=) (am
+Pye
+ea
+matin 4
+aw""
+Ne EEE
+‘-XANDER
+ARKS
+TION ARCHETYPE
+| #10 Elusive Route Runner
+S & NIL HEIGHT & WEIGHT
+RS) |@o | 5°7"" | 188 Ibs
+ETOWN
+field, on Q
+CAL MENTAL
+coup @ Fan Favorite
+je On - UCF (=) f
+orts College Footb",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-5d64ab9af1ce-stats_header,stats_header,Purdue Season Stats.mp4,00:02:45,9922,assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-stats_header.jpg,stats_header,"y io
+© soxscoe PEGs , a",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-5d64ab9af1ce-stats_table,stats_table,Purdue Season Stats.mp4,00:02:45,9922,assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-stats_table.jpg,stats_table,"ae oo
+NAME SOLO ASSISTS.» TAK TFL SACK INT INTYOS = INTAVG = INTLG=—_EFL
+| —s
+| STA
+M.Sturgis 0 0 0 0 00 0 0 0.0 0 0 | OR
+| Pos!
+L.clapp 0 0 0 0 0.0 0 0 0.0 0 0 | or
+CLAS
+G.Atwood 0 0 0 0 0.0 0 0 0.0 0 0 | $0
+HOM
+D.Parker 0 0 0 0 0.0 0 0 0.0 0 0 | te
+s.Draft 0 0 0 0 00 0 0 00 0 0
+JThomas 0 0 0 0 0.0 0 0 0.0 0 0 | | ie
+Fankrah 0 0 0 0 0.0 0 0 0.0 0 0 | Z
+I :
+J.riffen 0 0 0 0 0.0 0 0 0.0 0 0 |
+-— KHeneghan 0 0 0 0 0.0 0 0 0.0 0 0 , a
+J.Austin 0 0 0 0 0.0 0 0 00 0 0 -
+tees jo j-§ ff MF 0000000",ocr_draft_needs_confirmation,0.55
+opponent_season_stats,screen-5d64ab9af1ce-player_side_card,player_side_card,Purdue Season Stats.mp4,00:02:45,9922,assets/review_crops/opponent_season_stats/screen-5d64ab9af1ce-player_side_card.jpg,player_side_card,"AN
+=
+= OVR
+wel
+SttIwl""
+Nee
+.N
+AFT
+TION ARCHETYPE
+| #95 Power Rusher
+S § NIL HEIGHT & WEIGHT
+<>20 | 6'5"" | 299 Ibs
+ETOWN
+nton, NJ
+CAL MENTAL
+: ® Winning Time
+. © bt rally
+Om",ocr_draft_needs_confirmation,0.55

@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-13T23:49:40.887Z
+Validated: 2026-07-14T00:17:36.133Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -308,5 +308,10 @@ Validated: 2026-07-13T23:49:40.887Z
 - PASS - Roster/stats review fields preserve crop-level evidence
 - PASS - Roster/stats review pass promotes no unconfirmed values
 - PASS - Roster/stats extracted packages link back to review packages
+- PASS - Review import report exists
+- PASS - current_team_roster_extracted.json promoted review fields have confirmed crop evidence
+- PASS - opponent_roster_extracted.json promoted review fields have confirmed crop evidence
+- PASS - current_team_season_stats_extracted.json promoted review fields have confirmed crop evidence
+- PASS - opponent_season_stats_extracted.json promoted review fields have confirmed crop evidence
 
 Overall: PASS

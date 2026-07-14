@@ -294,3 +294,10 @@
 - Added `--extract roster_stats` to generate review crops, review JSON, and CSV import files for Rutgers/Purdue roster and season-stat videos.
 - Added optional Tesseract detection while keeping manual-review behavior when OCR is unavailable.
 - Added validation for review package presence, crop evidence, and no unconfirmed value promotion.
+
+## OCR Review Import Support
+
+- Installed/detected Tesseract OCR support for roster/stat review crops.
+- Added portable/system Tesseract resolver support.
+- Added `process_week.py --apply-review` for confirmed-only promotion with crop evidence.
+- Added validation and tests for review import safety.

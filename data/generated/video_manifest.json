@@ -4,7 +4,7 @@
     "ffprobe": "C:\\Program Files\\Streamlabs OBS\\resources\\app.asar.unpacked\\node_modules\\obs-studio-node\\ffprobe.exe",
     "source": "streamlabs_obs"
   },
-  "generated_at": "2026-07-13T23:48:38.869179Z",
+  "generated_at": "2026-07-14T00:17:07.945337Z",
   "package_type": "video_manifest",
   "schema_version": "video_source_truth_first_pass_v1",
   "source_of_truth": "input_videos",
@@ -26,8 +26,8 @@
       "frame_rate": "60000/1001",
       "modified_at": "2026-07-13T21:44:24Z",
       "package": "playbook",
-      "processing_status": "processed",
-      "processing_time_seconds": 1.722,
+      "processing_status": "cached",
+      "processing_time_seconds": 0.555,
       "resolution": {
         "height": 1080,
         "width": 1920
@@ -52,8 +52,8 @@
       "frame_rate": "60000/1001",
       "modified_at": "2026-07-13T21:23:14Z",
       "package": "opponent_roster",
-      "processing_status": "processed",
-      "processing_time_seconds": 1.722,
+      "processing_status": "cached",
+      "processing_time_seconds": 0.555,
       "resolution": {
         "height": 1080,
         "width": 1920
@@ -78,8 +78,8 @@
       "frame_rate": "60000/1001",
       "modified_at": "2026-07-13T21:27:30Z",
       "package": "opponent_season_stats",
-      "processing_status": "processed",
-      "processing_time_seconds": 1.722,
+      "processing_status": "cached",
+      "processing_time_seconds": 0.555,
       "resolution": {
         "height": 1080,
         "width": 1920
@@ -104,8 +104,8 @@
       "frame_rate": "60000/1001",
       "modified_at": "2026-07-13T21:26:44Z",
       "package": "recruiting",
-      "processing_status": "processed",
-      "processing_time_seconds": 1.722,
+      "processing_status": "cached",
+      "processing_time_seconds": 0.555,
       "resolution": {
         "height": 1080,
         "width": 1920
@@ -130,8 +130,8 @@
       "frame_rate": "19001/317",
       "modified_at": "2026-07-13T20:57:10Z",
       "package": "current_team_roster",
-      "processing_status": "processed",
-      "processing_time_seconds": 1.722,
+      "processing_status": "cached",
+      "processing_time_seconds": 0.555,
       "resolution": {
         "height": 1088,
         "width": 1920
@@ -156,8 +156,8 @@
       "frame_rate": "60000/1001",
       "modified_at": "2026-07-13T21:28:14Z",
       "package": "current_team_season_stats",
-      "processing_status": "processed",
-      "processing_time_seconds": 1.722,
+      "processing_status": "cached",
+      "processing_time_seconds": 0.555,
       "resolution": {
         "height": 1080,
         "width": 1920

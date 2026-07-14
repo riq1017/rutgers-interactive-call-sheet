@@ -1,19 +1,195 @@
 package,crop_id,crop_type,source_video,timestamp,frame_number,crop_path,field_name,value,review_status,confidence
-current_team_season_stats,screen-d705172c5563-stats_header,stats_header,Rutgers Season stats.mp4,00:00:01,60,assets/review_crops/current_team_season_stats/screen-d705172c5563-stats_header.jpg,stats_header,,needs_manual_review,0.0
-current_team_season_stats,screen-d705172c5563-stats_table,stats_table,Rutgers Season stats.mp4,00:00:01,60,assets/review_crops/current_team_season_stats/screen-d705172c5563-stats_table.jpg,stats_table,,needs_manual_review,0.0
-current_team_season_stats,screen-d705172c5563-player_side_card,player_side_card,Rutgers Season stats.mp4,00:00:01,60,assets/review_crops/current_team_season_stats/screen-d705172c5563-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_season_stats,screen-e99f1b169117-stats_header,stats_header,Rutgers Season stats.mp4,00:00:33,2034,assets/review_crops/current_team_season_stats/screen-e99f1b169117-stats_header.jpg,stats_header,,needs_manual_review,0.0
-current_team_season_stats,screen-e99f1b169117-stats_table,stats_table,Rutgers Season stats.mp4,00:00:33,2034,assets/review_crops/current_team_season_stats/screen-e99f1b169117-stats_table.jpg,stats_table,,needs_manual_review,0.0
-current_team_season_stats,screen-e99f1b169117-player_side_card,player_side_card,Rutgers Season stats.mp4,00:00:33,2034,assets/review_crops/current_team_season_stats/screen-e99f1b169117-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_season_stats,screen-aa438e1b705f-stats_header,stats_header,Rutgers Season stats.mp4,00:01:06,4009,assets/review_crops/current_team_season_stats/screen-aa438e1b705f-stats_header.jpg,stats_header,,needs_manual_review,0.0
-current_team_season_stats,screen-aa438e1b705f-stats_table,stats_table,Rutgers Season stats.mp4,00:01:06,4009,assets/review_crops/current_team_season_stats/screen-aa438e1b705f-stats_table.jpg,stats_table,,needs_manual_review,0.0
-current_team_season_stats,screen-aa438e1b705f-player_side_card,player_side_card,Rutgers Season stats.mp4,00:01:06,4009,assets/review_crops/current_team_season_stats/screen-aa438e1b705f-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_season_stats,screen-8eee340e3418-stats_header,stats_header,Rutgers Season stats.mp4,00:01:39,5983,assets/review_crops/current_team_season_stats/screen-8eee340e3418-stats_header.jpg,stats_header,,needs_manual_review,0.0
-current_team_season_stats,screen-8eee340e3418-stats_table,stats_table,Rutgers Season stats.mp4,00:01:39,5983,assets/review_crops/current_team_season_stats/screen-8eee340e3418-stats_table.jpg,stats_table,,needs_manual_review,0.0
-current_team_season_stats,screen-8eee340e3418-player_side_card,player_side_card,Rutgers Season stats.mp4,00:01:39,5983,assets/review_crops/current_team_season_stats/screen-8eee340e3418-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_season_stats,screen-500fee62e592-stats_header,stats_header,Rutgers Season stats.mp4,00:02:12,7958,assets/review_crops/current_team_season_stats/screen-500fee62e592-stats_header.jpg,stats_header,,needs_manual_review,0.0
-current_team_season_stats,screen-500fee62e592-stats_table,stats_table,Rutgers Season stats.mp4,00:02:12,7958,assets/review_crops/current_team_season_stats/screen-500fee62e592-stats_table.jpg,stats_table,,needs_manual_review,0.0
-current_team_season_stats,screen-500fee62e592-player_side_card,player_side_card,Rutgers Season stats.mp4,00:02:12,7958,assets/review_crops/current_team_season_stats/screen-500fee62e592-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
-current_team_season_stats,screen-1b29f0112f24-stats_header,stats_header,Rutgers Season stats.mp4,00:02:45,9932,assets/review_crops/current_team_season_stats/screen-1b29f0112f24-stats_header.jpg,stats_header,,needs_manual_review,0.0
-current_team_season_stats,screen-1b29f0112f24-stats_table,stats_table,Rutgers Season stats.mp4,00:02:45,9932,assets/review_crops/current_team_season_stats/screen-1b29f0112f24-stats_table.jpg,stats_table,,needs_manual_review,0.0
-current_team_season_stats,screen-1b29f0112f24-player_side_card,player_side_card,Rutgers Season stats.mp4,00:02:45,9932,assets/review_crops/current_team_season_stats/screen-1b29f0112f24-player_side_card.jpg,player_side_card,,needs_manual_review,0.0
+current_team_season_stats,screen-d705172c5563-stats_header,stats_header,Rutgers Season stats.mp4,00:00:01,60,assets/review_crops/current_team_season_stats/screen-d705172c5563-stats_header.jpg,stats_header,"A ae
+© Actions Members CFB Coach Team stats 6 Records OE
+WEEK 7, 2028 :
+[==] SEASON STATS",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-d705172c5563-stats_table,stats_table,Rutgers Season stats.mp4,00:00:01,60,assets/review_crops/current_team_season_stats/screen-d705172c5563-stats_table.jpg,stats_table,"We eee Sees SS aeQ8bt es YS
+= Check out the Season Stats here.
+I ”
+( yr ’
+yy — m— ~~ -
+—o ™
+ss S >",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-d705172c5563-player_side_card,player_side_card,Rutgers Season stats.mp4,00:00:01,60,assets/review_crops/current_team_season_stats/screen-d705172c5563-player_side_card.jpg,player_side_card,"_.—
+,",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-e99f1b169117-stats_header,stats_header,Rutgers Season stats.mp4,00:00:33,2034,assets/review_crops/current_team_season_stats/screen-e99f1b169117-stats_header.jpg,stats_header,", ‘s
+PY wives =e amma |
+NAME nne PAD - VADNG AUC. Th nucer On. pTu var Tone",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-e99f1b169117-stats_table,stats_table,Rutgers Season stats.mp4,00:00:33,2034,assets/review_crops/current_team_season_stats/screen-e99f1b169117-stats_table.jpg,stats_table,"NAME POS CAR vYARDS = AVG 1D AVG G 20+ BIK YAC LONG CL
+T.simonson HB 103 469 46 4 93.8 2 8 137 38 ‘ ‘a
+J.Haskins HB hh 279 63 3 55.8 3 2 40 B B 4
+Myork 0B 38 60 16 1 12.0 0 0 18 19 ®
+R.Bieniemy 0B 4 7 12 1 3.4 0 0 5 7 | so
+K.Evans WR 1 18 16.0 0 3.2 0 1 1 18 fo | a
+“J His
+
+G.0luwatimi FB 2 5 25 0 13 0 0 3 5 SONNY
+S.Degraffenreidt wr 2 1 05 0 0.2 0 2 0 1 |
+B.DeMarco WR 1 1 10 0 0.2 0 0 1 1
+Floure WR 0 0 0.0 0 0.0 0 1 0 0 |
+
+_ J.Houston WR 0 0 i) 0 0.0 0 0 0 0
+E.Coke WR 0 0 0.0 0 0.0 0 0 0 0
+MW Starv Te 0 0 non 0 nn 0 4q 0 nN *.",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-e99f1b169117-player_side_card,player_side_card,Rutgers Season stats.mp4,00:00:33,2034,assets/review_crops/current_team_season_stats/screen-e99f1b169117-player_side_card.jpg,player_side_card,"he
+~ 2A =
+=. ¢0
+1EEM
+ENIEMY
+TION ARCHETYPE
+(R) | #9 | Backfield Creator
+$ HEIGHT & WEIGHT
+6'4"" | 198 Ibs
+ETOWN
+enville, MS
+DEALBREAKER h
+Proximity To Home
+Have: B | Need: B-
+Om
+“a",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-aa438e1b705f-stats_header,stats_header,Rutgers Season stats.mp4,00:01:06,4009,assets/review_crops/current_team_season_stats/screen-aa438e1b705f-stats_header.jpg,stats_header,", 4 ™
+Pz RUTGERS b_ DEFENSE re) R
+— mE IO my aT a AROS FSS SES",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-aa438e1b705f-stats_table,stats_table,Rutgers Season stats.mp4,00:01:06,4009,assets/review_crops/current_team_season_stats/screen-aa438e1b705f-stats_table.jpg,stats_table,"NAME Pos. =—s SOLO ASSISTS = w TAK TFL SACK INT INTYDS = =—sINTAVG = INTLG—( ts C
+S.Murray cB 9 3 12 1 05 0 0 0.0 0 0 | #2.
+A.Anelli oT 4 3 7 0 0.0 0 0 i) 0 a | v :
+TNash ss 3 1 4 0 0.0 0 0 i) 0 0 | (Ay
+J.Simon REG 63 0 3 0 i) 0 0 0.0 0 0 | ry
+G.Nix MIKE = 3. 0 3 0 0.0 0 0 0.0 0 o | ‘| Hom
+uses
+
+Tega cB 1 1 2 0 0.0 0 0 0.0 0 0 ene
+THitchens lpg =O 0 0 0 0.0 0 0 0.0 ) 0 |
+Exing ROG «=O 0 0 0 0.0 0 0 i) 0 0
+A.Friend REG =O 0 0 0 0.0 0 0 i) 0 0 hs
+
+’ — PCook oT 0 0 0 0 0.0 0 0 0.0 0 0
+JStrong OT 0 0 0 0 i) 0 0 i) 0 0
+TNewenn MIKE nN n n n no n n no n n ee",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-aa438e1b705f-player_side_card,player_side_card,Rutgers Season stats.mp4,00:01:06,4009,assets/review_crops/current_team_season_stats/screen-aa438e1b705f-player_side_card.jpg,player_side_card,"fs
+R
+OVR
+i>
+=. ¢90
+4
+GA
+TION ARCHETYPE
+| #17 Tone
+$ HEIGHT & WEIGHT
+RS) | 6'3"" | 182 Ibs
+ETOWN ~
+iLocka, FL
+DEALBREAKER h
+Pro Potential
+Have: B | Need: C+
+(Om
+“a2",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-8eee340e3418-stats_header,stats_header,Rutgers Season stats.mp4,00:01:39,5983,assets/review_crops/current_team_season_stats/screen-8eee340e3418-stats_header.jpg,stats_header,", 4 ae
+Snap count GEE)
+fz) PPURDUE, [Heteltlal -
+NAME nne J Th nuern On. pTuU var Inne cIUMD CHM Of ecnnane",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-8eee340e3418-stats_table,stats_table,Rutgers Season stats.mp4,00:01:39,5983,assets/review_crops/current_team_season_stats/screen-8eee340e3418-stats_table.jpg,stats_table,"NAME Pos «4G 1D AVG G 20+ BIK YAC LONG FUMB FUM% — SNAPS —
+E.chuba 0B 3 2 26.2 3 10 135 5 0 0.0 333 =
+LUC
+Q.Toppins HBO 2 4.8 1 12 98 26 1 2.0 283 PU
+Pkey HBOS ) 3.2 0 1 4 5 i) 0.0 61 TE
+J.Hornsby WR 0 0 0.0 0 0 0 0 0 0.0 81 ay
+L.Puccinelli TE 0 0 0.0 0 4 0 0 0 0.0 236 An
+D.Bouye we 0 0 0.0 0 0 0 0 0 0.0 92
+M.Bober we 0 0 i) 0 0 0 0 0 0.0 328 pas
+A.Marks we 0 0 0.0 0 0 0 0 0 0.0 342
+TBettis wer oO 0 0.0 0 0 0 0 ) 0.0 263 = “
+ \.Mangen T 0 0 0.0 0 4 0 0 0 0.0 109
+JFartior HBO 0 0.0 0 0 0 0 0 0.0 7 :
+HM Dhattioan nR fq o non 0 0 0 il 0 non 0 iid",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-8eee340e3418-player_side_card,player_side_card,Rutgers Season stats.mp4,00:01:39,5983,assets/review_crops/current_team_season_stats/screen-8eee340e3418-player_side_card.jpg,player_side_card,"Pg
+OVR
+—n
+iw""
+A
+CCINELLI
+TON ARCHETYPE
+#85 Physical Route Runner
+S | HEIGHT & WEIGHT
+(RS) 6'6"" | 269 Ibs
+ETOWN
+n Allen, VA
+CAL MENTAL
+Om",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-500fee62e592-stats_header,stats_header,Rutgers Season stats.mp4,00:02:12,7958,assets/review_crops/current_team_season_stats/screen-500fee62e592-stats_header.jpg,stats_header,", 4 4 a
+Pe pune , BLOCKING Mrz) iE
+NAME nne en , CArU enane",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-500fee62e592-stats_table,stats_table,Rutgers Season stats.mp4,00:02:12,7958,assets/review_crops/current_team_season_stats/screen-500fee62e592-stats_table.jpg,stats_table,"NAME POS GP SACK SNAPS =
+V.Palelei RG 0 0 0
+K.Knott RG 0 0 0 HR
+J.Culliver RT 0 0 0 Posi
+| |
+LPayne WT 0 0 0 ons
+|i
+L.Newton c 0 0 0 HOM
+Col
+FClear RG 5 0 7
+C.Hillhouse RG 0 0 0 ae
+C.Afalava RT 1 0 6 ON
+J.Holcombe i 5 2 350 -
+H.Cashman 1G 5 2 347 e
+JFree c 5 3 372 S
+M",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-500fee62e592-player_side_card,player_side_card,Rutgers Season stats.mp4,00:02:12,7958,assets/review_crops/current_team_season_stats/screen-500fee62e592-player_side_card.jpg,player_side_card,"—
+
+ae)
+—
+ww""
+a
+CH
+.RRIS
+TION ARCHETYPE
+#79 Raw Strength
+S$ HEIGHT & WEIGHT
+6'7"" | 280 Ibs
+ETOWN
+umbus, IN 9
+CAL MENTAL
+orkhorse © Adrenaline
+2 ® winning Time
+Om",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-1b29f0112f24-stats_header,stats_header,Rutgers Season stats.mp4,00:02:45,9932,assets/review_crops/current_team_season_stats/screen-1b29f0112f24-stats_header.jpg,stats_header,", A —
+Pe pune Tackles foros erence ey Se
+=
+
+NAME nne TCL Crary INT INT VWNe WT AU INTIC TH NEC PTUA CCUM! —",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-1b29f0112f24-stats_table,stats_table,Rutgers Season stats.mp4,00:02:45,9932,assets/review_crops/current_team_season_stats/screen-1b29f0112f24-stats_table.jpg,stats_table,"NAME POS) TFL SACK INT INTYDS = INTAVG = INT LG. 1D DEFL CTHA FFUMI =
+JGoldsberry FS 1 i) 0 0 i) 0 0 0 10 0 Le
+QUA
+E.Sawyer ss 1 0.0 0 0 0.0 0 0 0 9 0 GI
+R.Ogden MIKE ft) 0.0 i) ft) 0.0 ft) tt) 1 7 ft) fe
+D.Lincoln cB 0 0.0 1 7 70 7 0 3 12 0 an
+B.Hanson oT 2 0.0 0 0 0.0 0 0 0 0 0 Ta
+
+Q.Gillians REDG «8 0.0 0 0 0.0 0 0 0 0 1
+Y.Hernandez LEDG 3 0.0 0 0 0.0 0 0 0 0 0 PHYS!
+D.Gamer oT 3 15 0 0 0.0 0 0 0 0 0 OM
+—~ x
+
+P.Jerry cB 0 0.0 0 0 0.0 0 0 1 4 0
+
+— KiWebb 0G A 15 0 0 i) 0 0 0 0 0
+T.McMillian oT 1 0.0 0 0 0.0 0 0 0 0 0 :
+
+MWimhuech es n no n n no n n n q n a",ocr_draft_needs_confirmation,0.55
+current_team_season_stats,screen-1b29f0112f24-player_side_card,player_side_card,Rutgers Season stats.mp4,00:02:45,9932,assets/review_crops/current_team_season_stats/screen-1b29f0112f24-player_side_card.jpg,player_side_card,"Py
+4 OVR
+“ati
+ro my
+.NTE
+LLIANS
+TION ARCHETYPE
+G | #94 Pure Power
+S$ HEIGHT & WEIGHT
+C1) 6'3"" | 295 Ibs
+ETOWN
+hester, NY 9
+CAL MENTAL
+orkhorse ee
+ammer a
+Om",ocr_draft_needs_confirmation,0.55

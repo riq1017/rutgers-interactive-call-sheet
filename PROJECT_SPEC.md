@@ -205,3 +205,7 @@ Roster and season-stat videos use a hybrid review flow. The pipeline may create 
 ## Video OCR And Review Import
 
 `input_videos/` remains the permanent source-of-truth intake folder. OCR output is treated as a draft only. Generated roster/stat values become video-backed data only when the review JSON/CSV row is marked `confirmed` and includes field-level crop evidence.
+
+### Structured OCR Drafts
+
+The video source-of-truth pipeline may parse OCR crop text into structured candidate rows, but those rows are not authoritative until a reviewer marks fields `confirmed`. Raw OCR remains evidence, not source-truth data.

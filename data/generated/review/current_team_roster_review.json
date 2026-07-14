@@ -4,7 +4,8 @@
     "manual_review_fields": 0,
     "ocr_draft_fields": 24,
     "omitted_fields": 0,
-    "promoted_fields": 0
+    "promoted_fields": 0,
+    "structured_candidate_rows": 20
   },
   "crops": [
     {
@@ -787,5 +788,2303 @@
   "package_type": "current_team_roster_review",
   "promoted_fields": [],
   "schema_version": "video_source_truth_review_v1",
-  "source_of_truth": "input_videos"
+  "source_of_truth": "input_videos",
+  "structured_candidates": [
+    {
+      "candidate_id": "screen-9910e28bddf2-roster_table-roster_table_row-001",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_table.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "SFA sPM JKM_\u2014sCTH cit RLS SRR MRR RR spc PBK [BL RET STA"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_table.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "SS"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-roster_table.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "stat_1",
+          "label": "stat_1",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "1"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "SFA sPM ss JKM_\u2014sCTH cit RLS SRR MRR RR spc PBK [BL RET STA 1GH INJ",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-9910e28bddf2-roster_table"
+    },
+    {
+      "candidate_id": "screen-9910e28bddf2-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Josh Haskins Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "HB"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "11"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "FR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-9910e28bddf2-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Asheville, NC"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "Wee\na ~\n>) Loo\nJOSH\nHASKINS\nPOSITION ARCHETYPE\nHB | #11 Backfield Threat\nCLASS \u00a7 NIL HEIGHT & WEIGHT\nFR|@ 140 5\u00b010\" | 170 Ibs\nHOMETOWN\nAsheville, NC\nA ANMNHNMNMOMHHNHW\u2122\nPHYSICAL MENTAL\n\u00ae Recoup \u00ae Clearheaded\na (Fan Favorite\na @\u00ae winning time le\nHe DEV TRAIT\n%& Normal\nOm\n\u201ca",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-9910e28bddf2-player_side_card"
+    },
+    {
+      "candidate_id": "screen-c497a08c8ee6-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Sah'Nye Degraffenreidt Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "WR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "14"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "JR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'1\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "213 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-c497a08c8ee6-player_side_card.jpg",
+            "frame_number": 2416,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Atlantic city, NJ"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "L\n= 80\nRs @\nwt \u2018\nKo an \u00a9 2\nSAH'NYE\nDEGRAFFENREIDT\nPOSITION ARCHETYPE\nWR| #14 Gadget\nCLASS & NIL HEIGHT & WEIGHT\nJR(RS)|@o | 6'1\"| 213 Ibs\nHOMETOWN\nAtlantic city, NJ\nPHYSICAL MENTAL\nsay DEV TRAIT\n4% Normal\nOm\n\u201ca",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-c497a08c8ee6-player_side_card"
+    },
+    {
+      "candidate_id": "screen-50cb1100e799-roster_table-roster_table_row-001",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "is"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "pbp",
+          "label": "pbp",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "87"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "pbf",
+          "label": "pbf",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "85"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "rbk",
+          "label": "rbk",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "81"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "rbp",
+          "label": "rbp",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "78"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "rbf",
+          "label": "rbf",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "83"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "lbk",
+          "label": "lbk",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "97"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "ibl",
+          "label": "ibl",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "82"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "sta",
+          "label": "sta",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "82"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "tgh",
+          "label": "tgh",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "89"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-roster_table.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "inj",
+          "label": "inj",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "92"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "is 87+ 85+ 81+ 78+ 83+ 97+ 82+ 82\u00ab 89+ 92+ | &",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-50cb1100e799-roster_table"
+    },
+    {
+      "candidate_id": "screen-50cb1100e799-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Jon Felton Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "RG"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "73"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "FR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'2\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "321 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Kahuku, HI"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-50cb1100e799-player_side_card.jpg",
+            "frame_number": 4771,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "development_trait",
+          "label": "development_trait",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "SP star"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "i\nR 4\n\u201cA - ~\n2) ue \u00a91\nJON\nFELTON\nPOSITION ARCHETYPE\nRG | #73 Well Rounded\nCLASS \u00a7 NIL HEIGHT & WEIGHT\nFR|@>180 6'2\" | 321 Ibs\nHOMETOWN\nKahuku, HI\nPHYSICAL MENTAL\nes DEV TRAIT\nSP star\nOm\n\u201ca",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-50cb1100e799-player_side_card"
+    },
+    {
+      "candidate_id": "screen-0aee58db86ab-roster_table-roster_table_row-001",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_table.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Zz E ome \u2014e"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-roster_table.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "stat_1",
+          "label": "stat_1",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "7"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "Zz E ome \u2014e 7 \u201cay ;",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-0aee58db86ab-roster_table"
+    },
+    {
+      "candidate_id": "screen-0aee58db86ab-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Ovr Shase Lantz"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "LG"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "78"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'4\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "315 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-0aee58db86ab-player_side_card.jpg",
+            "frame_number": 7127,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Montvale, NJ"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "R 8\nOVR\n2) ud \u00a92\nSHASE\nLANTZ\nPOSITION ARCHETYPE\nLG | #78 Raw Strength\nCLASS & NIL HEIGHT & WEIGHT\n$0(RS)|@>o | 6'4\"|315 Ibs\nHOMETOWN\nMontvale, NJ 9\nAQQQONOWMMNINMHNHNNMOO\u2019NAWHNHNHNWWL\nPHYSICAL MENTAL\na DEV TRAIT\n\u00ae& Normal\nOm",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-0aee58db86ab-player_side_card"
+    },
+    {
+      "candidate_id": "screen-73b15d4f3433-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Zahir Mathis Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "REDG"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "9"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "JR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'6\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "226 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-73b15d4f3433-player_side_card.jpg",
+            "frame_number": 9482,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Philadelphia, pA"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "b&\nsy, OVR\n/ ~\n5@ Loo\nZAHIR\nMATHIS\nPOSITION ARCHETYPE\nREDG | #9 Speed Rusher\nCLASS & NIL HEIGHT & WEIGHT\nJR (RS) |<@>165 | 6'6\"| 226 Ibs\nHOMETOWN\nPhiladelphia, pA @\nQQ QONWMMNNONMHOMMMMOAB\u00aeW\u00aeHNNMNHNWNWL\nPHYSICAL MENTAL\naa Quick Jump ote\n\u2018T/> Pocket Disruptor -\neo DEV TRAIT\n\u2018Impact\nOm\n\u201ca",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-73b15d4f3433-player_side_card"
+    },
+    {
+      "candidate_id": "screen-39419b88dbfa-roster_table-roster_table_row-001",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "mE"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "ow",
+          "label": "ow",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "86"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "sscbsh",
+          "label": "sscbsh",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "720"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "smsc",
+          "label": "smsc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "7"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "mE 86 720=C\u00abCO TS it (iti CCU lCC<CirtitiatC(iaSC\u2018<\u201c OH!)CWTCt;\u2018\u00e9S 7",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-39419b88dbfa-roster_table"
+    },
+    {
+      "candidate_id": "screen-39419b88dbfa-roster_table-roster_table_row-002",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ms) ese Os tt"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "smsc",
+          "label": "smsc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "85"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "ms) ese Os tt 85, : : . ; | g",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-39419b88dbfa-roster_table"
+    },
+    {
+      "candidate_id": "screen-39419b88dbfa-roster_table-roster_table_row-003",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ms) nec"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "sscbsh",
+          "label": "sscbsh",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "78"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "smsc",
+          "label": "smsc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "85"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "ms) nec 78ssCS@ Gh\u201c \u2018<\u00e9\u2018\u00e9i:SCOCCOCBt*\u2018\u00ab\u00e9A 85 at",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-39419b88dbfa-roster_table"
+    },
+    {
+      "candidate_id": "screen-39419b88dbfa-roster_table-roster_table_row-004",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "ns)"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "ow",
+          "label": "ow",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "sscbsh",
+          "label": "sscbsh",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "8840"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-roster_table.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "smsc",
+          "label": "smsc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "88"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "ns) 6s MIKE (Cia (sw SHS =S isi? (isis (itiCOC\u00abCS 8840 88\u2014Ci(it\u00e9iSC\u00abi;C:\u00e9\u00abB",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-39419b88dbfa-roster_table"
+    },
+    {
+      "candidate_id": "screen-39419b88dbfa-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Smoker Position Archetype Hometown"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "FR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'2\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "216 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-39419b88dbfa-player_side_card.jpg",
+            "frame_number": 11838,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Forty Fort, PA"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "t=\nR &\n5) Loo\n(OSEFA\nSMOKER\nPOSITION ARCHETYPE\nMIKE | #51 Lurker\nCLASS \u00a7 NIL HEIGHT & WEIGHT\nFR|@>175 6'2\"| 216 Ibs\nHOMETOWN\nForty Fort, PA @\nAOA HNOMHNMHKNMMOMBW\u2122\\!NHNW\nPHYSICAL MENTAL\n\u2018House Call \u00a9 Road Dog\nsue @ rallercoaster\na DEV TRAIT\n\u00ae& Normal\nOm\n\u201ca",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-39419b88dbfa-player_side_card"
+    },
+    {
+      "candidate_id": "screen-19a6a103623d-roster_table-roster_table_row-001",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-roster_table.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Co"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-roster_table.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prc",
+          "label": "prc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "1"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "Co 1 <",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-19a6a103623d-roster_table"
+    },
+    {
+      "candidate_id": "screen-19a6a103623d-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Sordon Jr. Position Archetype Hometown"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "CB"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "JR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "New Orleans, LA"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-19a6a103623d-player_side_card.jpg",
+            "frame_number": 14193,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "development_trait",
+          "label": "development_trait",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "oa Impact"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": ". L\nRo @\n\u00a5) OVR\nAS my, \u00a9 0\n3RENT\nSORDON JR.\nPOSITION ARCHETYPE\ncB] #5 Field\nCLASS \u00a7 NIL HEIGHT & WEIGHT\nSR|<@>250 5\u00b011\" | 205 Ibs\nHOMETOWN\nNew Orleans, LA\nAQQQONWMMAMNNNMOMMAXQN\\NHNHNWL\nPHYSICAL MENTAL\n\u00ae Robber shh:\n6) Knockout cs\n\u00a9 Blanket Coverage ae L\nie DEV TRAIT\noa Impact\nichors Aweigh - Navy (=)\n\\ Sports College Footb z\n:",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-19a6a103623d-player_side_card"
+    },
+    {
+      "candidate_id": "screen-41eadd8e75a1-roster_table-roster_table_row-001",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "FR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "SS"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "nil",
+          "label": "nil",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "76"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "spd",
+          "label": "spd",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "190"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "acc",
+          "label": "acc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "92"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "agi",
+          "label": "agi",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "89"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cob",
+          "label": "cob",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "84"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "str",
+          "label": "str",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "92"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "awr",
+          "label": "awr",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "61"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prc",
+          "label": "prc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "69"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "mcy",
+          "label": "mcy",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "80"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "7c",
+          "label": "7c",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "71"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prs",
+          "label": "prs",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "76"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cth",
+          "label": "cth",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "70"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "t",
+          "label": "t",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "65"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "FR SS 76 > 190 92 89 84 92 61 69 80 71 76 70 65 i :",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-41eadd8e75a1-roster_table"
+    },
+    {
+      "candidate_id": "screen-41eadd8e75a1-roster_table-roster_table_row-002",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "FR (RS)"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "CB"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "7c",
+          "label": "7c",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "70"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prs",
+          "label": "prs",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "5"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cth",
+          "label": "cth",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "94"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "t",
+          "label": "t",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "81"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "FR (RS) cB 70 5 94 EK} 81 it",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-41eadd8e75a1-roster_table"
+    },
+    {
+      "candidate_id": "screen-41eadd8e75a1-roster_table-roster_table_row-003",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "SR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "CB"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "nil",
+          "label": "nil",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "89"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "spd",
+          "label": "spd",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "250"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "acc",
+          "label": "acc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "89"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "agi",
+          "label": "agi",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "93"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cob",
+          "label": "cob",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "92"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "str",
+          "label": "str",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "92"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "awr",
+          "label": "awr",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "63"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prc",
+          "label": "prc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "85"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "mcy",
+          "label": "mcy",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "87"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "7c",
+          "label": "7c",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "88"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prs",
+          "label": "prs",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "90"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cth",
+          "label": "cth",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "85"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "t",
+          "label": "t",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "91"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "SR cB 89 \u00a9 250 89 93 92 92 63 85 87 88 90 85 91 { e",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-41eadd8e75a1-roster_table"
+    },
+    {
+      "candidate_id": "screen-41eadd8e75a1-roster_table-roster_table_row-004",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "JR (RS)"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "CB"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "spd",
+          "label": "spd",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "71"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "acc",
+          "label": "acc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "92"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "agi",
+          "label": "agi",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "93"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cob",
+          "label": "cob",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "90"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "str",
+          "label": "str",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "95"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "awr",
+          "label": "awr",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "47"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prc",
+          "label": "prc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "70"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "mcy",
+          "label": "mcy",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "78"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "7c",
+          "label": "7c",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "76"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prs",
+          "label": "prs",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "87"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cth",
+          "label": "cth",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "61"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-roster_table.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "t",
+          "label": "t",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "84"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "JR (RS) cB 71 @o 92 93 90 95 47 70 78 76 87 61 84 H",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-41eadd8e75a1-roster_table"
+    },
+    {
+      "candidate_id": "screen-41eadd8e75a1-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Larry Thompson Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "SS"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "11"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "FR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'1\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "201 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/current_team_roster/screen-41eadd8e75a1-player_side_card.jpg",
+            "frame_number": 16549,
+            "manual_review": true,
+            "source_video": "Rutgers Roster.webm",
+            "source_video_hash": "9801ab33b2f00be6fd66352160cefaf968f265aa427186599860bb27b580b44e",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "development_trait",
+          "label": "development_trait",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Petar"
+        }
+      ],
+      "package": "current_team_roster",
+      "raw_ocr_excerpt": "ig\nR\n\u201cA ~\n2) uy 1\nLARRY\nTHOMPSON\nPOSITION ARCHETYPE\nSS | #11 Hybrid\nCLASS & NIL | HEIGHT & WEIGHT\nFR|@>190 6'1\" | 201 Ibs\nHOMETOWN &\nHollywood, FL \u2018<\nAM WNONN\u2122MMMANNNHNHNWNL\nPHYSICAL MENTAL\nas DEV TRAIT\nPetar\nape Of You (=)\nge Football Marching z\n=",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-41eadd8e75a1-player_side_card"
+    }
+  ]
 }

@@ -4,7 +4,8 @@
     "manual_review_fields": 0,
     "ocr_draft_fields": 24,
     "omitted_fields": 0,
-    "promoted_fields": 0
+    "promoted_fields": 0,
+    "structured_candidate_rows": 13
   },
   "crops": [
     {
@@ -787,5 +788,1625 @@
   "package_type": "opponent_roster_review",
   "promoted_fields": [],
   "schema_version": "video_source_truth_review_v1",
-  "source_of_truth": "input_videos"
+  "source_of_truth": "input_videos",
+  "structured_candidates": [
+    {
+      "candidate_id": "screen-5fd57a3616a0-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Svans Chuba Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "QB"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "1"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "SR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'4\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "224 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-5fd57a3616a0-player_side_card.jpg",
+            "frame_number": 60,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:01",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Montreal, international"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "Py\n4 . OVR\n\u2014\nke \u00a7 ne\nSVANS\nCHUBA\nPOSITION ARCHETYPE\nQB (R)| #1 Pure Runner\nCLASS & NIL HEIGHT & WEIGHT\nSR(RS)|<@>85 | 6'4\"| 224 Ibs\nHOMETOWN\nMontreal, international\nPHYSICAL MENTAL\n\u00a9 m-:",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-5fd57a3616a0-player_side_card"
+    },
+    {
+      "candidate_id": "screen-6efb6a537ed1-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg",
+            "frame_number": 2417,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Trent Forsett Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg",
+            "frame_number": 2417,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "TE"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg",
+            "frame_number": 2417,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "81"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg",
+            "frame_number": 2417,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "FR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg",
+            "frame_number": 2417,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'3\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg",
+            "frame_number": 2417,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "216 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6efb6a537ed1-player_side_card.jpg",
+            "frame_number": 2417,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:00:40",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Okemos, Mi"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "\u2014 f\naw\"\neee EEE\nTRENT\nFORSETT\nPOSITION ARCHETYPE\nTE| #81 Pure Blocker\nCLASS & NIL HEIGHT & WEIGHT\nFR|@10 6'3\" | 216 Ibs\nHOMETOWN\nOkemos, Mi 9\nPHYSICAL MENTAL\nOm",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-6efb6a537ed1-player_side_card"
+    },
+    {
+      "candidate_id": "screen-33427cb143c2-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/opponent_roster/screen-33427cb143c2-player_side_card.jpg",
+            "frame_number": 4774,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Vince Mangen Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-33427cb143c2-player_side_card.jpg",
+            "frame_number": 4774,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "TE"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-33427cb143c2-player_side_card.jpg",
+            "frame_number": 4774,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "89"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/opponent_roster/screen-33427cb143c2-player_side_card.jpg",
+            "frame_number": 4774,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "JR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-33427cb143c2-player_side_card.jpg",
+            "frame_number": 4774,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:19",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Jackson, OH"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "|\nPo\n4 OVR\n_\naw\"\neee EEE\nVINCE\nMANGEN\nPOSITION ARCHETYPE\nTE| #89 Vertical Threat\nCLASS & NIL HEIGHT & WEIGHT\nJR(RS)|@>5 | 61\" | 224 Ibs\nHOMETOWN\nJackson, OH 9\nPHYSICAL MENTAL\nOm:",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-33427cb143c2-player_side_card"
+    },
+    {
+      "candidate_id": "screen-127ef65e04fd-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/opponent_roster/screen-127ef65e04fd-player_side_card.jpg",
+            "frame_number": 7131,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Ovr Howie Cashman"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-127ef65e04fd-player_side_card.jpg",
+            "frame_number": 7131,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'3\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-127ef65e04fd-player_side_card.jpg",
+            "frame_number": 7131,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "323 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-127ef65e04fd-player_side_card.jpg",
+            "frame_number": 7131,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:01:58",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Fort Collins, CO"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "Pe\nOVR\n\u2014\ns $ ae\nHOWIE\nCASHMAN\nPOSITION ARCHETYPE\n1G | #57 Raw Strength\nCLASS & NIL HEIGHT & WEIGHT\n$0|@10 6'3\" | 323 Ibs\nHOMETOWN\nFort Collins, CO\nPHYSICAL MENTAL\nWorkhorse \u00a9 Road Dog\nOm",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-127ef65e04fd-player_side_card"
+    },
+    {
+      "candidate_id": "screen-bbd9f47c64ee-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg",
+            "frame_number": 9488,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Yamdry Hernandez Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg",
+            "frame_number": 9488,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "LEDG"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg",
+            "frame_number": 9488,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "49"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg",
+            "frame_number": 9488,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "JR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg",
+            "frame_number": 9488,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'3\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg",
+            "frame_number": 9488,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "221 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-bbd9f47c64ee-player_side_card.jpg",
+            "frame_number": 9488,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:02:38",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Atlantic city, Ny Q"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "IP a\n\u2014\ns $ ae\nYAMDRY\nHERNANDEZ\nPOSITION ARCHETYPE\nLEDG | #49 Power Rusher\nCLASS & NIL HEIGHT & WEIGHT\nJR(RS)|<@>20 | 6'3\"| 221 lbs\nHOMETOWN\nAtlantic city, Ny Q\nPHYSICAL MENTAL\nOm:",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-bbd9f47c64ee-player_side_card"
+    },
+    {
+      "candidate_id": "screen-b7be8a8986f9-roster_table-roster_table_row-001",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "B.Hanson FR (RS) oT"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "acc",
+          "label": "acc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "73"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "agi",
+          "label": "agi",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "70"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cop",
+          "label": "cop",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "70"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "str",
+          "label": "str",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "61"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "awr",
+          "label": "awr",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "84"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prc",
+          "label": "prc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "82"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "pmi",
+          "label": "pmi",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "78"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-roster_table.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "unknown",
+          "label": "unknown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "234"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "B.Hanson FR (RS) oT 73 Os 70 vi) 70 61 84 82 78 234 |",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-b7be8a8986f9-roster_table"
+    },
+    {
+      "candidate_id": "screen-b7be8a8986f9-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Hanson Position Archetype Hometown"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "DT"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "93"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "FR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'3\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "306 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-b7be8a8986f9-player_side_card.jpg",
+            "frame_number": 11845,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:17",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Lafayette, In Q"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "_\u00a7\naw\"\nee\n30\nHANSON\nPOSITION ARCHETYPE\nDT| #93 Power Rusher\nCLASS & NIL HEIGHT & WEIGHT\nFR (RS) |@5 6'3\" | 306 Ibs\nHOMETOWN\nLafayette, In Q\nPHYSICAL MENTAL\n)> Grip Breaker \u00a9 Team Player\nOm",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-b7be8a8986f9-player_side_card"
+    },
+    {
+      "candidate_id": "screen-6f9a9910be4e-roster_table-roster_table_row-001",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "A.Warren JR (RS) MIKE"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "spd",
+          "label": "spd",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "73"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "acc",
+          "label": "acc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "71"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "agi",
+          "label": "agi",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "84"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cop",
+          "label": "cop",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "79"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "str",
+          "label": "str",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "73"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "awr",
+          "label": "awr",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "82"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prc",
+          "label": "prc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "72"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "tak",
+          "label": "tak",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "70"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "pow",
+          "label": "pow",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "89"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "unknown",
+          "label": "unknown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "71"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "A.Warren JR (RS) MIKE 73 Oo 71 84 79 73 82 72 70 89 71 |",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-6f9a9910be4e-roster_table"
+    },
+    {
+      "candidate_id": "screen-6f9a9910be4e-roster_table-roster_table_row-002",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "M.Elway FR MIKE"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cop",
+          "label": "cop",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "70"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "str",
+          "label": "str",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "10"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "awr",
+          "label": "awr",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "82"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prc",
+          "label": "prc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "71"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "tak",
+          "label": "tak",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "81"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "pow",
+          "label": "pow",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "69"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "unknown",
+          "label": "unknown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "87"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "M.Elway FR MIKE 70 \u00a9 10 82 71 81 69 87 ia cs = |",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-6f9a9910be4e-roster_table"
+    },
+    {
+      "candidate_id": "screen-6f9a9910be4e-roster_table-roster_table_row-003",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "R.Ogden JR (RS) MIKE"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cop",
+          "label": "cop",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "67"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "str",
+          "label": "str",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "20"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "awr",
+          "label": "awr",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "78"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prc",
+          "label": "prc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "86"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "tak",
+          "label": "tak",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "79"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "pow",
+          "label": "pow",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "76"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "unknown",
+          "label": "unknown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "71"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "R.Ogden JR (RS) MIKE 67~ \u00a9 20 78 86 79 76 71 - he i",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-6f9a9910be4e-roster_table"
+    },
+    {
+      "candidate_id": "screen-6f9a9910be4e-roster_table-roster_table_row-004",
+      "candidate_type": "roster_table_row",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "name",
+          "label": "name",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Dell FR MIKE"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "cop",
+          "label": "cop",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "67"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "str",
+          "label": "str",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "10"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "awr",
+          "label": "awr",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "71"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "prc",
+          "label": "prc",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "84"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "tak",
+          "label": "tak",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "7"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "pow",
+          "label": "pow",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "80"
+        },
+        {
+          "evidence": {
+            "confidence": 0.42,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-roster_table.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "unknown",
+          "label": "unknown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "2"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "Dell FR MIKE 67 \u00a9 10 71 84 7 n 80 ie fos \u201c 2",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-6f9a9910be4e-roster_table"
+    },
+    {
+      "candidate_id": "screen-6f9a9910be4e-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-player_side_card.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Alphonzo Warren Position Archetype"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-player_side_card.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "P"
+        },
+        {
+          "evidence": {
+            "confidence": 0.5,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-player_side_card.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "class",
+          "label": "class",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "JR"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-player_side_card.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'1\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-player_side_card.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "238 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-6f9a9910be4e-player_side_card.jpg",
+            "frame_number": 14202,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:03:56",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Carmel, IN"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "aw\"\na EE\nALPHONZO\nWARREN\nPOSITION ARCHETYPE\nMIKE | #28 Lurker\nCLASS & NIL HEIGHT & WEIGHT\nJR(RS)|<@>o | 6'1\"| 238 Ibs\nHOMETOWN\nCarmel, IN 9\nPHYSICAL MENTAL\n*p Queen (=)\n\\ Sports College Footb",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-6f9a9910be4e-player_side_card"
+    },
+    {
+      "candidate_id": "screen-ceef10b22db3-player_side_card-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "fields": [
+        {
+          "evidence": {
+            "confidence": 0.35,
+            "crop_path": "assets/review_crops/opponent_roster/screen-ceef10b22db3-player_side_card.jpg",
+            "frame_number": 16559,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "visible_name_text",
+          "label": "visible_name_text",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Ovr Jett Soldsberry"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-ceef10b22db3-player_side_card.jpg",
+            "frame_number": 16559,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "position",
+          "label": "position",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "FS"
+        },
+        {
+          "evidence": {
+            "confidence": 0.55,
+            "crop_path": "assets/review_crops/opponent_roster/screen-ceef10b22db3-player_side_card.jpg",
+            "frame_number": 16559,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "jersey",
+          "label": "jersey",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "3"
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-ceef10b22db3-player_side_card.jpg",
+            "frame_number": 16559,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "height",
+          "label": "height",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "6'0\""
+        },
+        {
+          "evidence": {
+            "confidence": 0.6,
+            "crop_path": "assets/review_crops/opponent_roster/screen-ceef10b22db3-player_side_card.jpg",
+            "frame_number": 16559,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "weight",
+          "label": "weight",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "213 lbs"
+        },
+        {
+          "evidence": {
+            "confidence": 0.45,
+            "crop_path": "assets/review_crops/opponent_roster/screen-ceef10b22db3-player_side_card.jpg",
+            "frame_number": 16559,
+            "manual_review": true,
+            "source_video": "Purdue Roster.mp4",
+            "source_video_hash": "1005513396512120be7ce85830b28dd6f36ac330d67b9fa54415fb98ed5a7f8f",
+            "timestamp": "00:04:35",
+            "verification_status": "ocr_draft"
+          },
+          "field_name": "hometown",
+          "label": "hometown",
+          "review_status": "ocr_draft_needs_confirmation",
+          "value": "Huntington, IN"
+        }
+      ],
+      "package": "opponent_roster",
+      "raw_ocr_excerpt": "B\nOVR\n\u2014\naw\":\ni\nJETT\nSOLDSBERRY\nPOSITION ARCHETYPE\nFS| #3 Box Specialist\nCLASS & NIL HEIGHT & WEIGHT\n$0(RS)|@o | 6'0\"|213 lbs\nHOMETOWN\nHuntington, IN 9\nPHYSICAL MENTAL\nOm",
+      "review_status": "ocr_draft_needs_confirmation",
+      "source_crop_id": "screen-ceef10b22db3-player_side_card"
+    }
+  ]
 }

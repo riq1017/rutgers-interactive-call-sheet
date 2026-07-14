@@ -80,3 +80,7 @@ Run `python process_week.py --extract roster_stats` to generate OCR-ready crops 
 ## OCR Review Import Workflow
 
 Tesseract OCR is optional but now supported by `process_week.py`. Detection order is `TESSERACT_EXE`, `video_tools.local.json`, PATH, common Windows installs, then `tools/portable/tesseract/`. Run `python process_week.py --extract roster_stats` to create review crops and OCR drafts. Only rows marked `confirmed` are promoted by `python process_week.py --apply-review`; unknown or unconfirmed values remain out of source-truth JSON and display as `N/A`.
+
+### Structured OCR Draft Review
+
+`python process_week.py --extract roster_stats` now keeps raw OCR crop text and also writes structured draft rows to `data/generated/review/*_structured_review.csv`. These rows are easier to confirm because each candidate field carries crop evidence and starts as `ocr_draft_needs_confirmation`.

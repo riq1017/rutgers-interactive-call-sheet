@@ -301,3 +301,9 @@
 - Added portable/system Tesseract resolver support.
 - Added `process_week.py --apply-review` for confirmed-only promotion with crop evidence.
 - Added validation and tests for review import safety.
+
+## Structured OCR Draft Parser
+
+- Added roster/stat OCR draft parsing into structured review rows.
+- Added structured review CSV outputs beside raw OCR crop review files.
+- Kept confirmed-only promotion and field-level evidence requirements intact.

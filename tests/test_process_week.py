@@ -106,6 +106,27 @@ class VideoSourceTruthTests(unittest.TestCase):
         self.assertIsNotNone(record)
         self.assertTrue(any("missing evidence" in e for e in errors))
 
+    def test_roster_table_parser_extracts_candidate_rows(self):
+        ev = process_week.crop_evidence({"filename":"x.mp4","sha256":"abc"}, {"timestamp":"00:00:01","frame_number":60}, "assets/review_crops/x.jpg", 0.5, "ocr_draft")
+        rows = process_week.parse_table_lines("NAME POS OVR SPD AWR\nM.York QB 77 82 75", "current_team_roster", "crop-1", ev, "roster_table_row")
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["fields"][0]["value"], "M.York")
+        self.assertTrue(all(field["review_status"] == "ocr_draft_needs_confirmation" for field in rows[0]["fields"]))
+
+    def test_stats_parser_keeps_noisy_unmatched_text_out(self):
+        ev = process_week.crop_evidence({"filename":"x.mp4","sha256":"abc"}, {"timestamp":"00:00:01","frame_number":60}, "assets/review_crops/x.jpg", 0.5, "ocr_draft")
+        rows = process_week.parse_table_lines("~~~ blurry header only ~~~", "current_team_season_stats", "crop-1", ev, "season_stats_row")
+        self.assertEqual(rows, [])
+
+    def test_side_card_parser_extracts_profile_drafts(self):
+        ev = process_week.crop_evidence({"filename":"x.mp4","sha256":"abc"}, {"timestamp":"00:00:01","frame_number":60}, "assets/review_crops/x.jpg", 0.5, "ocr_draft")
+        rows = process_week.parse_side_card_text("MICK\nYORK\nPOSITION ARCHETYPE\nQB (R)| #15 Backfield Creator\nCLASS & NIL HEIGHT & WEIGHT\nFR | 6'0\" | 195 lbs\nHOMETOWN\nMesquite, TX", "current_team_roster", "crop-1", ev)
+        values = {field["field_name"]: field["value"] for field in rows[0]["fields"]}
+        self.assertEqual(values["position"], "QB")
+        self.assertEqual(values["jersey"], "15")
+        self.assertEqual(values["height"], "6'0\"")
+        self.assertEqual(values["weight"], "195 lbs")
+
     def test_crop_evidence_has_crop_path(self):
         ev = process_week.crop_evidence(
             {"filename": "x.mp4", "sha256": "abc"},

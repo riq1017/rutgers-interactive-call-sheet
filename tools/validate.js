@@ -632,6 +632,10 @@ check('Roster/stats review crops exist for roster/stat videos', reviewPackages.e
 const reviewEvidenceProblems = reviewPackages.flatMap((pkg, pkgIndex) => evidenceFieldProblems(pkg, `reviewPackages[${pkgIndex}]`));
 check('Roster/stats review fields preserve crop-level evidence', reviewEvidenceProblems.length === 0, reviewEvidenceProblems.slice(0, 5).join(', '));
 check('Roster/stats review pass promotes no unconfirmed values', reviewPackages.every(pkg => (pkg.promoted_fields || []).length === 0 && pkg.counts.promoted_fields === 0));
+check('Roster/stats OCR drafts include structured candidate rows', reviewPackages.every(pkg => Array.isArray(pkg.structured_candidates) && Number.isFinite(Number(pkg.counts.structured_candidate_rows))) && reviewPackages.some(pkg => pkg.counts.structured_candidate_rows > 0));
+check('Structured OCR candidate fields preserve crop-level evidence and remain unconfirmed by default', reviewPackages.every(pkg => (pkg.structured_candidates || []).every(candidate => (candidate.fields || []).every(field => field.review_status !== 'confirmed' && field.evidence && field.evidence.crop_path && field.evidence.source_video && field.evidence.timestamp && field.evidence.frame_number !== undefined))));
+check('Structured review CSV files exist for all roster/stat packages', reviewNames.every(name => fs.existsSync(path.join(reviewDir, `${name}_structured_review.csv`))));
+
 check('Roster/stats extracted packages link back to review packages', ['current_team_roster_extracted.json','opponent_roster_extracted.json','current_team_season_stats_extracted.json','opponent_season_stats_extracted.json'].every(name => {
   const payload = readGeneratedJson(name);
   return payload.review_package && payload.review_csv && payload.counts.review_crops >= 0;

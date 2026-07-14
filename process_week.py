@@ -1,7 +1,7 @@
 ﻿#!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse, csv, hashlib, json, os, shutil, subprocess, sys, time
+import argparse, csv, hashlib, json, os, re, shutil, subprocess, sys, time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -237,6 +237,130 @@ def review_field(value: Any, ev: Dict[str, Any], field_name: str, review_status:
     "review_status": review_status,
   }
 
+
+def field_key(label: str) -> str:
+  clean = re.sub(r"[^A-Za-z0-9]+", "_", str(label or "").strip().lower()).strip("_")
+  return clean or "unknown"
+
+def candidate_field(name: str, value: Any, ev: Dict[str, Any], confidence: float = 0.45) -> Dict[str, Any]:
+  evidence_obj = dict(ev)
+  evidence_obj["confidence"] = confidence
+  evidence_obj["verification_status"] = "ocr_draft"
+  evidence_obj["manual_review"] = True
+  return {
+    "field_name": field_key(name),
+    "label": name,
+    "value": value if value != "" else None,
+    "evidence": evidence_obj,
+    "review_status": "ocr_draft_needs_confirmation",
+  }
+
+def meaningful_ocr_lines(text: Any) -> List[str]:
+  return [line.strip() for line in str(text or "").splitlines() if line.strip()]
+
+def parse_side_card_text(text: Any, package: str, crop_id: str, ev: Dict[str, Any]) -> List[Dict[str, Any]]:
+  lines = meaningful_ocr_lines(text)
+  joined = "\n".join(lines)
+  candidates: List[Dict[str, Any]] = []
+  fields: List[Dict[str, Any]] = []
+  # Names are often split across lines in the side card. Keep the OCR value as draft.
+  upper_words = [line for line in lines if re.fullmatch(r"[A-Z][A-Z .'-]{2,}", line)]
+  if upper_words:
+    fields.append(candidate_field("visible_name_text", " ".join(upper_words[:3]).title(), ev, 0.35))
+  pos = re.search(r"\b(QB|HB|RB|WR|TE|LT|LG|C|RG|RT|LE|RE|LEDG|REDG|DT|MLB|OLB|SAM|CB|FS|SS|K|P)\b(?:\s*\([LR]\))?\s*\|?\s*#?(\d+)?", joined, re.I)
+  if pos:
+    fields.append(candidate_field("position", pos.group(1).upper(), ev, 0.55))
+    if pos.group(2):
+      fields.append(candidate_field("jersey", pos.group(2), ev, 0.55))
+  cls = re.search(r"\b(FR|SO|JR|SR)(?:\s*\(RS\))?\b", joined, re.I)
+  if cls:
+    fields.append(candidate_field("class", cls.group(0).upper(), ev, 0.50))
+  htwt = re.search(r"(\d+'\d+\")\s*\|?\s*(\d{2,3})\s*(?:lbs|Ibs|LB|IBS)", joined, re.I)
+  if htwt:
+    fields.append(candidate_field("height", htwt.group(1), ev, 0.60))
+    fields.append(candidate_field("weight", f"{htwt.group(2)} lbs", ev, 0.60))
+  archetype = re.search(r"ARCHETYPE\s+([A-Za-z ]{3,40})(?:\n|CLASS|HEIGHT|HOMETOWN)", joined, re.I)
+  if archetype:
+    fields.append(candidate_field("archetype", archetype.group(1).strip(), ev, 0.45))
+  hometown = re.search(r"HOMETOWN\s+([A-Za-z .,'-]+)", joined, re.I)
+  if hometown:
+    fields.append(candidate_field("hometown", hometown.group(1).strip(), ev, 0.45))
+  trait = re.search(r"DEV\s*TRAIT\s+([A-Za-z ]+)", joined, re.I)
+  if trait:
+    fields.append(candidate_field("development_trait", trait.group(1).strip(), ev, 0.45))
+  if fields:
+    candidates.append({
+      "candidate_id": f"{crop_id}-profile-001",
+      "candidate_type": "player_profile_side_card",
+      "source_crop_id": crop_id,
+      "package": package,
+      "fields": fields,
+      "review_status": "ocr_draft_needs_confirmation",
+      "raw_ocr_excerpt": joined[:500],
+    })
+  return candidates
+
+def parse_table_lines(text: Any, package: str, crop_id: str, ev: Dict[str, Any], candidate_type: str) -> List[Dict[str, Any]]:
+  lines = meaningful_ocr_lines(text)
+  candidates: List[Dict[str, Any]] = []
+  header_tokens: List[str] = []
+  for line in lines:
+    tokens = line.split()
+    upper_count = sum(1 for token in tokens if re.fullmatch(r"[A-Z0-9+%/.-]+", token))
+    if len(tokens) >= 4 and upper_count >= 3 and any(token.upper() in {"NAME", "POS", "OVR", "YARDS", "YDS", "CAR", "COMP", "ATT", "TD", "INT", "SACK", "SPD", "ACC", "AWR"} for token in tokens):
+      header_tokens = [field_key(token.upper()) for token in tokens]
+      continue
+    if not re.match(r"^[A-Za-z][A-Za-z.']+", line):
+      continue
+    nums = re.findall(r"[-+]?\d+(?:\.\d+)?%?", line)
+    if not nums:
+      continue
+    # Split at the first numeric token; the front is the best OCR name/position draft.
+    first_num = re.search(r"[-+]?\d", line)
+    prefix = line[:first_num.start()].strip() if first_num else line
+    prefix_tokens = prefix.split()
+    name_parts = []
+    pos_value = None
+    for token in prefix_tokens:
+      if token.upper() in {"QB","HB","RB","WR","TE","LT","LG","C","RG","RT","LE","RE","LEDG","REDG","DT","MLB","OLB","SAM","CB","FS","SS","K","P"}:
+        pos_value = token.upper()
+      else:
+        name_parts.append(token)
+    fields = [candidate_field("name", " ".join(name_parts).strip(), ev, 0.45)]
+    if pos_value:
+      fields.append(candidate_field("position", pos_value, ev, 0.45))
+    labels = header_tokens[-len(nums):] if header_tokens and len(header_tokens) >= len(nums) else []
+    if not labels:
+      labels = [f"stat_{i+1}" for i in range(len(nums))]
+    for label, value in zip(labels, nums):
+      fields.append(candidate_field(label, value, ev, 0.42))
+    candidates.append({
+      "candidate_id": f"{crop_id}-{candidate_type}-{len(candidates)+1:03d}",
+      "candidate_type": candidate_type,
+      "source_crop_id": crop_id,
+      "package": package,
+      "fields": fields,
+      "review_status": "ocr_draft_needs_confirmation",
+      "raw_ocr_excerpt": line[:500],
+    })
+  return candidates
+
+def structured_candidates_from_crop(package: str, crop_record: Dict[str, Any]) -> List[Dict[str, Any]]:
+  field_obj = (crop_record.get("fields") or [{}])[0]
+  text = field_obj.get("value")
+  ev = field_obj.get("evidence") or {}
+  crop_type = crop_record.get("crop_type")
+  crop_id = crop_record.get("crop_id")
+  if not text:
+    return []
+  if crop_type == "player_side_card":
+    return parse_side_card_text(text, package, crop_id, ev)
+  if crop_type == "roster_table":
+    return parse_table_lines(text, package, crop_id, ev, "roster_table_row")
+  if crop_type == "stats_table":
+    return parse_table_lines(text, package, crop_id, ev, "season_stats_row")
+  return []
+
 def generate_roster_stats_review(repo: Path, videos: List[Dict[str, Any]], screens: List[Dict[str, Any]], extract_mode: Optional[str]) -> Dict[str, Any]:
   if extract_mode != "roster_stats":
     return {"review_packages": {}, "csv_files": [], "crop_count": 0, "ocr": tesseract_adapter(repo)}
@@ -261,8 +385,9 @@ def generate_roster_stats_review(repo: Path, videos: List[Dict[str, Any]], scree
       "ocr": adapter,
       "field_group": field_group,
       "crops": [],
+      "structured_candidates": [],
       "promoted_fields": [],
-      "counts": {"crops": 0, "ocr_draft_fields": 0, "manual_review_fields": 0, "promoted_fields": 0, "omitted_fields": 0},
+      "counts": {"crops": 0, "ocr_draft_fields": 0, "manual_review_fields": 0, "structured_candidate_rows": 0, "promoted_fields": 0, "omitted_fields": 0},
     }
     csv_rows_by_package[package] = []
   for screen in screens:
@@ -319,6 +444,29 @@ def generate_roster_stats_review(repo: Path, videos: List[Dict[str, Any]], scree
         crop_count += 1
   csv_files = []
   for package, payload in packages.items():
+    structured_rows: List[Dict[str, Any]] = []
+    for crop in payload.get("crops", []):
+      candidates = structured_candidates_from_crop(package, crop)
+      payload["structured_candidates"].extend(candidates)
+      payload["counts"]["structured_candidate_rows"] += len(candidates)
+      for candidate in candidates:
+        for item in candidate.get("fields", []):
+          ev = item.get("evidence") or {}
+          structured_rows.append({
+            "package": package,
+            "candidate_id": candidate.get("candidate_id"),
+            "candidate_type": candidate.get("candidate_type"),
+            "source_crop_id": candidate.get("source_crop_id"),
+            "field_name": item.get("field_name"),
+            "label": item.get("label"),
+            "value": item.get("value") if item.get("value") is not None else "",
+            "review_status": item.get("review_status"),
+            "source_video": ev.get("source_video"),
+            "timestamp": ev.get("timestamp"),
+            "frame_number": ev.get("frame_number"),
+            "crop_path": ev.get("crop_path"),
+            "confidence": ev.get("confidence"),
+          })
     json_name = f"{package}_review.json"
     write_json(review_root / json_name, payload)
     csv_name = f"{package}_review.csv"
@@ -328,6 +476,13 @@ def generate_roster_stats_review(repo: Path, videos: List[Dict[str, Any]], scree
       writer = csv.DictWriter(handle, fieldnames=fieldnames)
       writer.writeheader()
       writer.writerows(csv_rows_by_package[package])
+    structured_csv_name = f"{package}_structured_review.csv"
+    csv_files.append(f"data/generated/review/{structured_csv_name}")
+    with (review_root / structured_csv_name).open("w", encoding="utf-8", newline="") as handle:
+      fieldnames = ["package","candidate_id","candidate_type","source_crop_id","field_name","label","value","review_status","source_video","timestamp","frame_number","crop_path","confidence"]
+      writer = csv.DictWriter(handle, fieldnames=fieldnames)
+      writer.writeheader()
+      writer.writerows(structured_rows)
   return {"review_packages": packages, "csv_files": csv_files, "crop_count": crop_count, "ocr": adapter}
 
 def merge_review_promotions(outputs: Dict[str, Any], review_result: Dict[str, Any]) -> None:
@@ -362,15 +517,32 @@ def review_package_paths(repo: Path, package: str) -> Tuple[Path, Path]:
 
 def overlay_review_csv(repo: Path, package: str, payload: Dict[str, Any]) -> None:
   _, csv_path = review_package_paths(repo, package)
-  if not csv_path.exists():
+  if csv_path.exists():
+    rows = {}
+    with csv_path.open("r", encoding="utf-8", newline="") as handle:
+      for row in csv.DictReader(handle):
+        rows[(row.get("crop_id"), row.get("field_name"))] = row
+    for crop in payload.get("crops", []):
+      for item in crop.get("fields", []):
+        row = rows.get((crop.get("crop_id"), item.get("field_name")))
+        if not row:
+          continue
+        item["value"] = row.get("value") if row.get("value") != "" else None
+        item["review_status"] = normalize_review_status(row.get("review_status"))
+        try:
+          item.setdefault("evidence", {})["confidence"] = float(row.get("confidence") or item.get("evidence", {}).get("confidence") or 0)
+        except ValueError:
+          pass
+  structured_csv = repo / "data" / "generated" / "review" / f"{package}_structured_review.csv"
+  if not structured_csv.exists():
     return
-  rows = {}
-  with csv_path.open("r", encoding="utf-8", newline="") as handle:
+  structured_rows = {}
+  with structured_csv.open("r", encoding="utf-8", newline="") as handle:
     for row in csv.DictReader(handle):
-      rows[(row.get("crop_id"), row.get("field_name"))] = row
-  for crop in payload.get("crops", []):
-    for item in crop.get("fields", []):
-      row = rows.get((crop.get("crop_id"), item.get("field_name")))
+      structured_rows[(row.get("candidate_id"), row.get("field_name"))] = row
+  for candidate in payload.get("structured_candidates", []):
+    for item in candidate.get("fields", []):
+      row = structured_rows.get((candidate.get("candidate_id"), item.get("field_name")))
       if not row:
         continue
       item["value"] = row.get("value") if row.get("value") != "" else None
@@ -427,6 +599,20 @@ def apply_review_import(repo: Path, outputs: Dict[str, Any]) -> Dict[str, Any]:
         status_counts[status] = status_counts.get(status, 0) + 1
         record = promoted_field_record(package, crop, item, package_errors)
         if record:
+          crop_path = repo / record["evidence"]["crop_path"]
+          if not crop_path.exists():
+            package_errors.append(f"{package}:{record['crop_id']} crop path does not exist")
+          promoted.append(record)
+    for candidate in payload.get("structured_candidates", []):
+      pseudo_crop = {"crop_id": candidate.get("candidate_id")}
+      for item in candidate.get("fields", []):
+        status = normalize_review_status(item.get("review_status"))
+        status_counts[status] = status_counts.get(status, 0) + 1
+        record = promoted_field_record(package, pseudo_crop, item, package_errors)
+        if record:
+          record["candidate_id"] = candidate.get("candidate_id")
+          record["candidate_type"] = candidate.get("candidate_type")
+          record["source_crop_id"] = candidate.get("source_crop_id")
           crop_path = repo / record["evidence"]["crop_path"]
           if not crop_path.exists():
             package_errors.append(f"{package}:{record['crop_id']} crop path does not exist")
@@ -608,7 +794,7 @@ def write_reports(repo: Path, outputs: Dict[str, Any], errors: List[str], elapse
   review_result = review_result or {}
   review_lines = []
   for package, payload in (review_result.get("review_packages") or {}).items():
-    review_lines.append(f"- {package}: {payload['counts']['crops']} crops, {payload['counts']['manual_review_fields']} manual-review fields, {payload['counts']['ocr_draft_fields']} OCR draft fields")
+    review_lines.append(f"- {package}: {payload['counts']['crops']} crops, {payload['counts']['manual_review_fields']} manual-review fields, {payload['counts']['ocr_draft_fields']} OCR draft fields, {payload['counts'].get('structured_candidate_rows', 0)} structured candidate rows")
   (reports / "roster_stats_review_report.md").write_text("# Roster + Stats Review Report\n\n" + ("\n".join(review_lines) if review_lines else "Roster/stats extraction was not requested for this run.") + "\n", encoding="utf-8")
   import_report = review_import_report or {"promoted_total": 0, "packages": {}, "errors": []}
   import_lines = [f"# Review Import Report\n\nPromoted fields: {import_report.get('promoted_total', 0)}\n"]

@@ -1,4 +1,5 @@
-﻿import tempfile
+import json
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -283,6 +284,79 @@ class VideoSourceTruthTests(unittest.TestCase):
             self.assertEqual(outputs["comparison_summary.json"]["compare_save_count"], 1)
             self.assertGreater(outputs["comparison_diff.json"]["comparisons"][0]["diff_segment_count"], 0)
             self.assertEqual(process_week.validate_dynasty_comparison_outputs(outputs), [])
+
+    def test_dynasty_slice_outputs_do_not_promote_and_highlight_changes(self):
+        import zlib
+        payload = b"Rutgers\x00RUTG\x00Scarlet Knights\x00teamdb_ru\x00Player\x00" + bytes(range(32)) + b"PlayerStatRecords\x00ForcedDepthChartEntry"
+        changed = bytearray(payload)
+        changed[58] = 255
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            base = repo / "DYNASTY-BASE"
+            compare = repo / "DYNASTY-COMPARE"
+            base.write_bytes(b"FBCHUNKS" + b"\x00" * 74 + zlib.compress(payload))
+            compare.write_bytes(b"FBCHUNKS" + b"\x00" * 74 + zlib.compress(bytes(changed)))
+            outputs = process_week.build_dynasty_slice_outputs(repo, base, 48, 24, compare)
+            item = outputs["slice_inspection.json"]
+            self.assertEqual(item["decoded_values_promoted"], 0)
+            self.assertEqual(item["evidence"]["decode_status"], "slice_inspection_only")
+            self.assertGreater(item["compare"]["changed_byte_count"], 0)
+            self.assertEqual(process_week.validate_dynasty_slice_outputs(outputs), [])
+
+    def test_valid_game_rating_range(self):
+        self.assertTrue(process_week.valid_game_rating(0))
+        self.assertTrue(process_week.valid_game_rating(99))
+        self.assertFalse(process_week.valid_game_rating(100))
+        self.assertFalse(process_week.valid_game_rating(-1))
+        self.assertFalse(process_week.valid_game_rating("77"))
+
+    def test_dynasty_player_decode_outputs_are_save_backed_and_non_promoting(self):
+        import zlib
+        payload = (
+            b"Rutgers\x00#CHOP\x00RUTG\x00Scarlet Knights\x00teamdb_ru\x00"
+            b"Player\x00PlayerStatRecords\x00SeasonOffensiveStats\x00"
+            b"SeasonDefensiveStats\x00ForcedDepthChartEntry\x00PositionRecordTable\x00"
+        )
+        raw = b"FBCHUNKS" + b"\x00" * 74 + zlib.compress(payload)
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            save = repo / "DYNASTY-TEST"
+            save.write_bytes(raw)
+            outputs = process_week.build_dynasty_player_decode_outputs(repo, save)
+            self.assertEqual(outputs["dynasty_teams.json"]["team_count"], 1)
+            self.assertEqual(outputs["dynasty_players.json"]["player_count"], 0)
+            self.assertEqual(outputs["dynasty_players.json"]["decode_status"], "blocked_unmapped_player_table")
+            self.assertEqual(outputs["dynasty_player_stats.json"]["stat_count"], 0)
+            self.assertEqual(outputs["dynasty_depth_chart_candidates.json"]["decode_status"], "candidate_only_unresolved_player_refs")
+            self.assertEqual(process_week.validate_dynasty_player_decode_outputs(outputs), [])
+
+    def test_dynasty_depth_candidates_remain_unresolved_until_player_table_maps(self):
+        import zlib
+        payload = b"Rutgers\x00RUTG\x00Scarlet Knights\x00teamdb_ru\x00Player\x00PlayerStatRecords\x00ForcedDepthChartEntry"
+        raw = b"FBCHUNKS" + b"\x00" * 74 + zlib.compress(payload)
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            dynasty_dir = repo / "data" / "generated" / "dynasty"
+            dynasty_dir.mkdir(parents=True)
+            save = repo / "DYNASTY-TEST"
+            save.write_bytes(raw)
+            info = process_week.read_dynasty_save(save)
+            target_offset = payload.index(b"PlayerStatRecords") - 4
+            (dynasty_dir / "comparison_diff.json").write_text(json.dumps({
+                "comparisons": [{
+                    "segments_sample": [{
+                        "start": target_offset,
+                        "length": 4,
+                        "nearest_anchor": {"anchor_value": "PlayerStatRecords", "table": "stats"},
+                        "evidence": {"base_save": "A", "compare_save": "B"}
+                    }]
+                }]
+            }), encoding="utf-8")
+            candidates = process_week.build_depth_reference_candidates(repo, info)
+            self.assertTrue(candidates)
+            self.assertEqual(candidates[0]["status"], "candidate_unresolved_player_refs")
+            self.assertIn("Promote only after", candidates[0]["rule"])
+
 if __name__ == "__main__":
     unittest.main()
 

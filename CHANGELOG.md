@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Save-backed dynasty player decoder foundation
+- Added `process_week.py --extract dynasty_players` to generate save-backed dynasty player schema outputs from the CFB27 `FBCHUNKS` dynasty save.
+- Generated `dynasty_teams.json`, `dynasty_players.json`, `dynasty_player_stats.json`, `dynasty_depth_chart_candidates.json`, and `dynasty_decode_report.json` under `data/generated/dynasty/`.
+- Confirmed the current save decodes Rutgers team identity while keeping Player, PlayerStatRecords, and depth-chart references blocked until binary row boundaries and player references are proven.
+- Added candidate-only depth reference reporting for controlled save diffs; depth references are not promoted until they resolve to decoded Player rows.
+- Added rating range validation so save-decoded ratings/attributes cannot exceed valid game ranges.
+- Extended unit and project validation for save-backed player outputs, evidence coverage, candidate-only depth references, and non-promotion of unmapped data.
+
 ## Personnel profile stat completion
 - Updated player profile season ribbons to use position-aware stat priority instead of the first visible stat fields.
 - Confirmed M. York now shows verified season `YDS 1305` and `TD 11`, while season `INT` and `SACK` remain `N/A` because they are not present in the verified season source.

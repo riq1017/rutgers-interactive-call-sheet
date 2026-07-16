@@ -726,6 +726,39 @@ if (dynastyNames.every(name => fs.existsSync(path.join(dynastyDir, name)))) {
   const dynastyGitignore = fs.readFileSync(path.join(root, '.gitignore'), 'utf8');
   check('Raw dynasty save files are protected by gitignore', dynastyGitignore.includes('DYNASTY-*') && dynastyGitignore.includes('*.save'));
 }
+
+const dynastyPlayerNames = ['dynasty_teams.json', 'dynasty_players.json', 'dynasty_player_stats.json', 'dynasty_depth_chart_candidates.json', 'dynasty_decode_report.json'];
+const dynastyPlayerPaths = dynastyPlayerNames.map(name => path.join(dynastyDir, name));
+if (dynastyPlayerPaths.some(file => fs.existsSync(file))) {
+  const dynastyPlayerOutputsExist = dynastyPlayerPaths.every(file => fs.existsSync(file));
+  check('Dynasty player decoder outputs are complete when present', dynastyPlayerOutputsExist);
+  if (dynastyPlayerOutputsExist) {
+    const dynastyTeams = readDynastyJson('dynasty_teams.json');
+    const dynastyPlayers = readDynastyJson('dynasty_players.json');
+    const dynastyStats = readDynastyJson('dynasty_player_stats.json');
+    const dynastyDepthCandidates = readDynastyJson('dynasty_depth_chart_candidates.json');
+    const dynastyDecodeReport = readDynastyJson('dynasty_decode_report.json');
+    const evidenceProblems = dynastyPlayerNames.flatMap(name => dynastyEvidenceProblems(readDynastyJson(name), name));
+    const playerRows = dynastyPlayers.players || [];
+    const invalidRatings = [];
+    playerRows.forEach(player => {
+      ['ratings', 'attributes'].forEach(group => {
+        Object.entries(player[group] || {}).forEach(([key, field]) => {
+          const value = field && typeof field === 'object' && Object.prototype.hasOwnProperty.call(field, 'value') ? field.value : field;
+          if (!Number.isInteger(value) || value < 0 || value > 99) invalidRatings.push(`${player.player_id || 'unknown'}.${group}.${key}=${value}`);
+        });
+      });
+    });
+    check('Dynasty player decoder carries save evidence on decoded fields', evidenceProblems.length === 0, evidenceProblems.slice(0, 3).join(', '));
+    check('Dynasty player decoder does not promote unmapped Player rows', dynastyPlayers.decode_status === 'blocked_unmapped_player_table' && dynastyPlayers.player_count === playerRows.length);
+    check('Dynasty player stats remain blocked until player stat row mapping is proven', dynastyStats.decode_status === 'blocked_unmapped_stat_table' && Array.isArray(dynastyStats.player_stats) && dynastyStats.player_stats.length === 0);
+    check('Dynasty depth references remain candidate-only until they resolve to decoded players', dynastyDepthCandidates.decode_status === 'candidate_only_unresolved_player_refs' && (dynastyDepthCandidates.candidates || []).every(candidate => candidate.status === 'candidate_unresolved_player_refs'));
+    check('Dynasty player decoder rejects invalid rating ranges', invalidRatings.length === 0, invalidRatings.slice(0, 3).join(', '));
+    check('Dynasty player decode report separates decoded and blocked tables', Array.isArray(dynastyDecodeReport.decoded_tables) && dynastyDecodeReport.decoded_tables.includes('team_database') && Array.isArray(dynastyDecodeReport.blocked_tables) && dynastyDecodeReport.blocked_tables.includes('Player'));
+    check('Dynasty team decoder reports the current team without fabricating roster rows', dynastyTeams.team_count >= 1 && dynastyPlayers.players.every(player => player.source_of_truth === 'cfb27_dynasty_save'));
+  }
+}
+
 const dynastyMappingNames = ['table_candidates.json', 'known_value_correlations.json', 'binary_mapping_summary.json'];
 const dynastyMappingPaths = dynastyMappingNames.map(name => path.join(dynastyDir, name));
 if (dynastyMappingPaths.some(file => fs.existsSync(file))) {

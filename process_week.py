@@ -37,6 +37,13 @@ DYNASTY_MAPPING_FILES = [
 DYNASTY_COMPARE_FILES = [
   "comparison_diff.json", "comparison_summary.json",
 ]
+DYNASTY_SLICE_FILES = [
+  "slice_inspection.json",
+]
+DYNASTY_PLAYER_DECODE_FILES = [
+  "dynasty_teams.json", "dynasty_players.json", "dynasty_player_stats.json",
+  "dynasty_depth_chart_candidates.json", "dynasty_decode_report.json",
+]
 DYNASTY_ROW_SIZE_CANDIDATES = (16, 24, 32, 40, 48, 64, 80, 96, 128, 160, 192, 256)
 DYNASTY_MAPPING_WINDOW_BEFORE = 2048
 DYNASTY_MAPPING_WINDOW_AFTER = 8192
@@ -779,6 +786,454 @@ def run_dynasty_comparison(args) -> int:
     "errors": errors,
   }, indent=2))
   return 0 if not errors else 1
+
+def integer_views(window: bytes, absolute_offset: int) -> Dict[str, List[Dict[str, Any]]]:
+  u16 = []
+  for idx in range(0, max(0, len(window) - 1), 2):
+    u16.append({
+      "offset": absolute_offset + idx,
+      "hex_offset": f"0x{absolute_offset + idx:08x}",
+      "value": int.from_bytes(window[idx:idx + 2], "little", signed=False),
+    })
+  u32 = []
+  for idx in range(0, max(0, len(window) - 3), 4):
+    u32.append({
+      "offset": absolute_offset + idx,
+      "hex_offset": f"0x{absolute_offset + idx:08x}",
+      "value": int.from_bytes(window[idx:idx + 4], "little", signed=False),
+    })
+  return {"u16_le": u16, "u32_le": u32}
+
+def bytes_table(window: bytes, absolute_offset: int) -> List[Dict[str, Any]]:
+  rows = []
+  for idx, value in enumerate(window):
+    rows.append({
+      "offset": absolute_offset + idx,
+      "hex_offset": f"0x{absolute_offset + idx:08x}",
+      "hex": f"{value:02x}",
+      "unsigned": value,
+      "ascii": chr(value) if 32 <= value <= 126 else ".",
+    })
+  return rows
+
+def build_dynasty_slice_outputs(repo: Path, save_path: Path, offset: int, length: int, compare_save: Optional[Path] = None) -> Dict[str, Any]:
+  if offset < 0:
+    raise ValueError("--offset must be non-negative")
+  if length <= 0:
+    raise ValueError("--length must be positive")
+  base_info = read_dynasty_save(save_path)
+  decompressed = base_info["decompressed"]
+  end = min(len(decompressed), offset + length)
+  window = decompressed[offset:end]
+  base_outputs = build_dynasty_save_outputs(repo, save_path)
+  anchor_hits = base_outputs.get("_internal", {}).get("anchor_hits", {})
+  result: Dict[str, Any] = {
+    "package_type": "dynasty_save_slice_inspection",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "generated_at": now(),
+    "mode": "slice_inspection_no_promotion",
+    "decoded_values_promoted": 0,
+    "source_save": str(save_path),
+    "source_raw_sha256": base_info["raw_sha256"],
+    "source_decompressed_sha256": base_info["decompressed_sha256"],
+    "offset": offset,
+    "hex_offset": f"0x{offset:08x}",
+    "requested_length": length,
+    "actual_length": len(window),
+    "end": end,
+    "nearest_anchor": nearest_anchor_for_offset(anchor_hits, offset),
+    "hex": window.hex(" "),
+    "unsigned_bytes": bytes_table(window, offset),
+    "integer_views": integer_views(window, offset),
+    "evidence": {
+      "source_save": str(save_path),
+      "raw_sha256": base_info["raw_sha256"],
+      "decompressed_sha256": base_info["decompressed_sha256"],
+      "decompressed_offset": offset,
+      "length": len(window),
+      "decode_status": "slice_inspection_only",
+    },
+  }
+  if compare_save:
+    compare_info = read_dynasty_save(compare_save)
+    compare_decompressed = compare_info["decompressed"]
+    compare_window = compare_decompressed[offset:min(len(compare_decompressed), offset + length)]
+    changed = []
+    for idx in range(max(len(window), len(compare_window))):
+      base_value = window[idx] if idx < len(window) else None
+      compare_value = compare_window[idx] if idx < len(compare_window) else None
+      if base_value != compare_value:
+        changed.append({
+          "offset": offset + idx,
+          "hex_offset": f"0x{offset + idx:08x}",
+          "base_hex": f"{base_value:02x}" if base_value is not None else None,
+          "compare_hex": f"{compare_value:02x}" if compare_value is not None else None,
+          "base_unsigned": base_value,
+          "compare_unsigned": compare_value,
+        })
+    result["compare"] = {
+      "compare_save": str(compare_save),
+      "compare_raw_sha256": compare_info["raw_sha256"],
+      "compare_decompressed_sha256": compare_info["decompressed_sha256"],
+      "hex": compare_window.hex(" "),
+      "unsigned_bytes": bytes_table(compare_window, offset),
+      "integer_views": integer_views(compare_window, offset),
+      "changed_bytes": changed,
+      "changed_byte_count": len(changed),
+    }
+  return {"slice_inspection.json": result}
+
+def validate_dynasty_slice_outputs(outputs: Dict[str, Any]) -> List[str]:
+  errors: List[str] = []
+  item = outputs.get("slice_inspection.json", {})
+  if item.get("decoded_values_promoted") != 0:
+    errors.append("slice inspection must not promote decoded values")
+  ev = item.get("evidence", {})
+  for key in ("source_save", "raw_sha256", "decompressed_sha256", "decompressed_offset", "length", "decode_status"):
+    if key not in ev:
+      errors.append(f"slice evidence missing {key}")
+  if ev.get("decode_status") != "slice_inspection_only":
+    errors.append("slice evidence is not slice_inspection_only")
+  if not isinstance(item.get("unsigned_bytes"), list):
+    errors.append("slice unsigned byte table missing")
+  if "u16_le" not in item.get("integer_views", {}) or "u32_le" not in item.get("integer_views", {}):
+    errors.append("slice integer views missing")
+  return errors
+
+def write_dynasty_slice_outputs(repo: Path, outputs: Dict[str, Any]) -> None:
+  dynasty_dir = repo / "data" / "generated" / "dynasty"
+  dynasty_dir.mkdir(parents=True, exist_ok=True)
+  for name in DYNASTY_SLICE_FILES:
+    write_json(dynasty_dir / name, outputs[name])
+  reports = repo / "reports"
+  reports.mkdir(exist_ok=True)
+  item = outputs["slice_inspection.json"]
+  report = [
+    "# Dynasty Save Slice Inspection Report",
+    "",
+    "This report is inspection-only. It does not promote roster, stats, recruiting, schedule, or depth-chart values into the app.",
+    "",
+    f"Source save: {item.get('source_save')}",
+    f"Offset: {item.get('offset')} ({item.get('hex_offset')})",
+    f"Length: {item.get('actual_length')}",
+    f"Nearest anchor: {(item.get('nearest_anchor') or {}).get('anchor_value')} / {(item.get('nearest_anchor') or {}).get('table')}",
+    f"Decoded values promoted: {item.get('decoded_values_promoted')}",
+    "",
+    "## Hex",
+    item.get("hex", ""),
+  ]
+  compare = item.get("compare")
+  if compare:
+    report.extend([
+      "",
+      "## Compare",
+      f"Compare save: {compare.get('compare_save')}",
+      f"Changed bytes in slice: {compare.get('changed_byte_count')}",
+    ])
+    for changed in compare.get("changed_bytes", [])[:50]:
+      report.append(f"- {changed.get('hex_offset')}: {changed.get('base_hex')} -> {changed.get('compare_hex')}")
+  (reports / "dynasty_save_slice_report.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+
+def run_dynasty_slice(args) -> int:
+  repo = root()
+  save_path = Path(args.dynasty_save) if args.dynasty_save else DEFAULT_DYNASTY_SAVE
+  compare_save = Path(args.compare_save[0]) if args.compare_save else None
+  if not save_path.exists():
+    print(f"Dynasty save not found: {save_path}", file=sys.stderr)
+    return 2
+  if compare_save and not compare_save.exists():
+    print(f"Compare save not found: {compare_save}", file=sys.stderr)
+    return 2
+  outputs = build_dynasty_slice_outputs(repo, save_path, int(args.offset), int(args.length), compare_save)
+  write_dynasty_slice_outputs(repo, outputs)
+  errors = validate_dynasty_slice_outputs(outputs)
+  item = outputs["slice_inspection.json"]
+  print(json.dumps({
+    "status": "PASS" if not errors else "FAIL",
+    "source_save": str(save_path),
+    "offset": item.get("offset"),
+    "length": item.get("actual_length"),
+    "compare_save": str(compare_save) if compare_save else None,
+    "changed_byte_count": (item.get("compare") or {}).get("changed_byte_count"),
+    "decoded_values_promoted": 0,
+    "generated_dir": "data/generated/dynasty",
+    "report": "reports/dynasty_save_slice_report.md",
+    "errors": errors,
+  }, indent=2))
+  return 0 if not errors else 1
+
+def dynasty_field_evidence(save_info: Dict[str, Any], offset: Optional[int], table: str, field_name: str, confidence: str = "candidate") -> Dict[str, Any]:
+  return {
+    "source_save": save_info["path"],
+    "raw_sha256": save_info["raw_sha256"],
+    "decompressed_sha256": save_info["decompressed_sha256"],
+    "decompressed_offset": offset,
+    "table_name": table,
+    "field_name": field_name,
+    "confidence": confidence,
+    "decode_status": "decoded" if confidence == "confirmed" else "candidate_mapping",
+  }
+
+def dynasty_decoded_field(value: Any, save_info: Dict[str, Any], offset: Optional[int], table: str, field_name: str, confidence: str = "candidate") -> Dict[str, Any]:
+  return {"value": value, "evidence": dynasty_field_evidence(save_info, offset, table, field_name, confidence)}
+
+def valid_game_rating(value: Any) -> bool:
+  return isinstance(value, int) and 0 <= value <= 99
+
+def find_schema_anchor_offsets(strings: List[Dict[str, Any]], terms: List[str]) -> List[Dict[str, Any]]:
+  lower_terms = [term.lower() for term in terms]
+  return [item for item in strings if any(term in str(item.get("value", "")).lower() for term in lower_terms)]
+
+def build_depth_reference_candidates(repo: Path, save_info: Dict[str, Any]) -> List[Dict[str, Any]]:
+  diff_path = repo / "data" / "generated" / "dynasty" / "comparison_diff.json"
+  diff = read_json(diff_path, {})
+  candidates: List[Dict[str, Any]] = []
+  seen = set()
+  for comparison in diff.get("comparisons", []) if isinstance(diff, dict) else []:
+    for segment in comparison.get("segments_sample", []):
+      start = segment.get("start")
+      length = segment.get("length", 0)
+      if start is None or length < 2:
+        continue
+      anchor = segment.get("nearest_anchor", {}) or {}
+      base_save = (segment.get("evidence", {}) or {}).get("base_save")
+      compare_save = (segment.get("evidence", {}) or {}).get("compare_save")
+      # Clean reciprocal swaps have tiny even-length segments. Keep as candidates only until Player refs resolve.
+      if length <= 16:
+        raw = save_info["decompressed"][int(start):int(start) + int(length)]
+        refs = []
+        for idx in range(0, max(0, len(raw) - 1), 2):
+          value = int.from_bytes(raw[idx:idx + 2], "little", signed=False)
+          if 0 < value < 65535:
+            refs.append({
+              "offset": int(start) + idx,
+              "hex_offset": f"0x{int(start) + idx:08x}",
+              "u16_le": value,
+              "hex": raw[idx:idx + 2].hex(" "),
+            })
+        ident = (start, length, tuple((r["offset"], r["u16_le"]) for r in refs), compare_save)
+        if refs and ident not in seen:
+          seen.add(ident)
+          candidates.append({
+            "candidate_id": f"depth_ref_{len(candidates)+1:03d}",
+            "status": "candidate_unresolved_player_refs",
+            "base_save": base_save,
+            "compare_save": compare_save,
+            "nearest_anchor": anchor,
+            "segment_start": start,
+            "segment_length": length,
+            "references": refs,
+            "evidence": dynasty_field_evidence(save_info, int(start), "depth_chart_candidate", "player_reference_swap", "candidate"),
+            "rule": "Candidate only. Promote only after both references resolve to exact decoded Player identities.",
+          })
+  return candidates
+
+def build_dynasty_player_decode_outputs(repo: Path, save_path: Path) -> Dict[str, Any]:
+  save_info = read_dynasty_save(save_path)
+  strings = extract_ascii_strings_from_bytes(save_info["decompressed"])
+  base_outputs = build_dynasty_save_outputs(repo, save_path)
+  current_team = base_outputs["current_team.json"]
+  team_fields = {
+    key: current_team[key]
+    for key in ("school", "abbreviation", "short_code", "nickname", "hashtags")
+    if key in current_team
+  }
+  player_anchors = find_schema_anchor_offsets(strings, ["Player", "PlayerStatRecords", "PlayerTypeGradeTable", "OverallPercentage"])
+  stat_anchors = find_schema_anchor_offsets(strings, ["PlayerStatRecords", "SeasonOffensiveStats", "SeasonDefensiveStats"])
+  depth_anchors = find_schema_anchor_offsets(strings, ["ForcedDepthChartEntry", "PositionRecordTable"])
+  decode_gaps = [
+    {
+      "table": "Player",
+      "status": "row_boundaries_unmapped",
+      "reason": "The save contains Player anchors and name-pool strings, but stable Player row boundaries, team references, and rating field offsets are not proven yet.",
+      "anchor_count": len(player_anchors),
+      "sample_anchors": [
+        {"value": item.get("value"), "offset": item.get("offset"), "evidence": save_evidence(save_info, item.get("offset"), "Player", "anchor_only", "not_decoded")}
+        for item in player_anchors[:10]
+      ],
+    },
+    {
+      "table": "PlayerStatRecords",
+      "status": "row_boundaries_unmapped",
+      "reason": "Stat record anchors exist, but stat row width and player foreign-key fields are not mapped safely yet.",
+      "anchor_count": len(stat_anchors),
+      "sample_anchors": [
+        {"value": item.get("value"), "offset": item.get("offset"), "evidence": save_evidence(save_info, item.get("offset"), "PlayerStatRecords", "anchor_only", "not_decoded")}
+        for item in stat_anchors[:10]
+      ],
+    },
+  ]
+  depth_candidates = build_depth_reference_candidates(repo, save_info)
+  teams = [{
+    "team_id": "current_team_candidate",
+    "decode_status": current_team.get("decode_status"),
+    "fields": team_fields,
+    "evidence": save_evidence(save_info, (current_team.get("school") or {}).get("evidence", {}).get("decompressed_offset"), "team_database", "confirmed", "decoded"),
+  }]
+  players_payload = {
+    "package_type": "dynasty_players",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "source_of_truth": "cfb27_dynasty_save",
+    "generated_at": now(),
+    "decode_status": "blocked_unmapped_player_table",
+    "players": [],
+    "player_count": 0,
+    "required_schema": {
+      "identity": ["player_ref", "team_ref", "first_name", "last_name", "display_name"],
+      "metadata": ["position", "class", "jersey", "height", "weight", "hometown", "archetype"],
+      "ratings": "Only emitted when field offsets are proven and valid_game_rating(value) is true.",
+      "attributes": "Only emitted when field offsets are proven and valid_game_rating(value) is true.",
+      "stats": "Joined only through a proven player foreign key.",
+    },
+    "decoder_gaps": decode_gaps,
+    "rule": "No legacy, video, or manual player values are promoted into this save-backed player package.",
+  }
+  stats_payload = {
+    "package_type": "dynasty_player_stats",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "source_of_truth": "cfb27_dynasty_save",
+    "generated_at": now(),
+    "decode_status": "blocked_unmapped_stat_table",
+    "player_stats": [],
+    "team_stats": [],
+    "stat_count": 0,
+    "decoder_gaps": [decode_gaps[1]],
+  }
+  teams_payload = {
+    "package_type": "dynasty_teams",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "source_of_truth": "cfb27_dynasty_save",
+    "generated_at": now(),
+    "decode_status": "partial_decode",
+    "teams": teams,
+    "team_count": len(teams),
+  }
+  depth_payload = {
+    "package_type": "dynasty_depth_chart_candidates",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "source_of_truth": "cfb27_dynasty_save",
+    "generated_at": now(),
+    "decode_status": "candidate_only_unresolved_player_refs",
+    "candidates": depth_candidates,
+    "candidate_count": len(depth_candidates),
+    "rule": "Depth-chart references cannot be promoted until they resolve against decoded Player rows.",
+  }
+  report_payload = {
+    "package_type": "dynasty_decode_report",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "source_of_truth": "cfb27_dynasty_save",
+    "generated_at": now(),
+    "source_save": str(save_path),
+    "save": {
+      "signature": save_info["signature"],
+      "compressed_offset": save_info["compressed_offset"],
+      "raw_sha256": save_info["raw_sha256"],
+      "decompressed_sha256": save_info["decompressed_sha256"],
+      "decompressed_size": save_info["decompressed_size"],
+    },
+    "team_count": len(teams),
+    "player_count": 0,
+    "stat_count": 0,
+    "depth_candidate_count": len(depth_candidates),
+    "decoded_tables": ["team_database"],
+    "blocked_tables": ["Player", "PlayerStatRecords"],
+    "validation_status": "decoder_gap_not_complete",
+    "next_required_mapping": "Prove Player row boundaries and player reference fields, then resolve depth candidates such as 35624 and 26905 against decoded Rutgers QB rows.",
+  }
+  return {
+    "dynasty_teams.json": teams_payload,
+    "dynasty_players.json": players_payload,
+    "dynasty_player_stats.json": stats_payload,
+    "dynasty_depth_chart_candidates.json": depth_payload,
+    "dynasty_decode_report.json": report_payload,
+  }
+
+def validate_dynasty_player_decode_outputs(outputs: Dict[str, Any]) -> List[str]:
+  errors: List[str] = []
+  for name in DYNASTY_PLAYER_DECODE_FILES:
+    if name not in outputs:
+      errors.append(f"missing player decode output {name}")
+  def walk_fields(value: Any, loc: str) -> None:
+    if isinstance(value, dict):
+      if "value" in value and "evidence" in value:
+        ev = value.get("evidence") or {}
+        for key in ("source_save", "raw_sha256", "decompressed_sha256", "decompressed_offset", "record_name", "confidence", "decode_status"):
+          if key not in ev:
+            errors.append(f"{loc}.evidence missing {key}")
+      for key, child in value.items():
+        walk_fields(child, f"{loc}.{key}")
+    elif isinstance(value, list):
+      for idx, child in enumerate(value):
+        walk_fields(child, f"{loc}[{idx}]")
+  for name in DYNASTY_PLAYER_DECODE_FILES:
+    walk_fields(outputs.get(name, {}), name)
+  for player in outputs.get("dynasty_players.json", {}).get("players", []):
+    for group in ("ratings", "attributes"):
+      for key, field_obj in (player.get(group, {}) or {}).items():
+        value = field_obj.get("value") if isinstance(field_obj, dict) else field_obj
+        if not valid_game_rating(value):
+          errors.append(f"player {player.get('player_id')} has invalid {group}.{key}: {value}")
+  depth = outputs.get("dynasty_depth_chart_candidates.json", {})
+  if depth.get("decode_status") != "candidate_only_unresolved_player_refs":
+    errors.append("depth candidates must remain candidate-only until player refs resolve")
+  return errors
+
+def write_dynasty_player_decode_outputs(repo: Path, outputs: Dict[str, Any]) -> None:
+  dynasty_dir = repo / "data" / "generated" / "dynasty"
+  dynasty_dir.mkdir(parents=True, exist_ok=True)
+  for name in DYNASTY_PLAYER_DECODE_FILES:
+    write_json(dynasty_dir / name, outputs[name])
+  reports = repo / "reports"
+  reports.mkdir(exist_ok=True)
+  report = outputs["dynasty_decode_report.json"]
+  lines = [
+    "# Dynasty Player Decode Report",
+    "",
+    f"Source save: {report.get('source_save')}",
+    f"Team count: {report.get('team_count')}",
+    f"Player count: {report.get('player_count')}",
+    f"Stat count: {report.get('stat_count')}",
+    f"Depth reference candidates: {report.get('depth_candidate_count')}",
+    f"Validation status: {report.get('validation_status')}",
+    "",
+    "## Decoded Tables",
+    *[f"- {item}" for item in report.get("decoded_tables", [])],
+    "",
+    "## Blocked Tables",
+    *[f"- {item}" for item in report.get("blocked_tables", [])],
+    "",
+    "## Rule",
+    "No roster, rating, attribute, stat, or depth-chart value is promoted unless it is decoded from the save with field-level evidence.",
+    "",
+    "## Next Required Mapping",
+    str(report.get("next_required_mapping")),
+  ]
+  (reports / "dynasty_player_decode_report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+def run_dynasty_player_decode(args) -> int:
+  repo = root()
+  save_path = Path(args.dynasty_save) if args.dynasty_save else DEFAULT_DYNASTY_SAVE
+  if not save_path.exists():
+    print(f"Dynasty save not found: {save_path}", file=sys.stderr)
+    return 2
+  outputs = build_dynasty_player_decode_outputs(repo, save_path)
+  write_dynasty_player_decode_outputs(repo, outputs)
+  errors = validate_dynasty_player_decode_outputs(outputs)
+  report = outputs["dynasty_decode_report.json"]
+  print(json.dumps({
+    "status": "PASS" if not errors else "FAIL",
+    "source_save": str(save_path),
+    "team_count": report.get("team_count"),
+    "player_count": report.get("player_count"),
+    "stat_count": report.get("stat_count"),
+    "depth_candidate_count": report.get("depth_candidate_count"),
+    "validation_status": report.get("validation_status"),
+    "generated_dir": "data/generated/dynasty",
+    "report": "reports/dynasty_player_decode_report.md",
+    "errors": errors,
+  }, indent=2))
+  return 0 if not errors else 1
+
 def validate_dynasty_outputs(repo: Path, outputs: Optional[Dict[str, Any]] = None) -> List[str]:
   errors: List[str] = []
   dynasty_dir = repo / "data" / "generated" / "dynasty"
@@ -2218,6 +2673,10 @@ def run(args) -> int:
     return run_dynasty_mapping(args)
   if args.extract == "dynasty_compare":
     return run_dynasty_comparison(args)
+  if args.extract == "dynasty_slice":
+    return run_dynasty_slice(args)
+  if args.extract == "dynasty_players":
+    return run_dynasty_player_decode(args)
   repo, start = root(), time.perf_counter()
   tools = resolve_ffmpeg(repo)
   manifest = build_manifest(repo, tools, args.video, args.force)
@@ -2294,10 +2753,12 @@ def parse_args(argv=None):
   p.add_argument("--video")
   p.add_argument("--dry-run", action="store_true")
   p.add_argument("--review", action="store_true")
-  p.add_argument("--extract", choices=["roster_stats", "roster_sweep", "dynasty_save", "dynasty_map", "dynasty_compare"], help="Generate OCR-ready review crops, roster sweep outputs, direct dynasty-save JSON, dynasty binary mapping reports, or dynasty save comparison diffs.")
+  p.add_argument("--extract", choices=["roster_stats", "roster_sweep", "dynasty_save", "dynasty_map", "dynasty_compare", "dynasty_slice", "dynasty_players"], help="Generate OCR-ready review crops, roster sweep outputs, direct dynasty-save JSON, dynasty binary mapping reports, dynasty save comparison diffs, dynasty byte slice inspections, or save-backed player decoder outputs.")
   p.add_argument("--dynasty-save", help="Path to a CFB27 dynasty save file. Defaults to CFB27_DYNASTY_SAVE or DYNASTY-RUTGERSAPP.")
   p.add_argument("--compare-save", action="append", help="Path to a controlled comparison dynasty save for --extract dynasty_compare. Can be provided more than once.")
   p.add_argument("--compare-dir", help="Directory containing controlled comparison dynasty saves for --extract dynasty_compare.")
+  p.add_argument("--offset", type=int, default=0, help="Decompressed save offset for --extract dynasty_slice.")
+  p.add_argument("--length", type=int, default=128, help="Number of decompressed bytes to inspect for --extract dynasty_slice.")
   p.add_argument("--apply-review", action="store_true", help="Promote only review rows explicitly marked confirmed into generated extracted data.")
   return p.parse_args(argv)
 

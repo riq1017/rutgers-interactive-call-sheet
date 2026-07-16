@@ -217,3 +217,11 @@ Roster videos use a full-duration sweep path for player-card extraction. The swe
 ## Dynasty Hub Source Of Truth
 
 The long-term source of truth is the local CFB27 dynasty save file. The local runtime decodes `FBCHUNKS`, decompresses the zlib payload, and writes save-backed generated JSON under `data/generated/dynasty/`. Videos and legacy JSON are comparison-only and must not override save-backed values.
+
+## K. Dynasty Save Reader Standards
+
+The local CFB27 dynasty save reader is the long-term source-of-truth path for full Dynasty Hub data. Raw save files remain local and must not be committed. Generated save-backed JSON belongs under `data/generated/dynasty/` and every promoted value must carry save evidence, including source save path/hash, decompressed hash, decompressed offset, table or record name, confidence, and decode status.
+
+The current save reader confirms the `FBCHUNKS` container and Rutgers team identity, and it emits player-schema outputs through `python process_week.py --extract dynasty_players`. Player rows, player stats, and depth-chart references remain blocked decoder gaps until the binary Player table row boundaries, stable player references, and stat/depth foreign keys are proven. Candidate comparison bytes, including QB depth-chart reference swaps, are analysis-only and must not be treated as verified roster, rating, attribute, stat, or depth-chart data.
+
+The app must never fill save-reader gaps with legacy JSON, video OCR, or guessed football values. Legacy/manual/video data may be compared against save output, but save-backed generated packages may promote only values decoded from the save with field-level evidence. Ratings and attributes decoded from the save must remain inside valid game ranges before promotion.

@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-16T03:15:00.283Z
+Validated: 2026-07-16T12:08:02.765Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -329,6 +329,14 @@ Validated: 2026-07-16T03:15:00.283Z
 - PASS - Dynasty generated decoded values carry save-offset evidence
 - PASS - Dynasty unresolved tables are explicit decoder gaps
 - PASS - Raw dynasty save files are protected by gitignore
+- PASS - Dynasty player decoder outputs are complete when present
+- PASS - Dynasty player decoder carries save evidence on decoded fields
+- PASS - Dynasty player decoder does not promote unmapped Player rows
+- PASS - Dynasty player stats remain blocked until player stat row mapping is proven
+- PASS - Dynasty depth references remain candidate-only until they resolve to decoded players
+- PASS - Dynasty player decoder rejects invalid rating ranges
+- PASS - Dynasty player decode report separates decoded and blocked tables
+- PASS - Dynasty team decoder reports the current team without fabricating roster rows
 - PASS - Dynasty binary mapping outputs are complete when present
 - PASS - Dynasty binary mapping scanner promotes no football values
 - PASS - Dynasty binary mapping candidate windows carry save evidence

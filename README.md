@@ -92,3 +92,14 @@ Run `python process_week.py --extract roster_sweep --force` to scan the complete
 ## Local Dynasty Hub Save Reader
 
 Run `python process_week.py --extract dynasty_save` to read the local CFB27 dynasty save and generate `data/generated/dynasty/` JSON. Run `python dynasty_server.py --refresh` to refresh the generated data and serve the static hub locally at `http://127.0.0.1:8765`. Raw `DYNASTY-*` save files must stay local and are ignored by Git.
+
+## Read-Only CFB27 Parser Intake
+
+The guarded parser wrapper lives in `tools/cfb27_save_reader/`. It is separate from `process_week.py` and never edits the live save.
+
+```powershell
+python tools\cfb27_save_reader\locate_save.py --save-name DYNASTY-RUTGERSAPP
+python tools\cfb27_save_reader\inspect_save.py --save-name DYNASTY-RUTGERSAPP
+```
+
+The reader copies the source save into `data/dynasty/snapshots/`, verifies matching SHA-256 hashes, inspects only the copied file, and writes parser diagnostics under `data/dynasty/inspection/`. Parser binaries, schema bundles, copied snapshots, and raw parser JSON stay local and gitignored. Production JSON is not replaced by this command.

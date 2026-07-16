@@ -225,3 +225,11 @@ The local CFB27 dynasty save reader is the long-term source-of-truth path for fu
 The current save reader confirms the `FBCHUNKS` container and Rutgers team identity, and it emits player-schema outputs through `python process_week.py --extract dynasty_players`. Player rows, player stats, and depth-chart references remain blocked decoder gaps until the binary Player table row boundaries, stable player references, and stat/depth foreign keys are proven. Candidate comparison bytes, including QB depth-chart reference swaps, are analysis-only and must not be treated as verified roster, rating, attribute, stat, or depth-chart data.
 
 The app must never fill save-reader gaps with legacy JSON, video OCR, or guessed football values. Legacy/manual/video data may be compared against save output, but save-backed generated packages may promote only values decoded from the save with field-level evidence. Ratings and attributes decoded from the save must remain inside valid game ranges before promotion.
+
+## L. Read-Only Authorized Parser Layer
+
+`tools/cfb27_save_reader/` is the guarded read-only wrapper for authorized CFB27 save parser research. It must discover the save, copy it to a timestamped snapshot, verify source and copied SHA-256 hashes match, and run parser operations only against the copied file.
+
+The intended parser is the pinned local build of `leaguelines/cfb-dynasty`. Parser binaries and schema bundles, including any locally installed `madden-franchise` CFB27 schema reference, must stay out of Git. The reader records parser repository, pinned commit, executable hash, schema filename, and schema hash when configured.
+
+Normalized data produced by this layer uses `data/dynasty/normalized/dynasty_normalized.schema.json`. Every promoted field must use a provenanced value object with source, confidence, parser version, and raw reference. Parser output is `probable` until the Rutgers stable team ID and several visible game values are cross-checked across saved weeks. Comparison experiments remain experimental and must not promote roster, stats, recruiting, schedule, or depth-chart data.

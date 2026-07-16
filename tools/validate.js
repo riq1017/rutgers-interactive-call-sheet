@@ -794,6 +794,33 @@ if (dynastyComparePaths.some(file => fs.existsSync(file))) {
   }
 }
 
+// Read-only CFB27 parser wrapper validation
+const cfbReaderDir = path.join(root, 'tools', 'cfb27_save_reader');
+const cfbReaderFiles = [
+  '__init__.py',
+  'common.py',
+  'locate_save.py',
+  'copy_save.py',
+  'inspect_save.py',
+  'compare_saves.py',
+  'config.example.json',
+  'README.md'
+];
+check('Read-only CFB27 parser wrapper files exist', cfbReaderFiles.every(name => fs.existsSync(path.join(cfbReaderDir, name))));
+check('Read-only CFB27 normalized schema exists', fs.existsSync(path.join(root, 'data', 'dynasty', 'normalized', 'dynasty_normalized.schema.json')));
+if (fs.existsSync(path.join(root, 'data', 'dynasty', 'normalized', 'dynasty_normalized.schema.json'))) {
+  const cfbSchema = JSON.parse(fs.readFileSync(path.join(root, 'data', 'dynasty', 'normalized', 'dynasty_normalized.schema.json'), 'utf8'));
+  check('Read-only CFB27 schema declares provenanced values', cfbSchema.$defs && cfbSchema.$defs.provenancedValue && Array.isArray(cfbSchema.$defs.provenancedValue.required) && cfbSchema.$defs.provenancedValue.required.includes('source') && cfbSchema.$defs.provenancedValue.required.includes('raw_reference'));
+}
+const cfbGitignore = fs.readFileSync(path.join(root, '.gitignore'), 'utf8');
+check('Read-only CFB27 runtime and snapshots are gitignored', cfbGitignore.includes('tools/cfb27_save_reader/runtime/*') && cfbGitignore.includes('data/dynasty/snapshots/*') && cfbGitignore.includes('data/dynasty/raw/*'));
+if (fs.existsSync(path.join(cfbReaderDir, 'common.py'))) {
+  const cfbCommon = fs.readFileSync(path.join(cfbReaderDir, 'common.py'), 'utf8');
+  check('Read-only CFB27 reader rejects same source and snapshot file', cfbCommon.includes('Source save and destination snapshot resolve to the same file'));
+  check('Read-only CFB27 reader keeps parser unavailable as non-promoting status', cfbCommon.includes('parser_unavailable') && cfbCommon.includes('build_empty_normalized'));
+  check('Read-only CFB27 reader validates rating ranges', cfbCommon.includes('0 <= value <= 99'));
+}
+
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');
 console.log(report);

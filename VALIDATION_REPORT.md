@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-16T12:08:02.765Z
+Validated: 2026-07-16T15:48:19.343Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -344,5 +344,12 @@ Validated: 2026-07-16T12:08:02.765Z
 - PASS - Dynasty save comparison outputs are complete when present
 - PASS - Dynasty save comparison scanner promotes no football values
 - PASS - Dynasty save comparison segments carry save evidence
+- PASS - Read-only CFB27 parser wrapper files exist
+- PASS - Read-only CFB27 normalized schema exists
+- PASS - Read-only CFB27 schema declares provenanced values
+- PASS - Read-only CFB27 runtime and snapshots are gitignored
+- PASS - Read-only CFB27 reader rejects same source and snapshot file
+- PASS - Read-only CFB27 reader keeps parser unavailable as non-promoting status
+- PASS - Read-only CFB27 reader validates rating ranges
 
 Overall: PASS

@@ -13,5 +13,20 @@ reports/dynasty_save_reader_report.md
 data/generated/dynasty/*
 !data/generated/dynasty/.gitkeep
 
+# CFB27 read-only parser runtime and copied save snapshots
+tools/cfb27_save_reader/runtime/*
+tools/cfb27_save_reader/*.local.json
+data/dynasty/raw/*
+!data/dynasty/raw/.gitkeep
+data/dynasty/inspection/*
+!data/dynasty/inspection/.gitkeep
+!data/dynasty/inspection/experiments/
+data/dynasty/inspection/experiments/*
+!data/dynasty/inspection/experiments/.gitkeep
+data/dynasty/snapshots/*
+!data/dynasty/snapshots/.gitkeep
+data/dynasty/normalized/*
+!data/dynasty/normalized/dynasty_normalized.schema.json
+
 reports/dynasty_binary_mapping_report.md
 reports/dynasty_save_comparison_report.md

@@ -1,0 +1,9 @@
+{
+  "save_path": null,
+  "save_directories": [],
+  "parser_executable": null,
+  "parser_pinned_commit": null,
+  "schema_path": null,
+  "notes": "Keep parser binaries, schema bundles, and raw saves local and gitignored."
+}
+

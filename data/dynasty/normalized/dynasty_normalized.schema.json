@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.rutgers-gameday/dynasty_normalized.schema.json",
+  "title": "CFB27 Dynasty Normalized Data",
+  "type": "object",
+  "required": ["schema_version", "package_type", "source_of_truth", "status"],
+  "properties": {
+    "schema_version": { "const": "cfb27_save_reader_v1" },
+    "package_type": { "const": "cfb27_dynasty_normalized" },
+    "source_of_truth": { "const": "cfb27_dynasty_save" },
+    "status": { "type": "string" },
+    "season": { "anyOf": [{ "$ref": "#/$defs/provenancedValue" }, { "type": "null" }] },
+    "teams": { "type": "array", "items": { "type": "object" } },
+    "rosters": { "type": "array", "items": { "type": "object" } },
+    "players": { "type": "array", "items": { "type": "object" } },
+    "games": { "type": "array", "items": { "type": "object" } },
+    "season_stats": { "type": "array", "items": { "type": "object" } },
+    "injuries": { "type": "array", "items": { "type": "object" } },
+    "depth_charts": { "type": "array", "items": { "type": "object" } },
+    "recruiting": { "type": "array", "items": { "type": "object" } },
+    "awards": { "type": "array", "items": { "type": "object" } },
+    "source": { "type": "object" },
+    "parser": { "type": "object" },
+    "validation_errors": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "provenancedValue": {
+      "type": "object",
+      "required": ["value", "source", "confidence", "parser_version", "raw_reference"],
+      "properties": {
+        "value": {},
+        "source": { "type": "object" },
+        "confidence": { "type": "string" },
+        "parser_version": { "type": "string" },
+        "raw_reference": { "anyOf": [{ "type": "string" }, { "type": "null" }] }
+      },
+      "additionalProperties": false
+    }
+  }
+}
+

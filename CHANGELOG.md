@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Read-only CFB27 parser intake layer
+- Added `tools/cfb27_save_reader/` as a standalone guarded parser wrapper for local CFB27 dynasty saves.
+- Added save discovery, read-only snapshot copying, FBCHUNKS container inspection, parser diagnostics, experimental save comparison, and isolated tests.
+- Added `data/dynasty/normalized/dynasty_normalized.schema.json` for the future parser-backed normalized Dynasty Hub contract.
+- Added gitignore protections for parser runtimes, schema bundles, raw parser output, copied snapshots, and experiment outputs.
+- Documented that this layer does not replace production JSON or promote comparison-derived values.
+
 ## Save-backed dynasty player decoder foundation
 - Added `process_week.py --extract dynasty_players` to generate save-backed dynasty player schema outputs from the CFB27 `FBCHUNKS` dynasty save.
 - Generated `dynasty_teams.json`, `dynasty_players.json`, `dynasty_player_stats.json`, `dynasty_depth_chart_candidates.json`, and `dynasty_decode_report.json` under `data/generated/dynasty/`.

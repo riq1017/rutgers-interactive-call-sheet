@@ -1,6 +1,15 @@
-
+﻿
 
 # Video source-of-truth intake: keep raw captures local
 input_videos/*
 !input_videos/.gitkeep
 data/generated/.video_cache.json
+
+# Local game saves: never commit raw dynasty/franchise files
+*.save
+DYNASTY-*
+data/generated/dynasty/raw/*
+reports/dynasty_save_reader_report.md
+data/generated/dynasty/*
+!data/generated/dynasty/.gitkeep
+

@@ -1,7 +1,7 @@
 ﻿#!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse, csv, hashlib, json, os, re, shutil, subprocess, sys, time
+import argparse, csv, hashlib, json, os, re, shutil, subprocess, sys, time, zlib
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -23,6 +23,22 @@ COMMON_TESSERACT_PATHS = [
 ]
 REVIEW_STATUSES = {"needs_manual_review", "confirmed", "rejected", "ocr_draft_needs_confirmation"}
 PROMOTION_EVIDENCE_KEYS = ("source_video", "source_video_hash", "timestamp", "frame_number", "crop_path")
+
+DEFAULT_DYNASTY_SAVE = Path(os.environ.get("CFB27_DYNASTY_SAVE", r"C:\\Users\\tharg\\Documents\\EA SPORTS College Football 27\\saves\\DYNASTY-RUTGERSAPP"))
+DYNASTY_GENERATED_FILES = [
+  "current_team.json", "current_roster.json", "depth_chart.json", "schedule.json",
+  "weekly_opponent.json", "player_stats.json", "recruiting_board.json", "source_truth_summary.json",
+]
+DYNASTY_SCHEMA_VERSION = "dynasty_save_reader_v1"
+DYNASTY_TABLE_ANCHORS = {
+  "team": ["teamdb_ru", "Rutgers", "Scarlet Knights", "RUTG"],
+  "roster": ["Player", "PlayerStatRecords", "PlayerTypeGradeTable", "OverallPercentage"],
+  "depth_chart": ["ForcedDepthChartEntry", "Depth Chart", "PositionRecordTable"],
+  "schedule": ["ScheduleKnownGame", "ScheduleKnownGames", "ScheduleStructureEntry", "ScheduleStructureYearExact"],
+  "stats": ["SeasonOffensiveStats", "SeasonDefensiveStats", "GameOffensiveStats", "GameDefensiveStats", "PlayerStatRecords"],
+  "recruiting": ["Recruit", "Scouting", "Prospect", "PlayerTypeGradeTable"],
+  "awards": ["PlayerAward", "CoachAward", "AnnualAwards", "Players of the Week"],
+}
 
 
 REVIEW_PACKAGES = {
@@ -172,6 +188,242 @@ def evidence(video: Dict[str, Any], screen: Dict[str, Any], confidence: float = 
 def field(value: Any, ev: Dict[str, Any]) -> Dict[str, Any]:
   return {"value": value, "evidence": dict(ev)}
 
+
+
+def find_zlib_start(buf: bytes, search_limit: int = 4096) -> int:
+  limit = min(len(buf) - 1, search_limit)
+  for i in range(max(0, limit)):
+    if buf[i] == 0x78 and buf[i + 1] in (0x01, 0x5E, 0x9C, 0xDA):
+      try:
+        zlib.decompress(buf[i:])
+        return i
+      except zlib.error:
+        continue
+  raise ValueError("No valid zlib stream found in first 4096 bytes")
+
+def read_dynasty_save(save_path: Path) -> Dict[str, Any]:
+  raw = save_path.read_bytes()
+  offset = find_zlib_start(raw)
+  decompressed = zlib.decompress(raw[offset:])
+  return {
+    "path": str(save_path),
+    "signature": raw[:8].decode("latin1", errors="replace"),
+    "compressed_offset": offset,
+    "raw_size": len(raw),
+    "decompressed_size": len(decompressed),
+    "raw_sha256": hashlib.sha256(raw).hexdigest(),
+    "decompressed_sha256": hashlib.sha256(decompressed).hexdigest(),
+    "raw": raw,
+    "decompressed": decompressed,
+  }
+
+def extract_ascii_strings_from_bytes(buf: bytes, min_len: int = 4) -> List[Dict[str, Any]]:
+  out: List[Dict[str, Any]] = []
+  start = -1
+  for i in range(len(buf) + 1):
+    c = buf[i] if i < len(buf) else 0
+    printable = 0x20 <= c <= 0x7E
+    if printable and start < 0:
+      start = i
+    if (not printable or i == len(buf)) and start >= 0:
+      if i - start >= min_len:
+        out.append({"offset": start, "value": buf[start:i].decode("latin1", errors="replace")})
+      start = -1
+  return out
+
+def dynasty_context(buf: bytes, offset: int, radius: int = 180) -> str:
+  return buf[max(0, offset - radius):min(len(buf), offset + radius)].decode("latin1", errors="replace").replace("\x00", ".")
+
+def dynasty_hits(strings: List[Dict[str, Any]], terms: List[str], limit: int = 50) -> List[Dict[str, Any]]:
+  lower_terms = [term.lower() for term in terms]
+  hits_out = []
+  for item in strings:
+    value = str(item.get("value", ""))
+    if any(term in value.lower() for term in lower_terms):
+      hits_out.append(item)
+    if len(hits_out) >= limit:
+      break
+  return hits_out
+
+def save_evidence(save_info: Dict[str, Any], offset: Optional[int], record_name: str, confidence: str = "confirmed", decode_status: str = "decoded") -> Dict[str, Any]:
+  return {
+    "source_save": save_info["path"],
+    "raw_sha256": save_info["raw_sha256"],
+    "decompressed_sha256": save_info["decompressed_sha256"],
+    "decompressed_offset": offset,
+    "record_name": record_name,
+    "confidence": confidence,
+    "decode_status": decode_status,
+  }
+
+def save_field(value: Any, save_info: Dict[str, Any], offset: Optional[int], record_name: str, confidence: str = "confirmed", decode_status: str = "decoded") -> Dict[str, Any]:
+  return {"value": value, "evidence": save_evidence(save_info, offset, record_name, confidence, decode_status)}
+
+def undecoded_section(name: str, save_info: Dict[str, Any], anchors: List[Dict[str, Any]]) -> Dict[str, Any]:
+  return {
+    "decode_status": "not_decoded",
+    "confidence": "unknown",
+    "record_name": name,
+    "note": "Binary serialized records are present or suspected, but field offsets are not mapped safely yet. No values are guessed.",
+    "anchor_evidence": [
+      {
+        "value": hit.get("value"),
+        "decompressed_offset": hit.get("offset"),
+        "evidence": save_evidence(save_info, hit.get("offset"), name, "anchor_only", "not_decoded"),
+      }
+      for hit in anchors[:12]
+    ],
+  }
+
+def extract_dynasty_team(save_info: Dict[str, Any], strings: List[Dict[str, Any]]) -> Dict[str, Any]:
+  teamdb = next((s for s in strings if s.get("value") == "teamdb_ru"), None)
+  nearby = [s for s in strings if teamdb and teamdb["offset"] - 420 <= s.get("offset", -1) <= teamdb["offset"] + 140]
+  values = [s["value"] for s in nearby]
+  def offset_for(value: str) -> Optional[int]:
+    found = next((s for s in nearby if s.get("value") == value), None)
+    return found.get("offset") if found else (teamdb.get("offset") if teamdb else None)
+  return {
+    "package_type": "current_team",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "source_of_truth": "cfb27_dynasty_save",
+    "decode_status": "partial_decode" if teamdb else "not_decoded",
+    "school": save_field("Rutgers" if "Rutgers" in values else None, save_info, offset_for("Rutgers"), "team_database", "confirmed" if "Rutgers" in values else "unknown", "decoded" if "Rutgers" in values else "not_decoded"),
+    "abbreviation": save_field("RUTG" if "RUTG" in values else None, save_info, offset_for("RUTG"), "team_database", "confirmed" if "RUTG" in values else "unknown", "decoded" if "RUTG" in values else "not_decoded"),
+    "short_code": save_field("RU" if teamdb else None, save_info, offset_for("teamdb_ru"), "team_database", "confirmed" if teamdb else "unknown", "decoded" if teamdb else "not_decoded"),
+    "nickname": save_field("Scarlet Knights" if "Scarlet Knights" in values else None, save_info, offset_for("Scarlet Knights"), "team_database", "confirmed" if "Scarlet Knights" in values else "unknown", "decoded" if "Scarlet Knights" in values else "not_decoded"),
+    "hashtags": save_field([v for v in values if v in ("#CHOP", "#BirthplaceofCFB")], save_info, offset_for("#CHOP"), "team_database"),
+    "raw_nearby_strings": values,
+  }
+
+def build_dynasty_save_outputs(repo: Path, save_path: Path) -> Dict[str, Any]:
+  save_info = read_dynasty_save(save_path)
+  strings = extract_ascii_strings_from_bytes(save_info["decompressed"])
+  anchor_hits: Dict[str, List[Dict[str, Any]]] = {}
+  for table, terms in DYNASTY_TABLE_ANCHORS.items():
+    anchor_hits[table] = [
+      {**hit, "context": dynasty_context(save_info["decompressed"], hit["offset"])}
+      for hit in dynasty_hits(strings, terms)
+    ]
+  current_team = extract_dynasty_team(save_info, strings)
+  unresolved_tables = ["roster", "depth_chart", "schedule", "stats", "recruiting", "awards"]
+  outputs = {
+    "current_team.json": current_team,
+    "current_roster.json": {"package_type": "current_roster", "schema_version": DYNASTY_SCHEMA_VERSION, "source_of_truth": "cfb27_dynasty_save", "players": [], **undecoded_section("Player/Roster", save_info, anchor_hits["roster"])},
+    "depth_chart.json": {"package_type": "depth_chart", "schema_version": DYNASTY_SCHEMA_VERSION, "source_of_truth": "cfb27_dynasty_save", "positions": {}, **undecoded_section("ForcedDepthChartEntry", save_info, anchor_hits["depth_chart"])},
+    "schedule.json": {"package_type": "schedule", "schema_version": DYNASTY_SCHEMA_VERSION, "source_of_truth": "cfb27_dynasty_save", "games": [], **undecoded_section("ScheduleKnownGame", save_info, anchor_hits["schedule"])},
+    "weekly_opponent.json": {"package_type": "weekly_opponent", "schema_version": DYNASTY_SCHEMA_VERSION, "source_of_truth": "cfb27_dynasty_save", "opponent": None, **undecoded_section("WeeklyOpponent", save_info, anchor_hits["schedule"])},
+    "player_stats.json": {"package_type": "player_stats", "schema_version": DYNASTY_SCHEMA_VERSION, "source_of_truth": "cfb27_dynasty_save", "player_stats": [], "team_stats": [], **undecoded_section("PlayerStatRecords", save_info, anchor_hits["stats"])},
+    "recruiting_board.json": {"package_type": "recruiting_board", "schema_version": DYNASTY_SCHEMA_VERSION, "source_of_truth": "cfb27_dynasty_save", "recruits": [], **undecoded_section("Recruiting/Scouting", save_info, anchor_hits["recruiting"])},
+  }
+  outputs["source_truth_summary.json"] = {
+    "package_type": "dynasty_source_truth_summary",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "generated_at": now(),
+    "source_of_truth": "cfb27_dynasty_save",
+    "save": {
+      "path": save_info["path"],
+      "signature": save_info["signature"],
+      "compressed_offset": save_info["compressed_offset"],
+      "raw_size": save_info["raw_size"],
+      "decompressed_size": save_info["decompressed_size"],
+      "raw_sha256": save_info["raw_sha256"],
+      "decompressed_sha256": save_info["decompressed_sha256"],
+    },
+    "decoded_tables": ["team_database"] if current_team.get("decode_status") == "partial_decode" else [],
+    "unresolved_tables": unresolved_tables,
+    "decode_confidence": "container_confirmed_team_partial_records_unmapped",
+    "string_count": len(strings),
+    "anchor_counts": {key: len(value) for key, value in anchor_hits.items()},
+    "rule": "Game save values win. Legacy/manual/video data is comparison-only and cannot override save-backed values.",
+  }
+  outputs["_internal"] = {"save_info": {k: v for k, v in save_info.items() if k not in ("raw", "decompressed")}, "anchor_hits": anchor_hits}
+  return outputs
+
+def validate_dynasty_outputs(repo: Path, outputs: Optional[Dict[str, Any]] = None) -> List[str]:
+  errors: List[str] = []
+  dynasty_dir = repo / "data" / "generated" / "dynasty"
+  if outputs is None:
+    outputs = {name: read_json(dynasty_dir / name, {}) for name in DYNASTY_GENERATED_FILES}
+  for name in DYNASTY_GENERATED_FILES:
+    if name not in outputs and not (dynasty_dir / name).exists():
+      errors.append(f"missing dynasty generated file {name}")
+  summary = outputs.get("source_truth_summary.json", {})
+  save = summary.get("save", {})
+  for key in ("path", "signature", "compressed_offset", "raw_sha256", "decompressed_sha256", "decompressed_size"):
+    if key not in save or save.get(key) in (None, ""):
+      errors.append(f"source_truth_summary.save missing {key}")
+  if save.get("signature") != "FBCHUNKS":
+    errors.append("dynasty save signature is not FBCHUNKS")
+  team = outputs.get("current_team.json", {})
+  if ((team.get("school") or {}).get("value") != "Rutgers"):
+    errors.append("Rutgers team identity did not decode")
+  def walk_save_fields(value: Any, loc: str) -> None:
+    if isinstance(value, dict):
+      if "value" in value and "evidence" in value:
+        ev = value.get("evidence") or {}
+        for key in ("source_save", "raw_sha256", "decompressed_sha256", "decompressed_offset", "record_name", "confidence", "decode_status"):
+          if key not in ev:
+            errors.append(f"{loc}.evidence missing {key}")
+      for key, child in value.items():
+        walk_save_fields(child, f"{loc}.{key}")
+    elif isinstance(value, list):
+      for idx, child in enumerate(value):
+        walk_save_fields(child, f"{loc}[{idx}]")
+  for name in DYNASTY_GENERATED_FILES:
+    walk_save_fields(outputs.get(name, read_json(dynasty_dir / name, {})), name)
+  return errors
+
+def write_dynasty_outputs(repo: Path, outputs: Dict[str, Any]) -> None:
+  dynasty_dir = repo / "data" / "generated" / "dynasty"
+  dynasty_dir.mkdir(parents=True, exist_ok=True)
+  for name in DYNASTY_GENERATED_FILES:
+    write_json(dynasty_dir / name, outputs[name])
+  reports = repo / "reports"
+  reports.mkdir(exist_ok=True)
+  summary = outputs["source_truth_summary.json"]
+  current_team = outputs["current_team.json"]
+  report = [
+    "# Dynasty Save Reader Report",
+    "",
+    f"Source save: {summary['save']['path']}",
+    f"Signature: {summary['save']['signature']}",
+    f"Compressed offset: {summary['save']['compressed_offset']}",
+    f"Decompressed size: {summary['save']['decompressed_size']} bytes",
+    f"Raw SHA256: {summary['save']['raw_sha256']}",
+    f"Decompressed SHA256: {summary['save']['decompressed_sha256']}",
+    "",
+    "## Confirmed",
+    f"- Team: {(current_team.get('school') or {}).get('value')} / {(current_team.get('nickname') or {}).get('value')} / {(current_team.get('abbreviation') or {}).get('value')}",
+    "- Save container is readable and zlib payload decompresses.",
+    "",
+    "## Decoder Gaps",
+    *[f"- {table}" for table in summary.get("unresolved_tables", [])],
+    "",
+    "No roster/stat/recruiting/depth values are guessed. Unresolved tables are decoder work, not final app data.",
+  ]
+  (reports / "dynasty_save_reader_report.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+
+def run_dynasty_save_reader(args) -> int:
+  repo = root()
+  save_path = Path(args.dynasty_save) if args.dynasty_save else DEFAULT_DYNASTY_SAVE
+  if not save_path.exists():
+    print(f"Dynasty save not found: {save_path}", file=sys.stderr)
+    return 2
+  outputs = build_dynasty_save_outputs(repo, save_path)
+  public_outputs = {key: value for key, value in outputs.items() if key != "_internal"}
+  write_dynasty_outputs(repo, public_outputs)
+  errors = validate_dynasty_outputs(repo, public_outputs)
+  print(json.dumps({
+    "status": "PASS" if not errors else "FAIL",
+    "source_save": str(save_path),
+    "signature": public_outputs["source_truth_summary.json"]["save"]["signature"],
+    "compressed_offset": public_outputs["source_truth_summary.json"]["save"]["compressed_offset"],
+    "decoded_tables": public_outputs["source_truth_summary.json"].get("decoded_tables", []),
+    "unresolved_tables": public_outputs["source_truth_summary.json"].get("unresolved_tables", []),
+    "generated_dir": "data/generated/dynasty",
+    "errors": errors,
+  }, indent=2))
+  return 0 if not errors else 1
 
 def resolve_tesseract(repo: Optional[Path] = None) -> Dict[str, Any]:
   repo = repo or root()
@@ -1520,6 +1772,8 @@ def write_roster_sweep_reports(repo: Path, sweep: Dict[str, Any]) -> None:
   (reports / "manual_review_required.md").write_text(manual_body, encoding="utf-8")
 
 def run(args) -> int:
+  if args.extract == "dynasty_save":
+    return run_dynasty_save_reader(args)
   repo, start = root(), time.perf_counter()
   tools = resolve_ffmpeg(repo)
   manifest = build_manifest(repo, tools, args.video, args.force)
@@ -1591,12 +1845,13 @@ def run(args) -> int:
   return 0 if not errors else 1
 
 def parse_args(argv=None):
-  p = argparse.ArgumentParser(description="Process weekly source-of-truth videos.")
+  p = argparse.ArgumentParser(description="Process source-of-truth inputs for the Dynasty Hub.")
   p.add_argument("--force", action="store_true")
   p.add_argument("--video")
   p.add_argument("--dry-run", action="store_true")
   p.add_argument("--review", action="store_true")
-  p.add_argument("--extract", choices=["roster_stats", "roster_sweep"], help="Generate OCR-ready review crops, structured imports, or full roster sweep outputs.")
+  p.add_argument("--extract", choices=["roster_stats", "roster_sweep", "dynasty_save"], help="Generate OCR-ready review crops, roster sweep outputs, or direct dynasty-save JSON.")
+  p.add_argument("--dynasty-save", help="Path to a CFB27 dynasty save file. Defaults to CFB27_DYNASTY_SAVE or DYNASTY-RUTGERSAPP.")
   p.add_argument("--apply-review", action="store_true", help="Promote only review rows explicitly marked confirmed into generated extracted data.")
   return p.parse_args(argv)
 

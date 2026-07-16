@@ -88,3 +88,7 @@ Tesseract OCR is optional but now supported by `process_week.py`. Detection orde
 ### Full Roster Sweep
 
 Run `python process_week.py --extract roster_sweep --force` to scan the complete Rutgers and Purdue roster videos at 4 fps, add burst samples around roster/card/table changes, dedupe unique roster/player-card appearances, and write merged player records with crop-level evidence. The highlighted roster table row is the primary identity source; side-card OCR may enrich that player record, but it cannot create a new player identity. The approved UI is not modified by this command.
+
+## Local Dynasty Hub Save Reader
+
+Run `python process_week.py --extract dynasty_save` to read the local CFB27 dynasty save and generate `data/generated/dynasty/` JSON. Run `python dynasty_server.py --refresh` to refresh the generated data and serve the static hub locally at `http://127.0.0.1:8765`. Raw `DYNASTY-*` save files must stay local and are ignored by Git.

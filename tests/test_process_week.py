@@ -183,5 +183,43 @@ class VideoSourceTruthTests(unittest.TestCase):
         self.assertEqual(ev["crop_path"], "assets/review_crops/x.jpg")
         self.assertTrue(ev["manual_review"])
 
+
+    def test_dynasty_zlib_start_and_reader(self):
+        import zlib
+        payload = b"Rutgers\x00teamdb_ru\x00Scarlet Knights\x00RUTG"
+        raw = b"FBCHUNKS" + b"x" * 10 + zlib.compress(payload)
+        with tempfile.TemporaryDirectory() as tmp:
+            save = Path(tmp) / "DYNASTY-TEST"
+            save.write_bytes(raw)
+            info = process_week.read_dynasty_save(save)
+            self.assertEqual(info["signature"], "FBCHUNKS")
+            self.assertGreaterEqual(info["compressed_offset"], 8)
+            self.assertEqual(info["decompressed"], payload)
+
+    def test_dynasty_save_field_has_offset_evidence(self):
+        save_info = {
+            "path": "DYNASTY-TEST",
+            "raw_sha256": "raw",
+            "decompressed_sha256": "dec",
+        }
+        item = process_week.save_field("Rutgers", save_info, 123, "team_database")
+        ev = item["evidence"]
+        for key in ["source_save", "raw_sha256", "decompressed_sha256", "decompressed_offset", "record_name", "confidence", "decode_status"]:
+            self.assertIn(key, ev)
+
+    def test_dynasty_outputs_validate_with_mock_save(self):
+        import zlib
+        payload = b"Rutgers\x00#CHOP\x00#BirthplaceofCFB\x00RUTG\x00Scarlet Knights\x00teamdb_ru\x00Player\x00PlayerStatRecords\x00ScheduleKnownGame\x00ForcedDepthChartEntry"
+        raw = b"FBCHUNKS" + b"\x00" * 74 + zlib.compress(payload)
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            save = repo / "DYNASTY-TEST"
+            save.write_bytes(raw)
+            outputs = process_week.build_dynasty_save_outputs(repo, save)
+            public = {k: v for k, v in outputs.items() if k != "_internal"}
+            self.assertEqual(public["current_team.json"]["school"]["value"], "Rutgers")
+            self.assertIn("roster", public["source_truth_summary.json"]["unresolved_tables"])
+            self.assertEqual(process_week.validate_dynasty_outputs(repo, public), [])
+
 if __name__ == "__main__":
     unittest.main()

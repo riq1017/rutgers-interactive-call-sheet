@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-14T02:18:14.818Z
+Validated: 2026-07-16T02:34:57.971Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -323,5 +323,11 @@ Validated: 2026-07-14T02:18:14.818Z
 - PASS - opponent_roster_extracted.json promoted review fields have confirmed crop evidence
 - PASS - current_team_season_stats_extracted.json promoted review fields have confirmed crop evidence
 - PASS - opponent_season_stats_extracted.json promoted review fields have confirmed crop evidence
+- PASS - Dynasty save generated files exist
+- PASS - Dynasty save source truth uses FBCHUNKS save container
+- PASS - Dynasty save reader confirms Rutgers team identity
+- PASS - Dynasty generated decoded values carry save-offset evidence
+- PASS - Dynasty unresolved tables are explicit decoder gaps
+- PASS - Raw dynasty save files are protected by gitignore
 
 Overall: PASS

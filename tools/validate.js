@@ -682,6 +682,50 @@ function validateReviewImports() {
 }
 validateReviewImports();
 
+
+
+// Dynasty save-file reader validation
+const dynastyDir = path.join(generatedDir, 'dynasty');
+const dynastyNames = [
+  'current_team.json',
+  'current_roster.json',
+  'depth_chart.json',
+  'schedule.json',
+  'weekly_opponent.json',
+  'player_stats.json',
+  'recruiting_board.json',
+  'source_truth_summary.json'
+];
+function readDynastyJson(name) {
+  return JSON.parse(fs.readFileSync(path.join(dynastyDir, name), 'utf8'));
+}
+function dynastyEvidenceProblems(value, location, problems = []) {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => dynastyEvidenceProblems(item, `${location}[${index}]`, problems));
+    return problems;
+  }
+  if (value && typeof value === 'object') {
+    if (Object.prototype.hasOwnProperty.call(value, 'value') && Object.prototype.hasOwnProperty.call(value, 'evidence')) {
+      const ev = value.evidence || {};
+      ['source_save','raw_sha256','decompressed_sha256','decompressed_offset','record_name','confidence','decode_status'].forEach(key => {
+        if (!Object.prototype.hasOwnProperty.call(ev, key)) problems.push(`${location}.${key}`);
+      });
+    }
+    Object.keys(value).forEach(key => dynastyEvidenceProblems(value[key], `${location}.${key}`, problems));
+  }
+  return problems;
+}
+check('Dynasty save generated files exist', dynastyNames.every(name => fs.existsSync(path.join(dynastyDir, name))));
+if (dynastyNames.every(name => fs.existsSync(path.join(dynastyDir, name)))) {
+  const dynastySummary = readDynastyJson('source_truth_summary.json');
+  const dynastyTeam = readDynastyJson('current_team.json');
+  check('Dynasty save source truth uses FBCHUNKS save container', dynastySummary.save && dynastySummary.save.signature === 'FBCHUNKS' && dynastySummary.save.compressed_offset === 82);
+  check('Dynasty save reader confirms Rutgers team identity', dynastyTeam.school && dynastyTeam.school.value === 'Rutgers' && dynastyTeam.nickname && dynastyTeam.nickname.value === 'Scarlet Knights');
+  check('Dynasty generated decoded values carry save-offset evidence', dynastyNames.flatMap(name => dynastyEvidenceProblems(readDynastyJson(name), name)).length === 0);
+  check('Dynasty unresolved tables are explicit decoder gaps', Array.isArray(dynastySummary.unresolved_tables) && dynastySummary.unresolved_tables.includes('roster') && dynastySummary.unresolved_tables.includes('stats'));
+  check('Raw dynasty save files are protected by gitignore', fs.readFileSync(path.join(root, '.gitignore'), 'utf8').includes('DYNASTY-*'));
+}
+
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');
 console.log(report);

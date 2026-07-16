@@ -315,3 +315,10 @@
 - Added validation for full-duration coverage, deduped player records, team separation, and field-level evidence.
 - Updated roster sweep to default to 4 fps and add dynamic burst frames around detected changes.
 - Changed roster sweep identity ownership so the highlighted roster table row creates the player identity and side-card OCR can only enrich that roster-owned record.
+
+## Dynasty Hub Save Reader Foundation
+
+- Added direct CFB27 dynasty save-reader mode to `process_week.py`.
+- Added local Dynasty Hub server entrypoint for serving static UI plus generated save JSON.
+- Added generated dynasty source-truth validation and tests.
+- Protected raw `DYNASTY-*` save files from Git.

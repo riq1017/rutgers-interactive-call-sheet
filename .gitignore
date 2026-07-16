@@ -13,3 +13,4 @@ reports/dynasty_save_reader_report.md
 data/generated/dynasty/*
 !data/generated/dynasty/.gitkeep
 
+reports/dynasty_binary_mapping_report.md

@@ -30,6 +30,15 @@ DYNASTY_GENERATED_FILES = [
   "weekly_opponent.json", "player_stats.json", "recruiting_board.json", "source_truth_summary.json",
 ]
 DYNASTY_SCHEMA_VERSION = "dynasty_save_reader_v1"
+
+DYNASTY_MAPPING_FILES = [
+  "table_candidates.json", "known_value_correlations.json", "binary_mapping_summary.json",
+]
+DYNASTY_ROW_SIZE_CANDIDATES = (16, 24, 32, 40, 48, 64, 80, 96, 128, 160, 192, 256)
+DYNASTY_MAPPING_WINDOW_BEFORE = 2048
+DYNASTY_MAPPING_WINDOW_AFTER = 8192
+DYNASTY_KNOWN_VALUE_LIMIT = 800
+DYNASTY_CORRELATION_LIMIT_PER_WINDOW = 80
 DYNASTY_TABLE_ANCHORS = {
   "team": ["teamdb_ru", "Rutgers", "Scarlet Knights", "RUTG"],
   "roster": ["Player", "PlayerStatRecords", "PlayerTypeGradeTable", "OverallPercentage"],
@@ -339,6 +348,273 @@ def build_dynasty_save_outputs(repo: Path, save_path: Path) -> Dict[str, Any]:
   outputs["_internal"] = {"save_info": {k: v for k, v in save_info.items() if k not in ("raw", "decompressed")}, "anchor_hits": anchor_hits}
   return outputs
 
+
+def dynasty_relative(path: Path, repo: Path) -> str:
+  try:
+    return path.relative_to(repo).as_posix()
+  except ValueError:
+    return str(path)
+
+def byte_window_profile(buf: bytes) -> Dict[str, Any]:
+  if not buf:
+    return {"length": 0, "zero_ratio": 0.0, "ascii_ratio": 0.0, "unique_byte_count": 0, "sha256": hashlib.sha256(buf).hexdigest()}
+  zeros = buf.count(0)
+  ascii_count = sum(1 for b in buf if b in (9, 10, 13) or 32 <= b <= 126)
+  return {
+    "length": len(buf),
+    "zero_ratio": round(zeros / len(buf), 4),
+    "ascii_ratio": round(ascii_count / len(buf), 4),
+    "unique_byte_count": len(set(buf)),
+    "sha256": hashlib.sha256(buf).hexdigest(),
+  }
+
+def row_size_profiles(buf: bytes, row_sizes: Tuple[int, ...] = DYNASTY_ROW_SIZE_CANDIDATES) -> List[Dict[str, Any]]:
+  profiles: List[Dict[str, Any]] = []
+  for row_size in row_sizes:
+    if row_size <= 0 or len(buf) < row_size * 3:
+      continue
+    row_count = min(128, len(buf) // row_size)
+    rows = [buf[i * row_size:(i + 1) * row_size] for i in range(row_count)]
+    rating_columns = []
+    id_like_columns = []
+    for col in range(row_size):
+      vals = [row[col] for row in rows if len(row) > col]
+      if not vals:
+        continue
+      non_zero = sum(1 for v in vals if v != 0)
+      plausible_rating = sum(1 for v in vals if 0 <= v <= 99)
+      unique_count = len(set(vals))
+      if non_zero >= max(2, len(vals) * 0.15) and plausible_rating >= len(vals) * 0.82 and unique_count >= 3:
+        rating_columns.append({"offset": col, "unique_values": unique_count, "non_zero_ratio": round(non_zero / len(vals), 3)})
+      if unique_count >= min(12, max(4, len(vals) // 3)) and non_zero >= len(vals) * 0.45:
+        id_like_columns.append({"offset": col, "unique_values": unique_count, "non_zero_ratio": round(non_zero / len(vals), 3)})
+    profiles.append({
+      "row_size": row_size,
+      "sample_rows": row_count,
+      "plausible_rating_columns": rating_columns[:16],
+      "id_like_columns": id_like_columns[:16],
+      "score": len(rating_columns) * 2 + len(id_like_columns),
+    })
+  return sorted(profiles, key=lambda item: item.get("score", 0), reverse=True)
+
+def numeric_values_from_json(value: Any, source: str, out: List[Dict[str, Any]], key_path: str = "") -> None:
+  interesting = ("ovr", "overall", "speed", "spd", "acc", "acceleration", "agi", "agility", "cod", "awr", "awareness", "str", "strength", "thp", "sac", "mac", "dac", "yds", "yards", "td", "int", "sack", "tak", "tackle", "rank", "stars")
+  if len(out) >= DYNASTY_KNOWN_VALUE_LIMIT:
+    return
+  if isinstance(value, dict):
+    for key, child in value.items():
+      next_path = f"{key_path}.{key}" if key_path else str(key)
+      numeric_values_from_json(child, source, out, next_path)
+      if len(out) >= DYNASTY_KNOWN_VALUE_LIMIT:
+        return
+  elif isinstance(value, list):
+    for idx, child in enumerate(value[:250]):
+      numeric_values_from_json(child, source, out, f"{key_path}[{idx}]")
+      if len(out) >= DYNASTY_KNOWN_VALUE_LIMIT:
+        return
+  elif isinstance(value, (int, float)) and not isinstance(value, bool):
+    leaf = key_path.rsplit(".", 1)[-1].lower()
+    if any(token in leaf for token in interesting):
+      number = int(value)
+      if 0 <= number <= 10000:
+        out.append({"field": key_path, "value": number, "source": source})
+
+def collect_known_numeric_values(repo: Path) -> List[Dict[str, Any]]:
+  data_dir = repo / "data"
+  if not data_dir.exists():
+    return []
+  collected: List[Dict[str, Any]] = []
+  seen = set()
+  for path in sorted(data_dir.rglob("*.json")):
+    if "generated" in path.parts:
+      continue
+    payload = read_json(path, None)
+    if payload is None:
+      continue
+    before = len(collected)
+    numeric_values_from_json(payload, dynasty_relative(path, repo), collected)
+    deduped: List[Dict[str, Any]] = []
+    for item in collected:
+      ident = (item["field"].lower(), item["value"], item["source"])
+      if ident in seen:
+        continue
+      seen.add(ident)
+      deduped.append(item)
+    collected = deduped
+    if len(collected) >= DYNASTY_KNOWN_VALUE_LIMIT:
+      break
+    if len(collected) == before and path.stat().st_size > 2_000_000:
+      continue
+  return collected[:DYNASTY_KNOWN_VALUE_LIMIT]
+
+def encoded_numeric_patterns(value: int) -> List[Tuple[str, bytes]]:
+  patterns: List[Tuple[str, bytes]] = []
+  if 0 <= value <= 0xFF:
+    patterns.append(("u8", bytes([value])))
+  if 0 <= value <= 0xFFFF:
+    patterns.append(("u16le", int(value).to_bytes(2, "little")))
+    patterns.append(("u16be", int(value).to_bytes(2, "big")))
+  if 0 <= value <= 0xFFFFFFFF:
+    patterns.append(("u32le", int(value).to_bytes(4, "little")))
+  return patterns
+
+def find_pattern_offsets(buf: bytes, pattern: bytes, limit: int = 6) -> List[int]:
+  offsets: List[int] = []
+  if not pattern:
+    return offsets
+  start = 0
+  while len(offsets) < limit:
+    idx = buf.find(pattern, start)
+    if idx < 0:
+      break
+    offsets.append(idx)
+    start = idx + 1
+  return offsets
+
+def correlate_known_values(buf: bytes, known_values: List[Dict[str, Any]], absolute_start: int, limit: int = DYNASTY_CORRELATION_LIMIT_PER_WINDOW) -> List[Dict[str, Any]]:
+  hits: List[Dict[str, Any]] = []
+  for known in known_values:
+    value = int(known.get("value", 0))
+    for encoding, pattern in encoded_numeric_patterns(value):
+      for rel in find_pattern_offsets(buf, pattern, limit=3):
+        hits.append({
+          "field": known.get("field"),
+          "value": value,
+          "source": known.get("source"),
+          "encoding": encoding,
+          "decompressed_offset": absolute_start + rel,
+          "relative_offset": rel,
+        })
+        if len(hits) >= limit:
+          return hits
+  return hits
+
+def build_dynasty_mapping_outputs(repo: Path, save_path: Path) -> Dict[str, Any]:
+  base_outputs = build_dynasty_save_outputs(repo, save_path)
+  internal = base_outputs.get("_internal", {})
+  save_meta = internal.get("save_info", {})
+  save_info = read_dynasty_save(save_path)
+  anchor_hits = internal.get("anchor_hits", {})
+  known_values = collect_known_numeric_values(repo)
+  table_candidates: List[Dict[str, Any]] = []
+  correlations: List[Dict[str, Any]] = []
+  for table, hits in anchor_hits.items():
+    if table == "team":
+      continue
+    for anchor_index, hit in enumerate(hits[:8]):
+      anchor_offset = int(hit.get("offset", 0))
+      start = max(0, anchor_offset - DYNASTY_MAPPING_WINDOW_BEFORE)
+      end = min(len(save_info["decompressed"]), anchor_offset + DYNASTY_MAPPING_WINDOW_AFTER)
+      window = save_info["decompressed"][start:end]
+      candidate_id = f"{table}_{anchor_index}_{anchor_offset}"
+      candidate = {
+        "candidate_id": candidate_id,
+        "table": table,
+        "anchor_value": hit.get("value"),
+        "anchor_offset": anchor_offset,
+        "window_start": start,
+        "window_end": end,
+        "window_profile": byte_window_profile(window),
+        "row_size_profiles": row_size_profiles(window)[:6],
+        "evidence": save_evidence(save_info, anchor_offset, f"{table}_candidate_window", "analysis", "candidate_mapping"),
+      }
+      table_candidates.append(candidate)
+      for corr in correlate_known_values(window, known_values, start):
+        correlations.append({"candidate_id": candidate_id, "table": table, **corr})
+  summary = {
+    "package_type": "dynasty_binary_mapping_summary",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "generated_at": now(),
+    "source_of_truth": "cfb27_dynasty_save",
+    "save": {k: save_meta.get(k) for k in ("path", "signature", "compressed_offset", "raw_sha256", "decompressed_sha256", "decompressed_size")},
+    "mode": "analysis_only_no_promotion",
+    "candidate_windows": len(table_candidates),
+    "known_numeric_values_used": len(known_values),
+    "correlation_hits": len(correlations),
+    "decoded_values_promoted": 0,
+    "rule": "Candidates and correlations are evidence for decoder mapping only; they are not app data and must not be displayed as verified football values.",
+  }
+  return {
+    "table_candidates.json": {"schema_version": DYNASTY_SCHEMA_VERSION, "package_type": "dynasty_table_candidates", "candidates": table_candidates},
+    "known_value_correlations.json": {"schema_version": DYNASTY_SCHEMA_VERSION, "package_type": "dynasty_known_value_correlations", "known_value_count": len(known_values), "correlations": correlations},
+    "binary_mapping_summary.json": summary,
+  }
+
+def validate_dynasty_mapping_outputs(outputs: Dict[str, Any]) -> List[str]:
+  errors: List[str] = []
+  for name in DYNASTY_MAPPING_FILES:
+    if name not in outputs:
+      errors.append(f"missing mapping output {name}")
+  for idx, candidate in enumerate((outputs.get("table_candidates.json", {}) or {}).get("candidates", [])):
+    for key in ("candidate_id", "table", "anchor_offset", "window_start", "window_end", "window_profile", "row_size_profiles", "evidence"):
+      if key not in candidate:
+        errors.append(f"candidate {idx} missing {key}")
+    ev = candidate.get("evidence", {})
+    for key in ("source_save", "raw_sha256", "decompressed_sha256", "decompressed_offset", "record_name", "confidence", "decode_status"):
+      if key not in ev:
+        errors.append(f"candidate {idx} evidence missing {key}")
+    if candidate.get("window_end", 0) <= candidate.get("window_start", 0):
+      errors.append(f"candidate {idx} has invalid window range")
+  summary = outputs.get("binary_mapping_summary.json", {})
+  if summary.get("decoded_values_promoted") != 0:
+    errors.append("mapping scanner must not promote decoded values")
+  return errors
+
+def write_dynasty_mapping_outputs(repo: Path, outputs: Dict[str, Any]) -> None:
+  dynasty_dir = repo / "data" / "generated" / "dynasty"
+  dynasty_dir.mkdir(parents=True, exist_ok=True)
+  for name in DYNASTY_MAPPING_FILES:
+    write_json(dynasty_dir / name, outputs[name])
+  reports = repo / "reports"
+  reports.mkdir(exist_ok=True)
+  summary = outputs["binary_mapping_summary.json"]
+  candidates = outputs["table_candidates.json"].get("candidates", [])
+  by_table: Dict[str, int] = {}
+  for candidate in candidates:
+    by_table[candidate.get("table", "unknown")] = by_table.get(candidate.get("table", "unknown"), 0) + 1
+  report = [
+    "# Dynasty Binary Mapping Report",
+    "",
+    "This report is analysis-only. It does not promote roster, stats, recruiting, schedule, or depth-chart values into the app.",
+    "",
+    f"Source save: {summary.get('save', {}).get('path')}",
+    f"Candidate windows: {summary.get('candidate_windows')}",
+    f"Known numeric values scanned: {summary.get('known_numeric_values_used')}",
+    f"Correlation hits: {summary.get('correlation_hits')}",
+    f"Decoded values promoted: {summary.get('decoded_values_promoted')}",
+    "",
+    "## Candidate Windows By Table",
+  ]
+  report.extend(f"- {table}: {count}" for table, count in sorted(by_table.items()))
+  report.extend([
+    "",
+    "## Next Decoder Step",
+    "Use comparison saves with one controlled roster/stat change to validate candidate offsets before any generated football value is promoted.",
+  ])
+  (reports / "dynasty_binary_mapping_report.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+
+def run_dynasty_mapping(args) -> int:
+  repo = root()
+  save_path = Path(args.dynasty_save) if args.dynasty_save else DEFAULT_DYNASTY_SAVE
+  if not save_path.exists():
+    print(f"Dynasty save not found: {save_path}", file=sys.stderr)
+    return 2
+  outputs = build_dynasty_mapping_outputs(repo, save_path)
+  write_dynasty_mapping_outputs(repo, outputs)
+  errors = validate_dynasty_mapping_outputs(outputs)
+  summary = outputs["binary_mapping_summary.json"]
+  print(json.dumps({
+    "status": "PASS" if not errors else "FAIL",
+    "source_save": str(save_path),
+    "candidate_windows": summary.get("candidate_windows"),
+    "known_numeric_values_used": summary.get("known_numeric_values_used"),
+    "correlation_hits": summary.get("correlation_hits"),
+    "decoded_values_promoted": 0,
+    "generated_dir": "data/generated/dynasty",
+    "report": "reports/dynasty_binary_mapping_report.md",
+    "errors": errors,
+  }, indent=2))
+  return 0 if not errors else 1
 def validate_dynasty_outputs(repo: Path, outputs: Optional[Dict[str, Any]] = None) -> List[str]:
   errors: List[str] = []
   dynasty_dir = repo / "data" / "generated" / "dynasty"
@@ -1774,6 +2050,8 @@ def write_roster_sweep_reports(repo: Path, sweep: Dict[str, Any]) -> None:
 def run(args) -> int:
   if args.extract == "dynasty_save":
     return run_dynasty_save_reader(args)
+  if args.extract == "dynasty_map":
+    return run_dynasty_mapping(args)
   repo, start = root(), time.perf_counter()
   tools = resolve_ffmpeg(repo)
   manifest = build_manifest(repo, tools, args.video, args.force)
@@ -1850,7 +2128,7 @@ def parse_args(argv=None):
   p.add_argument("--video")
   p.add_argument("--dry-run", action="store_true")
   p.add_argument("--review", action="store_true")
-  p.add_argument("--extract", choices=["roster_stats", "roster_sweep", "dynasty_save"], help="Generate OCR-ready review crops, roster sweep outputs, or direct dynasty-save JSON.")
+  p.add_argument("--extract", choices=["roster_stats", "roster_sweep", "dynasty_save", "dynasty_map"], help="Generate OCR-ready review crops, roster sweep outputs, direct dynasty-save JSON, or dynasty binary mapping reports.")
   p.add_argument("--dynasty-save", help="Path to a CFB27 dynasty save file. Defaults to CFB27_DYNASTY_SAVE or DYNASTY-RUTGERSAPP.")
   p.add_argument("--apply-review", action="store_true", help="Promote only review rows explicitly marked confirmed into generated extracted data.")
   return p.parse_args(argv)
@@ -1864,4 +2142,8 @@ def main(argv=None) -> int:
 
 if __name__ == "__main__":
   raise SystemExit(main())
+
+
+
+
 

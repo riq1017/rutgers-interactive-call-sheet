@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const root = path.resolve(__dirname, '..');
@@ -100,7 +100,7 @@ check('Every RecruitCard can render from one prospect_id without loose prospect 
 check('Recruit attribute objects resolve per prospect and missing values render N/A or are hidden', RECRUITING_CLASS.prospects.every(prospect => prospect.analysis && prospect.analysis.display_stats && prospect.analysis.display_stats.position === prospect.position) && engine.formatLimited(undefined, 'N/A') === 'N/A');
 const verifiedGemIds = RECRUITING_CLASS.prospects.filter(prospect => prospect.gem === true || prospect.gem_status === 'Gem' || prospect.analysis?.gem_status === 'Gem').map(prospect => prospect.prospect_id);
 const recruitClassHtml = RECRUITING_CLASS.prospects.map((prospect, index) => engine.RecruitCard({ ...prospect, prospect }, index, 'prospect')).join('\n');
-check('Verified recruit gem state is source-driven', verifiedGemIds.length === 0 ? !recruitClassHtml.includes('💎') : verifiedGemIds.every(id => engine.RecruitCard({ ...prospectById.get(id), prospect: prospectById.get(id) }, 0, 'prospect').includes('💎')));
+check('Verified recruit gem state is source-driven', verifiedGemIds.length === 0 ? !recruitClassHtml.includes('ðŸ’Ž') : verifiedGemIds.every(id => engine.RecruitCard({ ...prospectById.get(id), prospect: prospectById.get(id) }, 0, 'prospect').includes('ðŸ’Ž')));
 const boardRows = (global.VIDEO_VERIFIED_RUTGERS_PROSPECT_BOARD || RECRUITING_WEEKLY).active_board || [];
 const wBoudreauxBoard = boardRows.find(row => row.prospect_id === 'w-boudreaux') || {};
 const wBoudreauxJoin = engine.resolveRecruitScoutingById('w-boudreaux', wBoudreauxBoard);
@@ -314,7 +314,7 @@ const samplePlayerHtml = engine.premiumPlayerCard(RUTGERS_ROSTER_BASE.players[0]
 check('Season Stats appear before Last Game in Player Card', samplePlayerHtml.indexOf('Season Stats') > -1 && samplePlayerHtml.indexOf('Season Stats') < samplePlayerHtml.indexOf('Last Game'));
 check('Top 6 attributes only in default Player Card section', (samplePlayerHtml.match(/Top 6 Position-Relevant Attributes/g) || []).length === 1 && app.includes('lockedAttributeRows(player, 6)'));
 check('Missing stats do not hide players', samplePlayerHtml.includes('Limited data') && samplePlayerHtml.includes(RUTGERS_ROSTER_BASE.players[0].name));
-check('LT/LG/C/RG/RT all resolve in locked O-line card', ['LT','LG','C','RG','RT'].every(slot => engine.renderOLine ? true : app.includes('LT — LG — C — RG — RT')) && app.includes('locked-oline-slots'));
+check('LT/LG/C/RG/RT all resolve in locked O-line card', ['LT','LG','C','RG','RT'].every(slot => engine.renderOLine ? true : app.includes('LT â€” LG â€” C â€” RG â€” RT')) && app.includes('locked-oline-slots'));
 check('All 192 verified visible Play Cards resolve', RUTGERS_PLAYBOOK.length === 192 && RUTGERS_PLAYBOOK.every((play, i) => engine.lockedPlayCard({...engine.scorePlay(play, ctx(1,5)), ...play}, i + 1).includes(`data-play-id="${play.id}"`)));
 const outsidePlay = RUTGERS_PLAYBOOK.find(play => /outside|stretch|sweep|toss|speed option|perimeter|pin|pull/i.test(play.name) || /outside/i.test(engine.conceptFamily(play))) || RUTGERS_PLAYBOOK.find(play => /counter/i.test(play.name));
 const insidePlay = RUTGERS_PLAYBOOK.find(play => /inside|duo|power|trap|dive|iso/i.test(play.name) || /inside/i.test(engine.conceptFamily(play)));
@@ -723,10 +723,31 @@ if (dynastyNames.every(name => fs.existsSync(path.join(dynastyDir, name)))) {
   check('Dynasty save reader confirms Rutgers team identity', dynastyTeam.school && dynastyTeam.school.value === 'Rutgers' && dynastyTeam.nickname && dynastyTeam.nickname.value === 'Scarlet Knights');
   check('Dynasty generated decoded values carry save-offset evidence', dynastyNames.flatMap(name => dynastyEvidenceProblems(readDynastyJson(name), name)).length === 0);
   check('Dynasty unresolved tables are explicit decoder gaps', Array.isArray(dynastySummary.unresolved_tables) && dynastySummary.unresolved_tables.includes('roster') && dynastySummary.unresolved_tables.includes('stats'));
-  check('Raw dynasty save files are protected by gitignore', fs.readFileSync(path.join(root, '.gitignore'), 'utf8').includes('DYNASTY-*'));
+  const dynastyGitignore = fs.readFileSync(path.join(root, '.gitignore'), 'utf8');
+  check('Raw dynasty save files are protected by gitignore', dynastyGitignore.includes('DYNASTY-*') && dynastyGitignore.includes('*.save'));
+}
+const dynastyMappingNames = ['table_candidates.json', 'known_value_correlations.json', 'binary_mapping_summary.json'];
+const dynastyMappingPaths = dynastyMappingNames.map(name => path.join(dynastyDir, name));
+if (dynastyMappingPaths.some(file => fs.existsSync(file))) {
+  const mappingOutputsExist = dynastyMappingPaths.every(file => fs.existsSync(file));
+  check('Dynasty binary mapping outputs are complete when present', mappingOutputsExist);
+  if (mappingOutputsExist) {
+    const tableCandidates = JSON.parse(fs.readFileSync(dynastyMappingPaths[0], 'utf8'));
+    const correlations = JSON.parse(fs.readFileSync(dynastyMappingPaths[1], 'utf8'));
+    const mappingSummary = JSON.parse(fs.readFileSync(dynastyMappingPaths[2], 'utf8'));
+    const candidates = tableCandidates.candidates || [];
+    check('Dynasty binary mapping scanner promotes no football values', mappingSummary.decoded_values_promoted === 0);
+    check('Dynasty binary mapping candidate windows carry save evidence', candidates.every(candidate => {
+      const ev = candidate.evidence || {};
+      return candidate.candidate_id && candidate.table && Number.isFinite(Number(candidate.anchor_offset)) && candidate.window_profile && Array.isArray(candidate.row_size_profiles) && ev.source_save && ev.raw_sha256 && ev.decompressed_sha256 && ev.record_name && ev.decode_status === 'candidate_mapping';
+    }));
+    check('Dynasty binary mapping correlations remain analysis-only', Array.isArray(correlations.correlations) && correlations.correlations.every(hit => hit.candidate_id && hit.table && Number.isFinite(Number(hit.decompressed_offset)) && hit.source));
+  }
 }
 
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');
 console.log(report);
 if (!checks.every(c => c.passed)) process.exit(1);
+
+

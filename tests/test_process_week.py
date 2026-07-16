@@ -1,4 +1,4 @@
-import tempfile
+﻿import tempfile
 import unittest
 from pathlib import Path
 
@@ -221,5 +221,40 @@ class VideoSourceTruthTests(unittest.TestCase):
             self.assertIn("roster", public["source_truth_summary.json"]["unresolved_tables"])
             self.assertEqual(process_week.validate_dynasty_outputs(repo, public), [])
 
+
+    def test_dynasty_byte_window_profile(self):
+        profile = process_week.byte_window_profile(b"abc\x00\x00")
+        self.assertEqual(profile["length"], 5)
+        self.assertGreater(profile["zero_ratio"], 0)
+        self.assertIn("sha256", profile)
+
+    def test_dynasty_row_size_profiles(self):
+        buf = bytes([77, 82, 75, 0, 10, 11, 12, 13] * 40)
+        profiles = process_week.row_size_profiles(buf, (8, 16))
+        self.assertTrue(profiles)
+        self.assertIn("row_size", profiles[0])
+        self.assertIn("plausible_rating_columns", profiles[0])
+
+    def test_dynasty_known_value_correlation(self):
+        known = [{"field": "players.0.overall", "value": 77, "source": "data/example.json"}]
+        hits = process_week.correlate_known_values(b"aaa" + bytes([77]) + b"bbb", known, 100)
+        self.assertTrue(hits)
+        self.assertEqual(hits[0]["decompressed_offset"], 103)
+
+    def test_dynasty_mapping_outputs_do_not_promote(self):
+        import zlib
+        payload = b"Rutgers\x00#CHOP\x00RUTG\x00Scarlet Knights\x00teamdb_ru\x00Player\x00" + bytes([77, 82, 75, 0] * 80) + b"PlayerStatRecords\x00ScheduleKnownGame\x00ForcedDepthChartEntry"
+        raw = b"FBCHUNKS" + b"\x00" * 74 + zlib.compress(payload)
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            (repo / "data").mkdir()
+            (repo / "data" / "known.json").write_text('{"players":[{"overall":77,"speed":82}]}', encoding="utf-8")
+            save = repo / "DYNASTY-TEST"
+            save.write_bytes(raw)
+            outputs = process_week.build_dynasty_mapping_outputs(repo, save)
+            self.assertEqual(outputs["binary_mapping_summary.json"]["decoded_values_promoted"], 0)
+            self.assertGreater(outputs["binary_mapping_summary.json"]["candidate_windows"], 0)
+            self.assertEqual(process_week.validate_dynasty_mapping_outputs(outputs), [])
 if __name__ == "__main__":
     unittest.main()
+

@@ -745,6 +745,22 @@ if (dynastyMappingPaths.some(file => fs.existsSync(file))) {
   }
 }
 
+const dynastyCompareNames = ['comparison_diff.json', 'comparison_summary.json'];
+const dynastyComparePaths = dynastyCompareNames.map(name => path.join(dynastyDir, name));
+if (dynastyComparePaths.some(file => fs.existsSync(file))) {
+  const compareOutputsExist = dynastyComparePaths.every(file => fs.existsSync(file));
+  check('Dynasty save comparison outputs are complete when present', compareOutputsExist);
+  if (compareOutputsExist) {
+    const comparisonDiff = JSON.parse(fs.readFileSync(dynastyComparePaths[0], 'utf8'));
+    const comparisonSummary = JSON.parse(fs.readFileSync(dynastyComparePaths[1], 'utf8'));
+    check('Dynasty save comparison scanner promotes no football values', comparisonSummary.decoded_values_promoted === 0);
+    check('Dynasty save comparison segments carry save evidence', (comparisonDiff.comparisons || []).every(item => (item.segments_sample || []).every(segment => {
+      const ev = segment.evidence || {};
+      return ev.base_save && ev.compare_save && ev.base_raw_sha256 && ev.compare_raw_sha256 && Number.isFinite(Number(ev.decompressed_offset)) && ev.decode_status === 'comparison_only';
+    })));
+  }
+}
+
 const report = ['# VALIDATION_REPORT', '', `Validated: ${new Date().toISOString()}`, '', ...checks.map(c => `- ${c.passed ? 'PASS' : 'FAIL'} - ${c.name}${c.detail ? ` (${c.detail})` : ''}`), '', checks.every(c => c.passed) ? 'Overall: PASS' : 'Overall: FAIL'].join('\n');
 fs.writeFileSync(path.join(root, 'VALIDATION_REPORT.md'), report + '\n');
 console.log(report);

@@ -14,3 +14,4 @@ data/generated/dynasty/*
 !data/generated/dynasty/.gitkeep
 
 reports/dynasty_binary_mapping_report.md
+reports/dynasty_save_comparison_report.md

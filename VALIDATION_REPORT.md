@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-16T03:00:55.197Z
+Validated: 2026-07-16T03:15:00.283Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -333,5 +333,8 @@ Validated: 2026-07-16T03:00:55.197Z
 - PASS - Dynasty binary mapping scanner promotes no football values
 - PASS - Dynasty binary mapping candidate windows carry save evidence
 - PASS - Dynasty binary mapping correlations remain analysis-only
+- PASS - Dynasty save comparison outputs are complete when present
+- PASS - Dynasty save comparison scanner promotes no football values
+- PASS - Dynasty save comparison segments carry save evidence
 
 Overall: PASS

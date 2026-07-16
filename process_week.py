@@ -34,6 +34,9 @@ DYNASTY_SCHEMA_VERSION = "dynasty_save_reader_v1"
 DYNASTY_MAPPING_FILES = [
   "table_candidates.json", "known_value_correlations.json", "binary_mapping_summary.json",
 ]
+DYNASTY_COMPARE_FILES = [
+  "comparison_diff.json", "comparison_summary.json",
+]
 DYNASTY_ROW_SIZE_CANDIDATES = (16, 24, 32, 40, 48, 64, 80, 96, 128, 160, 192, 256)
 DYNASTY_MAPPING_WINDOW_BEFORE = 2048
 DYNASTY_MAPPING_WINDOW_AFTER = 8192
@@ -612,6 +615,167 @@ def run_dynasty_mapping(args) -> int:
     "decoded_values_promoted": 0,
     "generated_dir": "data/generated/dynasty",
     "report": "reports/dynasty_binary_mapping_report.md",
+    "errors": errors,
+  }, indent=2))
+  return 0 if not errors else 1
+
+def diff_byte_segments(a: bytes, b: bytes, max_gap: int = 16, limit: int = 2000) -> List[Dict[str, int]]:
+  length = min(len(a), len(b))
+  segments: List[Dict[str, int]] = []
+  start: Optional[int] = None
+  last = -1
+  for idx in range(length):
+    if a[idx] != b[idx]:
+      if start is None:
+        start = idx
+      elif idx - last > max_gap:
+        segments.append({"start": start, "end": last + 1, "length": last + 1 - start})
+        if len(segments) >= limit:
+          return segments
+        start = idx
+      last = idx
+  if start is not None and len(segments) < limit:
+    segments.append({"start": start, "end": last + 1, "length": last + 1 - start})
+  if len(a) != len(b) and len(segments) < limit:
+    segments.append({"start": length, "end": max(len(a), len(b)), "length": abs(len(a) - len(b))})
+  return segments
+
+def nearest_anchor_for_offset(anchor_hits: Dict[str, List[Dict[str, Any]]], offset: int) -> Dict[str, Any]:
+  best: Optional[Dict[str, Any]] = None
+  for table, hits in anchor_hits.items():
+    for hit in hits:
+      hit_offset = int(hit.get("offset", 0))
+      distance = abs(hit_offset - offset)
+      if best is None or distance < best["distance"]:
+        best = {"table": table, "anchor_value": hit.get("value"), "anchor_offset": hit_offset, "distance": distance}
+  return best or {"table": "unknown", "anchor_value": None, "anchor_offset": None, "distance": None}
+
+def compare_dynasty_saves(repo: Path, base_save: Path, compare_saves: List[Path]) -> Dict[str, Any]:
+  base_info = read_dynasty_save(base_save)
+  base_outputs = build_dynasty_save_outputs(repo, base_save)
+  anchor_hits = base_outputs.get("_internal", {}).get("anchor_hits", {})
+  comparisons: List[Dict[str, Any]] = []
+  for compare_save in compare_saves:
+    compare_info = read_dynasty_save(compare_save)
+    segments = diff_byte_segments(base_info["decompressed"], compare_info["decompressed"])
+    enriched_segments = []
+    for seg in segments[:300]:
+      start = int(seg["start"])
+      end = int(seg["end"])
+      base_slice = base_info["decompressed"][start:min(end, len(base_info["decompressed"]))]
+      compare_slice = compare_info["decompressed"][start:min(end, len(compare_info["decompressed"]))]
+      enriched_segments.append({
+        **seg,
+        "nearest_anchor": nearest_anchor_for_offset(anchor_hits, start),
+        "base_sha256": hashlib.sha256(base_slice).hexdigest(),
+        "compare_sha256": hashlib.sha256(compare_slice).hexdigest(),
+        "evidence": {
+          "base_save": base_info["path"],
+          "compare_save": compare_info["path"],
+          "base_raw_sha256": base_info["raw_sha256"],
+          "compare_raw_sha256": compare_info["raw_sha256"],
+          "base_decompressed_sha256": base_info["decompressed_sha256"],
+          "compare_decompressed_sha256": compare_info["decompressed_sha256"],
+          "decompressed_offset": start,
+          "decode_status": "comparison_only",
+        },
+      })
+    comparisons.append({
+      "compare_save": str(compare_save),
+      "compare_raw_sha256": compare_info["raw_sha256"],
+      "compare_decompressed_sha256": compare_info["decompressed_sha256"],
+      "same_decompressed_size": len(base_info["decompressed"]) == len(compare_info["decompressed"]),
+      "diff_segment_count": len(segments),
+      "diff_bytes_sampled": sum(seg["length"] for seg in segments[:300]),
+      "segments_sample": enriched_segments,
+    })
+  summary = {
+    "package_type": "dynasty_save_comparison_summary",
+    "schema_version": DYNASTY_SCHEMA_VERSION,
+    "generated_at": now(),
+    "source_of_truth": "cfb27_dynasty_save",
+    "mode": "comparison_only_no_promotion",
+    "base_save": str(base_save),
+    "base_raw_sha256": base_info["raw_sha256"],
+    "base_decompressed_sha256": base_info["decompressed_sha256"],
+    "compare_save_count": len(compare_saves),
+    "decoded_values_promoted": 0,
+    "rule": "Comparison diffs identify candidate byte ranges only. They are not verified app data until mapped and validated against controlled save changes.",
+  }
+  return {
+    "comparison_diff.json": {"schema_version": DYNASTY_SCHEMA_VERSION, "package_type": "dynasty_save_comparison_diff", "comparisons": comparisons},
+    "comparison_summary.json": summary,
+  }
+
+def validate_dynasty_comparison_outputs(outputs: Dict[str, Any]) -> List[str]:
+  errors: List[str] = []
+  for name in DYNASTY_COMPARE_FILES:
+    if name not in outputs:
+      errors.append(f"missing comparison output {name}")
+  summary = outputs.get("comparison_summary.json", {})
+  if summary.get("decoded_values_promoted") != 0:
+    errors.append("comparison scanner must not promote decoded values")
+  for cidx, comparison in enumerate((outputs.get("comparison_diff.json", {}) or {}).get("comparisons", [])):
+    for sidx, segment in enumerate(comparison.get("segments_sample", [])):
+      ev = segment.get("evidence", {})
+      for key in ("base_save", "compare_save", "base_raw_sha256", "compare_raw_sha256", "base_decompressed_sha256", "compare_decompressed_sha256", "decompressed_offset", "decode_status"):
+        if key not in ev:
+          errors.append(f"comparison {cidx} segment {sidx} evidence missing {key}")
+      if ev.get("decode_status") != "comparison_only":
+        errors.append(f"comparison {cidx} segment {sidx} is not comparison_only")
+  return errors
+
+def write_dynasty_comparison_outputs(repo: Path, outputs: Dict[str, Any]) -> None:
+  dynasty_dir = repo / "data" / "generated" / "dynasty"
+  dynasty_dir.mkdir(parents=True, exist_ok=True)
+  for name in DYNASTY_COMPARE_FILES:
+    write_json(dynasty_dir / name, outputs[name])
+  reports = repo / "reports"
+  reports.mkdir(exist_ok=True)
+  summary = outputs["comparison_summary.json"]
+  comparisons = outputs["comparison_diff.json"].get("comparisons", [])
+  report = [
+    "# Dynasty Save Comparison Report",
+    "",
+    "This report is comparison-only. It does not promote roster, stats, recruiting, schedule, or depth-chart values into the app.",
+    "",
+    f"Base save: {summary.get('base_save')}",
+    f"Comparison saves: {summary.get('compare_save_count')}",
+    f"Decoded values promoted: {summary.get('decoded_values_promoted')}",
+    "",
+    "## Comparisons",
+  ]
+  if comparisons:
+    for item in comparisons:
+      report.append(f"- {item.get('compare_save')}: {item.get('diff_segment_count')} diff segments, same size={item.get('same_decompressed_size')}")
+  else:
+    report.append("- No comparison saves provided. Add a controlled save copy with one known change and rerun --extract dynasty_compare.")
+  report.extend(["", "## Rule", str(summary.get("rule"))])
+  (reports / "dynasty_save_comparison_report.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+
+def run_dynasty_comparison(args) -> int:
+  repo = root()
+  base_save = Path(args.dynasty_save) if args.dynasty_save else DEFAULT_DYNASTY_SAVE
+  compare_saves = [Path(item) for item in (args.compare_save or [])]
+  if args.compare_dir:
+    compare_dir = Path(args.compare_dir)
+    if compare_dir.exists():
+      compare_saves.extend(sorted([p for p in compare_dir.iterdir() if p.is_file() and p.name != base_save.name and not p.name.endswith('.bak')], key=lambda p: p.name.lower()))
+  compare_saves = [p for p in compare_saves if p.exists()]
+  if not base_save.exists():
+    print(f"Dynasty save not found: {base_save}", file=sys.stderr)
+    return 2
+  outputs = compare_dynasty_saves(repo, base_save, compare_saves)
+  write_dynasty_comparison_outputs(repo, outputs)
+  errors = validate_dynasty_comparison_outputs(outputs)
+  summary = outputs["comparison_summary.json"]
+  print(json.dumps({
+    "status": "PASS" if not errors else "FAIL",
+    "base_save": str(base_save),
+    "compare_save_count": summary.get("compare_save_count"),
+    "decoded_values_promoted": 0,
+    "generated_dir": "data/generated/dynasty",
+    "report": "reports/dynasty_save_comparison_report.md",
     "errors": errors,
   }, indent=2))
   return 0 if not errors else 1
@@ -2052,6 +2216,8 @@ def run(args) -> int:
     return run_dynasty_save_reader(args)
   if args.extract == "dynasty_map":
     return run_dynasty_mapping(args)
+  if args.extract == "dynasty_compare":
+    return run_dynasty_comparison(args)
   repo, start = root(), time.perf_counter()
   tools = resolve_ffmpeg(repo)
   manifest = build_manifest(repo, tools, args.video, args.force)
@@ -2128,8 +2294,10 @@ def parse_args(argv=None):
   p.add_argument("--video")
   p.add_argument("--dry-run", action="store_true")
   p.add_argument("--review", action="store_true")
-  p.add_argument("--extract", choices=["roster_stats", "roster_sweep", "dynasty_save", "dynasty_map"], help="Generate OCR-ready review crops, roster sweep outputs, direct dynasty-save JSON, or dynasty binary mapping reports.")
+  p.add_argument("--extract", choices=["roster_stats", "roster_sweep", "dynasty_save", "dynasty_map", "dynasty_compare"], help="Generate OCR-ready review crops, roster sweep outputs, direct dynasty-save JSON, dynasty binary mapping reports, or dynasty save comparison diffs.")
   p.add_argument("--dynasty-save", help="Path to a CFB27 dynasty save file. Defaults to CFB27_DYNASTY_SAVE or DYNASTY-RUTGERSAPP.")
+  p.add_argument("--compare-save", action="append", help="Path to a controlled comparison dynasty save for --extract dynasty_compare. Can be provided more than once.")
+  p.add_argument("--compare-dir", help="Directory containing controlled comparison dynasty saves for --extract dynasty_compare.")
   p.add_argument("--apply-review", action="store_true", help="Promote only review rows explicitly marked confirmed into generated extracted data.")
   return p.parse_args(argv)
 
@@ -2142,6 +2310,8 @@ def main(argv=None) -> int:
 
 if __name__ == "__main__":
   raise SystemExit(main())
+
+
 
 
 

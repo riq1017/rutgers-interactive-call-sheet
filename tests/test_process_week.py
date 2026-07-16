@@ -255,6 +255,35 @@ class VideoSourceTruthTests(unittest.TestCase):
             self.assertEqual(outputs["binary_mapping_summary.json"]["decoded_values_promoted"], 0)
             self.assertGreater(outputs["binary_mapping_summary.json"]["candidate_windows"], 0)
             self.assertEqual(process_week.validate_dynasty_mapping_outputs(outputs), [])
+
+    def test_dynasty_diff_byte_segments_merges_nearby_changes(self):
+        base = bytearray(b"a" * 80)
+        other = bytearray(base)
+        other[10] = ord("b")
+        other[14] = ord("c")
+        other[60] = ord("d")
+        segments = process_week.diff_byte_segments(bytes(base), bytes(other), max_gap=8)
+        self.assertEqual(segments[0]["start"], 10)
+        self.assertEqual(segments[0]["end"], 15)
+        self.assertEqual(segments[1]["start"], 60)
+
+    def test_dynasty_comparison_outputs_do_not_promote(self):
+        import zlib
+        payload = b"Rutgers\x00RUTG\x00Scarlet Knights\x00teamdb_ru\x00Player\x00" + bytes([77, 82, 75, 0] * 80) + b"PlayerStatRecords\x00ScheduleKnownGame\x00ForcedDepthChartEntry"
+        changed = bytearray(payload)
+        changed[80] = 91
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            base = repo / "DYNASTY-BASE"
+            compare = repo / "DYNASTY-COMPARE"
+            base.write_bytes(b"FBCHUNKS" + b"\x00" * 74 + zlib.compress(payload))
+            compare.write_bytes(b"FBCHUNKS" + b"\x00" * 74 + zlib.compress(bytes(changed)))
+            outputs = process_week.compare_dynasty_saves(repo, base, [compare])
+            self.assertEqual(outputs["comparison_summary.json"]["decoded_values_promoted"], 0)
+            self.assertEqual(outputs["comparison_summary.json"]["compare_save_count"], 1)
+            self.assertGreater(outputs["comparison_diff.json"]["comparisons"][0]["diff_segment_count"], 0)
+            self.assertEqual(process_week.validate_dynasty_comparison_outputs(outputs), [])
 if __name__ == "__main__":
     unittest.main()
+
 

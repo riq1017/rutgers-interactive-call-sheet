@@ -9,6 +9,7 @@ This tool never edits the source save. It discovers a save, copies it to a times
 ```powershell
 python tools\cfb27_save_reader\locate_save.py --save-name DYNASTY-RUTGERSAPP
 python tools\cfb27_save_reader\inspect_save.py --save-name DYNASTY-RUTGERSAPP
+python tools\cfb27_save_reader\refresh_dynasty.py --save-name DYNASTY-RUTGERSAPP
 ```
 
 To use an explicit save:
@@ -35,3 +36,23 @@ Schema bundles and parser binaries are local runtime files and must not be commi
 
 The production app JSON is not modified by this tool.
 
+## Current Parser Runtime
+
+The current local runtime uses:
+
+- parser: `leaguelines/cfb-dynasty`
+- pinned commit: `4ebd1e4e2d1e178af1b946d5b635e5b8d054d808`
+- schema: `C27_468_2.gz`
+- schema reference package: `madden-franchise@4.3.1`, MIT, schema reference only
+
+`refresh_dynasty.py` is staging-only. It writes raw parser exports and normalized output under ignored `data/dynasty/` folders and refuses production publishing until three-save validation passes.
+
+## Three-Save Validation Gate
+
+Before publishing parsed data into the Rutgers app, create a temporary dynasty named `DYNASTY-PARSER-TEST` and save three snapshots:
+
+1. Test A: initial week with visible season, week, Rutgers record, upcoming opponent, roster checks, stats checks, and depth-chart checks.
+2. Test B: advance exactly one week and record the same values.
+3. Test C: advance one more week and record the same values.
+
+The real `DYNASTY-RUTGERSAPP` save does not need to be advanced for parser validation.

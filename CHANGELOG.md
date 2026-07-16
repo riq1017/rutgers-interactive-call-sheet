@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Staging-only CFB27 parser runtime refresh
+- Added a reusable staging command: `python tools\cfb27_save_reader\refresh_dynasty.py --save-name DYNASTY-RUTGERSAPP`.
+- Added parser runtime resolution for the locally built `leaguelines/cfb-dynasty` executable and isolated `C27_468_2.gz` schema directory.
+- Added MVP parser export and normalization for season, teams, Rutgers roster, games, team season stats, injuries, and depth-chart sections when available.
+- Confirmed the exact manual `DYNASTY-RUTGERSAPP` save is selected before autosaves, with explicit fallback warning support when the named save is missing.
+- Added a guarded Rutgers app mapper framework that remains dry-run only and refuses production publishing until three-save parser validation passes.
+- Added validation coverage for parser runtime metadata, exact-save selection, fallback warnings, nested rating ranges, and disabled publishing.
+- Confirmed the latest staging parse found Rutgers stable team ID `78`, 85 Rutgers players, 12 schedule entries, 1 stats record, 12 injury records, and upcoming opponent UMass, while leaving production app JSON unchanged.
+
 ## Read-only CFB27 parser intake layer
 - Added `tools/cfb27_save_reader/` as a standalone guarded parser wrapper for local CFB27 dynasty saves.
 - Added save discovery, read-only snapshot copying, FBCHUNKS container inspection, parser diagnostics, experimental save comparison, and isolated tests.

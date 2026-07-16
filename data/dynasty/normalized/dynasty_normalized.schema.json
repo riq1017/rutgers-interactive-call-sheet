@@ -13,8 +13,10 @@
     "teams": { "type": "array", "items": { "type": "object" } },
     "rosters": { "type": "array", "items": { "type": "object" } },
     "players": { "type": "array", "items": { "type": "object" } },
+    "opponent_players": { "type": "array", "items": { "type": "object" } },
     "games": { "type": "array", "items": { "type": "object" } },
     "season_stats": { "type": "array", "items": { "type": "object" } },
+    "opponent_season_stats": { "type": "array", "items": { "type": "object" } },
     "injuries": { "type": "array", "items": { "type": "object" } },
     "depth_charts": { "type": "array", "items": { "type": "object" } },
     "recruiting": { "type": "array", "items": { "type": "object" } },
@@ -38,4 +40,3 @@
     }
   }
 }
-

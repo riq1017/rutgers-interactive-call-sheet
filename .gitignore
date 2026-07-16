@@ -16,6 +16,8 @@ data/generated/dynasty/*
 # CFB27 read-only parser runtime and copied save snapshots
 tools/cfb27_save_reader/runtime/*
 tools/cfb27_save_reader/*.local.json
+data/dynasty/runtime/*
+!data/dynasty/runtime/.gitkeep
 data/dynasty/raw/*
 !data/dynasty/raw/.gitkeep
 data/dynasty/inspection/*

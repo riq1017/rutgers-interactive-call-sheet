@@ -1,9 +1,15 @@
 {
   "save_path": null,
   "save_directories": [],
-  "parser_executable": null,
-  "parser_pinned_commit": null,
-  "schema_path": null,
-  "notes": "Keep parser binaries, schema bundles, and raw saves local and gitignored."
+  "parser_executable": "tools/cfb27_save_reader/runtime/cfb-dynasty.exe",
+  "parser_pinned_commit": "4ebd1e4e2d1e178af1b946d5b635e5b8d054d808",
+  "schema_dir": "tools/cfb27_save_reader/runtime/schemas",
+  "schema_path": "tools/cfb27_save_reader/runtime/schemas/C27_468_2.gz",
+  "schema_package": {
+    "name": "madden-franchise",
+    "version": "4.3.1",
+    "license": "MIT",
+    "usage": "schema reference only"
+  },
+  "notes": "Keep parser binaries, schema bundles, raw parser exports, and raw saves local and gitignored."
 }
-

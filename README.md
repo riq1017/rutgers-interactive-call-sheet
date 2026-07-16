@@ -79,6 +79,20 @@ Run `python process_week.py --extract roster_stats` to generate OCR-ready crops 
 
 ## OCR Review Import Workflow
 
+## Read-Only CFB27 Dynasty Save Reader
+
+The save reader is a separate local pipeline under `tools/cfb27_save_reader/`. It never modifies the original save and does not publish production Rutgers app JSON until the three-save validation gate passes.
+
+Current staging command:
+
+```powershell
+python tools\cfb27_save_reader\refresh_dynasty.py --save-name DYNASTY-RUTGERSAPP
+```
+
+The command copies the exact manual save to `data/dynasty/snapshots/`, verifies SHA-256, runs `leaguelines/cfb-dynasty` against the copied snapshot, writes raw parser output under ignored `data/dynasty/raw/`, and writes normalized staging data under ignored `data/dynasty/normalized/`.
+
+Production app JSON remains unchanged. Parser binaries, schema bundles, raw parser exports, and copied saves are gitignored.
+
 Tesseract OCR is optional but now supported by `process_week.py`. Detection order is `TESSERACT_EXE`, `video_tools.local.json`, PATH, common Windows installs, then `tools/portable/tesseract/`. Run `python process_week.py --extract roster_stats` to create review crops and OCR drafts. Only rows marked `confirmed` are promoted by `python process_week.py --apply-review`; unknown or unconfirmed values remain out of source-truth JSON and display as `N/A`.
 
 ### Structured OCR Draft Review

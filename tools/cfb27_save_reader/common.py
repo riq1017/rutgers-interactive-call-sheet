@@ -38,6 +38,13 @@ class SaveReaderError(RuntimeError):
 
 
 @dataclass(frozen=True)
+class SaveDiscoveryResult:
+    path: Path
+    exact_named_save: bool
+    warning: Optional[str] = None
+
+
+@dataclass(frozen=True)
 class ParserIdentity:
     executable: Optional[str] = None
     repository: str = "https://github.com/leaguelines/cfb-dynasty"
@@ -45,6 +52,9 @@ class ParserIdentity:
     executable_sha256: Optional[str] = None
     schema_filename: Optional[str] = None
     schema_sha256: Optional[str] = None
+    package_name: Optional[str] = None
+    package_version: Optional[str] = None
+    package_license: Optional[str] = None
     status: str = "not_configured"
 
     def as_dict(self) -> Dict[str, Any]:
@@ -55,6 +65,9 @@ class ParserIdentity:
             "executable_sha256": self.executable_sha256,
             "schema_filename": self.schema_filename,
             "schema_sha256": self.schema_sha256,
+            "package_name": self.package_name,
+            "package_version": self.package_version,
+            "package_license": self.package_license,
             "status": self.status,
         }
 
@@ -98,6 +111,10 @@ def user_home() -> Path:
     return Path(os.environ.get("USERPROFILE") or os.path.expanduser("~"))
 
 
+def repo_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
 def candidate_save_dirs(config: Dict[str, Any]) -> List[Path]:
     dirs: List[Path] = []
     configured = config.get("save_directories", [])
@@ -114,18 +131,27 @@ def discover_save(
     save_path: Optional[Path] = None,
     config_path: Optional[Path] = None,
 ) -> Path:
+    return discover_save_result(save_name, save_path, config_path).path
+
+
+def discover_save_result(
+    save_name: str = DEFAULT_SAVE_NAME,
+    save_path: Optional[Path] = None,
+    config_path: Optional[Path] = None,
+    allow_newest_dynasty_fallback: bool = False,
+) -> SaveDiscoveryResult:
     if save_path:
         resolved = save_path.expanduser().resolve()
         if not resolved.exists():
             raise SaveReaderError(f"Save path not found: {resolved}")
-        return resolved
+        return SaveDiscoveryResult(path=resolved, exact_named_save=resolved.name == save_name)
 
     env_path = os.environ.get("CFB27_DYNASTY_SAVE")
     if env_path:
         resolved = Path(env_path).expanduser().resolve()
         if not resolved.exists():
             raise SaveReaderError(f"CFB27_DYNASTY_SAVE does not exist: {resolved}")
-        return resolved
+        return SaveDiscoveryResult(path=resolved, exact_named_save=resolved.name == save_name)
 
     config = load_config(config_path)
     configured_save = config.get("save_path")
@@ -133,19 +159,32 @@ def discover_save(
         resolved = Path(configured_save).expanduser().resolve()
         if not resolved.exists():
             raise SaveReaderError(f"Configured save_path does not exist: {resolved}")
-        return resolved
+        return SaveDiscoveryResult(path=resolved, exact_named_save=resolved.name == save_name)
 
     matches: List[Path] = []
+    fallback_matches: List[Path] = []
     for directory in candidate_save_dirs(config):
         if directory.exists():
             exact = directory / save_name
             if exact.exists():
                 matches.append(exact)
             matches.extend(path for path in directory.rglob(save_name) if path.is_file())
+            if allow_newest_dynasty_fallback:
+                fallback_matches.extend(path for path in directory.rglob("DYNASTY-*") if path.is_file())
 
-    if not matches:
-        raise SaveReaderError(f"No save named {save_name} found in configured or common save directories")
-    return max((path.resolve() for path in set(matches)), key=lambda item: item.stat().st_mtime)
+    if matches:
+        return SaveDiscoveryResult(
+            path=max((path.resolve() for path in set(matches)), key=lambda item: item.stat().st_mtime),
+            exact_named_save=True,
+        )
+    if allow_newest_dynasty_fallback and fallback_matches:
+        fallback = max((path.resolve() for path in set(fallback_matches)), key=lambda item: item.stat().st_mtime)
+        return SaveDiscoveryResult(
+            path=fallback,
+            exact_named_save=False,
+            warning=f"Named manual save {save_name} was not found; selected newest DYNASTY-* save {fallback.name}.",
+        )
+    raise SaveReaderError(f"No save named {save_name} found in configured or common save directories")
 
 
 def file_metadata(path: Path) -> Dict[str, Any]:
@@ -303,6 +342,12 @@ def validate_normalized_payload(payload: Dict[str, Any]) -> List[str]:
         overall = player.get("overall", {}).get("value") if isinstance(player.get("overall"), dict) else None
         if overall is not None and not validate_rating(overall):
             errors.append(f"invalid overall rating for {player_id}: {overall}")
+        ratings = player.get("ratings", {})
+        if isinstance(ratings, dict):
+            for rating_name, rating_payload in ratings.items():
+                rating_value = rating_payload.get("value") if isinstance(rating_payload, dict) else None
+                if rating_value is not None and not validate_rating(rating_value):
+                    errors.append(f"invalid rating {rating_name} for {player_id}: {rating_value}")
     team_ids = [team.get("team_id", {}).get("value") for team in payload.get("teams", []) if isinstance(team.get("team_id"), dict)]
     if len(team_ids) != len(set(team_ids)):
         errors.append("duplicate team_id")
@@ -319,8 +364,10 @@ def build_empty_normalized(source: Dict[str, Any], parser: ParserIdentity, statu
         "teams": [],
         "rosters": [],
         "players": [],
+        "opponent_players": [],
         "games": [],
         "season_stats": [],
+        "opponent_season_stats": [],
         "injuries": [],
         "depth_charts": [],
         "recruiting": [],
@@ -367,4 +414,3 @@ def add_common_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--save-path")
     parser.add_argument("--config", default=str(Path(__file__).with_name("config.example.json")))
     parser.add_argument("--output-root", default="data/dynasty")
-

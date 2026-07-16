@@ -14,10 +14,9 @@ from common import (
     discover_save,
     inspect_container,
     load_config,
-    resolve_parser_identity,
-    run_parser_inspect,
     validate_normalized_payload,
 )
+from parser_runtime import inspect_with_parser, resolve_runtime
 
 
 def main() -> int:
@@ -28,12 +27,13 @@ def main() -> int:
     output_root = Path(args.output_root)
     config = load_config(Path(args.config))
     source = discover_save(args.save_name, Path(args.save_path) if args.save_path else None, Path(args.config))
-    parser_identity = resolve_parser_identity(config)
+    runtime = resolve_runtime(config)
+    parser_identity = runtime.identity
     snapshot = copy_save_to_snapshot(source, output_root / "snapshots", parser_identity)
     snapshot_save = Path(snapshot["save_path"])
 
     container = inspect_container(snapshot_save)
-    parser_result = run_parser_inspect(snapshot_save, parser_identity)
+    parser_result = inspect_with_parser(snapshot_save, runtime)
     source_ref = {
         "source_path": str(source),
         "snapshot_path": str(snapshot_save),
@@ -72,4 +72,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

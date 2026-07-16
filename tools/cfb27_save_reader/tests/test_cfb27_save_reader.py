@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 import common
+import parser_runtime
+import map_to_rutgers_app
 
 
 def fake_save(path: Path, payload: bytes = b"Rutgers") -> None:
@@ -62,6 +64,35 @@ class Cfb27SaveReaderTests(unittest.TestCase):
             config.write_text(json.dumps({"save_directories": [str(first_dir), str(second_dir)]}), encoding="utf-8")
             self.assertEqual(common.discover_save(config_path=config), second.resolve())
 
+    def test_exact_named_save_wins_over_autosave(self):
+        with tempfile.TemporaryDirectory() as temp:
+            save_dir = Path(temp) / "saves"
+            save_dir.mkdir()
+            exact = save_dir / "DYNASTY-RUTGERSAPP"
+            autosave = save_dir / "DYNASTY-RUTGERSAPP-AUTOSAVE"
+            fake_save(autosave)
+            time.sleep(0.01)
+            fake_save(exact)
+            config = Path(temp) / "config.json"
+            config.write_text(json.dumps({"save_directories": [str(save_dir)]}), encoding="utf-8")
+            result = common.discover_save_result("DYNASTY-RUTGERSAPP", config_path=config, allow_newest_dynasty_fallback=True)
+            self.assertEqual(result.path, exact.resolve())
+            self.assertTrue(result.exact_named_save)
+            self.assertIsNone(result.warning)
+
+    def test_newest_dynasty_fallback_warns_when_exact_missing(self):
+        with tempfile.TemporaryDirectory() as temp:
+            save_dir = Path(temp) / "saves"
+            save_dir.mkdir()
+            fallback = save_dir / "DYNASTY-OTHER"
+            fake_save(fallback)
+            config = Path(temp) / "config.json"
+            config.write_text(json.dumps({"save_directories": [str(save_dir)]}), encoding="utf-8")
+            result = common.discover_save_result("DYNASTY-NOT-PRESENT-FOR-TEST", config_path=config, allow_newest_dynasty_fallback=True)
+            self.assertEqual(result.path, fallback.resolve())
+            self.assertFalse(result.exact_named_save)
+            self.assertIn("Named manual save DYNASTY-NOT-PRESENT-FOR-TEST was not found", result.warning or "")
+
     def test_copy_snapshot_hashes_match_and_source_unchanged(self):
         with tempfile.TemporaryDirectory() as temp:
             source = Path(temp) / "DYNASTY-SOURCE"
@@ -110,6 +141,19 @@ class Cfb27SaveReaderTests(unittest.TestCase):
         }
         self.assertTrue(any("invalid overall" in error for error in common.validate_normalized_payload(payload)))
 
+    def test_invalid_nested_rating_is_rejected(self):
+        payload = {
+            "teams": [],
+            "players": [
+                {
+                    "player_id": {"value": "p1"},
+                    "overall": {"value": 88},
+                    "ratings": {"speed": {"value": 120}},
+                }
+            ],
+        }
+        self.assertTrue(any("invalid rating speed" in error for error in common.validate_normalized_payload(payload)))
+
     def test_duplicate_player_id_is_rejected(self):
         payload = {
             "teams": [],
@@ -130,7 +174,39 @@ class Cfb27SaveReaderTests(unittest.TestCase):
             self.assertEqual(result["decode_status"], "experimental")
             self.assertEqual(result["changed_byte_total"], 1)
 
+    def test_runtime_resolution_records_schema_package(self):
+        with tempfile.TemporaryDirectory() as temp:
+            exe = Path(temp) / "cfb-dynasty.exe"
+            schema_dir = Path(temp) / "schemas"
+            schema = schema_dir / "C27_468_2.gz"
+            exe.write_bytes(b"parser")
+            schema_dir.mkdir()
+            schema.write_bytes(b"schema")
+            runtime = parser_runtime.resolve_runtime(
+                {
+                    "parser_executable": str(exe),
+                    "schema_dir": str(schema_dir),
+                    "schema_path": str(schema),
+                    "parser_pinned_commit": "abc123",
+                    "schema_package": {"name": "madden-franchise", "version": "4.3.1", "license": "MIT"},
+                }
+            )
+            self.assertEqual(runtime.identity.status, "configured")
+            self.assertEqual(runtime.identity.schema_filename, "C27_468_2.gz")
+            self.assertEqual(runtime.identity.package_name, "madden-franchise")
+
+    def test_mapper_publish_is_disabled(self):
+        normalized = {
+            "validation_errors": [],
+            "mvp_summary": {
+                "current_team_id": 78,
+                "rutgers_players_found": 1,
+                "upcoming_opponent": {"name": "Purdue"},
+            },
+        }
+        with self.assertRaises(common.SaveReaderError):
+            map_to_rutgers_app.validate_ready_for_publish(normalized)
+
 
 if __name__ == "__main__":
     unittest.main()
-

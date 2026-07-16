@@ -14,6 +14,8 @@ No fabricated football data is allowed. If source data is unavailable, the app m
 
 JSON owns football data. Card components own presentation. The card registry owns card placement, order, priority, visibility, and display variants only.
 
+The read-only CFB27 Dynasty save reader is the future local source-of-truth intake for weekly Dynasty data. It must run only against a copied snapshot of the save, retain source/hash/parser provenance, and stage normalized output until three-save validation passes. It must not modify the original save, use EA AntiCheat/game-install patching, publish comparison-only offsets, or replace production app JSON after a failed parse.
+
 Roster JSON owns player identity. Media JSON owns portrait and media bindings. Last-game JSON and season JSON remain separate. Matchup JSON owns matchup selection, evidence, confidence, and tactical intelligence. The weekly opponent package remains replaceable. Playbook JSON owns verified visible play combinations.
 
 No registry or media file may duplicate football ratings, stats, names, matchup results, play recommendations, recruiting values, or tactical claims.

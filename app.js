@@ -5,7 +5,7 @@ const GAMEPLAN_WEEKLY_KEY = "rutgers_gameplan_weekly_v2";
 const RECRUITING_WEEKLY_KEY = "rutgers_recruiting_weekly_v2";
 const RECENT_CALLS_KEY = "rutgers_recent_calls";
 const APP_DATA_VERSION_KEY = "rutgers_app_data_version";
-const APP_DATA_VERSION = "week1_umass_save_20260717_v3";
+const APP_DATA_VERSION = "active_package_runtime_20260717_v4";
 const REQUIRED_SITUATIONS = ["short", "medium", "long", "red_zone", "goal_line", "two_minute", "normal", "must_score"];
 const DEFAULT_CAPS = {
   personnelFit: [-10, 10],
@@ -1756,59 +1756,6 @@ function loadRutgersRosterRecovery() {
   return typeof VIDEO_VERIFIED_RUTGERS_ROSTER_RECOVERY !== "undefined" ? VIDEO_VERIFIED_RUTGERS_ROSTER_RECOVERY : { players: [] };
 }
 
-function loadOpponentRosterRecovery() {
-  return typeof VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY !== "undefined" ? VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY : { players: [] };
-}
-
-function loadPurdueRosterRecovery() {
-  return loadOpponentRosterRecovery();
-}
-
-function positionFromOpponentPlayerId(id = "") {
-  const match = cleanValue(id).match(/^(?:pur|opp|umass|uma)-([a-z]+)-/);
-  const code = match ? match[1].toUpperCase() : "";
-  const aliases = { HB: "HB", RB: "HB", MIKE: "MIKE", MLB: "MIKE", WILL: "WILL", SAM: "SAM", LEDG: "LEDG", REDG: "REDG", DT: "DT", CB: "CB", FS: "FS", SS: "SS", QB: "QB", WR: "WR", TE: "TE", LT: "LT", LG: "LG", C: "C", RG: "RG", RT: "RT", K: "K", P: "P" };
-  return aliases[code] || code || "N/A";
-}
-
-function positionFromPurduePlayerId(id = "") {
-  return positionFromOpponentPlayerId(id);
-}
-
-function allRowsFromStatCategories(categories = {}) {
-  return Object.values(categories || {}).filter(Array.isArray).flat();
-}
-
-function supplementalOpponentPlayers(existing = []) {
-  const byId = new Map((existing || []).map(player => [player.player_id, player]));
-  const sources = [
-    ...((loadOpponentRosterRecovery().players || []).map(row => ({ ...row, source_status: row.source_status || "video_roster_recovery" }))),
-    ...allRowsFromStatCategories(loadOpponentSeasonStats()).map(row => ({ ...row, source_status: "video_season_stat_identity" })),
-    ...allRowsFromStatCategories(loadOpponentLastGameStats()).map(row => ({ ...row, source_status: "video_last_game_stat_identity" }))
-  ];
-  const additions = [];
-  sources.forEach(row => {
-    const id = cleanValue(row.player_id);
-    if (!id || byId.has(id)) return;
-    const player = {
-      player_id: id,
-      name: cleanValue(row.name) || "N/A",
-      position: cleanValue(row.position) || positionFromOpponentPlayerId(id),
-      year: cleanValue(row.year || row.class_year) || "N/A",
-      class_year: cleanValue(row.class_year || row.year) || "N/A",
-      overall: cleanValue(row.overall) || "N/A",
-      source_status: row.source_status,
-      ui_analysis: {
-        matchup_priority: "verified",
-        summary: row.source_status === "video_roster_recovery" ? "Verified roster recovery" : "Verified stat identity; roster-card details not visible in current evidence."
-      }
-    };
-    additions.push(mergeVerifiedOverlay(player, row));
-    byId.set(id, player);
-  });
-  return additions;
-}
-
 function loadRecruitingBoardScoutingRecovery() {
   return typeof VIDEO_VERIFIED_RUTGERS_BOARD_SCOUTING_RECOVERY !== "undefined" ? VIDEO_VERIFIED_RUTGERS_BOARD_SCOUTING_RECOVERY : { prospects: [] };
 }
@@ -1851,13 +1798,8 @@ function loadOpponentProfile() {
 }
 
 function loadOpponentPlayers() {
-  const weeklyPlayers = (loadGameplanWeekly().opponent_players) || [];
-  const videoPlayers = typeof VIDEO_VERIFIED_PURDUE_ROSTER !== "undefined" ? VIDEO_VERIFIED_PURDUE_ROSTER.players || [] : [];
-  const recoveryPlayers = loadOpponentRosterRecovery().players || [];
-  const base = [videoPlayers, recoveryPlayers, weeklyPlayers].sort((a, b) => b.length - a.length)[0] || [];
-  const overlays = recoveryById(loadOpponentRosterRecovery(), "players");
-  const merged = base.map(player => mergeVerifiedOverlay(player, overlays.get(player.player_id) || {}));
-  return [...merged, ...supplementalOpponentPlayers(merged)].sort((a, b) => {
+  const players = Array.isArray(loadGameplanWeekly().opponent_players) ? loadGameplanWeekly().opponent_players : [];
+  return [...players].sort((a, b) => {
     const order = ["QB","HB","RB","WR","TE","LT","LG","C","RG","RT","LEDG","REDG","DT","SAM","MIKE","WILL","CB","FS","SS","K","P"];
     return (order.indexOf(a.position) === -1 ? 99 : order.indexOf(a.position)) - (order.indexOf(b.position) === -1 ? 99 : order.indexOf(b.position)) || cleanValue(a.name).localeCompare(cleanValue(b.name));
   });
@@ -1867,45 +1809,29 @@ function loadOpponentGroups() {
   return (loadGameplanWeekly().opponent_position_groups) || [];
 }
 
-function currentWeeklyIsSaveDerived(weekly = loadGameplanWeekly()) {
-  const text = [weekly.source_of_truth, weekly.package_type, weekly.schema_version, weekly.metadata?.source, weekly.generated_by, weekly.opponent_profile?.name, weekly.opponent?.name]
-    .map(value => cleanValue(value).toLowerCase())
-    .join(" ");
-  return text.includes("dynasty") || text.includes("save") || text.includes("umass");
-}
-
 function loadMatchups() {
   const weekly = loadGameplanWeekly();
-  if (Array.isArray(weekly.matchups) && weekly.matchups.length) return weekly.matchups;
-  if (currentWeeklyIsSaveDerived(weekly)) return [];
-  if (typeof PLAYER_MATCHUPS !== "undefined" && Array.isArray(PLAYER_MATCHUPS.matchups)) return PLAYER_MATCHUPS.matchups;
-  return [];
+  return Array.isArray(weekly.matchups) ? weekly.matchups : [];
 }
 
 function loadRutgersLastGameStats() {
   const weekly = loadGameplanWeekly();
-  if (currentWeeklyIsSaveDerived(weekly)) return weekly.last_game || {};
-  return typeof RUTGERS_LAST_GAME_STATS !== "undefined" ? RUTGERS_LAST_GAME_STATS : (weekly.last_game || {});
+  return weekly.last_game || {};
 }
 
 function loadRutgersSeasonStats() {
   const weekly = loadGameplanWeekly();
-  if (currentWeeklyIsSaveDerived(weekly)) return weekly.season_stats || {};
-  if (typeof VIDEO_VERIFIED_RUTGERS_SEASON_STATS !== "undefined") return VIDEO_VERIFIED_RUTGERS_SEASON_STATS.categories || {};
-  return typeof RUTGERS_SEASON_STATS !== "undefined" ? RUTGERS_SEASON_STATS : (weekly.season_stats || {});
+  return weekly.season_stats || {};
 }
 
 function loadOpponentLastGameStats() {
   const weekly = loadGameplanWeekly();
-  if (currentWeeklyIsSaveDerived(weekly)) return weekly.opponent_last_game || {};
-  return typeof OPPONENT_LAST_GAME_STATS !== "undefined" ? OPPONENT_LAST_GAME_STATS : {};
+  return weekly.opponent_last_game || {};
 }
 
 function loadOpponentSeasonStats() {
   const weekly = loadGameplanWeekly();
-  if (currentWeeklyIsSaveDerived(weekly)) return weekly.opponent_season_stats || weekly.opponent_stats || {};
-  if (typeof VIDEO_VERIFIED_PURDUE_SEASON_STATS !== "undefined") return VIDEO_VERIFIED_PURDUE_SEASON_STATS.categories || {};
-  return typeof OPPONENT_SEASON_STATS !== "undefined" ? OPPONENT_SEASON_STATS : {};
+  return weekly.opponent_season_stats || weekly.opponent_stats || {};
 }
 
 function loadRutgersPlayerMedia() {
@@ -1913,7 +1839,7 @@ function loadRutgersPlayerMedia() {
 }
 
 function loadOpponentPlayerMedia() {
-  return typeof OPPONENT_PLAYER_MEDIA !== "undefined" ? OPPONENT_PLAYER_MEDIA : { players: [] };
+  return { players: [] };
 }
 
 function loadDepthChartSeed() {

@@ -32,7 +32,7 @@ test("default evaluation preserves the legacy package-cache reset", () => {
     ["remove", "rutgers_weekly_package"],
     ["remove", "rutgers_gameplan_weekly_v2"],
     ["remove", "rutgers_recruiting_weekly_v2"],
-    ["set", "rutgers_app_data_version", "week1_umass_save_20260717_v3"]
+    ["set", "rutgers_app_data_version", "active_package_runtime_20260717_v4"]
   ]);
 });
 

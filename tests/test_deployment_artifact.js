@@ -55,6 +55,11 @@ function refreshManifest(artifact, rel) {
   manifest.files[rel] = { sha256: sha256File(path.join(artifact, rel)), size: fs.statSync(path.join(artifact, rel)).size };
   fs.writeFileSync(file, `${JSON.stringify(manifest, null, 2)}\n`);
 }
+function replaceDeclaredFile(artifact, rel, transform) {
+  const file = path.join(artifact, rel);
+  fs.writeFileSync(file, transform(fs.readFileSync(file, "utf8")));
+  refreshManifest(artifact, rel);
+}
 function expectCode(artifact, code) {
   assert.throws(() => validateArtifact(artifact), error => error instanceof ArtifactError && error.code === code, `expected ${code}`);
 }
@@ -85,6 +90,21 @@ test("mixed-byte and unsafe artifact fixtures fail with deterministic codes", as
     ["old shell with new scripts", "LEGACY_RESOURCE_FORBIDDEN", f => { const file = path.join(f.artifact, "index.html"); fs.writeFileSync(file, fs.readFileSync(file, "utf8").replace("</body>", '<script src="data/engine_data.js?r=' + RELEASE_ID + '"></script></body>')); refreshManifest(f.artifact, "index.html"); }]
   ];
   for (const [name, code, mutate] of cases) await t.test(name, () => { const f = fixture(); mutate(f); expectCode(f.artifact, code); });
+});
+
+test("semantic stale-runtime validation rejects active dependencies but permits defensive rejection", async t => {
+  const cases = [
+    ["active Purdue global access", "LEGACY_RUNTIME_GLOBAL_ACCESS", f => replaceDeclaredFile(f.artifact, "app.js", text => `${text}\nvoid PURDUE_MATCHUPS;\n`)],
+    ["active UMass fallback logic", "OPPONENT_SPECIFIC_FALLBACK", f => replaceDeclaredFile(f.artifact, "app.js", text => `${text}\nfunction loadUMassFallback(){ return {}; }\n`)],
+    ["Week 1 UMass production identity", "STALE_PRODUCTION_VERSION", f => replaceDeclaredFile(f.artifact, "app.js", text => text.replace(/APP_DATA_VERSION\s*=\s*["'][^"']+["']/, 'APP_DATA_VERSION = "week1_umass_fixture"'))],
+    ["legacy global installed into compatibility surface", "LEGACY_COMPATIBILITY_GLOBAL", f => replaceDeclaredFile(f.artifact, "package_runtime.js", text => text.replace('"RUTGERS_ROSTER_BASE"]', '"RUTGERS_ROSTER_BASE", "PURDUE_MATCHUPS"]'))]
+  ];
+  for (const [name, code, mutate] of cases) await t.test(name, () => { const f = fixture(); mutate(f); expectCode(f.artifact, code); });
+  const neutral = fixture();
+  assert.equal(validateArtifact(neutral.artifact).ok, true, "defensive denylist and neutral active-package loading remain valid");
+  const deployedApp = fs.readFileSync(path.join(neutral.artifact, "app.js"), "utf8");
+  assert.doesNotMatch(deployedApp, /week\s*1|week1|umass|purdue/i);
+  assert.doesNotMatch(deployedApp, /VIDEO_VERIFIED_(?:PURDUE|UMASS)|PLAYER_MATCHUPS|OPPONENT_(?:LAST_GAME_STATS|SEASON_STATS|PLAYER_MEDIA)/);
 });
 
 test("assembled scripts validate, install compatibility globals, and boot exactly once", () => {

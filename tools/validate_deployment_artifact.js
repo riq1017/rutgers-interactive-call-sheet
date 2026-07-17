@@ -43,6 +43,23 @@ function localReferences(text, kind) {
   }
   return refs;
 }
+function validateSemanticRuntime(root) {
+  const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
+  const runtime = fs.readFileSync(path.join(root, "package_runtime.js"), "utf8");
+  const appChecks = [
+    ["LEGACY_RUNTIME_GLOBAL_ACCESS", /\b(?:(?:PURDUE|UMASS)_[A-Z0-9_]*|VIDEO_VERIFIED_(?:PURDUE|UMASS)_[A-Z0-9_]*|PLAYER_MATCHUPS|OPPONENT_(?:DATA|LAST_GAME_STATS|SEASON_STATS|PLAYER_MEDIA))\b/],
+    ["OPPONENT_SPECIFIC_FALLBACK", /function\s+[A-Za-z0-9_$]*(?:Purdue|UMass)[A-Za-z0-9_$]*\s*\(|\b(?:includes|startsWith|endsWith)\s*\(\s*["'`]umass["'`]/i],
+    ["STALE_PRODUCTION_VERSION", /APP_DATA_VERSION\s*=\s*["'`][^"'`]*(?:week\s*1|week1|umass)[^"'`]*["'`]/i]
+  ];
+  for (const [code, pattern] of appChecks) if (pattern.test(app)) fail(code, "app.js contains active stale opponent semantics");
+
+  const defensiveDeclaration = runtime.match(/const\s+FORBIDDEN_LEGACY_GLOBAL\s*=\s*\/[^\n;]+\/[a-z]*\s*;/i);
+  if (!defensiveDeclaration) fail("DEFENSIVE_LEGACY_REJECTION_MISSING", "package_runtime.js");
+  const compatibility = runtime.match(/const\s+COMPATIBILITY_GLOBALS\s*=\s*Object\.freeze\(\[([^\]]*)\]\)/);
+  if (!compatibility || /PURDUE|UMASS|OPPONENT_|PLAYER_MATCHUPS/i.test(compatibility[1])) fail("LEGACY_COMPATIBILITY_GLOBAL", "package_runtime.js compatibility surface");
+  const activeRuntime = defensiveDeclaration ? runtime.replace(defensiveDeclaration[0], "") : runtime;
+  if (/\b(?:(?:PURDUE|UMASS)_[A-Z0-9_]*|VIDEO_VERIFIED_(?:PURDUE|UMASS)_[A-Z0-9_]*)\b/.test(activeRuntime)) fail("LEGACY_RUNTIME_GLOBAL_ACCESS", "package_runtime.js contains non-defensive opponent-specific access");
+}
 function evaluatePackage(root, packageDir, names) {
   const scope = { globalThis: null }; scope.globalThis = scope; vm.createContext(scope);
   const files = ["active_package", ...names];
@@ -80,6 +97,7 @@ function validateArtifact(rootInput, options = {}) {
     const entry = manifest.files[rel];
     if (!entry || !SHA256.test(entry.sha256) || sha256File(path.join(root, rel)) !== entry.sha256) fail("DEPLOYED_FILE_HASH_MISMATCH", rel);
   }
+  validateSemanticRuntime(root);
 
   const packageRoot = path.join(root, "data", "active-packages");
   if (!fs.existsSync(packageRoot)) fail("MISSING_REQUIRED_ARTIFACT", "data/active-packages");

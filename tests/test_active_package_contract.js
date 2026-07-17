@@ -170,6 +170,17 @@ test("undeclared save-managed globals fail validation", () => {
   assert.ok(result.errors.some(error => error.code === "UNDECLARED_SAVE_MANAGED_GLOBAL" && error.detail === "PURDUE_MATCHUPS"));
 });
 
+test("generic defensive legacy-global detection rejects Purdue and UMass state", () => {
+  for (const forbidden of ["PURDUE_MATCHUPS", "VIDEO_VERIFIED_UMASS_ROSTER"]) {
+    const { artifacts } = generated();
+    const scope = loadGenerated(artifacts);
+    scope[forbidden] = {};
+    const result = validateActivePackage(scope, { storage: null });
+    assert.equal(result.ok, false);
+    assert.ok(result.errors.some(error => error.code === "UNDECLARED_SAVE_MANAGED_GLOBAL" && error.detail === forbidden));
+  }
+});
+
 test("failure renderer uses the approved fatal message and does not boot or install", () => {
   let bootCalls = 0;
   const body = { child: null, replaceChildren(node) { this.child = node; } };

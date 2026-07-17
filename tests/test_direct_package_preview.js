@@ -42,7 +42,7 @@ test("isolated shell uses the direct active package and an allowlist-only startu
   const startup = fs.readFileSync(f.shell.startup, "utf8");
   const validateAt = startup.indexOf("runtime.validateActivePackage");
   const installAt = startup.indexOf("runtime.installActivePackageCompatibilityGlobals");
-  const bootAt = startup.indexOf("root.CFB27_APP_BOOT()");
+  const bootAt = startup.indexOf("root.CFB27_APP_BOOT({startupApproved:true})");
   assert.ok(validateAt >= 0 && validateAt < installAt && installAt < bootAt);
   assert.match(startup, /CFB27_ACTIVE_PACKAGE_VALIDATION/);
   assert.match(startup, /CFB27_ACTIVE_PACKAGE_INSTALLATION/);

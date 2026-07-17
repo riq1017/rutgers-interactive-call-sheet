@@ -21,6 +21,10 @@ const state = { ranked: [], excluded: [] };
 const EMBEDDED_WEEKLY_PLAN = typeof WEEKLY_PLAN !== "undefined" ? WEEKLY_PLAN : null;
 const EMBEDDED_GAMEPLAN_WEEKLY = typeof GAMEPLAN_WEEKLY !== "undefined" ? GAMEPLAN_WEEKLY : null;
 
+function isControlledApplicationMode() {
+  return typeof globalThis !== "undefined" && globalThis.CFB27_APP_STARTUP_MODE === "controlled";
+}
+
 function resetRuntimeCachesForDataVersion() {
   try {
     if (localStorage.getItem(APP_DATA_VERSION_KEY) === APP_DATA_VERSION) return;
@@ -31,7 +35,7 @@ function resetRuntimeCachesForDataVersion() {
   }
 }
 
-resetRuntimeCachesForDataVersion();
+if (!isControlledApplicationMode()) resetRuntimeCachesForDataVersion();
 
 function packageIdentity(pkg = {}) {
   const opponent = pkg.opponent || pkg.opponent_profile || {};
@@ -100,7 +104,15 @@ function loadEnginePackages() {
   }
 }
 
+function initializePackageSourcesForBoot() {
+  if (isControlledApplicationMode()) return "COMPATIBILITY_GLOBALS_ONLY";
+  loadLocalWeeklyPackage();
+  loadEnginePackages();
+  return "LEGACY_STORAGE_LOADED";
+}
+
 function loadHistory() {
+  if (isControlledApplicationMode()) return [];
   try {
     return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
   } catch {
@@ -110,11 +122,12 @@ function loadHistory() {
 }
 
 function saveHistory(rows) {
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(rows));
+  if (!isControlledApplicationMode()) localStorage.setItem(HISTORY_KEY, JSON.stringify(rows));
   window.GAME_HISTORY = rows;
 }
 
 function loadRecentCalls() {
+  if (isControlledApplicationMode()) return [];
   try {
     return JSON.parse(localStorage.getItem(RECENT_CALLS_KEY) || "[]").slice(-8);
   } catch {
@@ -124,7 +137,7 @@ function loadRecentCalls() {
 }
 
 function saveRecentCalls(rows) {
-  localStorage.setItem(RECENT_CALLS_KEY, JSON.stringify(rows.slice(-8)));
+  if (!isControlledApplicationMode()) localStorage.setItem(RECENT_CALLS_KEY, JSON.stringify(rows.slice(-8)));
 }
 
 function distanceYardsFromSelect(value) {
@@ -1331,6 +1344,10 @@ function exportJsonFile(filename, data) {
 }
 
 function importEnginePackage(file, kind) {
+  if (isControlledApplicationMode()) {
+    setStatus(`Import disabled in controlled production mode: ${kind}`);
+    return "IMPORT_DISABLED";
+  }
   if (!file) return;
   const reader = new FileReader();
   reader.onload = () => {
@@ -1359,11 +1376,12 @@ function renderPackagePanel() {
   if (!$("enginePackagePanel")) return;
   const gameplan = weeklyGameplanData();
   const recruiting = typeof RECRUITING_WEEKLY !== "undefined" ? RECRUITING_WEEKLY : {};
+  const importDisabled = isControlledApplicationMode() ? ' disabled aria-disabled="true"' : "";
   $("enginePackagePanel").innerHTML = `<div class="tool-grid">
     <button id="exportGameplanBtn" type="button">Export Gameplan JSON</button>
-    <label class="fileTool">Import Gameplan JSON<input id="importGameplanWeekly" type="file" accept="application/json,.json"></label>
+    <label class="fileTool">Import Gameplan JSON<input id="importGameplanWeekly" type="file" accept="application/json,.json"${importDisabled}></label>
     <button id="exportRecruitingBtn" type="button">Export Recruiting JSON</button>
-    <label class="fileTool">Import Recruiting JSON<input id="importRecruitingWeekly" type="file" accept="application/json,.json"></label>
+    <label class="fileTool">Import Recruiting JSON<input id="importRecruitingWeekly" type="file" accept="application/json,.json"${importDisabled}></label>
   </div>
   <div class="overview-grid package-status">
     <div class="metric"><span>Current Gameplan package name</span><strong>${displayValue(gameplan.package_name)}</strong></div>
@@ -1629,6 +1647,7 @@ function starRating(value) {
 const FAVORITE_PLAYS_KEY = "rutgers_call_sheet_favorite_plays";
 
 function favoritePlayIds() {
+  if (isControlledApplicationMode()) return new Set();
   try {
     return new Set(JSON.parse(localStorage.getItem(FAVORITE_PLAYS_KEY) || "[]"));
   } catch {
@@ -1641,7 +1660,7 @@ function toggleFavoritePlay(playId) {
   const favorites = favoritePlayIds();
   if (favorites.has(playId)) favorites.delete(playId);
   else favorites.add(playId);
-  localStorage.setItem(FAVORITE_PLAYS_KEY, JSON.stringify([...favorites]));
+  if (!isControlledApplicationMode()) localStorage.setItem(FAVORITE_PLAYS_KEY, JSON.stringify([...favorites]));
   renderRanks();
 }
 
@@ -4875,10 +4894,11 @@ function renderPackagePanel() {
   if (!$("more")) return;
   const gp = loadGameplanWeekly();
   const rw = loadRecruitingWeekly();
+  const importDisabled = isControlledApplicationMode() ? ' disabled aria-disabled="true"' : "";
   $("more").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>More</strong></div>
     <section class="utility-section"><h3>Weekly Data</h3><div class="tool-grid">
-      <label class="fileTool">Import Gameplan JSON<input id="importGameplanWeekly" type="file" accept="application/json,.json"></label><button id="exportGameplanBtn" type="button">Export Gameplan JSON</button>
-      <label class="fileTool">Import Recruiting JSON<input id="importRecruitingWeekly" type="file" accept="application/json,.json"></label><button id="exportRecruitingBtn" type="button">Export Recruiting JSON</button>
+      <label class="fileTool">Import Gameplan JSON<input id="importGameplanWeekly" type="file" accept="application/json,.json"${importDisabled}></label><button id="exportGameplanBtn" type="button">Export Gameplan JSON</button>
+      <label class="fileTool">Import Recruiting JSON<input id="importRecruitingWeekly" type="file" accept="application/json,.json"${importDisabled}></label><button id="exportRecruitingBtn" type="button">Export Recruiting JSON</button>
     </div><div class="overview-grid">${maybeRow("Current package", gp.package_type)}${maybeRow("Current week", activeWeekLabel())}${maybeRow("Opponent", activeOpponentName())}${maybeRow("Last updated", gp.generated_utc)}${maybeRow("Validation result", "Loaded")}</div><div id="dataStatus" class="small"></div></section>
     ${moreGroup("History", ["Gameplan history", "Recruiting updates", "Opponent history", "Game results"])}
     ${analyticsGroup()}
@@ -4937,8 +4957,7 @@ function switchTab(tabName, shouldScroll = true) {
 }
 
 function boot() {
-  loadLocalWeeklyPackage();
-  loadEnginePackages();
+  initializePackageSourcesForBoot();
   window.GAME_HISTORY = loadHistory();
   validatePlaybook();
   validateWeeklyPlan(WEEKLY_PLAN);
@@ -4974,17 +4993,18 @@ function boot() {
   setStatus(`Loaded gameplan and recruiting packages for ${activeOpponentName()}`);
 }
 
-function createApplicationStarter(render = boot) {
+function createApplicationStarter(render = boot, options = {}) {
   let booted = false;
-  return function startApplication() {
+  return function startApplication(startupApproval) {
     if (booted) return "ALREADY_BOOTED";
-    render();
+    if (options.controlled && (!startupApproval || startupApproval.startupApproved !== true)) return "STARTUP_APPROVAL_REQUIRED";
+    render(startupApproval);
     booted = true;
     return "BOOTED";
   };
 }
 
-const startApplication = createApplicationStarter();
+const startApplication = createApplicationStarter(boot, { controlled: isControlledApplicationMode() });
 
 if (typeof globalThis !== "undefined") globalThis.CFB27_APP_BOOT = startApplication;
 if (typeof document !== "undefined" && globalThis.CFB27_APP_STARTUP_MODE !== "controlled") startApplication();
@@ -5098,6 +5118,14 @@ if (typeof module !== "undefined") {
     matchupEdgeDisplay,
     explicitEdgeDifferential,
     evidenceRowsHtml,
-    createApplicationStarter
+    createApplicationStarter,
+    importEnginePackage,
+    initializePackageSourcesForBoot,
+    isControlledApplicationMode,
+    loadHistory,
+    saveHistory,
+    loadRecentCalls,
+    saveRecentCalls,
+    favoritePlayIds
   };
 }

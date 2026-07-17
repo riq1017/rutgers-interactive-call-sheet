@@ -32,7 +32,10 @@ test("failed render is not recorded as a successful boot", () => {
 
 function evaluateStartupFooter(mode) {
   const footer = appSource.slice(appSource.indexOf("function createApplicationStarter"), appSource.indexOf('if (typeof module !== "undefined")'));
-  const instrumented = footer.replace("const startApplication = createApplicationStarter();", "const startApplication = createApplicationStarter(() => { globalThis.renderCount += 1; });");
+  const instrumented = footer.replace(
+    "const startApplication = createApplicationStarter(boot, { controlled: isControlledApplicationMode() });",
+    'const startApplication = createApplicationStarter(() => { globalThis.renderCount += 1; }, { controlled: globalThis.CFB27_APP_STARTUP_MODE === "controlled" });'
+  );
   const scope = { document: {}, renderCount: 0 };
   if (mode) scope.CFB27_APP_STARTUP_MODE = mode;
   scope.globalThis = scope;
@@ -53,7 +56,9 @@ test("controlled browser mode exposes boot without auto-booting", () => {
   const scope = evaluateStartupFooter("controlled");
   assert.equal(scope.renderCount, 0);
   assert.equal(typeof scope.CFB27_APP_BOOT, "function");
-  assert.equal(scope.CFB27_APP_BOOT(), "BOOTED");
+  assert.equal(scope.CFB27_APP_BOOT(), "STARTUP_APPROVAL_REQUIRED");
+  assert.equal(scope.renderCount, 0);
+  assert.equal(scope.CFB27_APP_BOOT({ startupApproved: true }), "BOOTED");
   assert.equal(scope.CFB27_APP_BOOT(), "ALREADY_BOOTED");
   assert.equal(scope.renderCount, 1);
 });
@@ -97,7 +102,7 @@ test("successful preview validates, installs, and boots in order", () => {
       installActivePackageCompatibilityGlobals: () => { calls.push("install"); return { ok: true, status: "INSTALLED", error_code: null, package_id: "package-one", refresh_id: "refresh-one" }; },
       renderPackageValidationError: () => { calls.push("render-error"); }
     },
-    CFB27_APP_BOOT: () => { calls.push("boot"); return "BOOTED"; },
+    CFB27_APP_BOOT: approval => { calls.push("boot"); assert.equal(approval.startupApproved, true); return "BOOTED"; },
     document: { documentElement: { dataset: {} }, getElementById: id => elements[id] || null }
   };
   scope.globalThis = scope;

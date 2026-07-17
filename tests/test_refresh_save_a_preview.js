@@ -44,7 +44,7 @@ test("successful Save A refresh is snapshot-only, lineage-complete, and producti
   assert.equal(manifest.production_changed, false);
   assert.equal(manifest.browser_expectation.runtime, "real_repository_application_shell");
   assert.ok(fs.existsSync(manifest.artifacts.real_shell.index));
-  assert.ok(fs.existsSync(manifest.artifacts.real_shell.definitions));
+  assert.equal(manifest.artifacts.real_shell.definitions, undefined);
   assert.ok(fs.existsSync(manifest.artifacts.real_shell.startup));
   assert.ok(fs.existsSync(manifest.artifacts.real_shell.media.file));
   assert.equal(manifest.artifacts.real_shell.media.player_count, 48);
@@ -52,7 +52,9 @@ test("successful Save A refresh is snapshot-only, lineage-complete, and producti
   assert.match(shell, /active-package\/active_package\.js/);
   assert.match(shell, /active-package\/weekly_manifest\.js/);
   assert.match(shell, /package_runtime\.js/);
-  assert.match(shell, /app-definitions\.js/);
+  assert.match(shell, /<script src="app\.js"><\/script>/);
+  assert.match(shell, /globalThis\.CFB27_APP_STARTUP_MODE="controlled";/);
+  assert.doesNotMatch(shell, /app-definitions\.js/);
   assert.match(shell, /rutgers_media\.js/);
   assert.doesNotMatch(shell, /save-preview-bridge|data\/player_media\.js|data\/weekly_plan\.js|engine_data\.js|recruiting_data\.js|phase1_verified_data\.js|purdue|weekly\/coaching_decisions/i);
   assert.ok(fs.existsSync(manifest.artifacts.active_package.marker));

@@ -4974,7 +4974,20 @@ function boot() {
   setStatus(`Loaded gameplan and recruiting packages for ${activeOpponentName()}`);
 }
 
-if (typeof document !== "undefined") boot();
+function createApplicationStarter(render = boot) {
+  let booted = false;
+  return function startApplication() {
+    if (booted) return "ALREADY_BOOTED";
+    render();
+    booted = true;
+    return "BOOTED";
+  };
+}
+
+const startApplication = createApplicationStarter();
+
+if (typeof globalThis !== "undefined") globalThis.CFB27_APP_BOOT = startApplication;
+if (typeof document !== "undefined" && globalThis.CFB27_APP_STARTUP_MODE !== "controlled") startApplication();
 
 if (typeof module !== "undefined") {
   module.exports = {
@@ -5084,6 +5097,7 @@ if (typeof module !== "undefined") {
     matchupPriority,
     matchupEdgeDisplay,
     explicitEdgeDifferential,
-    evidenceRowsHtml
+    evidenceRowsHtml,
+    createApplicationStarter
   };
 }

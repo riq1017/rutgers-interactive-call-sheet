@@ -168,14 +168,8 @@ function realShellPreview(runDir, normalized, packageId, activePackage) {
   fs.mkdirSync(dir, { recursive: true });
   const relativeRoot = path.relative(dir, REPO_ROOT).replace(/\\/g, "/") + "/";
   const runWebPath = `data/generated/dynasty/refresh_runs/${path.basename(runDir)}/preview/real-shell`;
-  const appSource = fs.readFileSync(path.join(REPO_ROOT, "app.js"), "utf8");
-  const bootStatement = 'if (typeof document !== "undefined") boot();';
-  if (!appSource.includes(bootStatement) || appSource.indexOf(bootStatement) !== appSource.lastIndexOf(bootStatement)) throw new Error("Repository app.js auto-boot gate changed; refusing to generate preview definitions.");
-  const definitions = appSource.replace(bootStatement, 'if (typeof globalThis !== "undefined") globalThis.CFB27_APP_BOOT = boot;');
-  const definitionsPath = path.join(dir, "app-definitions.js");
-  fs.writeFileSync(definitionsPath, definitions, { encoding: "utf8", flag: "wx" });
   const startupPath = path.join(dir, "package_startup.js");
-  fs.writeFileSync(startupPath, `"use strict";\n(function(root){\nconst runtime=root.CFB27_PACKAGE_RUNTIME;\nconst result=runtime.validateActivePackage(root);\nroot.CFB27_ACTIVE_PACKAGE_VALIDATION=result;\nif(!result.ok||!root.CFB27_ACTIVE_PACKAGE_PREFLIGHT||!root.CFB27_ACTIVE_PACKAGE_PREFLIGHT.ok){runtime.renderPackageValidationError(result.ok?root.CFB27_ACTIVE_PACKAGE_PREFLIGHT:result);return;}\nif(typeof root.CFB27_APP_BOOT!=="function"){runtime.renderPackageValidationError({error_code:"APP_BOOT_UNAVAILABLE"});return;}\nroot.CFB27_APP_BOOT();\nroot.document.documentElement.dataset.domProof=(root.document.getElementById("weekOpponent")?.textContent||"").includes("Week ${normalized.week} vs ${normalized.opponent.name}")&&(root.document.getElementById("seasonRecord")?.textContent||"")==="${normalized.team.record}"?"PASS":"FAIL";\n})(globalThis);\n`, { encoding: "utf8", flag: "wx" });
+  fs.writeFileSync(startupPath, `"use strict";\n(function(root){\nconst runtime=root.CFB27_PACKAGE_RUNTIME;\nconst result=runtime.validateActivePackage(root);\nroot.CFB27_ACTIVE_PACKAGE_VALIDATION=result;\nif(!result.ok||!root.CFB27_ACTIVE_PACKAGE_PREFLIGHT||!root.CFB27_ACTIVE_PACKAGE_PREFLIGHT.ok){runtime.renderPackageValidationError(result.ok?root.CFB27_ACTIVE_PACKAGE_PREFLIGHT:result);return;}\nif(typeof root.CFB27_APP_BOOT!=="function"){runtime.renderPackageValidationError({error_code:"APP_BOOT_UNAVAILABLE"});return;}\nroot.CFB27_APP_BOOT_RESULT=root.CFB27_APP_BOOT();\nroot.document.documentElement.dataset.domProof=(root.document.getElementById("weekOpponent")?.textContent||"").includes("Week ${normalized.week} vs ${normalized.opponent.name}")&&(root.document.getElementById("seasonRecord")?.textContent||"")==="${normalized.team.record}"?"PASS":"FAIL";\n})(globalThis);\n`, { encoding: "utf8", flag: "wx" });
   let html = fs.readFileSync(path.join(REPO_ROOT, "index.html"), "utf8");
   html = html.replace("<head>", `<head>\n<base href="${relativeRoot}">`);
   const wrapperOrder = ["weekly_manifest", "weekly_plan", "gameplan_weekly", "rutgers_roster", "current_opponent", "statistics", "injuries", "matchups", "recruiting", "recovery"];
@@ -186,16 +180,16 @@ function realShellPreview(runDir, normalized, packageId, activePackage) {
     "data/rutgers_playbook.js",
     `${runWebPath}/rutgers_media.js`,
     "package_runtime.js",
-    `${runWebPath}/app-definitions.js`,
+    "app.js",
     `${runWebPath}/package_startup.js`
   ];
   const scripts = scriptSources.map(src => `<script src="${src}"></script>`).join("\n");
-  html = html.replace(/<script src="data\/rutgers_team\.js"><\/script>[\s\S]*?<script src="app\.js[^\"]*"><\/script>/, scripts);
+  html = html.replace(/<script src="data\/rutgers_team\.js"><\/script>[\s\S]*?<script src="app\.js[^\"]*"><\/script>/, `<script>globalThis.CFB27_APP_STARTUP_MODE="controlled";</script>\n${scripts}`);
   if (html.includes("save-preview-bridge.js") || html.includes("data/weekly_plan.js") || html.includes("data/player_media.js")) throw new Error("Legacy preview scripts survived direct-package shell generation.");
   const indexPath = path.join(dir, "index.html");
   fs.writeFileSync(indexPath, html, { encoding: "utf8", flag: "wx" });
-  writeJson(path.join(dir, "browser-proof-expectation.json"), { package_id: packageId, runtime: "direct active package + repository application definitions", expected_dom: { weekOpponent: `Week ${normalized.week} vs ${normalized.opponent.name}`, seasonRecord: normalized.team.record }, context: { team: normalized.team.name, season: normalized.season, week: normalized.week, opponent: normalized.opponent.name, location: normalized.location }, script_order: scriptSources });
-  return { index: indexPath, definitions: definitionsPath, startup: startupPath, media, expectation: path.join(dir, "browser-proof-expectation.json"), script_order: scriptSources, repository_app_js_sha256: sha256(path.join(REPO_ROOT, "app.js")), generated_app_definitions_sha256: sha256(definitionsPath), repository_index_sha256: sha256(path.join(REPO_ROOT, "index.html")), active_package: activePackage.directory };
+  writeJson(path.join(dir, "browser-proof-expectation.json"), { package_id: packageId, runtime: "direct active package + repository app.js", expected_dom: { weekOpponent: `Week ${normalized.week} vs ${normalized.opponent.name}`, seasonRecord: normalized.team.record }, context: { team: normalized.team.name, season: normalized.season, week: normalized.week, opponent: normalized.opponent.name, location: normalized.location }, script_order: scriptSources });
+  return { index: indexPath, startup: startupPath, media, expectation: path.join(dir, "browser-proof-expectation.json"), script_order: scriptSources, repository_app_js_sha256: sha256(path.join(REPO_ROOT, "app.js")), repository_index_sha256: sha256(path.join(REPO_ROOT, "index.html")), active_package: activePackage.directory };
 }
 
 function run(options) {

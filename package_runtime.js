@@ -4,12 +4,14 @@
   const api = factory();
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (root) root.CFB27_PACKAGE_RUNTIME = Object.freeze(api);
-  if (root && root.document) root.CFB27_ACTIVE_PACKAGE_PREFLIGHT = api.activateActivePackage(root);
 })(typeof globalThis !== "undefined" ? globalThis : this, function packageRuntimeFactory() {
   const SHA256 = /^[a-f0-9]{64}$/;
   const REQUIRED_MARKER_FIELDS = ["package_id", "refresh_id", "source_sha256", "snapshot_sha256", "normalized_sha256", "team_id", "season", "week", "opponent_id", "opponent_name"];
   const STORAGE_KEYS = ["rutgers_weekly_package", "rutgers_gameplan_weekly_v2", "rutgers_recruiting_weekly_v2"];
   const SAVE_MANAGED_GLOBALS = ["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE", "OPPONENT_DATA", "OPPONENT_LAST_GAME_STATS", "OPPONENT_SEASON_STATS", "PLAYER_MATCHUPS", "PURDUE_MATCHUPS", "PURDUE_OPPONENT_PLAYERS", "PURDUE_OPPONENT_POSITION_GROUPS", "PURDUE_OPPONENT_PROFILE", "VIDEO_VERIFIED_PURDUE_ROSTER", "VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY", "VIDEO_VERIFIED_PURDUE_SEASON_STATS", "WEEKLY_COACHING_DECISIONS", "WEEKLY_RUN_LANE_ANALYSIS", "WEEKLY_MATCHUP_SUMMARY", "RECRUITING_WEEKLY", "RECRUITING_BOARD", "RECRUITING_CLASS", "RECRUITING_PERFORMANCE", "RECRUITING_SETTINGS", "RECRUITS_DATA", "TEAM_NEEDS_DATA", "TEAM_NEEDS_ENRICHED", "RUTGERS_LAST_GAME_STATS", "RUTGERS_SEASON_STATS"];
+  const COMPATIBILITY_GLOBALS = Object.freeze(["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE"]);
+  const successfulValidations = new WeakMap();
+  const installedScopes = new WeakMap();
 
   function contextOf(value = {}) {
     return {
@@ -27,7 +29,7 @@
     if (!marker || typeof marker !== "object") fail("MISSING_PACKAGE_MARKER", "ACTIVE_DYNASTY_PACKAGE is required");
     if (!manifest || typeof manifest !== "object") fail("MISSING_PACKAGE_MANIFEST", "ACTIVE_PACKAGE_MANIFEST is required");
     if (!artifacts || typeof artifacts !== "object" || Array.isArray(artifacts)) fail("MISSING_ARTIFACT_REGISTRY", "ACTIVE_PACKAGE_ARTIFACTS is required");
-    if (errors.length) return { ok: false, error_code: errors[0].code, errors, package_id: null };
+    if (errors.length) return { ok: false, error_code: errors[0].code, errors, package_id: null, refresh_id: null };
 
     if (marker.schema_version !== "cfb27_active_package_v1") fail("INVALID_MARKER_SCHEMA", marker.schema_version);
     for (const field of REQUIRED_MARKER_FIELDS) if (marker[field] === undefined || marker[field] === null || marker[field] === "") fail("MISSING_MARKER_FIELD", field);
@@ -79,10 +81,15 @@
     if (roster && weekly && (String(roster.team && roster.team.id) !== markerContext.team_id || roster.team.name !== weekly.team.name || roster.team.record !== weekly.team.record || !Array.isArray(roster.players) || Number(roster.player_count) !== roster.players.length)) fail("PACKAGE_PAYLOAD_CONTEXT_MISMATCH", "rutgers_roster");
     if (opponent && (String(opponent.id) !== markerContext.opponent_id || opponent.name !== markerContext.opponent_name || !Array.isArray(opponent.players) || Number(opponent.player_count) !== opponent.players.length)) fail("PACKAGE_PAYLOAD_CONTEXT_MISMATCH", "current_opponent");
 
+    const undeclaredGlobals = SAVE_MANAGED_GLOBALS.filter(name => name in scope);
+    for (const name of undeclaredGlobals) fail("UNDECLARED_SAVE_MANAGED_GLOBAL", name);
+
     const storage = options.storage === undefined ? scope.localStorage : options.storage;
     if (storage && typeof storage.getItem === "function") {
       for (const key of STORAGE_KEYS) {
-        const raw = storage.getItem(key);
+        let raw;
+        try { raw = storage.getItem(key); }
+        catch (_) { fail("STORAGE_ACCESS_FAILED", key); continue; }
         if (!raw) continue;
         try {
           const saved = JSON.parse(raw);
@@ -95,10 +102,21 @@
     const observed = Array.isArray(options.observedPackages) ? options.observedPackages.filter(Boolean) : [];
     if (observed.length !== new Set(observed).size) fail("DUPLICATE_PACKAGE_ID", "observed package ID appeared more than once");
     if (new Set([marker.package_id, ...observed]).size !== 1) fail("CONFLICTING_OR_DUPLICATE_PACKAGE", "observed package IDs disagree");
-    return { ok: errors.length === 0, error_code: errors[0] ? errors[0].code : null, errors, package_id: marker.package_id };
+    const result = { ok: errors.length === 0, error_code: errors[0] ? errors[0].code : null, errors, package_id: marker.package_id, refresh_id: marker.refresh_id };
+    if (result.ok && scope && (typeof scope === "object" || typeof scope === "function")) successfulValidations.set(result, { scope, package_id: marker.package_id, refresh_id: marker.refresh_id });
+    return result;
   }
 
-  function installCompatibilityGlobals(scope = globalThis) {
+  function installActivePackageCompatibilityGlobals(validationResult, scope = globalThis) {
+    if (!validationResult || typeof validationResult !== "object") return { ok: false, status: "VALIDATION_REQUIRED", error_code: "VALIDATION_REQUIRED", compatibility_globals: [] };
+    if (!validationResult.ok) return { ok: false, status: "VALIDATION_FAILED", error_code: validationResult.error_code || "PACKAGE_VALIDATION_FAILED", package_id: validationResult.package_id || null, refresh_id: validationResult.refresh_id || null, compatibility_globals: [] };
+    const validated = successfulValidations.get(validationResult);
+    if (!validated || validated.scope !== scope || validated.package_id !== validationResult.package_id || validated.refresh_id !== validationResult.refresh_id) return { ok: false, status: "VALIDATION_REQUIRED", error_code: "VALIDATION_REQUIRED", package_id: validationResult.package_id || null, refresh_id: validationResult.refresh_id || null, compatibility_globals: [] };
+    const installed = installedScopes.get(scope);
+    if (installed) {
+      if (installed.package_id !== validationResult.package_id || installed.refresh_id !== validationResult.refresh_id) return { ok: false, status: "INSTALLATION_CONFLICT", error_code: "INSTALLATION_CONFLICT", package_id: validationResult.package_id, refresh_id: validationResult.refresh_id, compatibility_globals: [] };
+      return { ok: true, status: "ALREADY_INSTALLED", error_code: null, package_id: installed.package_id, refresh_id: installed.refresh_id, compatibility_globals: [...COMPATIBILITY_GLOBALS] };
+    }
     const marker = scope.ACTIVE_DYNASTY_PACKAGE;
     const artifacts = scope.ACTIVE_PACKAGE_ARTIFACTS;
     const weekly = artifacts.weekly_plan.payload;
@@ -106,42 +124,35 @@
     const roster = artifacts.rutgers_roster.payload;
     const opponent = artifacts.current_opponent.payload;
     const playIds = (scope.RUTGERS_PLAYBOOK || []).slice(0, 12).map(play => play.id);
-    if (playIds.length !== 12) throw new Error("ACTIVE_PACKAGE_PLAYBOOK_UNAVAILABLE");
-    scope.WEEKLY_PLAN = Object.freeze({
+    if (playIds.length !== 12) return { ok: false, status: "INSTALLATION_FAILED", error_code: "ACTIVE_PACKAGE_PLAYBOOK_UNAVAILABLE", package_id: marker.package_id, refresh_id: marker.refresh_id, compatibility_globals: [] };
+    const weeklyPlan = Object.freeze({
       schema_version: "direct_active_package_v1", package_id: marker.package_id, refresh_id: marker.refresh_id, source_of_truth: "dynasty_save",
       gameday: { title: "Gameday Gameplan", currentWeek: `Week ${weekly.week}`, seasonRecord: weekly.team.record, rutgersRank: "N/A", offenseRank: null, defenseRank: null, momentumStatus: "Validated active package", lastUpdated: "Immutable direct-package preview" },
       opponent: { name: weekly.opponent, team_id: weekly.opponent_id, record: "", week: `Week ${weekly.week}`, location: weekly.location, game_status: "Unplayed" },
       openingScript: playIds, familyModifiers: {}, modifierCaps: {}, riskRules: {}, traits: [], warnings: ["Tactical recommendations unavailable from active package"], players: {},
       tactical_recommendations: { status: "unavailable", recommendations: [] }
     });
-    scope.GAMEPLAN_WEEKLY = Object.freeze({
+    const gameplanWeekly = Object.freeze({
       schema_version: "direct_active_package_v1", package_type: "gameplan_weekly_update", package_id: marker.package_id, refresh_id: marker.refresh_id, source_of_truth: "dynasty_save",
       team_name: gameplan.team_name, season: gameplan.season, week: gameplan.week, rutgers_record: gameplan.record, opponent: gameplan.opponent, location: gameplan.location,
       opponent_profile: { team: opponent.name, name: opponent.name, team_id: opponent.id, record: "", verification_status: "active-package" }, opponent_players: opponent.players,
       opponent_position_groups: [], quick_tactical_summary: { status: "unavailable", avoid: [], recommendations: [] }, usage_plan: { status: "unavailable" }, matchups: [], run_direction: [], protection: [], last_game: {}, season_stats: {}, opponent_season_stats: {}
     });
-    scope.RUTGERS_ROSTER_BASE = Object.freeze({ schema_version: "direct_active_package_v1", package_id: marker.package_id, refresh_id: marker.refresh_id, source_truth: "dynasty_save", team: roster.team, players: roster.players, position_groups: [] });
-    scope.ACTIVE_PACKAGE_COMPATIBILITY_GLOBALS = Object.freeze(["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE"]);
+    const rosterBase = Object.freeze({ schema_version: "direct_active_package_v1", package_id: marker.package_id, refresh_id: marker.refresh_id, source_truth: "dynasty_save", team: roster.team, players: roster.players, position_groups: [] });
+    scope.WEEKLY_PLAN = weeklyPlan;
+    scope.GAMEPLAN_WEEKLY = gameplanWeekly;
+    scope.RUTGERS_ROSTER_BASE = rosterBase;
+    installedScopes.set(scope, { package_id: marker.package_id, refresh_id: marker.refresh_id });
     if (scope.document && scope.document.documentElement) {
       const data = scope.document.documentElement.dataset;
       data.packageId = marker.package_id; data.refreshId = marker.refresh_id; data.previewSource = "direct-active-package";
       data.season = String(weekly.season); data.week = String(weekly.week); data.team = weekly.team.name; data.record = weekly.team.record; data.opponent = weekly.opponent; data.location = weekly.location;
       const observedIds = [marker.package_id, ...Object.values(artifacts).map(item => item.package_id), scope.WEEKLY_PLAN.package_id, scope.GAMEPLAN_WEEKLY.package_id, scope.RUTGERS_ROSTER_BASE.package_id];
       data.observedPackageIds = JSON.stringify([...new Set(observedIds)]);
-      data.compatibilityGlobals = JSON.stringify(scope.ACTIVE_PACKAGE_COMPATIBILITY_GLOBALS);
-      data.undeclaredSaveGlobals = JSON.stringify(SAVE_MANAGED_GLOBALS.filter(name => name in scope && !scope.ACTIVE_PACKAGE_COMPATIBILITY_GLOBALS.includes(name)));
+      data.compatibilityGlobals = JSON.stringify(COMPATIBILITY_GLOBALS);
+      data.undeclaredSaveGlobals = JSON.stringify(SAVE_MANAGED_GLOBALS.filter(name => name in scope && !COMPATIBILITY_GLOBALS.includes(name)));
     }
-    return scope.ACTIVE_PACKAGE_COMPATIBILITY_GLOBALS;
-  }
-
-  function activateActivePackage(scope = globalThis, options = {}) {
-    const result = validateActivePackage(scope, options);
-    if (!result.ok) { renderPackageValidationError(result, scope.document); return result; }
-    try { installCompatibilityGlobals(scope); return result; }
-    catch (error) {
-      const failed = { ok: false, error_code: error.message || "COMPATIBILITY_INSTALL_FAILED", errors: [{ code: error.message || "COMPATIBILITY_INSTALL_FAILED" }], package_id: result.package_id };
-      renderPackageValidationError(failed, scope.document); return failed;
-    }
+    return { ok: true, status: "INSTALLED", error_code: null, package_id: marker.package_id, refresh_id: marker.refresh_id, compatibility_globals: [...COMPATIBILITY_GLOBALS] };
   }
 
   function renderPackageValidationError(result, doc = typeof document !== "undefined" ? document : null) {
@@ -150,10 +161,12 @@
     panel.id = "packageValidationError";
     panel.setAttribute("role", "alert");
     panel.dataset.errorCode = result.error_code || "PACKAGE_VALIDATION_FAILED";
-    panel.textContent = `Package validation failed: ${panel.dataset.errorCode}`;
+    if (result.package_id) panel.dataset.packageId = String(result.package_id);
+    if (result.refresh_id) panel.dataset.refreshId = String(result.refresh_id);
+    panel.textContent = `Startup blocked: active package validation failed (${panel.dataset.errorCode}). No dynasty package was loaded. Reload after the approved deployment completes.`;
     doc.body.replaceChildren(panel);
     return true;
   }
 
-  return { SAVE_MANAGED_GLOBALS, STORAGE_KEYS, activateActivePackage, contextOf, installCompatibilityGlobals, validateActivePackage, renderPackageValidationError };
+  return { COMPATIBILITY_GLOBALS, SAVE_MANAGED_GLOBALS, STORAGE_KEYS, contextOf, installActivePackageCompatibilityGlobals, validateActivePackage, renderPackageValidationError };
 });

@@ -39,4 +39,13 @@ test("isolated shell uses the direct active package and an allowlist-only startu
   assert.equal(f.shell.repository_app_js_sha256, sha256(path.join(__dirname, "..", "app.js")));
   assert.equal(f.shell.definitions, undefined);
   assert.equal(fs.existsSync(path.join(f.run, "preview", "real-shell", "app-definitions.js")), false);
+  const startup = fs.readFileSync(f.shell.startup, "utf8");
+  const validateAt = startup.indexOf("runtime.validateActivePackage");
+  const installAt = startup.indexOf("runtime.installActivePackageCompatibilityGlobals");
+  const bootAt = startup.indexOf("root.CFB27_APP_BOOT()");
+  assert.ok(validateAt >= 0 && validateAt < installAt && installAt < bootAt);
+  assert.match(startup, /CFB27_ACTIVE_PACKAGE_VALIDATION/);
+  assert.match(startup, /CFB27_ACTIVE_PACKAGE_INSTALLATION/);
+  assert.match(startup, /CFB27_APP_BOOT_RESULT/);
+  assert.doesNotMatch(startup, /CFB27_ACTIVE_PACKAGE_PREFLIGHT/);
 });

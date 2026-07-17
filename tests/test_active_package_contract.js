@@ -8,6 +8,7 @@ const test = require("node:test");
 const vm = require("node:vm");
 const { generateActivePackageArtifacts, sha256, sha256Text } = require("../tools/refresh_save_a_preview");
 const { validateActivePackage } = require("../package_runtime");
+const runtimeSource = fs.readFileSync(path.join(__dirname, "..", "package_runtime.js"), "utf8");
 
 const HASH = "a".repeat(64);
 function normalized() {
@@ -38,6 +39,27 @@ test("active-package schema declares the complete lineage and artifact contract"
   assert.equal(schema.$defs.sha256.pattern, "^[a-f0-9]{64}$");
 });
 
+test("runtime module evaluation only exposes the explicit API", () => {
+  let bootCalls = 0;
+  let rendered = 0;
+  const scope = {
+    document: { body: { replaceChildren: () => { rendered += 1; } } },
+    CFB27_APP_BOOT: () => { bootCalls += 1; }
+  };
+  scope.globalThis = scope;
+  vm.createContext(scope);
+  vm.runInContext(runtimeSource, scope);
+  assert.equal(typeof scope.CFB27_PACKAGE_RUNTIME.validateActivePackage, "function");
+  assert.equal(typeof scope.CFB27_PACKAGE_RUNTIME.installActivePackageCompatibilityGlobals, "function");
+  assert.equal(typeof scope.CFB27_PACKAGE_RUNTIME.renderPackageValidationError, "function");
+  assert.equal(scope.CFB27_ACTIVE_PACKAGE_PREFLIGHT, undefined);
+  assert.equal(scope.WEEKLY_PLAN, undefined);
+  assert.equal(scope.GAMEPLAN_WEEKLY, undefined);
+  assert.equal(scope.RUTGERS_ROSTER_BASE, undefined);
+  assert.equal(bootCalls, 0);
+  assert.equal(rendered, 0);
+});
+
 test("generator emits deterministic neutral wrappers with one package and verified hashes", () => {
   const first = generated();
   const secondRoot = fs.mkdtempSync(path.join(os.tmpdir(), "active-package-determinism-"));
@@ -52,7 +74,9 @@ test("generator emits deterministic neutral wrappers with one package and verifi
   }
   const scope = loadGenerated(first.artifacts);
   assert.deepEqual([...new Set(Object.values(scope.ACTIVE_PACKAGE_ARTIFACTS).map(item => item.package_id))], ["package-one"]);
-  assert.equal(validateActivePackage(scope, { storage: null }).ok, true);
+  const result = validateActivePackage(scope, { storage: null });
+  assert.deepEqual({ ok: result.ok, error_code: result.error_code, package_id: result.package_id, refresh_id: result.refresh_id }, { ok: true, error_code: null, package_id: "package-one", refresh_id: "refresh-one" });
+  assert.equal(scope.WEEKLY_PLAN, undefined);
 });
 
 test("optional unavailable domains contain no payload and may remain absent", () => {
@@ -97,8 +121,11 @@ test("required wrappers and matching-ID payload mismatches fail closed while una
   delete scope.ACTIVE_PACKAGE_ARTIFACTS.statistics;
   assert.equal(validateActivePackage(scope, { storage: null }).ok, true);
   scope.RUTGERS_PLAYBOOK = Array.from({ length: 12 }, (_, index) => ({ id: `play-${index}` }));
-  assert.equal(require("../package_runtime").activateActivePackage(scope, { storage: null }).ok, true);
+  const validation = validateActivePackage(scope, { storage: null });
+  const installation = require("../package_runtime").installActivePackageCompatibilityGlobals(validation, scope);
+  assert.equal(installation.status, "INSTALLED");
   assert.equal(scope.WEEKLY_PLAN.package_id, "package-one");
+  assert.equal(require("../package_runtime").installActivePackageCompatibilityGlobals(validation, scope).status, "ALREADY_INSTALLED");
 });
 
 test("stale local storage fails before compatibility globals can replace the active package", () => {
@@ -106,17 +133,55 @@ test("stale local storage fails before compatibility globals can replace the act
   const scope = loadGenerated(artifacts);
   scope.RUTGERS_PLAYBOOK = Array.from({ length: 12 }, (_, index) => ({ id: `play-${index}` }));
   const storage = { getItem: key => key === "rutgers_weekly_package" ? JSON.stringify({ package_id: "stale-package", opponent: "Stale" }) : null };
-  const result = require("../package_runtime").activateActivePackage(scope, { storage });
+  const result = validateActivePackage(scope, { storage });
   assert.equal(result.ok, false);
+  assert.equal(require("../package_runtime").installActivePackageCompatibilityGlobals(result, scope).status, "VALIDATION_FAILED");
   assert.equal(scope.WEEKLY_PLAN, undefined);
   assert.equal(scope.GAMEPLAN_WEEKLY, undefined);
   const sameIdScope = loadGenerated(artifacts);
   sameIdScope.RUTGERS_PLAYBOOK = scope.RUTGERS_PLAYBOOK;
   const sameIdStorage = { getItem: key => key === "rutgers_weekly_package" ? JSON.stringify({ package_id: "package-one", opponent: "Injected" }) : null };
-  const sameIdResult = require("../package_runtime").activateActivePackage(sameIdScope, { storage: sameIdStorage });
+  const sameIdResult = validateActivePackage(sameIdScope, { storage: sameIdStorage });
   assert.equal(sameIdResult.ok, false);
   assert.ok(sameIdResult.errors.some(error => error.code === "STORED_PACKAGE_NOT_ALLOWED"));
   assert.equal(sameIdScope.WEEKLY_PLAN, undefined);
+});
+
+test("compatibility installation requires the exact successful validation result", () => {
+  const { artifacts } = generated();
+  const scope = loadGenerated(artifacts);
+  scope.RUTGERS_PLAYBOOK = Array.from({ length: 12 }, (_, index) => ({ id: `play-${index}` }));
+  const runtime = require("../package_runtime");
+  assert.equal(runtime.installActivePackageCompatibilityGlobals(null, scope).status, "VALIDATION_REQUIRED");
+  assert.equal(runtime.installActivePackageCompatibilityGlobals({ ok: true, package_id: "package-one", refresh_id: "refresh-one" }, scope).status, "VALIDATION_REQUIRED");
+  assert.equal(scope.WEEKLY_PLAN, undefined);
+  const validation = runtime.validateActivePackage(scope, { storage: null });
+  assert.equal(runtime.installActivePackageCompatibilityGlobals(validation, scope).status, "INSTALLED");
+  assert.deepEqual(runtime.COMPATIBILITY_GLOBALS, ["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE"]);
+  for (const forbidden of ["OPPONENT_DATA", "PURDUE_MATCHUPS", "VIDEO_VERIFIED_PURDUE_ROSTER", "RECRUITING_WEEKLY", "PLAYER_MATCHUPS"]) assert.equal(scope[forbidden], undefined);
+});
+
+test("undeclared save-managed globals fail validation", () => {
+  const { artifacts } = generated();
+  const scope = loadGenerated(artifacts);
+  scope.PURDUE_MATCHUPS = {};
+  const result = validateActivePackage(scope, { storage: null });
+  assert.equal(result.ok, false);
+  assert.ok(result.errors.some(error => error.code === "UNDECLARED_SAVE_MANAGED_GLOBAL" && error.detail === "PURDUE_MATCHUPS"));
+});
+
+test("failure renderer uses the approved fatal message and does not boot or install", () => {
+  let bootCalls = 0;
+  const body = { child: null, replaceChildren(node) { this.child = node; } };
+  const doc = { body, createElement: () => ({ dataset: {}, setAttribute() {} }) };
+  const scope = { CFB27_APP_BOOT: () => { bootCalls += 1; } };
+  const runtime = require("../package_runtime");
+  const failure = { ok: false, error_code: "MISSING_PACKAGE_MARKER", errors: [], package_id: null, refresh_id: null };
+  assert.equal(runtime.renderPackageValidationError(failure, doc), true);
+  assert.equal(body.child.textContent, "Startup blocked: active package validation failed (MISSING_PACKAGE_MARKER). No dynasty package was loaded. Reload after the approved deployment completes.");
+  assert.equal(body.child.dataset.errorCode, "MISSING_PACKAGE_MARKER");
+  assert.equal(scope.WEEKLY_PLAN, undefined);
+  assert.equal(bootCalls, 0);
 });
 
 test("executing the same wrapper twice is rejected as a duplicate declaration", () => {

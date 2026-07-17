@@ -4,6 +4,8 @@ const WEEKLY_KEY = "rutgers_weekly_package";
 const GAMEPLAN_WEEKLY_KEY = "rutgers_gameplan_weekly_v2";
 const RECRUITING_WEEKLY_KEY = "rutgers_recruiting_weekly_v2";
 const RECENT_CALLS_KEY = "rutgers_recent_calls";
+const APP_DATA_VERSION_KEY = "rutgers_app_data_version";
+const APP_DATA_VERSION = "week1_umass_save_20260717_v3";
 const REQUIRED_SITUATIONS = ["short", "medium", "long", "red_zone", "goal_line", "two_minute", "normal", "must_score"];
 const DEFAULT_CAPS = {
   personnelFit: [-10, 10],
@@ -18,6 +20,18 @@ const DEFAULT_CAPS = {
 const state = { ranked: [], excluded: [] };
 const EMBEDDED_WEEKLY_PLAN = typeof WEEKLY_PLAN !== "undefined" ? WEEKLY_PLAN : null;
 const EMBEDDED_GAMEPLAN_WEEKLY = typeof GAMEPLAN_WEEKLY !== "undefined" ? GAMEPLAN_WEEKLY : null;
+
+function resetRuntimeCachesForDataVersion() {
+  try {
+    if (localStorage.getItem(APP_DATA_VERSION_KEY) === APP_DATA_VERSION) return;
+    [WEEKLY_KEY, GAMEPLAN_WEEKLY_KEY, RECRUITING_WEEKLY_KEY].forEach(key => localStorage.removeItem(key));
+    localStorage.setItem(APP_DATA_VERSION_KEY, APP_DATA_VERSION);
+  } catch {
+    // localStorage can be unavailable in private or embedded browser modes.
+  }
+}
+
+resetRuntimeCachesForDataVersion();
 
 function packageIdentity(pkg = {}) {
   const opponent = pkg.opponent || pkg.opponent_profile || {};
@@ -1723,15 +1737,23 @@ function loadRutgersRosterRecovery() {
   return typeof VIDEO_VERIFIED_RUTGERS_ROSTER_RECOVERY !== "undefined" ? VIDEO_VERIFIED_RUTGERS_ROSTER_RECOVERY : { players: [] };
 }
 
-function loadPurdueRosterRecovery() {
+function loadOpponentRosterRecovery() {
   return typeof VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY !== "undefined" ? VIDEO_VERIFIED_PURDUE_ROSTER_RECOVERY : { players: [] };
 }
 
-function positionFromPurduePlayerId(id = "") {
-  const match = cleanValue(id).match(/^pur-([a-z]+)-/);
+function loadPurdueRosterRecovery() {
+  return loadOpponentRosterRecovery();
+}
+
+function positionFromOpponentPlayerId(id = "") {
+  const match = cleanValue(id).match(/^(?:pur|opp|umass|uma)-([a-z]+)-/);
   const code = match ? match[1].toUpperCase() : "";
   const aliases = { HB: "HB", RB: "HB", MIKE: "MIKE", MLB: "MIKE", WILL: "WILL", SAM: "SAM", LEDG: "LEDG", REDG: "REDG", DT: "DT", CB: "CB", FS: "FS", SS: "SS", QB: "QB", WR: "WR", TE: "TE", LT: "LT", LG: "LG", C: "C", RG: "RG", RT: "RT", K: "K", P: "P" };
   return aliases[code] || code || "N/A";
+}
+
+function positionFromPurduePlayerId(id = "") {
+  return positionFromOpponentPlayerId(id);
 }
 
 function allRowsFromStatCategories(categories = {}) {
@@ -1741,7 +1763,7 @@ function allRowsFromStatCategories(categories = {}) {
 function supplementalOpponentPlayers(existing = []) {
   const byId = new Map((existing || []).map(player => [player.player_id, player]));
   const sources = [
-    ...((loadPurdueRosterRecovery().players || []).map(row => ({ ...row, source_status: row.source_status || "video_roster_recovery" }))),
+    ...((loadOpponentRosterRecovery().players || []).map(row => ({ ...row, source_status: row.source_status || "video_roster_recovery" }))),
     ...allRowsFromStatCategories(loadOpponentSeasonStats()).map(row => ({ ...row, source_status: "video_season_stat_identity" })),
     ...allRowsFromStatCategories(loadOpponentLastGameStats()).map(row => ({ ...row, source_status: "video_last_game_stat_identity" }))
   ];
@@ -1752,7 +1774,7 @@ function supplementalOpponentPlayers(existing = []) {
     const player = {
       player_id: id,
       name: cleanValue(row.name) || "N/A",
-      position: cleanValue(row.position) || positionFromPurduePlayerId(id),
+      position: cleanValue(row.position) || positionFromOpponentPlayerId(id),
       year: cleanValue(row.year || row.class_year) || "N/A",
       class_year: cleanValue(row.class_year || row.year) || "N/A",
       overall: cleanValue(row.overall) || "N/A",
@@ -1774,8 +1796,14 @@ function loadRecruitingBoardScoutingRecovery() {
 
 function loadRutgersRoster() {
   const base = sharedRosterBase();
-  const overlays = recoveryById(loadRutgersRosterRecovery(), "players");
-  return { ...base, players: (base.players || []).map(player => mergeVerifiedOverlay(player, overlays.get(player.player_id) || {})) };
+  const recovery = loadRutgersRosterRecovery();
+  const recoveryPlayers = Array.isArray(recovery.players) ? recovery.players : [];
+  const basePlayers = Array.isArray(base.players) ? base.players : [];
+  if (recoveryPlayers.length > basePlayers.length) {
+    return { ...base, players: recoveryPlayers.map(player => mergeVerifiedOverlay(player, player)) };
+  }
+  const overlays = recoveryById(recovery, "players");
+  return { ...base, players: basePlayers.map(player => mergeVerifiedOverlay(player, overlays.get(player.player_id) || {})) };
 }
 
 function loadGameplanWeekly() {
@@ -1804,8 +1832,11 @@ function loadOpponentProfile() {
 }
 
 function loadOpponentPlayers() {
-  const base = typeof VIDEO_VERIFIED_PURDUE_ROSTER !== "undefined" ? VIDEO_VERIFIED_PURDUE_ROSTER.players || [] : (loadGameplanWeekly().opponent_players) || [];
-  const overlays = recoveryById(loadPurdueRosterRecovery(), "players");
+  const weeklyPlayers = (loadGameplanWeekly().opponent_players) || [];
+  const videoPlayers = typeof VIDEO_VERIFIED_PURDUE_ROSTER !== "undefined" ? VIDEO_VERIFIED_PURDUE_ROSTER.players || [] : [];
+  const recoveryPlayers = loadOpponentRosterRecovery().players || [];
+  const base = [videoPlayers, recoveryPlayers, weeklyPlayers].sort((a, b) => b.length - a.length)[0] || [];
+  const overlays = recoveryById(loadOpponentRosterRecovery(), "players");
   const merged = base.map(player => mergeVerifiedOverlay(player, overlays.get(player.player_id) || {}));
   return [...merged, ...supplementalOpponentPlayers(merged)].sort((a, b) => {
     const order = ["QB","HB","RB","WR","TE","LT","LG","C","RG","RT","LEDG","REDG","DT","SAM","MIKE","WILL","CB","FS","SS","K","P"];
@@ -1817,27 +1848,43 @@ function loadOpponentGroups() {
   return (loadGameplanWeekly().opponent_position_groups) || [];
 }
 
+function currentWeeklyIsSaveDerived(weekly = loadGameplanWeekly()) {
+  const text = [weekly.source_of_truth, weekly.package_type, weekly.schema_version, weekly.metadata?.source, weekly.generated_by, weekly.opponent_profile?.name, weekly.opponent?.name]
+    .map(value => cleanValue(value).toLowerCase())
+    .join(" ");
+  return text.includes("dynasty") || text.includes("save") || text.includes("umass");
+}
+
 function loadMatchups() {
   const weekly = loadGameplanWeekly();
   if (Array.isArray(weekly.matchups) && weekly.matchups.length) return weekly.matchups;
+  if (currentWeeklyIsSaveDerived(weekly)) return [];
   if (typeof PLAYER_MATCHUPS !== "undefined" && Array.isArray(PLAYER_MATCHUPS.matchups)) return PLAYER_MATCHUPS.matchups;
   return [];
 }
 
 function loadRutgersLastGameStats() {
-  return typeof RUTGERS_LAST_GAME_STATS !== "undefined" ? RUTGERS_LAST_GAME_STATS : (loadGameplanWeekly().last_game || {});
+  const weekly = loadGameplanWeekly();
+  if (currentWeeklyIsSaveDerived(weekly)) return weekly.last_game || {};
+  return typeof RUTGERS_LAST_GAME_STATS !== "undefined" ? RUTGERS_LAST_GAME_STATS : (weekly.last_game || {});
 }
 
 function loadRutgersSeasonStats() {
+  const weekly = loadGameplanWeekly();
+  if (currentWeeklyIsSaveDerived(weekly)) return weekly.season_stats || {};
   if (typeof VIDEO_VERIFIED_RUTGERS_SEASON_STATS !== "undefined") return VIDEO_VERIFIED_RUTGERS_SEASON_STATS.categories || {};
-  return typeof RUTGERS_SEASON_STATS !== "undefined" ? RUTGERS_SEASON_STATS : (loadGameplanWeekly().season_stats || {});
+  return typeof RUTGERS_SEASON_STATS !== "undefined" ? RUTGERS_SEASON_STATS : (weekly.season_stats || {});
 }
 
 function loadOpponentLastGameStats() {
+  const weekly = loadGameplanWeekly();
+  if (currentWeeklyIsSaveDerived(weekly)) return weekly.opponent_last_game || {};
   return typeof OPPONENT_LAST_GAME_STATS !== "undefined" ? OPPONENT_LAST_GAME_STATS : {};
 }
 
 function loadOpponentSeasonStats() {
+  const weekly = loadGameplanWeekly();
+  if (currentWeeklyIsSaveDerived(weekly)) return weekly.opponent_season_stats || weekly.opponent_stats || {};
   if (typeof VIDEO_VERIFIED_PURDUE_SEASON_STATS !== "undefined") return VIDEO_VERIFIED_PURDUE_SEASON_STATS.categories || {};
   return typeof OPPONENT_SEASON_STATS !== "undefined" ? OPPONENT_SEASON_STATS : {};
 }
@@ -3620,10 +3667,17 @@ function rosterLeaderCard(title, row, valueKey = "yards", side = "team") {
 
 function rosterHubLeaderStrip(side = "team") {
   const stats = rosterHubStats(side);
-  const passing = topStatLeader(flattenedStatEntries(stats.passing), "yards");
-  const rushing = topStatLeader(flattenedStatEntries(stats.rushing), "yards");
-  const receiving = topStatLeader(flattenedStatEntries(stats.receiving), "yards");
-  const defense = topStatLeader(flattenedStatEntries(stats.defense), "tackles");
+  const passingRows = flattenedStatEntries(stats.passing);
+  const rushingRows = flattenedStatEntries(stats.rushing);
+  const receivingRows = flattenedStatEntries(stats.receiving);
+  const defenseRows = flattenedStatEntries(stats.defense);
+  if (![passingRows, rushingRows, receivingRows, defenseRows].some(rows => rows.length)) {
+    return `<div class="team-leaders-strip no-games"><section class="team-leader-card empty-state"><span>Season Leaders</span><strong>No games played</strong><b>N/A</b></section></div>`;
+  }
+  const passing = topStatLeader(passingRows, "yards");
+  const rushing = topStatLeader(rushingRows, "yards");
+  const receiving = topStatLeader(receivingRows, "yards");
+  const defense = topStatLeader(defenseRows, "tackles");
   const leaders = [
     rosterLeaderCard("Passing Yards", passing, "yards", side),
     rosterLeaderCard("Rushing Yards", rushing, "yards", side),
@@ -4206,7 +4260,7 @@ function statTable(title, rows = [], key = "") {
 }
 
 function statSourceNote(title, message, status = "Source missing") {
-  return `<article class="sports-stat-card source-status-card stat-source-note"><h3>${title}</h3><strong>${status}</strong><p>${message}</p></article>`;
+  return `<article class="sports-stat-card source-status-card stat-source-note"><h3>${title}</h3><strong>${status}</strong><p>${message}</p><div class="stat-table-count">Status table</div><div class="sports-table-scroll"><table class="sports-stat-table"><thead><tr><th>Category</th><th>Status</th></tr></thead><tbody><tr><td>${title}</td><td>${status}</td></tr></tbody></table></div></article>`;
 }
 
 function availableStatTables(data = {}) {

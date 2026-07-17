@@ -51,24 +51,33 @@ function rutgersMediaText() {
   });
   return { text: `"use strict";\nglobalThis.RUTGERS_PLAYER_MEDIA=Object.freeze(${JSON.stringify({ schema_version: "cfb27_rutgers_media_allowlist_v1", package_type: "rutgers_player_media", team: "Rutgers", players })});\n`, players };
 }
-function token(ref, releaseId) { return `${ref}?r=${encodeURIComponent(releaseId)}`; }
+function token(ref, releaseId) {
+  const value = String(ref), hashAt = value.indexOf("#");
+  const hash = hashAt >= 0 ? value.slice(hashAt) : "", beforeHash = hashAt >= 0 ? value.slice(0, hashAt) : value;
+  const queryAt = beforeHash.indexOf("?"), pathname = queryAt >= 0 ? beforeHash.slice(0, queryAt) : beforeHash;
+  const query = new URLSearchParams(queryAt >= 0 ? beforeHash.slice(queryAt + 1) : "");
+  query.delete("r"); query.set("r", releaseId);
+  return `${pathname}?${query.toString()}${hash}`;
+}
 function generateHtml(releaseId, packageId, sourceHtml) {
   let html = sourceHtml === undefined ? fs.readFileSync(path.join(REPO_ROOT, "index.html"), "utf8") : String(sourceHtml);
-  html = html.replace('href="manifest.webmanifest"', `href="${token("manifest.webmanifest", releaseId)}"`)
-    .replace(/href="assets\/app-icon\.svg"/g, `href="${token("assets/app-icon.svg", releaseId)}"`)
-    .replace('href="styles.css"', `href="${token("styles.css", releaseId)}"`);
+  const releaseLinks = new Set(["manifest.webmanifest", "assets/app-icon.svg", "styles.css"]);
+  html = html.replace(/(<link\b[^>]*\bhref=["'])([^"']+)(["'][^>]*>)/gi, (match, prefix, ref, suffix) => {
+    const clean = ref.split(/[?#]/, 1)[0].replace(/^\.\//, "");
+    return releaseLinks.has(clean) ? `${prefix}${token(ref, releaseId)}${suffix}` : match;
+  });
   const packagePrefix = `data/active-packages/${packageId}`;
   const sources = [token(`${packagePrefix}/active_package.js`, releaseId), ...WRAPPER_ORDER.map(name => token(`${packagePrefix}/${name}.js`, releaseId)), token("data/rutgers_playbook.js", releaseId), token("data/rutgers_media.js", releaseId), token("package_runtime.js", releaseId), token("app.js", releaseId), token("production_startup.js", releaseId)];
   const scripts = `<script>globalThis.CFB27_APP_STARTUP_MODE="controlled";globalThis.CFB27_DEPLOYMENT_RELEASE_ID=${JSON.stringify(releaseId)};</script>\n${sources.map(src => `<script src="${src}"></script>`).join("\n")}`;
   const startupBlock = /(\s*<script(?:\s[^>]*)?>[\s\S]*?<\/script>)+\s*(?=<\/body>)/i;
   if (!startupBlock.test(html)) throw new Error("Could not locate deployment startup block");
   html = html.replace(startupBlock, `\n${scripts}\n`);
-  if ((html.match(/production_startup\.js/g) || []).length !== 1 || html.includes("data/engine_data.js")) throw new Error("Could not generate controlled deployment HTML");
+  if ((html.match(/production_startup\.js/g) || []).length !== 1 || (html.match(/CFB27_DEPLOYMENT_RELEASE_ID/g) || []).length !== 1 || html.includes("data/engine_data.js")) throw new Error("Could not generate controlled deployment HTML");
   return { html, sources };
 }
 function generateWebManifest(releaseId) {
   const value = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "manifest.webmanifest"), "utf8"));
-  value.start_url = token("./index.html", releaseId);
+  value.start_url = token(value.start_url || "./index.html", releaseId);
   for (const icon of value.icons || []) icon.src = token(icon.src, releaseId);
   return `${JSON.stringify(value, null, 2)}\n`;
 }
@@ -125,4 +134,4 @@ if (require.main === module) {
   try { console.log(JSON.stringify(run(parseArgs(process.argv.slice(2))), null, 2)); }
   catch (error) { console.error(error.stack || error.message); process.exitCode = 1; }
 }
-module.exports = { generateHtml, parseArgs, run, safeRemoveTemporary };
+module.exports = { generateHtml, generateWebManifest, parseArgs, run, safeRemoveTemporary, token };

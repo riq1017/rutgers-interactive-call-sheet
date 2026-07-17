@@ -8,7 +8,7 @@ const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
 const vm = require("node:vm");
-const { generateHtml, run } = require("../tools/assemble_deployment");
+const { generateHtml, generateWebManifest, run, token } = require("../tools/assemble_deployment");
 const { ArtifactError, WRAPPER_ORDER, sha256File, validateArtifact } = require("../tools/validate_deployment_artifact");
 
 const HASH = "a".repeat(64);
@@ -113,6 +113,51 @@ test("immutable package path fixtures fail closed and an exact release-specific 
     assert.equal((generated.html.match(/production_startup\.js/g) || []).length, 1);
     assert.doesNotMatch(generated.html, /data\/active\/|engine_data|recruiting_data|phase1_verified_data|data\/player_media|purdue|opponent[_-]media/i);
   });
+});
+
+test("release cache tokens are normalized across approved local resources", async t => {
+  const r4 = "cfb27-week2-boston-college-r4";
+  const legacy = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+  await t.test("missing release tokens are added", () => {
+    const generated = generateHtml(r4, PACKAGE_ID, legacy).html;
+    for (const rel of ["manifest.webmanifest", "styles.css", "assets/app-icon.svg"]) assert.match(generated, new RegExp(`${rel.replaceAll(".", "\\.")}\\?r=${r4}`));
+  });
+  await t.test("existing and duplicate release tokens are replaced once while unrelated parameters remain", () => {
+    const old = generateHtml("old-release-token", PACKAGE_ID, legacy).html
+      .replace("manifest.webmanifest?r=old-release-token", "manifest.webmanifest?v=7&r=old-release-token&r=older#manifest")
+      .replace("styles.css?r=old-release-token", "styles.css?theme=scarlet&r=old-release-token");
+    const generated = generateHtml(r4, PACKAGE_ID, old).html;
+    const refs = [...generated.matchAll(/(?:src|href)=["']([^"']+)["']/g)].map(match => match[1]);
+    for (const ref of refs) {
+      const url = new URL(ref, "https://artifact.invalid/");
+      assert.deepEqual(url.searchParams.getAll("r"), [r4], ref);
+    }
+    assert.match(generated, /manifest\.webmanifest\?v=7&amp;|manifest\.webmanifest\?v=7&r=/);
+    assert.match(generated, /v=7/); assert.match(generated, /#manifest/); assert.match(generated, /theme=scarlet/);
+    assert.doesNotMatch(generated, /old-release-token|r=older/);
+  });
+  await t.test("manifest stylesheet icon script and immutable package URLs agree", () => {
+    const generated = generateHtml(r4, PACKAGE_ID, legacy).html;
+    const refs = [...generated.matchAll(/(?:src|href)=["']([^"']+)["']/g)].map(match => match[1]);
+    assert.ok(refs.some(ref => ref.startsWith("manifest.webmanifest?")));
+    assert.ok(refs.some(ref => ref.startsWith("styles.css?")));
+    assert.ok(refs.some(ref => ref.startsWith("assets/app-icon.svg?")));
+    assert.ok(refs.some(ref => ref.startsWith(`data/active-packages/${PACKAGE_ID}/active_package.js?`)));
+    for (const ref of refs) assert.equal(new URL(ref, "https://artifact.invalid/").searchParams.get("r"), r4, ref);
+    assert.equal((generated.match(/CFB27_DEPLOYMENT_RELEASE_ID/g) || []).length, 1);
+  });
+  await t.test("web manifest tokens replace prior values without duplication", () => {
+    const source = fs.readFileSync(path.join(__dirname, "..", "manifest.webmanifest"), "utf8");
+    const value = JSON.parse(source); value.start_url = "./index.html?mode=app&r=old&r=older"; value.icons[0].src = "assets/app-icon.svg?purpose=any&r=old";
+    const original = fs.readFileSync;
+    fs.readFileSync = (file, encoding) => path.basename(String(file)) === "manifest.webmanifest" ? JSON.stringify(value) : original(file, encoding);
+    try {
+      const generated = JSON.parse(generateWebManifest(r4));
+      for (const ref of [generated.start_url, ...generated.icons.map(icon => icon.src)]) assert.deepEqual(new URL(ref, "https://artifact.invalid/").searchParams.getAll("r"), [r4]);
+      assert.match(generated.start_url, /mode=app/); assert.match(generated.icons[0].src, /purpose=any/);
+    } finally { fs.readFileSync = original; }
+  });
+  assert.equal(token("app.js?mode=controlled&r=old&r=older#boot", r4), `app.js?mode=controlled&r=${r4}#boot`);
 });
 
 test("mixed-byte and unsafe artifact fixtures fail with deterministic codes", async t => {

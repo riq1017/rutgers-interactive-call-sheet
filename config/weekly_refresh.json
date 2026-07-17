@@ -1,0 +1,15 @@
+{
+  "schema_version": "cfb27_weekly_refresh_config_v1",
+  "save_path": "%USERPROFILE%\\Documents\\EA SPORTS College Football 27\\saves\\DYNASTY-RUTGERSAPP",
+  "repository_root": "..",
+  "deployment_branch": "main",
+  "hosted_url": "https://riq1017.github.io/rutgers-interactive-call-sheet/",
+  "team": "Rutgers",
+  "default_mode": "confirm",
+  "parser_executable": "tools/cfb27_save_reader/runtime/cfb-dynasty.exe",
+  "schema_directory": "tools/cfb27_save_reader/runtime/schemas",
+  "run_root": "data/generated/dynasty/weekly_refresh_runs",
+  "deployment_output_root": "outputs/deployments",
+  "browser_timeout_seconds": 45,
+  "pages_update_timeout_seconds": 600
+}

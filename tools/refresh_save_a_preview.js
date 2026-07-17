@@ -20,8 +20,8 @@ function parseArgs(argv) {
     if (!key.startsWith("--") || i + 1 >= argv.length) throw new Error(`Expected --name value, received ${key}`);
     result[key.slice(2)] = argv[++i];
   }
-  if (!result["save-a"] && !result["save-b"]) throw new Error("A save must be explicitly selected with --save-a <path> or --save-b <path>.");
-  if (result["save-a"] && result["save-b"]) throw new Error("Select exactly one save.");
+  const selections = ["save", "save-a", "save-b"].filter(key => result[key]);
+  if (selections.length !== 1) throw new Error("Select exactly one save with --save <path>.");
   return result;
 }
 
@@ -258,8 +258,9 @@ function realShellPreview(runDir, normalized, packageId, activePackage, sourceHt
 }
 
 function run(options) {
-  const label = options && options["save-b"] ? "Save B" : "Save A";
-  const selected = options && (options["save-b"] || options["save-a"]);
+  const legacySelection = options && (options["save-b"] ? "Save B" : options["save-a"] ? "Save A" : null);
+  const label = String((options && options.label) || legacySelection || "Configured Dynasty Save");
+  const selected = options && (options.save || options["save-b"] || options["save-a"]);
   if (!selected) throw new Error("A save must be explicitly selected.");
   const save = path.resolve(selected), parser = path.resolve(options.parser || DEFAULT_PARSER), schemaDir = path.resolve(options["schema-dir"] || DEFAULT_SCHEMA_DIR), runRoot = path.resolve(options["run-root"] || DEFAULT_RUN_ROOT);
   if (!fs.statSync(save).isFile()) throw new Error(`${label} is not a file: ${save}`);
@@ -269,14 +270,14 @@ function run(options) {
   const manifest = { schema_version: "dynasty_refresh_manifest_v2", run_id: runId, status: "FAIL", save_selection: { label, path: save, explicit: true }, production_write_attempted: false, production_changed: false, checks: [] };
   try {
     const sourceBefore = sha256(save);
-    if (label === "Save B" && sourceBefore === SAVE_A_SHA256) throw new Error("Save B hash must differ from Save A.");
+    if (legacySelection === "Save B" && sourceBefore === SAVE_A_SHA256) throw new Error("Save B hash must differ from Save A.");
     const snapshotDir = path.join(runDir, "snapshot"); fs.mkdirSync(snapshotDir);
     const snapshotPath = path.join(snapshotDir, path.basename(save)); fs.copyFileSync(save, snapshotPath, fs.constants.COPYFILE_EXCL);
     const sourceAfter = sha256(save), snapshotHash = sha256(snapshotPath);
     Object.assign(manifest, { source_sha256_before: sourceBefore, source_sha256_after: sourceAfter, snapshot_sha256: snapshotHash, snapshot_path: snapshotPath });
     if (!(sourceBefore === sourceAfter && sourceAfter === snapshotHash)) throw new Error("Source-before, source-after, and snapshot hashes do not match.");
     manifest.checks.push({ name: "snapshot_hash_match", status: "PASS" });
-    if (label === "Save B") manifest.checks.push({ name: "save_b_differs_from_save_a", status: "PASS" });
+    if (legacySelection === "Save B") manifest.checks.push({ name: "save_b_differs_from_save_a", status: "PASS" });
     const rawDir = path.join(runDir, "raw"); fs.mkdirSync(rawDir); const rawExport = path.join(rawDir, "parser-export.json");
     const parserArgs = ["export", "-schema-dir", schemaDir, "-season", "-teams", "-rosters", "-games", "-season-stats", "-injuries", "-depth-charts", "-o", rawExport, snapshotPath];
     manifest.parser = { executable: parser, executable_sha256: sha256(parser), args: parserArgs, input_path: snapshotPath, live_save_used: false };
@@ -285,10 +286,15 @@ function run(options) {
     if (parsed.status !== 0) throw new Error(`External parser failed: ${(parsed.stderr || parsed.stdout || "no output").trim()}`);
     if (!fs.existsSync(rawExport)) throw new Error("External parser did not create its export.");
     manifest.checks.push({ name: "parser_snapshot_only", status: "PASS" });
-    const prefix = label === "Save B" ? "save-b" : "save-a";
+    const prefix = legacySelection === "Save B" ? "save-b" : legacySelection === "Save A" ? "save-a" : "dynasty";
     const packageId = `${prefix}-${sourceBefore.slice(0, 12)}-${runId}`;
     const normalized = normalize(JSON.parse(fs.readFileSync(rawExport, "utf8")), packageId, sourceBefore, snapshotPath, label);
-    if (label === "Save B" && !(normalized.season === 2026 && normalized.week === 2 && normalized.team.record === "1-0" && normalized.opponent.name === "Boston College" && normalized.location === "Away")) throw new Error("Save B parsed context does not match the approved Week 2 Boston College away-game expectations.");
+    if (legacySelection === "Save B" && !(normalized.season === 2026 && normalized.week === 2 && normalized.team.record === "1-0" && normalized.opponent.name === "Boston College" && normalized.location === "Away")) throw new Error("Save B parsed context does not match the approved Week 2 Boston College away-game expectations.");
+    if (options && options["expected-context"]) {
+      const expected = JSON.parse(fs.readFileSync(path.resolve(options["expected-context"]), "utf8"));
+      const actual = { team: normalized.team.name, season: normalized.season, week: normalized.week, record: normalized.team.record, opponent: normalized.opponent.name, location: normalized.location };
+      for (const [key, value] of Object.entries(expected)) if (actual[key] !== value) throw new Error(`Parsed context mismatch for ${key}: expected ${value}, received ${actual[key]}`);
+    }
     const normalizedPath = path.join(runDir, "normalized", "dynasty.json"); writeJson(normalizedPath, normalized);
     const normalizedHash = sha256(normalizedPath);
     const staging = { schema_version: "dynasty_staging_v2", package_id: packageId, lineage: lineage(label, packageId, sourceBefore, snapshotPath), team: normalized.team.name, season: normalized.season, week: normalized.week, record: normalized.team.record, opponent: normalized.opponent, location: normalized.location, tactical_recommendations: { status: "unavailable_from_parser_export", recommendations: [] } };

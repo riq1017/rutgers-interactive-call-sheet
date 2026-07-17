@@ -238,9 +238,10 @@ def copy_save_to_snapshot(source: Path, snapshot_root: Path, parser: ParserIdent
     before = file_metadata(source)
     with source.open("rb") as read_handle, destination.open("wb") as write_handle:
         shutil.copyfileobj(read_handle, write_handle)
-    after = file_metadata(destination)
-    if before["sha256"] != after["sha256"]:
-        raise SaveReaderError("Snapshot hash does not match source hash")
+    copied = file_metadata(destination)
+    source_after = file_metadata(source)
+    if not (before["sha256"] == copied["sha256"] == source_after["sha256"]):
+        raise SaveReaderError("Source-before, snapshot, and source-after hashes do not match")
 
     manifest = {
         "schema_version": READER_SCHEMA_VERSION,
@@ -248,7 +249,8 @@ def copy_save_to_snapshot(source: Path, snapshot_root: Path, parser: ParserIdent
         "source_of_truth": "cfb27_dynasty_save",
         "snapshot_time": timestamp,
         "source": before,
-        "copied": after,
+        "copied": copied,
+        "source_after": source_after,
         "parser": parser.as_dict(),
         "processing_status": "snapshot_copied",
     }

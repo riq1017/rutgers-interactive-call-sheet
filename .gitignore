@@ -1,6 +1,8 @@
 ﻿
 
 # Video source-of-truth intake: keep raw captures local
+node_modules/
+
 input_videos/*
 !input_videos/.gitkeep
 data/generated/.video_cache.json

@@ -91,3 +91,9 @@ test("selecting both saves is rejected", () => {
   const { parseArgs } = require("../tools/refresh_save_a_preview");
   assert.throws(() => parseArgs(["--save-a", f.save, "--save-b", f.save]), /exactly one/i);
 });
+
+test("neutral configured save selection is accepted and exclusive", () => {
+  const { parseArgs } = require("../tools/refresh_save_a_preview");
+  assert.equal(parseArgs(["--save", "configured"])["save"], "configured");
+  assert.throws(() => parseArgs(["--save", "configured", "--save-a", "legacy"]), /exactly one/i);
+});

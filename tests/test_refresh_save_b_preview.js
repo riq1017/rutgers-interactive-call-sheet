@@ -77,3 +77,8 @@ test("Save B rejects stale parsed Week 1 context and leaves production unchanged
   assert.throws(() => run({ "save-b": f.save, parser: fakeParser(f.root, "stale"), "schema-dir": f.root, "run-root": path.join(f.root, "runs") }), /parsed context/i);
   assert.equal(sha256(f.production), f.productionHash);
 });
+
+test("neutral mode is selected independently from historical Save B validation", () => {
+  const { parseArgs } = require("../tools/refresh_save_a_preview");
+  assert.deepEqual(parseArgs(["--save", "configured-save"]), { save: "configured-save" });
+});

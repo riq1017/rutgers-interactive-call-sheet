@@ -49,8 +49,8 @@ test("successful Save A refresh is snapshot-only, lineage-complete, and producti
   assert.ok(fs.existsSync(manifest.artifacts.real_shell.media.file));
   assert.equal(manifest.artifacts.real_shell.media.player_count, 48);
   const shell = fs.readFileSync(manifest.artifacts.real_shell.index, "utf8");
-  assert.match(shell, /active-package\/active_package\.js/);
-  assert.match(shell, /active-package\/weekly_manifest\.js/);
+  assert.match(shell, /active-package\/[^/]+\/active_package\.js/);
+  assert.match(shell, /active-package\/[^/]+\/weekly_manifest\.js/);
   assert.match(shell, /package_runtime\.js/);
   assert.match(shell, /<script src="app\.js"><\/script>/);
   assert.match(shell, /globalThis\.CFB27_APP_STARTUP_MODE="controlled";/);
@@ -62,11 +62,12 @@ test("successful Save A refresh is snapshot-only, lineage-complete, and producti
   assert.equal(manifest.artifacts.active_package.marker_payload.refresh_id, manifest.refresh_id);
   assert.equal(manifest.artifacts.active_package.marker_payload.source_sha256, manifest.snapshot_sha256);
   assert.equal(manifest.artifacts.active_package.marker_payload.normalized_sha256, sha256(manifest.artifacts.normalized));
+  assert.equal(path.basename(manifest.artifacts.active_package.directory), manifest.package_id);
   assert.deepEqual(Object.keys(manifest.artifacts.active_package.wrappers), ["weekly_manifest", "weekly_plan", "gameplan_weekly", "rutgers_roster", "current_opponent", "statistics", "injuries", "matchups", "recruiting", "recovery"]);
   assert.deepEqual(manifest.artifacts.real_shell.script_order.slice(0, 3), [
-    `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/active_package.js`,
-    `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/weekly_manifest.js`,
-    `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/weekly_plan.js`
+    `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/${manifest.package_id}/active_package.js`,
+    `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/${manifest.package_id}/weekly_manifest.js`,
+    `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/${manifest.package_id}/weekly_plan.js`
   ]);
 });
 

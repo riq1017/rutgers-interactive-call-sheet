@@ -50,7 +50,7 @@ function wrapperScript(declaration) {
 }
 
 function generateActivePackageArtifacts(runDir, normalized, packageId, refreshId, sourceHash, normalizedHash) {
-  const dir = path.join(runDir, "preview", "real-shell", "active-package");
+  const dir = path.join(runDir, "preview", "real-shell", "active-package", packageId);
   fs.mkdirSync(dir, { recursive: true });
   const context = { team_id: normalized.team.id, season: normalized.season, week: normalized.week, opponent_id: normalized.opponent.id, opponent_name: normalized.opponent.name };
   const definitions = {
@@ -238,8 +238,8 @@ function realShellPreview(runDir, normalized, packageId, activePackage, sourceHt
   const wrapperOrder = ["weekly_manifest", "weekly_plan", "gameplan_weekly", "rutgers_roster", "current_opponent", "statistics", "injuries", "matchups", "recruiting", "recovery"];
   const media = generateRutgersMediaWrapper(runDir);
   const scriptSources = [
-    `${runWebPath}/active-package/active_package.js`,
-    ...wrapperOrder.map(name => `${runWebPath}/active-package/${name}.js`),
+    `${runWebPath}/active-package/${packageId}/active_package.js`,
+    ...wrapperOrder.map(name => `${runWebPath}/active-package/${packageId}/${name}.js`),
     "data/rutgers_playbook.js",
     `${runWebPath}/rutgers_media.js`,
     "package_runtime.js",

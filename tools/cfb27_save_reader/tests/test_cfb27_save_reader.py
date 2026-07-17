@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT))
 import common
 import parser_runtime
 import map_to_rutgers_app
+import publish_dynasty
 
 
 def fake_save(path: Path, payload: bytes = b"Rutgers") -> None:
@@ -206,6 +207,111 @@ class Cfb27SaveReaderTests(unittest.TestCase):
         }
         with self.assertRaises(common.SaveReaderError):
             map_to_rutgers_app.validate_ready_for_publish(normalized)
+
+    def test_opponent_scouting_targets_umass_and_labels_alignment(self):
+        rutgers_roster = {
+            "players": [
+                {"player_id": "r-lt", "name": "Rutgers LT", "position": "LT", "overall": 80, "attributes": {"run_block": 82, "pass_block": 81}},
+                {"player_id": "r-lg", "name": "Rutgers LG", "position": "LG", "overall": 78, "attributes": {"run_block": 80}},
+                {"player_id": "r-rt", "name": "Rutgers RT", "position": "RT", "overall": 70, "attributes": {"pass_block": 68}},
+            ]
+        }
+        opponent_roster = {
+            "team": {"team_id": 119, "name": "UMass"},
+            "players": [
+                {"player_id": "u-edge", "name": "UMass Edge", "position": "LE", "overall": 76, "attributes": {"speed": 82, "power_moves": 74}},
+                {"player_id": "u-dt", "name": "UMass DT", "position": "DT", "overall": 73, "attributes": {"strength": 78}},
+                {"player_id": "u-cb", "name": "UMass CB", "position": "CB", "overall": 70, "attributes": {"speed": 86}},
+            ],
+        }
+        scouting = map_to_rutgers_app.generate_opponent_scouting(
+            rutgers_roster,
+            opponent_roster,
+            {"metadata": {"opponent_count": 0}},
+            {"current_week": 1, "upcoming_opponent": {"status": "Unplayed"}},
+            {"opponent": [{"stats": {"wins": 0, "losses": 0}}]},
+            {"metadata": {"confidence": "manual_static"}},
+        )
+        self.assertEqual(scouting["opponent"]["team_id"], 119)
+        self.assertEqual(scouting["opponent"]["name"], "UMass")
+        self.assertEqual(scouting["run_direction"]["alignment_status"], "position_group_based_not_alignment_verified")
+        self.assertEqual(scouting["pass_protection"]["alignment_status"], "position_group_based_not_alignment_verified")
+
+    def test_stale_opponent_validation_flags_payload_terms(self):
+        matches = publish_dynasty.find_stale_terms(
+            {"payload": {"opponent": "Purdue", "note": "current opponent package"}},
+            ["Purdue", "Boilermakers"],
+        )
+        self.assertIn("payload", matches)
+        cleaned = publish_dynasty.scrub_stale_terms({"opponent": "Purdue"}, ["Purdue"])
+        self.assertNotIn("Purdue", json.dumps(cleaned))
+
+    def test_manual_depth_chart_rejects_stale_player(self):
+        seed = {
+            "position_groups": [
+                {
+                    "position": "LT",
+                    "players": [{"player_id": "old-lt", "name": "J. Elijah", "position": "LT"}],
+                }
+            ]
+        }
+        roster = {
+            "players": [
+                {"player_id": "101", "save_player_id": 101, "name": "Current Tackle", "position": "LT", "overall": 72}
+            ]
+        }
+        mapped = map_to_rutgers_app.map_manual_depth_chart_from_seed(seed, 78, roster)
+        self.assertEqual(mapped["metadata"]["rejected_count"], 1)
+        self.assertEqual(mapped["metadata"]["validated_count"], 0)
+        self.assertEqual(mapped["depth_chart"]["position_groups"][0]["players"], [])
+        self.assertEqual(mapped["depth_chart"]["position_groups"][0]["status"], "unavailable_requires_manual_verification")
+
+    def test_manual_depth_chart_keeps_current_compatible_player(self):
+        seed = {
+            "position_groups": [
+                {
+                    "position": "LT",
+                    "players": [{"player_id": "101", "name": "Current Tackle", "position": "LT"}],
+                }
+            ]
+        }
+        roster = {
+            "players": [
+                {
+                    "player_id": "101",
+                    "save_player_id": 101,
+                    "name": "Current Tackle",
+                    "full_name": "Current Tackle",
+                    "position": "LT",
+                    "overall": 72,
+                    "class_year": "JR",
+                }
+            ]
+        }
+        mapped = map_to_rutgers_app.map_manual_depth_chart_from_seed(seed, 78, roster)
+        self.assertEqual(mapped["metadata"]["validated_count"], 1)
+        self.assertEqual(mapped["metadata"]["rejected_count"], 0)
+        retained = mapped["depth_chart"]["position_groups"][0]["players"][0]
+        self.assertEqual(retained["save_player_id"], 101)
+        self.assertEqual(retained["verification_status"], "manual_static_validated_against_current_roster")
+
+    def test_week1_empty_stats_package_has_no_old_leaders(self):
+        package = publish_dynasty.empty_week1_stats_package("Rutgers")
+        self.assertEqual(package["games_played"], 0)
+        self.assertEqual(package["passing"], [])
+        self.assertEqual(package["rushing"], [])
+        self.assertEqual(package["receiving"], [])
+        self.assertNotIn("1305", json.dumps(package))
+        self.assertNotIn("683", json.dumps(package))
+
+    def test_stale_rutgers_validation_flags_previous_roster_terms(self):
+        matches = publish_dynasty.find_stale_terms(
+            {"payload": {"player": "J. Elijah", "note": "old depth slot"}},
+            ["J. Elijah"],
+        )
+        self.assertIn("payload", matches)
+        cleaned = publish_dynasty.scrub_stale_terms({"player": "J. Elijah"}, ["J. Elijah"])
+        self.assertNotIn("J. Elijah", json.dumps(cleaned))
 
 
 if __name__ == "__main__":

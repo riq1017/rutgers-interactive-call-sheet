@@ -16,6 +16,27 @@ const DEFAULT_CAPS = {
   riskPenalty: [-15, 0]
 };
 const state = { ranked: [], excluded: [] };
+const EMBEDDED_WEEKLY_PLAN = typeof WEEKLY_PLAN !== "undefined" ? WEEKLY_PLAN : null;
+const EMBEDDED_GAMEPLAN_WEEKLY = typeof GAMEPLAN_WEEKLY !== "undefined" ? GAMEPLAN_WEEKLY : null;
+
+function packageIdentity(pkg = {}) {
+  const opponent = pkg.opponent || pkg.opponent_profile || {};
+  const weekValue = pkg.week || pkg.current_week || pkg.season_context?.week || pkg.gameday?.currentWeek || opponent.week || "";
+  const opponentValue = opponent.name || opponent.opponent || pkg.opponent_name || pkg.weekly_opponent || "";
+  return {
+    week: String(weekValue || "").toLowerCase().replace(/[^a-z0-9]+/g, ""),
+    opponent: String(opponentValue || "").toLowerCase().replace(/[^a-z0-9]+/g, "")
+  };
+}
+
+function isSamePackageIdentity(saved, embedded) {
+  if (!saved || !embedded) return true;
+  const savedId = packageIdentity(saved);
+  const embeddedId = packageIdentity(embedded);
+  if (embeddedId.week && savedId.week && embeddedId.week !== savedId.week) return false;
+  if (embeddedId.opponent && savedId.opponent && embeddedId.opponent !== savedId.opponent) return false;
+  return true;
+}
 
 function loadLocalWeeklyPackage() {
   const saved = localStorage.getItem(WEEKLY_KEY);
@@ -23,6 +44,11 @@ function loadLocalWeeklyPackage() {
   try {
     const parsed = JSON.parse(saved);
     validateWeeklyPlan(parsed);
+    if (!isSamePackageIdentity(parsed, EMBEDDED_WEEKLY_PLAN)) {
+      localStorage.removeItem(WEEKLY_KEY);
+      setStatus("Removed stale saved weekly package after Dynasty refresh");
+      return;
+    }
     window.WEEKLY_PLAN = parsed;
   } catch (err) {
     localStorage.removeItem(WEEKLY_KEY);
@@ -36,7 +62,12 @@ function loadEnginePackages() {
     if (savedGameplan) {
       const parsed = JSON.parse(savedGameplan);
       validateGameplanWeekly(parsed);
-      window.GAMEPLAN_WEEKLY = parsed;
+      if (!isSamePackageIdentity(parsed, EMBEDDED_GAMEPLAN_WEEKLY)) {
+        localStorage.removeItem(GAMEPLAN_WEEKLY_KEY);
+        setStatus("Removed stale saved gameplan package after Dynasty refresh");
+      } else {
+        window.GAMEPLAN_WEEKLY = parsed;
+      }
     }
   } catch (err) {
     localStorage.removeItem(GAMEPLAN_WEEKLY_KEY);
@@ -1510,8 +1541,9 @@ function firstClean(items) {
 function activeOpponentName() {
   const opp = loadOpponentProfile();
   const weekly = loadGameplanWeekly() || {};
+  const weeklyOpponent = typeof weekly.opponent === "object" ? weekly.opponent?.name : weekly.opponent;
   const fallbackOpponent = typeof WEEKLY_PLAN !== "undefined" && WEEKLY_PLAN.opponent ? WEEKLY_PLAN.opponent.name : "";
-  return cleanValue(opp.team || weekly.opponent || fallbackOpponent);
+  return cleanValue(opp.team || opp.name || weeklyOpponent || fallbackOpponent);
 }
 
 const ROSTER_POSITION_GROUPS = ["QB","HB","WR","TE","LT","LG","C","RG","RT","EDGE","DT","LB","CB","FS","SS","K","P"];
@@ -1786,8 +1818,10 @@ function loadOpponentGroups() {
 }
 
 function loadMatchups() {
+  const weekly = loadGameplanWeekly();
+  if (Array.isArray(weekly.matchups) && weekly.matchups.length) return weekly.matchups;
   if (typeof PLAYER_MATCHUPS !== "undefined" && Array.isArray(PLAYER_MATCHUPS.matchups)) return PLAYER_MATCHUPS.matchups;
-  return (loadGameplanWeekly().matchups) || [];
+  return [];
 }
 
 function loadRutgersLastGameStats() {
@@ -1910,17 +1944,17 @@ function teamLogo(teamName, side = "rutgers") {
 function rutgersTeamProfile() {
   const roster = loadRutgersRoster();
   const team = roster.team || {};
-  const profile = typeof TEAM_PROFILE !== "undefined" ? TEAM_PROFILE : {};
+  const weekly = loadGameplanWeekly();
   return {
-    name: cleanValue(team.name || profile.team) || "Rutgers",
-    record: team.record || profile.record,
-    conferenceRecord: profile.conference_record,
-    overall: team.overall || (profile.team_summary_observed || {}).overall,
-    offense: team.offense || (profile.team_summary_observed || {}).offense,
-    defense: team.defense || (profile.team_summary_observed || {}).defense,
-    rank: profile.rutgers_rank,
-    momentum: profile.momentum_status,
-    sourceStatus: roster.verification_status || profile.verification_status
+    name: cleanValue(team.name || weekly.team_name) || "Rutgers",
+    record: cleanValue(team.record || weekly.rutgers_record) || "0-0",
+    conferenceRecord: cleanValue(team.conference_record || weekly.rutgers_conference_record),
+    overall: team.overall ?? weekly.rutgers_overall,
+    offense: team.offense ?? weekly.rutgers_offense,
+    defense: team.defense ?? weekly.rutgers_defense,
+    rank: cleanValue(team.rank || weekly.rutgers_rank) || "N/A",
+    momentum: cleanValue(team.momentum_status || weekly.momentum_status),
+    sourceStatus: roster.verification_status || weekly.verification_status || "save-derived"
   };
 }
 
@@ -2425,20 +2459,19 @@ function defensiveCoordinatorSection() {
 
 function homeTeamSnapshotCard() {
   const weekly = loadGameplanWeekly() || {};
-  const gameday = weekly.gameday || {};
-  const profile = typeof TEAM_PROFILE !== "undefined" ? TEAM_PROFILE : {};
+  const team = rutgersTeamProfile();
   const roster = loadRutgersRoster().players || [];
   const offensivePositions = new Set(["QB","HB","WR","TE","LT","LG","C","RG","RT"]);
   const offenseCount = roster.filter(player => offensivePositions.has(rosterGroupFor(player.position))).length;
   const defenseCount = roster.filter(player => ["EDGE","DT","LB","CB","FS","SS"].includes(rosterGroupFor(player.position))).length;
   const tile = (label, value) => `<div class="home-stat-tile"><span>${cardValue(label, "")}</span><strong>${cardValue(value)}</strong></div>`;
   return BaseCard({ className: "rutgers-home-card home-team-snapshot", priority: "critical", size: "large", content: `
-    ${CardHeader({ eyebrow: "Rutgers Football", title: "Home Team Dashboard", subtitle: `${cardValue(gameday.currentWeek || profile.week || weekly.week)} vs ${cardValue(activeOpponentName())}`, badge: Badge("Rutgers", "critical") })}
+    ${CardHeader({ eyebrow: "Rutgers Football", title: "Home Team Dashboard", subtitle: `${cardValue(activeWeekLabel() || weekly.week)} vs ${cardValue(activeOpponentName())}`, badge: Badge("Rutgers", "critical") })}
     <div class="home-snapshot-grid">
-      ${tile("Record", gameday.seasonRecord || profile.record)}
-      ${tile("Rank", gameday.rutgersRank || profile.rutgers_rank)}
-      ${tile("Offense", gameday.offenseRank || profile.offense_rank)}
-      ${tile("Defense", gameday.defenseRank || profile.defense_rank)}
+      ${tile("Record", team.record)}
+      ${tile("Rank", team.rank)}
+      ${tile("Offense", team.offense)}
+      ${tile("Defense", team.defense)}
       ${tile("Roster", roster.length)}
       ${tile("Off / Def", `${offenseCount} / ${defenseCount}`)}
     </div>
@@ -3207,10 +3240,11 @@ function renderGamedayHeader() {
   setText("programLabel", "Rutgers Football");
   setText("appTitle", "Gameday Gameplan");
   setText("weekOpponent", `${activeWeekLabel()} vs ${activeOpponentName()}`);
-  setText("seasonRecord", team.record);
-  setText("rutgersRank", TEAM_PROFILE && TEAM_PROFILE.rutgers_rank ? TEAM_PROFILE.rutgers_rank : "#18");
-  setText("offenseRank", team.offense);
-  setText("defenseRank", team.defense);
+  const profile = rutgersTeamProfile();
+  setText("seasonRecord", profile.record);
+  setText("rutgersRank", profile.rank);
+  setText("offenseRank", profile.offense);
+  setText("defenseRank", profile.defense);
   setText("momentumStatus", `${activeOpponentName()} package loaded`);
 }
 
@@ -4201,7 +4235,7 @@ function availableStatTables(data = {}) {
     rows.push(statSourceNote(`${weeklyTeamName()} unavailable categories`, `${missingRutgers.join(", ")} were not visible in the verified ${data.label.toLowerCase()} stat source.`));
   }
   if (missingOpponent.length) {
-    rows.push(statSourceNote(`${activeOpponentName()} unavailable categories`, `${missingOpponent.join(", ")} were not visible in the verified ${data.label.toLowerCase()} stat source. Purdue defense production remains available when present.`));
+    rows.push(statSourceNote(`${activeOpponentName()} unavailable categories`, `${missingOpponent.join(", ")} were not visible in the verified ${data.label.toLowerCase()} stat source. Current opponent defense production remains available when present.`));
   }
   return rows.join("");
 }
@@ -4757,7 +4791,7 @@ function analyticsPanelHtml(kind = "team_trends") {
     </section>`,
     opponent_tendencies: `<section class="utility-section analytics-panel" data-analytics-panel="opponent_tendencies">
       <h3>Opponent Tendencies</h3>
-      <div class="overview-grid">${maybeRow("Opponent", activeOpponentName())}${maybeRow("Verified defense rows", opponentDefense.length)}${maybeRow("Source", "Weekly Purdue package")}${maybeRow("Status", opponentDefense.length ? "Defense production verified" : "Limited source")}</div>
+      <div class="overview-grid">${maybeRow("Opponent", activeOpponentName())}${maybeRow("Verified defense rows", opponentDefense.length)}${maybeRow("Source", `${activeOpponentName()} weekly package`)}${maybeRow("Status", opponentDefense.length ? "Defense production verified" : "Limited source")}</div>
       <div class="stat-category-grid">${opponentDefense.length ? statTable(`${activeOpponentName()} Defensive Production`, opponentDefense, "defense") : statSourceNote("Opponent production", "No verified opponent tendency table is available in the current weekly package.")}</div>
     </section>`,
     recruiting_analytics: `<section class="utility-section analytics-panel" data-analytics-panel="recruiting_analytics">

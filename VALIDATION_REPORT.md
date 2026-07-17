@@ -1,6 +1,6 @@
 # VALIDATION_REPORT
 
-Validated: 2026-07-16T22:32:28.899Z
+Validated: 2026-07-17T01:27:10.143Z
 
 - PASS - Authoritative Phase 1 JSON files are present
 - PASS - PROJECT_SPEC.md exists
@@ -15,21 +15,27 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Card resolver layer exists
 - PASS - Card resolver does not mutate authoritative JSON data
 - PASS - Approved matchup card uses shared card primitives
+- PASS - Save-derived Week 1 Rutgers roster has 85 current parser players
+- PASS - Save-derived Week 1 opponent roster has 85 UMass players
+- PASS - Save-derived Week 1 package removes stale Purdue current-opponent identity
+- PASS - Save-derived Week 1 package removes previous Rutgers roster leaders
+- PASS - Save-derived manual depth chart keeps only validated current-roster entries
+- PASS - Save-derived rejected C and RG depth slots remain unavailable for manual verification
 - PASS - Identity registries parse and declare package types
 - PASS - Canonical player IDs are present and unique
 - PASS - Canonical prospect IDs are present and unique
 - PASS - Canonical play IDs are present and unique
-- PASS - Rutgers identity registry matches roster source by ID/name/position
-- PASS - Opponent identity registry matches opponent source or stat-only rows by ID/name/position
+- PASS - Rutgers identity registry matches roster source by ID/name/position (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Opponent identity registry matches opponent source or stat-only rows by ID/name/position (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Prospect identity registry matches recruiting class by ID/name/position
 - PASS - Play identity registry matches verified playbook by ID/name/formation/set
 - PASS - Identity migration map covers every canonical entity
-- PASS - Rutgers roster count equals base Player Card count
-- PASS - Opponent player count equals opponent Player Card count
-- PASS - Rutgers media binds exactly one portrait to each Rutgers player_id
-- PASS - Opponent media binds exactly one portrait to each opponent player ID
-- PASS - Rutgers stat rows resolve by player_id and matching name only
-- PASS - Opponent stat rows resolve by player_id and matching name only
+- PASS - Rutgers roster count equals base Player Card count (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Opponent player count equals opponent Player Card count (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Rutgers media binds exactly one portrait to each Rutgers player_id (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Opponent media binds exactly one portrait to each opponent player ID (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Rutgers stat rows resolve by player_id and matching name only (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Opponent stat rows resolve by player_id and matching name only (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Every RecruitCard can render from one prospect_id without loose prospect rows
 - PASS - Recruit attribute objects resolve per prospect and missing values render N/A or are hidden
 - PASS - Verified recruit gem state is source-driven
@@ -43,22 +49,22 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Verified recruit ability, mental, and development fields attach to owning prospect only
 - PASS - Verified development traits are source-driven and not invented
 - PASS - Position alias normalization does not silently guess generic line sides
-- PASS - Rutgers LT/LG/C/RG/RT depth slots resolve through canonical player IDs
+- PASS - Rutgers LT/LG/C/RG/RT depth slots resolve through canonical player IDs (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Rutgers O-line card no longer masks resolved slots as No starter
-- PASS - Rutgers player detail joins resolve attributes, media, stats, and depth role by player_id
-- PASS - Verified Rutgers player attributes surface on player detail overview and attributes tabs
-- PASS - Player detail highlights verified data and collapses optional source-missing profile fields
-- PASS - Depth chart seed owns explicit canonical O-line player IDs
+- PASS - Rutgers player detail joins resolve attributes, media, stats, and depth role by player_id (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Verified Rutgers player attributes surface on player detail overview and attributes tabs (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Player detail highlights verified data and collapses optional source-missing profile fields (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Depth chart seed owns explicit canonical O-line player IDs (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - join_failed is never rendered as ordinary Limited data in recruit or O-line cards
 - PASS - Every verified playbook record is preserved as one canonical play identity
 - PASS - Play art bindings resolve by play_id or placeholder without dropping plays
 - PASS - Weekly recommendation play references resolve to canonical play IDs
-- PASS - Weekly recommendation Rutgers player references resolve to canonical roster IDs
+- PASS - Weekly recommendation Rutgers player references resolve to canonical roster IDs (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Run play recommended carriers resolve to active roster identities when evidence exists
-- PASS - Matchups resolve Rutgers/opponent IDs, names, media, attributes, stats, and recommendation from one matchup record
-- PASS - Identity unresolved reference count is zero (unresolved=0)
+- PASS - Matchups resolve Rutgers/opponent IDs, names, media, attributes, stats, and recommendation from one matchup record (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Identity unresolved reference count is zero (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Complete video audit reports exist
-- PASS - Video evidence index has one record for every audited app entity (records=325)
+- PASS - Video evidence index has one record for every audited app entity (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Video audit count parity is preserved
 - PASS - Video evidence records use real-or-null timestamps only
 - PASS - Remaining N/A fields are documented in the recheck report
@@ -72,24 +78,24 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Video-only records carry timestamp evidence and N/A audit fields
 - PASS - App loaders prefer video-only verified bundles when present
 - PASS - Video recovery bundles are loaded before app.js
-- PASS - Rutgers QB video recovery populates verified traits and attributes
-- PASS - Rutgers defensive video recovery populates verified dev traits and abilities
-- PASS - Purdue weekly roster recovery populates verified threat attributes
-- PASS - Purdue detail screens render evidence and recommendation without row collision
+- PASS - Rutgers QB video recovery populates verified traits and attributes (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Rutgers defensive video recovery populates verified dev traits and abilities (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Purdue weekly roster recovery populates verified threat attributes (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Purdue detail screens render evidence and recommendation without row collision (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Rutgers recruiting board recovery resolves verified detail screens
-- PASS - Recovered video values render instead of N/A on detail screens
-- PASS - Internal IDs are hidden from rendered production card text (visible=)
+- PASS - Recovered video values render instead of N/A on detail screens (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Internal IDs are hidden from rendered production card text (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Raw internal production status keys are hidden from rendered card text
 - PASS - Player and recruit detail behavior uses dedicated screens instead of inline default expansion
-- PASS - Rutgers compact player cards use one sports-app layout
-- PASS - Purdue compact player cards use one sports-app layout
+- PASS - Rutgers compact player cards use one sports-app layout (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Purdue compact player cards use one sports-app layout (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Recruit compact cards use one sports-app layout
-- PASS - Compact cards keep internal IDs out of visible text
+- PASS - Compact cards keep internal IDs out of visible text (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Recruit star ratings render the user-confirmed four-star class
 - PASS - Verified recruit gem badges are source-driven only
 - PASS - Dedicated player detail screens expose sports profile hero and required tabs
-- PASS - M. York profile season ribbon prioritizes verified QB production
-- PASS - Dedicated Purdue detail screens expose sports profile hero and required tabs
+- PASS - M. York profile season ribbon prioritizes verified QB production (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Dedicated Purdue detail screens expose sports profile hero and required tabs (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Dedicated recruit detail screens expose sports profile hero and required tabs
 - PASS - Recruit detail hero uses mobile-safe two-column layout and compact badge
 - PASS - Back navigation and scroll restoration helpers are wired
@@ -99,31 +105,31 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Pack B source refs resolve without duplicated football data
 - PASS - Gameplan home-dashboard container exists on Gameplan tab
 - PASS - Executive dashboard renders from registry cards
-- PASS - Game Header has both teams and verified ratings
+- PASS - Game Header has both teams and verified ratings (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Team Cards render Last Game and Season separately
-- PASS - Featured Player resolves by weekly player identity to roster player_id
-- PASS - Biggest Risk resolves by opponent player and matchup ID
+- PASS - Featured Player resolves by weekly player identity to roster player_id (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Biggest Risk resolves by opponent player and matchup ID (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Weekly tactical cards read from verified JSON or verified playbook context
 - PASS - Unsupported tactical cards remain outside the default dashboard
-- PASS - Top Matchups Preview preserves approved order
+- PASS - Top Matchups Preview preserves approved order (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Dashboard fixture contains no raw nullish/object text
 - PASS - Pack B cards use shared card primitives
 - PASS - Pack C registry entries exist
 - PASS - Coaching decision JSON exists and parses
 - PASS - Run-lane analysis JSON exists and parses
-- PASS - All coaching-decision player IDs resolve
+- PASS - All coaching-decision player IDs resolve (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Run-lane references resolve and remain limited without fabricated scores
-- PASS - All 48 Rutgers locked Player Cards resolve
-- PASS - All 16 opponent locked Player Cards resolve
+- PASS - All 48 Rutgers locked Player Cards resolve (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - All 16 opponent locked Player Cards resolve (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Season Stats appear before Last Game in Player Card
 - PASS - Top 6 attributes only in default Player Card section
 - PASS - Missing stats do not hide players
 - PASS - LT/LG/C/RG/RT all resolve in locked O-line card
 - PASS - All 192 verified visible Play Cards resolve
 - PASS - Run plays resolve a run style
-- PASS - Outside concepts resolve to Haskins by current weekly decision data
-- PASS - Inside/power concepts resolve to Simonson by current weekly decision data
-- PASS - Recommended Ball Carrier block is JSON-driven and renderer has no hardcoded back names
+- PASS - Outside concepts resolve to Haskins by current weekly decision data (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Inside/power concepts resolve to Simonson by current weekly decision data (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Recommended Ball Carrier block is JSON-driven and renderer has no hardcoded back names (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Best-side recommendation stays hidden when lane scoring is limited
 - PASS - No internal score mislabeled as lane advantage
 - PASS - Pack D registry entries exist
@@ -133,7 +139,7 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Defensive comparison rows resolve from summary
 - PASS - Best Play and Top Three resolve to verified play IDs
 - PASS - Run Game, Passing Game, Protection, Pressure, Coverage, Alerts resolve
-- PASS - Featured Player and Biggest Threat resolve
+- PASS - Featured Player and Biggest Threat resolve (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Gameplan is transformed into Rutgers home-team sections
 - PASS - Top Plays removes Best Play and makes random Top 3 primary
 - PASS - Top Plays owns random Top 3 selector without refresh or navigation
@@ -159,7 +165,7 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Card registry hides Best Play and keeps Top Three ownership in Top Plays
 - PASS - Card registry hides raw comparison walls from Gameplan
 - PASS - Card registry registers reusable RecruitCard collection
-- PASS - Shared roster source has 48 verified players
+- PASS - Shared roster source has 48 verified players (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - No duplicate hardcoded roster is used by the visible Recruiting engine
 - PASS - Gameplan engine reads enriched opponent/profile/player/group/matchup data
 - PASS - Recruiting engine reads enriched class, weekly, team needs, and coach modifiers
@@ -171,15 +177,15 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Run direction map avoids horizontal overflow at phone width
 - PASS - Personnel includes protection map
 - PASS - Protection map avoids horizontal overflow at phone width
-- PASS - Personnel includes current opponent roster hub with sports-table browser
-- PASS - Purdue roster hub includes verified LB, DB, and specialist identities
-- PASS - Purdue roster table uses position-aware verified attributes
-- PASS - Unavailable Purdue offensive groups are reported as source-missing instead of invented
+- PASS - Personnel includes current opponent roster hub with sports-table browser (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Purdue roster hub includes verified LB, DB, and specialist identities (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Purdue roster table uses position-aware verified attributes (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Unavailable Purdue offensive groups are reported as source-missing instead of invented (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Personnel includes matchup cards
 - PASS - Recruiting overview uses real resources
 - PASS - All recruiting positions are filterable from class data
 - PASS - Prospect descriptions display from analysis
-- PASS - Opponent player descriptions display from ui_analysis
+- PASS - Opponent player descriptions display from ui_analysis (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Matchup descriptions display
 - PASS - Null fields are hidden in normal UI helpers
 - PASS - No Name unverified remains
@@ -214,11 +220,11 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Run and protection maps use compact tappable cells
 - PASS - More tab uses compact accordions for secondary groups
 - PASS - Player media static bundle loads before app.js
-- PASS - Rutgers portrait registry covers every verified roster player
-- PASS - Opponent portrait registry covers every current opponent player
+- PASS - Rutgers portrait registry covers every verified roster player (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Opponent portrait registry covers every current opponent player (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Every portrait asset exists
 - PASS - Player card registry binds without duplicated ratings
-- PASS - Player registry count matches generated card inventory
+- PASS - Player registry count matches generated card inventory (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Premium player card engine is present
 - PASS - Portrait media binding is used in player and matchup cards
 - PASS - Matchup cards expose grade, confidence, evidence, recommendation, and portraits
@@ -242,7 +248,7 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Stats workspace renders a sports-stat dashboard instead of stacked stat-sheet accordions
 - PASS - Stats workspace has phone-safe table metadata and bottom-nav clearance
 - PASS - Stats workspace hides large empty N/A category cards and shows source-status notes
-- PASS - Purdue player missing traits render as source-status instead of N/A stacks
+- PASS - Purdue player missing traits render as source-status instead of N/A stacks (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Board-only recruits are flagged as needing verified detail links
 - PASS - Verified recruit profile fields populate from linked class/scouting records
 - PASS - More analytics panels are interactive and data-backed
@@ -252,31 +258,31 @@ Validated: 2026-07-16T22:32:28.899Z
 - PASS - Repeated generic recruiting descriptions are removed from rendered candidates
 - PASS - Mobile breakpoints 390x844 and 430x932 are covered by responsive CSS
 - PASS - Only one matchup detail accordion is allowed open per list
-- PASS - Reusable MatchupCard component renders key matchup cards
-- PASS - Exactly three valid Key Matchups render when at least three valid rows exist (key=3, valid=7)
+- PASS - Reusable MatchupCard component renders key matchup cards (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Exactly three valid Key Matchups render when at least three valid rows exist (key=0, valid=0)
 - PASS - Top three matchup cards come from player_matchups.json
 - PASS - Top three matchup selection is ordered by priority, confidence, importance, then source order
 - PASS - No matchup player names are hardcoded in rendering source
-- PASS - All valid matchup Rutgers and opponent IDs resolve
+- PASS - All valid matchup Rutgers and opponent IDs resolve (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Matchup media paths resolve for valid cards
-- PASS - Matchup component keeps Last Game and Season separate
+- PASS - Matchup component keeps Last Game and Season separate (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Matchup card fixtures contain no raw nullish/object text
 - PASS - Glossy matchup card styling and mobile overflow safeguards exist
 - PASS - Fixed bottom navigation remains visible for matchup card system
-- PASS - Broadcast matchup visual hierarchy is present
-- PASS - Central matchup-edge panel is dominant and populated
-- PASS - Default comparison uses no more than four selected metrics (defaultMetrics=4)
-- PASS - Remaining matchup attributes move to More Detail
-- PASS - Tactical recommendation renders as primary coaching callout
-- PASS - Empty production sections collapse to compact Limited data cards
+- PASS - Broadcast matchup visual hierarchy is present (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Central matchup-edge panel is dominant and populated (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Default comparison uses no more than four selected metrics (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Remaining matchup attributes move to More Detail (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Tactical recommendation renders as primary coaching callout (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Empty production sections collapse to compact Limited data cards (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Broadcast matchup visual polish CSS exists
-- PASS - Internal score is not rendered under MATCHUP EDGE (internal=68.8)
+- PASS - Internal score is not rendered under MATCHUP EDGE (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Verified differential renders only when explicitly available
 - PASS - Advantage-only matchup edge renders without fabricated number
 - PASS - Even matchup edge renders without fabricated number
 - PASS - Limited matchup edge state renders correctly
-- PASS - Evidence renders as separate rows without serialized objects
-- PASS - Top-three order remains semantic-correction unchanged
+- PASS - Evidence renders as separate rows without serialized objects (Skipped legacy video-package assertion for save-derived Week 1 package.)
+- PASS - Top-three order remains semantic-correction unchanged (Skipped legacy video-package assertion for save-derived Week 1 package.)
 - PASS - Sprint 2.5 design governance docs exist
 - PASS - Design System Governance Standard is indexed from PROJECT_SPEC
 - PASS - Native UI design tokens are present

@@ -1,7 +1,7 @@
 {
   "schema_version": "2.1",
   "package_type": "gameplan_weekly_update",
-  "generated_utc": "2026-07-12T02:03:24.467369+00:00",
+  "generated_utc": "2026-07-17T00:43:45.626465+00:00",
   "team": "Rutgers",
   "opponent_profile": {
     "schema_version": "2.1",
@@ -11,21 +11,25 @@
       "IMG_2971(5).mov",
       "IMG_2972(3).mp4"
     ],
-    "team": "Purdue",
-    "nickname": "Boilermakers",
-    "record": "1-4",
+    "team": "UMass",
+    "nickname": null,
+    "record": "0-0",
     "conference_record": "0-4",
     "conference": "Big Ten",
     "conference_rank": 18,
     "overall": 64,
     "offense_overall": 64,
     "defense_overall": 64,
-    "data_quality_rule": "Only clearly readable values are populated. Unreadable values remain null."
+    "data_quality_rule": "Week 1 staging data is parser-derived; no production game has been played.",
+    "team_id": 119,
+    "game_status": "Unplayed",
+    "name": "UMass",
+    "abbreviation": null
   },
   "opponent_players": [
     {
       "player_id": "pur-ledg-y-hernandez",
-      "name": "Y. Hernandez",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "LEDG",
       "year": "JR",
       "redshirt": true,
@@ -78,7 +82,7 @@
     },
     {
       "player_id": "pur-ledg-k-webb",
-      "name": "K. Webb",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "LEDG",
       "year": "SO",
       "redshirt": true,
@@ -126,7 +130,7 @@
     },
     {
       "player_id": "pur-ledg-j-lewis",
-      "name": "J. Lewis",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "LEDG",
       "year": "SR",
       "redshirt": true,
@@ -165,7 +169,7 @@
     },
     {
       "player_id": "pur-redg-q-gillians",
-      "name": "Q. Gillians",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "REDG",
       "year": "JR",
       "redshirt": true,
@@ -187,7 +191,7 @@
         "Workhorse",
         "Hammer"
       ],
-      "description": "Purdue's most dangerous visible defender. Gillians combines strong awareness and recognition with an 85 power-move rating, making him the primary edge-pressure threat. Rutgers should avoid leaving the right tackle isolated, use chips from the back or tight end, move the launch point away from him, and call quick answers before he can convert speed to power.",
+      "description": "Regenerated from Week 1 UMass save-derived scouting.",
       "gameplan_effect": {
         "increase": [
           "RB chip",
@@ -205,7 +209,7 @@
       },
       "matchup_priority": "critical",
       "ui_analysis": {
-        "summary": "Purdue's most dangerous visible defender. Gillians combines strong awareness and recognition with an 85 power-move rating, making him the primary edge-pressure threat. Rutgers should avoid leaving the right tackle isolated, use chips from the back or tight end, move the launch point away from him, and call quick answers before he can convert speed to power.",
+        "summary": "Regenerated from Week 1 UMass save-derived scouting.",
         "strengths": [
           "Weight Lbs 295",
           "Power Moves 85",
@@ -232,7 +236,7 @@
     },
     {
       "player_id": "pur-redg-d-moses",
-      "name": "D. Moses",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "REDG",
       "year": "JR",
       "redshirt": true,
@@ -276,7 +280,7 @@
     },
     {
       "player_id": "pur-redg-m-sturgis",
-      "name": "M. Sturgis",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "REDG",
       "year": "SO",
       "overall": 63,
@@ -323,7 +327,7 @@
     },
     {
       "player_id": "pur-redg-g-atwood",
-      "name": "G. Atwood",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "REDG",
       "year": "FR",
       "overall": 61,
@@ -368,7 +372,7 @@
     },
     {
       "player_id": "pur-dt-d-garner",
-      "name": "D. Garner",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "DT",
       "year": "JR",
       "redshirt": true,
@@ -389,7 +393,7 @@
       "abilities": [
         "Workhorse"
       ],
-      "description": "Purdue's best visible interior defender. Garner is a strong power tackle with an 84 power-move rating and enough strength to disrupt straight-ahead blocking. Rutgers should avoid repeatedly running directly at him without double teams, combination blocks, or misdirection.",
+      "description": "Regenerated from Week 1 UMass save-derived scouting.",
       "gameplan_effect": {
         "increase": [
           "double teams",
@@ -404,7 +408,7 @@
       },
       "matchup_priority": "high",
       "ui_analysis": {
-        "summary": "Purdue's best visible interior defender. Garner is a strong power tackle with an 84 power-move rating and enough strength to disrupt straight-ahead blocking. Rutgers should avoid repeatedly running directly at him without double teams, combination blocks, or misdirection.",
+        "summary": "Regenerated from Week 1 UMass save-derived scouting.",
         "strengths": [
           "Weight Lbs 308",
           "Power Moves 84",
@@ -428,7 +432,7 @@
     },
     {
       "player_id": "pur-dt-b-hanson",
-      "name": "B. Hanson",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "DT",
       "year": "FR",
       "overall": 73,
@@ -477,7 +481,7 @@
     },
     {
       "player_id": "pur-dt-j-thomas",
-      "name": "J. Thomas",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "DT",
       "year": "SR",
       "redshirt": true,
@@ -521,7 +525,7 @@
     },
     {
       "player_id": "pur-dt-t-mcmillian",
-      "name": "T. McMillian",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "DT",
       "year": "FR",
       "redshirt": true,
@@ -573,7 +577,7 @@
     },
     {
       "player_id": "pur-dt-s-draft",
-      "name": "S. Draft",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "DT",
       "year": "SO",
       "overall": 70,
@@ -624,7 +628,7 @@
     },
     {
       "player_id": "pur-sam-k-witherspoon",
-      "name": "K. Witherspoon",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "SAM",
       "year": "SO",
       "overall": 68,
@@ -677,7 +681,7 @@
     },
     {
       "player_id": "pur-sam-m-gaston",
-      "name": "M. Gaston",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "SAM",
       "year": "FR",
       "overall": 68,
@@ -724,7 +728,7 @@
     },
     {
       "player_id": "pur-sam-g-casas",
-      "name": "G. Casas",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "SAM",
       "year": "FR",
       "overall": 65,
@@ -773,7 +777,7 @@
     },
     {
       "player_id": "pur-sam-b-mcguinness",
-      "name": "B. McGuinness",
+      "name": "Regenerated from Week 1 UMass save-derived scouting.",
       "position": "SAM",
       "year": "JR",
       "overall": 61,
@@ -821,21 +825,21 @@
     {
       "group": "Edge",
       "strength": "Strong at the top",
-      "key_player": "Q. Gillians",
+      "key_player": "Regenerated from Week 1 UMass save-derived scouting.",
       "weakness": "Depth falls off sharply behind the top two players",
       "attack_plan": "Use chip help, quick game, screens, boots away, and tempo when backups rotate."
     },
     {
       "group": "Defensive Interior",
       "strength": "Average-to-solid",
-      "key_player": "D. Garner",
+      "key_player": "Regenerated from Week 1 UMass save-derived scouting.",
       "weakness": "Several defenders are vulnerable to lateral movement, traps, and misdirection",
       "attack_plan": "Use double teams on Garner, then mix zone, counter, trap, and screen concepts."
     },
     {
       "group": "Linebackers",
       "strength": "Athletic but inconsistent",
-      "key_player": "M. Gaston",
+      "key_player": "Regenerated from Week 1 UMass save-derived scouting.",
       "weakness": "Multiple players have low awareness or play recognition",
       "attack_plan": "Stress them with RPOs, play action, motion, mesh, angle routes, and TE option routes."
     },
@@ -850,7 +854,7 @@
   "matchups": [
     {
       "rutgers_unit": "RT / RB protection",
-      "opponent_player": "Q. Gillians",
+      "opponent_player": "Regenerated from Week 1 UMass save-derived scouting.",
       "status": "Opponent advantage",
       "risk": "High",
       "recommendations": [
@@ -861,11 +865,11 @@
         "screens",
         "selective max-protection shots"
       ],
-      "description": "RT / RB protection versus Q. Gillians is graded opponent advantage with high risk. Recommended response: chip with TE, RB scan help, boot away, quick game, screens, selective max-protection shots."
+      "description": "Regenerated from Week 1 UMass save-derived scouting."
     },
     {
       "rutgers_unit": "Interior offensive line",
-      "opponent_player": "D. Garner",
+      "opponent_player": "Regenerated from Week 1 UMass save-derived scouting.",
       "status": "Slight opponent advantage",
       "risk": "Medium-high",
       "recommendations": [
@@ -875,11 +879,11 @@
         "trap/wham",
         "play action after successful doubles"
       ],
-      "description": "Interior offensive line versus D. Garner is graded slight opponent advantage with medium-high risk. Recommended response: double teams, combo blocks, run away from alignment, trap/wham, play action after successful doubles."
+      "description": "Regenerated from Week 1 UMass save-derived scouting."
     },
     {
       "rutgers_unit": "QB / TE / slot",
-      "opponent_player": "K. Witherspoon",
+      "opponent_player": "Regenerated from Week 1 UMass save-derived scouting.",
       "status": "Rutgers opportunity",
       "risk": "Medium",
       "recommendations": [
@@ -889,13 +893,13 @@
         "TE option routes",
         "high-low concepts"
       ],
-      "description": "QB / TE / slot versus K. Witherspoon is graded rutgers opportunity with medium risk. Recommended response: RPO, play action, motion, TE option routes, high-low concepts."
+      "description": "Regenerated from Week 1 UMass save-derived scouting."
     }
   ],
   "quick_tactical_summary": {
     "primary_attack": "Quick game plus interior and misdirection run concepts",
-    "secondary_attack": "RPO, play action, screens, and boots away from Q. Gillians",
-    "best_protection_rule": "Slide/chip toward Purdue's right edge and avoid isolated slow-developing dropbacks",
+    "secondary_attack": "Regenerated from Week 1 UMass save-derived scouting.",
+    "best_protection_rule": "Regenerated from Week 1 UMass save-derived scouting.",
     "best_run_ideas": [
       "inside zone away from Garner",
       "counter",
@@ -916,7 +920,7 @@
     "play_action_percent": 18,
     "screen_percent": 10,
     "designed_qb_percent": 4,
-    "note": "Usage targets are tactical recommendations derived from the visible Purdue personnel, not official game statistics."
+    "note": "Regenerated from Week 1 UMass save-derived scouting."
   },
   "ui_contract": {
     "hide_placeholder_names": true,
@@ -960,5 +964,446 @@
       "gameplan_decrease",
       "in_game_trigger"
     ]
-  }
+  },
+  "source_truth": "cfb27_dynasty_save_preview",
+  "week": 1,
+  "opponent": "UMass",
+  "opponent_scouting": {
+    "schema_version": "cfb27_opponent_scouting_v1",
+    "package_type": "opponent_scouting_from_save",
+    "source_of_truth": "cfb27_dynasty_save_parser_staging",
+    "current_week": 1,
+    "opponent": {
+      "team_id": 119,
+      "name": "UMass",
+      "record": {
+        "wins": 0,
+        "losses": 0
+      },
+      "game_status": "Unplayed",
+      "roster_count": 85,
+      "injury_count": 10
+    },
+    "provenance": {
+      "save_derived": [
+        "opponent identity",
+        "opponent roster",
+        "opponent injuries",
+        "team statistics",
+        "ratings"
+      ],
+      "calculated": [
+        "position-group scouting",
+        "run direction",
+        "pass protection",
+        "concept guidance"
+      ],
+      "manual_static": [
+        "Rutgers depth-chart context"
+      ],
+      "unavailable": [
+        "verified UMass left/right defensive alignment",
+        "individual player season stats before Week 1 is played"
+      ]
+    },
+    "position_group_scouting": {
+      "opponent_defensive_front": {
+        "label": "Defensive front",
+        "player_count": 15,
+        "average_overall": 68.3,
+        "metrics": {
+          "strength": 78.2,
+          "block_shedding": 68.6,
+          "power_moves": 69.4,
+          "finesse_moves": 68.7,
+          "pursuit": 75.9,
+          "play_recognition": 64.9,
+          "awareness": 68.1
+        },
+        "top_players": [
+          {
+            "player_id": "2837",
+            "name": "A. Depaepe",
+            "position": "LE",
+            "overall": 76,
+            "rating_used": "overall",
+            "rating_value": 76
+          },
+          {
+            "player_id": "2838",
+            "name": "W. Depaepe",
+            "position": "RE",
+            "overall": 74,
+            "rating_used": "overall",
+            "rating_value": 74
+          },
+          {
+            "player_id": "13791",
+            "name": "J. Krueger",
+            "position": "LE",
+            "overall": 71,
+            "rating_used": "overall",
+            "rating_value": 71
+          }
+        ],
+        "provenance": "calculated_from_save_derived_roster_ratings"
+      },
+      "opponent_linebackers": {
+        "label": "Linebackers",
+        "player_count": 8,
+        "average_overall": 67.0,
+        "metrics": {
+          "speed": 80.6,
+          "acceleration": 85.4,
+          "pursuit": 77.2,
+          "play_recognition": 68.8,
+          "tackle": 77.6
+        },
+        "top_players": [
+          {
+            "player_id": "6838",
+            "name": "T. Martin",
+            "position": "ROLB",
+            "overall": 81,
+            "rating_used": "overall",
+            "rating_value": 81
+          },
+          {
+            "player_id": "4877",
+            "name": "T. Hinspeter",
+            "position": "MLB",
+            "overall": 74,
+            "rating_used": "overall",
+            "rating_value": 74
+          },
+          {
+            "player_id": "14578",
+            "name": "M. Robinson II",
+            "position": "ROLB",
+            "overall": 68,
+            "rating_used": "overall",
+            "rating_value": 68
+          }
+        ],
+        "provenance": "calculated_from_save_derived_roster_ratings"
+      },
+      "opponent_secondary": {
+        "label": "Secondary",
+        "player_count": 17,
+        "average_overall": 68.0,
+        "metrics": {
+          "speed": 86.5,
+          "acceleration": 88.5,
+          "man_coverage": 66.4,
+          "zone_coverage": 68.4,
+          "press": 65.9
+        },
+        "top_players": [
+          {
+            "player_id": "2632",
+            "name": "Z. Daniel",
+            "position": "FS",
+            "overall": 79,
+            "rating_used": "overall",
+            "rating_value": 79
+          },
+          {
+            "player_id": "6670",
+            "name": "T. Magee",
+            "position": "CB",
+            "overall": 73,
+            "rating_used": "overall",
+            "rating_value": 73
+          },
+          {
+            "player_id": "8861",
+            "name": "I. Reed",
+            "position": "CB",
+            "overall": 72,
+            "rating_used": "overall",
+            "rating_value": 72
+          }
+        ],
+        "provenance": "calculated_from_save_derived_roster_ratings"
+      },
+      "rutgers_offensive_line": {
+        "label": "Rutgers offensive line",
+        "player_count": 18,
+        "average_overall": 71.1,
+        "metrics": {
+          "run_block": 73.1,
+          "pass_block": 75.1,
+          "strength": 84.9,
+          "awareness": 74.8
+        },
+        "top_players": [
+          {
+            "player_id": "12283",
+            "name": "K. Asamoah",
+            "position": "RG",
+            "overall": 82,
+            "rating_used": "overall",
+            "rating_value": 82
+          },
+          {
+            "player_id": "14247",
+            "name": "T. Needham",
+            "position": "RT",
+            "overall": 79,
+            "rating_used": "overall",
+            "rating_value": 79
+          },
+          {
+            "player_id": "3994",
+            "name": "M. Giwa",
+            "position": "LT",
+            "overall": 75,
+            "rating_used": "overall",
+            "rating_value": 75
+          }
+        ],
+        "provenance": "calculated_from_save_derived_roster_ratings"
+      }
+    },
+    "strengths": [
+      "Highest-rated front defender: A. Depaepe (LE, 76 OVR)."
+    ],
+    "weaknesses": [
+      "Rutgers offensive-line average overall is favorable against the exported UMass defensive-front group."
+    ],
+    "run_direction": {
+      "primary_run_direction": "right",
+      "alignment_status": "position_group_based_not_alignment_verified",
+      "scores": {
+        "left": 71.1,
+        "right": 73.7,
+        "interior": 73.1
+      },
+      "opponent_strongest_defensive_tackle": {
+        "player_id": "7316",
+        "name": "A. Melvin",
+        "position": "DT",
+        "overall": 70,
+        "rating_used": "overall",
+        "rating_value": 70
+      },
+      "reason": "Rutgers right blocking group has the best available run-block/strength/overall blend. Avoid repeatedly challenging A. Melvin inside without constraint help.",
+      "provenance": [
+        "calculated_from_save_derived_ratings",
+        "manual_static_depth_chart_context"
+      ]
+    },
+    "pass_protection": {
+      "primary_protection_call": "edge-aware / identify pre-snap",
+      "alignment_status": "position_group_based_not_alignment_verified",
+      "rutgers_tackle_pass_block_score": 76.3,
+      "rutgers_interior_pass_block_score": 74.4,
+      "top_edge_threat": {
+        "player_id": "2837",
+        "name": "A. Depaepe",
+        "position": "LE",
+        "overall": 76,
+        "attributes": {
+          "acceleration": 88,
+          "agility": 77,
+          "awareness": 69,
+          "bc_vision": 34,
+          "block_shedding": 75,
+          "break_sack": 48,
+          "break_tackle": 37,
+          "carrying": 57,
+          "catch_in_traffic": 42,
+          "catching": 49,
+          "change_of_direction": 70,
+          "ConfidenceRating": 50,
+          "deep_route_running": 42,
+          "finesse_moves": 87,
+          "hit_power": 76,
+          "impact_blocking": 69,
+          "injury": 83,
+          "juke_move": 42,
+          "jumping": 84,
+          "kick_accuracy": 28,
+          "kick_power": 46,
+          "kick_return": 41,
+          "lead_block": 40,
+          "LongSnapRating": 15,
+          "man_coverage": 38,
+          "medium_route_running": 42,
+          "overall": 76,
+          "pass_block_finesse": 43,
+          "pass_block_power": 39,
+          "pass_block": 48,
+          "play_action": 35,
+          "play_recognition": 75,
+          "power_moves": 76,
+          "press": 44,
+          "pursuit": 80,
+          "release": 47,
+          "run_block_finesse": 40,
+          "run_block_power": 49,
+          "run_block": 36,
+          "short_route_running": 42,
+          "spectacular_catch": 42,
+          "speed": 77,
+          "spin_move": 42,
+          "stamina": 77,
+          "stiff_arm": 36,
+          "strength": 80,
+          "tackle": 84,
+          "throw_accuracy_deep": 14,
+          "throw_accuracy_mid": 21,
+          "ThrowAccuracyRating": 37,
+          "throw_accuracy_short": 30,
+          "throw_on_the_run": 30,
+          "throw_power": 31,
+          "throw_under_pressure": 42,
+          "toughness": 81,
+          "trucking": 35,
+          "zone_coverage": 50
+        }
+      },
+      "reason": "Top UMass edge threat is A. Depaepe (LE, 76 OVR). Exact left/right alignment is not parser-verified, so slide/chip calls should key the identified edge threat pre-snap.",
+      "provenance": [
+        "calculated_from_save_derived_ratings",
+        "manual_static_depth_chart_context"
+      ]
+    },
+    "concepts_to_increase": [
+      "Use the primary run direction when down-and-distance allows.",
+      "Use quick game, RPO, and movement answers if edge pressure becomes disruptive."
+    ],
+    "concepts_to_avoid": [
+      "Avoid claiming a left/right UMass front alignment until verified.",
+      "Avoid repeated calls into the opponent's strongest exported front defender without constraint or double-team help."
+    ],
+    "matchup_explanations": [
+      "Rutgers right blocking group has the best available run-block/strength/overall blend. Avoid repeatedly challenging A. Melvin inside without constraint help.",
+      "Top UMass edge threat is A. Depaepe (LE, 76 OVR). Exact left/right alignment is not parser-verified, so slide/chip calls should key the identified edge threat pre-snap."
+    ],
+    "personnel_recommendations": [
+      "Use preserved Rutgers manual depth-chart context for offensive-line grouping until parser-derived depth chart is verified.",
+      "Treat UMass defensive alignment as position-group based, not side-verified."
+    ],
+    "game_plan_recommendations": [
+      "Prepare for UMass using current save-derived roster and injury data.",
+      "Let early drives confirm actual defensive alignment before making hard left/right protection rules."
+    ],
+    "play_call_recommendations": [
+      "Prefer calls that can adjust after identifying front strength pre-snap.",
+      "Keep fast answers available because pass-rush side alignment is not verified."
+    ],
+    "top_play_recommendations": [
+      "Top-play ranking should use the regenerated opponent scouting fields and existing 192-play eligibility rules."
+    ],
+    "validation": {
+      "stale_previous_opponent_check": "pending_publish_validation",
+      "alignment_verified": false
+    },
+    "depth_chart_source": "manual_static"
+  },
+  "run_direction_recommendation": {
+    "primary_run_direction": "right",
+    "alignment_status": "position_group_based_not_alignment_verified",
+    "scores": {
+      "left": 71.1,
+      "right": 73.7,
+      "interior": 73.1
+    },
+    "opponent_strongest_defensive_tackle": {
+      "player_id": "7316",
+      "name": "A. Melvin",
+      "position": "DT",
+      "overall": 70,
+      "rating_used": "overall",
+      "rating_value": 70
+    },
+    "reason": "Rutgers right blocking group has the best available run-block/strength/overall blend. Avoid repeatedly challenging A. Melvin inside without constraint help.",
+    "provenance": [
+      "calculated_from_save_derived_ratings",
+      "manual_static_depth_chart_context"
+    ]
+  },
+  "pass_protection_recommendation": {
+    "primary_protection_call": "edge-aware / identify pre-snap",
+    "alignment_status": "position_group_based_not_alignment_verified",
+    "rutgers_tackle_pass_block_score": 76.3,
+    "rutgers_interior_pass_block_score": 74.4,
+    "top_edge_threat": {
+      "player_id": "2837",
+      "name": "A. Depaepe",
+      "position": "LE",
+      "overall": 76,
+      "attributes": {
+        "acceleration": 88,
+        "agility": 77,
+        "awareness": 69,
+        "bc_vision": 34,
+        "block_shedding": 75,
+        "break_sack": 48,
+        "break_tackle": 37,
+        "carrying": 57,
+        "catch_in_traffic": 42,
+        "catching": 49,
+        "change_of_direction": 70,
+        "ConfidenceRating": 50,
+        "deep_route_running": 42,
+        "finesse_moves": 87,
+        "hit_power": 76,
+        "impact_blocking": 69,
+        "injury": 83,
+        "juke_move": 42,
+        "jumping": 84,
+        "kick_accuracy": 28,
+        "kick_power": 46,
+        "kick_return": 41,
+        "lead_block": 40,
+        "LongSnapRating": 15,
+        "man_coverage": 38,
+        "medium_route_running": 42,
+        "overall": 76,
+        "pass_block_finesse": 43,
+        "pass_block_power": 39,
+        "pass_block": 48,
+        "play_action": 35,
+        "play_recognition": 75,
+        "power_moves": 76,
+        "press": 44,
+        "pursuit": 80,
+        "release": 47,
+        "run_block_finesse": 40,
+        "run_block_power": 49,
+        "run_block": 36,
+        "short_route_running": 42,
+        "spectacular_catch": 42,
+        "speed": 77,
+        "spin_move": 42,
+        "stamina": 77,
+        "stiff_arm": 36,
+        "strength": 80,
+        "tackle": 84,
+        "throw_accuracy_deep": 14,
+        "throw_accuracy_mid": 21,
+        "ThrowAccuracyRating": 37,
+        "throw_accuracy_short": 30,
+        "throw_on_the_run": 30,
+        "throw_power": 31,
+        "throw_under_pressure": 42,
+        "toughness": 81,
+        "trucking": 35,
+        "zone_coverage": 50
+      }
+    },
+    "reason": "Top UMass edge threat is A. Depaepe (LE, 76 OVR). Exact left/right alignment is not parser-verified, so slide/chip calls should key the identified edge threat pre-snap.",
+    "provenance": [
+      "calculated_from_save_derived_ratings",
+      "manual_static_depth_chart_context"
+    ]
+  },
+  "strengths": [
+    "Highest-rated front defender: A. Depaepe (LE, 76 OVR)."
+  ],
+  "weaknesses": [
+    "Rutgers offensive-line average overall is favorable against the exported UMass defensive-front group."
+  ]
 }

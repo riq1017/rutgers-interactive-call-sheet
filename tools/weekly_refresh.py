@@ -56,6 +56,16 @@ def expand_path(raw: str, base: Path) -> Path:
     return (value if value.is_absolute() else base / value).resolve()
 
 
+def repository_path_identity(value: str | Path, label: str) -> str:
+    try:
+        resolved = Path(value).expanduser().resolve(strict=True)
+    except (OSError, RuntimeError) as error:
+        raise RefreshError(f"Could not resolve {label}: {value}: {error}") from error
+    if not resolved.is_dir():
+        raise RefreshError(f"{label} is not a directory: {resolved}")
+    return os.path.normcase(str(resolved))
+
+
 @dataclass(frozen=True)
 class Config:
     path: Path
@@ -103,7 +113,12 @@ class Commands:
 
     def run(self, args: list[str], cwd: Path, *, check: bool = True) -> subprocess.CompletedProcess[str]:
         command = [self.executable(args[0]), *args[1:]]
-        result = subprocess.run(command, cwd=cwd, text=True, capture_output=True, windowsHide=True)
+        startupinfo = None
+        if os.name == "nt":
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow = subprocess.SW_HIDE
+        result = subprocess.run(command, cwd=cwd, text=True, capture_output=True, startupinfo=startupinfo)
         if check and result.returncode:
             raise RefreshError(f"Command failed ({result.returncode}): {' '.join(args)}\n{result.stdout}\n{result.stderr}".strip())
         return result
@@ -219,7 +234,8 @@ def candidate_workflow_simulation(candidate: dict[str, Any], detected_context: d
 
 
 def require_clean_preflight(config: Config, commands: Commands) -> dict[str, Any]:
-    if git(commands, config.repo, "rev-parse", "--show-toplevel") != str(config.repo):
+    git_root = git(commands, config.repo, "rev-parse", "--show-toplevel")
+    if repository_path_identity(git_root, "Git repository root") != repository_path_identity(config.repo, "configured repository root"):
         raise RefreshError("Configured repository root does not match Git")
     if git(commands, config.repo, "branch", "--show-current") != config.branch:
         raise RefreshError(f"Deployment branch must be {config.branch}")

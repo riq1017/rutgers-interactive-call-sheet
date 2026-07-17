@@ -52,16 +52,18 @@ function rutgersMediaText() {
   return { text: `"use strict";\nglobalThis.RUTGERS_PLAYER_MEDIA=Object.freeze(${JSON.stringify({ schema_version: "cfb27_rutgers_media_allowlist_v1", package_type: "rutgers_player_media", team: "Rutgers", players })});\n`, players };
 }
 function token(ref, releaseId) { return `${ref}?r=${encodeURIComponent(releaseId)}`; }
-function generateHtml(releaseId, packageId) {
-  let html = fs.readFileSync(path.join(REPO_ROOT, "index.html"), "utf8");
+function generateHtml(releaseId, packageId, sourceHtml) {
+  let html = sourceHtml === undefined ? fs.readFileSync(path.join(REPO_ROOT, "index.html"), "utf8") : String(sourceHtml);
   html = html.replace('href="manifest.webmanifest"', `href="${token("manifest.webmanifest", releaseId)}"`)
     .replace(/href="assets\/app-icon\.svg"/g, `href="${token("assets/app-icon.svg", releaseId)}"`)
     .replace('href="styles.css"', `href="${token("styles.css", releaseId)}"`);
   const packagePrefix = `data/active-packages/${packageId}`;
   const sources = [token(`${packagePrefix}/active_package.js`, releaseId), ...WRAPPER_ORDER.map(name => token(`${packagePrefix}/${name}.js`, releaseId)), token("data/rutgers_playbook.js", releaseId), token("data/rutgers_media.js", releaseId), token("package_runtime.js", releaseId), token("app.js", releaseId), token("production_startup.js", releaseId)];
   const scripts = `<script>globalThis.CFB27_APP_STARTUP_MODE="controlled";globalThis.CFB27_DEPLOYMENT_RELEASE_ID=${JSON.stringify(releaseId)};</script>\n${sources.map(src => `<script src="${src}"></script>`).join("\n")}`;
-  html = html.replace(/<script src="data\/rutgers_team\.js"><\/script>[\s\S]*?<script src="app\.js[^"]*"><\/script>/, scripts);
-  if (!html.includes("production_startup.js") || html.includes("data/engine_data.js")) throw new Error("Could not generate controlled deployment HTML");
+  const startupBlock = /(\s*<script(?:\s[^>]*)?>[\s\S]*?<\/script>)+\s*(?=<\/body>)/i;
+  if (!startupBlock.test(html)) throw new Error("Could not locate deployment startup block");
+  html = html.replace(startupBlock, `\n${scripts}\n`);
+  if ((html.match(/production_startup\.js/g) || []).length !== 1 || html.includes("data/engine_data.js")) throw new Error("Could not generate controlled deployment HTML");
   return { html, sources };
 }
 function generateWebManifest(releaseId) {

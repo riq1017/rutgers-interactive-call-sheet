@@ -8,7 +8,7 @@ const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
 const vm = require("node:vm");
-const { run } = require("../tools/assemble_deployment");
+const { generateHtml, run } = require("../tools/assemble_deployment");
 const { ArtifactError, WRAPPER_ORDER, sha256File, validateArtifact } = require("../tools/validate_deployment_artifact");
 
 const HASH = "a".repeat(64);
@@ -74,6 +74,45 @@ test("assembler produces one self-contained validated immutable release and refu
   assert.doesNotMatch(html, /engine_data|recruiting_data|phase1_verified_data|data\/player_media|purdue|opponent[_-]media/i);
   assert.equal(fs.readdirSync(path.join(f.artifact, "data", "active-packages")).length, 1);
   assert.throws(() => run({ "package-dir": f.packageDir, "release-id": RELEASE_ID, "output-root": f.outputRoot }), /already exists/i);
+});
+
+test("immutable package path fixtures fail closed and an exact release-specific shell remains reusable", async t => {
+  await t.test("one correctly referenced immutable package directory passes", () => {
+    const f = fixture();
+    assert.equal(validateArtifact(f.artifact).ok, true);
+  });
+  const cases = [
+    ["missing active_package.js", "MISSING_DEPLOYED_FILE", f => fs.unlinkSync(path.join(f.artifact, `data/active-packages/${PACKAGE_ID}/active_package.js`))],
+    ["incorrect package-directory basename", "UNDECLARED_FILE", f => {
+      const from = path.join(f.artifact, "data", "active-packages", PACKAGE_ID);
+      fs.renameSync(from, path.join(path.dirname(from), `${PACKAGE_ID}-wrong`));
+    }],
+    ["index referencing a different package ID", "TRANSITIVE_RESOURCE_MISSING", f => {
+      replaceDeclaredFile(f.artifact, "index.html", text => text.replaceAll(`data/active-packages/${PACKAGE_ID}/`, "data/active-packages/different-package-id/"));
+    }],
+    ["wrapper loaded from a second package directory", "UNDECLARED_FILE", f => {
+      const second = path.join(f.artifact, "data", "active-packages", "second-package", "weekly_plan.js");
+      fs.mkdirSync(path.dirname(second), { recursive: true });
+      fs.copyFileSync(path.join(f.artifact, `data/active-packages/${PACKAGE_ID}/weekly_plan.js`), second);
+    }],
+    ["mutable data active path", "LEGACY_RESOURCE_FORBIDDEN", f => {
+      replaceDeclaredFile(f.artifact, "index.html", text => text.replace(`data/active-packages/${PACKAGE_ID}/active_package.js`, "data/active/active_package.js"));
+    }],
+    ["package resource outside the artifact", "TRANSITIVE_RESOURCE_MISSING", f => {
+      replaceDeclaredFile(f.artifact, "index.html", text => text.replace(`data/active-packages/${PACKAGE_ID}/active_package.js`, `data/active-packages/${PACKAGE_ID}/outside.js`));
+    }]
+  ];
+  for (const [name, code, mutate] of cases) await t.test(name, () => { const f = fixture(); mutate(f); expectCode(f.artifact, code); });
+  await t.test("exact r3-style release-specific index structure passes", () => {
+    const f = fixture();
+    const current = fs.readFileSync(path.join(f.artifact, "index.html"), "utf8");
+    const generated = generateHtml("cfb27-week2-boston-college-r3", PACKAGE_ID, current);
+    assert.equal(generated.sources.length, 16);
+    assert.match(generated.html, /CFB27_DEPLOYMENT_RELEASE_ID="cfb27-week2-boston-college-r3"/);
+    assert.equal((generated.html.match(/data\/active-packages\//g) || []).length, 11);
+    assert.equal((generated.html.match(/production_startup\.js/g) || []).length, 1);
+    assert.doesNotMatch(generated.html, /data\/active\/|engine_data|recruiting_data|phase1_verified_data|data\/player_media|purdue|opponent[_-]media/i);
+  });
 });
 
 test("mixed-byte and unsafe artifact fixtures fail with deterministic codes", async t => {

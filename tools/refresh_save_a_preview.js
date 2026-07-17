@@ -163,14 +163,77 @@ function normalize(raw, packageId, sourceHash, snapshotPath, label = "Save A") {
   };
 }
 
-function realShellPreview(runDir, normalized, packageId, activePackage) {
+const LEGACY_STARTUP_PATHS = Object.freeze([
+  "data/rutgers_team.js", "data/rutgers_playbook.js", "data/weekly_plan.js", "data/game_history.js", "data/recruiting_data.js",
+  "data/engine_data.js", "data/depth_chart_seed.js", "data/phase1_verified_data.js", "data/player_media.js", "data/card_registry.js",
+  "data/weekly/coaching_decisions.js", "data/weekly/run_lane_analysis.js", "data/weekly/weekly_matchup_summary.js",
+  "data/video_verified/rutgers_season_stats.js", "data/video_verified/purdue_season_stats.js", "data/video_verified/purdue_roster.js",
+  "data/video_verified/four_star_freshman_class.js", "data/video_verified/rutgers_prospect_board.js", "data/video_verified/rutgers_roster_recovery.js",
+  "data/video_verified/purdue_roster_recovery.js", "data/video_verified/rutgers_board_scouting_recovery.js", "data/video_verified/video_evidence_index.js", "app.js"
+]);
+const CONTROLLED_WRAPPERS = Object.freeze(["weekly_manifest", "weekly_plan", "gameplan_weekly", "rutgers_roster", "current_opponent", "statistics", "injuries", "matchups", "recruiting", "recovery"]);
+function resourceUrl(value) { return new URL(String(value), "https://preview.invalid/"); }
+function scriptElements(html) {
+  return [...String(html).matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].map(match => {
+    const src = match[1].match(/\bsrc=["']([^"']+)["']/i);
+    return { start: match.index, end: match.index + match[0].length, source: src ? src[1] : null, body: match[2] };
+  });
+}
+function assertContiguous(html, scripts, first, last) {
+  for (let index = first; index < last; index += 1) if (!/^\s*$/.test(html.slice(scripts[index].end, scripts[index + 1].start))) throw new Error("Startup block is not contiguous.");
+  const bodyAt = html.indexOf("</body>", scripts[last].end);
+  if (bodyAt < 0 || !/^\s*$/.test(html.slice(scripts[last].end, bodyAt))) throw new Error("Unexpected content follows the startup block.");
+}
+function validateLegacyBlock(html, scripts, first) {
+  const last = first + LEGACY_STARTUP_PATHS.length - 1;
+  if (last >= scripts.length) throw new Error("Legacy startup block is incomplete.");
+  const actual = scripts.slice(first, last + 1).map(script => script.source && resourceUrl(script.source).pathname.replace(/^\//, ""));
+  if (actual.some((value, index) => value !== LEGACY_STARTUP_PATHS[index])) throw new Error("Legacy startup block contains an unexpected script.");
+  assertContiguous(html, scripts, first, last);
+  return { first, last };
+}
+function validateControlledBlock(html, scripts, first) {
+  const declaration = scripts[first];
+  if (declaration.source || !/globalThis\.CFB27_APP_STARTUP_MODE\s*=\s*["']controlled["']/.test(declaration.body) || !/globalThis\.CFB27_DEPLOYMENT_RELEASE_ID\s*=/.test(declaration.body)) throw new Error("Controlled startup declaration is incomplete.");
+  const last = first + CONTROLLED_WRAPPERS.length + 6;
+  if (last >= scripts.length) throw new Error("Controlled startup block is incomplete.");
+  const resources = scripts.slice(first + 1, last + 1);
+  if (resources.some(script => !script.source)) throw new Error("Controlled startup block contains an unexpected inline script.");
+  const urls = resources.map(script => resourceUrl(script.source));
+  const paths = urls.map(url => url.pathname.replace(/^\//, ""));
+  const packageMatch = paths[0].match(/^data\/active-packages\/([^/]+)\/active_package\.js$/);
+  if (!packageMatch) throw new Error("Controlled startup package marker is invalid.");
+  const prefix = `data/active-packages/${packageMatch[1]}`;
+  const expected = [`${prefix}/active_package.js`, ...CONTROLLED_WRAPPERS.map(name => `${prefix}/${name}.js`), "data/rutgers_playbook.js", "data/rutgers_media.js", "package_runtime.js", "app.js", "production_startup.js"];
+  if (paths.some((value, index) => value !== expected[index])) throw new Error("Controlled startup block contains an unexpected script.");
+  const releaseIds = new Set();
+  for (const url of urls) {
+    const values = url.searchParams.getAll("r");
+    if (values.length !== 1 || !values[0]) throw new Error("Controlled startup resource has an invalid release token.");
+    releaseIds.add(values[0]);
+  }
+  if (releaseIds.size !== 1) throw new Error("Controlled startup resources use mixed release tokens.");
+  assertContiguous(html, scripts, first, last);
+  return { first, last, package_id: packageMatch[1], release_id: [...releaseIds][0] };
+}
+function replaceStartupBlock(htmlInput, replacement) {
+  const html = String(htmlInput), scripts = scriptElements(html);
+  const legacy = scripts.map((script, index) => script.source && resourceUrl(script.source).pathname === "/data/rutgers_team.js" ? index : -1).filter(index => index >= 0);
+  const controlled = scripts.map((script, index) => !script.source && /globalThis\.CFB27_APP_STARTUP_MODE\s*=\s*["']controlled["']/.test(script.body) ? index : -1).filter(index => index >= 0);
+  const candidateCount = legacy.length + controlled.length;
+  if (candidateCount !== 1) throw new Error(candidateCount ? "Multiple supported startup blocks found." : "No supported startup block found.");
+  const block = legacy.length ? validateLegacyBlock(html, scripts, legacy[0]) : validateControlledBlock(html, scripts, controlled[0]);
+  return { html: `${html.slice(0, scripts[block.first].start)}${replacement}${html.slice(scripts[block.last].end)}`, type: legacy.length ? "legacy" : "controlled", production_package_id: block.package_id || null, production_release_id: block.release_id || null };
+}
+
+function realShellPreview(runDir, normalized, packageId, activePackage, sourceHtml) {
   const dir = path.join(runDir, "preview", "real-shell");
   fs.mkdirSync(dir, { recursive: true });
   const relativeRoot = path.relative(dir, REPO_ROOT).replace(/\\/g, "/") + "/";
   const runWebPath = `data/generated/dynasty/refresh_runs/${path.basename(runDir)}/preview/real-shell`;
   const startupPath = path.join(dir, "package_startup.js");
   fs.writeFileSync(startupPath, `"use strict";\n(function(root){\nconst runtime=root.CFB27_PACKAGE_RUNTIME;\nroot.CFB27_ACTIVE_PACKAGE_STARTUP_ORDER=[];\nconst validation=runtime.validateActivePackage(root);\nroot.CFB27_ACTIVE_PACKAGE_VALIDATION=validation;\nroot.CFB27_ACTIVE_PACKAGE_STARTUP_ORDER.push(validation.ok?"VALIDATED":"VALIDATION_FAILED");\nif(!validation.ok){runtime.renderPackageValidationError(validation);return;}\nconst installation=runtime.installActivePackageCompatibilityGlobals(validation,root);\nroot.CFB27_ACTIVE_PACKAGE_INSTALLATION=installation;\nroot.CFB27_ACTIVE_PACKAGE_STARTUP_ORDER.push(installation.status);\nif(!installation.ok){runtime.renderPackageValidationError({error_code:installation.error_code||installation.status,package_id:installation.package_id,refresh_id:installation.refresh_id});return;}\nif(typeof root.CFB27_APP_BOOT!=="function"){runtime.renderPackageValidationError({error_code:"APP_BOOT_UNAVAILABLE",package_id:validation.package_id,refresh_id:validation.refresh_id});return;}\nroot.CFB27_APP_BOOT_RESULT=root.CFB27_APP_BOOT({startupApproved:true});\nroot.CFB27_ACTIVE_PACKAGE_STARTUP_ORDER.push(root.CFB27_APP_BOOT_RESULT);\nif(root.CFB27_APP_BOOT_RESULT!=="BOOTED"){runtime.renderPackageValidationError({error_code:"APP_BOOT_FAILED",package_id:validation.package_id,refresh_id:validation.refresh_id});return;}\nroot.document.documentElement.dataset.domProof=(root.document.getElementById("weekOpponent")?.textContent||"").includes("Week ${normalized.week} vs ${normalized.opponent.name}")&&(root.document.getElementById("seasonRecord")?.textContent||"")==="${normalized.team.record}"?"PASS":"FAIL";\n})(globalThis);\n`, { encoding: "utf8", flag: "wx" });
-  let html = fs.readFileSync(path.join(REPO_ROOT, "index.html"), "utf8");
+  let html = sourceHtml === undefined ? fs.readFileSync(path.join(REPO_ROOT, "index.html"), "utf8") : String(sourceHtml);
   html = html.replace("<head>", `<head>\n<base href="${relativeRoot}">`);
   const wrapperOrder = ["weekly_manifest", "weekly_plan", "gameplan_weekly", "rutgers_roster", "current_opponent", "statistics", "injuries", "matchups", "recruiting", "recovery"];
   const media = generateRutgersMediaWrapper(runDir);
@@ -184,12 +247,14 @@ function realShellPreview(runDir, normalized, packageId, activePackage) {
     `${runWebPath}/package_startup.js`
   ];
   const scripts = scriptSources.map(src => `<script src="${src}"></script>`).join("\n");
-  html = html.replace(/<script src="data\/rutgers_team\.js"><\/script>[\s\S]*?<script src="app\.js[^\"]*"><\/script>/, `<script>globalThis.CFB27_APP_STARTUP_MODE="controlled";</script>\n${scripts}`);
+  const replaced = replaceStartupBlock(html, `<script>globalThis.CFB27_APP_STARTUP_MODE="controlled";</script>\n${scripts}`);
+  html = replaced.html;
   if (html.includes("save-preview-bridge.js") || html.includes("data/weekly_plan.js") || html.includes("data/player_media.js")) throw new Error("Legacy preview scripts survived direct-package shell generation.");
+  if (html.includes("data/active-packages/")) throw new Error("Production active-package scripts survived direct-package shell generation.");
   const indexPath = path.join(dir, "index.html");
   fs.writeFileSync(indexPath, html, { encoding: "utf8", flag: "wx" });
   writeJson(path.join(dir, "browser-proof-expectation.json"), { package_id: packageId, runtime: "direct active package + repository app.js", expected_dom: { weekOpponent: `Week ${normalized.week} vs ${normalized.opponent.name}`, seasonRecord: normalized.team.record }, context: { team: normalized.team.name, season: normalized.season, week: normalized.week, opponent: normalized.opponent.name, location: normalized.location }, script_order: scriptSources });
-  return { index: indexPath, startup: startupPath, media, expectation: path.join(dir, "browser-proof-expectation.json"), script_order: scriptSources, repository_app_js_sha256: sha256(path.join(REPO_ROOT, "app.js")), repository_index_sha256: sha256(path.join(REPO_ROOT, "index.html")), active_package: activePackage.directory };
+  return { index: indexPath, startup: startupPath, media, expectation: path.join(dir, "browser-proof-expectation.json"), script_order: scriptSources, repository_app_js_sha256: sha256(path.join(REPO_ROOT, "app.js")), repository_index_sha256: sha256(path.join(REPO_ROOT, "index.html")), active_package: activePackage.directory, replaced_startup_type: replaced.type, replaced_production_package_id: replaced.production_package_id };
 }
 
 function run(options) {
@@ -243,4 +308,4 @@ if (require.main === module) {
   catch (error) { process.stderr.write(`${JSON.stringify({ status: "FAIL", reason: error.message, manifest: error.manifestPath || null }, null, 2)}\n`); process.exitCode = 1; }
 }
 
-module.exports = { SAVE_A_SHA256, generateActivePackageArtifacts, generateRutgersMediaWrapper, normalize, parseArgs, realShellPreview, run, sha256, sha256Text, stableJson, wrapperScript };
+module.exports = { SAVE_A_SHA256, generateActivePackageArtifacts, generateRutgersMediaWrapper, normalize, parseArgs, realShellPreview, replaceStartupBlock, run, sha256, sha256Text, stableJson, wrapperScript };

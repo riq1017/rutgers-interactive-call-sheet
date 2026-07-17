@@ -19,6 +19,19 @@ function parsedResource(value, expectedReleaseId = null, allowUnversioned = fals
 }
 function sourcePaths(sources) { return sources.map(source => parsedResource(source, null, true).pathname); }
 
+const LEGACY_STARTUP_SOURCES = Object.freeze([
+  "data/rutgers_team.js", "data/rutgers_playbook.js", "data/weekly_plan.js", "data/game_history.js", "data/recruiting_data.js",
+  "data/engine_data.js", "data/depth_chart_seed.js", "data/phase1_verified_data.js", "data/player_media.js", "data/card_registry.js",
+  "data/weekly/coaching_decisions.js", "data/weekly/run_lane_analysis.js", "data/weekly/weekly_matchup_summary.js",
+  "data/video_verified/rutgers_season_stats.js", "data/video_verified/purdue_season_stats.js", "data/video_verified/purdue_roster.js",
+  "data/video_verified/four_star_freshman_class.js", "data/video_verified/rutgers_prospect_board.js", "data/video_verified/rutgers_roster_recovery.js",
+  "data/video_verified/purdue_roster_recovery.js", "data/video_verified/rutgers_board_scouting_recovery.js", "data/video_verified/video_evidence_index.js",
+  "app.js?v=deterministic-legacy-fixture"
+]);
+function deterministicLegacyHtml() {
+  return `<!doctype html>\n<html><head><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css"></head><body>\n<main id="app"></main>\n${LEGACY_STARTUP_SOURCES.map(source => `<script src="${source}"></script>`).join("\n")}\n</body></html>\n`;
+}
+
 function fixture(sourceHtml) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "direct-package-preview-"));
   const run = path.join(root, "run-one");
@@ -65,7 +78,7 @@ test("isolated shell uses the direct active package and an allowlist-only startu
 });
 
 test("startup replacement accepts exactly one complete legacy or controlled block", () => {
-  const legacy = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+  const legacy = deterministicLegacyHtml();
   const replacement = '<script src="preview/package_runtime.js"></script>';
   const legacyResult = replaceStartupBlock(legacy, replacement);
   assert.equal(legacyResult.type, "legacy");
@@ -86,6 +99,10 @@ test("startup replacement accepts exactly one complete legacy or controlled bloc
   assert.equal(controlledPreview.shell.replaced_production_package_id, productionPackage);
   assert.deepEqual(controlledPreviewPaths, sourcePaths(controlledPreview.shell.script_order));
   assert.equal(controlledPreviewPaths.filter(value => value.startsWith("data/active-packages/")).length, 0);
+
+  const live = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+  const expectedLiveType = /globalThis\.CFB27_APP_STARTUP_MODE\s*=\s*["']controlled["']/.test(live) ? "controlled" : "legacy";
+  assert.equal(replaceStartupBlock(live, replacement).type, expectedLiveType);
 
   assert.throws(() => replaceStartupBlock("<html><body></body></html>", replacement), /No supported startup block/);
   const legacyBlock = legacy.slice(legacy.indexOf('<script src="data/rutgers_team.js"'), legacy.indexOf("</body>"));

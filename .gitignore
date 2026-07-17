@@ -32,3 +32,6 @@ data/dynasty/normalized/*
 
 reports/dynasty_binary_mapping_report.md
 reports/dynasty_save_comparison_report.md
+
+# Disposable, locally validated deployment artifacts
+outputs/deployments/*

@@ -44,8 +44,28 @@ test("successful Save A refresh is snapshot-only, lineage-complete, and producti
   assert.equal(manifest.production_changed, false);
   assert.equal(manifest.browser_expectation.runtime, "real_repository_application_shell");
   assert.ok(fs.existsSync(manifest.artifacts.real_shell.index));
-  assert.ok(fs.existsSync(manifest.artifacts.real_shell.bridge));
-  assert.match(fs.readFileSync(manifest.artifacts.real_shell.index, "utf8"), /app\.js\?preview=/);
+  assert.ok(fs.existsSync(manifest.artifacts.real_shell.definitions));
+  assert.ok(fs.existsSync(manifest.artifacts.real_shell.startup));
+  assert.ok(fs.existsSync(manifest.artifacts.real_shell.media.file));
+  assert.equal(manifest.artifacts.real_shell.media.player_count, 48);
+  const shell = fs.readFileSync(manifest.artifacts.real_shell.index, "utf8");
+  assert.match(shell, /active-package\/active_package\.js/);
+  assert.match(shell, /active-package\/weekly_manifest\.js/);
+  assert.match(shell, /package_runtime\.js/);
+  assert.match(shell, /app-definitions\.js/);
+  assert.match(shell, /rutgers_media\.js/);
+  assert.doesNotMatch(shell, /save-preview-bridge|data\/player_media\.js|data\/weekly_plan\.js|engine_data\.js|recruiting_data\.js|phase1_verified_data\.js|purdue|weekly\/coaching_decisions/i);
+  assert.ok(fs.existsSync(manifest.artifacts.active_package.marker));
+  assert.equal(manifest.artifacts.active_package.marker_payload.package_id, manifest.package_id);
+  assert.equal(manifest.artifacts.active_package.marker_payload.refresh_id, manifest.refresh_id);
+  assert.equal(manifest.artifacts.active_package.marker_payload.source_sha256, manifest.snapshot_sha256);
+  assert.equal(manifest.artifacts.active_package.marker_payload.normalized_sha256, sha256(manifest.artifacts.normalized));
+  assert.deepEqual(Object.keys(manifest.artifacts.active_package.wrappers), ["weekly_manifest", "weekly_plan", "gameplan_weekly", "rutgers_roster", "current_opponent", "statistics", "injuries", "matchups", "recruiting", "recovery"]);
+  assert.deepEqual(manifest.artifacts.real_shell.script_order.slice(0, 3), [
+    `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/active_package.js`,
+    `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/weekly_manifest.js`,
+    `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/weekly_plan.js`
+  ]);
 });
 
 test("failed parser check writes FAIL manifest and leaves production unchanged", () => {

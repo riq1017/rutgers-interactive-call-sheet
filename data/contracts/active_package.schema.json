@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cfb27.local/contracts/active_package.schema.json",
+  "title": "CFB27 Active Dynasty Package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "package_id", "refresh_id", "source_sha256",
+    "snapshot_sha256", "normalized_sha256", "team_id", "season", "week",
+    "opponent_id", "opponent_name", "artifacts"
+  ],
+  "properties": {
+    "schema_version": { "const": "cfb27_active_package_v1" },
+    "package_id": { "$ref": "#/$defs/nonEmptyString" },
+    "refresh_id": { "$ref": "#/$defs/nonEmptyString" },
+    "source_sha256": { "$ref": "#/$defs/sha256" },
+    "snapshot_sha256": { "$ref": "#/$defs/sha256" },
+    "normalized_sha256": { "$ref": "#/$defs/sha256" },
+    "team_id": { "type": ["string", "integer"] },
+    "season": { "type": "integer", "minimum": 2000 },
+    "week": { "type": "integer", "minimum": 0 },
+    "opponent_id": { "type": ["string", "integer"] },
+    "opponent_name": { "$ref": "#/$defs/nonEmptyString" },
+    "artifacts": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/artifact" }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "required", "status"],
+      "properties": {
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "required": { "type": "boolean" },
+        "status": { "enum": ["available", "unavailable"] }
+      }
+    }
+  }
+}

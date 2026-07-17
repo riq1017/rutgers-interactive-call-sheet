@@ -26,10 +26,10 @@ function fakeParser(root, context = "save-b") {
 }
 
 function dynamicFiles(manifest) {
-  return [manifest.artifacts.normalized, manifest.artifacts.staging, manifest.artifacts.preview_data, manifest.artifacts.real_shell.bridge, manifest.artifacts.real_shell.expectation, manifest.artifacts.real_shell.index, manifest.manifest_path].filter(Boolean);
+  return [manifest.artifacts.normalized, manifest.artifacts.staging, manifest.artifacts.preview_data, manifest.artifacts.real_shell.media.file, manifest.artifacts.real_shell.startup, manifest.artifacts.real_shell.expectation, manifest.artifacts.real_shell.index, manifest.artifacts.active_package.marker, ...Object.values(manifest.artifacts.active_package.wrappers), manifest.manifest_path].filter(Boolean);
 }
 
-test("Save B propagates exclusively through immutable artifacts and the real-shell bridge", () => {
+test("Save B propagates exclusively through immutable artifacts and the direct-package real shell", () => {
   const f = fixture();
   const result = run({ "save-b": f.save, parser: fakeParser(f.root), "schema-dir": f.root, "run-root": path.join(f.root, "runs") });
   const manifest = JSON.parse(fs.readFileSync(result.manifestPath, "utf8"));
@@ -45,13 +45,22 @@ test("Save B propagates exclusively through immutable artifacts and the real-she
   const normalized = JSON.parse(fs.readFileSync(manifest.artifacts.normalized, "utf8"));
   assert.equal(normalized.opponent.players.length, 1);
   assert.equal(normalized.opponent.players[0].player_id, "900");
+  assert.equal(normalized.rutgers_players.length, 1);
   assert.equal(normalized.availability.tactical_recommendations, "unavailable_from_parser_export");
+  assert.equal(manifest.artifacts.active_package.marker_payload.opponent_name, "Boston College");
+  assert.equal(manifest.artifacts.active_package.marker_payload.week, 2);
+  assert.equal(manifest.artifacts.active_package.marker_payload.source_sha256, manifest.snapshot_sha256);
+  for (const key of ["statistics", "injuries", "matchups", "recruiting", "recovery"]) assert.equal(manifest.artifacts.active_package.marker_payload.artifacts[key].status, "unavailable");
   const contents = dynamicFiles(manifest).map(file => fs.readFileSync(file, "utf8")).join("\n");
   assert.doesNotMatch(contents, /save-a-0fff0ebf2738-20260717T102239890Z_7856_5ddd3bf7/i);
   assert.doesNotMatch(contents, /UMass/i);
   assert.doesNotMatch(contents, /Week 1/i);
   assert.match(contents, /Boston College/);
   assert.match(contents, /unavailable_from_parser_export/);
+  assert.doesNotMatch(fs.readFileSync(manifest.artifacts.real_shell.index, "utf8"), /save-preview-bridge|data\/player_media\.js|purdue|engine_data\.js|recruiting_data\.js|phase1_verified_data\.js/i);
+  const media = fs.readFileSync(manifest.artifacts.real_shell.media.file, "utf8");
+  assert.match(media, /RUTGERS_PLAYER_MEDIA/);
+  assert.doesNotMatch(media, /OPPONENT_PLAYER_MEDIA|PLAYER_CARD_REGISTRY|purdue|umass|boston college|player-portraits\/opponent/i);
   assert.equal(sha256(f.production), f.productionHash);
 });
 

@@ -107,9 +107,9 @@ test("immutable package path fixtures fail closed and an exact release-specific 
     const f = fixture();
     const current = fs.readFileSync(path.join(f.artifact, "index.html"), "utf8");
     const generated = generateHtml("cfb27-week2-boston-college-r3", PACKAGE_ID, current);
-    assert.equal(generated.sources.length, 16);
+    assert.equal(generated.sources.length, WRAPPER_ORDER.length + 6);
     assert.match(generated.html, /CFB27_DEPLOYMENT_RELEASE_ID="cfb27-week2-boston-college-r3"/);
-    assert.equal((generated.html.match(/data\/active-packages\//g) || []).length, 11);
+    assert.equal((generated.html.match(/data\/active-packages\//g) || []).length, WRAPPER_ORDER.length + 1);
     assert.equal((generated.html.match(/production_startup\.js/g) || []).length, 1);
     assert.doesNotMatch(generated.html, /data\/active\/|engine_data|recruiting_data|phase1_verified_data|data\/player_media|purdue|opponent[_-]media/i);
   });
@@ -181,7 +181,7 @@ test("semantic stale-runtime validation rejects active dependencies but permits 
     ["active Purdue global access", "LEGACY_RUNTIME_GLOBAL_ACCESS", f => replaceDeclaredFile(f.artifact, "app.js", text => `${text}\nvoid PURDUE_MATCHUPS;\n`)],
     ["active UMass fallback logic", "OPPONENT_SPECIFIC_FALLBACK", f => replaceDeclaredFile(f.artifact, "app.js", text => `${text}\nfunction loadUMassFallback(){ return {}; }\n`)],
     ["Week 1 UMass production identity", "STALE_PRODUCTION_VERSION", f => replaceDeclaredFile(f.artifact, "app.js", text => text.replace(/APP_DATA_VERSION\s*=\s*["'][^"']+["']/, 'APP_DATA_VERSION = "week1_umass_fixture"'))],
-    ["legacy global installed into compatibility surface", "LEGACY_COMPATIBILITY_GLOBAL", f => replaceDeclaredFile(f.artifact, "package_runtime.js", text => text.replace('"RUTGERS_ROSTER_BASE"]', '"RUTGERS_ROSTER_BASE", "PURDUE_MATCHUPS"]'))]
+    ["legacy global installed into compatibility surface", "LEGACY_COMPATIBILITY_GLOBAL", f => replaceDeclaredFile(f.artifact, "package_runtime.js", text => text.replace('"CURRENT_WEEK_UI_PREVIEW"]', '"CURRENT_WEEK_UI_PREVIEW", "PURDUE_MATCHUPS"]'))]
   ];
   for (const [name, code, mutate] of cases) await t.test(name, () => { const f = fixture(); mutate(f); expectCode(f.artifact, code); });
   const neutral = fixture();

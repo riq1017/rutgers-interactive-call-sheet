@@ -1760,7 +1760,13 @@ function loadRecruitingBoardScoutingRecovery() {
   return typeof VIDEO_VERIFIED_RUTGERS_BOARD_SCOUTING_RECOVERY !== "undefined" ? VIDEO_VERIFIED_RUTGERS_BOARD_SCOUTING_RECOVERY : { prospects: [] };
 }
 
+function currentWeekPreview() {
+  return typeof CURRENT_WEEK_UI_PREVIEW !== "undefined" && CURRENT_WEEK_UI_PREVIEW.generated ? CURRENT_WEEK_UI_PREVIEW : null;
+}
+
 function loadRutgersRoster() {
+  const preview = currentWeekPreview();
+  if (preview) return preview.roster;
   const base = sharedRosterBase();
   const recovery = loadRutgersRosterRecovery();
   const recoveryPlayers = Array.isArray(recovery.players) ? recovery.players : [];
@@ -1777,11 +1783,15 @@ function loadGameplanWeekly() {
 }
 
 function loadRecruitingClass() {
+  const preview = currentWeekPreview();
+  if (preview) return { prospects: (preview.recruiting.interest_pool.records || []).map(row => ({ ...row, prospect_id: String(row.recruitId), name: row.displayName, national_rank: row.nationalRank, position_rank: row.positionRank, class_year: "Recruit", state: row.state, hometown: [row.hometown, row.state].filter(Boolean).join(", "), interest_rank: row.rutgersInterestRank, status: row.committedSchool ? `Committed: ${row.committedSchool}` : "Uncommitted" })) };
   if (typeof VIDEO_VERIFIED_FOUR_STAR_FRESHMAN_CLASS !== "undefined") return VIDEO_VERIFIED_FOUR_STAR_FRESHMAN_CLASS;
   return typeof RECRUITING_CLASS !== "undefined" ? RECRUITING_CLASS : { prospects: [] };
 }
 
 function loadRecruitingWeekly() {
+  const preview = currentWeekPreview();
+  if (preview) return { resources: {}, active_board: [], team_needs: [], ownership_unavailable: preview.recruiting.active_board.reason };
   if (typeof VIDEO_VERIFIED_RUTGERS_PROSPECT_BOARD !== "undefined") {
     const base = typeof RECRUITING_WEEKLY !== "undefined" ? RECRUITING_WEEKLY : { resources: {}, active_board: [], team_needs: [] };
     return { ...base, active_board: VIDEO_VERIFIED_RUTGERS_PROSPECT_BOARD.active_board || [] };
@@ -1794,10 +1804,14 @@ function loadTeamNeeds() {
 }
 
 function loadOpponentProfile() {
+  const preview = currentWeekPreview();
+  if (preview) return { name: preview.opponent.name, placeholder: preview.opponent.isPlaceholder, data_available: preview.opponent.dataAvailable, unavailable_reason: preview.opponent.unavailableReason };
   return (loadGameplanWeekly().opponent_profile) || {};
 }
 
 function loadOpponentPlayers() {
+  const preview = currentWeekPreview();
+  if (preview) return preview.opponent.dataAvailable ? (preview.opponent.roster || []) : [];
   const players = Array.isArray(loadGameplanWeekly().opponent_players) ? loadGameplanWeekly().opponent_players : [];
   return [...players].sort((a, b) => {
     const order = ["QB","HB","RB","WR","TE","LT","LG","C","RG","RT","LEDG","REDG","DT","SAM","MIKE","WILL","CB","FS","SS","K","P"];
@@ -1806,30 +1820,39 @@ function loadOpponentPlayers() {
 }
 
 function loadOpponentGroups() {
+  if (currentWeekPreview() && !currentWeekPreview().opponent.dataAvailable) return [];
   return (loadGameplanWeekly().opponent_position_groups) || [];
 }
 
 function loadMatchups() {
+  if (currentWeekPreview() && !currentWeekPreview().matchup.available) return [];
   const weekly = loadGameplanWeekly();
   return Array.isArray(weekly.matchups) ? weekly.matchups : [];
 }
 
 function loadRutgersLastGameStats() {
+  const preview = currentWeekPreview();
+  if (preview) return preview.last_game.playerStatistics || {};
   const weekly = loadGameplanWeekly();
   return weekly.last_game || {};
 }
 
 function loadRutgersSeasonStats() {
+  const preview = currentWeekPreview();
+  if (preview) return preview.season_stats;
   const weekly = loadGameplanWeekly();
   return weekly.season_stats || {};
 }
 
 function loadOpponentLastGameStats() {
+  if (currentWeekPreview() && !currentWeekPreview().opponent.dataAvailable) return {};
   const weekly = loadGameplanWeekly();
   return weekly.opponent_last_game || {};
 }
 
 function loadOpponentSeasonStats() {
+  const preview = currentWeekPreview();
+  if (preview) return preview.opponent.dataAvailable ? (preview.opponent.seasonStatistics || {}) : {};
   const weekly = loadGameplanWeekly();
   return weekly.opponent_season_stats || weekly.opponent_stats || {};
 }
@@ -2549,6 +2572,12 @@ function homeQuickActionsCard() {
 }
 
 function renderCoordinatorDashboard() {
+  const preview = currentWeekPreview();
+  if (preview) {
+    const c = preview.current_context, last = preview.last_game;
+    const leaderHtml = Object.entries(preview.team_leaders).map(([category, group]) => `<article class="sports-stat-card"><h3>${labelize(category)}</h3>${group.status === "available" ? group.leaders.map(row => `<button type="button" class="sports-list-card" onclick="switchTab('personnel');setTimeout(()=>showPlayerDetail('${row.playerId}','rutgers','${rosterGroupFor(row.position)}'),0)"><span><strong>${row.displayName}</strong><em>${row.position}</em></span><b>${row.value} ${labelize(row.stat || category)}</b></button>`).join("") : `<div class="empty-state"><strong>Unavailable</strong><p>${group.unavailableReason}</p></div>`}</article>`).join("");
+    return `<section class="rutgers-home-dashboard current-week-preview" data-current-week-preview>${CardHeader({ eyebrow: `${c.season} Season · Week ${c.week}`, title: `${c.opponentLabel} at Rutgers`, subtitle: `Rutgers ${c.rutgers.record}`, badge: Badge("Current", "positive") })}<article class="base-card card-gloss"><h3>Last Result</h3><div class="overview-grid">${maybeRow("Final", `${last.opponent} ${last.opponentScore}, Rutgers ${last.rutgersScore}`)}${maybeRow("Result", last.result === "L" ? "Rutgers loss" : last.result)}${maybeRow("Source game", last.sourceGameId)}</div></article>${!preview.opponent.dataAvailable ? `<article class="base-card card-gloss"><h3>Current Opponent Availability</h3><div class="empty-state"><strong>Detailed opponent data is unavailable for FCS placeholder teams.</strong><p>${c.opponentAvailabilityReason}</p></div></article>` : ""}<article class="base-card card-gloss"><h3>Team Leaders</h3><div class="stat-category-grid">${leaderHtml}</div></article><article class="base-card card-gloss"><h3>Current Injuries</h3><p>${preview.injuries.count} Rutgers players listed.</p><button type="button" class="secondary-action" onclick="switchTab('personnel');setTimeout(()=>renderPersonnelMatchups('stats'),0)">Open Stats & Injuries</button></article></section>`;
+  }
   return `<section class="rutgers-home-dashboard" data-gameplan-main data-rutgers-home-dashboard>
     ${homeTeamSnapshotCard()}
     ${keyOffensivePlayersCard()}
@@ -3641,6 +3670,14 @@ function rosterHubTable(side = "team", bucket = "all") {
 }
 
 function renderTeamRosterHub(side = "team", activeBucket = "all") {
+  const preview = currentWeekPreview();
+  if (preview && side === "opponent" && !preview.opponent.dataAvailable) return `<section class="team-roster-hub opponent" data-roster-hub="opponent"><div class="team-roster-header"><span>Away Team</span><strong>${preview.opponent.name}</strong><em>0 players</em></div><div class="empty-state"><strong>Detailed opponent data is unavailable for FCS placeholder teams.</strong><p>Roster, leaders, injuries, depth chart, season statistics, and player matchups remain empty.</p></div></section>`;
+  if (preview && side === "team") {
+    const players = preview.roster.players;
+    const bucket = activeBucket === "all" ? "all" : playerBucket(activeBucket);
+    const visible = bucket === "all" ? players : players.filter(row => playerBucket(row.position) === bucket);
+    return `<section class="team-roster-hub team" data-roster-hub="team"><div class="team-roster-header"><span>Home Team</span><strong>Rutgers</strong><em>${players.length} players</em></div><div class="pill-row sticky-filter">${["all","QB","RB","WR","TE","OL","DL","LB","DB","ST"].map(item => `<button class="filter-pill ${item === bucket ? "active" : ""}" type="button" onclick="const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderTeamRosterHub('team','${item}')">${item === "all" ? "All" : item}</button>`).join("")}</div><div class="compact-list roster-hub-card-list" data-roster-card-count="${visible.length}">${visible.map(player => `<button class="person-card compact-person sports-list-card" type="button" data-player-card onclick="showPlayerDetail('${player.player_id}','rutgers','${rosterGroupFor(player.position)}')"><span class="sports-card-left"><i>RU</i></span><span class="sports-card-main"><strong>#${cardValue(player.jersey, "—")} ${player.name}</strong><em>${player.position} · ${player.class_year} · ${player.overall} OVR</em><small>${player.injury_status === "Healthy" ? "Healthy" : `${readableStatus(player.injury_status)} · ${readableStatus(player.injury_details)}`}</small></span><span class="chevron">›</span></button>`).join("")}</div></section>`;
+  }
   const activeUpper = cleanValue(activeBucket).toUpperCase();
   const normalized = ["QB","RB","WR","TE","OL","DL","LB","DB","ST"].includes(activeUpper) ? activeUpper : playerBucket(activeBucket);
   const bucket = activeBucket === "all" || activeBucket === "ALL" ? "all" : normalized;
@@ -3793,6 +3830,15 @@ function playerTraitRows(player = {}) {
 }
 
 function playerDetailHtml(id, side = "rutgers", group = "") {
+  const preview = currentWeekPreview();
+  if (preview && side === "rutgers") {
+    const player = preview.player_details[String(id)];
+    if (!player) return LimitedDataState("Player Detail");
+    const bio = [["Height", player.height ? `${Math.floor(player.height / 12)}'${player.height % 12}\"` : "Unavailable"],["Weight", player.weight ? `${player.weight} lb` : "Unavailable"],["Hometown", [player.hometown, player.homeState].filter(Boolean).join(", ")],["Archetype", player.archetype],["Development", readableStatus(player.development_trait)],["Redshirt", readableStatus(player.redshirt_status)],["Injury", player.injury_status === "Healthy" ? "Healthy" : `${readableStatus(player.injury_status)} · ${readableStatus(player.injury_details)}`]];
+    const ratings = Object.entries(player.ratings || {}).map(([key,value]) => `<div class="metric-row"><span>${labelize(key.replace(/Rating$/, ""))}</span><strong>${value}</strong></div>`).join("");
+    const statRows = obj => Object.entries(obj || {}).filter(([,v]) => v !== null && typeof v !== "object").map(([k,v]) => `<div class="metric-row"><span>${labelize(k)}</span><strong>${v}</strong></div>`).join("");
+    return `<section class="detail-screen player-detail-screen" data-player-detail><button class="back-button" type="button" onclick="const p=document.getElementById('personnelPanel');if(p)p.innerHTML=renderTeamRosterHub('team','${group || "all"}')">Back</button><header class="sports-profile-hero rutgers"><div><span class="team-pill">Rutgers</span><h2>#${cardValue(player.jersey, "—")} ${player.name}</h2><p>${player.position} · ${player.class_year} · ${player.overall} OVR</p></div></header><section class="detail-panel active"><h3>Biography</h3><div class="overview-grid">${bio.map(([k,v]) => maybeRow(k,v)).join("")}</div></section><section class="detail-panel active"><h3>Full Ratings</h3><div class="sports-stat-grid">${ratings}</div></section><section class="detail-panel active"><h3>Season Statistics</h3><div class="sports-stat-grid">${statRows(player.season_statistics.offense)}${statRows(player.season_statistics.defense)}</div></section><section class="detail-panel active"><h3>Latest Game Statistics</h3><div class="sports-stat-grid">${statRows(player.latest_game_statistics.offense)}${statRows(player.latest_game_statistics.defense)}</div></section></section>`;
+  }
   const player = side === "opponent" ? (loadOpponentPlayers() || []).find(row => row.player_id === id) : (loadRutgersRoster().players || []).find(row => row.player_id === id);
   if (!player) return LimitedDataState("Player Detail");
   const analysis = player.analysis || player.ui_analysis || {};
@@ -3818,7 +3864,7 @@ function playerDetailHtml(id, side = "rutgers", group = "") {
   </section>`;
 }
 
-function playerDetailHtml(id, side = "rutgers", group = "") {
+function legacyPlayerDetailHtml(id, side = "rutgers", group = "") {
   const player = side === "opponent" ? (loadOpponentPlayers() || []).find(row => row.player_id === id) : (loadRutgersRoster().players || []).find(row => row.player_id === id);
   if (!player) return LimitedDataState("Player Detail");
   const analysis = player.analysis || player.ui_analysis || {};
@@ -4023,6 +4069,8 @@ function renderScoutingReport() {
 }
 
 function renderMatchups() {
+  const preview = currentWeekPreview();
+  if (preview && !preview.matchup.available) return `<section class="matchup-card-system"><div class="section-heading compact-heading"><p>Week ${preview.current_context.week}</p><strong>Rutgers vs ${preview.opponent.name}</strong></div><div class="empty-state"><strong>Player-level ${preview.opponent.name} matchups are unavailable.</strong><p>${preview.matchup.reason} Generic game context remains valid; no stale opponent players are shown.</p></div></section>`;
   const ordered = keyMatchupRegistryModels();
   const featured = ordered[0];
   const restPlayers = ordered.slice(1);
@@ -4254,6 +4302,14 @@ function statLeaderStrip(data = {}, opponent = {}) {
 }
 
 function renderStatsWorkspace() {
+  const preview = currentWeekPreview();
+  if (preview) {
+    const game = preview.last_game;
+    const teamRows = Object.keys(game.teamStatistics.rutgers || {}).map(key => `<tr><td>${labelize(key)}</td><td>${game.teamStatistics.rutgers[key]}</td><td>${game.teamStatistics.opponent[key]}</td></tr>`).join("");
+    const cats = Object.entries(game.playerStatistics || {}).map(([category, rows]) => `<article class="sports-stat-card"><h3>${labelize(category)}</h3>${(rows || []).map(row => `<button class="sports-list-card" onclick="showPlayerDetail('${row.playerId}','rutgers','${rosterGroupFor(row.player.position)}')"><span><strong>${row.player.firstName} ${row.player.lastName}</strong><em>${row.player.position}</em></span><b>${Object.entries(row.offense || row.defense || {}).filter(([,v]) => Number(v) > 0).slice(0,4).map(([k,v]) => `${labelize(k)} ${v}`).join(" · ")}</b></button>`).join("") || LimitedDataState(category)}</article>`).join("");
+    const injuries = preview.injuries.records.map(row => { const player = preview.player_details[String(row.playerId)]; return `<button class="sports-list-card" onclick="showPlayerDetail('${row.playerId}','rutgers','${rosterGroupFor(player.position)}')"><span><strong>${row.firstName} ${row.lastName}</strong><em>${player.position}</em></span><b>${readableStatus(row.type)} · ${readableStatus(row.severity)}</b></button>`; }).join("");
+    return `<section class="stats-dashboard" data-current-week-stats><div class="section-heading"><p>Last Game · Source ${game.sourceGameId}</p><strong>${game.opponent} ${game.opponentScore}, Rutgers ${game.rutgersScore} · ${game.result === "L" ? "Rutgers loss" : game.result}</strong></div><article class="sports-stat-card"><h3>Team Comparison</h3><div class="sports-table-scroll"><table class="sports-stat-table"><thead><tr><th>Stat</th><th>Rutgers</th><th>${game.opponent}</th></tr></thead><tbody>${teamRows}</tbody></table></div></article><div class="stat-category-grid">${cats}</div><article class="sports-stat-card"><h3>Current Rutgers Injuries (${preview.injuries.count})</h3><div class="compact-list" data-injury-count="${preview.injuries.count}">${injuries}</div></article></section>`;
+  }
   const mode = activeStatsMode();
   const data = statsModeData(mode);
   return `<section class="stats-dashboard" data-stats-dashboard data-stats-mode="${mode}">
@@ -4293,6 +4349,16 @@ function renderStatPlaceholder(title, message) {
 function renderRecruiting() {
   renderHistory();
   if (!$("recruiting")) return;
+  const preview = currentWeekPreview();
+  if (preview) {
+    if (!preview.recruiting.available) {
+      $("recruiting").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>${preview.recruiting.label}</strong></div><div class="source-status-card"><strong>Recruiting data unavailable</strong><span>${preview.recruiting.reason}</span></div><div class="overview-grid">${maybeRow("Verified recruiting records", 0)}${maybeRow("Active-board ownership", "Unavailable / unresolved")}</div><div class="recruit-card-list" data-interest-pool-count="0"></div>`;
+      return;
+    }
+    const rows = preview.recruiting.interest_pool.records || [];
+    $("recruiting").innerHTML = `<div class="section-heading"><p>Rutgers Football</p><strong>Rutgers Interest Pool</strong></div><div class="source-status-card"><strong>Interest-only evidence</strong><span>${preview.recruiting.active_board.reason}</span></div><div class="overview-grid">${maybeRow("Verified Rutgers-interest records", rows.length)}${maybeRow("Active-board ownership", "Unavailable / unresolved")}</div><div class="recruit-card-list" data-interest-pool-count="${rows.length}">${rows.map(row => `<article class="sports-list-card recruit-card"><span class="rank-dot">${String(row.stars || "").replace(/_/g," ").replace(" STAR", "★")}</span><span><strong>${row.displayName}</strong><em>${row.position} · ${row.hometown || "Unavailable"}${row.state ? `, ${row.state}` : ""}</em><small>${row.archetype || "Archetype unavailable"} · OVR ${cardValue(row.overall)} · Rutgers interest #${cardValue(row.rutgersInterestRank, "Unavailable")}</small></span><b>Nat ${cardValue(row.nationalRank)} · Pos ${cardValue(row.positionRank)}</b><small>${row.committedSchool ? `Committed: ${row.committedSchool}` : "Uncommitted"}</small></article>`).join("")}</div>`;
+    return;
+  }
   const weekly = loadRecruitingWeekly();
   const res = weekly.resources || {};
   const priorities = priorityBoard().slice(0, 8);

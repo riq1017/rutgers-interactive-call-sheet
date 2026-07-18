@@ -82,7 +82,7 @@ test("generator emits deterministic neutral wrappers with one package and verifi
 test("optional unavailable domains contain no payload and may remain absent", () => {
   const { artifacts } = generated();
   const scope = loadGenerated(artifacts);
-  for (const key of ["statistics", "injuries", "matchups", "recruiting", "recovery"]) {
+  for (const key of ["statistics", "injuries", "matchups", "recruiting", "recovery", "current_week_ui"]) {
     assert.equal(scope.ACTIVE_PACKAGE_ARTIFACTS[key].status, "unavailable");
     assert.equal(scope.ACTIVE_PACKAGE_ARTIFACTS[key].payload, null);
     delete scope.ACTIVE_PACKAGE_ARTIFACTS[key];
@@ -157,7 +157,7 @@ test("compatibility installation requires the exact successful validation result
   assert.equal(scope.WEEKLY_PLAN, undefined);
   const validation = runtime.validateActivePackage(scope, { storage: null });
   assert.equal(runtime.installActivePackageCompatibilityGlobals(validation, scope).status, "INSTALLED");
-  assert.deepEqual(runtime.COMPATIBILITY_GLOBALS, ["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE"]);
+  assert.deepEqual(runtime.COMPATIBILITY_GLOBALS, ["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE", "CURRENT_WEEK_UI_PREVIEW"]);
   for (const forbidden of ["OPPONENT_DATA", "PURDUE_MATCHUPS", "VIDEO_VERIFIED_PURDUE_ROSTER", "RECRUITING_WEEKLY", "PLAYER_MATCHUPS"]) assert.equal(scope[forbidden], undefined);
 });
 

@@ -19,7 +19,7 @@ function fixture() {
 function fakeParser(root, context = "save-b") {
   const parser = path.join(root, "parser.cmd");
   const saveB = '{"season":{"year":2026,"week":2},"teams":[{"id":78,"displayName":"Rutgers","overallWins":1,"overallLosses":0},{"id":4,"displayName":"Boston College"}],"rosters":[{"teamId":78,"players":[{"id":1,"firstName":"R","lastName":"Player","position":"QB"}]},{"teamId":4,"players":[{"id":900,"firstName":"B","lastName":"C","position":"QB"}]}],"games":[{"id":479,"week":2,"status":"Unplayed","homeTeam":"Boston College","awayTeam":"Rutgers"}]}';
-  const stale = '{"season":{"year":2026,"week":1},"teams":[{"id":78,"displayName":"Rutgers","overallWins":0,"overallLosses":0}],"rosters":[],"games":[{"week":1,"status":"Unplayed","homeTeam":"Rutgers","awayTeam":"UMass"}]}';
+  const stale = '{"season":{"year":2026,"week":1},"teams":[{"id":78,"displayName":"Rutgers","overallWins":0,"overallLosses":0},{"id":119,"displayName":"UMass"}],"rosters":[],"games":[{"week":1,"status":"Unplayed","homeTeam":"Rutgers","awayTeam":"UMass"}]}';
   const payload = context === "save-b" ? saveB : stale;
   fs.writeFileSync(parser, `@echo off\r\nset out=\r\n:loop\r\nif "%1"=="" goto done\r\nif "%1"=="-o" (set out=%2& shift)\r\nshift\r\ngoto loop\r\n:done\r\n>"%out%" echo ${payload}\r\nexit /b 0\r\n`);
   return parser;

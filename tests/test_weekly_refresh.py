@@ -108,6 +108,23 @@ class Phase3DTests(unittest.TestCase):
                 wr.require_clean_preflight(cfg, Dirty())
         self.assertNotEqual(wr.stable_json({"fingerprint": "before"}), wr.stable_json({"fingerprint": "after"}))
 
+    def test_preview_only_allows_only_explicit_tooling_changes(self):
+        wr.validate_worktree_status(" M tools/validate_weekly_browser.js\n M tests/test_weekly_browser.js", allow_preview_tooling=True)
+        wr.validate_worktree_status(" M app.js\n?? tools/current_week_ui_adapter.js", allow_preview_tooling=True)
+        with self.assertRaisesRegex(wr.RefreshError, "dirty"):
+            wr.validate_worktree_status(" M index.html", allow_preview_tooling=True)
+        with self.assertRaisesRegex(wr.RefreshError, "dirty"):
+            wr.validate_worktree_status(" M tools/validate_weekly_browser.js", allow_preview_tooling=False)
+
+    def test_git_helper_preserves_porcelain_leading_status_column(self):
+        import subprocess
+        class Porcelain(wr.Commands):
+            def run(self, args, cwd, check=True):
+                return subprocess.CompletedProcess(args, 0, " M tests/test_weekly_browser.js\r\n", "")
+        value = wr.git(Porcelain(), ROOT, "status", "--porcelain")
+        self.assertEqual(value, " M tests/test_weekly_browser.js")
+        wr.validate_worktree_status(value, allow_preview_tooling=True)
+
     def test_partial_promotion_failure_restores_complete_tree(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp); repo = root / "repo"; artifact = root / "artifact"; backup = root / "backup"

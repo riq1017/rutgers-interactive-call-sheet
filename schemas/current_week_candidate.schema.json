@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "current_week_candidate.schema.json",
+  "title": "Current Week Normalized Candidate",
+  "type": "object",
+  "required": ["schemaVersion", "packageType", "previewOnly", "legacyCompatibility", "currentContext", "rutgersRoster", "rutgersPlayerStatistics", "rutgersTeamStatistics", "rutgersTeamLeaders", "lastGame", "rutgersInjuries", "recruiting", "opponent"],
+  "properties": {
+    "schemaVersion": { "const": "current_week_candidate_v1" },
+    "packageType": { "const": "current_week_normalized_candidate" },
+    "previewOnly": { "const": true },
+    "legacyCompatibility": { "type": "object", "required": ["additiveOnly", "sharedRosterFile"], "properties": { "additiveOnly": { "const": true }, "sharedRosterFile": { "const": "data/rutgers_roster_base.json" } }, "additionalProperties": true },
+    "currentContext": { "type": "object", "required": ["season", "week", "weekType", "rutgers", "opponentLabel", "homeAway", "lastCompletedGame", "nextGame", "opponentDataAvailable", "opponentAvailabilityReason"] },
+    "rutgersRoster": { "type": "object", "required": ["teamId", "count", "players"], "properties": { "teamId": { "const": 78 }, "count": { "const": 85 }, "players": { "type": "array", "minItems": 85, "maxItems": 85, "items": { "type": "object", "required": ["playerId", "displayName", "teamId", "ratings", "seasonStatistics", "latestGameStatistics"], "properties": { "playerId": { "type": "integer" }, "teamId": { "const": 78 }, "ratings": { "type": "object" } }, "additionalProperties": true } } }, "additionalProperties": true },
+    "rutgersPlayerStatistics": { "type": "array" },
+    "rutgersTeamStatistics": { "type": "object" },
+    "rutgersTeamLeaders": { "type": "object", "required": ["passing", "rushing", "receiving", "tackles", "sacks", "interceptions", "kicking", "returns"] },
+    "lastGame": { "type": "object", "required": ["sourceGameId", "opponent", "finalScore", "teamStatistics", "playerStatistics", "joinStatus"], "properties": { "sourceGameId": { "const": 520 }, "opponent": { "const": "USC" }, "joinStatus": { "const": "valid" } } },
+    "rutgersInjuries": { "type": "object", "required": ["count", "records"], "properties": { "count": { "const": 12 }, "records": { "type": "array", "minItems": 12, "maxItems": 12 } } },
+    "recruiting": { "type": "object", "required": ["globalPool", "rutgersInterestPool", "rutgersActiveBoard", "rutgersOfferedProspects", "rutgersScheduledVisits", "rutgersCommittedProspects", "ownershipAssessment"] },
+    "opponent": { "type": "object", "required": ["name", "isPlaceholder", "dataAvailable", "unavailableReason", "roster", "leaders", "injuries", "depthChart"], "properties": { "name": { "const": "FCS East" }, "isPlaceholder": { "const": true }, "dataAvailable": { "const": false }, "roster": { "type": "array", "maxItems": 0 }, "leaders": { "type": "array", "maxItems": 0 }, "injuries": { "type": "array", "maxItems": 0 }, "depthChart": { "type": "array", "maxItems": 0 } } }
+  },
+  "additionalProperties": true
+}

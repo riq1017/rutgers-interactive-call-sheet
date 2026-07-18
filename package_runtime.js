@@ -8,9 +8,9 @@
   const SHA256 = /^[a-f0-9]{64}$/;
   const REQUIRED_MARKER_FIELDS = ["package_id", "refresh_id", "source_sha256", "snapshot_sha256", "normalized_sha256", "team_id", "season", "week", "opponent_id", "opponent_name"];
   const STORAGE_KEYS = ["rutgers_weekly_package", "rutgers_gameplan_weekly_v2", "rutgers_recruiting_weekly_v2"];
-  const SAVE_MANAGED_GLOBALS = ["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE", "OPPONENT_DATA", "OPPONENT_LAST_GAME_STATS", "OPPONENT_SEASON_STATS", "OPPONENT_PLAYER_MEDIA", "PLAYER_MATCHUPS", "WEEKLY_COACHING_DECISIONS", "WEEKLY_RUN_LANE_ANALYSIS", "WEEKLY_MATCHUP_SUMMARY", "RECRUITING_WEEKLY", "RECRUITING_BOARD", "RECRUITING_CLASS", "RECRUITING_PERFORMANCE", "RECRUITING_SETTINGS", "RECRUITS_DATA", "TEAM_NEEDS_DATA", "TEAM_NEEDS_ENRICHED", "RUTGERS_LAST_GAME_STATS", "RUTGERS_SEASON_STATS"];
+  const SAVE_MANAGED_GLOBALS = ["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE", "CURRENT_WEEK_UI_PREVIEW", "OPPONENT_DATA", "OPPONENT_LAST_GAME_STATS", "OPPONENT_SEASON_STATS", "OPPONENT_PLAYER_MEDIA", "PLAYER_MATCHUPS", "WEEKLY_COACHING_DECISIONS", "WEEKLY_RUN_LANE_ANALYSIS", "WEEKLY_MATCHUP_SUMMARY", "RECRUITING_WEEKLY", "RECRUITING_BOARD", "RECRUITING_CLASS", "RECRUITING_PERFORMANCE", "RECRUITING_SETTINGS", "RECRUITS_DATA", "TEAM_NEEDS_DATA", "TEAM_NEEDS_ENRICHED", "RUTGERS_LAST_GAME_STATS", "RUTGERS_SEASON_STATS"];
   const FORBIDDEN_LEGACY_GLOBAL = /^(?:(?:PURDUE|UMASS)_|VIDEO_VERIFIED_(?:PURDUE|UMASS)_)/i;
-  const COMPATIBILITY_GLOBALS = Object.freeze(["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE"]);
+  const COMPATIBILITY_GLOBALS = Object.freeze(["WEEKLY_PLAN", "GAMEPLAN_WEEKLY", "RUTGERS_ROSTER_BASE", "CURRENT_WEEK_UI_PREVIEW"]);
   const successfulValidations = new WeakMap();
   const installedScopes = new WeakMap();
 
@@ -143,6 +143,7 @@
     scope.WEEKLY_PLAN = weeklyPlan;
     scope.GAMEPLAN_WEEKLY = gameplanWeekly;
     scope.RUTGERS_ROSTER_BASE = rosterBase;
+    if (artifacts.current_week_ui && artifacts.current_week_ui.status === "available") scope.CURRENT_WEEK_UI_PREVIEW = Object.freeze(artifacts.current_week_ui.payload);
     installedScopes.set(scope, { package_id: marker.package_id, refresh_id: marker.refresh_id });
     if (scope.document && scope.document.documentElement) {
       const data = scope.document.documentElement.dataset;

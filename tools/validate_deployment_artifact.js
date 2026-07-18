@@ -8,7 +8,7 @@ const vm = require("node:vm");
 
 const SHA256 = /^[a-f0-9]{64}$/;
 const REQUIRED_WRAPPERS = ["weekly_manifest", "weekly_plan", "gameplan_weekly", "rutgers_roster", "current_opponent"];
-const OPTIONAL_WRAPPERS = ["statistics", "injuries", "matchups", "recruiting", "recovery"];
+const OPTIONAL_WRAPPERS = ["statistics", "injuries", "matchups", "recruiting", "recovery", "current_week_ui"];
 const WRAPPER_ORDER = [...REQUIRED_WRAPPERS.slice(0, 1), ...REQUIRED_WRAPPERS.slice(1), ...OPTIONAL_WRAPPERS];
 const FORBIDDEN = /data\/active\/|data\/(?:engine_data|recruiting_data|phase1_verified_data|player_media)\.js|save-preview-bridge\.js|app-definitions\.js|purdue|opponent[_-]media/i;
 

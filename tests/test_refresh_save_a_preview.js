@@ -5,7 +5,7 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const test = require("node:test");
-const { run, sha256 } = require("../tools/refresh_save_a_preview");
+const { normalize, opponentIdentity, run, sha256 } = require("../tools/refresh_save_a_preview");
 
 function fixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "save-a-refresh-"));
@@ -20,7 +20,7 @@ function fakeParser(root, shouldFail = false) {
   const parser = path.join(root, "parser.cmd");
   const script = shouldFail
     ? "@echo off\r\nexit /b 9\r\n"
-    : "@echo off\r\nset out=\r\n:loop\r\nif \"%1\"==\"\" goto done\r\nif \"%1\"==\"-o\" (set out=%2& shift)\r\nshift\r\ngoto loop\r\n:done\r\n>\"%out%\" echo {\"season\":{\"year\":2026},\"teams\":[{\"id\":78,\"displayName\":\"Rutgers\"}],\"rosters\":[{\"teamId\":78,\"players\":[{}]}],\"games\":[{\"week\":1,\"status\":\"Unplayed\",\"homeTeam\":\"Rutgers\",\"awayTeam\":\"UMass\"}]}\r\nexit /b 0\r\n";
+    : "@echo off\r\nset out=\r\n:loop\r\nif \"%1\"==\"\" goto done\r\nif \"%1\"==\"-o\" (set out=%2& shift)\r\nshift\r\ngoto loop\r\n:done\r\n>\"%out%\" echo {\"season\":{\"year\":2026},\"teams\":[{\"id\":78,\"displayName\":\"Rutgers\"},{\"id\":119,\"displayName\":\"UMass\"}],\"rosters\":[{\"teamId\":78,\"players\":[{}]}],\"games\":[{\"week\":1,\"status\":\"Unplayed\",\"homeTeam\":\"Rutgers\",\"awayTeam\":\"UMass\"}]}\r\nexit /b 0\r\n";
   fs.writeFileSync(parser, script);
   return parser;
 }
@@ -63,7 +63,7 @@ test("successful Save A refresh is snapshot-only, lineage-complete, and producti
   assert.equal(manifest.artifacts.active_package.marker_payload.source_sha256, manifest.snapshot_sha256);
   assert.equal(manifest.artifacts.active_package.marker_payload.normalized_sha256, sha256(manifest.artifacts.normalized));
   assert.equal(path.basename(manifest.artifacts.active_package.directory), manifest.package_id);
-  assert.deepEqual(Object.keys(manifest.artifacts.active_package.wrappers), ["weekly_manifest", "weekly_plan", "gameplan_weekly", "rutgers_roster", "current_opponent", "statistics", "injuries", "matchups", "recruiting", "recovery"]);
+  assert.deepEqual(Object.keys(manifest.artifacts.active_package.wrappers), ["weekly_manifest", "weekly_plan", "gameplan_weekly", "rutgers_roster", "current_opponent", "statistics", "injuries", "matchups", "recruiting", "recovery", "current_week_ui"]);
   assert.deepEqual(manifest.artifacts.real_shell.script_order.slice(0, 3), [
     `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/${manifest.package_id}/active_package.js`,
     `data/generated/dynasty/refresh_runs/${manifest.run_id}/preview/real-shell/active-package/${manifest.package_id}/weekly_manifest.js`,
@@ -97,4 +97,18 @@ test("neutral configured save selection is accepted and exclusive", () => {
   const { parseArgs } = require("../tools/refresh_save_a_preview");
   assert.equal(parseArgs(["--save", "configured"])["save"], "configured");
   assert.throws(() => parseArgs(["--save", "configured", "--save-a", "legacy"]), /exactly one/i);
+});
+
+test("FCS schedule placeholders receive a deterministic non-null opponent identity", () => {
+  const raw = {
+    season: { year: 2026, week: 4 },
+    teams: [{ id: 78, displayName: "Rutgers", overallWins: 1, overallLosses: 2 }],
+    rosters: [{ teamId: 78, players: [] }],
+    games: [{ id: 585, week: 4, status: "Unplayed", homeTeam: "Rutgers", awayTeam: "FCS East" }]
+  };
+  const result = normalize(raw, "package-one", "a".repeat(64), "snapshot", "Configured save");
+  assert.equal(result.opponent.id, "fcs:fcs-east");
+  assert.equal(result.opponent.name, "FCS East");
+  assert.equal(opponentIdentity("Boston College", { id: 12 }), 12);
+  assert.throws(() => opponentIdentity("Unknown State", null), /does not contain an identity/);
 });

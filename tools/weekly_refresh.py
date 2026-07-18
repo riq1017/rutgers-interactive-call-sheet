@@ -27,6 +27,29 @@ class RefreshError(RuntimeError):
     pass
 
 
+PREVIEW_ONLY_DIRTY_ALLOWLIST = frozenset({
+    "app.js",
+    "VALIDATION_REPORT.md",
+    "package_runtime.js",
+    "schemas/current_week_candidate.schema.json",
+    "schemas/",
+    "tools/current_week_normalizer.js",
+    "tools/current_week_ui_adapter.js",
+    "tools/current_week_ui_adapter.test.js",
+    "tools/refresh_save_a_preview.js",
+    "tools/validate_weekly_browser.js",
+    "tools/validate.js",
+    "tools/validate_deployment_artifact.js",
+    "tools/weekly_refresh.py",
+    "tests/test_refresh_save_a_preview.js",
+    "tests/test_active_package_contract.js",
+    "tests/test_deployment_artifact.js",
+    "tests/test_refresh_save_b_preview.js",
+    "tests/test_weekly_browser.js",
+    "tests/test_weekly_refresh.py",
+})
+
+
 def utc_stamp() -> str:
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
 
@@ -125,7 +148,17 @@ class Commands:
 
 
 def git(commands: Commands, repo: Path, *args: str, check: bool = True) -> str:
-    return commands.run(["git", *args], repo, check=check).stdout.strip()
+    return commands.run(["git", *args], repo, check=check).stdout.rstrip("\r\n")
+
+
+def validate_worktree_status(status: str, allow_preview_tooling: bool = False) -> None:
+    entries = [line for line in status.splitlines() if line.strip()]
+    if not entries:
+        return
+    paths = {line[3:].split(" -> ")[-1].replace("\\", "/") for line in entries if len(line) >= 4}
+    if allow_preview_tooling and paths and paths <= PREVIEW_ONLY_DIRTY_ALLOWLIST:
+        return
+    raise RefreshError("Working tree is dirty")
 
 
 def active_production(repo: Path) -> dict[str, Any]:
@@ -233,14 +266,13 @@ def candidate_workflow_simulation(candidate: dict[str, Any], detected_context: d
     return {"status": "PASS", "promotion_eligible": True, "context": detected_context}
 
 
-def require_clean_preflight(config: Config, commands: Commands) -> dict[str, Any]:
+def require_clean_preflight(config: Config, commands: Commands, allow_preview_tooling: bool = False) -> dict[str, Any]:
     git_root = git(commands, config.repo, "rev-parse", "--show-toplevel")
     if repository_path_identity(git_root, "Git repository root") != repository_path_identity(config.repo, "configured repository root"):
         raise RefreshError("Configured repository root does not match Git")
     if git(commands, config.repo, "branch", "--show-current") != config.branch:
         raise RefreshError(f"Deployment branch must be {config.branch}")
-    if git(commands, config.repo, "status", "--porcelain"):
-        raise RefreshError("Working tree is dirty")
+    validate_worktree_status(git(commands, config.repo, "status", "--porcelain"), allow_preview_tooling)
     for executable in ([sys.executable, "--version"], ["node", "--version"], ["git", "--version"]):
         commands.run(executable, config.repo)
     commands.run(["node", "-e", "require('playwright'); process.stdout.write('playwright-ready')"], config.repo)
@@ -322,7 +354,7 @@ class Workflow:
             write_reports(run_dir, state)
             print(f"[{status}] {name}{': ' + detail if detail else ''}")
         try:
-            production = require_clean_preflight(self.config, self.commands)
+            production = require_clean_preflight(self.config, self.commands, allow_preview_tooling=mode == "preview-only")
             state["previous_production"] = production
             stage("preflight", "PASS", production["release_id"])
             snapshot = snapshot_save(self.config.save, run_dir / "snapshot" / self.config.save.name)

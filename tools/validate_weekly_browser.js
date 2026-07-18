@@ -17,14 +17,28 @@ function args(argv) {
 }
 
 function assert(condition, message) { if (!condition) throw new Error(message); }
-function expected(pathname) { return pathname ? JSON.parse(fs.readFileSync(pathname, "utf8")) : {}; }
+function expected(pathname) {
+  if (!pathname) return {};
+  const raw = JSON.parse(fs.readFileSync(pathname, "utf8"));
+  const context = raw.context || {};
+  const expectedDom = raw.expected_dom || {};
+  return { ...context, ...raw, record: context.record ?? expectedDom.seasonRecord, expected_dom: expectedDom };
+}
+
+function startupPassed(sequence) {
+  return Array.isArray(sequence) && sequence.length === 3 && sequence[0] === "VALIDATED" && sequence[1] === "INSTALLED" && sequence[2] === "BOOTED";
+}
+
+function storageAttackRejected(proof) {
+  return proof && proof.validationOk === false && proof.errorCode === "STALE_STORED_PACKAGE" && !String(proof.text || "").includes("Stored Stale Opponent");
+}
 
 function simulation(file, wanted) {
   const value = JSON.parse(fs.readFileSync(file, "utf8"));
   assert(value.http_status === 200, "Hosted page did not return HTTP 200");
   for (const key of ["team", "season", "week", "record", "opponent", "location", "package_id", "refresh_id"])
     if (wanted[key] !== undefined) assert(value[key] === wanted[key], `Browser context mismatch: ${key}`);
-  assert(value.startup?.join("→") === "VALIDATED→INSTALLED→BOOTED", "Startup sequence failed");
+  assert(startupPassed(value.startup), "Startup sequence failed");
   assert(value.release_id === wanted.release_id || wanted.release_id === undefined, "Release mismatch");
   assert(value.active_packages === 1 && !value.legacy_resources && !value.console_errors, "Browser resource or console gate failed");
   assert(value.clean_reload && value.warm_reload && value.mobile && value.storage_override_rejected, "Browser reload/mobile/storage gate failed");
@@ -67,25 +81,71 @@ async function waitForPagesCommit(hostedUrl, commit, timeoutMs) {
 
 async function inspect(page, wanted, releaseId) {
   const proof = await page.evaluate(() => ({
+    url: location.href,
     title: document.title,
     text: document.body.innerText,
+    weekOpponent: document.getElementById("weekOpponent")?.textContent?.trim() || null,
+    seasonRecord: document.getElementById("seasonRecord")?.textContent?.trim() || null,
     scripts: [...document.scripts].map(item => item.src).filter(Boolean),
-    startup: globalThis.CFB27_ACTIVE_PACKAGE_STARTUP_ORDER || [],
+    startup: globalThis.CFB27_PRODUCTION_STARTUP_RESULT?.sequence || globalThis.CFB27_ACTIVE_PACKAGE_STARTUP_ORDER || [],
+    startupStatus: document.documentElement.dataset.startupStatus || null,
+    startupPackageId: globalThis.CFB27_PRODUCTION_STARTUP_RESULT?.package_id || globalThis.CFB27_ACTIVE_PACKAGE_VALIDATION?.package_id || null,
+    startupRefreshId: globalThis.CFB27_PRODUCTION_STARTUP_RESULT?.refresh_id || globalThis.CFB27_ACTIVE_PACKAGE_VALIDATION?.refresh_id || null,
     domProof: document.documentElement.dataset.domProof || null,
     width: document.documentElement.scrollWidth,
     viewport: innerWidth
   }));
-  const text = proof.text.toLowerCase();
-  assert(text.includes(`week ${wanted.week}`.toLowerCase()) && text.includes(String(wanted.opponent).toLowerCase()) && text.includes(String(wanted.record).toLowerCase()), "Expected weekly DOM context is absent");
-  assert(proof.domProof === "PASS" || (proof.startup.join("→") === "VALIDATED→INSTALLED→BOOTED"), "Startup/DOM proof failed");
+  assert(proof.weekOpponent === wanted.expected_dom.weekOpponent, `Weekly opponent DOM mismatch: expected ${wanted.expected_dom.weekOpponent}, received ${proof.weekOpponent}; url=${proof.url}; title=${proof.title}; body=${proof.text.slice(0, 160)}`);
+  assert(proof.seasonRecord === wanted.expected_dom.seasonRecord, `Season record DOM mismatch: expected ${wanted.expected_dom.seasonRecord}, received ${proof.seasonRecord}`);
+  assert(proof.domProof === "PASS" || (proof.startupStatus === "booted" && startupPassed(proof.startup)), "Startup/DOM proof failed");
+  assert(!wanted.package_id || proof.startupPackageId === wanted.package_id, "Startup package ID mismatch");
+  assert(!wanted.refresh_id || proof.startupRefreshId === wanted.refresh_id, "Startup refresh ID mismatch");
   const active = new Set(proof.scripts.map(value => new URL(value).pathname.match(/\/data\/active-packages\/([^/]+)\//)?.[1]).filter(Boolean));
-  assert(active.size <= 1, "Multiple production active packages were requested");
+  assert(active.size === 1, "Expected exactly one production active package request");
   assert(!proof.scripts.some(value => /engine_data|phase1_verified|save-preview-bridge|app-definitions|purdue|opponent.media/i.test(new URL(value).pathname)), "Legacy resource requested");
   if (releaseId) for (const value of proof.scripts) {
     const url = new URL(value); const tokens = url.searchParams.getAll("r");
     assert(tokens.length === 1 && tokens[0] === releaseId, `Release token mismatch: ${url.pathname}`);
   }
   return proof;
+}
+
+async function inspectCurrentWeekScreens(page, wanted) {
+  if (Number(wanted.week) !== 4 || wanted.opponent !== "FCS East") return { status: "not-applicable" };
+  const proof = await page.evaluate(() => {
+    const home = document.getElementById("gameplanHome")?.innerText || "";
+    const call = (name, ...args) => typeof globalThis[name] === "function" ? globalThis[name](...args) : null;
+    call("renderPersonnelMatchups", "rutgers");
+    const roster = { cards: document.querySelectorAll("[data-player-card]").length, declared: Number(document.querySelector("[data-roster-card-count]")?.dataset.rosterCardCount || 0) };
+    const firstId = globalThis.CURRENT_WEEK_UI_PREVIEW?.roster?.players?.[0]?.player_id;
+    if (firstId) call("showPlayerDetail", firstId, "rutgers", "all");
+    const playerDetail = document.querySelector("[data-player-detail]")?.innerText || "";
+    call("renderPersonnelMatchups", "stats");
+    const stats = document.querySelector("[data-current-week-stats]")?.innerText || "";
+    const injuries = Number(document.querySelector("[data-injury-count]")?.dataset.injuryCount || 0);
+    call("renderRecruiting");
+    const recruiting = document.getElementById("recruiting")?.innerText || "";
+    const interest = Number(document.querySelector("[data-interest-pool-count]")?.dataset.interestPoolCount || 0);
+    call("renderPersonnelMatchups", "opponent");
+    const opponent = document.querySelector("[data-roster-hub='opponent']")?.innerText || "";
+    const opponentPlayers = document.querySelectorAll("[data-roster-hub='opponent'] [data-player-card]").length;
+    call("renderPersonnelMatchups", "matchups");
+    const matchups = document.getElementById("personnelPanel")?.innerText || "";
+    return { home, roster, playerDetail, stats, injuries, recruiting, interest, opponent, opponentPlayers, matchups };
+  });
+  const current = wanted.current_week || {};
+  for (const leader of current.leaders || []) assert(proof.home.includes(leader.name) && proof.home.includes(String(leader.value)), `Missing calculated current-week leader: ${leader.name} (${leader.value})`);
+  assert(proof.roster.cards === current.roster_count && proof.roster.declared === current.roster_count, `Current-week roster did not render ${current.roster_count} players`);
+  assert(/Biography|Full Ratings/.test(proof.playerDetail), "Current-week player detail did not render");
+  const last = current.last_game || {};
+  assert(proof.stats.includes(`Source ${last.source_id}`) && proof.stats.includes(`${last.opponent} ${last.opponent_score}, Rutgers ${last.rutgers}`) && proof.injuries === current.injury_count, "Last-game or injury screen mismatch");
+  const recruiting = current.recruiting || {};
+  if (recruiting.available) assert(proof.recruiting.includes(recruiting.label) && proof.interest === recruiting.count && !proof.recruiting.includes("Active Board"), "Recruiting interest labeling/count mismatch");
+  else assert(proof.recruiting.includes("Recruiting data unavailable") && proof.recruiting.includes(recruiting.reason) && proof.interest === 0 && !proof.recruiting.includes("Rutgers Interest Pool"), "Explicit recruiting-unavailable state mismatch");
+  assert(proof.opponentPlayers === 0 && proof.opponent.includes("Detailed opponent data is unavailable for FCS placeholder teams."), "FCS opponent fallback mismatch");
+  assert(!/USC|UMass|Boston College|Purdue/.test(proof.opponent), "Stale opponent content survived FCS fallback");
+  assert(proof.matchups.includes("matchups are unavailable"), "FCS matchup fallback mismatch");
+  return { status: "PASS", roster: current.roster_count, injuries: current.injury_count, recruiting_available: Boolean(recruiting.available), interest_pool: proof.interest, opponent_players: 0 };
 }
 
 async function browserProof(options) {
@@ -100,28 +160,42 @@ async function browserProof(options) {
   const timeout = Number(options.timeout || 45) * 1000;
   const url = options.url || await (async () => { server = await staticServer(path.resolve(options.root)); return `http://127.0.0.1:${server.address().port}/`; })();
   const deployed = options.commit ? await waitForPagesCommit(url, options.commit, timeout) : null;
-  const errors = [];
+  const errors = [], failedResources = [];
   const browser = await chromium.launch({ headless: true, executablePath: process.env.CFB27_BROWSER || "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" });
   try {
     const context = await browser.newContext();
-    await context.addInitScript(() => localStorage.setItem("rutgers_weekly_package", JSON.stringify({ package_id: "stored-stale-package", opponent: "Stored Stale Opponent" })));
     const page = await context.newPage();
     page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
     page.on("pageerror", error => errors.push(error.message));
+    page.on("response", response => { if (response.status() >= 400) failedResources.push(`${response.status()} ${response.url()}`); });
+    page.on("requestfailed", request => failedResources.push(`FAILED ${request.url()} ${request.failure()?.errorText || "unknown"}`));
     const response = await page.goto(`${url}${url.includes("?") ? "&" : "?"}validation=clean-${Date.now()}`, { waitUntil: "load", timeout });
     assert(response && response.status() === 200, "Hosted page did not return HTTP 200");
     const clean = await inspect(page, wanted, options["release-id"]);
+    const currentWeekScreens = await inspectCurrentWeekScreens(page, wanted);
     await page.reload({ waitUntil: "load", timeout });
     const warm = await inspect(page, wanted, options["release-id"]);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.reload({ waitUntil: "load", timeout });
     const mobile = await inspect(page, wanted, options["release-id"]);
     assert(mobile.width <= mobile.viewport + 1, "Mobile page has horizontal overflow");
-    assert(!mobile.text.includes("Stored Stale Opponent"), "Stored package replaced the active package");
+    const attackContext = await browser.newContext();
+    await attackContext.addInitScript(() => localStorage.setItem("rutgers_weekly_package", JSON.stringify({ package_id: "stored-stale-package", opponent: "Stored Stale Opponent" })));
+    const attackPage = await attackContext.newPage();
+    const attackResponse = await attackPage.goto(`${url}${url.includes("?") ? "&" : "?"}validation=storage-attack-${Date.now()}`, { waitUntil: "load", timeout });
+    assert(attackResponse && attackResponse.status() === 200, "Stored-package attack page did not return HTTP 200");
+    const attack = await attackPage.evaluate(() => ({
+      validationOk: (globalThis.CFB27_PACKAGE_VALIDATION_RESULT || globalThis.CFB27_ACTIVE_PACKAGE_VALIDATION)?.ok,
+      errorCode: globalThis.CFB27_PRODUCTION_STARTUP_RESULT?.error_code || globalThis.CFB27_PACKAGE_VALIDATION_RESULT?.error_code || globalThis.CFB27_ACTIVE_PACKAGE_VALIDATION?.error_code || null,
+      text: document.body.innerText
+    }));
+    await attackContext.close();
+    assert(storageAttackRejected(attack), `Stored package attack was not rejected safely: ${JSON.stringify(attack)}`);
     assert(errors.length === 0, `Browser console errors: ${errors.join(" | ")}`);
-    return { status: "PASS", url, http_status: 200, deployed_commit: deployed?.deployed || null, clean_reload: true, warm_reload: true, mobile: true, console_errors: [], storage_override_rejected: true, package_id: wanted.package_id, refresh_id: wanted.refresh_id, release_id: options["release-id"] || null, startup: clean.startup };
+    assert(failedResources.length === 0, `Browser resource failures: ${failedResources.join(" | ")}`);
+    return { status: "PASS", url, http_status: 200, deployed_commit: deployed?.deployed || null, clean_reload: true, warm_reload: true, mobile: true, console_errors: [], failed_resources: [], dom_proof: clean.domProof || clean.startupStatus, current_week_screens: currentWeekScreens, storage_override_rejected: true, package_id: clean.startupPackageId, refresh_id: clean.startupRefreshId, release_id: options["release-id"] || null, startup: clean.startup };
   } finally { await browser.close(); if (server) await new Promise(resolve => server.close(resolve)); }
 }
 
 if (require.main === module) browserProof(args(process.argv.slice(2))).then(result => process.stdout.write(`${JSON.stringify(result, null, 2)}\n`)).catch(error => { process.stderr.write(`${JSON.stringify({ status: "FAIL", reason: error.message }, null, 2)}\n`); process.exitCode = 1; });
-module.exports = { args, browserProof, pagesRepository, simulation };
+module.exports = { args, browserProof, expected, inspectCurrentWeekScreens, pagesRepository, simulation, startupPassed, storageAttackRejected };

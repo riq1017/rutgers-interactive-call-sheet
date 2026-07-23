@@ -6,6 +6,13 @@ const sourceDir = path.join(root, "data", "parser_coverage", "current_week", "in
 const outputDir = path.join(root, "data", "parser_coverage", "current_week", "ui_preview");
 const read = name => JSON.parse(fs.readFileSync(path.join(sourceDir, name), "utf8"));
 
+function legacyRatings(ratings = {}) {
+  return Object.fromEntries(Object.entries(ratings).map(([key, value]) => [
+    key === "ImpactBlockingRating" ? "impact_block" : key.replace(/Rating$/, "").replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase(),
+    value
+  ]));
+}
+
 function legacyPlayer(player, statsById, lastStatsById, injuriesById) {
   const injury = injuriesById.get(player.playerId);
   return {
@@ -18,9 +25,20 @@ function legacyPlayer(player, statsById, lastStatsById, injuriesById) {
     redshirt_status: player.redshirtState,
     injury_status: injury ? injury.type : "Healthy",
     injury_details: injury ? injury.severity : "",
-    attributes: player.ratings,
+    attributes: legacyRatings(player.ratings),
     season_statistics: statsById.get(player.playerId) || {},
     latest_game_statistics: lastStatsById.get(player.playerId) || {}
+  };
+}
+
+function legacyOpponentPlayer(player) {
+  return {
+    ...player,
+    player_id: String(player.id),
+    name: `${player.firstName || ""} ${player.lastName || ""}`.trim(),
+    jersey: player.jersey ?? null,
+    class_year: player.schoolYear || null,
+    attributes: legacyRatings(player.ratings)
   };
 }
 
@@ -58,7 +76,7 @@ function adaptNormalizedCandidate(normalized) {
     generated: true,
     generated_from: "verified snapshot parser export",
     current_context: context,
-    roster: { team: { team: "Rutgers", season: context.season, record: context.rutgers.record }, count: players.length, players },
+    roster: { team: { team: "Rutgers", season: context.season, record: context.rutgers.record, rank: context.rutgers.rank, offense: context.rutgers.offense, defense: context.rutgers.defense }, count: players.length, players },
     player_details: Object.fromEntries(players.map(row => [row.player_id, row])),
     season_stats: categorizedStats(stats),
     team_statistics: teamStats,
@@ -67,7 +85,7 @@ function adaptNormalizedCandidate(normalized) {
     injuries,
     availability: normalized.availability,
     recruiting: { available: normalized.recruiting.available !== false, label: normalized.recruiting.label || "Rutgers Interest Pool", reason: normalized.recruiting.reason || null, interest_pool: interest, active_board: activeBoard, ownership_resolved: false },
-    opponent: { ...opponent, name: context.opponentLabel },
+    opponent: { ...opponent, name: context.opponentLabel, roster: (opponent.roster || []).map(legacyOpponentPlayer), seasonStatistics: categorizedStats(opponent.playerStatistics || []) },
     matchup: normalized.availability?.matchups || { available: false, reason: "Player-level matchups are unavailable for FCS placeholder teams." }
   };
 }
@@ -91,4 +109,4 @@ if (require.main === module) {
   console.log(`Wrote ${result.jsPath}`);
 }
 
-module.exports = { adaptNormalizedCandidate, buildCandidate, categorizedStats, legacyPlayer, writeCandidate };
+module.exports = { adaptNormalizedCandidate, buildCandidate, categorizedStats, legacyOpponentPlayer, legacyPlayer, legacyRatings, writeCandidate };

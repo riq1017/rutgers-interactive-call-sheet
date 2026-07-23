@@ -1805,7 +1805,10 @@ function loadTeamNeeds() {
 
 function loadOpponentProfile() {
   const preview = currentWeekPreview();
-  if (preview) return { name: preview.opponent.name, placeholder: preview.opponent.isPlaceholder, data_available: preview.opponent.dataAvailable, unavailable_reason: preview.opponent.unavailableReason };
+  if (preview) {
+    const team = preview.opponent.teamEntity || {};
+    return { name: preview.opponent.name, record: preview.opponent.record, rank: team.coachesPollRank ?? null, offense_overall: team.offensiveRank ?? null, defense_overall: team.defensiveRank ?? null, placeholder: preview.opponent.isPlaceholder, data_available: preview.opponent.dataAvailable, unavailable_reason: preview.opponent.unavailableReason };
+  }
   return (loadGameplanWeekly().opponent_profile) || {};
 }
 

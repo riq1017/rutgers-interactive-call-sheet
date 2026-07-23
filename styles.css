@@ -2573,6 +2573,62 @@ details[open]{
 .recruiting-tabs{
   margin:10px 0 8px;
 }
+.normalized-recruiting-view{display:grid;gap:10px}
+.normalized-recruiting-summary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:7px;
+}
+.recruiting-summary-metric{
+  min-height:68px;
+  padding:9px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--card-bg);
+}
+.recruiting-summary-metric span,.normalized-recruit-facts small,.normalized-recruit-activity small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:850;
+  text-transform:uppercase;
+}
+.recruiting-summary-metric strong{display:block;margin-top:5px;font-size:20px}
+.normalized-recruiting-tabs{margin:0}
+.normalized-recruiting-collection{display:grid;gap:8px}
+.normalized-recruit-list{display:grid;gap:8px}
+.normalized-recruit-card{
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--card-bg);
+}
+.normalized-recruit-card header{
+  display:grid;
+  grid-template-columns:38px minmax(0,1fr) auto;
+  gap:8px;
+  align-items:center;
+}
+.normalized-recruit-card header strong,.normalized-recruit-card header em{display:block}
+.normalized-recruit-card header em{margin-top:2px;color:var(--muted);font-size:11px;font-style:normal}
+.normalized-recruit-card header b{font-size:11px}
+.normalized-recruit-facts{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:6px;
+  margin-top:9px;
+}
+.normalized-recruit-facts>span,.normalized-recruit-activity>span{
+  padding:7px;
+  border:1px solid #ffffff12;
+  border-radius:6px;
+  background:#101014;
+  font-size:11px;
+  overflow-wrap:anywhere;
+}
+.normalized-recruit-activity{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.normalized-recruit-card footer{margin-top:8px;color:var(--muted);font-size:10px}
+.normalized-recruiting-empty{margin:0}
 .matchup-sides{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -2781,6 +2837,10 @@ details[open]{
 .script-row em{color:var(--muted);font-style:normal;font-size:12px}
 
 @media(max-width:420px){
+  .normalized-recruiting-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .normalized-recruit-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .normalized-recruit-activity{grid-template-columns:1fr}
+  .normalized-recruiting-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .thirds{grid-template-columns:1fr}
   .compact-actions{grid-template-columns:1fr}
   .summary-grid,.usage-rings,.card-grid{gap:6px}

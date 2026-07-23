@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "recruiting_normalized.schema.json",
+  "title": "CFB27 normalized recruiting data",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "recruitingSummary",
+    "recruitingBoard",
+    "recruitingOffers",
+    "recruitingVisits",
+    "recruitingPitches",
+    "nationalRecruiting",
+    "validation"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "cfb27_recruiting_normalized_v1" },
+    "recruitingSummary": {
+      "type": "object",
+      "required": ["teamId", "teamName", "boardCount", "offerCount", "assignedHours", "processedHours", "totalHours", "pitchCount", "visitCount"]
+    },
+    "recruitingBoard": { "type": "array" },
+    "recruitingOffers": { "type": "array" },
+    "recruitingVisits": { "type": "array" },
+    "recruitingPitches": { "type": "array" },
+    "nationalRecruiting": { "type": "array" },
+    "validation": {
+      "type": "object",
+      "required": ["inputPursuitCount", "normalizedMembershipCount", "populatedTeamBoardCount", "duplicateMembershipCount", "unresolvedReferenceCount", "boardOrderErrorCount", "commitmentOwnership", "signingOwnership"]
+    }
+  },
+  "additionalProperties": false
+}

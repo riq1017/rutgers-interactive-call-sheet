@@ -8,6 +8,7 @@ const { spawnSync } = require("child_process");
 const vm = require("vm");
 const { buildCandidate: buildCurrentWeekCandidate, validateCandidate: validateCurrentWeekCandidate } = require("./current_week_normalizer");
 const { adaptNormalizedCandidate } = require("./current_week_ui_adapter");
+const { normalizeRecruiting } = require("./recruiting_normalizer");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DEFAULT_PARSER = path.join(REPO_ROOT, "tools", "cfb27_save_reader", "runtime", "cfb-dynasty.exe");
@@ -63,7 +64,7 @@ function generateActivePackageArtifacts(runDir, normalized, packageId, refreshId
     statistics: { required: false, status: "unavailable", payload: null },
     injuries: { required: false, status: "unavailable", payload: null },
     matchups: { required: false, status: "unavailable", payload: null },
-    recruiting: { required: false, status: "unavailable", payload: null },
+    recruiting: { required: false, status: normalized.recruiting ? "available" : "unavailable", payload: normalized.recruiting || null },
     recovery: { required: false, status: "unavailable", payload: null },
     current_week_ui: { required: false, status: currentWeekUi ? "available" : "unavailable", payload: currentWeekUi }
   };
@@ -156,6 +157,7 @@ function normalize(raw, packageId, sourceHash, snapshotPath, label = "Save A") {
     position: player.position || null, jersey: player.jersey ?? null, jersey_number: player.jersey ?? null, overall: player.overall ?? null,
     attributes: player.attributes || {}
   }));
+  const recruiting = Array.isArray(raw.recruits) && Array.isArray(raw.recruiting) ? normalizeRecruiting(raw, Number(team.id)) : null;
   return {
     schema_version: "dynasty_preview_v2", package_type: "normalized_dynasty_preview",
     lineage: lineage(label, packageId, sourceHash, snapshotPath),
@@ -167,11 +169,12 @@ function normalize(raw, packageId, sourceHash, snapshotPath, label = "Save A") {
     rutgers_player_count: rutgersRoster && Array.isArray(rutgersRoster.players) ? rutgersRoster.players.length : null,
     rutgers_players: rutgersPlayers,
     schedule: { current_game_id: upcoming.id, next_games: games.filter(game => Number(game.week) >= Number(upcoming.week)).map(game => ({ id: game.id, week: Number(game.week), opponent: game.homeTeam === "Rutgers" ? game.awayTeam : game.homeTeam, location: game.homeTeam === "Rutgers" ? "Home" : "Away", status: game.status })) },
-    availability: { tactical_recommendations: "unavailable_from_parser_export", recruiting: "unavailable_from_parser_export", awards: "unavailable_from_parser_export" },
+    recruiting,
+    availability: { tactical_recommendations: "unavailable_from_parser_export", recruiting: recruiting ? "available" : "unavailable_from_parser_export", awards: "unavailable_from_parser_export" },
     provenance: {
-      directly_parsed: ["team.name", "season", "week", "opponent.name", "game_status", "team wins/losses", "schedule", "rosters"],
-      calculated: ["team.record", "location", "opponent.player_count"],
-      unavailable: ["tactical_recommendations", "recruiting", "awards"]
+      directly_parsed: ["team.name", "season", "week", "opponent.name", "game_status", "team wins/losses", "schedule", "rosters", "recruits", "team-owned recruiting pursuits"],
+      calculated: ["team.record", "location", "opponent.player_count", "normalized recruiting summaries and filtered collections"],
+      unavailable: ["tactical_recommendations", "awards"]
     }
   };
 }
@@ -273,7 +276,7 @@ function realShellPreview(runDir, normalized, packageId, activePackage, sourceHt
   const indexPath = path.join(dir, "index.html");
   fs.writeFileSync(indexPath, html, { encoding: "utf8", flag: "wx" });
   const sourceExpectations = currentWeekUi ? { leaders: Object.values(currentWeekUi.team_leaders || {}).flatMap(group => group.leaders || []).map(row => ({ name: row.displayName, value: row.value, stat: row.stat })), roster_count: currentWeekUi.roster.count, injury_count: currentWeekUi.injuries.count, last_game: { source_id: currentWeekUi.last_game.sourceGameId, opponent: currentWeekUi.last_game.opponent, rutgers: currentWeekUi.last_game.rutgersScore, opponent_score: currentWeekUi.last_game.opponentScore }, recruiting: { available: currentWeekUi.recruiting.available, count: currentWeekUi.recruiting.interest_pool.records.length, label: currentWeekUi.recruiting.label, reason: currentWeekUi.recruiting.reason } } : {};
-  writeJson(path.join(dir, "browser-proof-expectation.json"), { package_id: packageId, refresh_id: activePackage.marker_payload.refresh_id, runtime: "direct active package + repository app.js", expected_dom: { weekOpponent: `Week ${normalized.week} vs ${normalized.opponent.name}`, seasonRecord: normalized.team.record }, context: { team: normalized.team.name, season: normalized.season, week: normalized.week, record: normalized.team.record, opponent: normalized.opponent.name, location: normalized.location }, current_week: sourceExpectations, script_order: scriptSources });
+  writeJson(path.join(dir, "browser-proof-expectation.json"), { package_id: packageId, refresh_id: activePackage.marker_payload.refresh_id, runtime: "direct active package + repository app.js", expected_dom: { weekOpponent: `Week ${normalized.week} vs ${normalized.opponent.name}`, seasonRecord: normalized.team.record }, context: { team: normalized.team.name, season: normalized.season, week: normalized.week, record: normalized.team.record, opponent: normalized.opponent.name, location: normalized.location }, current_week: sourceExpectations, normalized_recruiting: normalized.recruiting ? { schema_version: normalized.recruiting.schemaVersion, summary: normalized.recruiting.recruitingSummary, empty_board_message: normalized.recruiting.recruitingBoard.length ? null : "No recruits are currently on the Rutgers recruiting board." } : null, script_order: scriptSources });
   return { index: indexPath, startup: startupPath, media, expectation: path.join(dir, "browser-proof-expectation.json"), script_order: scriptSources, repository_app_js_sha256: sha256(path.join(REPO_ROOT, "app.js")), repository_index_sha256: sha256(path.join(REPO_ROOT, "index.html")), active_package: activePackage.directory, replaced_startup_type: replaced.type, replaced_production_package_id: replaced.production_package_id };
 }
 
@@ -299,7 +302,7 @@ function run(options) {
     manifest.checks.push({ name: "snapshot_hash_match", status: "PASS" });
     if (legacySelection === "Save B") manifest.checks.push({ name: "save_b_differs_from_save_a", status: "PASS" });
     const rawDir = path.join(runDir, "raw"); fs.mkdirSync(rawDir); const rawExport = path.join(rawDir, "parser-export.json");
-    const parserArgs = ["export", "-schema-dir", schemaDir, "-season", "-teams", "-rosters", "-games", "-season-stats", "-injuries", "-depth-charts", "-o", rawExport, snapshotPath];
+    const parserArgs = ["export", "-schema-dir", schemaDir, "-season", "-teams", "-rosters", "-games", "-season-stats", "-injuries", "-depth-charts", "-recruits", "-recruiting", "-o", rawExport, snapshotPath];
     manifest.parser = { executable: parser, executable_sha256: sha256(parser), args: parserArgs, input_path: snapshotPath, live_save_used: false };
     const parsed = spawnSync(parser, parserArgs, { encoding: "utf8", windowsHide: true, shell: /\.(cmd|bat)$/i.test(parser) });
     manifest.parser.returncode = parsed.status;
@@ -312,7 +315,8 @@ function run(options) {
     const normalized = normalize(raw, packageId, sourceBefore, snapshotPath, label);
     let currentWeekUi = null;
     if (Array.isArray(raw.seasonPlayerStats) && Array.isArray(raw.injuries)) {
-      const currentWeek = buildCurrentWeekCandidate(raw, { rawSha256: sha256(rawExport), snapshot: { snapshotSha256: sourceBefore }, provenance: { parserSha256: sha256(parser) } });
+      const currentWeekRaw = { ...raw, recruits: undefined, recruiting: undefined };
+      const currentWeek = buildCurrentWeekCandidate(currentWeekRaw, { rawSha256: sha256(rawExport), snapshot: { snapshotSha256: sourceBefore }, provenance: { parserSha256: sha256(parser) } });
       validateCurrentWeekCandidate(currentWeek);
       currentWeekUi = adaptNormalizedCandidate(currentWeek);
     }

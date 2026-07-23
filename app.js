@@ -4346,9 +4346,128 @@ function renderStatPlaceholder(title, message) {
   return `<div class="empty-state"><strong>${title}</strong><p>${message}</p></div>`;
 }
 
+const NORMALIZED_RECRUITING_SCHEMA = "cfb27_recruiting_normalized_v1";
+
+function recruitingUiText(value, fallback = "Unknown") {
+  if (value === null || value === undefined || value === "") return fallback;
+  return String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
+}
+
+function validateNormalizedRecruitingPayload(payload) {
+  const fail = reason => ({ ok: false, payload: null, reason });
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return fail("Normalized recruiting data is unavailable.");
+  if (payload.schemaVersion !== NORMALIZED_RECRUITING_SCHEMA) return fail("Normalized recruiting data uses an unsupported schema.");
+  const arrays = ["recruitingBoard", "recruitingOffers", "recruitingVisits", "recruitingPitches", "nationalRecruiting"];
+  if (arrays.some(key => !Array.isArray(payload[key]))) return fail("Normalized recruiting data is incomplete.");
+  const summary = payload.recruitingSummary;
+  const validation = payload.validation;
+  if (!summary || typeof summary !== "object" || !validation || typeof validation !== "object") return fail("Normalized recruiting summary or validation metadata is missing.");
+  const counts = ["boardCount", "offerCount", "pitchCount", "visitCount"];
+  if (counts.some(key => !Number.isInteger(summary[key]) || summary[key] < 0)) return fail("Normalized recruiting summary counts are invalid.");
+  if (Number(summary.teamId) !== 78 || summary.teamName !== "Rutgers") return fail("Normalized recruiting data is not owned by Rutgers.");
+  if (summary.boardCount !== payload.recruitingBoard.length || summary.offerCount !== payload.recruitingOffers.length || summary.visitCount !== payload.recruitingVisits.length || summary.pitchCount !== payload.recruitingPitches.length) return fail("Normalized recruiting summary does not reconcile with its collections.");
+  if (validation.duplicateMembershipCount !== 0 || validation.unresolvedReferenceCount !== 0 || validation.boardOrderErrorCount !== 0) return fail("Normalized recruiting ownership validation did not pass.");
+  if (validation.commitmentOwnership !== "unresolved" || validation.signingOwnership !== "unresolved") return fail("Commitment or signing ownership provenance is unsupported.");
+  const membership = new Set();
+  let priorOrder = -Infinity;
+  for (const entry of payload.recruitingBoard) {
+    if (!entry || Number(entry.pursuitOwnerTeamId) !== 78 || entry.activeBoardMembership !== true || entry.committedTeamId !== null || entry.signedTeamId !== null || entry.commitmentOwnershipStatus !== "unresolved" || entry.signingOwnershipStatus !== "unresolved") return fail("A recruiting-board entry has invalid or inferred ownership.");
+    if (!Number.isInteger(entry.boardOrder) || entry.boardOrder <= priorOrder) return fail("Recruiting-board order is invalid.");
+    priorOrder = entry.boardOrder;
+    const key = String(entry.recruitId);
+    if (membership.has(key)) return fail("Recruiting-board membership is duplicated.");
+    membership.add(key);
+  }
+  for (const [key, ownerKey] of [["recruitingOffers", "offerOwnerTeamId"], ["recruitingVisits", "visitOwnerTeamId"], ["recruitingPitches", "pitchOwnerTeamId"]]) {
+    if (payload[key].some(entry => !membership.has(String(entry.recruitId)) || Number(entry[ownerKey]) !== 78)) return fail(`Normalized ${key} contains cross-team or non-board data.`);
+  }
+  return { ok: true, payload, reason: null };
+}
+
+function normalizedRecruitingState(scope = typeof globalThis !== "undefined" ? globalThis : {}) {
+  const declaration = scope && scope.ACTIVE_PACKAGE_ARTIFACTS && scope.ACTIVE_PACKAGE_ARTIFACTS.recruiting;
+  if (!declaration) return { present: false, ...validateNormalizedRecruitingPayload(null) };
+  if (declaration.status !== "available") return { present: true, ok: false, payload: null, reason: "Normalized recruiting data is unavailable for this package." };
+  return { present: true, ...validateNormalizedRecruitingPayload(declaration.payload) };
+}
+
+function recruitingMetric(label, value) {
+  return `<article class="recruiting-summary-metric"><span>${recruitingUiText(label)}</span><strong>${recruitingUiText(value)}</strong></article>`;
+}
+
+function normalizedRecruitingRow(entry, mode) {
+  const location = [entry.hometown, entry.homeState].filter(value => value !== null && value !== undefined && value !== "").map(value => recruitingUiText(value)).join(", ") || "Unknown";
+  const pitches = Array.isArray(entry.activePitches) && entry.activePitches.length
+    ? entry.activePitches.map(row => `${recruitingUiText(row.pitch)} (${recruitingUiText(row.intensity)})`).join(", ")
+    : "Unknown";
+  const visit = entry.scheduledVisit && typeof entry.scheduledVisit === "object"
+    ? [entry.scheduledVisit.weekType, entry.scheduledVisit.week == null ? null : `Week ${entry.scheduledVisit.week}`, entry.scheduledVisit.activity].filter(Boolean).map(value => recruitingUiText(value)).join(" · ")
+    : "Unknown";
+  const stars = recruitingUiText(entry.stars);
+  return `<article class="normalized-recruit-card" data-recruit-id="${recruitingUiText(entry.recruitId)}" data-board-order="${recruitingUiText(entry.boardOrder)}" data-recruit-mode="${recruitingUiText(mode)}">
+    <header><span class="rank-dot">${entry.boardOrder == null ? "?" : Number(entry.boardOrder) + 1}</span><div><strong>${recruitingUiText(entry.fullName)}</strong><em>${recruitingUiText(entry.position)} · ${stars}${entry.overall == null ? "" : ` · OVR ${recruitingUiText(entry.overall)}`}</em></div><b>Slot ${recruitingUiText(entry.boardSlot)}</b></header>
+    <div class="normalized-recruit-facts">
+      <span><small>Archetype</small>${recruitingUiText(entry.archetype)}</span>
+      <span><small>Hometown</small>${location}</span>
+      <span><small>Hours</small>${recruitingUiText(entry.allocatedRecruitingHours)}</span>
+      <span><small>Scholarship</small>${recruitingUiText(entry.scholarshipStatus)}</span>
+      <span><small>Influence</small>${recruitingUiText(entry.prospectInfluenceTotal)}</span>
+      <span><small>Weekly change</small>${recruitingUiText(entry.prospectInfluenceDelta)}</span>
+    </div>
+    <div class="normalized-recruit-activity"><span><small>Visit</small>${visit}</span><span><small>Pitch</small>${pitches}</span></div>
+    <footer>Commitment ownership: Unresolved · Signing ownership: Unresolved</footer>
+  </article>`;
+}
+
+function normalizedRecruitingCollection(payload, mode = "board") {
+  const collections = { board: "recruitingBoard", offers: "recruitingOffers", visits: "recruitingVisits", pitches: "recruitingPitches" };
+  const labels = { board: "Recruiting Board", offers: "Offers", visits: "Visits", pitches: "Active Pitches" };
+  const key = collections[mode] || collections.board;
+  const selected = collections[mode] ? mode : "board";
+  const rows = payload[key];
+  const empty = selected === "board"
+    ? "No recruits are currently on the Rutgers recruiting board."
+    : `No Rutgers recruiting ${labels[selected].toLowerCase()} are currently recorded.`;
+  return `<div class="segmented compact-tabs normalized-recruiting-tabs" role="tablist" aria-label="Recruiting views">${Object.keys(collections).map(name => `<button type="button" data-normalized-recruit-tab="${name}" class="${name === selected ? "active" : ""}" onclick="renderNormalizedRecruitingMode('${name}')">${labels[name]}</button>`).join("")}</div>
+    <section class="normalized-recruiting-collection" data-recruiting-mode="${selected}"><h3>${labels[selected]}</h3>${rows.length ? `<div class="normalized-recruit-list">${rows.map(row => normalizedRecruitingRow(row, selected)).join("")}</div>` : `<div class="empty-state normalized-recruiting-empty" data-recruiting-empty="${selected}"><strong>${empty}</strong><p>This view reflects verified team-board ownership only.</p></div>`}</section>`;
+}
+
+function normalizedRecruitingHtml(payload, mode = "board") {
+  const summary = payload.recruitingSummary;
+  return `<div class="normalized-recruiting-view" data-recruiting-schema="${NORMALIZED_RECRUITING_SCHEMA}">
+    <div class="section-heading"><p>Rutgers Football</p><strong>Recruiting</strong></div>
+    <section class="normalized-recruiting-summary" aria-label="Rutgers recruiting summary">
+      ${recruitingMetric("Weekly Hours", summary.totalHours)}
+      ${recruitingMetric("Assigned Hours", summary.assignedHours)}
+      ${recruitingMetric("Processed Hours", summary.processedHours)}
+      ${recruitingMetric("Board Count", summary.boardCount)}
+      ${recruitingMetric("Offers", summary.offerCount)}
+      ${recruitingMetric("Active Pitches", summary.pitchCount)}
+      ${recruitingMetric("Visits", summary.visitCount)}
+    </section>
+    ${normalizedRecruitingCollection(payload, mode)}
+  </div>`;
+}
+
+function normalizedRecruitingUnavailableHtml(reason) {
+  return `<div class="section-heading"><p>Rutgers Football</p><strong>Recruiting</strong></div><div class="source-status-card normalized-recruiting-unavailable" data-recruiting-unavailable><strong>Recruiting data unavailable</strong><span>${recruitingUiText(reason, "Normalized recruiting data could not be validated.")}</span></div>`;
+}
+
+function renderNormalizedRecruitingMode(mode = "board") {
+  const target = $("recruiting");
+  if (!target) return;
+  const state = normalizedRecruitingState();
+  target.innerHTML = state.ok ? normalizedRecruitingHtml(state.payload, mode) : normalizedRecruitingUnavailableHtml(state.reason);
+}
+
 function renderRecruiting() {
   renderHistory();
   if (!$("recruiting")) return;
+  const normalized = normalizedRecruitingState();
+  if (normalized.present || controlledRuntime()) {
+    $("recruiting").innerHTML = normalized.ok ? normalizedRecruitingHtml(normalized.payload) : normalizedRecruitingUnavailableHtml(normalized.reason);
+    return;
+  }
   const preview = currentWeekPreview();
   if (preview) {
     if (!preview.recruiting.available) {
@@ -5037,6 +5156,13 @@ if (typeof module !== "undefined") {
     matchupRow,
     renderPersonnelOverview,
     renderStatsWorkspace,
+    validateNormalizedRecruitingPayload,
+    normalizedRecruitingState,
+    normalizedRecruitingRow,
+    normalizedRecruitingCollection,
+    normalizedRecruitingHtml,
+    normalizedRecruitingUnavailableHtml,
+    recruitingUiText,
     availableStatTables,
     analyticsPanelHtml,
     playerTraitRows,

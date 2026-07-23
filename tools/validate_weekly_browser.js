@@ -100,7 +100,12 @@ async function inspect(page, wanted, releaseId) {
   assert(proof.domProof === "PASS" || (proof.startupStatus === "booted" && startupPassed(proof.startup)), "Startup/DOM proof failed");
   assert(!wanted.package_id || proof.startupPackageId === wanted.package_id, "Startup package ID mismatch");
   assert(!wanted.refresh_id || proof.startupRefreshId === wanted.refresh_id, "Startup refresh ID mismatch");
-  const active = new Set(proof.scripts.map(value => new URL(value).pathname.match(/\/data\/active-packages\/([^/]+)\//)?.[1]).filter(Boolean));
+  const active = new Set(proof.scripts.map(value => {
+    const pathname = new URL(value).pathname;
+    const match = pathname.match(/\/data\/active-packages\/([^/]+)\//) ||
+      pathname.match(/\/data\/generated\/dynasty\/refresh_runs\/[^/]+\/preview\/real-shell\/active-package\/([^/]+)\//);
+    return match && match[1];
+  }).filter(Boolean));
   assert(active.size === 1, "Expected exactly one production active package request");
   assert(!proof.scripts.some(value => /engine_data|phase1_verified|save-preview-bridge|app-definitions|purdue|opponent.media/i.test(new URL(value).pathname)), "Legacy resource requested");
   if (releaseId) for (const value of proof.scripts) {
@@ -111,7 +116,8 @@ async function inspect(page, wanted, releaseId) {
 }
 
 async function inspectCurrentWeekScreens(page, wanted) {
-  if (Number(wanted.week) !== 4 || wanted.opponent !== "FCS East") return { status: "not-applicable" };
+  const current = wanted.current_week || {};
+  if (!current.roster_count) return { status: "not-applicable" };
   const proof = await page.evaluate(() => {
     const home = document.getElementById("gameplanHome")?.innerText || "";
     const call = (name, ...args) => typeof globalThis[name] === "function" ? globalThis[name](...args) : null;
@@ -133,19 +139,81 @@ async function inspectCurrentWeekScreens(page, wanted) {
     const matchups = document.getElementById("personnelPanel")?.innerText || "";
     return { home, roster, playerDetail, stats, injuries, recruiting, interest, opponent, opponentPlayers, matchups };
   });
-  const current = wanted.current_week || {};
   for (const leader of current.leaders || []) assert(proof.home.includes(leader.name) && proof.home.includes(String(leader.value)), `Missing calculated current-week leader: ${leader.name} (${leader.value})`);
   assert(proof.roster.cards === current.roster_count && proof.roster.declared === current.roster_count, `Current-week roster did not render ${current.roster_count} players`);
   assert(/Biography|Full Ratings/.test(proof.playerDetail), "Current-week player detail did not render");
   const last = current.last_game || {};
   assert(proof.stats.includes(`Source ${last.source_id}`) && proof.stats.includes(`${last.opponent} ${last.opponent_score}, Rutgers ${last.rutgers}`) && proof.injuries === current.injury_count, "Last-game or injury screen mismatch");
-  const recruiting = current.recruiting || {};
-  if (recruiting.available) assert(proof.recruiting.includes(recruiting.label) && proof.interest === recruiting.count && !proof.recruiting.includes("Active Board"), "Recruiting interest labeling/count mismatch");
-  else assert(proof.recruiting.includes("Recruiting data unavailable") && proof.recruiting.includes(recruiting.reason) && proof.interest === 0 && !proof.recruiting.includes("Rutgers Interest Pool"), "Explicit recruiting-unavailable state mismatch");
-  assert(proof.opponentPlayers === 0 && proof.opponent.includes("Detailed opponent data is unavailable for FCS placeholder teams."), "FCS opponent fallback mismatch");
-  assert(!/USC|UMass|Boston College|Purdue/.test(proof.opponent), "Stale opponent content survived FCS fallback");
-  assert(proof.matchups.includes("matchups are unavailable"), "FCS matchup fallback mismatch");
-  return { status: "PASS", roster: current.roster_count, injuries: current.injury_count, recruiting_available: Boolean(recruiting.available), interest_pool: proof.interest, opponent_players: 0 };
+  if (!wanted.normalized_recruiting) {
+    const recruiting = current.recruiting || {};
+    if (recruiting.available) assert(proof.recruiting.includes(recruiting.label) && proof.interest === recruiting.count && !proof.recruiting.includes("Active Board"), "Recruiting interest labeling/count mismatch");
+    else assert(proof.recruiting.includes("Recruiting data unavailable") && proof.recruiting.includes(recruiting.reason) && proof.interest === 0 && !proof.recruiting.includes("Rutgers Interest Pool"), "Explicit recruiting-unavailable state mismatch");
+  }
+  if (Number(wanted.week) === 4 && wanted.opponent === "FCS East") {
+    assert(proof.opponentPlayers === 0 && proof.opponent.includes("Detailed opponent data is unavailable for FCS placeholder teams."), "FCS opponent fallback mismatch");
+    assert(!/USC|UMass|Boston College|Purdue/.test(proof.opponent), "Stale opponent content survived FCS fallback");
+    assert(proof.matchups.includes("matchups are unavailable"), "FCS matchup fallback mismatch");
+  } else {
+    assert(proof.opponent.includes(wanted.opponent), "Current opponent view did not retain the verified opponent");
+  }
+  return { status: "PASS", roster: current.roster_count, injuries: current.injury_count, previous_game: last, opponent: wanted.opponent };
+}
+
+async function inspectNormalizedRecruiting(page, wanted) {
+  const expectedRecruiting = wanted.normalized_recruiting;
+  if (!expectedRecruiting) return { status: "not-applicable" };
+  const proof = await page.evaluate(() => {
+    if (typeof globalThis.renderRecruiting === "function") globalThis.renderRecruiting();
+    const root = document.querySelector("[data-recruiting-schema]");
+    const metrics = Object.fromEntries([...document.querySelectorAll(".recruiting-summary-metric")].map(node => [
+      node.querySelector("span")?.textContent?.trim() || "",
+      node.querySelector("strong")?.textContent?.trim() || ""
+    ]));
+    const modes = {};
+    for (const mode of ["board", "offers", "visits", "pitches"]) {
+      if (typeof globalThis.renderNormalizedRecruitingMode === "function") globalThis.renderNormalizedRecruitingMode(mode);
+      modes[mode] = {
+        selected: document.querySelector("[data-recruiting-mode]")?.dataset.recruitingMode || null,
+        rows: document.querySelectorAll("[data-recruit-id]").length,
+        empty: document.querySelector(`[data-recruiting-empty="${mode}"]`)?.textContent?.trim() || ""
+      };
+    }
+    if (typeof globalThis.renderNormalizedRecruitingMode === "function") globalThis.renderNormalizedRecruitingMode("board");
+    const panel = document.getElementById("recruiting");
+    return {
+      schema: root?.dataset.recruitingSchema || null,
+      metrics,
+      text: panel?.innerText || "",
+      empty: document.querySelector("[data-recruiting-empty='board']")?.innerText || "",
+      rows: document.querySelectorAll("[data-recruit-id]").length,
+      tabs: [...document.querySelectorAll("[data-normalized-recruit-tab]")].map(node => node.dataset.normalizedRecruitTab),
+      modes,
+      panelWidth: panel?.scrollWidth || 0,
+      viewport: innerWidth
+    };
+  });
+  const summary = expectedRecruiting.summary || {};
+  assert(proof.schema === expectedRecruiting.schema_version, "Normalized recruiting schema did not render");
+  const metrics = {
+    "Weekly Hours": summary.totalHours,
+    "Assigned Hours": summary.assignedHours,
+    "Processed Hours": summary.processedHours,
+    "Board Count": summary.boardCount,
+    "Offers": summary.offerCount,
+    "Active Pitches": summary.pitchCount,
+    "Visits": summary.visitCount
+  };
+  for (const [label, value] of Object.entries(metrics)) assert(proof.metrics[label] === String(value), `Recruiting summary mismatch for ${label}`);
+  assert(JSON.stringify(proof.tabs) === JSON.stringify(["board", "offers", "visits", "pitches"]), "Recruiting view tabs are incomplete or unstable");
+  for (const mode of ["board", "offers", "visits", "pitches"]) assert(proof.modes[mode].selected === mode, `Recruiting ${mode} view did not activate`);
+  if (expectedRecruiting.empty_board_message) {
+    assert(proof.empty.includes(expectedRecruiting.empty_board_message), "Rutgers empty-board state did not render");
+    assert(proof.rows === 0, "Rutgers empty board rendered fabricated recruit rows");
+    for (const mode of ["board", "offers", "visits", "pitches"]) assert(proof.modes[mode].rows === 0 && proof.modes[mode].empty, `Recruiting ${mode} empty state failed`);
+  }
+  assert(!/\bUncommitted\b/i.test(proof.text), "Recruiting UI inferred an uncommitted state");
+  assert(proof.panelWidth <= proof.viewport + 1, "Recruiting panel has horizontal overflow");
+  return { status: "PASS", schema: proof.schema, metrics: proof.metrics, rows: proof.rows, empty_board: Boolean(expectedRecruiting.empty_board_message) };
 }
 
 async function browserProof(options) {
@@ -158,7 +226,11 @@ async function browserProof(options) {
   catch (error) { throw new Error(`Playwright is required for real browser validation: ${error.message}`); }
   let server = null;
   const timeout = Number(options.timeout || 45) * 1000;
-  const url = options.url || await (async () => { server = await staticServer(path.resolve(options.root)); return `http://127.0.0.1:${server.address().port}/`; })();
+  const url = options.url || await (async () => {
+    server = await staticServer(path.resolve(options.root));
+    const relative = String(options.path || "").replace(/\\/g, "/").replace(/^\/+/, "");
+    return `http://127.0.0.1:${server.address().port}/${relative}`;
+  })();
   const deployed = options.commit ? await waitForPagesCommit(url, options.commit, timeout) : null;
   const errors = [], failedResources = [];
   const browser = await chromium.launch({ headless: true, executablePath: process.env.CFB27_BROWSER || "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" });
@@ -173,11 +245,14 @@ async function browserProof(options) {
     assert(response && response.status() === 200, "Hosted page did not return HTTP 200");
     const clean = await inspect(page, wanted, options["release-id"]);
     const currentWeekScreens = await inspectCurrentWeekScreens(page, wanted);
+    const recruitingClean = await inspectNormalizedRecruiting(page, wanted);
     await page.reload({ waitUntil: "load", timeout });
     const warm = await inspect(page, wanted, options["release-id"]);
+    const recruitingWarm = await inspectNormalizedRecruiting(page, wanted);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.reload({ waitUntil: "load", timeout });
     const mobile = await inspect(page, wanted, options["release-id"]);
+    const recruitingMobile = await inspectNormalizedRecruiting(page, wanted);
     assert(mobile.width <= mobile.viewport + 1, "Mobile page has horizontal overflow");
     const attackContext = await browser.newContext();
     await attackContext.addInitScript(() => localStorage.setItem("rutgers_weekly_package", JSON.stringify({ package_id: "stored-stale-package", opponent: "Stored Stale Opponent" })));
@@ -193,9 +268,9 @@ async function browserProof(options) {
     assert(storageAttackRejected(attack), `Stored package attack was not rejected safely: ${JSON.stringify(attack)}`);
     assert(errors.length === 0, `Browser console errors: ${errors.join(" | ")}`);
     assert(failedResources.length === 0, `Browser resource failures: ${failedResources.join(" | ")}`);
-    return { status: "PASS", url, http_status: 200, deployed_commit: deployed?.deployed || null, clean_reload: true, warm_reload: true, mobile: true, console_errors: [], failed_resources: [], dom_proof: clean.domProof || clean.startupStatus, current_week_screens: currentWeekScreens, storage_override_rejected: true, package_id: clean.startupPackageId, refresh_id: clean.startupRefreshId, release_id: options["release-id"] || null, startup: clean.startup };
+    return { status: "PASS", url, http_status: 200, deployed_commit: deployed?.deployed || null, clean_reload: true, warm_reload: true, mobile: true, console_errors: [], failed_resources: [], dom_proof: clean.domProof || clean.startupStatus, current_week_screens: currentWeekScreens, recruiting_ui: { clean: recruitingClean, warm: recruitingWarm, mobile: recruitingMobile }, storage_override_rejected: true, package_id: clean.startupPackageId, refresh_id: clean.startupRefreshId, release_id: options["release-id"] || null, startup: clean.startup };
   } finally { await browser.close(); if (server) await new Promise(resolve => server.close(resolve)); }
 }
 
 if (require.main === module) browserProof(args(process.argv.slice(2))).then(result => process.stdout.write(`${JSON.stringify(result, null, 2)}\n`)).catch(error => { process.stderr.write(`${JSON.stringify({ status: "FAIL", reason: error.message }, null, 2)}\n`); process.exitCode = 1; });
-module.exports = { args, browserProof, expected, inspectCurrentWeekScreens, pagesRepository, simulation, startupPassed, storageAttackRejected };
+module.exports = { args, browserProof, expected, inspectCurrentWeekScreens, inspectNormalizedRecruiting, pagesRepository, simulation, startupPassed, storageAttackRejected };

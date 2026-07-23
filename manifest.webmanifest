@@ -2,7 +2,7 @@
   "name": "Coordinator OS",
   "short_name": "Coordinator OS",
   "description": "Mobile-first Rutgers gameday coaching application shell.",
-  "start_url": "./index.html?r=cfb27-rutgers-2026-week-4-20260718t003433732218z",
+  "start_url": "./index.html?r=cfb27-rutgers-2026-week-5-20260723t194700059z",
   "scope": "./",
   "display": "standalone",
   "background_color": "#050506",
@@ -10,7 +10,7 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "assets/app-icon.svg?r=cfb27-rutgers-2026-week-4-20260718t003433732218z",
+      "src": "assets/app-icon.svg?r=cfb27-rutgers-2026-week-5-20260723t194700059z",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

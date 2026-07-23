@@ -1,0 +1,11 @@
+{
+  "project": "riq1017/cfb-dynasty",
+  "branch": "fix/team-owned-recruiting-pursuits",
+  "sourceCommit": "e78f5507fe4b335703a909e10eec1bdee15ef6ca",
+  "productionExecutableSha256": "CAEC49CDB75D00FFA1540EF278BEA6F1EE706F304F1CDBA9CA14E18FDA118FAD",
+  "previousExecutableSha256": "6FAD736A1A65037E4EDC90119043F633324A05188D9F8A2FE5E292F84F29B815",
+  "schemaSha256": "C15762F193C9E59A9293F320CA824240E2789BA2CC8421A404416CDB62790528",
+  "status": "validated-and-promoted",
+  "commitmentOwnership": "unresolved",
+  "signedOwnership": "unresolved"
+}

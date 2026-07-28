@@ -4351,11 +4351,34 @@ function renderStatPlaceholder(title, message) {
 
 const NORMALIZED_RECRUITING_SCHEMA = "cfb27_recruiting_normalized_v1";
 const NATIONAL_RECRUIT_PAGE_SIZE = 50;
+const RECRUIT_POSITION_GROUPS = Object.freeze(["All", "QB", "RB", "WR", "TE", "OL", "DL", "LB", "DB", "ATH", "K/P"]);
 const DEFAULT_NATIONAL_RECRUIT_FILTERS = Object.freeze({
-  search: "", position: "all", stars: "all", state: "all",
+  search: "", position: "All", stars: "all", state: "all",
   targeted: "all", sort: "nationalRank", page: 1
 });
 let nationalRecruitingFilters = { ...DEFAULT_NATIONAL_RECRUIT_FILTERS };
+let normalizedRecruitingView = "my";
+let myBoardPositionGroup = "All";
+let recruitingReturnScroll = 0;
+
+function recruitPositionGroup(position) {
+  const value = String(position || "").trim().toUpperCase();
+  if (value === "QB") return "QB";
+  if (["HB", "RB", "FB"].includes(value)) return "RB";
+  if (value === "WR") return "WR";
+  if (value === "TE") return "TE";
+  if (["LT", "LG", "C", "RG", "RT"].includes(value)) return "OL";
+  if (["LE", "RE", "DE", "DT"].includes(value)) return "DL";
+  if (["LOLB", "ROLB", "MLB", "OLB", "ILB", "LB"].includes(value)) return "LB";
+  if (["CB", "FS", "SS", "DB"].includes(value)) return "DB";
+  if (value === "ATH") return "ATH";
+  if (["K", "P"].includes(value)) return "K/P";
+  return null;
+}
+
+function recruitMatchesPositionGroup(entry, group = "All") {
+  return group === "All" || recruitPositionGroup(entry && entry.position) === group;
+}
 
 function recruitingUiText(value, fallback = "Unknown") {
   if (value === null || value === undefined || value === "") return fallback;
@@ -4459,7 +4482,9 @@ function nationalRecruitingQuery(payload, filters = {}) {
   });
   const rows = sourceRows.filter(entry =>
     (!search || String(entry.fullName || "").toLocaleLowerCase().includes(search)) &&
-    (state.position === "all" || String(entry.position) === String(state.position)) &&
+    (state.position === "All" || (RECRUIT_POSITION_GROUPS.includes(state.position)
+      ? recruitMatchesPositionGroup(entry, state.position)
+      : String(entry.position) === String(state.position))) &&
     (state.stars === "all" || String(entry.stars) === String(state.stars)) &&
     (state.state === "all" || String(entry.homeState) === String(state.state)) &&
     (state.targeted === "all" || (state.targeted === "rutgers" ? entry.rutgersTargeted === true : entry.rutgersTargeted !== true))
@@ -4489,16 +4514,63 @@ function nationalRecruitOption(value) {
   return recruitingUiText(String(value).replaceAll("_", " ").replace(/\b\w/g, character => character.toUpperCase()));
 }
 
+function recruitStarLabel(value) {
+  const stars = { FIVE_STAR: 5, FOUR_STAR: 4, THREE_STAR: 3, TWO_STAR: 2, ONE_STAR: 1 }[value];
+  return stars ? `${"★".repeat(stars)}${"☆".repeat(5 - stars)}` : recruitingUiText(value, "N/A");
+}
+
+function recruitScoutingPresentation(entry = {}) {
+  const status = entry.scoutedStatus === "yes" ? "Yes" : entry.scoutedStatus === "no" ? "No" : "Unresolved";
+  const percentage = entry.scoutedStatus === "yes" && entry.scoutingPercentage == null
+    ? "Percentage unavailable"
+    : entry.scoutingPercentage == null ? "N/A" : `${recruitingUiText(entry.scoutingPercentage)}%`;
+  return { status, percentage };
+}
+
+function recruitRatingVisibility(entry = {}) {
+  const revealed = entry.revealedRatings && typeof entry.revealedRatings === "object" ? entry.revealedRatings : {};
+  const source = entry.ratings && typeof entry.ratings === "object" ? entry.ratings : {};
+  const keys = [...new Set([...Object.keys(source), ...Object.keys(revealed)])].sort();
+  const rows = keys.map(key => {
+    const value = revealed[key];
+    const safe = typeof value === "number" && Number.isFinite(value) && value > 0 && value <= 99;
+    return { key, label: labelize(key), value: safe ? value : "N/A", status: safe ? "revealed" : "hidden-or-unresolved" };
+  });
+  return rows.length ? rows : [
+    { key: "overall", label: "Overall", value: "N/A", status: "unsupported" },
+    { key: "awareness", label: "Awareness", value: "N/A", status: "unsupported" },
+    { key: "speed", label: "Speed", value: "N/A", status: "unsupported" },
+    { key: "strength", label: "Strength", value: "N/A", status: "unsupported" }
+  ];
+}
+
+function recruitOverallDisplay(entry = {}) {
+  return typeof entry.validatedOverall === "number" && entry.validatedOverall > 0 && entry.validatedOverall <= 99
+    ? entry.validatedOverall
+    : null;
+}
+
+function recruitingPositionTabs(active, handler) {
+  return `<div class="pill-row sticky-filter recruiting-position-tabs" role="tablist" aria-label="Recruit position groups">${RECRUIT_POSITION_GROUPS.map(group => `<button type="button" class="filter-pill ${group === active ? "active" : ""}" onclick="${handler}('${group}')">${group}</button>`).join("")}</div>`;
+}
+
+function recruitCompactRow(entry, context = "my") {
+  const onBoard = context === "my" || entry.rutgersTargeted === true;
+  const scouting = recruitScoutingPresentation(entry);
+  const overall = recruitOverallDisplay(entry);
+  const secondary = context === "my"
+    ? `Board #${Number(entry.boardOrder) + 1} · Slot ${recruitingUiText(entry.boardSlot, "N/A")} · ${recruitingUiText(entry.allocatedRecruitingHours, "0")} hrs`
+    : `Nat #${recruitingUiText(entry.nationalRank, "N/A")} · Pos #${recruitingUiText(entry.positionRank, "N/A")} · ${recruitingUiText(entry.homeState, "N/A")}`;
+  return `<button type="button" class="sports-list-card recruit-compact-row" data-recruit-id="${recruitingUiText(entry.recruitId)}" data-recruit-context="${context}" data-rutgers-targeted="${onBoard}" onclick="showNormalizedRecruitDetail('${recruitingUiText(entry.recruitId)}','${context}')">
+    <span class="sports-card-left"><i>${recruitingUiText(entry.position, "N/A")}</i></span>
+    <span class="sports-card-main"><strong>${recruitingUiText(entry.fullName)}</strong><em>${recruitStarLabel(entry.stars)}${overall == null ? "" : ` · ${overall} OVR`}</em><small>${secondary} · Scouted: ${scouting.status}</small></span>
+    ${onBoard ? `<b class="recruit-board-badge">My Board</b>` : ""}
+    <span class="chevron">›</span>
+  </button>`;
+}
+
 function nationalRecruitCard(entry) {
-  const location = [entry.hometown, entry.homeState].filter(Boolean).map(recruitingUiText).join(", ") || "Unknown";
-  return `<details class="national-recruit-card" data-national-recruit-id="${recruitingUiText(entry.recruitId)}" data-rutgers-targeted="${entry.rutgersTargeted === true}">
-    <summary><span class="rank-dot">${recruitingUiText(entry.nationalRank, "—")}</span><span><strong>${recruitingUiText(entry.fullName)}</strong><em>${recruitingUiText(entry.position)} · ${nationalRecruitOption(entry.stars || "Unknown")}</em></span>${entry.rutgersTargeted ? `<b>Rutgers Board${entry.rutgersBoardOrder == null ? "" : ` #${Number(entry.rutgersBoardOrder) + 1}`}</b>` : ""}</summary>
-    <div class="national-recruit-facts">
-      <span><small>National rank</small>${recruitingUiText(entry.nationalRank)}</span><span><small>Position rank</small>${recruitingUiText(entry.positionRank)}</span><span><small>State rank</small>${recruitingUiText(entry.stateRank)}</span>
-      <span><small>Home</small>${location}</span><span><small>Archetype</small>${recruitingUiText(entry.archetype)}</span><span><small>Height</small>${recruitingUiText(entry.height)}</span>
-      <span><small>Weight</small>${recruitingUiText(entry.weight)}</span><span><small>Overall</small>${recruitingUiText(entry.overall)}</span><span><small>Recruiting stage</small>${recruitingUiText(entry.recruitStage)}</span>
-    </div><footer>Scouting percentage: Unavailable · Commitment ownership: Unresolved · Signing ownership: Unresolved</footer>
-  </details>`;
+  return recruitCompactRow(entry, "national");
 }
 
 function nationalRecruitingDatabase(payload, filters = nationalRecruitingFilters) {
@@ -4507,16 +4579,16 @@ function nationalRecruitingDatabase(payload, filters = nationalRecruitingFilters
   const selected = (value, wanted) => String(value) === String(wanted) ? " selected" : "";
   const active = [
     result.filters.search && `Name: ${result.filters.search}`,
-    result.filters.position !== "all" && `Position: ${result.filters.position}`,
+    result.filters.position !== "All" && `Position group: ${result.filters.position}`,
     result.filters.stars !== "all" && `Stars: ${nationalRecruitOption(result.filters.stars)}`,
     result.filters.state !== "all" && `State: ${result.filters.state}`,
     result.filters.targeted !== "all" && (result.filters.targeted === "rutgers" ? "On Rutgers Board" : "Not on Rutgers Board")
   ].filter(Boolean);
   return `<section class="national-recruiting-database" data-national-source-count="${result.sourceTotal}" data-national-result-count="${result.total}">
-    <div class="national-recruiting-heading"><div><h3>National Recruit Database</h3><p><strong>${result.total.toLocaleString()}</strong> of ${result.sourceTotal.toLocaleString()} recruits</p></div><button type="button" onclick="resetNationalRecruitingFilters()">Clear filters</button></div>
+    <div class="national-recruiting-heading"><div><h3>National Board</h3><p><strong>${result.total.toLocaleString()}</strong> of ${result.sourceTotal.toLocaleString()} prospects</p></div><button type="button" onclick="resetNationalRecruitingFilters()">Clear filters</button></div>
+    ${recruitingPositionTabs(result.filters.position, "setNationalRecruitingPositionGroup")}
     <div class="national-recruiting-controls">
       <label class="national-search"><span>Recruit name</span><input id="nationalRecruitSearch" type="search" value="${recruitingUiText(result.filters.search, "")}" placeholder="Search recruits"></label>
-      <label><span>Position</span><select id="nationalRecruitPosition"><option value="all">All positions</option>${values("position").map(value => `<option value="${recruitingUiText(value)}"${selected(value, result.filters.position)}>${recruitingUiText(value)}</option>`).join("")}</select></label>
       <label><span>Stars</span><select id="nationalRecruitStars"><option value="all">All stars</option>${values("stars").map(value => `<option value="${recruitingUiText(value)}"${selected(value, result.filters.stars)}>${nationalRecruitOption(value)}</option>`).join("")}</select></label>
       <label><span>State</span><select id="nationalRecruitState"><option value="all">All states</option>${values("homeState").map(value => `<option value="${recruitingUiText(value)}"${selected(value, result.filters.state)}>${recruitingUiText(value)}</option>`).join("")}</select></label>
       <label><span>Rutgers targeted</span><select id="nationalRecruitTargeted"><option value="all"${selected("all", result.filters.targeted)}>All</option><option value="rutgers"${selected("rutgers", result.filters.targeted)}>On Rutgers Board</option><option value="not-rutgers"${selected("not-rutgers", result.filters.targeted)}>Not on Rutgers Board</option></select></label>
@@ -4524,7 +4596,7 @@ function nationalRecruitingDatabase(payload, filters = nationalRecruitingFilters
       <button type="button" class="national-apply" onclick="applyNationalRecruitingFilters()">Apply</button>
     </div>
     <p class="national-active-filters"><strong>Active filters:</strong> ${active.length ? active.map(recruitingUiText).join(" · ") : "None"}</p>
-    <div class="national-recruit-list">${result.rows.length ? result.rows.map(nationalRecruitCard).join("") : `<div class="empty-state"><strong>No recruits match these filters.</strong><p>Clear filters to return to the complete national class.</p></div>`}</div>
+    <div class="national-recruit-list compact-list">${result.rows.length ? result.rows.map(nationalRecruitCard).join("") : `<div class="empty-state"><strong>No prospects match these filters.</strong><p>Clear filters to return to the complete national class.</p></div>`}</div>
     <nav class="national-recruit-pagination" aria-label="National recruit pages"><button type="button" ${result.page <= 1 ? "disabled" : ""} onclick="changeNationalRecruitPage(${result.page - 1})">Previous</button><span>Page ${result.page} of ${result.pageCount}</span><button type="button" ${result.page >= result.pageCount ? "disabled" : ""} onclick="changeNationalRecruitPage(${result.page + 1})">Next</button></nav>
   </section>`;
 }
@@ -4542,8 +4614,72 @@ function normalizedRecruitingCollection(payload, mode = "board") {
     <section class="normalized-recruiting-collection" data-recruiting-mode="${selected}"><h3>${labels[selected]}</h3>${rows.length ? `<div class="normalized-recruit-list">${rows.map(row => normalizedRecruitingRow(row, selected)).join("")}</div>` : `<div class="empty-state normalized-recruiting-empty" data-recruiting-empty="${selected}"><strong>${empty}</strong><p>This view reflects verified team-board ownership only.</p></div>`}</section>`;
 }
 
+function myBoardRecruitingList(payload, group = myBoardPositionGroup) {
+  const rows = payload.recruitingBoard.filter(entry => recruitMatchesPositionGroup(entry, group));
+  return `<section class="recruit-board-workspace" data-recruiting-board="my" data-board-count="${payload.recruitingBoard.length}">
+    <div class="team-roster-header"><span>Rutgers Recruiting</span><strong>My Board</strong><em>${rows.length} of ${payload.recruitingBoard.length} prospects</em></div>
+    ${recruitingPositionTabs(group, "setMyBoardPositionGroup")}
+    <div class="compact-list recruit-compact-list">${rows.length ? rows.map(entry => recruitCompactRow(entry, "my")).join("") : `<div class="empty-state"><strong>${payload.recruitingBoard.length ? `No ${recruitingUiText(group)} prospects on My Board.` : "No recruits are currently on the Rutgers recruiting board."}</strong><p>Choose another position group.</p></div>`}</div>
+  </section>`;
+}
+
+function normalizedRecruitById(payload, recruitId) {
+  const key = String(recruitId);
+  const national = payload.nationalRecruiting.find(entry => String(entry.recruitId) === key);
+  if (!national) return null;
+  const board = payload.recruitingBoard.find(entry => String(entry.recruitId) === key);
+  return { ...national, ...(board || {}), rutgersTargeted: Boolean(board), boardEntry: board || null };
+}
+
+function recruitFact(label, value, fallback = "N/A") {
+  return `<span><small>${recruitingUiText(label)}</small><strong>${recruitingUiText(value, fallback)}</strong></span>`;
+}
+
+function recruitVisitLabel(entry) {
+  if (!entry || !entry.scheduledVisit || typeof entry.scheduledVisit !== "object") return "None scheduled";
+  return [entry.scheduledVisit.weekType, entry.scheduledVisit.week == null ? null : `Week ${entry.scheduledVisit.week}`, entry.scheduledVisit.activity]
+    .filter(Boolean).map(value => recruitingUiText(value)).join(" · ") || "None scheduled";
+}
+
+function recruitPitchLabel(entry) {
+  return Array.isArray(entry && entry.activePitches) && entry.activePitches.length
+    ? entry.activePitches.map(row => `${recruitingUiText(row.pitch)} (${recruitingUiText(row.intensity)})`).join(", ")
+    : "None active";
+}
+
+function normalizedRecruitDetailHtml(payload, recruitId, context = "my") {
+  const entry = normalizedRecruitById(payload, recruitId);
+  if (!entry) return normalizedRecruitingUnavailableHtml("The selected prospect could not be resolved by recruit ID.");
+  const board = entry.boardEntry;
+  const scouting = recruitScoutingPresentation(entry);
+  const overall = recruitOverallDisplay(entry);
+  const ratings = recruitRatingVisibility(entry);
+  const backView = context === "national" ? "national" : "my";
+  return `<section class="recruit-detail-page" data-recruit-detail-id="${recruitingUiText(entry.recruitId)}" data-recruit-detail-context="${backView}">
+    <button class="back-button" type="button" onclick="closeNormalizedRecruitDetail('${backView}')">Back</button>
+    <header class="sports-profile-hero recruit-profile-hero">
+      <div><span>${backView === "my" ? "My Board Prospect" : "National Prospect"}</span><h2>${recruitingUiText(entry.fullName)}</h2><p>${recruitingUiText(entry.position)} · ${recruitStarLabel(entry.stars)}${overall == null ? "" : ` · ${overall} OVR`}</p></div>
+      ${board ? `<b class="team-pill">On My Board</b>` : ""}
+    </header>
+    <section class="recruit-detail-section"><h3>Biography</h3><div class="recruit-detail-grid">
+      ${recruitFact("Height", entry.height)}${recruitFact("Weight", entry.weight)}${recruitFact("Hometown", entry.hometown)}${recruitFact("State", entry.homeState)}
+      ${recruitFact("Archetype", entry.archetype)}${recruitFact("National rank", entry.nationalRank)}${recruitFact("Position rank", entry.positionRank)}${recruitFact("State rank", entry.stateRank)}
+    </div></section>
+    <section class="recruit-detail-section"><h3>Recruiting Identity</h3><div class="recruit-detail-grid">
+      ${recruitFact("Rutgers Board", board ? "Yes" : "No")}
+      ${board ? `${recruitFact("Board slot", entry.boardSlot)}${recruitFact("Board order", Number(entry.boardOrder) + 1)}${recruitFact("Assigned hours", entry.allocatedRecruitingHours, "0")}${recruitFact("Scholarship", entry.scholarshipStatus)}${recruitFact("Weekly change", entry.prospectInfluenceDelta)}${recruitFact("Visit", recruitVisitLabel(entry))}${recruitFact("Pitch", recruitPitchLabel(entry))}` : ""}
+      ${recruitFact("Scouted", scouting.status)}${recruitFact("Scouting", scouting.percentage)}
+      ${recruitFact("Commitment ownership", "Unresolved")}${recruitFact("Signing ownership", "Unresolved")}
+    </div></section>
+    <section class="recruit-detail-section"><h3>Ratings</h3><p class="source-note">Only explicitly revealed ratings are numeric. Hidden, raw-only, unsupported, and unresolved ratings remain N/A.</p>
+      <div class="recruit-ratings-grid">${ratings.map(row => `<span data-rating-key="${recruitingUiText(row.key)}" data-rating-visibility="${row.status}"><small>${recruitingUiText(row.label)}</small><strong>${recruitingUiText(row.value, "N/A")}</strong></span>`).join("")}</div>
+    </section>
+  </section>`;
+}
+
 function normalizedRecruitingHtml(payload, mode = "board", view = "board") {
   const summary = payload.recruitingSummary;
+  const selectedView = view === "national" ? "national" : view === "my" ? "my" : "my";
   return `<div class="normalized-recruiting-view" data-recruiting-schema="${NORMALIZED_RECRUITING_SCHEMA}">
     <div class="section-heading"><p>Rutgers Football</p><strong>Recruiting</strong></div>
     <section class="normalized-recruiting-summary" aria-label="Rutgers recruiting summary">
@@ -4555,8 +4691,8 @@ function normalizedRecruitingHtml(payload, mode = "board", view = "board") {
       ${recruitingMetric("Active Pitches", summary.pitchCount)}
       ${recruitingMetric("Visits", summary.visitCount)}
     </section>
-    <div class="segmented compact-tabs recruiting-database-tabs" role="tablist" aria-label="Recruiting databases"><button type="button" class="${view === "board" ? "active" : ""}" onclick="renderNormalizedRecruitingView('board')">Rutgers Board</button><button type="button" class="${view === "national" ? "active" : ""}" onclick="renderNormalizedRecruitingView('national')">National Recruit Database</button></div>
-    ${view === "national" ? nationalRecruitingDatabase(payload) : normalizedRecruitingCollection(payload, mode)}
+    <div class="segmented compact-tabs recruiting-database-tabs" role="tablist" aria-label="Recruiting boards"><button type="button" class="${selectedView === "my" ? "active" : ""}" onclick="renderNormalizedRecruitingView('my')">My Board</button><button type="button" class="${selectedView === "national" ? "active" : ""}" onclick="renderNormalizedRecruitingView('national')">National Board</button></div>
+    ${selectedView === "national" ? nationalRecruitingDatabase(payload) : myBoardRecruitingList(payload)}
   </div>`;
 }
 
@@ -4571,17 +4707,30 @@ function renderNormalizedRecruitingMode(mode = "board") {
   target.innerHTML = state.ok ? normalizedRecruitingHtml(state.payload, mode) : normalizedRecruitingUnavailableHtml(state.reason);
 }
 
-function renderNormalizedRecruitingView(view = "board") {
+function renderNormalizedRecruitingView(view = "my") {
   const target = $("recruiting");
   if (!target) return;
   const state = normalizedRecruitingState();
-  target.innerHTML = state.ok ? normalizedRecruitingHtml(state.payload, "board", view === "national" ? "national" : "board") : normalizedRecruitingUnavailableHtml(state.reason);
+  normalizedRecruitingView = view === "national" ? "national" : "my";
+  target.innerHTML = state.ok ? normalizedRecruitingHtml(state.payload, "board", normalizedRecruitingView) : normalizedRecruitingUnavailableHtml(state.reason);
+}
+
+function setMyBoardPositionGroup(group = "All") {
+  if (!RECRUIT_POSITION_GROUPS.includes(group)) return;
+  myBoardPositionGroup = group;
+  renderNormalizedRecruitingView("my");
+}
+
+function setNationalRecruitingPositionGroup(group = "All") {
+  if (!RECRUIT_POSITION_GROUPS.includes(group)) return;
+  nationalRecruitingFilters = { ...nationalRecruitingFilters, position: group, page: 1 };
+  renderNormalizedRecruitingView("national");
 }
 
 function applyNationalRecruitingFilters() {
   nationalRecruitingFilters = {
     search: $("nationalRecruitSearch")?.value || "",
-    position: $("nationalRecruitPosition")?.value || "all",
+    position: nationalRecruitingFilters.position || "All",
     stars: $("nationalRecruitStars")?.value || "all",
     state: $("nationalRecruitState")?.value || "all",
     targeted: $("nationalRecruitTargeted")?.value || "all",
@@ -4599,6 +4748,25 @@ function resetNationalRecruitingFilters() {
 function changeNationalRecruitPage(page) {
   nationalRecruitingFilters = { ...nationalRecruitingFilters, page };
   renderNormalizedRecruitingView("national");
+}
+
+function showNormalizedRecruitDetail(recruitId, context = "my") {
+  const target = $("recruiting");
+  if (!target) return;
+  const state = normalizedRecruitingState();
+  if (!state.ok) {
+    target.innerHTML = normalizedRecruitingUnavailableHtml(state.reason);
+    return;
+  }
+  recruitingReturnScroll = typeof window !== "undefined" ? window.scrollY : 0;
+  normalizedRecruitingView = context === "national" ? "national" : "my";
+  target.innerHTML = normalizedRecruitDetailHtml(state.payload, recruitId, normalizedRecruitingView);
+  if (typeof window !== "undefined") window.scrollTo(0, 0);
+}
+
+function closeNormalizedRecruitDetail(context = normalizedRecruitingView) {
+  renderNormalizedRecruitingView(context);
+  if (typeof window !== "undefined") setTimeout(() => window.scrollTo(0, recruitingReturnScroll), 0);
 }
 
 function renderRecruiting() {
@@ -5304,6 +5472,15 @@ if (typeof module !== "undefined") {
     nationalRecruitingDatabase,
     nationalRecruitCard,
     NATIONAL_RECRUIT_PAGE_SIZE,
+    RECRUIT_POSITION_GROUPS,
+    recruitPositionGroup,
+    recruitMatchesPositionGroup,
+    recruitRatingVisibility,
+    recruitOverallDisplay,
+    recruitCompactRow,
+    myBoardRecruitingList,
+    normalizedRecruitById,
+    normalizedRecruitDetailHtml,
     normalizedRecruitingCollection,
     normalizedRecruitingHtml,
     normalizedRecruitingUnavailableHtml,

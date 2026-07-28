@@ -12,7 +12,15 @@ const {
   validateNormalizedRecruitingPayload,
   nationalRecruitingQuery,
   nationalRecruitingDatabase,
-  NATIONAL_RECRUIT_PAGE_SIZE
+  NATIONAL_RECRUIT_PAGE_SIZE,
+  recruitPositionGroup,
+  recruitMatchesPositionGroup,
+  recruitRatingVisibility,
+  recruitOverallDisplay,
+  recruitCompactRow,
+  myBoardRecruitingList,
+  normalizedRecruitById,
+  normalizedRecruitDetailHtml
 } = require("../app");
 
 function entry(overrides = {}) {
@@ -104,12 +112,14 @@ test("renders populated board fields in stable stored order", () => {
   const board = [entry(), entry({ recruitId: 10, fullName: "Taylor Knight", boardOrder: 1, boardSlot: 11 })];
   const html = normalizedRecruitingHtml(payload(board));
   assert.ok(html.indexOf("Sam Scarlet") < html.indexOf("Taylor Knight"));
-  for (const value of ["Field General", "Piscataway, New Jersey", "Slot 4", "Commitment ownership: Unresolved", "Signing ownership: Unresolved"]) assert.match(html, new RegExp(value));
+  for (const value of ["Slot 4", "My Board", "Scouted: Unresolved"]) assert.match(html, new RegExp(value));
+  const detail = normalizedRecruitDetailHtml(payload(board), 9, "my");
+  for (const value of ["Field General", "Piscataway", "Commitment ownership", "Signing ownership"]) assert.match(detail, new RegExp(value));
 });
 
-test("renders null fields as unknown without inventing commitment state", () => {
-  const html = normalizedRecruitingHtml(payload([entry()]));
-  assert.match(html, /Unknown/);
+test("renders null fields as N/A without inventing commitment state", () => {
+  const html = normalizedRecruitDetailHtml(payload([entry()]), 9, "my");
+  assert.match(html, /N\/A/);
   assert.doesNotMatch(html, /\bUncommitted\b/i);
   assert.doesNotMatch(html, /Committed:/i);
 });
@@ -183,7 +193,7 @@ test("paginates national recruits at stable boundaries and supports reset defaul
   assert.equal(first.rows.length, NATIONAL_RECRUIT_PAGE_SIZE);
   assert.equal(second.rows.length, 1);
   assert.equal(second.rows[0].recruitId, NATIONAL_RECRUIT_PAGE_SIZE + 1);
-  assert.match(nationalRecruitingDatabase(data, { search: "missing" }), /No recruits match these filters/);
+  assert.match(nationalRecruitingDatabase(data, { search: "missing" }), /No prospects match these filters/);
   assert.match(nationalRecruitingDatabase(data), /Active filters:<\/strong> None/);
 });
 
@@ -194,9 +204,9 @@ test("renders only each recruit's own visit and safely labels no visit", () => {
     scheduledVisit: { week: 3, weekType: "RegularSeason", activity: "FamilyVisit" }
   });
   const second = entry({ recruitId: 2, fullName: "Lee Barrett", boardOrder: 1, boardSlot: 8, scheduledVisit: null });
-  const html = normalizedRecruitingHtml(payload([first, second]));
-  const gerald = html.match(/data-recruit-id="1"[\s\S]*?<\/article>/)[0];
-  const lee = html.match(/data-recruit-id="2"[\s\S]*?<\/article>/)[0];
+  const data = payload([first, second]);
+  const gerald = normalizedRecruitDetailHtml(data, 1, "my");
+  const lee = normalizedRecruitDetailHtml(data, 2, "my");
   assert.match(gerald, /Week 3/);
   assert.match(gerald, /FamilyVisit/);
   assert.doesNotMatch(lee, /Week 3|FamilyVisit/);
@@ -204,12 +214,95 @@ test("renders only each recruit's own visit and safely labels no visit", () => {
 });
 
 test("renders verified, explicit negative, and unresolved scouting states", () => {
-  const html = normalizedRecruitingHtml(payload([
+  const data = payload([
     entry({ recruitId: 1, scoutedStatus: "yes", scoutingPercentage: null }),
     entry({ recruitId: 2, boardOrder: 1, scoutedStatus: "no", scoutingPercentage: null }),
     entry({ recruitId: 3, boardOrder: 2, scoutedStatus: "unresolved", scoutingPercentage: null })
-  ]));
-  assert.match(html.match(/data-recruit-id="1"[\s\S]*?<\/article>/)[0], /<small>Scouted<\/small>Yes[\s\S]*Percentage unavailable/);
-  assert.match(html.match(/data-recruit-id="2"[\s\S]*?<\/article>/)[0], /<small>Scouted<\/small>No/);
-  assert.match(html.match(/data-recruit-id="3"[\s\S]*?<\/article>/)[0], /<small>Scouted<\/small>Unresolved/);
+  ]);
+  assert.match(normalizedRecruitDetailHtml(data, 1, "my"), /<small>Scouted<\/small><strong>Yes[\s\S]*Percentage unavailable/);
+  assert.match(normalizedRecruitDetailHtml(data, 2, "my"), /<small>Scouted<\/small><strong>No/);
+  assert.match(normalizedRecruitDetailHtml(data, 3, "my"), /<small>Scouted<\/small><strong>Unresolved/);
+});
+
+test("keeps My Board and National Board separate with shared recruit identity", () => {
+  const board = [entry({ recruitId: 824, fullName: "Michael Jackson", allocatedRecruitingHours: 50 })];
+  const data = payload(board);
+  data.nationalRecruiting.push({
+    recruitId: 99, fullName: "National Only", position: "LT", stars: "THREE_STAR",
+    nationalRank: 200, positionRank: 20, stateRank: 8, homeState: "Ohio",
+    rutgersTargeted: false, rutgersBoardOrder: null
+  });
+  const my = normalizedRecruitingHtml(data, "board", "my");
+  const national = normalizedRecruitingHtml(data, "board", "national");
+  assert.match(my, />My Board</);
+  assert.doesNotMatch(my, /National Only/);
+  assert.match(national, />National Board</);
+  assert.match(national, /Michael Jackson/);
+  assert.match(national, /National Only/);
+  assert.equal(normalizedRecruitById(data, 824).recruitId, 824);
+  assert.equal(normalizedRecruitById(data, 99).rutgersTargeted, false);
+  assert.equal(data.recruitingBoard[0].allocatedRecruitingHours, 50);
+});
+
+test("maps exact positions into roster-style recruiting groups", () => {
+  const cases = {
+    QB: ["QB"], RB: ["HB", "RB", "FB"], WR: ["WR"], TE: ["TE"],
+    OL: ["LT", "LG", "C", "RG", "RT"], DL: ["LE", "RE", "DE", "DT"],
+    LB: ["LOLB", "ROLB", "MLB", "OLB", "ILB", "LB"],
+    DB: ["CB", "FS", "SS", "DB"], ATH: ["ATH"], "K/P": ["K", "P"]
+  };
+  for (const [group, positions] of Object.entries(cases)) {
+    for (const position of positions) {
+      assert.equal(recruitPositionGroup(position), group);
+      assert.equal(recruitMatchesPositionGroup({ position }, group), true);
+    }
+  }
+  assert.equal(recruitMatchesPositionGroup({ position: "LT" }, "DL"), false);
+});
+
+test("compact rows use recruit ID and never board slot as identity", () => {
+  const row = recruitCompactRow(entry({ recruitId: 824, boardSlot: 2, position: "QB" }), "my");
+  assert.match(row, /data-recruit-id="824"/);
+  assert.match(row, /showNormalizedRecruitDetail\('824','my'\)/);
+  assert.doesNotMatch(row, /showNormalizedRecruitDetail\('2'/);
+});
+
+test("national-only detail never inherits Rutgers recruiting actions", () => {
+  const data = payload([entry({ recruitId: 1, allocatedRecruitingHours: 50, scholarshipStatus: "Offered" })]);
+  data.nationalRecruiting.push({
+    recruitId: 2, fullName: "National Only", position: "CB", stars: "FOUR_STAR",
+    nationalRank: 10, positionRank: 2, stateRank: 1, homeState: "Texas",
+    allocatedRecruitingHours: 99, scholarshipStatus: "Offered", scheduledVisit: { week: 2 }
+  });
+  const detail = normalizedRecruitDetailHtml(data, 2, "national");
+  assert.match(detail, /Rutgers Board<\/small><strong>No/);
+  assert.doesNotMatch(detail, /Assigned hours|Board slot|Scholarship|Visit<\/small>|Pitch<\/small>|Weekly change/);
+});
+
+test("ratings reveal only explicit validated values and otherwise render N/A", () => {
+  const rawOnly = recruitRatingVisibility({ ratings: { speed: 94, awareness: 0 } });
+  assert.deepEqual(rawOnly.map(row => row.value), ["N/A", "N/A"]);
+  const partial = recruitRatingVisibility({
+    ratings: { speed: 94, awareness: 80, strength: 75 },
+    revealedRatings: { speed: 94 }
+  });
+  assert.equal(partial.find(row => row.key === "speed").value, 94);
+  assert.equal(partial.find(row => row.key === "awareness").value, "N/A");
+  assert.equal(partial.find(row => row.key === "strength").value, "N/A");
+  assert.equal(recruitOverallDisplay({ overall: 99 }), null);
+  assert.equal(recruitOverallDisplay({ validatedOverall: 82 }), 82);
+});
+
+test("My Board position groups preserve source order without mutation", () => {
+  const board = [
+    entry({ recruitId: 1, position: "LT", boardOrder: 0 }),
+    entry({ recruitId: 2, position: "QB", boardOrder: 1 }),
+    entry({ recruitId: 3, position: "RT", boardOrder: 2 })
+  ];
+  const data = payload(board);
+  const before = JSON.stringify(data);
+  const html = myBoardRecruitingList(data, "OL");
+  assert.ok(html.indexOf('data-recruit-id="1"') < html.indexOf('data-recruit-id="3"'));
+  assert.doesNotMatch(html, /data-recruit-id="2"/);
+  assert.equal(JSON.stringify(data), before);
 });

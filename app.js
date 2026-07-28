@@ -4417,9 +4417,13 @@ function normalizedRecruitingRow(entry, mode) {
   const pitches = Array.isArray(entry.activePitches) && entry.activePitches.length
     ? entry.activePitches.map(row => `${recruitingUiText(row.pitch)} (${recruitingUiText(row.intensity)})`).join(", ")
     : "Unknown";
+  const scouted = entry.scoutedStatus === "yes" ? "Yes" : entry.scoutedStatus === "no" ? "No" : "Unresolved";
+  const scouting = entry.scoutedStatus === "yes" && entry.scoutingPercentage == null
+    ? "Percentage unavailable"
+    : entry.scoutingPercentage == null ? "Unavailable" : `${recruitingUiText(entry.scoutingPercentage)}%`;
   const visit = entry.scheduledVisit && typeof entry.scheduledVisit === "object"
     ? [entry.scheduledVisit.weekType, entry.scheduledVisit.week == null ? null : `Week ${entry.scheduledVisit.week}`, entry.scheduledVisit.activity].filter(Boolean).map(value => recruitingUiText(value)).join(" · ")
-    : "Unknown";
+    : "None scheduled";
   const stars = recruitingUiText(entry.stars);
   return `<article class="normalized-recruit-card" data-recruit-id="${recruitingUiText(entry.recruitId)}" data-board-order="${recruitingUiText(entry.boardOrder)}" data-recruit-mode="${recruitingUiText(mode)}">
     <header><span class="rank-dot">${entry.boardOrder == null ? "?" : Number(entry.boardOrder) + 1}</span><div><strong>${recruitingUiText(entry.fullName)}</strong><em>${recruitingUiText(entry.position)} · ${stars}${entry.overall == null ? "" : ` · OVR ${recruitingUiText(entry.overall)}`}</em></div><b>Slot ${recruitingUiText(entry.boardSlot)}</b></header>
@@ -4431,7 +4435,8 @@ function normalizedRecruitingRow(entry, mode) {
       <span><small>National rank</small>${recruitingUiText(entry.nationalRank)}</span>
       <span><small>Position rank</small>${recruitingUiText(entry.positionRank)}</span>
       <span><small>State rank</small>${recruitingUiText(entry.stateRank)}</span>
-      <span><small>Scouting</small>${entry.scoutingPercentage == null ? "Unknown" : `${recruitingUiText(entry.scoutingPercentage)}%`}</span>
+      <span><small>Scouted</small>${scouted}</span>
+      <span><small>Scouting</small>${scouting}</span>
       <span><small>Influence</small>${recruitingUiText(entry.prospectInfluenceTotal)}</span>
       <span><small>Weekly change</small>${recruitingUiText(entry.prospectInfluenceDelta)}</span>
     </div>

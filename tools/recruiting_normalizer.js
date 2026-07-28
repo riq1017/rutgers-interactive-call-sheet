@@ -59,8 +59,25 @@ function normalizeRecruit(recruit) {
   };
 }
 
+function normalizeScoutingState(pursuit) {
+  const percentage = typeof pursuit.scoutingPercentage === "number" &&
+    Number.isFinite(pursuit.scoutingPercentage) &&
+    pursuit.scoutingPercentage >= 0 &&
+    pursuit.scoutingPercentage <= 100
+    ? pursuit.scoutingPercentage
+    : null;
+  if (percentage !== null || pursuit.scoutingActivityVerified === true || pursuit.scoutingState === "scouted") {
+    return { scoutedStatus: "yes", scoutingPercentage: percentage };
+  }
+  if (pursuit.scoutingState === "not-scouted") {
+    return { scoutedStatus: "no", scoutingPercentage: null };
+  }
+  return { scoutedStatus: "unresolved", scoutingPercentage: null };
+}
+
 function normalizeBoardEntry(pursuit, recruit) {
   const identity = normalizeRecruit(recruit);
+  const scouting = normalizeScoutingState(pursuit);
   return {
     ...identity,
     boardSlot: known(pursuit.boardSlot),
@@ -80,7 +97,12 @@ function normalizeBoardEntry(pursuit, recruit) {
     prospectInfluenceTotal: known(pursuit.prospectInfluenceTotal),
     prospectInfluenceDelta: known(pursuit.prospectInfluenceDelta),
     unlockedIntelBitfield: known(pursuit.unlockedIntelBitfield),
-    scoutingPercentage: null,
+    scoutingActivityVerified: pursuit.scoutingActivityVerified === true,
+    scoutedStatus: scouting.scoutedStatus,
+    scoutingPercentage: scouting.scoutingPercentage,
+    scoutingProvenance: scouting.scoutedStatus === "yes"
+      ? (scouting.scoutingPercentage === null ? "recruit-specific SCOUTING action feedback" : "validated recruit-specific percentage")
+      : scouting.scoutedStatus === "no" ? "explicit recruit-specific not-scouted state" : "source does not establish scouting state",
     schoolInterest: normalizeInterest(pursuit.schoolInterest || recruit.schoolInterest),
     committedTeamId: null,
     signedTeamId: null,
@@ -222,5 +244,6 @@ module.exports = {
   hasVisit,
   normalizeBoardEntry,
   normalizeRecruit,
+  normalizeScoutingState,
   normalizeRecruiting
 };

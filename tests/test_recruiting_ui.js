@@ -186,3 +186,30 @@ test("paginates national recruits at stable boundaries and supports reset defaul
   assert.match(nationalRecruitingDatabase(data, { search: "missing" }), /No recruits match these filters/);
   assert.match(nationalRecruitingDatabase(data), /Active filters:<\/strong> None/);
 });
+
+test("renders only each recruit's own visit and safely labels no visit", () => {
+  const first = entry({
+    recruitId: 1,
+    fullName: "Gerald Blecher",
+    scheduledVisit: { week: 3, weekType: "RegularSeason", activity: "FamilyVisit" }
+  });
+  const second = entry({ recruitId: 2, fullName: "Lee Barrett", boardOrder: 1, boardSlot: 8, scheduledVisit: null });
+  const html = normalizedRecruitingHtml(payload([first, second]));
+  const gerald = html.match(/data-recruit-id="1"[\s\S]*?<\/article>/)[0];
+  const lee = html.match(/data-recruit-id="2"[\s\S]*?<\/article>/)[0];
+  assert.match(gerald, /Week 3/);
+  assert.match(gerald, /FamilyVisit/);
+  assert.doesNotMatch(lee, /Week 3|FamilyVisit/);
+  assert.match(lee, /None scheduled/);
+});
+
+test("renders verified, explicit negative, and unresolved scouting states", () => {
+  const html = normalizedRecruitingHtml(payload([
+    entry({ recruitId: 1, scoutedStatus: "yes", scoutingPercentage: null }),
+    entry({ recruitId: 2, boardOrder: 1, scoutedStatus: "no", scoutingPercentage: null }),
+    entry({ recruitId: 3, boardOrder: 2, scoutedStatus: "unresolved", scoutingPercentage: null })
+  ]));
+  assert.match(html.match(/data-recruit-id="1"[\s\S]*?<\/article>/)[0], /<small>Scouted<\/small>Yes[\s\S]*Percentage unavailable/);
+  assert.match(html.match(/data-recruit-id="2"[\s\S]*?<\/article>/)[0], /<small>Scouted<\/small>No/);
+  assert.match(html.match(/data-recruit-id="3"[\s\S]*?<\/article>/)[0], /<small>Scouted<\/small>Unresolved/);
+});

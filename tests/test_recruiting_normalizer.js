@@ -175,3 +175,49 @@ test("is idempotent and produces stable ordering", () => {
   assert.deepEqual(second, first);
   assert.deepEqual(first.nationalRecruiting.map(row => row.recruitId), [1, 2, 3]);
 });
+
+test("keeps recruit-specific visits attached by recruit ID across slots and board order", () => {
+  const rows = [
+    pursuit(78, 1, 0, 9, { scheduledVisit: { week: 3, weekType: "RegularSeason", activity: "FamilyVisit" } }),
+    pursuit(78, 2, 1, 2, { scheduledVisit: { week: 7, weekType: "RegularSeason", activity: "AttendGame" } }),
+    pursuit(78, 3, 2, 0, { scheduledVisit: null })
+  ];
+  const first = normalizeRecruiting(fixture(rows));
+  const moved = normalizeRecruiting(fixture([
+    { ...rows[0], boardSlot: 1 },
+    { ...rows[1], boardSlot: 8 },
+    rows[2]
+  ]));
+  assert.deepEqual(first.recruitingVisits.map(row => [row.recruitId, row.scheduledVisit.week, row.scheduledVisit.activity]), [
+    [1, 3, "FamilyVisit"],
+    [2, 7, "AttendGame"]
+  ]);
+  assert.equal(first.recruitingBoard.find(row => row.recruitId === 3).scheduledVisit, null);
+  assert.deepEqual(moved.recruitingVisits.map(row => [row.recruitId, row.scheduledVisit]), first.recruitingVisits.map(row => [row.recruitId, row.scheduledVisit]));
+});
+
+test("preserves verified scouting activity without inventing a percentage", () => {
+  const result = normalizeRecruiting(fixture([
+    pursuit(78, 1, 0, 0, { scoutingActivityVerified: true }),
+    pursuit(78, 2, 1, 1, { scoutingState: "not-scouted" }),
+    pursuit(78, 3, 2, 2)
+  ]));
+  const byId = new Map(result.recruitingBoard.map(row => [row.recruitId, row]));
+  assert.equal(byId.get(1).scoutedStatus, "yes");
+  assert.equal(byId.get(1).scoutingPercentage, null);
+  assert.match(byId.get(1).scoutingProvenance, /SCOUTING action/);
+  assert.equal(byId.get(2).scoutedStatus, "no");
+  assert.equal(byId.get(3).scoutedStatus, "unresolved");
+  assert.equal(byId.get(3).scoutingPercentage, null);
+});
+
+test("accepts only validated scouting percentages", () => {
+  const result = normalizeRecruiting(fixture([
+    pursuit(78, 1, 0, 0, { scoutingPercentage: 100 }),
+    pursuit(78, 2, 1, 1, { scoutingPercentage: 999 })
+  ]));
+  assert.equal(result.recruitingBoard[0].scoutedStatus, "yes");
+  assert.equal(result.recruitingBoard[0].scoutingPercentage, 100);
+  assert.equal(result.recruitingBoard[1].scoutedStatus, "unresolved");
+  assert.equal(result.recruitingBoard[1].scoutingPercentage, null);
+});

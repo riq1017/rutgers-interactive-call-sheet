@@ -169,25 +169,26 @@ async function inspectNormalizedRecruiting(page, wanted) {
       node.querySelector("span")?.textContent?.trim() || "",
       node.querySelector("strong")?.textContent?.trim() || ""
     ]));
-    const modes = {};
-    for (const mode of ["board", "offers", "visits", "pitches"]) {
-      if (typeof globalThis.renderNormalizedRecruitingMode === "function") globalThis.renderNormalizedRecruitingMode(mode);
-      modes[mode] = {
-        selected: document.querySelector("[data-recruiting-mode]")?.dataset.recruitingMode || null,
-        rows: document.querySelectorAll("[data-recruit-id]").length,
-        empty: document.querySelector(`[data-recruiting-empty="${mode}"]`)?.textContent?.trim() || ""
-      };
-    }
-    if (typeof globalThis.renderNormalizedRecruitingMode === "function") globalThis.renderNormalizedRecruitingMode("board");
+    const myRows = document.querySelectorAll("[data-recruit-context='my']").length;
+    const myBoardCount = Number(document.querySelector("[data-recruiting-board='my']")?.dataset.boardCount || 0);
+    const michael = [...document.querySelectorAll("[data-recruit-context='my']")].find(node => node.textContent.includes("Michael Jackson"));
+    michael?.click();
+    const detail = {
+      id: document.querySelector("[data-recruit-detail-id]")?.dataset.recruitDetailId || null,
+      context: document.querySelector("[data-recruit-detail-context]")?.dataset.recruitDetailContext || null,
+      text: document.querySelector("[data-recruit-detail-id]")?.innerText || "",
+      hiddenRatings: document.querySelectorAll("[data-rating-visibility]:not([data-rating-visibility='revealed']) strong").length
+    };
+    if (typeof globalThis.closeNormalizedRecruitDetail === "function") globalThis.closeNormalizedRecruitDetail("my");
     const panel = document.getElementById("recruiting");
     return {
       schema: root?.dataset.recruitingSchema || null,
       metrics,
       text: panel?.innerText || "",
-      empty: document.querySelector("[data-recruiting-empty='board']")?.innerText || "",
-      rows: document.querySelectorAll("[data-recruit-id]").length,
-      tabs: [...document.querySelectorAll("[data-normalized-recruit-tab]")].map(node => node.dataset.normalizedRecruitTab),
-      modes,
+      rows: myRows,
+      myBoardCount,
+      detail,
+      tabs: [...document.querySelectorAll(".recruiting-database-tabs button")].map(node => node.textContent.trim()),
       panelWidth: panel?.scrollWidth || 0,
       viewport: innerWidth
     };
@@ -204,12 +205,15 @@ async function inspectNormalizedRecruiting(page, wanted) {
     "Visits": summary.visitCount
   };
   for (const [label, value] of Object.entries(metrics)) assert(proof.metrics[label] === String(value), `Recruiting summary mismatch for ${label}`);
-  assert(JSON.stringify(proof.tabs) === JSON.stringify(["board", "offers", "visits", "pitches"]), "Recruiting view tabs are incomplete or unstable");
-  for (const mode of ["board", "offers", "visits", "pitches"]) assert(proof.modes[mode].selected === mode, `Recruiting ${mode} view did not activate`);
+  assert(JSON.stringify(proof.tabs) === JSON.stringify(["My Board", "National Board"]), "Recruiting board tabs are incomplete or unstable");
+  assert(proof.myBoardCount === Number(summary.boardCount) && proof.rows === Number(summary.boardCount), "My Board count or compact rows did not reconcile");
+  if (Number(summary.boardCount) > 0) {
+    assert(proof.detail.id === "824" && proof.detail.context === "my", "Michael Jackson detail did not resolve by recruit ID from My Board");
+    assert(proof.detail.text.includes("Assigned hours") && proof.detail.text.includes("50"), "My Board detail lost Michael Jackson's recruiting hours");
+    assert(proof.detail.hiddenRatings > 0 && proof.detail.text.includes("N/A"), "Unrevealed ratings were not safely masked");
+  }
   if (expectedRecruiting.empty_board_message) {
-    assert(proof.empty.includes(expectedRecruiting.empty_board_message), "Rutgers empty-board state did not render");
     assert(proof.rows === 0, "Rutgers empty board rendered fabricated recruit rows");
-    for (const mode of ["board", "offers", "visits", "pitches"]) assert(proof.modes[mode].rows === 0 && proof.modes[mode].empty, `Recruiting ${mode} empty state failed`);
   }
   assert(!/\bUncommitted\b/i.test(proof.text), "Recruiting UI inferred an uncommitted state");
   assert(proof.panelWidth <= proof.viewport + 1, "Recruiting panel has horizontal overflow");
@@ -220,8 +224,8 @@ async function inspectNormalizedRecruiting(page, wanted) {
       return {
         source: Number(root?.dataset.nationalSourceCount),
         results: Number(root?.dataset.nationalResultCount),
-        rows: document.querySelectorAll("[data-national-recruit-id]").length,
-        michael: [...document.querySelectorAll("[data-national-recruit-id]")].find(node => node.textContent.includes("Michael Jackson"))?.dataset.rutgersTargeted || null,
+        rows: document.querySelectorAll("[data-recruit-context='national']").length,
+        michael: [...document.querySelectorAll("[data-recruit-context='national']")].find(node => node.textContent.includes("Michael Jackson"))?.dataset.rutgersTargeted || null,
         width: document.getElementById("recruiting")?.scrollWidth || 0,
         viewport: innerWidth
       };
@@ -238,8 +242,11 @@ async function inspectNormalizedRecruiting(page, wanted) {
     document.getElementById("nationalRecruitTargeted").value = "not-rutgers";
     globalThis.applyNationalRecruitingFilters();
     const nonRutgers = read();
+    const nationalOnly = document.querySelector("[data-recruit-context='national'][data-rutgers-targeted='false']");
+    nationalOnly?.click();
+    const nationalDetail = document.querySelector("[data-recruit-detail-context='national']")?.innerText || "";
     globalThis.resetNationalRecruitingFilters();
-    return { complete, searched, rutgers, nonRutgers };
+    return { complete, searched, rutgers, nonRutgers, nationalDetail };
   });
   assert(national.complete.source === 4100 && national.complete.results === 4100, "National recruit source count mismatch");
   assert(national.complete.rows === 50, "National recruit first page is not bounded to 50 rows");
@@ -247,6 +254,7 @@ async function inspectNormalizedRecruiting(page, wanted) {
   assert(national.searched.results >= 1 && national.searched.michael === "true", "National recruit search did not resolve the Rutgers-targeted Michael Jackson");
   assert(national.rutgers.results === Number(summary.boardCount), "Rutgers-targeted national filter did not reconcile with the board");
   assert(national.nonRutgers.results === national.complete.source - Number(summary.boardCount), "Non-Rutgers national filter did not reconcile");
+  assert(national.nationalDetail.includes("Rutgers Board") && national.nationalDetail.includes("No") && !national.nationalDetail.includes("Assigned hours"), "National-only prospect inherited Rutgers recruiting actions");
   assert(national.complete.width <= national.complete.viewport + 1, "National recruiting database has horizontal overflow");
   return { status: "PASS", schema: proof.schema, metrics: proof.metrics, rows: proof.rows, empty_board: Boolean(expectedRecruiting.empty_board_message), national };
 }

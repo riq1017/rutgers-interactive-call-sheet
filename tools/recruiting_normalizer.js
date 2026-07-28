@@ -169,8 +169,17 @@ function normalizeRecruiting(raw, teamId = RUTGERS_TEAM_ID) {
     throw new Error(`Assigned recruiting hours do not reconcile for team ${teamId}.`);
   }
 
+  const boardByRecruitId = new Map(board.map(entry => [String(entry.recruitId), entry]));
   const nationalRecruiting = [...recruits.values()]
     .map(normalizeRecruit)
+    .map(entry => {
+      const membership = boardByRecruitId.get(String(entry.recruitId));
+      return {
+        ...entry,
+        rutgersTargeted: Boolean(membership),
+        rutgersBoardOrder: membership ? membership.boardOrder : null
+      };
+    })
     .sort((a, b) => Number(a.recruitId) - Number(b.recruitId));
   const recruitingSummary = {
     teamId: known(team.id),

@@ -9,7 +9,10 @@ const {
   normalizedRecruitingHtml,
   normalizedRecruitingState,
   normalizedRecruitingUnavailableHtml,
-  validateNormalizedRecruitingPayload
+  validateNormalizedRecruitingPayload,
+  nationalRecruitingQuery,
+  nationalRecruitingDatabase,
+  NATIONAL_RECRUIT_PAGE_SIZE
 } = require("../app");
 
 function entry(overrides = {}) {
@@ -58,7 +61,12 @@ function payload(board = [], overrides = {}) {
     recruitingOffers: offers,
     recruitingVisits: visits,
     recruitingPitches: pitches,
-    nationalRecruiting: [],
+    nationalRecruiting: board.map(row => ({
+      recruitId: row.recruitId, fullName: row.fullName, position: row.position,
+      stars: row.stars, nationalRank: row.nationalRank ?? row.recruitId,
+      positionRank: row.positionRank ?? row.recruitId, stateRank: row.stateRank ?? row.recruitId,
+      homeState: row.homeState, rutgersTargeted: true, rutgersBoardOrder: row.boardOrder
+    })),
     validation: {
       duplicateMembershipCount: 0, unresolvedReferenceCount: 0, boardOrderErrorCount: 0,
       commitmentOwnership: "unresolved", signingOwnership: "unresolved"
@@ -80,6 +88,16 @@ test("fails closed for absent and invalid payloads", () => {
   assert.match(normalizedRecruitingUnavailableHtml(absent.reason), /Recruiting data unavailable/);
   assert.equal(validateNormalizedRecruitingPayload({ schemaVersion: "wrong" }).ok, false);
   assert.equal(validateNormalizedRecruitingPayload(payload([], { recruitingBoard: {} })).ok, false);
+});
+
+test("accepts the prior v1 national rows and derives board membership without mutation", () => {
+  const data = payload([entry()]);
+  delete data.nationalRecruiting[0].rutgersTargeted;
+  delete data.nationalRecruiting[0].rutgersBoardOrder;
+  const before = JSON.stringify(data);
+  assert.equal(validateNormalizedRecruitingPayload(data).ok, true);
+  assert.equal(nationalRecruitingQuery(data, { targeted: "rutgers" }).rows[0].rutgersTargeted, true);
+  assert.equal(JSON.stringify(data), before);
 });
 
 test("renders populated board fields in stable stored order", () => {
@@ -131,4 +149,40 @@ test("includes responsive mobile layout rules", () => {
   assert.ok(mobile >= 0);
   assert.ok(css.indexOf(".normalized-recruiting-summary{grid-template-columns:repeat(2", mobile) > mobile);
   assert.ok(css.indexOf(".normalized-recruit-activity{grid-template-columns:1fr", mobile) > mobile);
+  assert.ok(css.indexOf(".national-recruiting-controls{grid-template-columns:repeat(2", mobile) > mobile);
+});
+
+test("queries the national class without mutating source or board order", () => {
+  const board = [entry({ recruitId: 824, fullName: "Michael Jackson", boardOrder: 0, allocatedRecruitingHours: 50 })];
+  const data = payload(board);
+  data.nationalRecruiting.push(
+    { recruitId: 1, fullName: "Aaron Alpha", position: "HB", stars: "THREE_STAR", nationalRank: 2, positionRank: 1, stateRank: 1, homeState: "Texas", rutgersTargeted: false, rutgersBoardOrder: null },
+    { recruitId: 2, fullName: "Zane Zebra", position: "QB", stars: "FIVE_STAR", nationalRank: 1, positionRank: 1, stateRank: null, homeState: null, rutgersTargeted: false, rutgersBoardOrder: null }
+  );
+  const before = JSON.stringify(data);
+  assert.deepEqual(nationalRecruitingQuery(data, { search: "michael" }).rows.map(row => row.recruitId), [824]);
+  assert.deepEqual(nationalRecruitingQuery(data, { position: "HB" }).rows.map(row => row.recruitId), [1]);
+  assert.deepEqual(nationalRecruitingQuery(data, { stars: "FIVE_STAR" }).rows.map(row => row.recruitId), [2]);
+  assert.deepEqual(nationalRecruitingQuery(data, { state: "Texas" }).rows.map(row => row.recruitId), [1]);
+  assert.deepEqual(nationalRecruitingQuery(data, { targeted: "rutgers" }).rows.map(row => row.recruitId), [824]);
+  assert.deepEqual(nationalRecruitingQuery(data, { targeted: "not-rutgers" }).rows.map(row => row.recruitId), [2, 1]);
+  assert.deepEqual(nationalRecruitingQuery(data, { sort: "name" }).rows.map(row => row.fullName), ["Aaron Alpha", "Michael Jackson", "Zane Zebra"]);
+  assert.equal(JSON.stringify(data), before);
+  assert.equal(data.recruitingBoard[0].allocatedRecruitingHours, 50);
+});
+
+test("paginates national recruits at stable boundaries and supports reset defaults", () => {
+  const data = payload();
+  data.nationalRecruiting = Array.from({ length: NATIONAL_RECRUIT_PAGE_SIZE + 1 }, (_, index) => ({
+    recruitId: index + 1, fullName: `Recruit ${index + 1}`, position: "WR", stars: "FOUR_STAR",
+    nationalRank: index + 1, positionRank: index + 1, stateRank: null, homeState: null,
+    rutgersTargeted: false, rutgersBoardOrder: null
+  }));
+  const first = nationalRecruitingQuery(data);
+  const second = nationalRecruitingQuery(data, { page: 2 });
+  assert.equal(first.rows.length, NATIONAL_RECRUIT_PAGE_SIZE);
+  assert.equal(second.rows.length, 1);
+  assert.equal(second.rows[0].recruitId, NATIONAL_RECRUIT_PAGE_SIZE + 1);
+  assert.match(nationalRecruitingDatabase(data, { search: "missing" }), /No recruits match these filters/);
+  assert.match(nationalRecruitingDatabase(data), /Active filters:<\/strong> None/);
 });

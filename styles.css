@@ -2629,6 +2629,32 @@ details[open]{
 .normalized-recruit-activity{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
 .normalized-recruit-card footer{margin-top:8px;color:var(--muted);font-size:10px}
 .normalized-recruiting-empty{margin:0}
+.recruiting-database-tabs{grid-template-columns:repeat(2,minmax(0,1fr));margin:0}
+.national-recruiting-database{display:grid;gap:10px;min-width:0}
+.national-recruiting-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.national-recruiting-heading h3,.national-recruiting-heading p{margin:0}
+.national-recruiting-heading p{margin-top:3px;color:var(--muted);font-size:12px}
+.national-recruiting-heading button,.national-apply,.national-recruit-pagination button{min-height:38px;padding:8px 12px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font-weight:900}
+.national-recruiting-controls{display:grid;grid-template-columns:2fr repeat(5,minmax(120px,1fr)) auto;gap:7px;align-items:end}
+.national-recruiting-controls label{display:grid;gap:4px;min-width:0}
+.national-recruiting-controls label span{color:var(--muted);font-size:10px;font-weight:950;text-transform:uppercase}
+.national-recruiting-controls input,.national-recruiting-controls select{width:100%;min-width:0;height:40px;padding:0 9px;border:1px solid rgba(255,255,255,.14);border-radius:9px;background:#111;color:#fff}
+.national-active-filters{margin:0;color:var(--muted);font-size:11px}
+.national-recruit-list{display:grid;gap:7px}
+.national-recruit-card{border:1px solid rgba(255,255,255,.12);border-radius:12px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(0,0,0,.28));overflow:hidden}
+.national-recruit-card[data-rutgers-targeted="true"]{border-color:rgba(204,0,51,.65);box-shadow:inset 3px 0 0 var(--scarlet)}
+.national-recruit-card summary{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:9px;align-items:center;padding:10px;cursor:pointer;list-style:none}
+.national-recruit-card summary::-webkit-details-marker{display:none}
+.national-recruit-card summary strong,.national-recruit-card summary em{display:block}
+.national-recruit-card summary em{margin-top:2px;color:var(--muted);font-size:11px;font-style:normal}
+.national-recruit-card summary b{max-width:130px;color:#fff;font-size:10px;text-align:right}
+.national-recruit-facts{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding:0 10px 10px}
+.national-recruit-facts span{min-width:0;padding:7px;border-radius:8px;background:rgba(0,0,0,.24);overflow-wrap:anywhere}
+.national-recruit-facts small{display:block;margin-bottom:3px;color:var(--muted);font-size:9px;font-weight:950;text-transform:uppercase}
+.national-recruit-card footer{padding:0 10px 10px;color:var(--muted);font-size:10px}
+.national-recruit-pagination{display:flex;align-items:center;justify-content:center;gap:12px}
+.national-recruit-pagination span{font-size:12px;font-weight:900}
+.national-recruit-pagination button:disabled{opacity:.35}
 .matchup-sides{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -2841,6 +2867,12 @@ details[open]{
   .normalized-recruit-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
   .normalized-recruit-activity{grid-template-columns:1fr}
   .normalized-recruiting-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .national-recruiting-heading{align-items:flex-start}
+  .national-recruiting-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .national-search,.national-apply{grid-column:1 / -1}
+  .national-recruit-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .national-recruit-card summary{grid-template-columns:30px minmax(0,1fr)}
+  .national-recruit-card summary b{grid-column:2;text-align:left}
   .thirds{grid-template-columns:1fr}
   .compact-actions{grid-template-columns:1fr}
   .summary-grid,.usage-rings,.card-grid{gap:6px}

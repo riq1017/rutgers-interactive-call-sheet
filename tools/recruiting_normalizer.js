@@ -79,6 +79,8 @@ function normalizeBoardEntry(pursuit, recruit) {
     scheduledVisit: known(pursuit.scheduledVisit),
     prospectInfluenceTotal: known(pursuit.prospectInfluenceTotal),
     prospectInfluenceDelta: known(pursuit.prospectInfluenceDelta),
+    unlockedIntelBitfield: known(pursuit.unlockedIntelBitfield),
+    scoutingPercentage: null,
     schoolInterest: normalizeInterest(pursuit.schoolInterest || recruit.schoolInterest),
     committedTeamId: null,
     signedTeamId: null,

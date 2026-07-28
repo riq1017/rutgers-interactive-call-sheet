@@ -141,16 +141,33 @@ function buildCandidate(raw, source) {
   const seasonStats = (raw.seasonPlayerStats || []).filter(row => Number(row.teamId) === RUTGERS_ID);
   if (!seasonStats.every(row => rosterIds.has(Number(row.playerId)))) throw new Error("STOP: player season-stat joins are unreliable");
   const latestStats = (ctx.last.playerGameStats || []).filter(row => Number(playerTeamId(row)) === RUTGERS_ID);
-  const injuries = (raw.injuries || []).filter(row => Number(row.teamId) === RUTGERS_ID);
+  const exportedInjuries = (raw.injuries || []).filter(row => Number(row.teamId) === RUTGERS_ID);
+  const injuredRosterPlayers = rosterRecord.players.filter(player => player.injuryStatus === "Injured");
+  const injuredRosterIds = new Set(injuredRosterPlayers.map(player => Number(player.id)));
+  const injuries = exportedInjuries.filter(row => injuredRosterIds.has(Number(row.playerId)));
   const seasonById = new Map(seasonStats.map(row => [Number(row.playerId), row]));
   const latestById = new Map(latestStats.map(row => [Number(row.playerId), row]));
   const injuryById = new Map(injuries.map(row => [Number(row.playerId), row]));
   const players = rosterRecord.players.map(player => normalizePlayer(player, seasonById.get(Number(player.id)), latestById.get(Number(player.id)), injuryById.get(Number(player.id))));
-  const normalizedInjuries = injuries.map(row => ({ ...clone(row), playerJoinStatus: rosterIds.has(Number(row.playerId)) ? "joined" : "unmatched" }));
+  const normalizedInjuries = injuredRosterPlayers.map(player => {
+    const detail = injuryById.get(Number(player.id));
+    return {
+      ...(detail ? clone(detail) : {}),
+      playerId: player.id,
+      firstName: player.firstName || null,
+      lastName: player.lastName || null,
+      teamId: RUTGERS_ID,
+      teamName: "Rutgers",
+      type: detail ? detail.type : null,
+      severity: detail ? detail.severity : null,
+      rosterInjuryStatus: player.injuryStatus,
+      playerJoinStatus: "joined"
+    };
+  });
   const opponent = opponentAvailability(raw, ctx.next);
   const teamStats = clone((raw.seasonTeamStats || []).find(row => Number(row.teamId) === RUTGERS_ID) || null);
   const recruiting = normalizeRecruiting(raw);
-  const currentContext = { season: raw.season.year, week: raw.season.week, weekType: raw.season.weekType, phase: raw.season.phase, rutgers: { teamId: RUTGERS_ID, name: "Rutgers", wins: ctx.rutgers.overallWins, losses: ctx.rutgers.overallLosses, record: `${ctx.rutgers.overallWins}-${ctx.rutgers.overallLosses}`, rank: ctx.rutgers.coachesPollRank ?? null, offense: ctx.rutgers.offensiveRank ?? null, defense: ctx.rutgers.defensiveRank ?? null }, opponentLabel: opponent.name, homeAway: normalizeGame(ctx.next).homeAway, lastCompletedGame: normalizeGame(ctx.last), nextGame: normalizeGame(ctx.next), opponentDataAvailable: opponent.dataAvailable, opponentAvailabilityReason: opponent.unavailableReason };
+  const currentContext = { season: raw.season.year, week: raw.season.week, weekType: raw.season.weekType, phase: raw.season.phase, rutgers: { teamId: RUTGERS_ID, name: "Rutgers", wins: ctx.rutgers.overallWins, losses: ctx.rutgers.overallLosses, record: `${ctx.rutgers.overallWins}-${ctx.rutgers.overallLosses}`, overall: null, offense: null, defense: null, ratingProvenance: "Unavailable: parser team fields are rankings, not ratings." }, opponentLabel: opponent.name, homeAway: normalizeGame(ctx.next).homeAway, lastCompletedGame: normalizeGame(ctx.last), nextGame: normalizeGame(ctx.next), opponentDataAvailable: opponent.dataAvailable, opponentAvailabilityReason: opponent.unavailableReason };
   const availability = { currentContext: { available: true }, roster: { available: true }, playerDetails: { available: true }, teamStatistics: { available: Boolean(teamStats), reason: teamStats ? null : "The current parser export did not emit Rutgers team statistics." }, leaders: { available: Object.values(calculateLeaders(players)).some(group => group.status === "available") }, lastGame: { available: true }, injuries: { available: Array.isArray(raw.injuries) }, recruiting: { available: recruiting.available, reason: recruiting.reason }, opponent: { available: opponent.dataAvailable, reason: opponent.unavailableReason }, matchups: { available: !opponent.isPlaceholder, reason: opponent.isPlaceholder ? "Player-level matchups are unavailable for FCS placeholder teams." : null } };
   return { schemaVersion: "current_week_candidate_v1", packageType: "current_week_normalized_candidate", previewOnly: true, productionCompatible: true, source: { rawExport: path.relative(ROOT, RAW_PATH).replaceAll("\\", "/"), rawSha256: source.rawSha256, snapshotSha256: source.snapshot.snapshotSha256, parserSha256: source.provenance.parserSha256 }, legacyCompatibility: { existingProductionPackagesModified: false, existingLoaderContractModified: false, sharedRosterFile: "data/rutgers_roster_base.json", additiveOnly: true }, availability, currentContext, rutgersRoster: { teamId: RUTGERS_ID, count: players.length, players }, rutgersPlayerStatistics: seasonStats.map(clone), rutgersTeamStatistics: teamStats, rutgersTeamLeaders: calculateLeaders(players), lastGame: normalizeLastGame(ctx.last, rosterIds), rutgersInjuries: { count: normalizedInjuries.length, records: normalizedInjuries }, recruiting, opponent };
 }

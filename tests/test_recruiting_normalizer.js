@@ -151,6 +151,20 @@ test("uses board-level hours and reconciles explicit per-recruit hours", () => {
   assert.equal(result.recruitingSummary.totalHours, 500);
 });
 
+test("preserves a 35-target Rutgers board when assigned per-recruit hours are zero", () => {
+  const recruits = Array.from({ length: 35 }, (_, index) => recruit(index + 1, index === 1 ? {
+    player: { ...recruit(index + 1).player, firstName: "Michael", lastName: "Jackson" }
+  } : {}));
+  const rows = recruits.map((row, index) => pursuit(78, row.id, index, index));
+  const result = normalizeRecruiting(fixture(rows, recruits));
+  assert.equal(result.recruitingSummary.boardCount, 35);
+  assert.equal(result.recruitingSummary.assignedHours, 0);
+  assert.equal(result.recruitingBoard.length, 35);
+  assert.equal(result.recruitingBoard.find(row => row.fullName === "Michael Jackson").boardOrder, 1);
+  assert.equal(new Set(result.recruitingBoard.map(row => `${row.pursuitOwnerTeamId}:${row.recruitId}`)).size, 35);
+  assert.ok(result.recruitingBoard.every(row => row.pursuitOwnerTeamId === 78));
+});
+
 test("is idempotent and produces stable ordering", () => {
   const raw = fixture([pursuit(5, 2, 0, 5), pursuit(5, 1, 1, 8)]);
   const first = normalizeRecruiting(raw, 5);

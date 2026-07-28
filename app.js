@@ -1807,7 +1807,7 @@ function loadOpponentProfile() {
   const preview = currentWeekPreview();
   if (preview) {
     const team = preview.opponent.teamEntity || {};
-    return { name: preview.opponent.name, record: preview.opponent.record, rank: team.coachesPollRank ?? null, offense_overall: team.offensiveRank ?? null, defense_overall: team.defensiveRank ?? null, placeholder: preview.opponent.isPlaceholder, data_available: preview.opponent.dataAvailable, unavailable_reason: preview.opponent.unavailableReason };
+    return { name: preview.opponent.name, record: preview.opponent.record, rank: null, overall: null, offense_overall: null, defense_overall: null, rating_provenance: "Unavailable: parser team fields are rankings, not ratings.", placeholder: preview.opponent.isPlaceholder, data_available: preview.opponent.dataAvailable, unavailable_reason: preview.opponent.unavailableReason };
   }
   return (loadGameplanWeekly().opponent_profile) || {};
 }
@@ -1968,8 +1968,8 @@ function rutgersTeamProfile() {
     record: cleanValue(team.record || weekly.rutgers_record) || "0-0",
     conferenceRecord: cleanValue(team.conference_record || weekly.rutgers_conference_record),
     overall: team.overall ?? weekly.rutgers_overall,
-    offense: team.offense ?? weekly.rutgers_offense,
-    defense: team.defense ?? weekly.rutgers_defense,
+    offense: team.offense ?? weekly.rutgers_offense ?? "N/A",
+    defense: team.defense ?? weekly.rutgers_defense ?? "N/A",
     rank: cleanValue(team.rank || weekly.rutgers_rank) || "N/A",
     momentum: cleanValue(team.momentum_status || weekly.momentum_status),
     sourceStatus: roster.verification_status || weekly.verification_status || "save-derived"
@@ -3582,8 +3582,8 @@ function playerBucket(position) {
   if (["WR"].includes(pos)) return "WR";
   if (["TE"].includes(pos)) return "TE";
   if (["LT","LG","C","RG","RT","T","G","OL"].includes(pos)) return "OL";
-  if (["DT","NT","TCK","EDGE","LEDG","REDG"].includes(pos)) return "DL";
-  if (["LB","MIKE","WILL","SAM","OLB","MLB"].includes(pos)) return "LB";
+  if (["DT","NT","TCK","EDGE","LEDG","REDG","LE","RE"].includes(pos)) return "DL";
+  if (["LB","MIKE","WILL","SAM","OLB","MLB","LOLB","ROLB"].includes(pos)) return "LB";
   if (["K","P"].includes(pos)) return "ST";
   return "DB";
 }
@@ -4082,7 +4082,7 @@ function renderMatchups() {
   const remainingRoster = rosterCards.slice(2);
   return `<section class="matchup-card-system matchup-priority-layout" data-valid-count="${ordered.length}">
     <div class="section-heading compact-heading"><p>Verified Matchups</p><strong>Key Player Matchup</strong></div>
-    <div class="featured-matchup-block">${featured ? MatchupCard(featured.row, featured.rutgers, featured.opponent, featured.stats, featured.media, { rank: featured.sourceIndex + 1, key: true, featured: true, registryEntry: featured.entry }) : renderStatPlaceholder("Key Matchup", "Limited data")}</div>
+    <div class="featured-matchup-block">${featured ? MatchupCard(featured.row, featured.rutgers, featured.opponent, featured.stats, featured.media, { rank: featured.sourceIndex + 1, key: true, featured: true, registryEntry: featured.entry }) : rosterMatchupCard(rosterCards[0])}</div>
     <div class="section-heading compact-heading"><p>Next Up</p><strong>Position Matchups</strong></div>
     <div class="compact-list roster-matchup-list priority-roster-matchups">${nextRoster.map(rosterMatchupCard).join("")}</div>
     <div class="matchup-action-row">
@@ -4414,6 +4414,10 @@ function normalizedRecruitingRow(entry, mode) {
       <span><small>Hometown</small>${location}</span>
       <span><small>Hours</small>${recruitingUiText(entry.allocatedRecruitingHours)}</span>
       <span><small>Scholarship</small>${recruitingUiText(entry.scholarshipStatus)}</span>
+      <span><small>National rank</small>${recruitingUiText(entry.nationalRank)}</span>
+      <span><small>Position rank</small>${recruitingUiText(entry.positionRank)}</span>
+      <span><small>State rank</small>${recruitingUiText(entry.stateRank)}</span>
+      <span><small>Scouting</small>${entry.scoutingPercentage == null ? "Unknown" : `${recruitingUiText(entry.scoutingPercentage)}%`}</span>
       <span><small>Influence</small>${recruitingUiText(entry.prospectInfluenceTotal)}</span>
       <span><small>Weekly change</small>${recruitingUiText(entry.prospectInfluenceDelta)}</span>
     </div>

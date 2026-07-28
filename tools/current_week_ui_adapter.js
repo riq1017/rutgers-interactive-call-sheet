@@ -15,6 +15,7 @@ function legacyRatings(ratings = {}) {
 
 function legacyPlayer(player, statsById, lastStatsById, injuriesById) {
   const injury = injuriesById.get(player.playerId);
+  const injured = player.injuryState === "Injured";
   return {
     ...player,
     player_id: String(player.playerId),
@@ -23,7 +24,7 @@ function legacyPlayer(player, statsById, lastStatsById, injuriesById) {
     class_year: player.schoolYear,
     development_trait: player.developmentTrait,
     redshirt_status: player.redshirtState,
-    injury_status: injury ? injury.type : "Healthy",
+    injury_status: injury && injury.type ? injury.type : injured ? "Injured" : "Healthy",
     injury_details: injury ? injury.severity : "",
     attributes: legacyRatings(player.ratings),
     season_statistics: statsById.get(player.playerId) || {},
@@ -38,6 +39,9 @@ function legacyOpponentPlayer(player) {
     name: `${player.firstName || ""} ${player.lastName || ""}`.trim(),
     jersey: player.jersey ?? null,
     class_year: player.schoolYear || null,
+    development_trait: player.devTrait || null,
+    physical_abilities: player.physicalAbilities || [],
+    mental_abilities: player.mentalAbilities || [],
     attributes: legacyRatings(player.ratings)
   };
 }
@@ -76,7 +80,7 @@ function adaptNormalizedCandidate(normalized) {
     generated: true,
     generated_from: "verified snapshot parser export",
     current_context: context,
-    roster: { team: { team: "Rutgers", season: context.season, record: context.rutgers.record, rank: context.rutgers.rank, offense: context.rutgers.offense, defense: context.rutgers.defense }, count: players.length, players },
+    roster: { team: { team: "Rutgers", season: context.season, record: context.rutgers.record, overall: context.rutgers.overall, rank: context.rutgers.overall, offense: context.rutgers.offense, defense: context.rutgers.defense, rating_provenance: context.rutgers.ratingProvenance }, count: players.length, players },
     player_details: Object.fromEntries(players.map(row => [row.player_id, row])),
     season_stats: categorizedStats(stats),
     team_statistics: teamStats,

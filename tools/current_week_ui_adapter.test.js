@@ -1,7 +1,7 @@
 const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
-const { adaptNormalizedCandidate } = require("./current_week_ui_adapter");
+const { adaptNormalizedCandidate, legacyPlayer } = require("./current_week_ui_adapter");
 const { calculateLeaders, normalizeRecruiting } = require("./current_week_normalizer");
 
 const players = Array.from({ length: 85 }, (_, index) => ({
@@ -14,7 +14,7 @@ const players = Array.from({ length: 85 }, (_, index) => ({
 }));
 const normalized = {
   availability: { currentContext: { available: true }, roster: { available: true }, playerDetails: { available: true }, teamStatistics: { available: true }, leaders: { available: true }, lastGame: { available: true }, injuries: { available: true }, recruiting: { available: true }, opponent: { available: false, reason: "FCS placeholder" }, matchups: { available: false, reason: "Player-level matchups are unavailable for FCS placeholder teams." } },
-  currentContext: { season: 2026, week: 4, rutgers: { record: "1-2", rank: 68, offense: 55, defense: 20 }, opponentLabel: "FCS East" },
+  currentContext: { season: 2026, week: 4, rutgers: { record: "1-2", overall: null, offense: null, defense: null, ratingProvenance: "Unavailable: parser team fields are rankings, not ratings." }, opponentLabel: "FCS East" },
   rutgersRoster: { count: 85, players }, rutgersPlayerStatistics: [{ playerId: 1, firstName: "Dylan", lastName: "Lonergan", offense: { passYards: 931 } }],
   rutgersTeamStatistics: { teamId: 78, stats: {} },
   rutgersTeamLeaders: { passing: { status: "available", leaders: [{ playerId: 1, displayName: "Dylan Lonergan", position: "QB", stat: "passYards", value: 931 }] }, interceptions: { status: "unavailable", leaders: [], unavailableReason: "Unavailable" }, kicking: { status: "unavailable", leaders: [], unavailableReason: "Unavailable" }, returns: { status: "unavailable", leaders: [], unavailableReason: "Unavailable" } },
@@ -41,8 +41,8 @@ assert.equal(candidate.recruiting.active_board.status, "unavailable");
 assert.equal(candidate.opponent.dataAvailable, false);
 assert.equal(candidate.matchup.available, false);
 assert.deepEqual(
-  { rank: candidate.roster.team.rank, offense: candidate.roster.team.offense, defense: candidate.roster.team.defense },
-  { rank: 68, offense: 55, defense: 20 }
+  { overall: candidate.roster.team.overall, rank: candidate.roster.team.rank, offense: candidate.roster.team.offense, defense: candidate.roster.team.defense },
+  { overall: null, rank: null, offense: null, defense: null }
 );
 const opponentCandidate = adaptNormalizedCandidate({
   ...normalized,
@@ -70,6 +70,13 @@ assert.deepEqual(
   }
 );
 assert.equal(opponentCandidate.opponent.seasonStatistics.rushing[0].player_id, "98");
+assert.equal(opponentCandidate.opponent.roster[0].development_trait, null);
+const healthy = legacyPlayer({ playerId: 900, displayName: "Healthy Player", position: "WR", ratings: {}, injuryState: "Uninjured" }, new Map(), new Map(), new Map());
+const injured = legacyPlayer({ playerId: 901, displayName: "Injured Player", position: "LT", ratings: {}, injuryState: "Injured" }, new Map(), new Map(), new Map([[901, { playerId: 901, type: null, severity: null }]]));
+assert.equal(healthy.injury_status, "Healthy");
+assert.equal(healthy.injury_details, "");
+assert.equal(injured.injury_status, "Injured");
+assert.equal(injured.injury_details, null);
 const leaderPlayers = [
   { playerId: 15196, displayName: "Moses Walker", position: "MLB", seasonStatistics: { defense: { tackles: 19 } } },
   { playerId: 1633, displayName: "J'Dan Burnett", position: "RE", seasonStatistics: { defense: { sacks: 1 } } },
@@ -91,5 +98,6 @@ assert.equal(withoutRecruiting.recruiting.label, "Recruiting data unavailable");
 assert.equal(withoutRecruiting.recruiting.interest_pool.records.length, 0);
 assert.equal(withoutRecruiting.recruiting.active_board.records.length, 0);
 assert(appSource.includes("currentWeekPreview()"), "legacy fallback seam missing");
+assert(appSource.includes("rosterMatchupCard(rosterCards[0])"), "verified roster key-matchup fallback missing");
 assert(!appSource.includes("CURRENT_WEEK_UI_PREVIEW ="), "generated data must not be embedded in the consumer source");
 console.log("PASS current-week UI adapter compatibility and FCS-safe fallbacks");

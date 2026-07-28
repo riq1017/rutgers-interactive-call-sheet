@@ -163,6 +163,9 @@ test("preserves a 35-target Rutgers board when assigned per-recruit hours are ze
   assert.equal(result.recruitingBoard.find(row => row.fullName === "Michael Jackson").boardOrder, 1);
   assert.equal(new Set(result.recruitingBoard.map(row => `${row.pursuitOwnerTeamId}:${row.recruitId}`)).size, 35);
   assert.ok(result.recruitingBoard.every(row => row.pursuitOwnerTeamId === 78));
+  assert.equal(result.nationalRecruiting.filter(row => row.rutgersTargeted).length, 35);
+  assert.equal(result.nationalRecruiting.find(row => row.fullName === "Michael Jackson").rutgersTargeted, true);
+  assert.equal(result.nationalRecruiting.find(row => row.fullName === "Michael Jackson").rutgersBoardOrder, 1);
 });
 
 test("is idempotent and produces stable ordering", () => {

@@ -4350,6 +4350,12 @@ function renderStatPlaceholder(title, message) {
 }
 
 const NORMALIZED_RECRUITING_SCHEMA = "cfb27_recruiting_normalized_v1";
+const NATIONAL_RECRUIT_PAGE_SIZE = 50;
+const DEFAULT_NATIONAL_RECRUIT_FILTERS = Object.freeze({
+  search: "", position: "all", stars: "all", state: "all",
+  targeted: "all", sort: "nationalRank", page: 1
+});
+let nationalRecruitingFilters = { ...DEFAULT_NATIONAL_RECRUIT_FILTERS };
 
 function recruitingUiText(value, fallback = "Unknown") {
   if (value === null || value === undefined || value === "") return fallback;
@@ -4381,6 +4387,14 @@ function validateNormalizedRecruitingPayload(payload) {
     if (membership.has(key)) return fail("Recruiting-board membership is duplicated.");
     membership.add(key);
   }
+  const nationalIds = new Set();
+  for (const entry of payload.nationalRecruiting) {
+    const key = String(entry && entry.recruitId);
+    if (!entry || entry.recruitId == null || nationalIds.has(key)) return fail("National recruiting identities are missing or duplicated.");
+    nationalIds.add(key);
+    if (entry.rutgersTargeted !== undefined && entry.rutgersTargeted !== membership.has(key)) return fail("National recruiting Rutgers-board membership is inconsistent.");
+  }
+  if ([...membership].some(key => !nationalIds.has(key))) return fail("A Rutgers recruiting-board entry is missing from the national class.");
   for (const [key, ownerKey] of [["recruitingOffers", "offerOwnerTeamId"], ["recruitingVisits", "visitOwnerTeamId"], ["recruitingPitches", "pitchOwnerTeamId"]]) {
     if (payload[key].some(entry => !membership.has(String(entry.recruitId)) || Number(entry[ownerKey]) !== 78)) return fail(`Normalized ${key} contains cross-team or non-board data.`);
   }
@@ -4426,6 +4440,90 @@ function normalizedRecruitingRow(entry, mode) {
   </article>`;
 }
 
+function nationalRecruitingQuery(payload, filters = {}) {
+  const state = { ...DEFAULT_NATIONAL_RECRUIT_FILTERS, ...filters };
+  const search = String(state.search || "").trim().toLocaleLowerCase();
+  const boardByRecruitId = new Map(payload.recruitingBoard.map(entry => [String(entry.recruitId), entry]));
+  const sourceRows = payload.nationalRecruiting.map(entry => {
+    const boardEntry = boardByRecruitId.get(String(entry.recruitId));
+    return {
+      ...entry,
+      rutgersTargeted: entry.rutgersTargeted === undefined ? Boolean(boardEntry) : entry.rutgersTargeted,
+      rutgersBoardOrder: entry.rutgersBoardOrder === undefined ? boardEntry?.boardOrder ?? null : entry.rutgersBoardOrder
+    };
+  });
+  const rows = sourceRows.filter(entry =>
+    (!search || String(entry.fullName || "").toLocaleLowerCase().includes(search)) &&
+    (state.position === "all" || String(entry.position) === String(state.position)) &&
+    (state.stars === "all" || String(entry.stars) === String(state.stars)) &&
+    (state.state === "all" || String(entry.homeState) === String(state.state)) &&
+    (state.targeted === "all" || (state.targeted === "rutgers" ? entry.rutgersTargeted === true : entry.rutgersTargeted !== true))
+  );
+  const numeric = value => Number.isFinite(Number(value)) ? Number(value) : Number.POSITIVE_INFINITY;
+  const text = value => String(value || "").toLocaleLowerCase();
+  const starValue = value => ({ FIVE_STAR: 5, FOUR_STAR: 4, THREE_STAR: 3, TWO_STAR: 2, ONE_STAR: 1 }[value] || numeric(String(value || "").match(/\d+/)?.[0]));
+  const compare = {
+    nationalRank: (a, b) => numeric(a.nationalRank) - numeric(b.nationalRank),
+    name: (a, b) => text(a.fullName).localeCompare(text(b.fullName)),
+    position: (a, b) => text(a.position).localeCompare(text(b.position)) || numeric(a.nationalRank) - numeric(b.nationalRank),
+    stars: (a, b) => starValue(b.stars) - starValue(a.stars),
+    positionRank: (a, b) => numeric(a.positionRank) - numeric(b.positionRank),
+    stateRank: (a, b) => numeric(a.stateRank) - numeric(b.stateRank)
+  }[state.sort] || ((a, b) => numeric(a.nationalRank) - numeric(b.nationalRank));
+  const sorted = [...rows].sort((a, b) => compare(a, b) || numeric(a.recruitId) - numeric(b.recruitId));
+  const pageCount = Math.max(1, Math.ceil(sorted.length / NATIONAL_RECRUIT_PAGE_SIZE));
+  const page = Math.min(pageCount, Math.max(1, Number.parseInt(state.page, 10) || 1));
+  return {
+    rows: sorted.slice((page - 1) * NATIONAL_RECRUIT_PAGE_SIZE, page * NATIONAL_RECRUIT_PAGE_SIZE),
+    total: sorted.length, sourceTotal: payload.nationalRecruiting.length, page, pageCount,
+    filters: { ...state, page }
+  };
+}
+
+function nationalRecruitOption(value) {
+  return recruitingUiText(String(value).replaceAll("_", " ").replace(/\b\w/g, character => character.toUpperCase()));
+}
+
+function nationalRecruitCard(entry) {
+  const location = [entry.hometown, entry.homeState].filter(Boolean).map(recruitingUiText).join(", ") || "Unknown";
+  return `<details class="national-recruit-card" data-national-recruit-id="${recruitingUiText(entry.recruitId)}" data-rutgers-targeted="${entry.rutgersTargeted === true}">
+    <summary><span class="rank-dot">${recruitingUiText(entry.nationalRank, "—")}</span><span><strong>${recruitingUiText(entry.fullName)}</strong><em>${recruitingUiText(entry.position)} · ${nationalRecruitOption(entry.stars || "Unknown")}</em></span>${entry.rutgersTargeted ? `<b>Rutgers Board${entry.rutgersBoardOrder == null ? "" : ` #${Number(entry.rutgersBoardOrder) + 1}`}</b>` : ""}</summary>
+    <div class="national-recruit-facts">
+      <span><small>National rank</small>${recruitingUiText(entry.nationalRank)}</span><span><small>Position rank</small>${recruitingUiText(entry.positionRank)}</span><span><small>State rank</small>${recruitingUiText(entry.stateRank)}</span>
+      <span><small>Home</small>${location}</span><span><small>Archetype</small>${recruitingUiText(entry.archetype)}</span><span><small>Height</small>${recruitingUiText(entry.height)}</span>
+      <span><small>Weight</small>${recruitingUiText(entry.weight)}</span><span><small>Overall</small>${recruitingUiText(entry.overall)}</span><span><small>Recruiting stage</small>${recruitingUiText(entry.recruitStage)}</span>
+    </div><footer>Scouting percentage: Unavailable · Commitment ownership: Unresolved · Signing ownership: Unresolved</footer>
+  </details>`;
+}
+
+function nationalRecruitingDatabase(payload, filters = nationalRecruitingFilters) {
+  const result = nationalRecruitingQuery(payload, filters);
+  const values = key => [...new Set(payload.nationalRecruiting.map(row => row[key]).filter(Boolean))].sort();
+  const selected = (value, wanted) => String(value) === String(wanted) ? " selected" : "";
+  const active = [
+    result.filters.search && `Name: ${result.filters.search}`,
+    result.filters.position !== "all" && `Position: ${result.filters.position}`,
+    result.filters.stars !== "all" && `Stars: ${nationalRecruitOption(result.filters.stars)}`,
+    result.filters.state !== "all" && `State: ${result.filters.state}`,
+    result.filters.targeted !== "all" && (result.filters.targeted === "rutgers" ? "On Rutgers Board" : "Not on Rutgers Board")
+  ].filter(Boolean);
+  return `<section class="national-recruiting-database" data-national-source-count="${result.sourceTotal}" data-national-result-count="${result.total}">
+    <div class="national-recruiting-heading"><div><h3>National Recruit Database</h3><p><strong>${result.total.toLocaleString()}</strong> of ${result.sourceTotal.toLocaleString()} recruits</p></div><button type="button" onclick="resetNationalRecruitingFilters()">Clear filters</button></div>
+    <div class="national-recruiting-controls">
+      <label class="national-search"><span>Recruit name</span><input id="nationalRecruitSearch" type="search" value="${recruitingUiText(result.filters.search, "")}" placeholder="Search recruits"></label>
+      <label><span>Position</span><select id="nationalRecruitPosition"><option value="all">All positions</option>${values("position").map(value => `<option value="${recruitingUiText(value)}"${selected(value, result.filters.position)}>${recruitingUiText(value)}</option>`).join("")}</select></label>
+      <label><span>Stars</span><select id="nationalRecruitStars"><option value="all">All stars</option>${values("stars").map(value => `<option value="${recruitingUiText(value)}"${selected(value, result.filters.stars)}>${nationalRecruitOption(value)}</option>`).join("")}</select></label>
+      <label><span>State</span><select id="nationalRecruitState"><option value="all">All states</option>${values("homeState").map(value => `<option value="${recruitingUiText(value)}"${selected(value, result.filters.state)}>${recruitingUiText(value)}</option>`).join("")}</select></label>
+      <label><span>Rutgers targeted</span><select id="nationalRecruitTargeted"><option value="all"${selected("all", result.filters.targeted)}>All</option><option value="rutgers"${selected("rutgers", result.filters.targeted)}>On Rutgers Board</option><option value="not-rutgers"${selected("not-rutgers", result.filters.targeted)}>Not on Rutgers Board</option></select></label>
+      <label><span>Sort</span><select id="nationalRecruitSort">${[["nationalRank","National rank"],["name","Name"],["position","Position"],["stars","Star rating"],["positionRank","Position rank"],["stateRank","State rank"]].map(([value,label]) => `<option value="${value}"${selected(value, result.filters.sort)}>${label}</option>`).join("")}</select></label>
+      <button type="button" class="national-apply" onclick="applyNationalRecruitingFilters()">Apply</button>
+    </div>
+    <p class="national-active-filters"><strong>Active filters:</strong> ${active.length ? active.map(recruitingUiText).join(" · ") : "None"}</p>
+    <div class="national-recruit-list">${result.rows.length ? result.rows.map(nationalRecruitCard).join("") : `<div class="empty-state"><strong>No recruits match these filters.</strong><p>Clear filters to return to the complete national class.</p></div>`}</div>
+    <nav class="national-recruit-pagination" aria-label="National recruit pages"><button type="button" ${result.page <= 1 ? "disabled" : ""} onclick="changeNationalRecruitPage(${result.page - 1})">Previous</button><span>Page ${result.page} of ${result.pageCount}</span><button type="button" ${result.page >= result.pageCount ? "disabled" : ""} onclick="changeNationalRecruitPage(${result.page + 1})">Next</button></nav>
+  </section>`;
+}
+
 function normalizedRecruitingCollection(payload, mode = "board") {
   const collections = { board: "recruitingBoard", offers: "recruitingOffers", visits: "recruitingVisits", pitches: "recruitingPitches" };
   const labels = { board: "Recruiting Board", offers: "Offers", visits: "Visits", pitches: "Active Pitches" };
@@ -4439,7 +4537,7 @@ function normalizedRecruitingCollection(payload, mode = "board") {
     <section class="normalized-recruiting-collection" data-recruiting-mode="${selected}"><h3>${labels[selected]}</h3>${rows.length ? `<div class="normalized-recruit-list">${rows.map(row => normalizedRecruitingRow(row, selected)).join("")}</div>` : `<div class="empty-state normalized-recruiting-empty" data-recruiting-empty="${selected}"><strong>${empty}</strong><p>This view reflects verified team-board ownership only.</p></div>`}</section>`;
 }
 
-function normalizedRecruitingHtml(payload, mode = "board") {
+function normalizedRecruitingHtml(payload, mode = "board", view = "board") {
   const summary = payload.recruitingSummary;
   return `<div class="normalized-recruiting-view" data-recruiting-schema="${NORMALIZED_RECRUITING_SCHEMA}">
     <div class="section-heading"><p>Rutgers Football</p><strong>Recruiting</strong></div>
@@ -4452,7 +4550,8 @@ function normalizedRecruitingHtml(payload, mode = "board") {
       ${recruitingMetric("Active Pitches", summary.pitchCount)}
       ${recruitingMetric("Visits", summary.visitCount)}
     </section>
-    ${normalizedRecruitingCollection(payload, mode)}
+    <div class="segmented compact-tabs recruiting-database-tabs" role="tablist" aria-label="Recruiting databases"><button type="button" class="${view === "board" ? "active" : ""}" onclick="renderNormalizedRecruitingView('board')">Rutgers Board</button><button type="button" class="${view === "national" ? "active" : ""}" onclick="renderNormalizedRecruitingView('national')">National Recruit Database</button></div>
+    ${view === "national" ? nationalRecruitingDatabase(payload) : normalizedRecruitingCollection(payload, mode)}
   </div>`;
 }
 
@@ -4465,6 +4564,36 @@ function renderNormalizedRecruitingMode(mode = "board") {
   if (!target) return;
   const state = normalizedRecruitingState();
   target.innerHTML = state.ok ? normalizedRecruitingHtml(state.payload, mode) : normalizedRecruitingUnavailableHtml(state.reason);
+}
+
+function renderNormalizedRecruitingView(view = "board") {
+  const target = $("recruiting");
+  if (!target) return;
+  const state = normalizedRecruitingState();
+  target.innerHTML = state.ok ? normalizedRecruitingHtml(state.payload, "board", view === "national" ? "national" : "board") : normalizedRecruitingUnavailableHtml(state.reason);
+}
+
+function applyNationalRecruitingFilters() {
+  nationalRecruitingFilters = {
+    search: $("nationalRecruitSearch")?.value || "",
+    position: $("nationalRecruitPosition")?.value || "all",
+    stars: $("nationalRecruitStars")?.value || "all",
+    state: $("nationalRecruitState")?.value || "all",
+    targeted: $("nationalRecruitTargeted")?.value || "all",
+    sort: $("nationalRecruitSort")?.value || "nationalRank",
+    page: 1
+  };
+  renderNormalizedRecruitingView("national");
+}
+
+function resetNationalRecruitingFilters() {
+  nationalRecruitingFilters = { ...DEFAULT_NATIONAL_RECRUIT_FILTERS };
+  renderNormalizedRecruitingView("national");
+}
+
+function changeNationalRecruitPage(page) {
+  nationalRecruitingFilters = { ...nationalRecruitingFilters, page };
+  renderNormalizedRecruitingView("national");
 }
 
 function renderRecruiting() {
@@ -5166,6 +5295,10 @@ if (typeof module !== "undefined") {
     validateNormalizedRecruitingPayload,
     normalizedRecruitingState,
     normalizedRecruitingRow,
+    nationalRecruitingQuery,
+    nationalRecruitingDatabase,
+    nationalRecruitCard,
+    NATIONAL_RECRUIT_PAGE_SIZE,
     normalizedRecruitingCollection,
     normalizedRecruitingHtml,
     normalizedRecruitingUnavailableHtml,

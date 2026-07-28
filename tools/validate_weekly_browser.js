@@ -213,7 +213,42 @@ async function inspectNormalizedRecruiting(page, wanted) {
   }
   assert(!/\bUncommitted\b/i.test(proof.text), "Recruiting UI inferred an uncommitted state");
   assert(proof.panelWidth <= proof.viewport + 1, "Recruiting panel has horizontal overflow");
-  return { status: "PASS", schema: proof.schema, metrics: proof.metrics, rows: proof.rows, empty_board: Boolean(expectedRecruiting.empty_board_message) };
+  const national = await page.evaluate(() => {
+    globalThis.renderNormalizedRecruitingView("national");
+    const read = () => {
+      const root = document.querySelector("[data-national-source-count]");
+      return {
+        source: Number(root?.dataset.nationalSourceCount),
+        results: Number(root?.dataset.nationalResultCount),
+        rows: document.querySelectorAll("[data-national-recruit-id]").length,
+        michael: [...document.querySelectorAll("[data-national-recruit-id]")].find(node => node.textContent.includes("Michael Jackson"))?.dataset.rutgersTargeted || null,
+        width: document.getElementById("recruiting")?.scrollWidth || 0,
+        viewport: innerWidth
+      };
+    };
+    const complete = read();
+    document.getElementById("nationalRecruitSearch").value = "Michael Jackson";
+    globalThis.applyNationalRecruitingFilters();
+    const searched = read();
+    globalThis.resetNationalRecruitingFilters();
+    document.getElementById("nationalRecruitTargeted").value = "rutgers";
+    globalThis.applyNationalRecruitingFilters();
+    const rutgers = read();
+    globalThis.resetNationalRecruitingFilters();
+    document.getElementById("nationalRecruitTargeted").value = "not-rutgers";
+    globalThis.applyNationalRecruitingFilters();
+    const nonRutgers = read();
+    globalThis.resetNationalRecruitingFilters();
+    return { complete, searched, rutgers, nonRutgers };
+  });
+  assert(national.complete.source === 4100 && national.complete.results === 4100, "National recruit source count mismatch");
+  assert(national.complete.rows === 50, "National recruit first page is not bounded to 50 rows");
+  assert(national.complete.michael === "true", "Michael Jackson is missing or not marked on the Rutgers board");
+  assert(national.searched.results >= 1 && national.searched.michael === "true", "National recruit search did not resolve the Rutgers-targeted Michael Jackson");
+  assert(national.rutgers.results === Number(summary.boardCount), "Rutgers-targeted national filter did not reconcile with the board");
+  assert(national.nonRutgers.results === national.complete.source - Number(summary.boardCount), "Non-Rutgers national filter did not reconcile");
+  assert(national.complete.width <= national.complete.viewport + 1, "National recruiting database has horizontal overflow");
+  return { status: "PASS", schema: proof.schema, metrics: proof.metrics, rows: proof.rows, empty_board: Boolean(expectedRecruiting.empty_board_message), national };
 }
 
 async function browserProof(options) {
